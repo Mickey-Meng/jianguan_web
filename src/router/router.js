@@ -1,0 +1,905 @@
+import Layout from "@/layout";
+// import secondLayout from '@/secondLayout/Index.vue'
+// import RouterView from '@/components/router'
+import Home from "@/views/index/index";
+import Pandect from "@/views/pandect/index";
+export const constantRoutes = [
+  {
+    path: "/login",
+    component: () => import("@/views/login/index"),
+    hidden: true
+  },
+
+  {
+    path: "/404",
+    component: () => import("@/views/404"),
+    hidden: true
+  },
+  // {
+  //   path: '/globalView',
+  //   component: () => import('@/views/screenWindow/index'),
+  //   hidden: true
+  // },
+  {
+    path: "/home",
+    component: Home,
+    hidden: true
+  },
+  {
+    path: "/pandect",
+    component: Pandect,
+    hidden: true
+  },
+
+  {
+    path: "*",
+    redirect: "/home",
+    hidden: true
+  }
+];
+export const asyncRoutes = [
+  {
+    path: "/",
+    component: Layout,
+    meta: {
+      title: "管理大脑",
+      icon: require("../assets/image/管理大脑.png"),
+      code: "guanlidanao"
+    },
+    redirect: "/data",
+    children: [
+      {
+        path: "/data",
+        name: "data",
+        component: () => import("@/views/project/data"),
+        meta: {
+          title: "数据中心",
+          icon: "",
+          code: "shujuzhongxin",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/statistics",
+        name: "statistics",
+        component: () => import("@/views/project/statistics"),
+        meta: {
+          title: "工程统计",
+          code: "gongchengtongji",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/about",
+        name: "about",
+        component: () => import("@/views/project/about"),
+        meta: {
+          title: "工程概况",
+          code: "gongchenggaikuang",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/newsCenter",
+        name: "newsCenter",
+        component: () => import("@/views/project/newsCenter"),
+        meta: {
+          title: "新闻中心",
+          code: "xinwenzhongxin",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/engineeringMap",
+        name: "engineeringMap",
+        component: () => import("@/views/project/engineeringMap"),
+        meta: {
+          title: "工程布置图",
+          code: "gongchengbuzhitu",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      }
+    ]
+  },
+  {
+    path: "/scene",
+    meta: {
+      title: "数字孪生",
+      icon: require("../assets/image/模型中心.png"),
+      code: "sanweichangjing"
+    },
+    component: Layout,
+    redirect: "/sceneOverview",
+    children: [
+      {
+        path: "/sceneOverview",
+        name: "sceneOverview",
+        component: () => import("@/views/scene/index"),
+        meta: {
+          title: "三维总览",
+          code: "sanweizonglan",
+          icon: "",
+          allMap: true,
+          partMap: false,
+          noMap: false,
+          cover: true,
+          left: true,
+          open: true
+        }
+      }
+    ]
+  },
+  {
+    path: "/earlierStage",
+    meta: {
+      title: "前期管理",
+      icon: require("../assets/image/前期管理.png"),
+      code: "qianqiguanli"
+    },
+    component: Layout,
+    redirect: "/removeLand",
+    children: [
+      {
+        path: "/removeLand",
+        name: "removeLand",
+        component: () => import("@/views/earlierStage/index"),
+        meta: {
+          title: "征地拆迁",
+          icon: "",
+          code: "zhengdichaiqian",
+          allMap: true,
+          partMap: false,
+          noMap: false,
+          left: true,
+          open: true
+        }
+      },
+      {
+        path: "/pipeManage",
+        name: "pipeManage",
+        component: () => import("@/views/earlierStage/pipeManage"),
+        meta: {
+          title: "管线管理",
+          code: "guanxianguanli",
+          icon: "",
+          allMap: true,
+          partMap: false,
+          noMap: false,
+          left: true,
+          open: true
+        }
+      },
+      {
+        path: "/schemeContrast",
+        name: "schemeContrast",
+        component: () => import("@/views/earlierStage/schemeContrast"),
+        meta: {
+          title: "方案对比",
+          icon: "",
+          code: "fanganduibi",
+          allMap: true,
+          partMap: false,
+          noMap: false,
+          left: true,
+          open: true
+        }
+      },
+      {
+        path: "/informationManage",
+        name: "informationManage",
+        component: () => import("@/views/earlierStage/informationManage"),
+        meta: {
+          title: "资料管理",
+          code: "ziliaoguanli",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      }
+    ]
+  },
+  {
+    path: "/progress",
+    meta: {
+      title: "进度管理",
+      icon: require("../assets/image/进度管理.png"),
+      code: "jinduguanli"
+    },
+    component: Layout,
+    redirect: "/planOverview",
+    children: [
+      {
+        path: "/planOverview",
+        name: "planOverview",
+        component: () => import("@/views/progress/index"),
+        meta: {
+          title: "进度总览",
+          code: "jinduzonglan",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/visualProgress",
+        name: "visualProgress",
+        component: () => import("@/views/progress/visualProgress"),
+        meta: {
+          title: "形象进度",
+          code: "xingxiangjindu",
+          icon: "",
+          allMap: true,
+          partMap: false,
+          noMap: false,
+          left: true,
+          open: true,
+          cover: true
+        }
+      },
+      {
+        path: "/simulation",
+        name: "simulation",
+        component: () => import("@/views/progress/simulation"),
+        meta: {
+          title: "进度模拟",
+          code: "jindumoni",
+          icon: "",
+          allMap: true,
+          partMap: false,
+          noMap: false,
+          left: true,
+          open: true,
+          cover: true
+        }
+      },
+      {
+        path: "/planToFill",
+        name: "PlanToFill",
+        component: () => import("@/views/progress/planToFill"),
+        meta: {
+          title: "计划填报",
+          code: "jihuatianbao",
+          icon: "",
+          allMap: true,
+          partMap: false,
+          noMap: false,
+          left: true,
+          right: true,
+          open: true
+        }
+      }
+    ]
+  },
+  {
+    path: "/quality",
+    meta: {
+      title: "质量管理",
+      icon: require("../assets/image/质量管理.png"),
+      code: "zhiliangguanli"
+    },
+    component: Layout,
+    redirect: "/qualityOverview",
+    children: [
+      {
+        path: "/qualityOverview",
+        name: "qualityOverview",
+        // component: () => import("@/views/quality/qualityOverview"),
+        component: () => import("@/views/quality/overView/index"),
+        meta: {
+          title: "质量总览",
+          code: "zhiliangzonglan",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/processCheck",
+        name: "processCheck",
+        component: () => import("@/views/quality/processCheck"),
+        meta: {
+          title: "质量检查",
+          code: "zhiliangjiancha",
+          icon: "",
+          allMap: true,
+          partMap: false,
+          noMap: false,
+          left: true,
+          right: true,
+          open: true
+        }
+      },
+      {
+        path: "/qualityRecords",
+        name: "qualityRecords",
+        component: () => import("@/views/quality/qualityRecords"),
+        meta: {
+          title: "质量记录",
+          code: "zhiliangjilu",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/qualityImprovement",
+        name: "qualityImprovement",
+        component: () => import("@/views/quality/qualityImprovement"),
+        meta: {
+          title: "质量整改",
+          code: "zhiliangzhenggai",
+          icon: "",
+          allMap: true,
+          partMap: false,
+          noMap: false,
+          left: true,
+          right: true,
+          open: true
+        }
+      },
+      {
+        path: "/qualityConfirmation",
+        name: "qualityConfirmation",
+        component: () => import("@/views/quality/qualityConfirmation"),
+        meta: {
+          title: "整改确认",
+          code: "zhenggaiqueren",
+          icon: "",
+          allMap: true,
+          partMap: false,
+          noMap: false,
+          left: true,
+          right: true,
+          open: true
+        }
+      },
+      {
+        path: "/acceptance",
+        name: "acceptance",
+        component: () => import("@/views/quality/index"),
+        meta: {
+          title: "质量验收",
+          code: "zhiliangyanshou",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/processFill",
+        name: "processFill",
+        component: () => import("@/views/quality/processFill"),
+        meta: {
+          title: "工序填报",
+          code: "gongxutianbao",
+          icon: "",
+          allMap: true,
+          partMap: false,
+          noMap: false,
+          left: true,
+          right: true,
+          open: true
+        }
+      },
+      {
+        path: "/processAudit",
+        name: "processAudit",
+        component: () => import("@/views/quality/processAudit"),
+        meta: {
+          title: "工序审核",
+          code: "gongxushenhe",
+          icon: "",
+          allMap: true,
+          partMap: false,
+          noMap: false,
+          left: true,
+          right: true,
+          open: true
+        }
+      }
+      // {
+      //   path: '/processExamine',
+      //   name: 'processExamine',
+      //   component: () => import('@/views/quality/processExamine'),
+      //   meta: { title: '工序报验', icon: '', allMap: true, partMap: false, noMap: false, left: true, right: true }
+      // },
+      // {
+      //   path: '/dataUpload',
+      //   name: 'dataUpload',
+      //   component: () => import('@/views/quality/dataUpload'),
+      //   meta: { title: '资料上传', icon: '', allMap: false, partMap: false, noMap: true }
+      // },
+      // {
+      //   path: '/dataExamine',
+      //   name: 'dataExamine',
+      //   component: () => import('@/views/quality/dataExamine'),
+      //   meta: { title: '资料审核', icon: '', allMap: false, partMap: false, noMap: true }
+      // },
+      // {
+      //   path: '/standard',
+      //   name: 'standard',
+      //   component: () => import('@/views/quality/standard'),
+      //   meta: { title: '验收标准', icon: '', allMap: false, partMap: false, noMap: true }
+      // }
+    ]
+  },
+  {
+    path: "/safetyCulture",
+    meta: {
+      title: "安全管理",
+      icon: require("../assets/image/安全文明.png"),
+      code: "anquanguanli"
+    },
+    component: Layout,
+    redirect: "/safetyProduction",
+    children: [
+      {
+        path: "/safetyProduction",
+        name: "safetyProduction",
+        component: () =>
+          // import("@/views/safetyCulture/indexComponent/securityPatrolling"),
+          import("@/views/safetyCulture/securityOverview"),
+        meta: {
+          title: "安全总览",
+          code: "anquanzonglan",
+          icon: "",
+          allMap: true,
+          partMap: false,
+          noMap: false,
+          cover: true
+        }
+      },
+      // {
+      //   path: '/civilizedConstruction',
+      //   name: 'civilizedConstruction',
+      //   component: () => import('@/views/safetyCulture/civilizedConstruction'),
+      //   meta: { title: '文明施工', icon: '', allMap: false, partMap: false, noMap: true }
+      // },
+      {
+        path: "/incidentRecord",
+        name: "incidentRecord",
+        component: () => import("@/views/safetyCulture/incidentRecord"),
+        meta: {
+          title: "安全记录",
+          code: "anquanjilu",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/securityCheck",
+        name: "securityCheck",
+        component: () => import("@/views/safetyCulture/securityCheck"),
+        meta: {
+          title: "安全检查",
+          code: "anquanjiancha",
+          icon: "",
+          allMap: true,
+          partMap: false,
+          noMap: false,
+          left: true,
+          right: true
+        }
+      },
+      {
+        path: "/safetyMeasures",
+        name: "safetyMeasures",
+        component: () => import("@/views/safetyCulture/safetyMeasures"),
+        meta: {
+          title: "安全整改",
+          code: "anquanzhenggai",
+          icon: "",
+          allMap: true,
+          partMap: false,
+          noMap: false,
+          left: true,
+          right: true
+        }
+      },
+      {
+        path: "/rectificationConfirm",
+        name: "rectificationConfirm",
+        component: () => import("@/views/safetyCulture/rectificationConfirm"),
+        meta: {
+          title: "整改确认",
+          code: "zhenggaiqueren",
+          icon: "",
+          allMap: true,
+          partMap: false,
+          noMap: false,
+          left: true,
+          right: true
+        }
+      }
+      // {
+      //   path: '/sourceOfDanger',
+      //   name: 'sourceOfDanger',
+      //   component: () => import('@/views/safetyCulture/sourceOfDanger'),
+      //   meta: { title: '危险源', icon: '', allMap: true, partMap: false, noMap: false, left: true, right: true }
+      // }
+    ]
+  },
+  {
+    path: "/staffManage",
+    meta: {
+      title: "人员管理",
+      icon: require("../assets/image/项目管理.png"),
+      code: "renyuanguanli"
+    },
+    component: Layout,
+    redirect: "/clockingIn",
+    children: [
+      {
+        path: "/clockingIn",
+        name: "clockingIn",
+        component: () => import("@/views/staffManage/index"),
+        meta: {
+          title: "考勤管理",
+          code: "kaoqinguanli",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/processManage",
+        name: "processManage",
+        component: () => import("@/views/staffManage/processManage"),
+        meta: {
+          title: "流程管理",
+          code: "liuchengguanli",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/Infotip",
+        name: "Infotip",
+        component: () => import("@/views/staffManage/Infotip"),
+        meta: {
+          title: "信息提醒",
+          code: "xinxitixing",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/statisticAnalysis",
+        name: "statisticAnalysis",
+        component: () => import("@/views/staffManage/statisticAnalysis"),
+        meta: {
+          title: "统计分析",
+          code: "tongjifenxi",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      }
+    ]
+  },
+  {
+    path: "/wisdomSite",
+    meta: {
+      title: "智慧工地",
+      icon: require("../assets/image/数字工地.png"),
+      code: "zhihuigongdi"
+    },
+    component: Layout,
+    redirect: "/videoEnvironment",
+    children: [
+      {
+        path: "/videoEnvironment",
+        name: "videoEnvironment",
+        component: () => import("@/views/wisdomSite/index"),
+        meta: {
+          title: "视频环境",
+          code: "shipinhuanjing",
+          icon: "",
+          allMap: true,
+          partMap: false,
+          noMap: false,
+          cover: true
+        }
+      },
+      // {
+      //   path: '/panorama',
+      //   name: 'panorama',
+      //   component: () => import('@/views/wisdomSite/panorama'),
+      //   meta: { title: '全景图', icon: '', allMap: false, partMap: false, noMap: true }
+      // },
+      // {
+      //   path: '/pollingVideo',
+      //   name: 'pollingVideo',
+      //   component: () => import('@/views/wisdomSite/pollingVideo'),
+      //   meta: { title: '巡检视频', icon: '', allMap: false, partMap: false, noMap: true }
+      // },
+      {
+        path: "/geologicalAnalysis",
+        name: "geologicalAnalysis",
+        component: () => import("@/views/wisdomSite/geologicalAnalysis"),
+        meta: {
+          title: "数字实验室",
+          code: "shuzishiyanshi",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/constructionMonitoring",
+        name: "constructionMonitoring",
+        component: () => import("@/views/wisdomSite/constructionMonitoring"),
+        meta: {
+          title: "施工监测",
+          code: "shigongjiance",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      }
+      // {
+      //   path: '/aiAnalysis',
+      //   name: 'aiAnalysis',
+      //   component: () => import('@/views/wisdomSite/aiAnalysis'),
+      //   meta: { title: 'AI分析', icon: '', allMap: false, partMap: false, noMap: true }
+      // },
+      // {
+      //   path: '/aiWarning',
+      //   name: 'aiWarning',
+      //   component: () => import('@/views/wisdomSite/aiWarning'),
+      //   meta: { title: 'AI预警', icon: '', allMap: false, partMap: false, noMap: true }
+      // }
+    ]
+  },
+  // {
+  //   path: '/pitchControl',
+  //   meta: { title: '投控管理', icon: require('../assets/image/项目管理.png') },
+  //   component: Layout,
+  //   redirect: '/carefulRecords',
+  //   children: [
+  //     {
+  //       path: '/carefulRecords',
+  //       name: 'carefulRecords',
+  //       component: () => import('@/views/pitchControl/index'),
+  //       meta: {
+  //         title: '跟审记录',
+  //         icon: '',
+  //         allMap: true,
+  //         partMap: false,
+  //         noMap: false,
+  //         left: true,
+  //         right: true,
+  //         open: true
+  //       }
+  //     },
+  //     {
+  //       path: '/tracking',
+  //       name: 'tracking',
+  //       component: () => import('@/views/pitchControl/tracking'),
+  //       meta: {
+  //         title: '现场跟踪',
+  //         icon: '',
+  //         allMap: true,
+  //         partMap: false,
+  //         noMap: false,
+  //         left: true,
+  //         right: true,
+  //         open: true
+  //       }
+  //     },
+  //     {
+  //       path: '/measurementAudit',
+  //       name: 'measurementAudit',
+  //       component: () => import('@/views/pitchControl/measurementAudit'),
+  //       meta: {
+  //         title: '计量审核',
+  //         icon: '',
+  //         allMap: false,
+  //         partMap: false,
+  //         noMap: true
+  //       }
+  //     },
+  //     {
+  //       path: '/payAudit',
+  //       name: 'payAudit',
+  //       component: () => import('@/views/pitchControl/payAudit'),
+  //       meta: {
+  //         title: '支付审核',
+  //         icon: '',
+  //         allMap: false,
+  //         partMap: false,
+  //         noMap: true
+  //       }
+  //     }
+  //   ]
+  // },
+  {
+    path: "/datum",
+    meta: {
+      title: "档案管理",
+      icon: require("../assets/image/资料管理.png"),
+      code: "danganguanli"
+    },
+    component: Layout,
+    redirect: "/contractManagement",
+    children: [
+      {
+        path: "/contractManagement",
+        name: "contractManagement",
+        component: () => import("@/views/datum/index"),
+        meta: {
+          title: "合同管理",
+          code: "hetongguanli",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/engineeringChange",
+        name: "engineeringChange",
+        component: () => import("@/views/datum/engineeringChange"),
+        meta: {
+          title: "工程变更",
+          code: "gongchengbiangeng",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/drawingModel",
+        name: "drawingModel",
+        component: () => import("@/views/datum/drawingModel"),
+        meta: {
+          title: "图纸模型",
+          code: "tuzhimoxing",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/meetingSummary",
+        name: "meetingSummary",
+        component: () => import("@/views/datum/meetingSummary"),
+        meta: {
+          title: "会议纪要",
+          code: "huiyijiyao",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/qualityDocument",
+        name: "qualityDocument",
+        component: () => import("@/views/datum/qualityDocument"),
+        meta: {
+          title: "质量体系",
+          code: "zhiliangtixi",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/safetyDocument",
+        name: "safetyDocument",
+        component: () => import("@/views/datum/safetyDocument"),
+        meta: {
+          title: "安全体系",
+          code: "anquantixi",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/hazardInformation",
+        name: "hazardInformation",
+        component: () => import("@/views/datum/hazardInformation"),
+        meta: {
+          title: "危险源信息",
+          code: "weixianyuanxinxi",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      }
+    ]
+  },
+  {
+    path: "/study",
+    meta: {
+      title: "教育培训",
+      icon: require("../assets/image/教育培训.png"),
+      code: "jiaoyupeixun"
+    },
+    component: Layout,
+    redirect: "/teachingVideo",
+    children: [
+      {
+        path: "/teachingVideo",
+        name: "teachingVideo",
+        component: () => import("@/views/study/index"),
+        meta: {
+          title: "教学视频",
+          code: "jiaoxueshipin",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/teachingDocument",
+        name: "teachingDocument",
+        component: () => import("@/views/study/teachingDocument"),
+        meta: {
+          title: "教学文档",
+          code: "jiaoxuewendang",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      // {
+      //   path: '/prefabricatedModel',
+      //   name: 'prefabricatedModel',
+      //   component: () => import('@/views/study/prefabricatedModel'),
+      //   meta: { title: '预制模型', icon: '', allMap: false, partMap: false, noMap: true }
+      // },
+      {
+        path: "/installationPackage",
+        name: "installationPackage",
+        component: () => import("@/views/study/installationPackage"),
+        meta: {
+          title: "安装包",
+          code: "anzhuangbao",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      }
+    ]
+  }
+];
