@@ -134,6 +134,7 @@ export default {
       if (node.conponetcode) {
         Bus.$emit("getProcessById", node);
         Bus.$emit("getComponentProgress", node.id);
+        Bus.$emit("toolClearEffect");
       }
       let route = this.$route;
       if (node.mouldid && node.x && node.y) {
@@ -238,7 +239,6 @@ export default {
       let zeh = window.zeh;
       hlm = zeh.earth.getDefaultHighlightManager();
       let layer = zeh.layers.getLayerByName(name);
-      console.log(layer, "layer");
       let color = [191, 234, 238, 1];
       switch (status) {
         case 0:
@@ -254,7 +254,6 @@ export default {
           color = [241, 26, 26, 1];
           break;
       }
-      console.log(layer, id, color);
       hlm.showHighlightByKey(
         layer.primitive,
         [id],

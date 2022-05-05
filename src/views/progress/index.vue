@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import gantt from "@/views/progress/indexComponent/gantt";
+// import gantt from "@/views/progress/indexComponent/gantt";
 import tabularDrawing from "@/views/progress/indexComponent/tabularDrawing";
 import cartogram from "@/views/progress/indexComponent/cartogram";
 import { getProjectTypeData, getProgressTableData } from "@/api/progress";
@@ -87,7 +87,7 @@ import Bus from "@/assets/eventBus";
 
 export default {
   name: "",
-  components: { gantt, tabularDrawing, cartogram },
+  components: {  tabularDrawing, cartogram },
   data() {
     return {
       currentView: "cartogram",

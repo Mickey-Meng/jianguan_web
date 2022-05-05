@@ -343,12 +343,15 @@
             class="s_table"
             v-if="componentProgressInfo.progress.length > 0"
           >
-            <el-table-column prop="name" width="120px">
-            </el-table-column>
+            <el-table-column prop="name" width="120px"> </el-table-column>
             <el-table-column prop="stime" />
             <el-table-column width="40px">
               <template slot-scope="{ row }">
-                <svg-icon icon-class="teyes" @click="seeRecord(row)"  v-if="row.recodeid"/>
+                <svg-icon
+                  icon-class="teyes"
+                  @click="seeRecord(row)"
+                  v-if="row.recodeid"
+                />
               </template>
             </el-table-column>
           </el-table>
@@ -464,6 +467,7 @@ let mileageEm,
   terrain,
   drawTool,
   linePrimitive,
+  shlm,
   cth;
 //cth地形开挖
 //linePrimitive为红线
@@ -501,6 +505,7 @@ export default {
   name: "",
   data() {
     return {
+      currentComponentId: null,
       showLayer: true, //
       attributeQuery: false,
       redline: false, // 红线
@@ -602,6 +607,12 @@ export default {
       let route = this.$route;
       if (route.name === "sceneOverview") {
         this.getComponentData({ id });
+      }
+    });
+    Bus.$on("toolClearEffect", () => {
+      if (this.currentComponentId) {
+        this.stopEffect(this.currentComponentId);
+        this.currentComponentId = null;
       }
     });
   },
@@ -1005,10 +1016,13 @@ export default {
     showTailor() {},
     //属性查询
     startAttrQuery() {
+      //清除构件树点击渲染的着色
       this.stopEvent();
       if (this.attributeQuery) {
         this.attributeQuery = false;
         zeh.endPick();
+        this.stopEffect(this.currentComponentId);
+        this.currentComponentId = null;
       } else {
         this.attributeQuery = true;
         zeh.beginPickInfo((a, b, c) => {
@@ -1018,6 +1032,12 @@ export default {
             let id = obj.value.replace(/^\s+|\s+$/g, "");
             if (myReg.test(id)) {
               this.getComponentData({ mouldid: id });
+              Bus.$emit("clearEffect");
+              if (this.currentComponentId) {
+                this.stopEffect(this.currentComponentId);
+              }
+              this.showEffect(id);
+              this.currentComponentId = id;
             } else {
               this.$message({
                 message: "构件ID不符合规则",
@@ -1026,6 +1046,45 @@ export default {
               });
             }
           }
+        });
+      }
+    },
+    stopEffect(mouldid) {
+      // let zeh = window.zeh;
+      shlm = zeh.earth.getDefaultHighlightManager();
+      let layers = zeh.layers.data.allLayers;
+      let models = layers.filter((e) => e.type === "C3DTILES");
+      if (models && models.length > 0) {
+        models.forEach((item) => {
+          shlm.stopHighlightByKey(
+            item.primitive,
+            [mouldid],
+            true,
+            {
+              color: [25, 248, 250, 1],
+            },
+            "name"
+          );
+        });
+      }
+    },
+    showEffect(mouldid) {
+      // let zeh = window.zeh;
+
+      shlm = zeh.earth.getDefaultHighlightManager();
+      let layers = zeh.layers.data.allLayers;
+      let models = layers.filter((e) => e.type === "C3DTILES");
+      if (models && models.length > 0) {
+        models.forEach((item) => {
+          shlm.showHighlightByKey(
+            item.primitive,
+            [mouldid],
+            true,
+            {
+              color: [25, 248, 250, 1],
+            },
+            "name"
+          );
         });
       }
     },
@@ -1153,6 +1212,7 @@ export default {
   },
   destroyed() {
     Bus.$off("getComponentProgress");
+    Bus.$off("toolClearEffect");
   },
 };
 </script>
