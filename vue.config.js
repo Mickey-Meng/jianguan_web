@@ -4,7 +4,7 @@
  * @Author: WangHarry
  * @Date: 2021-09-08 09:11:33
  * @LastEditors: WangHarry
- * @LastEditTime: 2022-04-26 09:09:44
+ * @LastEditTime: 2022-05-06 11:41:17
  */
 
 const path = require("path");
@@ -37,7 +37,7 @@ module.exports = {
       },
       "/ZhuJiRoad": {
         // target: 'http://101.200.223.171:8085',
-        // target: 'https://system.zlskkj.com:59030/',
+        // target: 'https://system.zlskkj.com:59030',
         target: "http://192.168.2.122:8720",
         changeOrigin: true,
         pathRewrite: {

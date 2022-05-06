@@ -4,7 +4,7 @@
  * @Author: WangHarry
  * @Date: 2022-01-25 14:11:56
  * @LastEditors: WangHarry
- * @LastEditTime: 2022-03-01 17:55:07
+ * @LastEditTime: 2022-05-06 11:04:43
 -->
 <template>
   <div class="allbg event_statistics">
@@ -114,8 +114,9 @@ export default {
           let safeType = [];
           let x = [];
           let data = res.data;
-          data.sort((a, b) => b.sort - a.sort);
-          data.forEach((item) => {
+          let ar = data.filter((e) => e.name);
+          ar.sort((a, b) => b.sort - a.sort);
+          ar.forEach((item) => {
             x.push(item.name);
             if (item.object && item.object.length > 0) {
               item.object.forEach((a) => {
@@ -124,6 +125,8 @@ export default {
             }
           });
           let newType = [...new Set(safeType)];
+          this.series = [];
+          this.info = [];
           let series = [];
           newType.forEach((m) => {
             let obj = {
@@ -143,7 +146,7 @@ export default {
           });
           this.series = series;
           this.x = x;
-          this.info = data;
+          this.info = ar;
           this.disposeData();
         } else {
           this.$refs.schart.clear();
@@ -153,9 +156,10 @@ export default {
       });
     },
     disposeData() {
+      this.$refs.schart.clear();
       let series = this.series;
       const init = function (d) {
-        if (d.object && d.object.length > 0) {
+        if (d.object || d.object.length == 0) {
           series.forEach((e) => {
             let obj = d.object.find((o) => o.safefirstname === e.name);
             if (obj) {
