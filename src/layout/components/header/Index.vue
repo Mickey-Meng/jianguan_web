@@ -511,6 +511,7 @@ export default {
   justify-content: space-between;
   .leftpart {
     display: flex;
+    width: calc(100% - 470px);
     .left-box {
       width: 400px;
       display: flex;
@@ -557,32 +558,25 @@ export default {
     .right-box {
       // margin-left: 30px;
       display: flex;
+      width: calc(100% - 410px);
       align-items: center;
-      // .section {
-      //   width: 195px;
-      //   height: 36px;
-      //   margin-right: 59px;
-      //   background-image: url(../../../assets/image/sectionbg.png);
-      //   ::v-deep .el-icon-arrow-down {
-      //     &:before {
-      //       margin-left: 60px;
-      //     }
-      //   }
-      // }
       .navbar {
         height: 34px;
-        // flex: 1;
-        // border: 1px solid #1E374B;
-        // border-top: none;
-        .el-scrollbar {
-          height: 100%;
-          .el-scrollbar__bar {
+        width: 100%;
+        ::v-deep.el-scrollbar {
+          .el-scrollbar__bar.is-vertical {
             display: none;
           }
         }
+        ::v-deep .el-scrollbar__wrap {
+          overflow-x: auto;
+          height: calc(100% + 20px); //多出来的20px是横向滚动条默认的样式
+        }
+        ::v-deep .el-scrollbar .el-scrollbar__wrap .el-scrollbar__view {
+          white-space: nowrap;
+          display: inline-block;
+        }
         ::v-deep .scrollbar-wrapper-box {
-          // background-color: #060C26;
-          overflow: hidden;
           .el-scrollbar__view {
             .el-menu {
               display: flex;
@@ -595,7 +589,6 @@ export default {
                 line-height: 34px;
                 width: 105px;
                 margin-right: 15px;
-                // margin-right: 30px;
                 background-image: url(../../../assets/image/navitembg.png);
                 &:hover {
                   background-color: transparent;

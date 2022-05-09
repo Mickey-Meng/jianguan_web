@@ -407,7 +407,7 @@ export const asyncRoutes = [{
           right: true,
           open: true
         }
-      }
+      },
       // {
       //   path: '/processExamine',
       //   name: 'processExamine',
@@ -432,6 +432,97 @@ export const asyncRoutes = [{
       //   component: () => import('@/views/quality/standard'),
       //   meta: { title: '验收标准', icon: '', allMap: false, partMap: false, noMap: true }
       // }
+      {
+        path: "/concealedWorksManagement",
+        name: "concealedWorksManagement",
+        component: () => import("@/views/quality/newPage/concealedWorksManagement"),
+        meta: {
+          title: "隐蔽工程管理",
+          code: "yinbigongchengguanli",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/qualityTest",
+        name: "qualityTest",
+        component: () => import("@/views/quality/newPage/qualityTest"),
+        meta: {
+          title: "质量检测",
+          code: "zhiliangjiance",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/qualityPresentation",
+        name: "qualityPresentation",
+        component: () => import("@/views/quality/newPage/qualityPresentation"),
+        meta: {
+          title: "质量简报",
+          code: "zhiliangjianbao",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/supervisionStation",
+        name: "supervisionStation",
+        component: () => import("@/views/quality/newPage/supervisionStation"),
+        meta: {
+          title: "监理旁站",
+          code: "jianlipangzhan",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/supervisionPatrol",
+        name: "supervisionPatrol",
+        component: () => import("@/views/quality/newPage/supervisionPatrol"),
+        meta: {
+          title: "监理巡视",
+          code: "jianlixunshi",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/constructionTechnologyDisclosure",
+        name: "constructionTechnologyDisclosure",
+        component: () => import("@/views/quality/newPage/constructionTechnologyDisclosure"),
+        meta: {
+          title: "施工技术交底",
+          code: "shigongjishujiaodi",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/constructionScheme",
+        name: "constructionScheme",
+        component: () => import("@/views/quality/newPage/constructionScheme"),
+        meta: {
+          title: "施工方案",
+          code: "shigongfangan",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
     ]
   },
   {
@@ -903,8 +994,21 @@ export const asyncRoutes = [{
         name: "staffSubmit",
         component: () => import("@/views/contractManagement/staffSubmit"),
         meta: {
-          title: "人员报审",
-          code: "renyuanbaoshen",
+          title: "人员填报",
+          code: "renyuantianbao",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/personnelAudit",
+        name: "personnelAudit",
+        component: () => import("@/views/contractManagement/personnelAudit"),
+        meta: {
+          title: "人员审核",
+          code: "renyuanshenhe",
           icon: "",
           allMap: false,
           partMap: false,
