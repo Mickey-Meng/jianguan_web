@@ -894,7 +894,7 @@ export const asyncRoutes = [{
     meta: {
       title: "合同管理",
       icon: require("../assets/image/资料管理.png"),
-      code: "hetongguanli"
+      code: "yijihetongguanli"
     },
     component: Layout,
     redirect: "/staffSubmit",
