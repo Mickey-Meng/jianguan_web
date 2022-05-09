@@ -3,8 +3,7 @@ import Layout from "@/layout";
 // import RouterView from '@/components/router'
 import Home from "@/views/index/index";
 import Pandect from "@/views/pandect/index";
-export const constantRoutes = [
-  {
+export const constantRoutes = [{
     path: "/login",
     component: () => import("@/views/login/index"),
     hidden: true
@@ -37,8 +36,7 @@ export const constantRoutes = [
     hidden: true
   }
 ];
-export const asyncRoutes = [
-  {
+export const asyncRoutes = [{
     path: "/",
     component: Layout,
     meta: {
@@ -47,8 +45,7 @@ export const asyncRoutes = [
       code: "guanlidanao"
     },
     redirect: "/data",
-    children: [
-      {
+    children: [{
         path: "/data",
         name: "data",
         component: () => import("@/views/project/data"),
@@ -124,24 +121,22 @@ export const asyncRoutes = [
     },
     component: Layout,
     redirect: "/sceneOverview",
-    children: [
-      {
-        path: "/sceneOverview",
-        name: "sceneOverview",
-        component: () => import("@/views/scene/index"),
-        meta: {
-          title: "三维总览",
-          code: "sanweizonglan",
-          icon: "",
-          allMap: true,
-          partMap: false,
-          noMap: false,
-          cover: true,
-          left: true,
-          open: true
-        }
+    children: [{
+      path: "/sceneOverview",
+      name: "sceneOverview",
+      component: () => import("@/views/scene/index"),
+      meta: {
+        title: "三维总览",
+        code: "sanweizonglan",
+        icon: "",
+        allMap: true,
+        partMap: false,
+        noMap: false,
+        cover: true,
+        left: true,
+        open: true
       }
-    ]
+    }]
   },
   {
     path: "/earlierStage",
@@ -152,8 +147,7 @@ export const asyncRoutes = [
     },
     component: Layout,
     redirect: "/removeLand",
-    children: [
-      {
+    children: [{
         path: "/removeLand",
         name: "removeLand",
         component: () => import("@/views/earlierStage/index"),
@@ -222,8 +216,7 @@ export const asyncRoutes = [
     },
     component: Layout,
     redirect: "/planOverview",
-    children: [
-      {
+    children: [{
         path: "/planOverview",
         name: "planOverview",
         component: () => import("@/views/progress/index"),
@@ -295,8 +288,7 @@ export const asyncRoutes = [
     },
     component: Layout,
     redirect: "/qualityOverview",
-    children: [
-      {
+    children: [{
         path: "/qualityOverview",
         name: "qualityOverview",
         // component: () => import("@/views/quality/qualityOverview"),
@@ -451,8 +443,7 @@ export const asyncRoutes = [
     },
     component: Layout,
     redirect: "/safetyProduction",
-    children: [
-      {
+    children: [{
         path: "/safetyProduction",
         name: "safetyProduction",
         component: () =>
@@ -549,8 +540,7 @@ export const asyncRoutes = [
     },
     component: Layout,
     redirect: "/clockingIn",
-    children: [
-      {
+    children: [{
         path: "/clockingIn",
         name: "clockingIn",
         component: () => import("@/views/staffManage/index"),
@@ -613,8 +603,7 @@ export const asyncRoutes = [
     },
     component: Layout,
     redirect: "/videoEnvironment",
-    children: [
-      {
+    children: [{
         path: "/videoEnvironment",
         name: "videoEnvironment",
         component: () => import("@/views/wisdomSite/index"),
@@ -751,8 +740,7 @@ export const asyncRoutes = [
     },
     component: Layout,
     redirect: "/contractManagement",
-    children: [
-      {
+    children: [{
         path: "/contractManagement",
         name: "contractManagement",
         component: () => import("@/views/datum/index"),
@@ -854,8 +842,7 @@ export const asyncRoutes = [
     },
     component: Layout,
     redirect: "/teachingVideo",
-    children: [
-      {
+    children: [{
         path: "/teachingVideo",
         name: "teachingVideo",
         component: () => import("@/views/study/index"),
@@ -900,6 +887,82 @@ export const asyncRoutes = [
           noMap: true
         }
       }
+    ]
+  },
+  {
+    path: 'contractManagement',
+    meta: {
+      title: "合同管理",
+      icon: require("../assets/image/资料管理.png"),
+      code: "hetongguanli"
+    },
+    component: Layout,
+    redirect: "/staffSubmit",
+    children: [{
+        path: "/staffSubmit",
+        name: "staffSubmit",
+        component: () => import("@/views/contractManagement/staffSubmit"),
+        meta: {
+          title: "人员报审",
+          code: "renyuanbaoshen",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/personnelChange",
+        name: "personnelChange",
+        component: () => import("@/views/contractManagement/personnelChange"),
+        meta: {
+          title: "人员变更",
+          code: "renyuanbiangeng",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/attendanceClock",
+        name: "attendanceClock",
+        component: () => import("@/views/contractManagement/attendanceClock"),
+        meta: {
+          title: "考勤打卡",
+          code: "kaoqindaka",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/constructionSubcontract",
+        name: "constructionSubcontract",
+        component: () => import("@/views/contractManagement/constructionSubcontract"),
+        meta: {
+          title: "施工分包合同",
+          code: "shigongfenbaohetong",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/laborSubcontract",
+        name: "laborSubcontract",
+        component: () => import("@/views/contractManagement/laborSubcontract"),
+        meta: {
+          title: "劳务分包合同",
+          code: "laowufenbaohetong",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
     ]
   }
 ];
