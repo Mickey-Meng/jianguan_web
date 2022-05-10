@@ -237,14 +237,21 @@
 								<el-collapse>
 									<el-collapse-item name="1">
 										<template slot="title">
-										      项目质检负责人(同意)江逸
+											<el-badge :value="1" class="item" type="primary">
+											</el-badge>
+										    项目质检负责人(同意)江逸2022-04-19 11:30:31
 										</template>
 										<div class="log-line">
 											<div class="log-line-label">审批模板.审批意见：</div>
 											<div class="log-line-value">无</div>
 										</div>
 									</el-collapse-item>
-									<el-collapse-item title=" 开始(提交)" name="2">
+									<el-collapse-item name="2">
+										<template slot="title">
+											<el-badge :value="2" class="item" type="primary">
+											</el-badge>
+										    开始(提交)黄志庆2022-04-18 20:32:43
+										</template>
 										<div class="log-line">
 											<div class="log-line-label">项目名称：</div>
 											<div class="log-line-value">235国道杭州至诸暨公路萧山河上至诸暨安华段改建工程</div>
@@ -287,6 +294,62 @@
 										</div>
 										<div class="log-line">
 											<div class="log-line-label">附件清单：</div>
+											<div class="log-line-value">无</div>
+										</div>
+										<div class="log-line">
+											<div class="log-line-label">上传</div>
+										</div>
+										<el-table :data="annexTableData" style="width: 100%" border
+											class="have_scrolling">
+											<el-table-column prop="pro" align="center" label="附件" show-overflow-tooltip>
+											</el-table-column>
+											<el-table-column prop="qualityfirstname" width="160px" align="center"
+												label="上传日期">
+											</el-table-column>
+											<el-table-column prop="qualitysecondname" width="120px" align="center"
+												label="上传人">
+											</el-table-column>
+											<el-table-column fixed="right" width="80" align="center" label="操作">
+												<template slot-scope="{ row, $index }">
+													<el-button type="primary" size="mini">下载</el-button>
+													<el-button type="danger" size="mini">预览</el-button>
+												</template>
+											</el-table-column>
+										</el-table>
+										<div class="log-line">
+											<div class="log-line-label">流程状态：</div>
+											<div class="log-line-value">无</div>
+										</div>
+										<div class="log-line">
+											<div class="log-line-label">流程状态：</div>
+											<div class="log-line-value">无</div>
+										</div>
+										<div class="log-line">
+											<div class="log-line-label">项目质检负责人处理次数：</div>
+											<div class="log-line-value">0</div>
+										</div>
+										<div class="log-line">
+											<div class="log-line-label">项目施工负责人处理次数：</div>
+											<div class="log-line-value">0</div>
+										</div>
+										<div class="log-line">
+											<div class="log-line-label">现场监理人员处理次数：</div>
+											<div class="log-line-value">0</div>
+										</div>
+										<div class="log-line">
+											<div class="log-line-label">项目质检负责人：</div>
+											<div class="log-line-value">江逸</div>
+										</div>
+										<div class="log-line">
+											<div class="log-line-label">项目施工负责人：</div>
+											<div class="log-line-value">赵赞文</div>
+										</div>
+										<div class="log-line">
+											<div class="log-line-label">项目质检负责人审批意见：</div>
+											<div class="log-line-value">无</div>
+										</div>
+										<div class="log-line">
+											<div class="log-line-label">项目施工负责人审批意见：</div>
 											<div class="log-line-value">无</div>
 										</div>
 									</el-collapse-item>
