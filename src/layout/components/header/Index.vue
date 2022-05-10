@@ -561,7 +561,7 @@ export default {
       width: calc(100% - 410px);
       align-items: center;
       .navbar {
-        height: 34px;
+        // height: 40px;
         width: 100%;
         ::v-deep.el-scrollbar {
           .el-scrollbar__bar.is-vertical {
@@ -570,7 +570,7 @@ export default {
         }
         ::v-deep .el-scrollbar__wrap {
           overflow-x: auto;
-          height: calc(100% + 20px); //多出来的20px是横向滚动条默认的样式
+          height: calc(100% + 10px); //多出来的20px是横向滚动条默认的样式
         }
         ::v-deep .el-scrollbar .el-scrollbar__wrap .el-scrollbar__view {
           white-space: nowrap;
@@ -585,11 +585,13 @@ export default {
               background: none;
               .el-menu-item {
                 text-align: center;
-                height: 34px;
-                line-height: 34px;
-                width: 105px;
+                height: 40px;
+                line-height: 40px;
+                // width: 105px;
+                overflow: hidden;
                 margin-right: 15px;
                 background-image: url(../../../assets/image/navitembg.png);
+                background-size: 100% 100%;
                 &:hover {
                   background-color: transparent;
                 }

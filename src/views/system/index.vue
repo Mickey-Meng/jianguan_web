@@ -4,7 +4,7 @@
  * @Author: WangHarry
  * @Date: 2021-09-27 21:31:11
  * @LastEditors: WangHarry
- * @LastEditTime: 2022-03-09 15:08:17
+ * @LastEditTime: 2022-05-09 16:39:25
 -->
 <template>
   <el-drawer
@@ -43,6 +43,8 @@
 <script>
 import siteManage from "@/views/system/component/siteManage";
 import authorityManagement from "@/views/system/component/authorityManagement";
+import depManagementVue from "./component/depManagement.vue";
+import postManagement from "@/views/system/component/postManagement ";
 import Bus from "@/assets/eventBus";
 export default {
   data() {
@@ -59,6 +61,14 @@ export default {
           name: "工点管理",
           key: "siteManage",
         },
+        {
+          name: "部门管理",
+          key: "depManagementVue",
+        },
+        {
+          name: "岗位管理",
+          key: "postManagement",
+        },
       ],
     };
   },
@@ -70,6 +80,8 @@ export default {
   components: {
     siteManage,
     authorityManagement,
+    depManagementVue,
+    postManagement,
   },
   computed: {},
   methods: {

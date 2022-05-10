@@ -4,7 +4,7 @@
  * @Author: WangHarry
  * @Date: 2021-09-08 09:11:32
  * @LastEditors: WangHarry
- * @LastEditTime: 2022-04-07 17:05:44
+ * @LastEditTime: 2022-05-09 19:52:20
  */
 const api = {
   login: "/ZhuJiRoad/user/login",
@@ -151,6 +151,11 @@ const api = {
   addWorkPoint: "/ZhuJiRoad/digitalTwin/addData", //新增工点
   deleteWorkPoint: "/ZhuJiRoad/digitalTwin/delData", //删除工点
   updateWorkPoint: "/ZhuJiRoad/digitalTwin/updateData", //更新工点
+  //------------------------系统管理、岗位管理 --------------------------
+  getAllPost: "/ZhuJiRoad/person/getPosts", //查询岗位信息
+  addPost: "/ZhuJiRoad/person/addPost", //新增岗位
+  deletePost: "", //删除岗位
+  updatePost: "", //修改岗位
 };
 
 export default api;
