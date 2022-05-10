@@ -110,11 +110,11 @@
 }
 
 #app {
-  color: #fff;
+  color: #000;
 }
 
 #app .main-container {
-  height: 100%;
+  /*height: 100%;*/
   position: relative;
 }
 

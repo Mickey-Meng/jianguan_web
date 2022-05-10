@@ -99,7 +99,7 @@ export default {
 </script>
 <style lang='scss' scoped>
 ::v-deep.el-drawer__wrapper {
-  top: 80px !important;
+  //top: 80px !important;
   z-index: 10000000002 !important;
   .el-drawer__body {
     height: 100%;

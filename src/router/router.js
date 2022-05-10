@@ -37,23 +37,24 @@ export const constantRoutes = [{
   }
 ];
 export const asyncRoutes = [{
-    path: "/",
-    component: Layout,
+  path: "/",
+  component: Layout,
+  meta: {
+    title: "管理大脑",
+    icon: "",
+    code: "guanlidanao"
+  },
+  alwaysShow: true,
+  redirect: "/data",
+  children: [{
+    path: "/data",
+    name: "data",
+    component: () => import("@/views/project/data"),
     meta: {
-      title: "管理大脑",
-      icon: require("../assets/image/管理大脑.png"),
-      code: "guanlidanao"
-    },
-    redirect: "/data",
-    children: [{
-        path: "/data",
-        name: "data",
-        component: () => import("@/views/project/data"),
-        meta: {
-          title: "数据中心",
-          icon: "",
-          code: "shujuzhongxin",
-          allMap: false,
+      title: "数据中心",
+      icon: "",
+      code: "shujuzhongxin",
+      allMap: false,
           partMap: false,
           noMap: true
         }
@@ -116,10 +117,11 @@ export const asyncRoutes = [{
     path: "/scene",
     meta: {
       title: "数字孪生",
-      icon: require("../assets/image/模型中心.png"),
+      icon: "",
       code: "sanweichangjing"
     },
     component: Layout,
+    alwaysShow: true,
     redirect: "/sceneOverview",
     children: [{
       path: "/sceneOverview",
@@ -142,9 +144,10 @@ export const asyncRoutes = [{
     path: "/earlierStage",
     meta: {
       title: "前期管理",
-      icon: require("../assets/image/前期管理.png"),
+      icon: "",
       code: "qianqiguanli"
     },
+    alwaysShow: true,
     component: Layout,
     redirect: "/removeLand",
     children: [{
@@ -211,9 +214,10 @@ export const asyncRoutes = [{
     path: "/progress",
     meta: {
       title: "进度管理",
-      icon: require("../assets/image/进度管理.png"),
+      icon: "",
       code: "jinduguanli"
     },
+    alwaysShow: true,
     component: Layout,
     redirect: "/planOverview",
     children: [{
@@ -283,9 +287,10 @@ export const asyncRoutes = [{
     path: "/quality",
     meta: {
       title: "质量管理",
-      icon: require("../assets/image/质量管理.png"),
+      icon: "",
       code: "zhiliangguanli"
     },
+    alwaysShow: true,
     component: Layout,
     redirect: "/qualityOverview",
     children: [{
@@ -529,9 +534,10 @@ export const asyncRoutes = [{
     path: "/safetyCulture",
     meta: {
       title: "安全管理",
-      icon: require("../assets/image/安全文明.png"),
+      icon: "",
       code: "anquanguanli"
     },
+    alwaysShow: true,
     component: Layout,
     redirect: "/safetyProduction",
     children: [{
@@ -626,9 +632,10 @@ export const asyncRoutes = [{
     path: "/staffManage",
     meta: {
       title: "人员管理",
-      icon: require("../assets/image/项目管理.png"),
+      icon: "",
       code: "renyuanguanli"
     },
+    alwaysShow: true,
     component: Layout,
     redirect: "/clockingIn",
     children: [{
@@ -689,9 +696,10 @@ export const asyncRoutes = [{
     path: "/wisdomSite",
     meta: {
       title: "智慧工地",
-      icon: require("../assets/image/数字工地.png"),
+      icon: "",
       code: "zhihuigongdi"
     },
+    alwaysShow: true,
     component: Layout,
     redirect: "/videoEnvironment",
     children: [{
@@ -826,9 +834,10 @@ export const asyncRoutes = [{
     path: "/datum",
     meta: {
       title: "档案管理",
-      icon: require("../assets/image/资料管理.png"),
+      icon: "",
       code: "danganguanli"
     },
+    alwaysShow: true,
     component: Layout,
     redirect: "/contractManagement",
     children: [{
@@ -928,9 +937,10 @@ export const asyncRoutes = [{
     path: "/study",
     meta: {
       title: "教育培训",
-      icon: require("../assets/image/教育培训.png"),
+      icon: "",
       code: "jiaoyupeixun"
     },
+    alwaysShow: true,
     component: Layout,
     redirect: "/teachingVideo",
     children: [{
@@ -984,9 +994,10 @@ export const asyncRoutes = [{
     path: 'contractManagement',
     meta: {
       title: "合同管理",
-      icon: require("../assets/image/资料管理.png"),
+      icon: "",
       code: "yijihetongguanli"
     },
+    alwaysShow: true,
     component: Layout,
     redirect: "/staffSubmit",
     children: [{
