@@ -38,6 +38,16 @@
 					</el-select>
 				</div>
 			</div>
+			<div class="input-box">
+				<div class="input-value">
+					<el-date-picker
+					      type="datetime"
+					      placeholder="选择日期时间">
+					    </el-date-picker>
+				</div>
+			</div>
+			
+			
 			<el-button type="primary">搜索</el-button>
 
 			<div class="right-btns">
@@ -57,19 +67,17 @@
 					class="have_scrolling">
 					<el-table-column type="index" width="50" align="center" label="序号">
 					</el-table-column>
-					<el-table-column prop="pro" align="center" label="项目名称" show-overflow-tooltip>
+					<el-table-column prop="pro" align="center" label="标段" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="qualityfirstname" align="center" label="施工单位" show-overflow-tooltip>
+					<el-table-column prop="qualityfirstname" align="center" label="材料名称" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="qualitysecondname" align="center" label="合同号" show-overflow-tooltip>
+					<el-table-column prop="qualitysecondname" align="center" label="填报日期" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="uploadname" align="center" label="监理单位" show-overflow-tooltip>
+					<el-table-column prop="uploadname" align="center" label="材料规格" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="modifyname" align="center" label="施工标段" show-overflow-tooltip>
+					<el-table-column prop="modifyname" align="center" label="工程部位" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="modifydate" align="center" label="监理标段">
-					</el-table-column>
-					<el-table-column prop="modifytime" align="center" label="状态描述">
+					<el-table-column prop="modifydate" align="center" label="检测结果">
 					</el-table-column>
 					<el-table-column fixed="right" width="120" align="center" label="操作">
 						<template slot-scope="{ row, $index }">
@@ -97,7 +105,7 @@
 							<el-form ref="form" label-width="80px">
 								<div class="form-title">
 									<div class="title-big-bar"></div>
-									<strong>隐蔽功能验收记录-浙公路（JL）011</strong>
+									<strong>质量检测</strong>
 									<div class="form-btns">
 										<el-button size="medium">暂存</el-button>
 										<el-button size="medium">保存草稿</el-button>
@@ -474,7 +482,7 @@
 				currentPage: 1,
 				totalPage: 1,
 				pageSize: 20,
-				dialogTitle: '智慧建设通用版-【绍兴市】235国道杭州',
+				dialogTitle: '智慧建设通用版-【绍兴市】235国道杭州至诸暨公路萧山河上至诸暨安华段改建工程',
 				dialogFormVisible: false,
 				annexTableData: [],
 				activeName: 'first',
