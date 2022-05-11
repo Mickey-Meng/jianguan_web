@@ -3,8 +3,8 @@
  * @version:
  * @Author: WangHarry
  * @Date: 2022-05-09 14:10:50
- * @LastEditors: WangHarry
- * @LastEditTime: 2022-05-09 14:10:57
+ * @LastEditors: yangtao
+ * @LastEditTime: 2022-05-11 14:10:57
 -->
 <template>
 	<el-container class="container-box">
@@ -494,9 +494,9 @@
 			display: flex;
 			align-items: center;
 			// justify-content: space-between;
-
+			padding: 0 !important;
 			.input-box {
-				min-width: 220px;
+				min-width: 200px;
 				display: flex;
 				// margin: 0 20px;
 			}
