@@ -311,6 +311,7 @@
         width: 30px;
         height: 30px;
       }
+
       .download {
         position: absolute;
         bottom: 10px;
@@ -319,5 +320,26 @@
         height: 32px;
       }
     }
+  }
+}
+
+.global_text_style {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 5px 0;
+}
+//
+.container-box {
+  background-color: #ebecee;
+  padding: 5px;
+
+  .el-header {
+    line-height: 60px;
+    background-color: #ffffff;
+  }
+
+  .el-main {
+    padding: 0;
+    margin-top: 10px;
   }
 }

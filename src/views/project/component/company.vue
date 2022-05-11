@@ -1,25 +1,15 @@
 <template>
   <div class="wrapper">
-    <!-- <dv-border-box-12> -->
-    <div class="header_g">
-      <div class="title_item"></div>
-      <div class="title_text">关联单位</div>
+    <div class="header">
+      <div class="global_text_style">关联单位</div>
     </div>
-    <el-table
-      :data="lists"
-      style="width: 90%"
-      class="bim-table"
-      height="70%"
-      :show-header="false"
-    >
-      <el-table-column prop="title" width="110px">
-        <template slot-scope="{ row }">
-          <span>{{ row.title }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column prop="name" />
-    </el-table>
-    <!-- </dv-border-box-12> -->
+    <ul class="table-wrp">
+      <li v-for="(item,index) in lists" :key="index">
+        <el-tooltip class="item" effect="dark" :content="item.title + ':' + item.name" placement="top">
+          <span> {{ item.title }}:{{ item.name }}</span>
+        </el-tooltip>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -70,37 +60,49 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.wrapper {
-  // margin-top: 19px;
-  height: 100%;
-  background-image: url(../../../assets/image/边框-小.png);
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-}
-::v-deep.bim-table {
-  background: transparent !important;
-  margin-left: 16px;
-  .el-table__body-wrapper {
-    background: transparent !important;
-    tr {
-      padding-top: 10px;
-      td {
-        border: none;
-        margin-top: 10px;
-        background: #1c1f45;
+  .wrapper {
+    padding: 5px;
+    height: 100%;
+    width: 100%;
+  }
+
+  .table-wrp {
+    height: calc(100% - 30px);
+    border: 1px solid #E8E8E8;
+    border-radius: 10px;
+    padding: 5px;
+    overflow: auto;
+
+    li {
+      width: 100%;
+      height: 50px;
+      line-height: 50px;
+      background-color: #F6F6F6;
+      margin-bottom: 5px;
+      //text-indent: 1em;
+      padding: 0 10px;
+      border-radius: 10px;
+      font-weight: 600;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      &:hover{
+        border: 1px solid #395CFB;
       }
     }
   }
-}
-::v-deep .el-table {
-  tr {
-    background-color: transparent !important;
-  }
-  &::after {
-    background-color: transparent !important;
-  }
-  &::before {
-    background-color: transparent !important;
-  }
-}
+
+
+  //  ::v-deep .el-table {
+  //    tr {
+  //      background-color: transparent !important;
+  //    }
+  //
+  //    &::after {
+  //    background-color: transparent !important;
+  //  }
+  //  &::before {
+  //    background-color: transparent !important;
+  //  }
+  //}
 </style>

@@ -154,8 +154,8 @@ const api = {
   //------------------------系统管理、岗位管理 --------------------------
   getAllPost: "/ZhuJiRoad/person/getPosts", //查询岗位信息
   addPost: "/ZhuJiRoad/person/addPost", //新增岗位
-  deletePost: "", //删除岗位
-  updatePost: "", //修改岗位
+  deletePost: "/ZhuJiRoad/person/deletePost", //删除岗位
+  updatePost: "/ZhuJiRoad/person/updatePost", //修改岗位
 };
 
 export default api;

@@ -1012,7 +1012,7 @@ export const asyncRoutes = [{
           partMap: false,
           noMap: true
         }
-      },
+    },
       {
         path: "/personnelAudit",
         name: "personnelAudit",
@@ -1027,12 +1027,88 @@ export const asyncRoutes = [{
         }
       },
       {
+        path: "/personnelReportForExaminationRecords",
+        name: "personnelReportForExaminationRecords",
+        component: () => import("@/views/contractManagement/personnelReportForExaminationRecords"),
+        meta: {
+          title: "人员报审记录",
+          code: "renyuanbaoshenjilu",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
         path: "/personnelChange",
         name: "personnelChange",
         component: () => import("@/views/contractManagement/personnelChange"),
         meta: {
           title: "人员变更",
           code: "renyuanbiangeng",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/personnelChangeAudit",
+        name: "personnelChangeAudit",
+        component: () => import("@/views/contractManagement/personnelChangeAudit"),
+        meta: {
+          title: "人员变更审核",
+          code: "renyuanbiangengshenhe",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/personnelChangeRecord",
+        name: "personnelChangeRecord",
+        component: () => import("@/views/contractManagement/personnelChangeRecord"),
+        meta: {
+          title: "人员变更记录",
+          code: "renyuanbiangengjilu",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/applicationForLeave",
+        name: "applicationForLeave",
+        component: () => import("@/views/contractManagement/applicationForLeave"),
+        meta: {
+          title: "请假申请",
+          code: "qingjiashenqing",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      }, {
+        path: "/leaveApproval",
+        name: "leaveApproval",
+        component: () => import("@/views/contractManagement/leaveApproval"),
+        meta: {
+          title: "请假审核",
+          code: "qingjiashenhe",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      }, {
+        path: "/leaveRecord",
+        name: "leaveRecord",
+        component: () => import("@/views/contractManagement/leaveRecord"),
+        meta: {
+          title: "请假记录",
+          code: "qingjiajilu",
           icon: "",
           allMap: false,
           partMap: false,

@@ -241,16 +241,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.container-box {
-  background-color: #ebecee;
-  padding: 0 20px;
-  .el-header {
-    line-height: 60px;
-    background-color: #ffffff;
-  }
-  .el-main {
-    padding: 0;
-    margin-top: 10px;
-  }
-}
 </style>

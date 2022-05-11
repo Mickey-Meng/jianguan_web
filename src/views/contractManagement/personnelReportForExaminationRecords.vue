@@ -1,39 +1,27 @@
-<!--
- * @Descripttion:人员审核（人员报审拆分出来的）
- * @version:
- * @Author: WangHarry
- * @Date: 2022-05-09 14:07:12
- * @LastEditors: WangHarry
- * @LastEditTime: 2022-05-09 14:07:22
--->
 <template>
   <el-container class="container-box">
-    <!--    <el-header>-->
-    <!--      <el-button type="primary" @click="showDialog">添加劳务分包合同</el-button>-->
-    <!--    </el-header>-->
+    <el-header></el-header>
     <el-main>
-      <el-table :data="tableData" style="width: 100%" border height="100%">
+      <el-table border :data="tableData" style="width: 100%" height="100%">
         <el-table-column prop="uploadname" label="工区"></el-table-column>
         <el-table-column prop="uploadname" label="记录人"></el-table-column>
         <el-table-column prop="uploadname" label="填报时间"></el-table-column>
         <el-table-column prop="uploadname" label="人员类型"></el-table-column>
         <el-table-column prop="uploadname" label="状态"></el-table-column>
-        <el-table-column prop="uploadname" label="是否自管"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="{row}">
             <el-button type="primary" size="mini">详情</el-button>
           </template>
-
         </el-table-column>
       </el-table>
     </el-main>
     <el-footer></el-footer>
     <el-dialog class="full-dialog" title="查看详情" fullscreen="true" :visible.sync="dialogFormVisible">
       <el-container>
-        <el-header>人员审核</el-header>
+        <el-header class="center-header">报审记录</el-header>
         <el-main>
           <el-form ref="form" :model="form" label-width="80px">
-            <p class="base_title">基本信息</p>
+            <p class="base_title">报审记录</p>
             <el-row>
               <el-col :span="4">
                 <el-form-item label="工区">
@@ -111,27 +99,20 @@
                   label="有效期"
                   width="420">
                 </el-table-column>
-                <el-table-column
-                  label="操作"
-                  width="80">
-                  <template slot-scope="{$index}">
-                    <el-button type="danger" size="mini" @click="deleteInfo($index)">删除</el-button>
-                  </template>
-                </el-table-column>
               </el-table>
             </div>
-            <p class="base_title">待处理人</p>
+            <p class="base_title">处理人</p>
             <el-row>
               <el-col :span="24">
-                <el-form-item class="set-margin" label="负责人">
+                <el-form-item class="set-margin" label="处理人">
                 </el-form-item>
               </el-col>
             </el-row>
           </el-form>
         </el-main>
-        <el-footer>
-          <el-button type="primary" size="medium">提交</el-button>
-        </el-footer>
+<!--        <el-footer>-->
+<!--          <el-button type="primary" size="medium">提交</el-button>-->
+<!--        </el-footer>-->
       </el-container>
     </el-dialog>
   </el-container>
@@ -140,8 +121,9 @@
 <script>
   import {getNowDate} from "@/utils/date";
   import {mapGetters} from "vuex";
-
   export default {
+    props: [],
+    watch: {},
     data() {
       return {
         tableData: [],
@@ -151,23 +133,40 @@
           isContract: true,
           autogestion: true
         },
-        dialogFormVisible: false
+        dialogFormVisible: true
       };
     },
     created() {
-      this.form.userName = this.name;
     },
+    mounted() {
+    },
+    methods: {},
     components: {},
-    computed: {
-      ...mapGetters(["userInfo", "name"])
-    },
-    methods: {
-      deleteInfo() {
-      }
+    beforeDestroy() {
     }
+
   };
 </script>
+
 <style lang='scss' scoped>
+  .container-box {
+    background-color: #ebecee;
+    padding: 5px;
+
+    .el-header {
+      padding: 0 5px;
+      line-height: 60px;
+      background-color: #ffffff;
+      display: flex;
+      align-items: center;
+      color: #000000;
+    }
+
+    .el-main {
+      padding: 0;
+      margin-top: 10px;
+    }
+  }
   .center-header {
     display: flex;
     justify-content: center;

@@ -501,9 +501,6 @@ export default {
 
 <style scoped lang="scss">
 .container-box {
-  background-color: #ebecee;
-  padding: 0 20px;
-
   .el-header {
     padding: 0 5px;
     line-height: 60px;
@@ -533,10 +530,6 @@ export default {
     .el-select {
       margin-right: 20px;
     }
-  }
-  .el-main {
-    padding: 0;
-    margin-top: 10px;
   }
 }
 </style>

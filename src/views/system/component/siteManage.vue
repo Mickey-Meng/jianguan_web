@@ -295,7 +295,6 @@ export default {
       });
     },
     deleteInfo(item) {
-      console.log(item);
       this.$confirm("删除信息？", "删除", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",

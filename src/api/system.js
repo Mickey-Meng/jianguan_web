@@ -40,17 +40,35 @@ export const deleteWorkPoint = (id) => {
   });
 };
 //------------------------- 工点结束 -----------------------
+//-----------------------岗位管理开始 ----------------------------
 export const getAllPost = () => {
   return request({
     url: api.getAllPost,
     method: "post",
-    data: {},
+    data: {}
   });
 };
 export const addPost = (data) => {
   return request({
     url: api.addPost,
     method: "post",
-    data,
+    data
+  });
+};
+export const deletePost = (id) => {
+  return request({
+    url: api.deletePost,
+    method: "post",
+    data: {},
+    params: {
+      id
+    }
+  });
+};
+export const updatePost = (data) => {
+  return request({
+    url: api.updatePost,
+    method: "post",
+    data
   });
 };

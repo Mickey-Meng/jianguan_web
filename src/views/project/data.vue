@@ -74,12 +74,13 @@ export default {
   display: flex;
   justify-content: space-between;
   .index_left {
-    width: 450px;
+    width:400px;
     // display: flex;
     .pro_base {
       height: 28%;
     }
     .company {
+      width: 100%;
       margin: 10px 0;
       height: 26%;
     }
