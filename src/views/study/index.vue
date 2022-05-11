@@ -26,23 +26,23 @@
 </script>
 
 <style scoped lang="scss">
-  .container-box{
-    background-color: #ebecee;
-    .el-header{
-      line-height: 60px;
-      background-color: #FFFFFF;
-      margin: 0 20px;
-      color: black;
-      font-size: 22px;
-      font-weight: 700;
-    }
-    .el-main{
-      background-color: #FFFFFF;
-      margin: 10px 20px 0 20px;
-      padding: 0;
-
-
-    }
-  }
+  //.container-box{
+  //  background-color: #ebecee;
+  //  .el-header{
+  //    line-height: 60px;
+  //    background-color: #FFFFFF;
+  //    margin: 0 20px;
+  //    color: black;
+  //    font-size: 22px;
+  //    font-weight: 700;
+  //  }
+  //  .el-main{
+  //    background-color: #FFFFFF;
+  //    margin: 10px 20px 0 20px;
+  //    padding: 0;
+  //
+  //
+  //  }
+  //}
 
 </style>

@@ -7,7 +7,7 @@
  * @LastEditTime: 2022-05-09 10:05:33
 -->
 <template>
-  <div></div>
+ <el-container  class="container-box"></el-container>
 </template>
 
 <script>
@@ -22,4 +22,18 @@ export default {
 };
 </script>
 <style lang='scss' scoped>
+  .container-box {
+    background-color: #ebecee;
+    padding: 5px;
+
+    .el-header {
+      line-height: 60px;
+      background-color: #ffffff;
+    }
+
+    .el-main {
+      padding: 0;
+      margin-top: 10px;
+    }
+  }
 </style>
