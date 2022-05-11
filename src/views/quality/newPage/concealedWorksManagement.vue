@@ -68,7 +68,11 @@
 				</el-pagination>
 			</div>
 		</el-main>
-		<el-dialog class="full-dialog" :title="dialogTitle" fullscreen="true" :visible.sync="dialogFormVisible">
+		<el-dialog class="full-dialog" fullscreen="true" :visible.sync="dialogFormVisible">
+			<template slot="title">
+				{{dialogTitle}}
+				<div class="logo-icon"></div>
+			</template>
 			<el-container>
 				<el-main
 					style="background-color: rgba(0,0 0,0.5);height: calc(100vh - 96px); overflow-y: scroll;padding: 0px;margin: 0;">
@@ -535,10 +539,22 @@
 	}
 
 	.full-dialog {
+		.logo-icon {
+			width: 48px;
+			height: 48px;
+			background-image: url(../../../assets/process/logo.png);
+			background-size: 100% 100%;
+			background-repeat: no-repeat;
+			position: absolute;
+			right: 20px;
+			top: 24px;
+			cursor: pointer;
+		}
+
 		.el-button--default {
 			color: #355DFF;
 		}
-		
+
 		.form-bg {
 			background: rgb(255, 255, 255);
 			width: 984px;
@@ -582,7 +598,7 @@
 			position: absolute;
 			right: 0;
 
-			
+
 		}
 
 		.form-block {
@@ -757,11 +773,11 @@
 
 	.el-dialog__header {
 		height: 96px;
-		    padding: 36px 20px;
-		    border-bottom: 1px solid #ebebeb;
-		    background: #fff;
-		    color: #191919;
-		    font-weight: 600;
+		padding: 36px 20px;
+		border-bottom: 1px solid #ebebeb;
+		background: #fff;
+		color: #191919;
+		font-weight: 600;
 	}
 
 	.el-button--primary:hover {
@@ -792,7 +808,7 @@
 	}
 
 	.el-dialog__headerbtn {
-		top: 0;
+		top: 96px;
 		right: 0;
 		color: #355DFF;
 		background: rgba(53, 93, 255, 0.1);
@@ -810,10 +826,12 @@
 		top: 4px;
 
 	}
-	.el-tabs__item:hover{
+
+	.el-tabs__item:hover {
 		color: #355DFF !important;
 	}
-	.el-tabs__item.is-active{
+
+	.el-tabs__item.is-active {
 		color: #355DFF !important;
 	}
 </style>
