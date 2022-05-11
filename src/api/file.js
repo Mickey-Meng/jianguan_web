@@ -13,13 +13,15 @@ const headers = {
 
 export const uploadFile = function (data) {
   return request({
-    url: '/ZhuJiRoad/mong/upload',
-    method: 'post',
+    url: "/ZhuJiRoad/mong/upload",
+    method: "post",
     headers,
     data
-  })
-}
-// type 1合同文件 2变更图纸文件 3变更文档文件 4图纸桥梁文件 5 图纸道路文件 6图纸管线文件 7模型文件 8会议纪要 9质量体系 10安全体系 11危险源 12政策文件 13 报批材料 14批复文件 15 流程文件 16教学文档 17安装包文件
+  });
+};
+// type 1合同文件 2变更图纸文件 3变更文档文件 4图纸桥梁文件 5 图纸道路文件 6图纸管线文件 7模型文件 8会议纪要 9质量体系 10安全体系
+// 11危险源 12政策文件 13 报批材料 14批复文件 15 流程文件 16教学文档 17安装包文件 18劳务分包合同
+//19 施工分包合同
 /**
  * @des: 上传档案，前期文件
  * @test:
@@ -29,7 +31,7 @@ export const uploadFile = function (data) {
  */
 export const uploadF = data => {
   return request({
-    url: '/ZhuJiRoad/mong/fileStore',
+    url: "/ZhuJiRoad/mong/fileStore",
     method: 'post',
     data
   })

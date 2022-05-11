@@ -599,19 +599,19 @@
 
 		.log-content {
 			background-color: #FFFFFF;
-			
+
 			.log-line{
 				display: inline-flex;
 				width: calc(100% - 40px);
 				margin: 0 20px;
 				line-height: 28px;
-				
-				
+
+
 			}
 		}
 	}
 </style>
-<style>
+<style scoped>
 	.el-dialog__body {
 		padding: 0;
 		width: 100%;

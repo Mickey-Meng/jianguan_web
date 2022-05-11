@@ -502,7 +502,7 @@ export default {
 <style scoped lang="scss">
 .container-box {
   background-color: #ebecee;
-  padding: 0 20px;
+  padding: 5px;
 
   .el-header {
     padding: 0 5px;

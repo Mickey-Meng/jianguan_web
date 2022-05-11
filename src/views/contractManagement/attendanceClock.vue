@@ -7,14 +7,17 @@
  * @LastEditTime: 2022-05-09 10:06:41
 -->
 <template>
-   <div></div>
+  <div class="clock_wrapper">
+    <el-calendar v-model="value">
+    </el-calendar>
+  </div>
 </template>
 
 <script>
 export default {
    data () {
       return {
-
+        value: ""
       };
    },
    created() {},
@@ -24,5 +27,8 @@ export default {
 }
 </script>
 <style lang='scss' scoped>
+  .clock_wrapper {
+    height: 100%;
+  }
 
 </style>
