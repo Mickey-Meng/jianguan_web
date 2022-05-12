@@ -46,8 +46,8 @@
 					    </el-date-picker>
 				</div>
 			</div>
-			
-			
+
+
 			<el-button type="primary">搜索</el-button>
 
 			<div class="right-btns">
@@ -782,7 +782,7 @@
 		}
 	}
 </style>
-<style>
+<style scoped>
 	.el-dialog__body {
 		padding: 0;
 		width: 100%;

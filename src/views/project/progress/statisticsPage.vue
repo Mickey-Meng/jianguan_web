@@ -8,6 +8,9 @@
 -->
 <template>
   <div class="statistics_page">
+    <div class="header">
+      <div class="global_text_style" style="margin: 12px 0">项目统计</div>
+    </div>
     <div class="progress_nav">
       <ul>
         <li
@@ -86,6 +89,7 @@ export default {
 <style lang='scss' scoped>
 .statistics_page {
   height: 100%;
+  padding: 5px;
   .progress_nav {
     height: 50px;
     display: flex;
@@ -102,36 +106,42 @@ export default {
         margin-left: 15px;
         // width: 33%;
         width: 80px;
-        height: 24px;
+        height: 34px;
         font-size: 14px;
         font-family: PingFang SC;
-        font-weight: 400;
-        color: #ffffff;
-        line-height: 24px;
+        //font-weight: 400;
+        //color: #ffffff;
+        color: #85858F;
+        line-height: 34px;
+        border-radius: 20px;
         cursor: pointer;
-        background-image: url(../../../assets/image/tab.png);
+        //background-image: url(../../../assets/image/tab.png);
         // background-image: url(../../);
         background-repeat: no-repeat;
         background-size: 100%;
+        background-color: #FFFFFF;
+        border: 1px solid #E8E8E8;
       }
       .active {
-        border: none;
+        //border: none;
         // background-color: rgb(56, 122, 253);
-        background-image: url(../../../assets/image/tab-bg.png);
-        background-repeat: no-repeat;
-        background-size: 100%;
+        //background-image: url(../../../assets/image/tab-bg.png);
+        //background-repeat: no-repeat;
+        //background-size: 100%;
+        background-color: #F7F7F7;
+        color: #3E69E2;
       }
     }
     .check_box {
       ::v-deep.el-radio {
         .el-radio__label {
-          color: #ffffff;
+          color: #85858F;
         }
       }
     }
   }
   .progress_content {
-    height: calc(100% - 50px);
+    height: calc(100% - 145px);
   }
 }
 </style>

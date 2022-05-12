@@ -25,7 +25,7 @@
       </div>
       <div class="user_table">
         <div class="search">
-          <el-input placeholder="请输入姓名或者角色名" v-model="name">
+          <el-input placeholder="请输入姓名或者岗位" v-model="name">
             <el-button
               slot="append"
               icon="el-icon-search"
@@ -45,15 +45,15 @@
             <el-table-column type="selection" width="55"> </el-table-column>
             <el-table-column prop="NAME" label="姓名" align="center">
             </el-table-column>
-            <el-table-column prop="NEWPOST" label="角色" align="center">
+            <el-table-column prop="NEWPOST" label="岗位" align="center">
             </el-table-column>
-            <el-table-column label="操做" align="center">
-              <template slot-scope="{ row }">
-                <el-button type="primary" size="mini" @click="seeAuthority(row)"
-                  >查看权限</el-button
-                >
-              </template>
-            </el-table-column>
+<!--            <el-table-column label="操作" align="center">-->
+<!--              <template slot-scope="{ row }">-->
+<!--                <el-button type="primary" size="mini" @click="seeAuthority(row)"-->
+<!--                  >查看权限</el-button-->
+<!--                >-->
+<!--              </template>-->
+<!--            </el-table-column>-->
           </el-table>
         </div>
       </div>

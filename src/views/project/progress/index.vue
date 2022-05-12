@@ -8,9 +8,8 @@
 -->
 <template>
   <div class="progress_box">
-    <div class="header_g">
-      <div class="title_item"></div>
-      <div class="title_text">项目进度</div>
+    <div class="header">
+      <div class="global_text_style">项目进度</div>
     </div>
     <progressChart></progressChart>
     <div class="container">
@@ -35,9 +34,10 @@ export default {
 <style lang='scss' scoped>
 .progress_box {
   height: 100%;
-  background-image: url(../../../assets/image/边框-大.png);
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
+  padding: 5px;
+  //background-image: url(../../../assets/image/边框-大.png);
+  //background-repeat: no-repeat;
+  //background-size: 100% 100%;
 
   .container {
     height: calc(100% - 185px);

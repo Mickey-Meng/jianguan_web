@@ -72,3 +72,49 @@ export const updatePost = (data) => {
     data
   });
 };
+//-----------------------------岗位结束----------------
+//--------------------------组织开始 -------------------
+
+export const addOrganization = (data) => {
+  return request({
+    url: api.addOrganization,
+    method: "post",
+    data
+  });
+};
+export const getOrganization = () => {
+  return request({
+    url: api.getOrganization,
+    method: "post",
+    data: {}
+  });
+};
+export const deleteOrganization = (id) => {
+  return request({
+    url: api.deleteOrganization,
+    method: "post",
+    data: {},
+    params: {id}
+  });
+};
+export const updateOrganization = (data) => {
+  return request({
+    url: api.updateOrganization,
+    method: "post",
+    data
+  });
+};
+export const bindingUsersToOrganizations = (data) => {
+  return request({
+    url: api.bindingUsersToOrganizations,
+    method: "post",
+    data
+  });
+};
+export const getUserBindOrganizations = () => {
+  return request({
+    url: api.getUserBindOrganizations,
+    method: "post",
+    data: {}
+  });
+};

@@ -11,8 +11,8 @@
     <el-table
       :data="tableData"
       style="width: 100%"
+      border
       height="100%"
-      class="bim-table"
     >
       <!-- <el-table-column prop="date" label="单位工程" /> -->
       <el-table-column prop="date" label="分项名称" />
@@ -39,9 +39,6 @@ export default {
       label: "当周完成",
     };
   },
-  methods: {
-    init() {},
-  },
   watch: {
     type(n, o) {
       if (n === 3) {
@@ -52,13 +49,16 @@ export default {
     },
   },
   methods: {
+    init() {
+    },
+
     exportTable() {
       this.$message({
         message: "加急开发中，请等待",
         type: "info",
-        customClass: "message_override",
+        customClass: "message_override"
       });
-    },
+    }
   },
 };
 </script>
@@ -68,11 +68,12 @@ export default {
   height: 100%;
 }
 ::v-deep .el-table {
-  &::after {
-    background-color: transparent !important;
-  }
-  &::before {
-    background-color: transparent !important;
-  }
+  //border-radius: 25px;
+  //&::after {
+  //  background-color: transparent !important;
+  //}
+  //&::before {
+  //  background-color: transparent !important;
+  //}
 }
 </style>

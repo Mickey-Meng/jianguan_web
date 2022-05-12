@@ -62,13 +62,13 @@ export default {
           key: "siteManage",
         },
         {
-          name: "部门管理",
+          name: "组织管理",
           key: "depManagementVue",
         },
-        {
-          name: "岗位管理",
-          key: "postManagement",
-        },
+        // {
+        //   name: "岗位管理",
+        //   key: "postManagement",
+        // },
       ],
     };
   },

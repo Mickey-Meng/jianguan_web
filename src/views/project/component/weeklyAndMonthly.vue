@@ -2,59 +2,31 @@
   <!-- <div class="allbg"> -->
   <div class="wrapper">
     <div class="container-box">
-      <div class="title">
-        <div class="titleLeft">
-          <div class="titleitem" />
-          <div class="titletext">项目统计</div>
-        </div>
-        <div class="select">
-          <el-button size="mini" @click="exportData">导出</el-button>
-          <div class="titleselect">
-            <el-select v-model="timeKey" @change="changData">
-              <el-option
-                v-for="item in sectionData"
-                :key="item.key"
-                :value="item.key"
-                :label="item.name"
-              />
-            </el-select>
-          </div>
+<!--      <div class="title">-->
+<!--        <div class="titleLeft">-->
+<!--          <div class="titleitem" />-->
+<!--          <div class="titletext">项目统计</div>-->
+<!--        </div>-->
+<!--        <div class="select">-->
+<!--          <el-button size="mini" @click="exportData">导出</el-button>-->
+<!--          <div class="titleselect">-->
+<!--            <el-select v-model="timeKey" @change="changData">-->
+<!--              <el-option-->
+<!--                v-for="item in sectionData"-->
+<!--                :key="item.key"-->
+<!--                :value="item.key"-->
+<!--                :label="item.name"-->
+<!--              />-->
+<!--            </el-select>-->
+<!--          </div>-->
           <!-- <el-date-picker
             v-model="timeValue"
             value-format="yyyy-MM-dd"
             type="date"
             placeholder="选择日期"
           /> -->
-        </div>
-      </div>
-      <!-- <div class="header">
-        <div
-          :class="{ active: currentView == 'BridgeTable' }"
-          @click="changeView('BridgeTable')"
-        >
-          桥梁工程
-        </div>
-        <div
-          :class="{ active: currentView == 'RoadTable' }"
-          @click="changeView('RoadTable')"
-        >
-          道路工程
-        </div>
-        <div
-          :class="{ active: currentView == 'tunneling' }"
-          @click="changeView('tunneling')"
-        >
-          隧道工程
-        </div>
-      </div> -->
-      <!-- <div class="select">
-        <el-button size="mini" @click="exportData">导出</el-button>
-        <el-date-picker
-          v-model="timeValue"
-          type="date"
-          placeholder="选择日期"
-        />
-      </div> -->
+<!--        </div>-->
+<!--      </div>-->
       <div class="main-table">
         <keep-alive>
           <component
@@ -167,9 +139,11 @@ export default {
 <style scoped lang="scss">
 .wrapper {
   height: 100%;
-  padding: 16px;
+  //padding: 16px;
   .container-box {
     height: 100%;
+    padding: 0 !important;
+    background-color: unset !important;
     .title {
       display: flex;
       justify-content: space-between;
@@ -284,8 +258,9 @@ export default {
       }
     }
     .main-table {
-      margin-top: 5px;
-      height: calc(100% - 35px);
+      //margin-top: 5px;
+      height: calc(100% - 20px);
+      //height: 100%;
     }
   }
 }

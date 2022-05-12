@@ -11,8 +11,8 @@
     <el-table
       :data="tableData"
       style="width: 100%"
+      border
       height="100%"
-      class="bim-table"
     >
       <!-- <el-table-column prop="name" label="单位工程"> </el-table-column> -->
       <el-table-column prop="name" label="分项名称"> </el-table-column>
@@ -90,12 +90,12 @@ export default {
 .wrapperbox {
   height: 100%;
 }
-::v-deep .el-table {
-  &::after {
-    background-color: transparent !important;
-  }
-  &::before {
-    background-color: transparent !important;
-  }
-}
+//::v-deep .el-table {
+//  &::after {
+//    background-color: transparent !important;
+//  }
+//  &::before {
+//    background-color: transparent !important;
+//  }
+//}
 </style>

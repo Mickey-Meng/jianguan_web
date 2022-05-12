@@ -126,10 +126,11 @@ export default {
 <style scoped lang="scss">
 .wrapper {
   height: 100%;
-  padding: 0 16px 16px 16px;
+  //padding: 0 16px 16px 16px;
   //background-image: url(../../../assets/image/边框-小.png);
   //background-repeat: no-repeat;
   //background-size: 100% 100%;
+  padding: 5px;
   .header_g {
     margin-left: -16px;
   }

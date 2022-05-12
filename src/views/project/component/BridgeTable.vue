@@ -3,7 +3,7 @@
     <el-table
       :data="tableData"
       style="width: 100%"
-      class="bim-table"
+      border
       height="100%"
     >
       <el-table-column prop="name" label="分项名称" width="100" />
@@ -91,12 +91,12 @@ export default {
 .wrapperbox {
   height: 100%;
 }
-::v-deep .el-table {
-  &::after {
-    background-color: transparent !important;
-  }
-  &::before {
-    background-color: transparent !important;
-  }
-}
+//::v-deep .el-table {
+//  &::after {
+//    background-color: transparent !important;
+//  }
+//  &::before {
+//    background-color: transparent !important;
+//  }
+//}
 </style>

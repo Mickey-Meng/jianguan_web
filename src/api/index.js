@@ -156,6 +156,14 @@ const api = {
   addPost: "/ZhuJiRoad/person/addPost", //新增岗位
   deletePost: "/ZhuJiRoad/person/deletePost", //删除岗位
   updatePost: "/ZhuJiRoad/person/updatePost", //修改岗位
+  personnelBindingPost: "/ZhuJiRoad/person/addUserPost",//人员绑定岗位
+  //-----------------------系统管理、组织管理 ------------------------
+  addOrganization: "/ZhuJiRoad/person/addDepartment", //新增组织
+  updateOrganization: "/ZhuJiRoad/person/updateDepartment", //更新组织
+  deleteOrganization: "/ZhuJiRoad/person/deleteDepartment", //删除组织
+  getOrganization: "/ZhuJiRoad/person/getDepartments", //获取组织,
+  bindingUsersToOrganizations: "/ZhuJiRoad/person/addUserGroup",//组织绑定用户
+  getUserBindOrganizations: "/ZhuJiRoad/person/getPersonRole"//获取用户组织关联关系
 };
 
 export default api;

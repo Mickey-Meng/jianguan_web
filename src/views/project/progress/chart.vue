@@ -8,27 +8,29 @@
 -->
 <template>
   <div class="progress_chart">
-    <div class="total">
+    <div class="total item-box">
       <div class="chart">
-        <dv-percent-pond :config="config" style="width: 280px; height: 40px" />
+        <!--        <dv-percent-pond :config="config" style="width: 280px; height: 40px"/>-->
+        <v-chart :options="totalChatrs" autoresize class="v-chart-box"/>
+
       </div>
-      <div>总体投资进度</div>
+      <!--      <div>总体投资进度</div>-->
     </div>
-    <div class="bridge">
+    <div class="bridge item-box">
       <div class="charts">
-        <v-chart :options="option" autoresize class="v-chart-box" />
+        <v-chart :options="option" autoresize class="v-chart-box"/>
       </div>
       <div>桥梁进度</div>
     </div>
-    <div class="road">
+    <div class="road item-box">
       <div class="charts">
-        <v-chart :options="roadOption" autoresize class="v-chart-box" />
+        <v-chart :options="roadOption" autoresize class="v-chart-box"/>
       </div>
       <div>道路进度</div>
     </div>
-    <div class="tunneling">
+    <div class="tunneling item-box">
       <div class="charts">
-        <v-chart :options="sdOption" autoresize class="v-chart-box" />
+        <v-chart :options="sdOption" autoresize class="v-chart-box"/>
       </div>
       <div>隧道进度</div>
     </div>
@@ -43,11 +45,78 @@ export default {
   data() {
     return {
       config: {
-        value: 0,
+        value: 0
       },
       option: {},
       roadOption: {},
       sdOption: {},
+      totalChatrs: {
+        title: {
+          text: "",
+          subtext: "总体投资进度",
+          x: "center",
+          y: "40%",
+          textStyle: {
+            fontWeight: "bold",
+            color: "#000",
+            fontSize: "24"
+          },
+          subtextStyle: {
+            color: "#000",
+            fontWeight: "bold",
+            fontSize: 14
+          }
+        },
+        series: [{
+          // name: "Line 1",
+          type: "pie",
+          clockWise: true,
+          radius: ["58%", "76%"],
+          itemStyle: {
+            normal: {
+              label: {
+                show: false
+              },
+              labelLine: {
+                show: false
+              }
+            }
+          },
+          hoverAnimation: false,
+          data: [{
+            value: 0,
+            // name: "01",
+            itemStyle: {
+              normal: {
+                // color: { // 完成的圆环的颜色
+                //   colorStops: [{
+                //     offset: 0,
+                //     color: "#E9EFFD" // 0% 处的颜色
+                //   }, {
+                //     offset: 1,
+                //     color: "#2772F2" // 100% 处的颜色
+                //   }]
+                // },
+                color: "#2772F2",
+                label: {
+                  show: false
+                },
+                labelLine: {
+                  show: false
+                }
+              }
+            }
+          }, {
+            // name: "02",
+            value: 100,
+            itemStyle: {
+              normal: {
+                color: "#E9EFFD"
+              }
+            }
+          }]
+        }]
+      }
     };
   },
   created() {},
@@ -63,17 +132,17 @@ export default {
         const obj = {
           title: {
             textStyle: {
-              color: "#28BCFE",
+              color: "#000000",
               fontSize: 22,
             },
             subtext: "",
             subtextStyle: {
-              color: "#0de6a4",
+              color: "#000000",
               fontSize: 20,
             },
             itemGap: 20,
             left: "center",
-            top: "25%",
+            top: "30%",
           },
           tooltip: {
             formatter: function (params) {
@@ -179,8 +248,13 @@ export default {
         this.sdOption = sd;
 
         let globalRate = Math.floor((allFinish / allCount) * 100);
-        this.config.value = globalRate;
-        this.config = { ...this.config };
+        console.log(globalRate);
+        this.totalChatrs.series[0].data[0].value = globalRate;
+        this.totalChatrs.series[0].data[1].value = 100 - globalRate;
+        this.totalChatrs.title.text = globalRate + "%";
+        console.log(this.totalChatrs, 999);
+        // this.config.value = globalRate;
+        // this.config = { ...this.config };
       });
     },
   },
@@ -188,23 +262,47 @@ export default {
 </script>
 <style lang='scss' scoped>
 .progress_chart {
-  height: 150px;
+  height: 215px;
   padding: 0 10px;
   display: flex;
   width: 100%;
-  .chart {
-    height: calc(100% - 20px);
-    padding-top: 50px;
+  border: 1px solid #E8E8E8;
+
+  .item-box {
+    flex: 1px;
+    display: flex;
+    flex-direction: column;
+
+    .charts {
+      height: calc(100% - 50px);
+    }
+
+    .chart {
+      height: 100%;
+    }
+
+    > div {
+      text-align: center;
+      font-size: 18px;
+      line-height: 18px;
+      font-weight: 600;
+    }
   }
-  .charts {
-    height: calc(100% - 20px);
-  }
-  > div {
-    flex: 1;
-    text-align: center;
-    font-size: 18px;
-    line-height: 18px;
-    font-weight: 600;
-  }
+
+  //.chart {
+  //  height: calc(100% - 20px);
+  //  padding-top: 50px;
+  //}
+  //.charts {
+  //  height: calc(100% - 20px);
+  //}
+  //> div {
+  //  flex: 1;
+  //  text-align: center;
+  //  font-size: 18px;
+  //  line-height: 18px;
+  //  font-weight: 600;
+  //}
+  //font-weight: bold;
 }
 </style>

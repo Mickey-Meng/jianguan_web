@@ -19,7 +19,8 @@
         <newMsg></newMsg>
       </div>
       <div class="safe_box">
-        <safeStatistics title="安全文明"></safeStatistics>
+<!--        <safeStatistics title="安全文明"></safeStatistics>-->
+        <indexSafeStatistics></indexSafeStatistics>
       </div>
     </div>
   </div>
@@ -35,6 +36,7 @@ import safetyCivilization from "@/views/project/component/safetyCivilization";
 import newMsg from "@/views/project/component/newMsg";
 import safeStatistics from "@/views/project/component/safeStatistics";
 import progressCom from "./progress/index.vue";
+import indexSafeStatistics from "@/views/project/component/indexSafeStatistics";
 import * as api from "@/api/data";
 export default {
   name: "project",
@@ -53,6 +55,7 @@ export default {
     newMsg,
     safeStatistics,
     progressCom,
+    indexSafeStatistics
   },
   created() {
     this.initData();
@@ -77,12 +80,12 @@ export default {
     width:400px;
     // display: flex;
     .pro_base {
-      height: 28%;
+      height: 30%;
     }
     .company {
       width: 100%;
       margin: 10px 0;
-      height: 34%;
+      height: 32%;
     }
     .video {
       height: calc(38% - 20px);
