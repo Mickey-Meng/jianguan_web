@@ -52,7 +52,7 @@ module.exports = {
         pathRewrite: {}
       },
 		"/ZhuJiApi": {
-		  target: "http://101.200.223.171",
+		  target: "http://101.200.223.171/ZhuJiApi",
 		  changeOrigin: true,
 		  secure: true,
 		  pathRewrite: {}

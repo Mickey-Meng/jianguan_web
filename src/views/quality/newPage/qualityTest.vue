@@ -26,25 +26,23 @@
 			</div>
 			<div class="input-box">
 				<div class="input-value">
-					<el-input v-model="queryData.detectionResult" placeholder="检测结果"></el-input>
+					<el-select v-model="queryData.detectionResult" placeholder="检测结果">
+						<el-option v-for="item in examineResultOptions" :key="item.value"
+							:label="item.label" :value="item.value">
+						</el-option>
+					</el-select>
 				</div>
 			</div>
 			<div class="input-box">
 				<div class="input-value">
-					<el-date-picker
-							v-model="queryData.createEndTime"
-					      type="date"
-					      placeholder="开始日期">
-					    </el-date-picker>
+					<el-date-picker v-model="queryData.createEndTime" type="date" placeholder="开始日期">
+					</el-date-picker>
 				</div>
 			</div>
 			<div class="input-box">
 				<div class="input-value">
-					<el-date-picker
-					 v-model="queryData.createStartTime"
-					      type="date"
-					      placeholder="结束日期">
-					    </el-date-picker>
+					<el-date-picker v-model="queryData.createStartTime" type="date" placeholder="结束日期">
+					</el-date-picker>
 				</div>
 			</div>
 
@@ -88,12 +86,12 @@
 					</el-table-column>
 				</el-table>
 				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-					:current-page="currentPage" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper"
-					:total="totalPage">
+					:current-page="queryData.pageNum" :page-size="queryData.pageSize" layout="total, sizes, prev, pager, next, jumper"
+					:total="queryData.totalPage">
 				</el-pagination>
 			</div>
 		</el-main>
-		<el-dialog class="full-dialog" fullscreen="true" :visible.sync="dialogFormVisible">
+		<el-dialog class="full-dialog defined-dialog" fullscreen="true" :visible.sync="dialogFormVisible">
 			<template slot="title">
 				{{dialogTitle}}
 				<div class="logo-icon"></div>
@@ -147,14 +145,19 @@
 												监理办</div>
 										</div>
 										<div class="block-item">
-											<div class="block-item-label">报验单号</div>
-											<div class="block-item-value">ZJ-SN-20220212-01</div>
+											<div class="block-item-label">报验单号<i class="require-icon"></i></div>
+											<div class="block-item-value">
+												<el-input></el-input>
+											</div>
 										</div>
 									</div>
 									<div class="block-line">
 										<div class="block-item">
-											<div class="block-item-label">填报日期</div>
-											<div class="block-item-value"></div>
+											<div class="block-item-label">填报日期<i class="require-icon"></i></div>
+											<div class="block-item-value">
+												<el-date-picker type="date" placeholder="请选择">
+												</el-date-picker>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -162,12 +165,16 @@
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>检测信息</strong>
 									</div>
+									<div class="block-line">
+										<el-button size="small" @click="addExamine" type="primary">新增</el-button>
+									</div>
 									<div class="block-table">
-										<el-table :data="annexTableData" style="width: 100%" border
+										<el-table :data="examineTable" style="width: 100%" border
 											class="have_scrolling">
 											<el-table-column type="index" width="50" align="center" label="序号">
 											</el-table-column>
-											<el-table-column prop="pro" align="center" label="材料名称" show-overflow-tooltip>
+											<el-table-column prop="pro" align="center" label="材料名称"
+												show-overflow-tooltip>
 											</el-table-column>
 											<el-table-column prop="qualityfirstname" width="160px" align="center"
 												label="材料来源">
@@ -216,7 +223,8 @@
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>试验检测报告</strong>
-										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf 文件，且不超过 200M</span>
+										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
+											文件，且不超过 200M</span>
 									</div>
 									<div class="block-line">
 										<el-button size="small" type="primary">点击上传</el-button>
@@ -246,7 +254,8 @@
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>出厂信息</strong>
-										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf 文件，且不超过 200M</span>
+										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
+											文件，且不超过 200M</span>
 									</div>
 									<div class="block-line">
 										<el-button size="small" type="primary">点击上传</el-button>
@@ -276,7 +285,8 @@
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>其他附件</strong>
-										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf 文件，且不超过 200M</span>
+										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
+											文件，且不超过 200M</span>
 									</div>
 									<div class="block-line">
 										<el-button size="small" type="primary">点击上传</el-button>
@@ -316,9 +326,6 @@
 									<div class="title-big-bar"></div><strong>审核人员</strong>
 								</div>
 								<div class="form-block">
-									<div class="form-block-title">
-										<div class="title-bar"></div><strong>待审批人</strong>
-									</div>
 									<div class="block-line">
 										<div class="block-item">
 											<div class="block-item-label">岗位</div>
@@ -515,13 +522,126 @@
 				</el-aside>
 			</el-container>
 		</el-dialog>
+		<el-dialog class="defined-dialog" title="新增" :visible.sync="examineVisible">
+			<el-form ref="form" label-width="80px">
+				<div class="form-block">
+					<div class="block-line">
+						<div class="block-item">
+							<div class="block-item-label">材料名称<i class="require-icon"></i></div>
+							<div class="block-item-value">
+								<el-select v-model="value" placeholder="请选择">
+									<el-option v-for="item in options" :key="item.value"
+										:label="item.label" :value="item.value">
+									</el-option>
+								</el-select>
+							</div>
+						</div>
+						<div class="block-item">
+							<div class="block-item-label">材料来源</div>
+							<div class="block-item-value">
+								<el-input></el-input>
+							</div>
+						</div>
+					</div>
+					<div class="block-line">
+						<div class="block-item">
+							<div class="block-item-label">材料规格</div>
+							<div class="block-item-value">
+								<el-input></el-input>
+							</div>
+						</div>
+						<div class="block-item">
+							<div class="block-item-label">工程部位</div>
+							<div class="block-item-value">
+								<el-input></el-input>
+							</div>
+						</div>
+					</div>
+					<div class="block-line">
+						<div class="block-item">
+							<div class="block-item-label">材料数量(吨)</div>
+							<div class="block-item-value">
+								<el-input></el-input>
+							</div>
+						</div>
+						<div class="block-item">
+							<div class="block-item-label">取样地点</div>
+							<div class="block-item-value">
+								<el-input></el-input>
+							</div>
+						</div>
+					</div>
+					<div class="block-line">
+						<div class="block-item">
+							<div class="block-item-label">试验日期</div>
+							<div class="block-item-value">
+								<el-date-picker type="date" placeholder="请选择">
+								</el-date-picker>
+							</div>
+						</div>
+						<div class="block-item">
+							<div class="block-item-label">试验数量<i class="require-icon"></i></div>
+							<div class="block-item-value">
+								<el-input></el-input>
+							</div>
+						</div>
+					</div>
+					<div class="block-line">
+						<div class="block-item">
+							<div class="block-item-label">合格数量<i class="require-icon"></i></div>
+							<div class="block-item-value">
+								<el-input></el-input>
+							</div>
+						</div>
+						<div class="block-item">
+							<div class="block-item-label">总合格率(%)<i class="require-icon"></i></div>
+							<div class="block-item-value">
+								<el-input></el-input>
+							</div>
+						</div>
+					</div>
+					<div class="block-line">
+						<div class="block-item">
+							<div class="block-item-label">检测结果</div>
+							<div class="block-item-value">
+								<el-select v-model="queryData.detectionResult" placeholder="请选择">
+									<el-option v-for="item in examineResultOptions" :key="item.value"
+										:label="item.label" :value="item.value">
+									</el-option>
+								</el-select>
+							</div>
+						</div>
+						<div class="block-item">
+							<div class="block-item-label">报告编号</div>
+							<div class="block-item-value">
+								<el-input></el-input>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-block">
+					<el-button class="submit-btn" size="small" type="primary">提交</el-button>
+				</div>
+			</el-form>
+		</el-dialog>
 	</el-container>
 </template>
 
 <script>
+	import * as api from "@/api/quality";
 	export default {
 		data() {
 			return {
+				examineResultOptions: [{
+					label: '全部',
+					value: null
+				}, {
+					label: '合格',
+					value: '0'
+				}, {
+					label: '不合格',
+					value: '1'
+				}],
 				tableData: [],
 				operateBtnsVisible: true,
 				currentPage: 1,
@@ -533,25 +653,54 @@
 				activeName: 'first',
 				waitTableData: [],
 				options: [],
-				queryData:{
-					buildSection:null,
-					createEndTime:null,
-					createStartTime:null,
-					detectionResult:null,
-					draftFlag:1,
+				queryData: {
+					buildSection: null,
+					createEndTime: null,
+					createStartTime: null,
+					detectionResult: null,
+					draftFlag: 1,
+					name: '',
+					specification: '',
+					pageNum: 1,
+					totalPage:1,
+					pageSize: 10,
+				},
+				examineVisible: false,//检测信息弹窗是否显示
+				examineInfo:{ //检测信息弹窗信息
+					address:null,
+					detectionResult:0,
 					name:'',
+					num:null,
+					projectPart:'',
+					qualifiedNum:'',
+					qualifiedRate:'',
+					reportCode:'',
 					specification:'',
-					pageNum:1,
-					pageSize:10,
-				}
+					takeAddress:'',
+					testDate:'',
+					testNum:''
+				},
+				examineTable:[],
 			};
 		},
 		created() {},
 		components: {},
 		computed: {},
+		mounted() {
+			this.query();
+		},
 		methods: {
+			query() {
+				api.getQualityDetectionList(this.queryData).then((res) => {
+					debugger
+				  //this.tableData = res.data;
+				});
+			},
 			addNew() {
 				this.dialogFormVisible = true;
+			},
+			addExamine(){
+				this.examineVisible=true;
 			},
 			handleSizeChange(val) {
 				console.log(`每页 ${val} 条`);
@@ -581,7 +730,8 @@
 				display: flex;
 				// margin: 0 20px;
 			}
-			.mini-input-box{
+
+			.mini-input-box {
 				width: 80px;
 				min-width: 80px;
 			}
@@ -622,8 +772,18 @@
 			}
 		}
 	}
-
-	.full-dialog {
+	.full-dialog{
+		.form-bg {
+			background: rgb(255, 255, 255);
+			width: 984px;
+			margin: 0px auto;
+			min-height: 100%;
+			padding: 30px 20px 20px;
+			overflow-y: auto;
+		}
+	}
+	.defined-dialog {
+		background: rgba(0,0,0,0.5);;
 		.logo-icon {
 			width: 48px;
 			height: 48px;
@@ -639,32 +799,22 @@
 		.el-button--default {
 			color: #355DFF;
 		}
-
-		.form-bg {
-			background: rgb(255, 255, 255);
-			width: 984px;
-			margin: 0px auto;
-			min-height: 100%;
-			padding: 30px 20px 20px;
-			overflow-y: auto;
-
-			.title-big-bar {
-				width: 6px;
-				height: 20px;
-				background-image: url(../../../assets/process/bigbar.png);
-				background-size: 100% 100%;
-				background-repeat: no-repeat;
-				margin: 8px 8px 8px 0;
-			}
-
-			.title-bar {
-				width: 4px;
-				height: 20px;
-				background-image: url(../../../assets/process/bar.png);
-				background-size: 100% 100%;
-				background-repeat: no-repeat;
-				margin: 2px 8px 2px 0;
-			}
+		.title-big-bar {
+			width: 6px;
+			height: 20px;
+			background-image: url(../../../assets/process/bigbar.png);
+			background-size: 100% 100%;
+			background-repeat: no-repeat;
+			margin: 8px 8px 8px 0;
+		}
+		
+		.title-bar {
+			width: 4px;
+			height: 20px;
+			background-image: url(../../../assets/process/bar.png);
+			background-size: 100% 100%;
+			background-repeat: no-repeat;
+			margin: 2px 8px 2px 0;
 		}
 
 		.form-title {
@@ -682,8 +832,6 @@
 		.form-btns {
 			position: absolute;
 			right: 0;
-
-
 		}
 
 		.form-block {
@@ -697,7 +845,7 @@
 			}
 
 			.block-line {
-				line-height: 24px;
+				line-height: 36px;
 				display: inline-flex;
 				font-size: 16px;
 				width: 100%;
@@ -726,7 +874,7 @@
 						border-radius: 4px;
 						position: absolute;
 						right: 10px;
-						top: 10px;
+						top: 16px;
 					}
 				}
 
@@ -819,8 +967,6 @@
 				width: calc(100% - 40px);
 				margin: 0 20px;
 				line-height: 28px;
-
-
 			}
 
 			.process-index {
@@ -838,25 +984,17 @@
 		}
 	}
 </style>
-<style scoped>
-	.el-dialog__body {
+<style>
+	.full-dialog .el-dialog{
+		background: transparent;
+	}
+	.full-dialog .el-dialog__body {
 		padding: 0;
 		width: 100%;
 		color: #191919;
 		height: calc(100vh - 96px);
 	}
-
-	.el-dialog__body .el-main {
-		background-color: rgba(0, 0, 0, 0.5);
-	}
-
-	.el-dialog__title {
-		font-size: 24px;
-		line-height: 24px;
-		color: #191919;
-	}
-
-	.el-dialog__header {
+	.full-dialog .el-dialog__header {
 		height: 96px;
 		padding: 36px 20px;
 		border-bottom: 1px solid #ebebeb;
@@ -864,35 +1002,15 @@
 		color: #191919;
 		font-weight: 600;
 	}
-
-	.el-button--primary:hover {
-		color: #FFFFFF;
-		background-color: #409EFF;
+	.full-dialog .el-dialog__title {
+		font-size: 24px;
+		line-height: 24px;
+		color: #191919;
 	}
-
-	.el-button--primary {
-		color: #FFFFFF;
-		background-color: #355DFF;
-		border-color: #355DFF;
-		height: 36px;
-		line-height: 36px;
-		padding: 0 20px;
+	.full-dialog .el-dialog__body .el-main {
+		/* background-color: rgba(0, 0, 0, 0.5); */
 	}
-
-	.el-input__inner {
-		height: 36px;
-		line-height: 36px;
-	}
-
-	.el-table thead {
-		color: #040415;
-	}
-
-	.el-select {
-		width: 100%;
-	}
-
-	.el-dialog__headerbtn {
+	.full-dialog .el-dialog__headerbtn {
 		top: 96px;
 		right: 0;
 		color: #355DFF;
@@ -901,21 +1019,42 @@
 		height: 36px;
 		border-radius: 0 0 0 50px;
 	}
-
-	.el-dialog__close {
+	
+	.full-dialog .el-dialog__close {
 		position: absolute;
 		right: 0px;
 		color: #355DFF !important;
 		font-size: 20px;
 		font-weight: 600;
 		top: 4px;
-
+	
 	}
-
+	
+	.el-button--primary:hover {
+		color: #FFFFFF;
+		background-color: #409EFF;
+	}
+	.el-button--primary {
+		color: #FFFFFF;
+		background-color: #355DFF;
+		border-color: #355DFF;
+		height: 36px;
+		line-height: 36px;
+		padding: 0 20px;
+	}
+	.el-input__inner {
+		height: 36px;
+		line-height: 36px;
+	}
+	.el-table thead {
+		color: #040415;
+	}
+	.el-select {
+		width: 100%;
+	}
 	.el-tabs__item:hover {
 		color: #355DFF !important;
 	}
-
 	.el-tabs__item.is-active {
 		color: #355DFF !important;
 	}

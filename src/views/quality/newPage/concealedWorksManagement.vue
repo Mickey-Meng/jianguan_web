@@ -68,7 +68,7 @@
 				</el-pagination>
 			</div>
 		</el-main>
-		<el-dialog class="full-dialog" fullscreen="true" :visible.sync="dialogFormVisible">
+		<el-dialog class="full-dialog defined-dialog" fullscreen="true" :visible.sync="dialogFormVisible">
 			<template slot="title">
 				{{dialogTitle}}
 				<div class="logo-icon"></div>
@@ -119,7 +119,9 @@
 
 										<div class="block-item">
 											<div class="block-item-label">工程编号</div>
-											<div class="block-item-value"></div>
+											<div class="block-item-value">
+												<el-input></el-input>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -493,12 +495,18 @@
 			// background-color: #ffffff;
 			display: flex;
 			align-items: center;
-			// justify-content: space-between;
 			padding: 0 !important;
+			// justify-content: space-between;
+
 			.input-box {
 				min-width: 200px;
 				display: flex;
 				// margin: 0 20px;
+			}
+
+			.mini-input-box {
+				width: 80px;
+				min-width: 80px;
 			}
 
 			.right-btns {
@@ -537,8 +545,18 @@
 			}
 		}
 	}
-
-	.full-dialog {
+	.full-dialog{
+		.form-bg {
+			background: rgb(255, 255, 255);
+			width: 984px;
+			margin: 0px auto;
+			min-height: 100%;
+			padding: 30px 20px 20px;
+			overflow-y: auto;
+		}
+	}
+	.defined-dialog {
+		background: rgba(0,0,0,0.5);;
 		.logo-icon {
 			width: 48px;
 			height: 48px;
@@ -554,32 +572,22 @@
 		.el-button--default {
 			color: #355DFF;
 		}
-
-		.form-bg {
-			background: rgb(255, 255, 255);
-			width: 984px;
-			margin: 0px auto;
-			min-height: 100%;
-			padding: 30px 20px 20px;
-			overflow-y: auto;
-
-			.title-big-bar {
-				width: 6px;
-				height: 20px;
-				background-image: url(../../../assets/process/bigbar.png);
-				background-size: 100% 100%;
-				background-repeat: no-repeat;
-				margin: 8px 8px 8px 0;
-			}
-
-			.title-bar {
-				width: 4px;
-				height: 20px;
-				background-image: url(../../../assets/process/bar.png);
-				background-size: 100% 100%;
-				background-repeat: no-repeat;
-				margin: 2px 8px 2px 0;
-			}
+		.title-big-bar {
+			width: 6px;
+			height: 20px;
+			background-image: url(../../../assets/process/bigbar.png);
+			background-size: 100% 100%;
+			background-repeat: no-repeat;
+			margin: 8px 8px 8px 0;
+		}
+		
+		.title-bar {
+			width: 4px;
+			height: 20px;
+			background-image: url(../../../assets/process/bar.png);
+			background-size: 100% 100%;
+			background-repeat: no-repeat;
+			margin: 2px 8px 2px 0;
 		}
 
 		.form-title {
@@ -597,8 +605,6 @@
 		.form-btns {
 			position: absolute;
 			right: 0;
-
-
 		}
 
 		.form-block {
@@ -612,7 +618,7 @@
 			}
 
 			.block-line {
-				line-height: 24px;
+				line-height: 36px;
 				display: inline-flex;
 				font-size: 16px;
 				width: 100%;
@@ -641,7 +647,7 @@
 						border-radius: 4px;
 						position: absolute;
 						right: 10px;
-						top: 10px;
+						top: 16px;
 					}
 				}
 
@@ -734,8 +740,6 @@
 				width: calc(100% - 40px);
 				margin: 0 20px;
 				line-height: 28px;
-
-
 			}
 
 			.process-index {
@@ -754,24 +758,16 @@
 	}
 </style>
 <style>
-	.el-dialog__body {
+	.full-dialog .el-dialog{
+		background: transparent;
+	}
+	.full-dialog .el-dialog__body {
 		padding: 0;
 		width: 100%;
 		color: #191919;
 		height: calc(100vh - 96px);
 	}
-
-	.el-dialog__body .el-main {
-		background-color: rgba(0, 0, 0, 0.5);
-	}
-
-	.el-dialog__title {
-		font-size: 24px;
-		line-height: 24px;
-		color: #191919;
-	}
-
-	.el-dialog__header {
+	.full-dialog .el-dialog__header {
 		height: 96px;
 		padding: 36px 20px;
 		border-bottom: 1px solid #ebebeb;
@@ -779,35 +775,15 @@
 		color: #191919;
 		font-weight: 600;
 	}
-
-	.el-button--primary:hover {
-		color: #FFFFFF;
-		background-color: #409EFF;
+	.full-dialog .el-dialog__title {
+		font-size: 24px;
+		line-height: 24px;
+		color: #191919;
 	}
-
-	.el-button--primary {
-		color: #FFFFFF;
-		background-color: #355DFF;
-		border-color: #355DFF;
-		height: 36px;
-		line-height: 36px;
-		padding: 0 20px;
+	.full-dialog .el-dialog__body .el-main {
+		/* background-color: rgba(0, 0, 0, 0.5); */
 	}
-
-	.el-input__inner {
-		height: 36px;
-		line-height: 36px;
-	}
-
-	.el-table thead {
-		color: #040415;
-	}
-
-	.el-select {
-		width: 100%;
-	}
-
-	.el-dialog__headerbtn {
+	.full-dialog .el-dialog__headerbtn {
 		top: 96px;
 		right: 0;
 		color: #355DFF;
@@ -816,21 +792,42 @@
 		height: 36px;
 		border-radius: 0 0 0 50px;
 	}
-
-	.el-dialog__close {
+	
+	.full-dialog .el-dialog__close {
 		position: absolute;
 		right: 0px;
 		color: #355DFF !important;
 		font-size: 20px;
 		font-weight: 600;
 		top: 4px;
-
+	
 	}
-
+	
+	.el-button--primary:hover {
+		color: #FFFFFF;
+		background-color: #409EFF;
+	}
+	.el-button--primary {
+		color: #FFFFFF;
+		background-color: #355DFF;
+		border-color: #355DFF;
+		height: 36px;
+		line-height: 36px;
+		padding: 0 20px;
+	}
+	.el-input__inner {
+		height: 36px;
+		line-height: 36px;
+	}
+	.el-table thead {
+		color: #040415;
+	}
+	.el-select {
+		width: 100%;
+	}
 	.el-tabs__item:hover {
 		color: #355DFF !important;
 	}
-
 	.el-tabs__item.is-active {
 		color: #355DFF !important;
 	}
