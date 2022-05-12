@@ -29,20 +29,19 @@
 					<el-input placeholder="检测结果"></el-input>
 				</div>
 			</div>
-			<div class="input-box mini-input-box">
+			<div class="input-box">
 				<div class="input-value">
-					<el-select v-model="value" placeholder="范围">
-						<el-option v-for="item in options" :key="item.value"
-							:label="item.label" :value="item.value">
-						</el-option>
-					</el-select>
+					<el-date-picker
+					      type="date"
+					      placeholder="开始日期">
+					    </el-date-picker>
 				</div>
 			</div>
 			<div class="input-box">
 				<div class="input-value">
 					<el-date-picker
-					      type="datetime"
-					      placeholder="选择日期时间">
+					      type="date"
+					      placeholder="结束日期">
 					    </el-date-picker>
 				</div>
 			</div>
@@ -120,7 +119,7 @@
 									</div>
 									<div class="block-line">
 										<div class="block-item">
-											<div class="block-item-label">项目名称</div>
+											<div class="block-item-label">施工标段</div>
 											<div class="block-item-value">235国道杭州至诸暨公路萧山河上至诸暨安华段改建工程</div>
 										</div>
 										<div class="block-item">
@@ -140,59 +139,85 @@
 										</div>
 									</div>
 									<div class="block-line">
-
 										<div class="block-item">
-											<div class="block-item-label">工程编号</div>
+											<div class="block-item-label">监理标段</div>
+											<div class="block-item-value">
+												监理办</div>
+										</div>
+										<div class="block-item">
+											<div class="block-item-label">报验单号</div>
+											<div class="block-item-value">ZJ-SN-20220212-01</div>
+										</div>
+									</div>
+									<div class="block-line">
+										<div class="block-item">
+											<div class="block-item-label">填报日期</div>
 											<div class="block-item-value"></div>
 										</div>
 									</div>
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
-										<div class="title-bar"></div><strong>隐蔽功能信息</strong>
+										<div class="title-bar"></div><strong>检测信息</strong>
 									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">分项工程<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												<el-input placeholder="请输入工程编号"></el-input>
-											</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">单位、分部工程<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												<el-input placeholder="请输入单位、分部工程"></el-input>
-											</div>
-										</div>
+									<div class="block-table">
+										<el-table :data="annexTableData" style="width: 100%" border
+											class="have_scrolling">
+											<el-table-column type="index" width="50" align="center" label="序号">
+											</el-table-column>
+											<el-table-column prop="pro" align="center" label="材料名称" show-overflow-tooltip>
+											</el-table-column>
+											<el-table-column prop="qualityfirstname" width="160px" align="center"
+												label="材料来源">
+											</el-table-column>
+											<el-table-column prop="qualitysecondname" width="120px" align="center"
+												label="材料规格">
+											</el-table-column>
+											<el-table-column prop="qualitysecondname" width="120px" align="center"
+												label="工程部位">
+											</el-table-column>
+											<el-table-column prop="qualitysecondname" width="120px" align="center"
+												label="材料数量(吨)">
+											</el-table-column>
+											<el-table-column prop="qualitysecondname" width="120px" align="center"
+												label="取样地点">
+											</el-table-column>
+											<el-table-column prop="qualitysecondname" width="120px" align="center"
+												label="试验日期">
+											</el-table-column>
+											<el-table-column prop="qualitysecondname" width="120px" align="center"
+												label="实验数量">
+											</el-table-column>
+											<el-table-column prop="qualitysecondname" width="120px" align="center"
+												label="合格数量">
+											</el-table-column>
+											<el-table-column prop="qualitysecondname" width="120px" align="center"
+												label="总合格率(%)">
+											</el-table-column>
+											<el-table-column prop="qualitysecondname" width="120px" align="center"
+												label="检测结果">
+											</el-table-column>
+											<el-table-column prop="qualitysecondname" width="120px" align="center"
+												label="报告编号">
+											</el-table-column>
+											<el-table-column fixed="right" width="120" align="center" label="操作">
+												<template slot-scope="{ row, $index }">
+													<el-button type="danger" size="mini">删除</el-button>
+												</template>
+											</el-table-column>
+										</el-table>
 									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">隐蔽工程项目<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												<el-input type="textarea" :rows="4" placeholder="请输入隐蔽工程项目"></el-input>
-											</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">施工自检结果<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												<el-input type="textarea" :rows="4" placeholder="请输入施工自检结果"></el-input>
-											</div>
-										</div>
-									</div>
+								</div>
+								<div class="form-title">
+									<div class="title-big-bar"></div><strong>附件上传</strong>
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
-										<div class="title-bar"></div><strong>附件清单</strong>
-										<span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-											xisx xis pdf文件，且不超过100m</span>
+										<div class="title-bar"></div><strong>试验检测报告</strong>
+										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf 文件，且不超过 200M</span>
 									</div>
-
 									<div class="block-line">
 										<el-button size="small" type="primary">点击上传</el-button>
-										<!-- <div class="block-table-title">附件</div> -->
-										<div class="block-table-btns">
-											<el-button size="small" type="primary">下载全部</el-button>
-										</div>
 									</div>
 									<div class="block-table">
 										<el-table :data="annexTableData" style="width: 100%" border
@@ -216,31 +241,77 @@
 										</el-table>
 									</div>
 								</div>
-
-								<div class="form-title">
-									<div class="title-big-bar"></div><strong>监理办验收情况</strong>
-								</div>
-
 								<div class="form-block">
 									<div class="form-block-title">
-										<div class="title-bar"></div><strong>审批意见</strong>
+										<div class="title-bar"></div><strong>出厂信息</strong>
+										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf 文件，且不超过 200M</span>
+									</div>
+									<div class="block-line">
+										<el-button size="small" type="primary">点击上传</el-button>
+									</div>
+									<div class="block-table">
+										<el-table :data="annexTableData" style="width: 100%" border
+											class="have_scrolling">
+											<el-table-column type="index" width="50" align="center" label="序号">
+											</el-table-column>
+											<el-table-column prop="pro" align="center" label="附件" show-overflow-tooltip>
+											</el-table-column>
+											<el-table-column prop="qualityfirstname" width="160px" align="center"
+												label="上传日期">
+											</el-table-column>
+											<el-table-column prop="qualitysecondname" width="120px" align="center"
+												label="上传人">
+											</el-table-column>
+											<el-table-column fixed="right" width="120" align="center" label="操作">
+												<template slot-scope="{ row, $index }">
+													<el-button type="primary" size="mini">下载</el-button>
+													<el-button type="danger" size="mini">预览</el-button>
+												</template>
+											</el-table-column>
+										</el-table>
+									</div>
+								</div>
+								<div class="form-block">
+									<div class="form-block-title">
+										<div class="title-bar"></div><strong>其他附件</strong>
+										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf 文件，且不超过 200M</span>
+									</div>
+									<div class="block-line">
+										<el-button size="small" type="primary">点击上传</el-button>
+									</div>
+									<div class="block-table">
+										<el-table :data="annexTableData" style="width: 100%" border
+											class="have_scrolling">
+											<el-table-column type="index" width="50" align="center" label="序号">
+											</el-table-column>
+											<el-table-column prop="pro" align="center" label="附件" show-overflow-tooltip>
+											</el-table-column>
+											<el-table-column prop="qualityfirstname" width="160px" align="center"
+												label="上传日期">
+											</el-table-column>
+											<el-table-column prop="qualitysecondname" width="120px" align="center"
+												label="上传人">
+											</el-table-column>
+											<el-table-column fixed="right" width="120" align="center" label="操作">
+												<template slot-scope="{ row, $index }">
+													<el-button type="primary" size="mini">下载</el-button>
+													<el-button type="danger" size="mini">预览</el-button>
+												</template>
+											</el-table-column>
+										</el-table>
 									</div>
 									<div class="block-line">
 										<div class="block-item">
-											<div class="block-item-label">处理人</div>
-											<div class="block-item-value">江逸</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">处理操作</div>
-											<div class="block-item-value">同意</div>
+											<div class="block-item-label">备注</div>
+											<div class="block-item-value">
+												<el-input type="textarea" :rows="4" placeholder="请输入"></el-input>
+											</div>
 										</div>
 									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">处理时间</div>
-											<div class="block-item-value">2022-04-19 11:30:31</div>
-										</div>
-									</div>
+								</div>
+
+								<div class="form-title">
+									<div class="title-big-bar"></div><strong>审核人员</strong>
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
@@ -248,7 +319,15 @@
 									</div>
 									<div class="block-line">
 										<div class="block-item">
-											<div class="block-item-label">项目质检负责人<i class="require-icon"></i></div>
+											<div class="block-item-label">岗位</div>
+											<div class="block-item-value">
+												施工负责人
+											</div>
+										</div>
+									</div>
+									<div class="block-line">
+										<div class="block-item">
+											<div class="block-item-label">审核人<i class="require-icon"></i></div>
 											<div class="block-item-value">
 												<el-select v-model="value" placeholder="请选择">
 													<el-option v-for="item in options" :key="item.value"
@@ -260,43 +339,7 @@
 									</div>
 									<div class="block-line">
 										<div class="block-item">
-											<div class="block-item-label">项目施工负责人<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												<el-select v-model="value" placeholder="请选择">
-													<el-option v-for="item in options" :key="item.value"
-														:label="item.label" :value="item.value">
-													</el-option>
-												</el-select>
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">现场监理人员<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												<el-select v-model="value" placeholder="请选择">
-													<el-option v-for="item in options" :key="item.value"
-														:label="item.label" :value="item.value">
-													</el-option>
-												</el-select>
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">专业监理工程师<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												<el-select v-model="value" placeholder="请选择">
-													<el-option v-for="item in options" :key="item.value"
-														:label="item.label" :value="item.value">
-													</el-option>
-												</el-select>
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">项目负责人<i class="require-icon"></i></div>
+											<div class="block-item-label"></div>
 											<div class="block-item-value">
 												<el-select v-model="value" placeholder="请选择">
 													<el-option v-for="item in options" :key="item.value"
@@ -487,7 +530,18 @@
 				annexTableData: [],
 				activeName: 'first',
 				waitTableData: [],
-				options: []
+				options: [],
+				queryData:{
+					buildSection:null,
+					createEndTime:null,
+					createStartTime:null,
+					detectionResult:null,
+					draftFlag:1,
+					name:'',
+					specification:'',
+					pageNum:1,
+					pageSize:10,
+				}
 			};
 		},
 		created() {},

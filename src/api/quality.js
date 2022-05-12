@@ -421,3 +421,47 @@ export const deleteQualityEvent = params => {
     params
   });
 };
+
+
+//-----------------------流程引擎新增接口 ------------------------
+/**
+ * 新增或者更新质量检测数据
+ */
+export const addOrUpdateQualityDetection = data => {
+  return request({
+    url: api.addOrUpdateQualityDetection,
+    method: "post",
+    data: data
+  });
+};
+/**
+ * 通过id获取一条质量检测数据
+ */
+export const getQualityDetectionDetail = params => {
+  return request({
+    url: api.getQualityDetectionDetail,
+    method: "get",
+    params: params
+  });
+};
+/**
+ * 通过id删除一条质量检测数据
+ */
+export const deleteQualityDetection = {id} => {
+  return request({
+    url: api.deleteQualityDetection,
+    method: "delete",
+    params: {id}
+  });
+};
+/**
+ * 质量检测分页查询
+ */
+export const getQualityDetectionList = data => {
+  return request({
+    url: api.getQualityDetectionList,
+    method: "post",
+    data: data
+  });
+};
+//-----------------------流程引擎新增接口 ------------------------

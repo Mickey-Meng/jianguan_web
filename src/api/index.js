@@ -163,7 +163,15 @@ const api = {
   deleteOrganization: "/ZhuJiRoad/person/deleteDepartment", //删除组织
   getOrganization: "/ZhuJiRoad/person/getDepartments", //获取组织,
   bindingUsersToOrganizations: "/ZhuJiRoad/person/addUserGroup",//组织绑定用户
-  getUserBindOrganizations: "/ZhuJiRoad/person/getPersonRole"//获取用户组织关联关系
+  getUserBindOrganizations: "/ZhuJiRoad/person/getPersonRole",//获取用户组织关联关系
+  
+  
+  //-----------------------流程引擎新增接口 ------------------------
+  addOrUpdateQualityDetection:"/ZhuJiApi/web/api/v1/qualityDetection/addOrUpdate",
+  getQualityDetectionDetail:"/ZhuJiApi/web/api/v1/qualityDetection/detail",
+  deleteQualityDetection:"/ZhuJiApi/web/api/v1/qualityDetection",
+  getQualityDetectionList:"/ZhuJiApi/web/api/v1/qualityDetection/page",
+  //-----------------------流程引擎新增接口 ------------------------
 };
 
 export default api;
