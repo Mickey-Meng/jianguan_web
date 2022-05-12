@@ -447,7 +447,7 @@ export const getQualityDetectionDetail = params => {
 /**
  * 通过id删除一条质量检测数据
  */
-export const deleteQualityDetection = {id} => {
+export const deleteQualityDetection = (id) => {
   return request({
     url: api.deleteQualityDetection,
     method: "delete",

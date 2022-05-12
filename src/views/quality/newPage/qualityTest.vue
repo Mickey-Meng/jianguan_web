@@ -11,27 +11,28 @@
 		<el-header>
 			<div class="input-box">
 				<div class="input-value">
-					<el-input placeholder="标段"></el-input>
+					<el-input v-model="queryData.buildSection" placeholder="标段"></el-input>
 				</div>
 			</div>
 			<div class="input-box">
 				<div class="input-value">
-					<el-input placeholder="材料名称"></el-input>
+					<el-input v-model="queryData.name" placeholder="材料名称"></el-input>
 				</div>
 			</div>
 			<div class="input-box">
 				<div class="input-value">
-					<el-input placeholder="材料规格"></el-input>
+					<el-input v-model="queryData.specification" placeholder="材料规格"></el-input>
 				</div>
 			</div>
 			<div class="input-box">
 				<div class="input-value">
-					<el-input placeholder="检测结果"></el-input>
+					<el-input v-model="queryData.detectionResult" placeholder="检测结果"></el-input>
 				</div>
 			</div>
 			<div class="input-box">
 				<div class="input-value">
 					<el-date-picker
+							v-model="queryData.createEndTime"
 					      type="date"
 					      placeholder="开始日期">
 					    </el-date-picker>
@@ -40,6 +41,7 @@
 			<div class="input-box">
 				<div class="input-value">
 					<el-date-picker
+					 v-model="queryData.createStartTime"
 					      type="date"
 					      placeholder="结束日期">
 					    </el-date-picker>
