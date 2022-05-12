@@ -1,21 +1,25 @@
 <template>
   <div class="wrapper">
-    <div class="title">
-      <div class="titletext">
-        <div class="titleitem"></div>
-        <el-select v-model="videoType" @change="changeValue">
-          <el-option
-            v-for="item in typeArr"
-            :key="item.key"
-            :value="item.key"
-            :label="item.name"
-          />
-        </el-select>
+    <div class="header">
+      <div class="global_text_style">监控视频</div>
+      <div class="title">
+        <div class="titletext">
+          <div class="titleitem"></div>
+          <el-select v-model="videoType" @change="changeValue">
+            <el-option
+              v-for="item in typeArr"
+              :key="item.key"
+              :value="item.key"
+              :label="item.name"
+            />
+          </el-select>
+        </div>
       </div>
+
       <!-- <span v-if="videoType == 1" class="see-new-btm"
         >监控页面<i class="el-icon-d-arrow-right"
       /></span> -->
-      <el-select v-if="videoType == 2" v-model="videoId" @change="changeVideo">
+      <el-select class="select-site" v-if="videoType == 2" v-model="videoId" @change="changeVideo">
         <el-option
           v-for="item in videoData"
           :key="item.id"
@@ -96,11 +100,11 @@ export default {
           id: "video-container", // 视频容器ID
           accessToken: res.data,
           url: "ezopen://open.ys7.com/E61698613/1.hd.live",
-          width: 400,
-          height: 260,
+          width: 390,
+          height: 240,
           audio: 0,
           autoplay: false,
-          template: "standard", //
+          template: "standard" //
         });
       });
     },
@@ -128,10 +132,16 @@ export default {
 
 <style scoped lang="scss">
 .wrapper {
-  background-image: url(../../../assets/image/边框-小.png);
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
+  //background-image: url(../../../assets/image/边框-小.png);
+  //background-repeat: no-repeat;
+  //background-size: 100% 100%;
   height: 100%;
+  padding: 5px;
+
+  .header {
+    display: flex;
+  }
+
   .title {
     display: flex;
     justify-content: space-between;
@@ -139,15 +149,17 @@ export default {
     height: 40px;
     // padding-top:16px ;
     padding-right: 10px;
+
     .titletext {
       display: flex;
       align-items: center;
+
       .titleitem {
         z-index: 1;
         margin-left: 16px;
       }
       ::v-deep .el-select {
-        width: 110px;
+        width: 100px;
         text-indent: 0;
         //height: 35px !important;
         .el-input {
@@ -155,7 +167,7 @@ export default {
             height: 30px !important;
             line-height: 30px;
             background-color: transparent !important;
-            color: #fff;
+            color: #000;
             border: none;
           }
           .el-input__suffix {
@@ -166,6 +178,7 @@ export default {
           }
         }
       }
+
     }
 
     span {
@@ -173,13 +186,25 @@ export default {
     }
   }
 
-  .video {
+  .select-site {
+    width: 155px !important;
+  }
+
+ ::v-deep .video {
     margin-top: 5px;
-    height: calc(100% - 60px);
-    padding: 0px 2px;
+    height: calc(100% - 40px);
+    padding: 0 2px;
     display: flex;
     justify-content: center;
     align-items: center;
+    //border-radius: 5px;
+    //#video-container{
+    //  border-radius: 5px;
+    //  iframe{
+    //    //border-radius: 5px;
+    //    border-bottom-right-radius: 10px;
+    //  }
+    //}
   }
 
   .content {

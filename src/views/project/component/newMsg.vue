@@ -1,9 +1,12 @@
 <template>
   <div class="wrapper">
-    <div class="header_g">
-      <div class="title_item"></div>
-      <span class="title_text"> 新闻中心 </span>
-      <!-- <span class="see-new-btm">新闻中心<i class="el-icon-d-arrow-right" /></span> -->
+<!--    <div class="header_g">-->
+<!--      <div class="title_item"></div>-->
+<!--      <span class="title_text"> 新闻中心 </span>-->
+<!--      &lt;!&ndash; <span class="see-new-btm">新闻中心<i class="el-icon-d-arrow-right" /></span> &ndash;&gt;-->
+<!--    </div>-->
+    <div class="header">
+      <div class="global_text_style">新闻中心</div>
     </div>
     <div class="newList">
       <ul>
@@ -124,9 +127,9 @@ export default {
 .wrapper {
   height: 100%;
   padding: 0 16px 16px 16px;
-  background-image: url(../../../assets/image/边框-小.png);
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
+  //background-image: url(../../../assets/image/边框-小.png);
+  //background-repeat: no-repeat;
+  //background-size: 100% 100%;
   .header_g {
     margin-left: -16px;
   }

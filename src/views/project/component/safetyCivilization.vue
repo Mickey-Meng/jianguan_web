@@ -163,9 +163,9 @@ export default {
   .wrapper {
     height: 100%;
     display: flex;
-    background-image: url(../../../assets/image/边框-小.png);
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
+    //background-image: url(../../../assets/image/边框-小.png);
+    //background-repeat: no-repeat;
+    //background-size: 100% 100%;
     margin-left: 16px;
     margin-right: 16px;
     padding: 16px;

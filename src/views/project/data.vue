@@ -82,18 +82,19 @@ export default {
     .company {
       width: 100%;
       margin: 10px 0;
-      height: 26%;
+      height: 34%;
     }
     .video {
-      height: calc(46% - 20px);
+      height: calc(38% - 20px);
     }
   }
   .index_center {
-    width: 728px;
+    //width: 728px;
+    width: calc(100% - 780px);
   }
 
   .index_right {
-    width: 601px;
+    width: 400px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
