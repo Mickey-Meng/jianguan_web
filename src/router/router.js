@@ -477,6 +477,32 @@ export const asyncRoutes = [{
         }
       },
       {
+        path: "/managedObject",
+        name: "managedObject",
+        component: () => import("@/views/quality/newPage/managedObject"),
+        meta: {
+          title: "管理目标",
+          code: "guanlimubiao",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/managementSystem",
+        name: "managementSystem",
+        component: () => import("@/views/quality/newPage/managementSystem"),
+        meta: {
+          title: "管理制度",
+          code: "guanlizhidu",
+          icon: "",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
         path: "/supervisionStation",
         name: "supervisionStation",
         component: () => import("@/views/quality/newPage/supervisionStation"),
