@@ -27,8 +27,8 @@
 			<div class="input-box">
 				<div class="input-value">
 					<el-select v-model="queryData.detectionResult" placeholder="检测结果">
-						<el-option v-for="item in examineResultOptions" :key="item.value"
-							:label="item.label" :value="item.value">
+						<el-option v-for="item in examineResultOptions" :key="item.value" :label="item.label"
+							:value="item.value">
 						</el-option>
 					</el-select>
 				</div>
@@ -47,7 +47,7 @@
 			</div>
 
 
-			<el-button type="primary">搜索</el-button>
+			<el-button type="primary" @click="query">搜索</el-button>
 
 			<div class="right-btns">
 				<!-- <el-button type="primary" size="small"
@@ -66,28 +66,28 @@
 					class="have_scrolling">
 					<el-table-column type="index" width="50" align="center" label="序号">
 					</el-table-column>
-					<el-table-column prop="pro" align="center" label="标段" show-overflow-tooltip>
+					<el-table-column prop="buildSection" align="center" label="标段" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="qualityfirstname" align="center" label="材料名称" show-overflow-tooltip>
+					<el-table-column prop="materialsName" align="center" label="材料名称" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="qualitysecondname" align="center" label="填报日期" show-overflow-tooltip>
+					<el-table-column prop="fillDate" align="center" label="填报日期" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="uploadname" align="center" label="材料规格" show-overflow-tooltip>
+					<el-table-column prop="materialSpecification" align="center" label="材料规格" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="modifyname" align="center" label="工程部位" show-overflow-tooltip>
+					<el-table-column prop="projectParts" align="center" label="工程部位" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="modifydate" align="center" label="检测结果">
+					<el-table-column prop="testResult" align="center" label="检测结果">
 					</el-table-column>
 					<el-table-column fixed="right" width="120" align="center" label="操作">
 						<template slot-scope="{ row, $index }">
-							<el-button type="primary" size="mini">详情</el-button>
-							<el-button type="danger" size="mini">删除</el-button>
+							<el-button type="text" size="mini">详情</el-button>
+							<el-button type="text" size="mini" @click="deleteRow(row)">删除</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
 				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-					:current-page="queryData.pageNum" :page-size="queryData.pageSize" layout="total, sizes, prev, pager, next, jumper"
-					:total="queryData.totalPage">
+					:current-page="queryData.pageNum" :page-size="queryData.pageSize"
+					layout="total, sizes, prev, pager, next, jumper" :total="queryData.totalPage">
 				</el-pagination>
 			</div>
 		</el-main>
@@ -530,8 +530,8 @@
 							<div class="block-item-label">材料名称<i class="require-icon"></i></div>
 							<div class="block-item-value">
 								<el-select v-model="value" placeholder="请选择">
-									<el-option v-for="item in options" :key="item.value"
-										:label="item.label" :value="item.value">
+									<el-option v-for="item in options" :key="item.value" :label="item.label"
+										:value="item.value">
 									</el-option>
 								</el-select>
 							</div>
@@ -642,6 +642,7 @@
 					label: '不合格',
 					value: '1'
 				}],
+				allData: [],
 				tableData: [],
 				operateBtnsVisible: true,
 				currentPage: 1,
@@ -662,25 +663,25 @@
 					name: '',
 					specification: '',
 					pageNum: 1,
-					totalPage:1,
+					totalPage: 1,
 					pageSize: 10,
 				},
-				examineVisible: false,//检测信息弹窗是否显示
-				examineInfo:{ //检测信息弹窗信息
-					address:null,
-					detectionResult:0,
-					name:'',
-					num:null,
-					projectPart:'',
-					qualifiedNum:'',
-					qualifiedRate:'',
-					reportCode:'',
-					specification:'',
-					takeAddress:'',
-					testDate:'',
-					testNum:''
+				examineVisible: false, //检测信息弹窗是否显示
+				examineInfo: { //检测信息弹窗信息
+					address: null,
+					detectionResult: 0,
+					name: '',
+					num: null,
+					projectPart: '',
+					qualifiedNum: '',
+					qualifiedRate: '',
+					reportCode: '',
+					specification: '',
+					takeAddress: '',
+					testDate: '',
+					testNum: ''
 				},
-				examineTable:[],
+				examineTable: [],
 			};
 		},
 		created() {},
@@ -692,15 +693,48 @@
 		methods: {
 			query() {
 				api.getQualityDetectionList(this.queryData).then((res) => {
-					debugger
-				  //this.tableData = res.data;
+					this.allData = res.data || {};
+					this.tableData = this.formateTableData(res.data.list);
+					this.queryData.pageNum=res.data.pageNum;
+					this.queryData.totalPage=res.data.total;
+					this.queryData.pageSize=res.data.pageSize;
 				});
+			},
+			formateTableData(list) {
+				list = list || [];
+				list.forEach(item => {
+					item['materialSpecification'] = item['materialSpecification'].join('、');
+					item['materialsName'] = item['materialsName'].join('、');
+					item['projectParts'] = item['projectParts'].join('、');
+					item['testResult'] = item['testResult'].join('、');
+				})
+				return list;
 			},
 			addNew() {
 				this.dialogFormVisible = true;
 			},
-			addExamine(){
-				this.examineVisible=true;
+			deleteRow(row) {
+				this.$confirm('确认是否删除?', '提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+				}).then(() => {
+					api.deleteQualityDetection(row['id']).then((res) => {
+						this.query();
+						this.$message({
+							type: 'success',
+							message: '删除成功!'
+						});
+					}).catch(error=>{
+						this.$message({
+							type: 'fail',
+							message: '删除失败!'
+						});
+					});
+				});
+			},
+			addExamine() {
+				this.examineVisible = true;
 			},
 			handleSizeChange(val) {
 				console.log(`每页 ${val} 条`);
@@ -772,7 +806,8 @@
 			}
 		}
 	}
-	.full-dialog{
+
+	.full-dialog {
 		.form-bg {
 			background: rgb(255, 255, 255);
 			width: 984px;
@@ -782,8 +817,11 @@
 			overflow-y: auto;
 		}
 	}
+
 	.defined-dialog {
-		background: rgba(0,0,0,0.5);;
+		background: rgba(0, 0, 0, 0.5);
+		;
+
 		.logo-icon {
 			width: 48px;
 			height: 48px;
@@ -799,6 +837,7 @@
 		.el-button--default {
 			color: #355DFF;
 		}
+
 		.title-big-bar {
 			width: 6px;
 			height: 20px;
@@ -807,7 +846,7 @@
 			background-repeat: no-repeat;
 			margin: 8px 8px 8px 0;
 		}
-		
+
 		.title-bar {
 			width: 4px;
 			height: 20px;
@@ -985,15 +1024,17 @@
 	}
 </style>
 <style>
-	.full-dialog .el-dialog{
+	.full-dialog .el-dialog {
 		background: transparent;
 	}
+
 	.full-dialog .el-dialog__body {
 		padding: 0;
 		width: 100%;
 		color: #191919;
 		height: calc(100vh - 96px);
 	}
+
 	.full-dialog .el-dialog__header {
 		height: 96px;
 		padding: 36px 20px;
@@ -1002,14 +1043,17 @@
 		color: #191919;
 		font-weight: 600;
 	}
+
 	.full-dialog .el-dialog__title {
 		font-size: 24px;
 		line-height: 24px;
 		color: #191919;
 	}
+
 	.full-dialog .el-dialog__body .el-main {
 		/* background-color: rgba(0, 0, 0, 0.5); */
 	}
+
 	.full-dialog .el-dialog__headerbtn {
 		top: 96px;
 		right: 0;
@@ -1019,7 +1063,7 @@
 		height: 36px;
 		border-radius: 0 0 0 50px;
 	}
-	
+
 	.full-dialog .el-dialog__close {
 		position: absolute;
 		right: 0px;
@@ -1027,13 +1071,14 @@
 		font-size: 20px;
 		font-weight: 600;
 		top: 4px;
-	
+
 	}
-	
+
 	.el-button--primary:hover {
 		color: #FFFFFF;
 		background-color: #409EFF;
 	}
+
 	.el-button--primary {
 		color: #FFFFFF;
 		background-color: #355DFF;
@@ -1042,19 +1087,24 @@
 		line-height: 36px;
 		padding: 0 20px;
 	}
+
 	.el-input__inner {
 		height: 36px;
 		line-height: 36px;
 	}
+
 	.el-table thead {
 		color: #040415;
 	}
+
 	.el-select {
 		width: 100%;
 	}
+
 	.el-tabs__item:hover {
 		color: #355DFF !important;
 	}
+
 	.el-tabs__item.is-active {
 		color: #355DFF !important;
 	}
