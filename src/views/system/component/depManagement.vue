@@ -25,9 +25,9 @@
           <div class="custom-tree-node" slot-scope="{ node, data }">
             <span>{{ node.label }}</span>
             <span class="bth-box">
-          <i class="el-icon-plus" @click="addSonDep(data)"></i>
-          <i class="el-icon-edit" @click="updateDep(data)"></i>
-          <i class="el-icon-delete" @click="deleteDep(node,data)"></i>
+<!--          <i class="el-icon-plus" @click="addSonDep(data)"></i>-->
+              <!--          <i class="el-icon-edit" @click="updateDep(data)"></i>-->
+              <!--          <i class="el-icon-delete" @click="deleteDep(node,data)"></i>-->
 
         </span>
           </div>
@@ -134,6 +134,7 @@
     getUserBindOrganizations
   } from "@/api/system";
   import {getGroupInfo, getUserByGroupId} from "@/api/user";
+
 
   export default {
     data() {
@@ -289,15 +290,13 @@
             let arr = data.filter((e) => ![1, 2, 3].includes(e.ID));
             if (arr.length > 0) {
               getUserBindOrganizations().then(res1 => {
-                console.log(res1);
                 let org = res1.data || [];
                 arr.forEach(item => {
-                  let info = org.find(e => e.userid === item.USERID);
+                  let info = org.find(e => e.userid === item.ID);
                   if (info) {
                     item.orgName = info.personGroupName;
                   }
                 });
-                console.log(arr, 99);
                 this.userData = arr;
                 this.allUserData = arr;
               });
@@ -366,7 +365,7 @@
       //用户组织关联
       submitBindInfo() {
         let {currentDepRow, selectUser} = this;
-        if (currentDepRow) {
+        if (currentDepRow && currentDepRow.pid !== 0) {
           if (selectUser.length > 0) {
             console.log(selectUser, currentDepRow);
             let {id, name} = currentDepRow;
@@ -374,7 +373,7 @@
               return {
                 personGroupName: name,
                 personGroupid: id,
-                userid: item.USERID,
+                userid: item.ID,
                 username: item.NAME
               };
             });
@@ -399,7 +398,7 @@
 
         } else {
           this.$message({
-            message: "请点击选择组织",
+            message: "组织不能为空,并且不能选择顶级组织",
             type: "warning",
             customClass: "message_override"
           });

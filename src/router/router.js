@@ -41,7 +41,7 @@ export const asyncRoutes = [{
   component: Layout,
   meta: {
     title: "管理大脑",
-    icon: "",
+    icon: "home",
     code: "guanlidanao"
   },
   alwaysShow: true,
@@ -52,7 +52,7 @@ export const asyncRoutes = [{
     component: () => import("@/views/project/data"),
     meta: {
       title: "数据中心",
-      icon: "",
+      icon: "circle",
       code: "shujuzhongxin",
       allMap: false,
           partMap: false,
@@ -66,7 +66,7 @@ export const asyncRoutes = [{
         meta: {
           title: "工程统计",
           code: "gongchengtongji",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -79,7 +79,7 @@ export const asyncRoutes = [{
         meta: {
           title: "工程概况",
           code: "gongchenggaikuang",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -92,7 +92,7 @@ export const asyncRoutes = [{
         meta: {
           title: "新闻中心",
           code: "xinwenzhongxin",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -105,7 +105,7 @@ export const asyncRoutes = [{
         meta: {
           title: "工程布置图",
           code: "gongchengbuzhitu",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -117,7 +117,7 @@ export const asyncRoutes = [{
     path: "/scene",
     meta: {
       title: "数字孪生",
-      icon: "",
+      icon: "figure",
       code: "sanweichangjing"
     },
     component: Layout,
@@ -130,7 +130,7 @@ export const asyncRoutes = [{
       meta: {
         title: "三维总览",
         code: "sanweizonglan",
-        icon: "",
+        icon: "circle",
         allMap: true,
         partMap: false,
         noMap: false,
@@ -144,7 +144,7 @@ export const asyncRoutes = [{
     path: "/earlierStage",
     meta: {
       title: "前期管理",
-      icon: "",
+      icon: "earlier",
       code: "qianqiguanli"
     },
     alwaysShow: true,
@@ -156,7 +156,7 @@ export const asyncRoutes = [{
         component: () => import("@/views/earlierStage/index"),
         meta: {
           title: "征地拆迁",
-          icon: "",
+          icon: "circle",
           code: "zhengdichaiqian",
           allMap: true,
           partMap: false,
@@ -172,7 +172,7 @@ export const asyncRoutes = [{
         meta: {
           title: "管线管理",
           code: "guanxianguanli",
-          icon: "",
+          icon: "circle",
           allMap: true,
           partMap: false,
           noMap: false,
@@ -186,7 +186,7 @@ export const asyncRoutes = [{
         component: () => import("@/views/earlierStage/schemeContrast"),
         meta: {
           title: "方案对比",
-          icon: "",
+          icon: "circle",
           code: "fanganduibi",
           allMap: true,
           partMap: false,
@@ -202,7 +202,7 @@ export const asyncRoutes = [{
         meta: {
           title: "资料管理",
           code: "ziliaoguanli",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -214,7 +214,7 @@ export const asyncRoutes = [{
     path: "/progress",
     meta: {
       title: "进度管理",
-      icon: "",
+      icon: "schedule",
       code: "jinduguanli"
     },
     alwaysShow: true,
@@ -227,7 +227,7 @@ export const asyncRoutes = [{
         meta: {
           title: "进度总览",
           code: "jinduzonglan",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -240,7 +240,7 @@ export const asyncRoutes = [{
         meta: {
           title: "形象进度",
           code: "xingxiangjindu",
-          icon: "",
+          icon: "circle",
           allMap: true,
           partMap: false,
           noMap: false,
@@ -256,7 +256,7 @@ export const asyncRoutes = [{
         meta: {
           title: "进度模拟",
           code: "jindumoni",
-          icon: "",
+          icon: "circle",
           allMap: true,
           partMap: false,
           noMap: false,
@@ -272,7 +272,7 @@ export const asyncRoutes = [{
         meta: {
           title: "计划填报",
           code: "jihuatianbao",
-          icon: "",
+          icon: "circle",
           allMap: true,
           partMap: false,
           noMap: false,
@@ -287,7 +287,7 @@ export const asyncRoutes = [{
     path: "/quality",
     meta: {
       title: "质量管理",
-      icon: "",
+      icon: "quality",
       code: "zhiliangguanli"
     },
     alwaysShow: true,
@@ -301,7 +301,7 @@ export const asyncRoutes = [{
         meta: {
           title: "质量总览",
           code: "zhiliangzonglan",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -314,7 +314,7 @@ export const asyncRoutes = [{
         meta: {
           title: "质量检查",
           code: "zhiliangjiancha",
-          icon: "",
+          icon: "circle",
           allMap: true,
           partMap: false,
           noMap: false,
@@ -330,7 +330,7 @@ export const asyncRoutes = [{
         meta: {
           title: "质量记录",
           code: "zhiliangjilu",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -343,7 +343,7 @@ export const asyncRoutes = [{
         meta: {
           title: "质量整改",
           code: "zhiliangzhenggai",
-          icon: "",
+          icon: "circle",
           allMap: true,
           partMap: false,
           noMap: false,
@@ -359,7 +359,7 @@ export const asyncRoutes = [{
         meta: {
           title: "整改确认",
           code: "zhenggaiqueren",
-          icon: "",
+          icon: "circle",
           allMap: true,
           partMap: false,
           noMap: false,
@@ -375,7 +375,7 @@ export const asyncRoutes = [{
         meta: {
           title: "质量验收",
           code: "zhiliangyanshou",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -388,7 +388,7 @@ export const asyncRoutes = [{
         meta: {
           title: "工序填报",
           code: "gongxutianbao",
-          icon: "",
+          icon: "circle",
           allMap: true,
           partMap: false,
           noMap: false,
@@ -404,7 +404,7 @@ export const asyncRoutes = [{
         meta: {
           title: "工序审核",
           code: "gongxushenhe",
-          icon: "",
+          icon: "circle",
           allMap: true,
           partMap: false,
           noMap: false,
@@ -444,7 +444,7 @@ export const asyncRoutes = [{
         meta: {
           title: "隐蔽工程管理",
           code: "yinbigongchengguanli",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -457,7 +457,7 @@ export const asyncRoutes = [{
         meta: {
           title: "质量检测",
           code: "zhiliangjiance",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -470,7 +470,7 @@ export const asyncRoutes = [{
         meta: {
           title: "质量简报",
           code: "zhiliangjianbao",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -483,7 +483,7 @@ export const asyncRoutes = [{
         meta: {
           title: "管理目标",
           code: "guanlimubiao",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -496,7 +496,7 @@ export const asyncRoutes = [{
         meta: {
           title: "管理制度",
           code: "guanlizhidu",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -509,7 +509,7 @@ export const asyncRoutes = [{
         meta: {
           title: "监理旁站",
           code: "jianlipangzhan",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -522,7 +522,7 @@ export const asyncRoutes = [{
         meta: {
           title: "监理巡视",
           code: "jianlixunshi",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -535,7 +535,7 @@ export const asyncRoutes = [{
         meta: {
           title: "施工技术交底",
           code: "shigongjishujiaodi",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -548,7 +548,7 @@ export const asyncRoutes = [{
         meta: {
           title: "施工方案",
           code: "shigongfangan",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -560,7 +560,7 @@ export const asyncRoutes = [{
     path: "/safetyCulture",
     meta: {
       title: "安全管理",
-      icon: "",
+      icon: "safe",
       code: "anquanguanli"
     },
     alwaysShow: true,
@@ -575,7 +575,7 @@ export const asyncRoutes = [{
         meta: {
           title: "安全总览",
           code: "anquanzonglan",
-          icon: "",
+          icon: "circle",
           allMap: true,
           partMap: false,
           noMap: false,
@@ -595,7 +595,7 @@ export const asyncRoutes = [{
         meta: {
           title: "安全记录",
           code: "anquanjilu",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -608,7 +608,7 @@ export const asyncRoutes = [{
         meta: {
           title: "安全检查",
           code: "anquanjiancha",
-          icon: "",
+          icon: "circle",
           allMap: true,
           partMap: false,
           noMap: false,
@@ -623,7 +623,7 @@ export const asyncRoutes = [{
         meta: {
           title: "安全整改",
           code: "anquanzhenggai",
-          icon: "",
+          icon: "circle",
           allMap: true,
           partMap: false,
           noMap: false,
@@ -638,7 +638,7 @@ export const asyncRoutes = [{
         meta: {
           title: "整改确认",
           code: "zhenggaiqueren",
-          icon: "",
+          icon: "circle",
           allMap: true,
           partMap: false,
           noMap: false,
@@ -658,7 +658,7 @@ export const asyncRoutes = [{
     path: "/staffManage",
     meta: {
       title: "人员管理",
-      icon: "",
+      icon: "staff",
       code: "renyuanguanli"
     },
     alwaysShow: true,
@@ -671,7 +671,7 @@ export const asyncRoutes = [{
         meta: {
           title: "考勤管理",
           code: "kaoqinguanli",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -684,7 +684,7 @@ export const asyncRoutes = [{
         meta: {
           title: "流程管理",
           code: "liuchengguanli",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -697,7 +697,7 @@ export const asyncRoutes = [{
         meta: {
           title: "信息提醒",
           code: "xinxitixing",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -710,7 +710,7 @@ export const asyncRoutes = [{
         meta: {
           title: "统计分析",
           code: "tongjifenxi",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -722,7 +722,7 @@ export const asyncRoutes = [{
     path: "/wisdomSite",
     meta: {
       title: "智慧工地",
-      icon: "",
+      icon: "construction",
       code: "zhihuigongdi"
     },
     alwaysShow: true,
@@ -735,7 +735,7 @@ export const asyncRoutes = [{
         meta: {
           title: "视频环境",
           code: "shipinhuanjing",
-          icon: "",
+          icon: "circle",
           allMap: true,
           partMap: false,
           noMap: false,
@@ -761,7 +761,7 @@ export const asyncRoutes = [{
         meta: {
           title: "数字实验室",
           code: "shuzishiyanshi",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -774,7 +774,7 @@ export const asyncRoutes = [{
         meta: {
           title: "施工监测",
           code: "shigongjiance",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -860,7 +860,7 @@ export const asyncRoutes = [{
     path: "/datum",
     meta: {
       title: "档案管理",
-      icon: "",
+      icon: "record",
       code: "danganguanli"
     },
     alwaysShow: true,
@@ -873,7 +873,7 @@ export const asyncRoutes = [{
         meta: {
           title: "合同管理",
           code: "hetongguanli",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -886,7 +886,7 @@ export const asyncRoutes = [{
         meta: {
           title: "工程变更",
           code: "gongchengbiangeng",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -899,7 +899,7 @@ export const asyncRoutes = [{
         meta: {
           title: "图纸模型",
           code: "tuzhimoxing",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -912,7 +912,7 @@ export const asyncRoutes = [{
         meta: {
           title: "会议纪要",
           code: "huiyijiyao",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -925,7 +925,7 @@ export const asyncRoutes = [{
         meta: {
           title: "质量体系",
           code: "zhiliangtixi",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -938,7 +938,7 @@ export const asyncRoutes = [{
         meta: {
           title: "安全体系",
           code: "anquantixi",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -951,7 +951,7 @@ export const asyncRoutes = [{
         meta: {
           title: "危险源信息",
           code: "weixianyuanxinxi",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -963,7 +963,7 @@ export const asyncRoutes = [{
     path: "/study",
     meta: {
       title: "教育培训",
-      icon: "",
+      icon: "education",
       code: "jiaoyupeixun"
     },
     alwaysShow: true,
@@ -976,7 +976,7 @@ export const asyncRoutes = [{
         meta: {
           title: "教学视频",
           code: "jiaoxueshipin",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -989,7 +989,7 @@ export const asyncRoutes = [{
         meta: {
           title: "教学文档",
           code: "jiaoxuewendang",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -1008,7 +1008,7 @@ export const asyncRoutes = [{
         meta: {
           title: "安装包",
           code: "anzhuangbao",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -1020,7 +1020,7 @@ export const asyncRoutes = [{
     path: 'contractManagement',
     meta: {
       title: "合同管理",
-      icon: "",
+      icon: "contract",
       code: "yijihetongguanli"
     },
     alwaysShow: true,
@@ -1033,7 +1033,7 @@ export const asyncRoutes = [{
         meta: {
           title: "人员填报",
           code: "renyuantianbao",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -1046,7 +1046,7 @@ export const asyncRoutes = [{
         meta: {
           title: "人员审核",
           code: "renyuanshenhe",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -1059,7 +1059,7 @@ export const asyncRoutes = [{
         meta: {
           title: "人员报审记录",
           code: "renyuanbaoshenjilu",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -1072,7 +1072,7 @@ export const asyncRoutes = [{
         meta: {
           title: "人员变更",
           code: "renyuanbiangeng",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -1085,7 +1085,7 @@ export const asyncRoutes = [{
         meta: {
           title: "人员变更审核",
           code: "renyuanbiangengshenhe",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -1098,7 +1098,7 @@ export const asyncRoutes = [{
         meta: {
           title: "人员变更记录",
           code: "renyuanbiangengjilu",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -1111,7 +1111,7 @@ export const asyncRoutes = [{
         meta: {
           title: "请假申请",
           code: "qingjiashenqing",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -1123,7 +1123,7 @@ export const asyncRoutes = [{
         meta: {
           title: "请假审核",
           code: "qingjiashenhe",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -1135,7 +1135,7 @@ export const asyncRoutes = [{
         meta: {
           title: "请假记录",
           code: "qingjiajilu",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -1148,7 +1148,7 @@ export const asyncRoutes = [{
         meta: {
           title: "考勤打卡",
           code: "kaoqindaka",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -1161,7 +1161,7 @@ export const asyncRoutes = [{
         meta: {
           title: "施工分包合同",
           code: "shigongfenbaohetong",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
@@ -1174,7 +1174,7 @@ export const asyncRoutes = [{
         meta: {
           title: "劳务分包合同",
           code: "laowufenbaohetong",
-          icon: "",
+          icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true

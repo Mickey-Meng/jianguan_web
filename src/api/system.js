@@ -118,3 +118,10 @@ export const getUserBindOrganizations = () => {
     data: {}
   });
 };
+export const getAllOrganization = () => {
+  return request({
+    url: api.getAllOrganization,
+    method: "post",
+    data: {}
+  });
+};
