@@ -24,16 +24,32 @@
           @node-click="handleNodeClick">
           <div class="custom-tree-node" slot-scope="{ node, data }">
             <span>{{ node.label }}</span>
-            <span class="bth-box">
-<!--          <i class="el-icon-plus" @click="addSonDep(data)"></i>-->
-              <!--          <i class="el-icon-edit" @click="updateDep(data)"></i>-->
-              <!--          <i class="el-icon-delete" @click="deleteDep(node,data)"></i>-->
+            <span class="bth-box" v-if="data.pid === 0">
+          <i class="el-icon-plus" @click="addSonDep(data)"></i>
+                        <i class="el-icon-edit" @click="updateDep(data)"></i>
+              <!--                        <i class="el-icon-delete" @click="deleteDep(node,data)"></i>-->
 
         </span>
           </div>
         </el-tree>
       </div>
-      <!--      <div class=""></div>-->
+      <div class="label">组织用户</div>
+      <div class="table_box_wrapper">
+        <el-table
+          :data="newUserData"
+          style="width: 100%"
+          height="100%"
+          class="have_scrolling"
+          ref="multipleTableUser"
+        >
+          <el-table-column prop="username" label="姓名" align="center">
+          </el-table-column>
+          <el-table-column prop="rolename" label="岗位" align="center">
+          </el-table-column>
+          <el-table-column prop="personGroupName" label="组织" align="center">
+          </el-table-column>
+        </el-table>
+      </div>
     </el-aside>
     <el-container>
       <el-main class="main-content-box">
@@ -75,14 +91,6 @@
               </el-table-column>
               <el-table-column prop="orgName" label="组织" align="center">
               </el-table-column>
-              <!--            <el-table-column label="操作" align="center">-->
-              <!--              <template slot-scope="{ row }">-->
-              <!--                <el-button type="primary" size="mini"-->
-              <!--                >设置岗位-->
-              <!--                </el-button-->
-              <!--                >-->
-              <!--              </template>-->
-              <!--            </el-table-column>-->
             </el-table>
           </div>
 
@@ -134,6 +142,7 @@
     getUserBindOrganizations
   } from "@/api/system";
   import {getGroupInfo, getUserByGroupId} from "@/api/user";
+  import {disposeOrg} from "@/utils/disposeOrg";
 
 
   export default {
@@ -145,6 +154,7 @@
         treeData: [],//组织树
         tree: [],//项目树
         userData: [],//用户数据
+        newUserData: [],//当前组织的用户
         allUserData: [],//存储的用户数据
         selectUser: [],//选中的用户数据
         currentDepRow: null,//当前组织的id
@@ -213,7 +223,7 @@
           for (let i = 0; i < data.length; i++) {
             let item = data[i];
             if (item.parentid == -1) {
-              this.handleNodeClick(item);
+              this.handleProjectNodeClick(item);
             }
             let node = findSon(item, data);
             if (node) {
@@ -225,10 +235,15 @@
       },
       //点击组织事件
       handleNodeClick(node, data) {
+        getUserBindOrganizations().then(res => {
+          console.log(res, node);
+          this.newUserData = res.data.filter(e => e.personGroupid === node.id);
+        });
         this.currentDepRow = node;
       },
       //新增
       addSonDep(data) {
+        console.log(data, 99);
         this.isCreate = true;
         this.form = {
           pid: data.id
@@ -290,13 +305,19 @@
             let arr = data.filter((e) => ![1, 2, 3].includes(e.ID));
             if (arr.length > 0) {
               getUserBindOrganizations().then(res1 => {
-                let org = res1.data || [];
+                let org = [];
+                if (res1.data) {
+                  org = res1.data;
+                }
                 arr.forEach(item => {
                   let info = org.find(e => e.userid === item.ID);
                   if (info) {
                     item.orgName = info.personGroupName;
                   }
                 });
+                this.userData = arr;
+                this.allUserData = arr;
+              }).catch(() => {
                 this.userData = arr;
                 this.allUserData = arr;
               });
@@ -421,10 +442,21 @@
         border-bottom: 1px solid #fff;
       }
 
+      .label {
+        height: 25px;
+        line-height: 25px;
+        font-weight: 600;
+        padding: 0 5px;
+      }
+
       .el_tree_box {
-        height: calc(100% - 50px);
+        height: calc(50%);
         padding: 5px;
 
+      }
+
+      .table_box_wrapper {
+        height: calc(50% - 75px);
       }
 
 
@@ -465,5 +497,8 @@
         margin: 0 5px;
       }
     }
+  }
+  .el-tree{
+    height: 100%;
   }
 </style>

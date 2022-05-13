@@ -45,6 +45,7 @@ import siteManage from "@/views/system/component/siteManage";
 import authorityManagement from "@/views/system/component/authorityManagement";
 import depManagementVue from "./component/depManagement.vue";
 import postManagement from "@/views/system/component/postManagement ";
+import orgUser from "@/views/system/component/orgUser";
 import Bus from "@/assets/eventBus";
 export default {
   data() {
@@ -55,20 +56,20 @@ export default {
       options: [
         {
           name: "工区权限",
-          key: "authorityManagement",
+          key: "authorityManagement"
         },
         {
           name: "工点管理",
-          key: "siteManage",
+          key: "siteManage"
         },
         {
           name: "组织管理",
-          key: "depManagementVue",
+          key: "depManagementVue"
         },
         // {
-        //   name: "岗位管理",
-        //   key: "postManagement",
-        // },
+        //   name: "组织用户",
+        //   key: "orgUser"
+        // }
       ],
     };
   },
@@ -82,6 +83,7 @@ export default {
     authorityManagement,
     depManagementVue,
     postManagement,
+    orgUser
   },
   computed: {},
   methods: {

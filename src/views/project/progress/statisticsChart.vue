@@ -54,7 +54,7 @@ export default {
           show: true,
           orient: "horizontal",
           textStyle: {
-            color: "#ffffff",
+            color: "#000000",
           },
           data: ["完成比例", "未完成比例"],
           left: "6%",
@@ -70,7 +70,7 @@ export default {
               interval: "auto",
               formatter: "{value} %", // 给每个数值添加%
               textStyle: {
-                color: "#fff",
+                color: "#000000",
                 fontWeight: "normal",
                 fontSize: "14",
               },
@@ -86,7 +86,7 @@ export default {
             inside: false,
             interval: 0,
             textStyle: {
-              color: "#fff",
+              color: "#000000",
               fontWeight: "normal",
               fontSize: "14",
             },
@@ -181,7 +181,6 @@ export default {
               fillerColor: "#BFCCE3",
               showDataShadow: false,
               height: 13,
-              handleSize: 22,
               right: 60,
               left: 60,
               bottom: 5,
@@ -221,7 +220,7 @@ export default {
             },
             axisLabel: {
               textStyle: {
-                color: "#fff",
+                color: "#000000",
                 fontWeight: "normal",
                 fontSize: "12",
               },
@@ -248,7 +247,7 @@ export default {
                   return str;
                 },
                 textStyle: {
-                  color: "#fff",
+                  color: "#000000",
                   fontWeight: "normal",
                   fontSize: "12",
                 },

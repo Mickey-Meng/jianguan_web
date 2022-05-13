@@ -165,7 +165,7 @@ const api = {
   bindingUsersToOrganizations: "/ZhuJiRoad/person/addUserGroup",//组织绑定用户
   getUserBindOrganizations: "/ZhuJiRoad/person/getPersonRole",//获取用户组织关联关系
   getAllOrganization: "/ZhuJiRoad/person/getUserByGroup",//获取组织，一维数组
-
+  getUserByOrg: "",
 
 
   //-----------------------流程引擎新增接口 ------------------------
