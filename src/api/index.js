@@ -186,8 +186,11 @@ const api = {
   getQualityDetectionDetail: "/ZhuJiApi/web/api/v1/qualityDetection/detail/id",
   getMaterialEnums: "/ZhuJiApi/web/api/v1/qualityDetection/material/enums",
   deleteQualityDetection: "/ZhuJiApi/web/api/v1/qualityDetection/id",
-  getQualityDetectionList: "/ZhuJiApi/web/api/v1/qualityDetection/page"
+  getQualityDetectionList: "/ZhuJiApi/web/api/v1/qualityDetection/page",
   //-----------------------流程引擎新增接口 ------------------------
+  //-----------------------流程引擎新增接口 ZH ---------------------
+  getManagementObjectList: "/ZhuJiApi/web/api/v1/manageTarget/page", // 管理目标list
+  //-----------------------流程引擎新增接口 ZH ----------------------
 };
 
 export default api;

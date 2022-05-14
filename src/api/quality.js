@@ -536,3 +536,17 @@ export const getHiddenProjectList = data => {
   });
 };
 //-----------------------流程引擎新增接口 ------------------------
+
+//-----------------------流程引擎新增接口 ZH ---------------------
+
+/**
+ * 管理目标分页查询
+ */
+ export const getManagementObjectList = data => {
+  return request({
+    url: api.getManagementObjectList,
+    method: "post",
+    data: data
+  });
+};
+//-----------------------流程引擎新增接口 ZH ---------------------
