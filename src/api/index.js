@@ -169,8 +169,15 @@ const api = {
 
 
   //-----------------------流程引擎新增接口 ------------------------
+  //隐蔽工程
+  getHiddenProjectList: "/ZhuJiApi/web/api/v1/hiddenProjectAccept/page",
+  getHiddenProjectDetail: "/ZhuJiApi/web/api/v1/hiddenProjectAccept/detail",
+  addOrUpdateHiddenProject: "/ZhuJiApi/web/api/v1/hiddenProjectAccept/addOrUpdate",
+  deleteHiddenProject: "/ZhuJiApi/web/api/v1/hiddenProjectAccept",
+  //质量检测
   addOrUpdateQualityDetection: "/ZhuJiApi/web/api/v1/qualityDetection/addOrUpdate",
   getQualityDetectionDetail: "/ZhuJiApi/web/api/v1/qualityDetection/detail",
+  getMaterialEnums: "/ZhuJiApi/web/api/v1/qualityDetection/material/enums",
   deleteQualityDetection: "/ZhuJiApi/web/api/v1/qualityDetection",
   getQualityDetectionList: "/ZhuJiApi/web/api/v1/qualityDetection/page",
   //-----------------------流程引擎新增接口 ------------------------
