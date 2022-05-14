@@ -464,4 +464,54 @@ export const getQualityDetectionList = data => {
     data: data
   });
 };
+/**
+ * 获取材料枚举
+ */
+export const getMaterialEnums=()=>{
+	return request({
+	  url: api.getMaterialEnums,
+	  method: "get",
+	  params: {}
+	});
+}
+/**
+ * 新增或者更新隐蔽工程验收记录数据
+ */
+export const addOrUpdateHiddenProject = data => {
+  return request({
+    url: api.addOrUpdateHiddenProject,
+    method: "post",
+    data: data
+  });
+};
+/**
+ * 通过id获取一条隐蔽工程验收记录数据
+ */
+export const getHiddenProjectDetail = params => {
+  return request({
+    url: api.getHiddenProjectDetail,
+    method: "get",
+    params: params
+  });
+};
+/**
+ * 通过id删除一条隐蔽工程验收记录数据
+ */
+export const deleteHiddenProject = (id) => {
+  return request({
+    url: api.deleteHiddenProject,
+    method: "delete",
+    params: {id}
+  });
+};
+/**
+ * 分页查询隐蔽工程验收记录数据
+ */
+export const getHiddenProjectList = data => {
+  return request({
+    url: api.getHiddenProjectList,
+    method: "post",
+    data: data
+  });
+};
 //-----------------------流程引擎新增接口 ------------------------
