@@ -182,6 +182,8 @@ const api = {
   getQualityDetectionList: "/ZhuJiApi/web/api/v1/qualityDetection/page",
   //-----------------------流程引擎新增接口 ------------------------
   //-----------------------流程引擎新增接口 ZH ---------------------
+  addOrUpdateManagementObjectList: "/ZhuJiApi/web/api/v1/manageTarget/addOrUpdate", // 新增或更新管理目标数据
+  deleteManagementObject: "/ZhuJiApi/web/api/v1/manageTarget/", // 删除单个管理目标数据
   getManagementObjectList: "/ZhuJiApi/web/api/v1/manageTarget/page", // 管理目标list
   //-----------------------流程引擎新增接口 ZH ----------------------
 };

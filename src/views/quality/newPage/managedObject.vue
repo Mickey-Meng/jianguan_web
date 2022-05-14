@@ -26,18 +26,18 @@
 					class="have_scrolling">
 					<el-table-column type="index" width="50" align="center" label="序号">
 					</el-table-column>
-					<el-table-column prop="pro" align="center" label="标题" show-overflow-tooltip>
+					<el-table-column prop="title" align="center" label="标题" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="qualityfirstname" align="center" label="登记人" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="qualitysecondname" align="center" label="发布时间" show-overflow-tooltip>
+					<el-table-column prop="publishDate" align="center" label="发布时间" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="uploadname" align="center" label="登记部门" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column fixed="right" width="120" align="center" label="操作">
 						<template slot-scope="{ row, $index }">
-							<el-button type="primary" size="mini">详情</el-button>
-							<el-button type="danger" size="mini">删除</el-button>
+							<el-button type="text" @click="viewDetail(row)">详情</el-button>
+							<el-button type="text" style="color: red;" @click="deleteManagementObject(row.id)">删除</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -47,7 +47,7 @@
 				</el-pagination>
 			</div>
 		</el-main>
-		<el-dialog class="full-dialog defined-dialog" fullscreen="true" :visible.sync="dialogFormVisible">
+		<el-dialog class="full-dialog defined-dialog" :fullscreen="true" :visible.sync="dialogFormVisible">
 			<template slot="title">
 				{{dialogTitle}}
 				<div class="logo-icon"></div>
@@ -61,7 +61,7 @@
 								<div class="form-title">
 									<div class="title-big-bar"></div>
 									<strong>管理目标</strong>
-									<div class="form-btns">
+									<div class="form-btns" v-show="!previewMode">
 										<el-button size="medium">暂存</el-button>
 										<el-button size="medium">保存草稿</el-button>
 										<el-button size="medium">选择草稿</el-button>
@@ -90,9 +90,8 @@
 										</div>
 										<div class="block-item">
 											<div class="block-item-label">发布时间</div>
-                      <div class="block-item-value">
-												<el-date-picker type="date" placeholder="选择日期">
-                        </el-date-picker>
+                      						<div class="block-item-value">
+												<el-date-picker type="date" v-model="formData.publishDate" placeholder="选择日期" :disabled="previewMode"></el-date-picker>
 											</div>
 										</div>
 									</div>
@@ -100,21 +99,22 @@
 										<div class="block-item">
 											<div class="block-item-label">标题<i class="require-icon"></i></div>
 											<div class="block-item-value">
-                        <el-input placeholder="请输入内容"></el-input>
+                        						<el-input placeholder="请输入内容" v-model="formData.title" :disabled="previewMode"></el-input>
 											</div>
 										</div>
 									</div>
 								</div>
-								<div class="form-title">
+								<div class="form-title" v-show="!previewMode">
 									<div class="title-big-bar"></div><strong>附件上传</strong>
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>文件</strong>
-										<span style="font-size: 12px;margin-left: 40px;">支持上传 jpg/jpeg png mp4 docx doc xlsx xls pdf 文件，且不超过 50M</span>
+										<span style="font-size: 12px;margin-left: 40px;" v-show="!previewMode">支持上传 jpg/jpeg png mp4 docx doc xlsx xls pdf 文件，且不超过 50M</span>
 									</div>
 									<div class="block-line">
-										<el-button size="small" type="primary">点击上传</el-button>
+										<el-button size="small" type="primary" v-show="!previewMode">点击上传</el-button>
+										<el-button size="small" type="primary" v-show="previewMode">下载全部</el-button>
 									</div>
 									<div class="block-table">
 										<el-table :data="annexTableData" style="width: 100%" border
@@ -139,7 +139,7 @@
 									</div>
 								</div>
 								<div class="form-block">
-									<el-button class="submit-btn" size="small" type="primary">提交</el-button>
+									<el-button class="submit-btn" size="small" type="primary" @click="addManagedObject" v-show="!previewMode">提交</el-button>
 								</div>
 							</el-form>
 						</div>
@@ -153,10 +153,12 @@
 				<el-aside
 					style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
 					<div class="log-btns">
-						<el-button size="medium">流程图</el-button>
 						<el-button class="print-btn" size="medium" type="primary">打印预览</el-button>
 						<el-button class="print-select-btn" size="medium" type="primary" icon="el-icon-arrow-down">
 						</el-button>
+						
+						<el-button size="medium" @click="previewMode = false">变更</el-button>
+						<el-button type="danger" size="medium" @click="deleteManagementObject(formData.id)">删除</el-button>
 					</div>
 					<div class="log-content">
 						<el-tabs v-model="activeName" type="card">
@@ -220,6 +222,27 @@
 </template>
 
 <script>
+	Date.prototype.format = function (fmt) {
+	var o = {
+		"M+": this.getMonth() + 1, //月份
+		"d+": this.getDate(), //日
+		"h+": this.getHours(), //小时
+		"m+": this.getMinutes(), //分
+		"s+": this.getSeconds(), //秒
+		"q+": Math.floor((this.getMonth() + 3) / 3), //季度
+		"S": this.getMilliseconds() //毫秒
+	};
+	if (/(y+)/.test(fmt)) {
+		fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+	}
+	for (var k in o) {
+		if (new RegExp("(" + k + ")").test(fmt)) {
+		fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+		}
+	}
+	return fmt;
+	}
+	import * as api from "@/api/quality";
 	export default {
 		data() {
 			return {
@@ -229,17 +252,72 @@
 				totalPage: 1,
 				pageSize: 20,
 				dialogTitle: '新建',
+				previewMode: false,
 				dialogFormVisible: false,
 				annexTableData: [],
 				activeName: 'first',
+				queryData: {
+					pageNum: 1,
+					totalPage:1,
+					pageSize: 10,
+				},
+				formData: {
+					id: '',
+					title: '测试', // 标题
+					publishDate: '2022-05-06T16:00:00', // 发布时间
+					projectId: '0', // 项目id
+									// 登记人
+									// 登记部门
+									// 项目名称 
+				    attachment: [ // 附件
+						// {
+						// "createTime": 0,
+						// "createUid": "",
+						// "creatorName": "",
+						// "fileName": "",
+						// "filePath": "",
+						// "fileSize": 0,
+						// "fileUrl": "",
+						// "id": ""
+						// }
+					]
+				}
 			};
 		},
 		created() {},
 		components: {},
 		computed: {},
+		mounted() {
+			this.query();
+		},
 		methods: {
+			query() {
+				api.getManagementObjectList(this.queryData).then((res) => {
+				  this.tableData = res.data.list;
+				});
+				
+			},
 			addNew() {
 				this.dialogFormVisible = true;
+			},
+			addManagedObject() {
+				if (this.formData.publishDate instanceof Date) this.formData.publishDate = this.formData.publishDate.format("yyyy-MM-dd");
+				api.addOrUpdateManagementObjectList(this.formData).then((res) => {
+				  	this.query();
+					this.dialogFormVisible = false;
+				});
+			},
+			deleteManagementObject(id) {
+				// /web/api/v1/manageTarget/id
+				api.deleteManagementObject(id).then((res) => {
+				  	this.query();
+				});
+			},
+			viewDetail(row) {
+				this.formData = row;
+				this.dialogTitle = "查看详情";
+				this.dialogFormVisible = true;
+				this.previewMode = true;
 			},
 			handleSizeChange(val) {
 				console.log(`每页 ${val} 条`);

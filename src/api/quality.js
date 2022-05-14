@@ -528,4 +528,25 @@ export const getHiddenProjectList = data => {
     data: data
   });
 };
+/**
+* 新增或更新 管理目标 数据
+*/
+export const addOrUpdateManagementObjectList = data => {
+  return request({
+    url: api.addOrUpdateManagementObjectList,
+    method: "post",
+    data: data
+  });
+ };
+/**
+ * 删除 管理目标 数据
+*/
+export const deleteManagementObject = id => {
+  return request({
+    url: api.deleteManagementObject + id,
+    method: "delete",
+    params: {id}
+  });
+ };
+
 //-----------------------流程引擎新增接口 ZH ---------------------
