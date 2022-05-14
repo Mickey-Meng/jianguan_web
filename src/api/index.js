@@ -172,8 +172,11 @@ const api = {
   addOrUpdateQualityDetection: "/ZhuJiApi/web/api/v1/qualityDetection/addOrUpdate",
   getQualityDetectionDetail: "/ZhuJiApi/web/api/v1/qualityDetection/detail",
   deleteQualityDetection: "/ZhuJiApi/web/api/v1/qualityDetection",
-  getQualityDetectionList: "/ZhuJiApi/web/api/v1/qualityDetection/page"
+  getQualityDetectionList: "/ZhuJiApi/web/api/v1/qualityDetection/page",
   //-----------------------流程引擎新增接口 ------------------------
+  //-----------------------流程引擎新增接口 ZH ---------------------
+  getManagementObjectList: "/ZhuJiApi/web/api/v1/manageTarget/page", // 管理目标list
+  //-----------------------流程引擎新增接口 ZH ----------------------
 };
 
 export default api;
