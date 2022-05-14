@@ -169,16 +169,23 @@ const api = {
 
 
   //-----------------------流程引擎新增接口 ------------------------
+  //上传文件接口
+  uploadFile: "/ZhuJiRoad/mong/newUpload",
+  getFileInfo: "/ZhuJiRoad/mong/findFile",
+  //任务
+  listHandleTask:'/ZhuJiRoad/admin/flowOperation/listHandleTask',//待办
+  listHistoricTask:'/ZhuJiRoad/admin/flowOperation/listHistoricTask',//已办
+  listHistoricProcessInstance:'/ZhuJiRoad/admin/flowOperation/listHistoricProcessInstance',//历史任务
   //隐蔽工程
   getHiddenProjectList: "/ZhuJiApi/web/api/v1/hiddenProjectAccept/page",
-  getHiddenProjectDetail: "/ZhuJiApi/web/api/v1/hiddenProjectAccept/detail",
+  getHiddenProjectDetail: "/ZhuJiApi/web/api/v1/hiddenProjectAccept/detail/id",
   addOrUpdateHiddenProject: "/ZhuJiApi/web/api/v1/hiddenProjectAccept/addOrUpdate",
-  deleteHiddenProject: "/ZhuJiApi/web/api/v1/hiddenProjectAccept",
+  deleteHiddenProject: "/ZhuJiApi/web/api/v1/hiddenProjectAccept/id",
   //质量检测
   addOrUpdateQualityDetection: "/ZhuJiApi/web/api/v1/qualityDetection/addOrUpdate",
-  getQualityDetectionDetail: "/ZhuJiApi/web/api/v1/qualityDetection/detail",
+  getQualityDetectionDetail: "/ZhuJiApi/web/api/v1/qualityDetection/detail/id",
   getMaterialEnums: "/ZhuJiApi/web/api/v1/qualityDetection/material/enums",
-  deleteQualityDetection: "/ZhuJiApi/web/api/v1/qualityDetection",
+  deleteQualityDetection: "/ZhuJiApi/web/api/v1/qualityDetection/id",
   getQualityDetectionList: "/ZhuJiApi/web/api/v1/qualityDetection/page"
   //-----------------------流程引擎新增接口 ------------------------
 };
