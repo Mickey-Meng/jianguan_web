@@ -1,0 +1,60 @@
+.container-box {
+	color: #000000;
+	background-color: #FAFAFA;
+	padding: 0 20px;
+
+	.el-header {
+		line-height: 60px;
+		// background-color: #ffffff;
+		display: flex;
+		align-items: center;
+		padding: 0 !important;
+		// justify-content: space-between;
+
+		.input-box {
+			min-width: 200px;
+			display: flex;
+			// margin: 0 20px;
+		}
+
+		.mini-input-box {
+			width: 80px;
+			min-width: 80px;
+		}
+
+		.right-btns {
+			position: absolute;
+			right: 20px;
+
+			.el-button {
+				// margin-left: 0 !important;
+				color: #355DFF;
+			}
+
+			.operate-btns {
+				display: initial;
+			}
+		}
+
+	}
+
+	.el-main {
+		padding: 0;
+		margin-top: 10px;
+		display: flex;
+		// flex-direction: column;
+		justify-content: space-between;
+
+		.container {
+			width: 100%;
+			background-color: #FFFFFF;
+
+			.el-pagination {
+				float: right;
+				height: 48px;
+				line-height: 48px;
+				margin-right: 20px;
+			}
+		}
+	}
+}

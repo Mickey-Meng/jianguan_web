@@ -425,6 +425,27 @@ export const deleteQualityEvent = params => {
 
 //-----------------------流程引擎新增接口 ------------------------
 /**
+ * 上传文件
+ */
+export const uploadFile = data => {
+  return request({
+    url: api.uploadFile,
+    method: "post",
+    data: data
+  });
+};
+/**
+ * 查询文件信息
+ */
+export const getFileInfo = data => {
+  return request({
+    url: api.getFileInfo,
+    method: "post",
+    data: data
+  });
+};
+
+/**
  * 新增或者更新质量检测数据
  */
 export const addOrUpdateQualityDetection = data => {
@@ -447,11 +468,11 @@ export const getQualityDetectionDetail = params => {
 /**
  * 通过id删除一条质量检测数据
  */
-export const deleteQualityDetection = (id) => {
+export const deleteQualityDetection = params => {
   return request({
     url: api.deleteQualityDetection,
-    method: "delete",
-    params: {id}
+    method: "get",
+    params: params
   });
 };
 /**
@@ -497,11 +518,11 @@ export const getHiddenProjectDetail = params => {
 /**
  * 通过id删除一条隐蔽工程验收记录数据
  */
-export const deleteHiddenProject = (id) => {
+export const deleteHiddenProject = params => {
   return request({
     url: api.deleteHiddenProject,
-    method: "delete",
-    params: {id}
+    method: "get",
+    params: params
   });
 };
 /**
