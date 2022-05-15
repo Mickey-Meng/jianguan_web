@@ -25,7 +25,7 @@
 					<el-input  v-model="queryData.taskName" placeholder="请输入任务名称"></el-input>
 				</div>
 			</div>
-			<el-button type="primary">搜索</el-button>
+			<el-button type="primary" @click="query">搜索</el-button>
 		</el-header>
 		<el-main>
 			<div class="container">
@@ -48,8 +48,8 @@
 					</el-table-column>
 				</el-table>
 				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-					:current-page="queryData.pageNum" :page-size="queryData.pageSize"
-					layout="total, sizes, prev, pager, next, jumper" :total="queryData.totalPage">
+					:current-page="queryData.pageParam.pageNum" :page-size="queryData.pageParam.pageSize"
+					layout="total, sizes, prev, pager, next, jumper" :total="queryData.pageParam.totalPage">
 				</el-pagination>
 			</div>
 		</el-main>
@@ -63,12 +63,15 @@
 			return {
 				tableData: [],
 				queryData: {
-					processDefinitionName: null,
-					processDefinitionKey: null,
-					taskName: null,
-					pageNum: 1,
-					totalPage: 1,
-					pageSize: 10,
+					processDefinitionName: '',
+					processDefinitionKey: '',
+					taskName: '',
+					taskHandleStatus:1,
+					pageParam:{
+						pageNum: 1,
+						totalPage: 1,
+						pageSize: 1000
+					}
 				},
 			};
 		},
@@ -82,10 +85,10 @@
 			query(){
 				api.listHandleTask(this.queryData).then((res) => {
 					this.allData = res.data || {};
-					this.tableData = this.allData.list||[];
-					this.queryData.pageNum = res.data.pageNum;
-					this.queryData.totalPage = res.data.total;
-					this.queryData.pageSize = res.data.pageSize;
+					this.tableData = this.allData.dataList||[];
+					// this.queryData.pageParam.pageNum = res.data.pageNum;
+					// this.queryData.pageParam.totalPage = res.data.total;
+					// this.queryData.pageParam.pageSize = res.data.pageSize;
 				});
 			},
 			handleSizeChange(val) {

@@ -16,12 +16,24 @@
 			</div>
 			<div class="input-box">
 				<div class="input-value">
+					<el-date-picker v-model="queryData.beginDate" type="date" placeholder="开始日期">
+					</el-date-picker>
+				</div>
+			</div>
+			<div class="input-box">
+				<div class="input-value">
+					<el-date-picker v-model="queryData.endDate" type="date" placeholder="结束日期">
+					</el-date-picker>
+				</div>
+			</div>
+			<!-- <div class="input-box">
+				<div class="input-value">
 					<el-date-picker v-model="queryData.createDate" type="daterange" range-separator="至" start-placeholder="开始日期"
 						end-placeholder="结束日期">
 					</el-date-picker>
 				</div>
-			</div>
-			<el-button type="primary">搜索</el-button>
+			</div> -->
+			<el-button type="primary" @click="query">搜索</el-button>
 		</el-header>
 		<el-main>
 			<div class="container">
@@ -48,8 +60,8 @@
 					</el-table-column>
 				</el-table>
 				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-					:current-page="queryData.pageNum" :page-size="queryData.pageSize"
-					layout="total, sizes, prev, pager, next, jumper" :total="queryData.totalPage">
+					:current-page="queryData.pageParam.pageNum" :page-size="queryData.pageParam.pageSize"
+					layout="total, sizes, prev, pager, next, jumper" :total="queryData.pageParam.totalPage">
 				</el-pagination>
 			</div>
 		</el-main>
@@ -63,11 +75,14 @@
 			return {
 				tableData: [],
 				queryData: {
-					processDefinitionName:undefined,
-					createDate:'',
-					pageNum: 1,
-					totalPage: 1,
-					pageSize: 10,
+					// processDefinitionName:'',
+					// beginDate:'2021-05-15',
+					// endDate:'2022-05-15',
+					pageParam:{
+						pageNum: 1,
+						totalPage: 1,
+						pageSize: 10
+					}
 				},
 			};
 		},
@@ -82,9 +97,9 @@
 				api.listHistoricProcessInstance(this.queryData).then((res) => {
 					this.allData = res.data || {};
 					this.tableData = this.allData.list||[];
-					this.queryData.pageNum = res.data.pageNum;
-					this.queryData.totalPage = res.data.total;
-					this.queryData.pageSize = res.data.pageSize;
+					this.queryData.pageParam.pageNum = res.data.pageNum;
+					this.queryData.pageParam.totalPage = res.data.total;
+					this.queryData.pageParam.pageSize = res.data.pageSize;
 				});
 			},
 			handleSizeChange(val) {

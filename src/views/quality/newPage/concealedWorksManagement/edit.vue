@@ -69,16 +69,21 @@
 										<div class="title-bar"></div><strong>隐蔽功能信息</strong>
 									</div>
 									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">分项工程<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												<el-input v-model="formData.subProject"></el-input>
-											</div>
-										</div>
+										
 										<div class="block-item">
 											<div class="block-item-label">单位、分部工程<i class="require-icon"></i></div>
 											<div class="block-item-value">
-												<el-input v-model="formData.unit"></el-input>
+												<el-form-item prop="unit">
+													<el-input v-model="formData.unit"></el-input>
+												</el-form-item>
+											</div>
+										</div>
+										<div class="block-item">
+											<div class="block-item-label">分项工程<i class="require-icon"></i></div>
+											<div class="block-item-value">
+												<el-form-item prop="subProject">
+													<el-input v-model="formData.subProject"></el-input>
+												</el-form-item>
 											</div>
 										</div>
 									</div>
@@ -86,15 +91,20 @@
 										<div class="block-item">
 											<div class="block-item-label">隐蔽工程项目<i class="require-icon"></i></div>
 											<div class="block-item-value">
-												<el-input v-model="formData.hiddenProject" type="textarea" :rows="4"
-													placeholder="请输入隐蔽工程项目"></el-input>
+												<el-form-item prop="hiddenProject">
+													<el-input v-model="formData.hiddenProject" type="textarea" :rows="4"
+														placeholder="请输入隐蔽工程项目"></el-input>
+												</el-form-item>
+												
 											</div>
 										</div>
 										<div class="block-item">
 											<div class="block-item-label">施工自检结果<i class="require-icon"></i></div>
 											<div class="block-item-value">
-												<el-input v-model="formData.buildCheckselfResult" type="textarea"
-													:rows="4" placeholder="请输入施工自检结果"></el-input>
+												<el-form-item prop="buildCheckselfResult">
+													<el-input v-model="formData.buildCheckselfResult" type="textarea"
+														:rows="4" placeholder="请输入施工自检结果"></el-input>
+												</el-form-item>
 											</div>
 										</div>
 									</div>
@@ -130,7 +140,7 @@
 												<template slot-scope="{ row, $index }">
 													<el-button type="text" size="mini">下载</el-button>
 													<el-button type="text" size="mini">预览</el-button>
-													<el-button type="text" size="mini">删除</el-button>
+													<el-button type="text" size="mini" @click="deleteAttach(row, $index)">删除</el-button>
 												</template>
 											</el-table-column>
 										</el-table>
@@ -170,11 +180,13 @@
 										<div class="block-item">
 											<div class="block-item-label">项目质检负责人<i class="require-icon"></i></div>
 											<div class="block-item-value">
-												<el-select v-model="formData.qualityCheckUser" placeholder="请选择">
-													<el-option v-for="item in userOptions" :key="item.value"
-														:label="item.label" :value="item.value">
-													</el-option>
-												</el-select>
+												<el-form-item prop="qualityCheckUser">
+													<el-select v-model="formData.qualityCheckUser" placeholder="请选择">
+														<el-option v-for="item in userOptions" :key="item.value"
+															:label="item.label" :value="item.value">
+														</el-option>
+													</el-select>
+												</el-form-item>
 											</div>
 										</div>
 									</div>
@@ -182,47 +194,60 @@
 										<div class="block-item">
 											<div class="block-item-label">项目施工负责人<i class="require-icon"></i></div>
 											<div class="block-item-value">
-												<el-select v-model="formData.projectBuildUser" placeholder="请选择">
-													<el-option v-for="item in userOptions" :key="item.value"
-														:label="item.label" :value="item.value">
-													</el-option>
-												</el-select>
+												<el-form-item prop="projectBuildUser">
+													<el-select v-model="formData.projectBuildUser" placeholder="请选择">
+														<el-option v-for="item in userOptions" :key="item.value"
+															:label="item.label" :value="item.value">
+														</el-option>
+													</el-select>
+												</el-form-item>
+												
+												
 											</div>
 										</div>
 									</div>
 									<div class="block-line">
 										<div class="block-item">
-											<div class="block-item-label">现场监理人员<i class="require-icon"></i></div>
+											<div class="block-item-label">现场监理人员</div>
 											<div class="block-item-value">
-												<el-select v-model="formData.supervisorUser" placeholder="请选择">
-													<el-option v-for="item in userOptions" :key="item.value"
-														:label="item.label" :value="item.value">
-													</el-option>
-												</el-select>
+												<el-form-item prop="supervisorUser">
+													<el-select v-model="formData.supervisorUser" placeholder="请选择">
+														<el-option v-for="item in userOptions" :key="item.value"
+															:label="item.label" :value="item.value">
+														</el-option>
+													</el-select>
+												</el-form-item>
+												
 											</div>
 										</div>
 									</div>
 									<div class="block-line">
 										<div class="block-item">
-											<div class="block-item-label">专业监理工程师<i class="require-icon"></i></div>
+											<div class="block-item-label">专业监理工程师</div>
 											<div class="block-item-value">
-												<el-select v-model="formData.supervisorEngineerUser" placeholder="请选择">
-													<el-option v-for="item in userOptions" :key="item.value"
-														:label="item.label" :value="item.value">
-													</el-option>
-												</el-select>
+												<el-form-item prop="supervisorEngineerUser">
+													<el-select v-model="formData.supervisorEngineerUser" placeholder="请选择">
+														<el-option v-for="item in userOptions" :key="item.value"
+															:label="item.label" :value="item.value">
+														</el-option>
+													</el-select>
+												</el-form-item>
+												
 											</div>
 										</div>
 									</div>
 									<div class="block-line">
 										<div class="block-item">
-											<div class="block-item-label">项目负责人<i class="require-icon"></i></div>
+											<div class="block-item-label">项目负责人</div>
 											<div class="block-item-value">
-												<el-select v-model="formData.projectChargeUser" placeholder="请选择">
-													<el-option v-for="item in userOptions" :key="item.value"
-														:label="item.label" :value="item.value">
-													</el-option>
-												</el-select>
+												<el-form-item prop="projectChargeUser">
+													<el-select v-model="formData.projectChargeUser" placeholder="请选择">
+														<el-option v-for="item in userOptions" :key="item.value"
+															:label="item.label" :value="item.value">
+														</el-option>
+													</el-select>
+												</el-form-item>
+												
 											</div>
 										</div>
 									</div>
@@ -258,10 +283,10 @@
 	import tasklog from "../../../common/tasklog.vue"
 	
 	export default {
-		props: ['currentRow'],
+		props: ['editRow'],
 		data() {
 			return {
-				dialogTitle: '智慧建设通用版-【绍兴市】235国道杭州',
+				dialogTitle: '项目全生命周期数字管理平台',
 				dialogFormVisible: false,
 				annexTableData: [],
 				activeName: 'first',
@@ -315,7 +340,7 @@
 					deletedFlag: 1,
 					draftFlag: 1,
 					hiddenProject: '',
-					id: null,
+					// id: null,
 					projectBuildUser: 1,
 					projectChargeUser: 1,
 					projectCode: '',
@@ -338,7 +363,7 @@
 		computed: {},
 		mounted() {},
 		watch: {
-			currentRow(obj) {
+			editRow(obj) {
 				if (obj['id']) {
 					this.getDetail(obj['id']);
 				} else {
@@ -348,7 +373,7 @@
 						deletedFlag: 1,
 						draftFlag: 1,
 						hiddenProject: '',
-						id: null,
+						// id: null,
 						projectBuildUser: 1,
 						projectChargeUser: 1,
 						projectCode: '',
@@ -363,7 +388,6 @@
 			}
 		},
 		methods: {
-
 			changeVisible(value) {
 				this.dialogFormVisible = value;
 			},
@@ -373,23 +397,26 @@
 				}).then((res) => {
 					let data = res['data'] || {};
 					this.formData = data;
+					this.attachTable=data.attachment||[];
 				});
 			},
 			addOrModify() {
 				this.$refs['ruleForm'].validate((valid) => {
-					this.formData.attachment=this.attachTable;
-					api.addOrUpdateHiddenProject(this.formData).then((res) => {
-						if (res.data) {
-							this.$message({
-								type: 'success',
-								message: '提交成功!'
-							});
-							this.dialogFormVisible = false;
-							this.$emit("query");
-						}
-					});
+					if(valid){
+						this.formData.attachment=this.attachTable;
+						api.addOrUpdateHiddenProject(this.formData).then((res) => {
+							if (res.data) {
+								this.$message({
+									type: 'success',
+									message: '提交成功!'
+								});
+								this.dialogFormVisible = false;
+								this.$emit("query");
+							}
+						});
+					}
+					
 				})
-
 			},
 			afterUp(data){
 				this.attachTable.push({
@@ -398,6 +425,15 @@
 					fileUrl:data['fileId'],
 					creatorName:'test'
 				})
+			},
+			deleteAttach(row, index){
+				this.$confirm('确认是否删除?', '提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+				}).then(() => {
+					this.attachTable.splice(index,1);
+				});
 			}
 		},
 	};

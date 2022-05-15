@@ -253,11 +253,11 @@
 	import tasklog from "../../../common/tasklog.vue"
 
 	export default {
-		props:['currentRow'],
+		props:['detailRow'],
 		data() {
 			return {
 				dialogFormVisible: false,
-				dialogTitle: '智慧建设通用版-【绍兴市】235国道杭州至诸暨公路萧山河上至诸暨安华段改建工程',
+				dialogTitle: '项目全生命周期数字管理平台',
 				annexTableData: [],
 				activeName: 'first',
 				waitTableData: [],
@@ -300,7 +300,7 @@
 		},
 		computed: {},
 		watch:{
-			currentRow(obj){
+			detailRow(obj){
 				if(obj['id']){
 					this.getDetail(obj['id']);
 				}
@@ -316,6 +316,10 @@
 				api.getQualityDetectionDetail({id:id}).then((res) => {
 					let data=res['data']||{};
 					this.formData=data;
+					this.examineTable=data.detectionInfo||[];
+					this.reportTable=data.detectionReport||[];
+					this.factoryTable=data.factoryInfo||[];
+					this.attachTable=data.otherAttachment||[];
 				});
 			},
 		},

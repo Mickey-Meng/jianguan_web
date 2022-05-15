@@ -1,7 +1,12 @@
 .full-dialog .el-dialog {
 	background: transparent;
 }
-
+.defined-dialog .el-form-item__content{
+	margin-left: 0 !important;
+}
+.defined-dialog .el-form-item{
+	margin-bottom: 12px !important;
+}
 .full-dialog .el-dialog__body {
 	padding: 0;
 	width: 100%;

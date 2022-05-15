@@ -13,7 +13,7 @@
 							<el-form ref="form" label-width="80px">
 								<div class="form-title">
 									<div class="title-big-bar"></div>
-									<strong>隐蔽功能验收记录-浙公路（JL）011</strong>
+									<strong>隐蔽工程验收记录-浙公路（JL）011</strong>
 								</div>
 		
 								<div class="form-block">
@@ -60,19 +60,20 @@
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
-										<div class="title-bar"></div><strong>隐蔽功能信息</strong>
+										<div class="title-bar"></div><strong>隐蔽工程信息</strong>
 									</div>
 									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">分项工程<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												{{formData.subProject}}
-											</div>
-										</div>
+										
 										<div class="block-item">
 											<div class="block-item-label">单位、分部工程<i class="require-icon"></i></div>
 											<div class="block-item-value">
 												{{formData.unit}}
+											</div>
+										</div>
+										<div class="block-item">
+											<div class="block-item-label">分项工程<i class="require-icon"></i></div>
+											<div class="block-item-value">
+												{{formData.subProject}}
 											</div>
 										</div>
 									</div>
@@ -198,10 +199,10 @@
 	import tasklog from "../../../common/tasklog.vue"
 	
 	export default {
-		props:['currentRow'],
+		props:['detailRow'],
 		data() {
 			return {
-				dialogTitle: '智慧建设通用版-【绍兴市】235国道杭州',
+				dialogTitle: '项目全生命周期数字管理平台',
 				dialogFormVisible: false,
 				annexTableData: [],
 				activeName: 'first',
@@ -240,14 +241,22 @@
 		computed: {},
 		mounted() {
 		},
+		watch:{
+			detailRow(obj){
+				if(obj['id']){
+					this.getDetail(obj['id']);
+				}
+			}
+		},
 		methods: {
 			changeVisible(value){
 				this.dialogFormVisible=value;
 			},
 			getDetail(id){
-				api.getQualityDetectionDetail({id:id}).then((res) => {
+				api.getHiddenProjectDetail({id:id}).then((res) => {
 					let data=res['data']||{};
 					this.formData=data;
+					this.attachTable=data.attachment||[];
 				});
 			},
 		},
