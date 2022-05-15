@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<el-dialog class="full-dialog defined-dialog" fullscreen="true" :visible.sync="dialogFormVisible">
+		<el-dialog class="full-dialog defined-dialog" :fullscreen="true" :visible.sync="dialogFormVisible">
 			<template slot="title">
 				{{dialogTitle}}
 				<div class="logo-icon"></div>

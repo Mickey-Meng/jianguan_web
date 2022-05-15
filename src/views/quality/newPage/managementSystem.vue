@@ -30,18 +30,19 @@
 					</el-table-column>
 					<el-table-column prop="qualityfirstname" align="center" label="编制人" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="qualitysecondname" align="center" label="编制时间" show-overflow-tooltip>
+					<el-table-column prop="compileDate" align="center" label="编制时间" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="uploadname" align="center" label="制度内容" show-overflow-tooltip>
+					<el-table-column prop="regimeContent" align="center" label="制度内容" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="uploadname" align="center" label="更新时间" show-overflow-tooltip>
+					<el-table-column prop="updateTime" align="center" label="更新时间" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="uploadname" align="center" label="数据状态" show-overflow-tooltip>
+					<el-table-column align="center" label="数据状态" show-overflow-tooltip>
+						已生效
 					</el-table-column>
 					<el-table-column fixed="right" width="120" align="center" label="操作">
 						<template slot-scope="{ row, $index }">
-							<el-button type="primary" size="mini">详情</el-button>
-							<el-button type="danger" size="mini">删除</el-button>
+							<el-button type="text" size="mini" @click="viewDetail(row)">详情</el-button>
+							<el-button type="text" style="color: red;" size="mini" @click="deleteManageRegime(row.id)">删除</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -51,7 +52,7 @@
 				</el-pagination>
 			</div>
 		</el-main>
-		<el-dialog class="full-dialog defined-dialog" fullscreen="true" :visible.sync="dialogFormVisible">
+		<el-dialog class="full-dialog defined-dialog" :fullscreen="true" :visible.sync="dialogFormVisible">
 			<template slot="title">
 				{{dialogTitle}}
 				<div class="logo-icon"></div>
@@ -65,7 +66,7 @@
 								<div class="form-title">
 									<div class="title-big-bar"></div>
 									<strong>管理制度</strong>
-									<div class="form-btns">
+									<div class="form-btns" v-show="!previewMode">
 										<el-button size="medium">暂存</el-button>
 										<el-button size="medium">保存草稿</el-button>
 										<el-button size="medium">选择草稿</el-button>
@@ -79,12 +80,12 @@
 									</div>
 									<div class="block-line">
 										<div class="block-item">
-											<div class="block-item-label">编制人</div>
-											<div class="block-item-value">卢益辉</div>
+											<div class="block-item-label">编制人：</div>
+											<div class="block-item-value">{{formData.userName}}</div>
 										</div>
 										<div class="block-item">
 											<div class="block-item-label">编制日期<i class="require-icon"></i></div>
-											<div class="block-item-value">2022-05-12</div>
+											<el-date-picker type="date" v-model="formData.compileDate" placeholder="选择日期" :disabled="previewMode"></el-date-picker>
 										</div>
 									</div>
 								</div>
@@ -97,25 +98,25 @@
 										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 jpg/jpeg png mp4 docx doc xlsx xls pdf zip 文件，且不超过 200M</span>
 									</div>
 									<div class="block-line">
-										<el-button size="small" type="primary">点击上传</el-button>
+										<upload v-show="!previewMode" @afterUp="afterUpAttach($event)"></upload>
 									</div>
 									<div class="block-table">
-										<el-table :data="annexTableData" style="width: 100%" border
+										<el-table :data="formData.attachment" style="width: 100%" border
 											class="have_scrolling">
 											<el-table-column type="index" width="50" align="center" label="序号">
 											</el-table-column>
-											<el-table-column prop="pro" align="center" label="附件" show-overflow-tooltip>
+											<el-table-column prop="fileName" align="center" label="附件" show-overflow-tooltip>
 											</el-table-column>
-											<el-table-column prop="qualityfirstname" width="160px" align="center"
+											<el-table-column prop="uploadTime" width="160px" align="center"
 												label="上传日期">
 											</el-table-column>
-											<el-table-column prop="qualitysecondname" width="120px" align="center"
+											<el-table-column prop="creatorName" width="120px" align="center"
 												label="上传人">
 											</el-table-column>
 											<el-table-column fixed="right" width="120" align="center" label="操作">
 												<template slot-scope="{ row, $index }">
-													<el-button type="primary" size="mini">下载</el-button>
-													<el-button type="danger" size="mini">预览</el-button>
+													<el-button type="text" size="mini" @click="downLoadFile(row.fileUrl)">下载</el-button>
+													<el-button type="text" size="mini" @click="viewImg(row)">预览</el-button>
 												</template>
 											</el-table-column>
 										</el-table>
@@ -124,13 +125,13 @@
 										<div class="block-item">
 											<div class="block-item-label">制度内容<i class="require-icon"></i></div>
 											<div class="block-item-value">
-												<el-input type="textarea" :rows="4" placeholder="请输入"></el-input>
+												<el-input type="textarea" style="width: 600px" :rows="15" placeholder="请输入" v-model="formData.regimeContent" :disabled="previewMode"></el-input>
 											</div>
 										</div>
 									</div>
 								</div>
 								<div class="form-block">
-									<el-button class="submit-btn" size="small" type="primary">提交</el-button>
+									<el-button class="submit-btn" size="small" type="primary" @click="addManagedSystem" v-show="!previewMode">提交</el-button>
 								</div>
 							</el-form>
 						</div>
@@ -144,11 +145,12 @@
 				<el-aside
 					style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
 					<div class="log-btns">
-						<el-button size="medium">变更</el-button>
-						<el-button type="danger" size="medium">删除</el-button>
 						<el-button class="print-btn" size="medium" type="primary">打印预览</el-button>
 						<el-button class="print-select-btn" size="medium" type="primary" icon="el-icon-arrow-down">
 						</el-button>
+
+						<el-button size="medium" @click="changeManageRegime">变更</el-button>
+						<el-button type="danger" size="medium" @click="deleteManageRegime(formData.id)">删除</el-button>
 					</div>
 					<div class="log-content">
 						<el-tabs v-model="activeName" type="card">
@@ -157,7 +159,7 @@
 									<el-collapse-item name="1">
 										<template slot="title">
 											<span class="process-index">1</span>
-											 吕冬敏(2022-02-22 16:45:11) 
+											 吕冬敏({{formData.updateTime}}) 
 										</template>
 										<div class="log-line">
 											<div class="log-line-label">编制单位：</div>
@@ -170,32 +172,32 @@
 										</div>
 										<div class="log-line">
 											<div class="log-line-label">编制日期：</div>
-											<div class="log-line-value">2022-02-22</div>
+											<div class="log-line-value">{{formData.compileDate}}</div>
 										</div>
 										<div class="log-line">
 											<div class="log-line-label">上传</div>
 										</div>
-										<el-table :data="annexTableData" style="width: 100%" border
+										<el-table :data="formData.attachment" style="width: 100%" border
 											class="have_scrolling">
-											<el-table-column prop="pro" align="center" label="附件" show-overflow-tooltip>
+											<el-table-column prop="fileName" align="center" label="附件" show-overflow-tooltip>
 											</el-table-column>
-											<el-table-column prop="qualityfirstname" width="160px" align="center"
+											<el-table-column prop="uploadTime" width="160px" align="center"
 												label="上传日期">
 											</el-table-column>
-											<el-table-column prop="qualitysecondname" width="120px" align="center"
+											<el-table-column prop="creatorName" width="120px" align="center"
 												label="上传人">
 											</el-table-column>
-											<el-table-column fixed="right" width="80" align="center" label="操作">
+											<el-table-column fixed="right" width="120" align="center" label="操作">
 												<template slot-scope="{ row, $index }">
-													<el-button type="primary" size="mini">下载</el-button>
-													<el-button type="danger" size="mini">预览</el-button>
+													<el-button type="text" size="mini" @click="downLoadFile(row.fileUrl)">下载</el-button>
+													<el-button type="text" size="mini" @click="viewImg(row)">预览</el-button>
 												</template>
 											</el-table-column>
 										</el-table>
                               
 										<div class="log-line">
 											<div class="log-line-label">制度内容：</div>
-											<div class="log-line-value">诸暨235国道项目质量管理制度包括项目质量目标方针、质量管理组织机构及各岗位责任制、施工测量复核制、施工图核对制度、施工技术交底制度、开工报告申请制度、材料及构配件进场检查及储存管理制度、三级检验及隐蔽工程验收制度、半成品及成品管理制度、浇筑令签发制度、班前会及班后检查制度、不合格品处理制度、质量例会制度、QC活动制度、分包质量管理制度、质量信息管理制度、首件工程样板制度、工程质量问题及事故处理制度、特殊工种及关键岗位质量培训制度、质量奖惩管理程序及具体奖惩办法</div>
+											<div class="log-line-value">{{formData.regimeContent}}</div>
 										</div>
 									</el-collapse-item>
 								</el-collapse>
@@ -205,10 +207,42 @@
 				</el-aside>
 			</el-container>
 		</el-dialog>
+		
+		<el-dialog title="预览" :visible.sync="viewImgVisible" :fullscreen="true" width="100%" height="100%">
+			{{viewImgUrl}}
+			<img v-if="viewImgType=='img'" style="width: 100%; height: 100%" :src="viewImgUrl"/>
+			<!-- <el-image style="width: 100%; height: 100%" :src="viewImgUrl" :fit="fill"></el-image> -->
+			<iframe width="100%" height="100%" style="min-height:800px" v-if="viewImgType=='pdf'" :src="viewImgUrl" frameborder="0"></iframe>
+		</el-dialog>
 	</el-container>
 </template>
 
 <script>
+	Date.prototype.format = function (fmt) {
+		var o = {
+			"M+": this.getMonth() + 1, //月份
+			"d+": this.getDate(), //日
+			"h+": this.getHours(), //小时
+			"m+": this.getMinutes(), //分
+			"s+": this.getSeconds(), //秒
+			"q+": Math.floor((this.getMonth() + 3) / 3), //季度
+			"S": this.getMilliseconds() //毫秒
+		};
+		if (/(y+)/.test(fmt)) {
+			fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+		}
+		for (var k in o) {
+			if (new RegExp("(" + k + ")").test(fmt)) {
+			fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+			}
+		}
+		return fmt;
+	}
+	import * as api from "@/api/quality";
+	import store from "@/store/index";
+	import upload from "../../common/upload.vue"
+	import { getUserInfo } from "@/api/user";
+	import { downLoadFile } from "@/utils/download";
 	export default {
 		data() {
 			return {
@@ -221,21 +255,153 @@
 				dialogFormVisible: false,
 				annexTableData: [],
 				activeName: 'first',
+				queryData: {
+					pageNum: 1,
+					totalPage:1,
+					pageSize: 10,
+				},
+				userInfo: {},
+				formData: {
+					id: '',
+					compileDate: '2022-05-06', // 编制日期
+					compileDeptName: '2022-05-06', // 编制单位名称
+					compileUser: '1', // 编制人
+					userName: '',	// 编制人名称
+					projectName: '',// 项目名称
+					projectId: '1',// 项目名称
+					regimeContent: '', // 制度内容
+				    attachment: [ // 附件
+					]
+				},
+				viewImgVisible: false,
+				viewImgType: 'img',
+				viewImgUrl: '',
 			};
 		},
 		created() {},
-		components: {},
+		components: {
+			upload
+		},
 		computed: {},
+		mounted() {
+			this.query();
+			this.getUserInfo();
+		},
 		methods: {
+			query() {
+				api.getManageRegimeList(this.queryData).then((res) => {
+				  this.tableData = res.data.list;
+				});
+				
+			},
+			getUserInfo() {
+				getUserInfo(localStorage.getItem('ID')).then(res => {
+					this.userInfo = res.data.userInfo;
+				});
+			},
 			addNew() {
+				this.previewMode = false;
 				this.dialogFormVisible = true;
+				const hasGetUserInfo = store.getters.name;
+				
+				this.formData.userName = hasGetUserInfo;
+				this.formData.groupName = this.userInfo.GROUPNAME;
+				this.formData.id = '';
+				this.formData.regimeContent = '';
+				this.formData.attachment = [];
+			},
+			addManagedSystem() {
+				if (this.formData.compileDate instanceof Date) this.formData.compileDate = this.formData.compileDate.format("yyyy-MM-dd");
+				api.addOrUpdateManageRegimeList(this.formData).then((res) => {
+				  	this.query();
+					this.dialogFormVisible = false;
+
+				});
+			},
+			changeManageRegime() {
+				this.previewMode = false;
+				this.$forceUpdate();
+			},
+			deleteManageRegime(id) {
+				// /web/api/v1/manageTarget/id
+				this.$confirm('确认是否删除?', '提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+				}).then(() => {
+					api.deleteManageRegime(id).then((res) => {
+						this.query();
+						this.$message({
+							type: 'success',
+							message: '删除成功!'
+						});
+					}).catch(error => {
+						this.$message({
+							type: 'fail',
+							message: '删除失败!'
+						});
+					});
+				});
+			},
+			viewDetail(row) {
+				const that = this;
+				// this.formData = row;
+				this.dialogTitle = "查看详情";
+				this.dialogFormVisible = true;
+				this.previewMode = true;
+				api.getManageRegime(row.id).then((res) => {
+				  	if (res && res.data) {
+						for (let i = 0; i < res.data.attachment.length; i++) {
+							const item = res.data.attachment[i];
+							item.uploadTime = new Date(item.uploadTime).format('yyyy-MM-dd hh:mm:ss')
+						}
+						this.formData = res.data;
+						
+						// that.formData.userName = 'rers';
+						getUserInfo(res.data.compileUser).then(res => {
+							that.formData.userName = res.data.userInfo.NAME;
+							that.formData.compileDeptName = this.userInfo.GROUPNAME;
+							that.$forceUpdate();
+						});
+					}
+				});
+			},
+			viewImg(row) {
+				// store.getters.lookUrl
+				console.log(row)
+				let format = '';
+				if (row.fileName.indexOf('.png') > -1) format = 'img';
+				if (row.fileName.indexOf('.pdf') > -1) format = 'pdf';
+				this.viewImgType = format;
+				this.viewImgUrl = store.getters.lookUrl + row.fileUrl;
+				this.viewImgVisible = true;
+			},
+			downLoadFile(url) {
+				downLoadFile(url)
 			},
 			handleSizeChange(val) {
 				console.log(`每页 ${val} 条`);
 			},
 			handleCurrentChange(val) {
 				console.log(`当前页: ${val}`);
-			}
+			},
+			afterUpAttach(data){
+				// api.getFileInfo({id: data['fileId']}).then((res) => {
+				//   	if (res) {
+				// 		debugger
+				// 	}
+				// });
+				this.formData.attachment.push({
+					uploadTime: new Date(data['uploadTime']).format('yyyy-MM-dd hh:mm:ss'),
+					fileName: data['fileName'],
+					fileUrl: data['fileId'],
+					creatorName: this.userInfo.NAME,
+					"createUid": "",
+					"filePath": "",
+					"fileSize": 0,
+					"id": ""
+				})
+			},
 		},
 	};
 </script>

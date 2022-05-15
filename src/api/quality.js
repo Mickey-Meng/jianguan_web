@@ -559,15 +559,70 @@ export const addOrUpdateManagementObjectList = data => {
     data: data
   });
  };
+
+ /**
+ * 通过id获取一条管理目标数据
+ */
+ export const getManagementObject = id => {
+   return request({
+     url: api.getManagementObject,
+     method: "get",
+     params: {id}
+   });
+  };
+
 /**
  * 删除 管理目标 数据
 */
 export const deleteManagementObject = id => {
   return request({
-    url: api.deleteManagementObject + id,
-    method: "delete",
+    url: api.deleteManagementObject,
+    method: "get",
     params: {id}
   });
  };
 
+ 
+/**
+ * 管理目标分页查询
+ */
+ export const getManageRegimeList = data => {
+  return request({
+    url: api.getManageRegimeList,
+    method: "post",
+    data: data
+  });
+};
+/**
+* 新增或更新 管理目标 数据
+*/
+export const addOrUpdateManageRegimeList = data => {
+  return request({
+    url: api.addOrUpdateManageRegimeList,
+    method: "post",
+    data: data
+  });
+ };
+
+ /**
+ * 通过id获取一条管理目标数据
+ */
+ export const getManageRegime = id => {
+   return request({
+     url: api.getManageRegime,
+     method: "get",
+     params: {id}
+   });
+  };
+
+/**
+ * 删除 管理目标 数据
+*/
+export const deleteManageRegime = id => {
+  return request({
+    url: api.deleteManageRegime,
+    method: "get",
+    params: {id}
+  });
+ };
 //-----------------------流程引擎新增接口 ZH ---------------------
