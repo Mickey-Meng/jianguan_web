@@ -445,6 +445,36 @@ export const getFileInfo = data => {
   });
 };
 /**
+ * 查询待办任务
+ */
+export const listHandleTask = data => {
+  return request({
+    url: api.listHandleTask,
+    method: "post",
+    params: data
+  });
+};
+/**
+ * 查询已办任务
+ */
+export const listHistoricTask = data => {
+  return request({
+    url: api.listHistoricTask,
+    method: "post",
+    params: data
+  });
+};
+/**
+ * 查询历史任务
+ */
+export const listHistoricProcessInstance = data => {
+  return request({
+    url: api.listHistoricProcessInstance,
+    method: "post",
+    params: data
+  });
+};
+/**
  * 查询省份
  */
 export const getProvince = () => {

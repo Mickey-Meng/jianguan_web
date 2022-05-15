@@ -1181,5 +1181,54 @@ export const asyncRoutes = [{
         }
       },
     ]
-  }
+  },
+	{
+	  path: "/mytask",
+	  meta: {
+	    title: "我的任务",
+	    icon: "home",
+	    code: "mytask"
+	  },
+	  alwaysShow: true,
+	  component: Layout,
+	  redirect: "/agencytask",
+	  children: [{
+	      path: "/agencytask",
+	      name: "agencytask",
+	      component: () => import("@/views/task/agencytask"),
+	      meta: {
+	        title: "待办任务",
+	        code: "agencytask",
+	        icon: "circle",
+	        allMap: false,
+	        partMap: false,
+	        noMap: true
+	      }
+	    },{
+	      path: "/completedtasks",
+	      name: "completedtasks",
+	      component: () => import("@/views/task/completedtasks"),
+	      meta: {
+	        title: "已办任务",
+	        code: "completedtasks",
+	        icon: "circle",
+	        allMap: false,
+	        partMap: false,
+	        noMap: true
+	      }
+	    },{
+	      path: "/historicaltask",
+	      name: "historicaltask",
+	      component: () => import("@/views/task/historicaltask"),
+	      meta: {
+	        title: "历史任务",
+	        code: "historicaltask",
+	        icon: "circle",
+	        allMap: false,
+	        partMap: false,
+	        noMap: true
+	      }
+	    }
+		]
+	}
 ];

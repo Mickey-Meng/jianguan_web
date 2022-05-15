@@ -173,9 +173,9 @@ const api = {
   uploadFile: "/ZhuJiRoad/mong/newUpload",
   getFileInfo: "/ZhuJiRoad/mong/findFile",
   //任务
-  listHandleTask:'/ZhuJiRoad/admin/flowOperation/listHandleTask',//待办
-  listHistoricTask:'/ZhuJiRoad/admin/flowOperation/listHistoricTask',//已办
-  listHistoricProcessInstance:'/ZhuJiRoad/admin/flowOperation/listHistoricProcessInstance',//历史任务
+  listHandleTask:'/ZhuJiApi/admin/flow/flowOperation/listHandleTask',//待办
+  listHistoricTask:'/ZhuJiApi/admin/flow/flowOperation/listHistoricTask',//已办
+  listHistoricProcessInstance:'/ZhuJiApi/admin/flow/flowOperation/listHistoricProcessInstance',//历史任务
   //省市区
   getDistrict:'/ZhuJiApi/web/api/v1/proviceCityArea/getDistrict',//区县
   getCity:'/ZhuJiApi/web/api/v1/proviceCityArea/getCity',//地市
