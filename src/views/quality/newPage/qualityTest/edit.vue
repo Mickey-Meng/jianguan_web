@@ -10,7 +10,7 @@
 					style="background-color: rgba(0,0 0,0.5);height: calc(100vh - 96px); overflow-y: scroll;padding: 0px;margin: 0;">
 					<div class="form-bg">
 						<div class="form-content">
-							<el-form  :model="formData" ref="ruleForm" :rules="rules" label-width="80px">
+							<el-form :model="formData" ref="ruleForm" :rules="rules" label-width="80px">
 								<div class="form-title">
 									<div class="title-big-bar"></div>
 									<strong>质量检测</strong>
@@ -72,8 +72,8 @@
 										<div class="block-item">
 											<div class="block-item-label">填报日期<i class="require-icon"></i></div>
 											<div class="block-item-value">
-												<el-date-picker format="yyyy-MM-dd" v-model="formData.fillDate" type="date"
-													placeholder="请选择">
+												<el-date-picker format="yyyy-MM-dd" v-model="formData.fillDate"
+													type="date" placeholder="请选择">
 												</el-date-picker>
 											</div>
 										</div>
@@ -94,8 +94,7 @@
 											<el-table-column prop="name" align="center" label="材料名称"
 												show-overflow-tooltip>
 											</el-table-column>
-											<el-table-column prop="address" width="160px" align="center"
-												label="材料来源">
+											<el-table-column prop="addressStr" width="180px" align="center" label="材料来源">
 											</el-table-column>
 											<el-table-column prop="specification" width="120px" align="center"
 												label="材料规格">
@@ -103,17 +102,14 @@
 											<el-table-column prop="projectPart" width="120px" align="center"
 												label="工程部位">
 											</el-table-column>
-											<el-table-column prop="num" width="120px" align="center"
-												label="材料数量(吨)">
+											<el-table-column prop="num" width="120px" align="center" label="材料数量(吨)">
 											</el-table-column>
 											<el-table-column prop="takeAddress" width="120px" align="center"
 												label="取样地点">
 											</el-table-column>
-											<el-table-column prop="testDate" width="120px" align="center"
-												label="试验日期">
+											<el-table-column prop="testDate" width="120px" align="center" label="试验日期">
 											</el-table-column>
-											<el-table-column prop="testNum" width="120px" align="center"
-												label="实验数量">
+											<el-table-column prop="testNum" width="120px" align="center" label="实验数量">
 											</el-table-column>
 											<el-table-column prop="qualifiedNum" width="120px" align="center"
 												label="合格数量">
@@ -149,8 +145,7 @@
 										<upload @afterUp="afterUpReport($event)"></upload>
 									</div>
 									<div class="block-table">
-										<el-table :data="reportTable" style="width: 100%" border
-											class="have_scrolling">
+										<el-table :data="reportTable" style="width: 100%" border class="have_scrolling">
 											<el-table-column type="index" width="50" align="center" label="序号">
 											</el-table-column>
 											<el-table-column prop="fileName" align="center" label="附件"
@@ -213,8 +208,7 @@
 										<upload @afterUp="afterUpAttach($event)"></upload>
 									</div>
 									<div class="block-table">
-										<el-table :data="attachTable" style="width: 100%" border
-											class="have_scrolling">
+										<el-table :data="attachTable" style="width: 100%" border class="have_scrolling">
 											<el-table-column type="index" width="50" align="center" label="序号">
 											</el-table-column>
 											<el-table-column prop="fileName" align="center" label="附件"
@@ -295,13 +289,14 @@
 						<i class="el-icon-caret-right"></i>
 					</div>
 				</el-aside>
-				<el-aside style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
+				<el-aside
+					style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
 					<tasklog></tasklog>
 				</el-aside>
 			</el-container>
 		</el-dialog>
 		<el-dialog class="defined-dialog" title="新增" :visible.sync="examineVisible">
-			<el-form ref="newform" label-width="80px" rules="newrules" :model="examineInfo">
+			<el-form ref="newform" label-width="80px" :rules="newrules" :model="examineInfo">
 				<div class="form-block">
 					<div class="block-line">
 						<div class="block-item">
@@ -317,7 +312,9 @@
 						<div class="block-item">
 							<div class="block-item-label">材料来源</div>
 							<div class="block-item-value">
-								<el-input  v-model="examineInfo.address"></el-input>
+								<el-input style="max-width: 200px;" readonly v-model="examineInfo.addressStr">
+								</el-input>
+								<el-button size="medium" @click="changeArea">选择</el-button>
 							</div>
 						</div>
 					</div>
@@ -401,6 +398,40 @@
 					<el-button @click="addExamineTable" class="submit-btn" size="small" type="primary">提交</el-button>
 				</div>
 			</el-form>
+			<el-dialog class="defined-dialog" title="选择材料来源" :visible.sync="areaVisible">
+				<el-form label-width="80px">
+					<div class="form-block">
+						<div class="block-line">
+							<div class="block-item">
+								<el-select @change="changeProvince" v-model="addressItem.proviceId" placeholder="请选择省份">
+									<el-option v-for="item in provinceOptions" :key="item.value" :label="item.label"
+										:value="item.value">
+									</el-option>
+								</el-select>
+							</div>
+							<div class="block-item">
+								<el-select @change="changeCity" v-model="addressItem.cityId" placeholder="请选择地市">
+									<el-option v-for="item in cityOptions" :key="item.value" :label="item.label"
+										:value="item.value">
+									</el-option>
+								</el-select>
+							</div>
+						</div>
+						<div class="block-line">
+							<div class="block-item">
+								<el-select @change="changeCounty" v-model="addressItem.districtId" placeholder="请选择区县">
+									<el-option v-for="item in countyOptions" :key="item.value" :label="item.label"
+										:value="item.value">
+									</el-option>
+								</el-select>
+							</div>
+						</div>
+					</div>
+					<div class="form-block">
+						<el-button @click="checkArea" class="submit-btn" size="small" type="primary">确定</el-button>
+					</div>
+				</el-form>
+			</el-dialog>
 		</el-dialog>
 	</div>
 </template>
@@ -412,12 +443,12 @@
 		formatDate,
 		formatDateTime
 	} from "@/utils/format.js";
-	
+
 	import upload from "../../../common/upload.vue"
 	import tasklog from "../../../common/tasklog.vue"
 
 	export default {
-		props:['currentRow'],
+		props: ['currentRow'],
 		data() {
 			return {
 				dialogFormVisible: false,
@@ -450,8 +481,8 @@
 					deletedFlag: 1,
 					detectionInfo: [],
 					detectionReport: [],
-					factoryInfo:[],
-					otherAttachment:[],
+					factoryInfo: [],
+					otherAttachment: [],
 					detectionUser: 1,
 					draftFlag: 1,
 					fillDate: formatDate(new Date()),
@@ -481,7 +512,7 @@
 						trigger: 'blur'
 					}]
 				},
-				newrules:{
+				newrules: {
 					name: [{
 						required: true,
 						message: '请填写材料名称',
@@ -504,8 +535,10 @@
 					}]
 				},
 				examineVisible: false, //检测信息弹窗是否显示
+				areaVisible: false,
 				examineInfo: { //检测信息弹窗信息
 					address: null,
+					addressStr: '',
 					detectionResult: 1,
 					name: '',
 					num: null,
@@ -522,7 +555,18 @@
 				reportTable: [], //试验检测报告
 				factoryTable: [], //出厂信息
 				attachTable: [], //其他附件
-				materialOptions: []
+				materialOptions: [],
+				provinceOptions: [],
+				cityOptions: [],
+				countyOptions: [],
+				addressItem: {
+					city: "",
+					cityId: undefined,
+					district: "",
+					districtId: undefined,
+					provice: "",
+					proviceId: undefined
+				}
 			};
 		},
 		created() {},
@@ -531,18 +575,18 @@
 			tasklog
 		},
 		computed: {},
-		watch:{
-			currentRow(obj){
-				if(obj['id']){
+		watch: {
+			currentRow(obj) {
+				if (obj['id']) {
 					this.getDetail(obj['id']);
-				}else{
-					this.formData={
+				} else {
+					this.formData = {
 						buildSection: 1,
 						deletedFlag: 1,
 						detectionInfo: [],
 						detectionReport: [],
-						factoryInfo:[],
-						otherAttachment:[],
+						factoryInfo: [],
+						otherAttachment: [],
 						detectionUser: 1,
 						draftFlag: 1,
 						fillDate: formatDate(new Date()),
@@ -556,10 +600,11 @@
 		},
 		mounted() {
 			this.getMaterialEnums();
+			this.getProvince();
 		},
 		methods: {
-			changeVisible(value){
-				this.dialogFormVisible=value;
+			changeVisible(value) {
+				this.dialogFormVisible = value;
 			},
 			getMaterialEnums() {
 				api.getMaterialEnums().then((res) => {
@@ -567,61 +612,128 @@
 					this.materialOptions = convertOptions(options);
 				});
 			},
+			getProvince() {
+				api.getProvince().then((res) => {
+					let options = res.data || [];
+					this.provinceOptions = convertOptions(options, 'name', 'id');
+				});
+			},
+			changeProvince(value) {
+				this.addressItem.proviceId = value;
+				this.addressItem.provice = this.getLabelByValue(this.provinceOptions, value);
+				this.countyOptions = [];
+				this.cityOptions = [];
+				this.addressItem.cityId = undefined;
+				this.addressItem.districtId = undefined;
+				this.addressItem.city = '';
+				this.addressItem.district = '';
+				api.getCity({
+					provinceId: value
+				}).then((res) => {
+					let options = res.data || [];
+					this.cityOptions = convertOptions(options, 'name', 'id');
+				});
+			},
+			changeCity(value) {
+				this.addressItem.cityId = value;
+				this.addressItem.city = this.getLabelByValue(this.cityOptions, value);
+				this.countyOptions = [];
+				this.addressItem.districtId = undefined;
+				this.addressItem.district = '';
+				api.getDistrict({
+					cityId: value
+				}).then((res) => {
+					let options = res.data || [];
+					this.countyOptions = convertOptions(options, 'name', 'id');
+				});
+			},
+			changeCounty(value) {
+				this.addressItem.districtId = value;
+				this.addressItem.district = this.getLabelByValue(this.countyOptions, value);
+			},
+			getLabelByValue(list, value) {
+				let label = '';
+				list.forEach(item => {
+					if (item['value'] == value) {
+						label = item['label'];
+					}
+				})
+				return label;
+			},
 			addExamine() {
 				this.examineVisible = true;
 			},
 			addExamineTable() {
 				this.examineTable.push(this.examineInfo);
-				this.examineVisible=false;
+				this.examineVisible = false;
 			},
-			getDetail(id){
-				api.getQualityDetectionDetail({id:id}).then((res) => {
-					let data=res['data']||{};
-					this.formData=data;
+			getDetail(id) {
+				api.getQualityDetectionDetail({
+					id: id
+				}).then((res) => {
+					let data = res['data'] || {};
+					this.formData = data;
 				});
 			},
-			addOrModify(){
+			addOrModify() {
 				this.$refs['ruleForm'].validate((valid) => {
-					this.formData.detectionInfo=this.examineTable;
-					this.formData.detectionReport=this.reportTable;
-					this.formData.factoryInfo=this.factoryTable;
-					this.formData.otherAttachment=this.attachTable;
+					this.formData.detectionInfo = this.examineTable;
+					this.formData.detectionReport = this.reportTable;
+					this.formData.factoryInfo = this.factoryTable;
+					this.formData.otherAttachment = this.attachTable;
 					api.addOrUpdateQualityDetection(this.formData).then((res) => {
-						if(res.data){
+						if (res.data) {
 							this.$message({
 								type: 'success',
 								message: '提交成功!'
 							});
-							this.dialogFormVisible=false;
+							this.dialogFormVisible = false;
 							this.$emit("query");
 						}
 					});
 				})
 			},
-			afterUpReport(data){
+			afterUpReport(data) {
 				this.reportTable.push({
-					createTime:formatDateTime(data['uploadTime']),
-					fileName:data['fileName'],
-					fileUrl:data['fileId'],
-					creatorName:'test'
+					createTime: formatDateTime(data['uploadTime']),
+					fileName: data['fileName'],
+					fileUrl: data['fileId'],
+					creatorName: 'test'
 				})
 			},
-			afterUpFactory(data){
+			afterUpFactory(data) {
 				this.factoryTable.push({
-					createTime:formatDateTime(data['uploadTime']),
-					fileName:data['fileName'],
-					fileUrl:data['fileId'],
-					creatorName:'test'
+					createTime: formatDateTime(data['uploadTime']),
+					fileName: data['fileName'],
+					fileUrl: data['fileId'],
+					creatorName: 'test'
 				})
 			},
-			afterUpAttach(data){
+			afterUpAttach(data) {
 				this.attachTable.push({
-					createTime:formatDateTime(data['uploadTime']),
-					fileName:data['fileName'],
-					fileUrl:data['fileId'],
-					creatorName:'test'
+					createTime: formatDateTime(data['uploadTime']),
+					fileName: data['fileName'],
+					fileUrl: data['fileId'],
+					creatorName: 'test'
 				})
 			},
+			changeArea() {
+				this.countyOptions = [];
+				this.cityOptions = [];
+				this.addressItem.cityId = undefined;
+				this.addressItem.districtId = undefined;
+				this.addressItem.proviceId = undefined;
+				this.addressItem.city = '';
+				this.addressItem.district = '';
+				this.addressItem.provice = '';
+				this.areaVisible = true;
+			},
+			checkArea() {
+				this.examineInfo.address = this.addressItem;
+				this.examineInfo.addressStr = this.addressItem.provice + '/' + this.addressItem.city + '/' + this
+					.addressItem.district;
+				this.areaVisible = false;
+			}
 		},
 	};
 </script>

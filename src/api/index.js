@@ -176,6 +176,10 @@ const api = {
   listHandleTask:'/ZhuJiRoad/admin/flowOperation/listHandleTask',//待办
   listHistoricTask:'/ZhuJiRoad/admin/flowOperation/listHistoricTask',//已办
   listHistoricProcessInstance:'/ZhuJiRoad/admin/flowOperation/listHistoricProcessInstance',//历史任务
+  //省市区
+  getDistrict:'/ZhuJiApi/web/api/v1/proviceCityArea/getDistrict',//区县
+  getCity:'/ZhuJiApi/web/api/v1/proviceCityArea/getCity',//地市
+  getProvince:'/ZhuJiApi/web/api/v1/proviceCityArea/getProvince',//省
   //隐蔽工程
   getHiddenProjectList: "/ZhuJiApi/web/api/v1/hiddenProjectAccept/page",
   getHiddenProjectDetail: "/ZhuJiApi/web/api/v1/hiddenProjectAccept/detail/id",
