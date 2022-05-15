@@ -67,8 +67,8 @@
 				</el-pagination>
 			</div>
 		</el-main>
-		<edit ref="edit" @query="query" :currentRow="currentRow"></edit>
-		<detail ref="detail" :currentRow="currentRow"></detail>
+		<edit ref="edit" @query="query" :editRow="editRow"></edit>
+		<detail ref="detail" :detailRow="detailRow"></detail>
 	</el-container>
 </template>
 
@@ -91,7 +91,8 @@
 					totalPage: 1,
 					pageSize: 10,
 				},
-				currentRow:null
+				editRow:null,
+				detailRow:null
 			};
 		},
 		created() {},
@@ -107,22 +108,35 @@
 			query() {
 				api.getHiddenProjectList(this.queryData).then((res) => {
 					this.allData = res.data || {};
-					this.tableData = res.data.list;
+					this.tableData = this.formateTableData(res.data.list);
 					this.queryData.pageNum=res.data.pageNum;
 					this.queryData.totalPage=res.data.total;
 					this.queryData.pageSize=res.data.pageSize;
 				});
 			},
+			formateTableData(list) {
+				list = list || [];
+				list.forEach(item => {
+					item['projectName'] = '235国道杭州至诸暨公路萧山河上至诸暨安华段改建工程';
+					item['buildUnit'] = '中交上海航道局有限公司、中国交通建设股份有限公司、浙江诸安建设集团有限公司、浙江省交通规划设计研究院有限公司';
+					item['contractCode'] = '235SJSG01';
+					item['supervisorUnit'] = '浙江交科公路水运工程监理有限公司';
+					item['buildSectionId'] = '';
+					item['supervisorSection'] = '';
+					item['statusStr'] = '';
+				})
+				return list;
+			},
 			addNew() {
-				this.currentRow=null;
+				this.editRow=null;
 				this.$refs.edit.changeVisible(true);
 			},
 			modify(row) {
-				this.currentRow=row;
+				this.editRow=row;
 				this.$refs.edit.changeVisible(true);
 			},
 			viewDetail(row) {
-				this.currentRow=row;
+				this.detailRow=row;
 				this.$refs.detail.changeVisible(true);
 			},
 			deleteRow(row) {

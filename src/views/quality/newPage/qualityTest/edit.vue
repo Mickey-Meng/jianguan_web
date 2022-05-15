@@ -10,7 +10,7 @@
 					style="background-color: rgba(0,0 0,0.5);height: calc(100vh - 96px); overflow-y: scroll;padding: 0px;margin: 0;">
 					<div class="form-bg">
 						<div class="form-content">
-							<el-form  :model="formData" ref="ruleForm" :rules="rules" label-width="80px">
+							<el-form :model="formData" ref="ruleForm" :rules="rules" label-width="80px">
 								<div class="form-title">
 									<div class="title-big-bar"></div>
 									<strong>质量检测</strong>
@@ -64,7 +64,9 @@
 										<div class="block-item">
 											<div class="block-item-label">报验单号<i class="require-icon"></i></div>
 											<div class="block-item-value">
-												<el-input v-model="formData.inspectionCode"></el-input>
+												<el-form-item prop="inspectionCode">
+													<el-input v-model="formData.inspectionCode"></el-input>
+												</el-form-item>
 											</div>
 										</div>
 									</div>
@@ -72,9 +74,12 @@
 										<div class="block-item">
 											<div class="block-item-label">填报日期<i class="require-icon"></i></div>
 											<div class="block-item-value">
-												<el-date-picker format="yyyy-MM-dd" v-model="formData.fillDate" type="date"
-													placeholder="请选择">
-												</el-date-picker>
+												<el-form-item prop="fillDate">
+													<el-date-picker format="yyyy-MM-dd" v-model="formData.fillDate"
+														type="date" placeholder="请选择">
+													</el-date-picker>
+												</el-form-item>
+
 											</div>
 										</div>
 									</div>
@@ -94,7 +99,7 @@
 											<el-table-column prop="name" align="center" label="材料名称"
 												show-overflow-tooltip>
 											</el-table-column>
-											<el-table-column prop="address" width="160px" align="center"
+											<el-table-column prop="addressStr" width="180px" align="center"
 												label="材料来源">
 											</el-table-column>
 											<el-table-column prop="specification" width="120px" align="center"
@@ -103,17 +108,14 @@
 											<el-table-column prop="projectPart" width="120px" align="center"
 												label="工程部位">
 											</el-table-column>
-											<el-table-column prop="num" width="120px" align="center"
-												label="材料数量(吨)">
+											<el-table-column prop="num" width="120px" align="center" label="材料数量(吨)">
 											</el-table-column>
 											<el-table-column prop="takeAddress" width="120px" align="center"
 												label="取样地点">
 											</el-table-column>
-											<el-table-column prop="testDate" width="120px" align="center"
-												label="试验日期">
+											<el-table-column prop="testDate" width="120px" align="center" label="试验日期">
 											</el-table-column>
-											<el-table-column prop="testNum" width="120px" align="center"
-												label="实验数量">
+											<el-table-column prop="testNum" width="120px" align="center" label="实验数量">
 											</el-table-column>
 											<el-table-column prop="qualifiedNum" width="120px" align="center"
 												label="合格数量">
@@ -130,7 +132,7 @@
 											<el-table-column fixed="right" width="120" align="center" label="操作">
 												<template slot-scope="{ row, $index }">
 													<el-button type="text" size="mini">预览</el-button>
-													<el-button type="text" size="mini">删除</el-button>
+													<el-button type="text" size="mini" @click="deleteExamine(row, $index)">删除</el-button>
 												</template>
 											</el-table-column>
 										</el-table>
@@ -149,8 +151,7 @@
 										<upload @afterUp="afterUpReport($event)"></upload>
 									</div>
 									<div class="block-table">
-										<el-table :data="reportTable" style="width: 100%" border
-											class="have_scrolling">
+										<el-table :data="reportTable" style="width: 100%" border class="have_scrolling">
 											<el-table-column type="index" width="50" align="center" label="序号">
 											</el-table-column>
 											<el-table-column prop="fileName" align="center" label="附件"
@@ -166,6 +167,7 @@
 												<template slot-scope="{ row, $index }">
 													<el-button type="text" size="mini">下载</el-button>
 													<el-button type="text" size="mini">预览</el-button>
+													<el-button type="text" size="mini" @click="deleteReport(row, $index)">删除</el-button>
 												</template>
 											</el-table-column>
 										</el-table>
@@ -198,6 +200,7 @@
 												<template slot-scope="{ row, $index }">
 													<el-button type="text" size="mini">下载</el-button>
 													<el-button type="text" size="mini">预览</el-button>
+													<el-button type="text" size="mini" @click="deleteFactory(row, $index)">删除</el-button>
 												</template>
 											</el-table-column>
 										</el-table>
@@ -213,8 +216,7 @@
 										<upload @afterUp="afterUpAttach($event)"></upload>
 									</div>
 									<div class="block-table">
-										<el-table :data="attachTable" style="width: 100%" border
-											class="have_scrolling">
+										<el-table :data="attachTable" style="width: 100%" border class="have_scrolling">
 											<el-table-column type="index" width="50" align="center" label="序号">
 											</el-table-column>
 											<el-table-column prop="fileName" align="center" label="附件"
@@ -230,6 +232,7 @@
 												<template slot-scope="{ row, $index }">
 													<el-button type="text" size="mini">下载</el-button>
 													<el-button type="text" size="mini">预览</el-button>
+													<el-button type="text" size="mini" @click="deleteAttach(row, $index)">删除</el-button>
 												</template>
 											</el-table-column>
 										</el-table>
@@ -261,11 +264,13 @@
 										<div class="block-item">
 											<div class="block-item-label">审核人<i class="require-icon"></i></div>
 											<div class="block-item-value">
-												<el-select v-model="formData.detectionUser" placeholder="请选择">
-													<el-option v-for="item in userOptions" :key="item.value"
-														:label="item.label" :value="item.value">
-													</el-option>
-												</el-select>
+												<el-form-item prop="detectionUser">
+													<el-select v-model="formData.detectionUser" placeholder="请选择">
+														<el-option v-for="item in userOptions" :key="item.value"
+															:label="item.label" :value="item.value">
+														</el-option>
+													</el-select>
+												</el-form-item>
 											</div>
 										</div>
 									</div>
@@ -295,29 +300,34 @@
 						<i class="el-icon-caret-right"></i>
 					</div>
 				</el-aside>
-				<el-aside style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
+				<el-aside
+					style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
 					<tasklog></tasklog>
 				</el-aside>
 			</el-container>
 		</el-dialog>
 		<el-dialog class="defined-dialog" title="新增" :visible.sync="examineVisible">
-			<el-form ref="newform" label-width="80px" rules="newrules" :model="examineInfo">
+			<el-form ref="newform" label-width="80px" :rules="newrules" :model="examineInfo">
 				<div class="form-block">
 					<div class="block-line">
 						<div class="block-item">
 							<div class="block-item-label">材料名称<i class="require-icon"></i></div>
 							<div class="block-item-value">
-								<el-select v-model="examineInfo.name" placeholder="请选择">
-									<el-option v-for="item in materialOptions" :key="item.value" :label="item.label"
-										:value="item.value">
-									</el-option>
-								</el-select>
+								<el-form-item prop="name">
+									<el-select v-model="examineInfo.name" placeholder="请选择">
+										<el-option v-for="item in materialOptions" :key="item.value" :label="item.label"
+											:value="item.value">
+										</el-option>
+									</el-select>
+								</el-form-item>
 							</div>
 						</div>
 						<div class="block-item">
 							<div class="block-item-label">材料来源</div>
 							<div class="block-item-value">
-								<el-input  v-model="examineInfo.address"></el-input>
+								<el-input style="max-width: 200px;" readonly v-model="examineInfo.addressStr">
+								</el-input>
+								<el-button size="medium" @click="changeArea">选择</el-button>
 							</div>
 						</div>
 					</div>
@@ -337,9 +347,11 @@
 					</div>
 					<div class="block-line">
 						<div class="block-item">
-							<div class="block-item-label">材料数量(吨)</div>
+							<div class="block-item-label">材料数量(吨)<i class="require-icon"></i></div>
 							<div class="block-item-value">
-								<el-input v-model="examineInfo.num"></el-input>
+								<el-form-item prop="num">
+									<el-input v-model.number="examineInfo.num"></el-input>
+								</el-form-item>
 							</div>
 						</div>
 						<div class="block-item">
@@ -353,14 +365,17 @@
 						<div class="block-item">
 							<div class="block-item-label">试验日期</div>
 							<div class="block-item-value">
-								<el-date-picker v-model="examineInfo.testDate" type="date" placeholder="请选择">
+								<el-date-picker format="yyyy-MM-dd" v-model="examineInfo.testDate" type="date"
+									placeholder="请选择">
 								</el-date-picker>
 							</div>
 						</div>
 						<div class="block-item">
 							<div class="block-item-label">试验数量<i class="require-icon"></i></div>
 							<div class="block-item-value">
-								<el-input v-model="examineInfo.testNum"></el-input>
+								<el-form-item prop="testNum">
+									<el-input v-model.number="examineInfo.testNum"></el-input>
+								</el-form-item>
 							</div>
 						</div>
 					</div>
@@ -368,13 +383,17 @@
 						<div class="block-item">
 							<div class="block-item-label">合格数量<i class="require-icon"></i></div>
 							<div class="block-item-value">
-								<el-input v-model="examineInfo.qualifiedNum"></el-input>
+								<el-form-item prop="qualifiedNum">
+									<el-input v-model.number="examineInfo.qualifiedNum"></el-input>
+								</el-form-item>
 							</div>
 						</div>
 						<div class="block-item">
 							<div class="block-item-label">总合格率(%)<i class="require-icon"></i></div>
 							<div class="block-item-value">
-								<el-input v-model="examineInfo.qualifiedRate"></el-input>
+								<el-form-item prop="qualifiedRate">
+									<el-input v-model.number="examineInfo.qualifiedRate"></el-input>
+								</el-form-item>
 							</div>
 						</div>
 					</div>
@@ -401,6 +420,40 @@
 					<el-button @click="addExamineTable" class="submit-btn" size="small" type="primary">提交</el-button>
 				</div>
 			</el-form>
+			<el-dialog class="defined-dialog" title="选择材料来源" :visible.sync="areaVisible">
+				<el-form label-width="80px">
+					<div class="form-block">
+						<div class="block-line">
+							<div class="block-item">
+								<el-select @change="changeProvince" v-model="addressItem.proviceId" placeholder="请选择省份">
+									<el-option v-for="item in provinceOptions" :key="item.value" :label="item.label"
+										:value="item.value">
+									</el-option>
+								</el-select>
+							</div>
+							<div class="block-item">
+								<el-select @change="changeCity" v-model="addressItem.cityId" placeholder="请选择地市">
+									<el-option v-for="item in cityOptions" :key="item.value" :label="item.label"
+										:value="item.value">
+									</el-option>
+								</el-select>
+							</div>
+						</div>
+						<div class="block-line">
+							<div class="block-item">
+								<el-select @change="changeCounty" v-model="addressItem.districtId" placeholder="请选择区县">
+									<el-option v-for="item in countyOptions" :key="item.value" :label="item.label"
+										:value="item.value">
+									</el-option>
+								</el-select>
+							</div>
+						</div>
+					</div>
+					<div class="form-block">
+						<el-button @click="checkArea" class="submit-btn" size="small" type="primary">确定</el-button>
+					</div>
+				</el-form>
+			</el-dialog>
 		</el-dialog>
 	</div>
 </template>
@@ -412,12 +465,12 @@
 		formatDate,
 		formatDateTime
 	} from "@/utils/format.js";
-	
+
 	import upload from "../../../common/upload.vue"
 	import tasklog from "../../../common/tasklog.vue"
 
 	export default {
-		props:['currentRow'],
+		props: ['editRow'],
 		data() {
 			return {
 				dialogFormVisible: false,
@@ -432,7 +485,7 @@
 					label: '陈武林',
 					value: 1
 				}],
-				dialogTitle: '智慧建设通用版-【绍兴市】235国道杭州至诸暨公路萧山河上至诸暨安华段改建工程',
+				dialogTitle: '项目全生命周期数字管理平台',
 				annexTableData: [],
 				activeName: 'first',
 				waitTableData: [],
@@ -450,12 +503,12 @@
 					deletedFlag: 1,
 					detectionInfo: [],
 					detectionReport: [],
-					factoryInfo:[],
-					otherAttachment:[],
+					factoryInfo: [],
+					otherAttachment: [],
 					detectionUser: 1,
 					draftFlag: 1,
 					fillDate: formatDate(new Date()),
-					id: 222,
+					// id: 222,
 					inspectionCode: '',
 					projectId: 1,
 					remark: '',
@@ -481,48 +534,84 @@
 						trigger: 'blur'
 					}]
 				},
-				newrules:{
+				newrules: {
 					name: [{
 						required: true,
 						message: '请填写材料名称',
 						trigger: 'blur'
 					}],
+					num: [{
+							required: true,
+							message: '请填写材料数量',
+							trigger: 'blur'
+						},{
+						type: 'number',
+						message: '材料数量必须为数字'
+					}],
 					testNum: [{
-						required: true,
-						message: '请填写实验数量',
-						trigger: 'blur'
-					}],
+							required: true,
+							message: '请填写实验数量',
+							trigger: 'blur'
+						},
+						{
+							type: 'number',
+							message: '实验数量必须为数字'
+						}
+					],
 					qualifiedNum: [{
-						required: true,
-						message: '请填写合格数量',
-						trigger: 'blur'
-					}],
+							required: true,
+							message: '请填写合格数量',
+							trigger: 'blur'
+						},
+						{
+							type: 'number',
+							message: '合格数量必须为数字'
+						}
+					],
 					qualifiedRate: [{
-						required: true,
-						message: '请填写总合格率',
-						trigger: 'blur'
-					}]
+							required: true,
+							message: '请填写总合格率',
+							trigger: 'blur'
+						},
+						{
+							type: 'number',
+							message: '合格率必须为数字'
+						}
+					]
 				},
 				examineVisible: false, //检测信息弹窗是否显示
+				areaVisible: false,
 				examineInfo: { //检测信息弹窗信息
 					address: null,
+					addressStr: '',
 					detectionResult: 1,
 					name: '',
 					num: null,
 					projectPart: '',
-					qualifiedNum: '',
-					qualifiedRate: '',
+					qualifiedNum: null,
+					qualifiedRate: null,
 					reportCode: '',
 					specification: '',
 					takeAddress: '',
-					testDate: '',
-					testNum: ''
+					testDate: formatDate(new Date()),
+					testNum: null
 				},
 				examineTable: [], //检测信息
 				reportTable: [], //试验检测报告
 				factoryTable: [], //出厂信息
 				attachTable: [], //其他附件
-				materialOptions: []
+				materialOptions: [],
+				provinceOptions: [],
+				cityOptions: [],
+				countyOptions: [],
+				addressItem: {
+					city: "",
+					cityId: undefined,
+					district: "",
+					districtId: undefined,
+					provice: "",
+					proviceId: undefined
+				}
 			};
 		},
 		created() {},
@@ -531,22 +620,22 @@
 			tasklog
 		},
 		computed: {},
-		watch:{
-			currentRow(obj){
-				if(obj['id']){
+		watch: {
+			editRow(obj) {
+				if (obj['id']) {
 					this.getDetail(obj['id']);
-				}else{
-					this.formData={
+				} else {
+					this.formData = {
 						buildSection: 1,
 						deletedFlag: 1,
 						detectionInfo: [],
 						detectionReport: [],
-						factoryInfo:[],
-						otherAttachment:[],
+						factoryInfo: [],
+						otherAttachment: [],
 						detectionUser: 1,
 						draftFlag: 1,
 						fillDate: formatDate(new Date()),
-						id: 222,
+						// id: 222,
 						inspectionCode: '',
 						projectId: 1,
 						remark: '',
@@ -556,72 +645,191 @@
 		},
 		mounted() {
 			this.getMaterialEnums();
+			this.getProvince();
 		},
 		methods: {
-			changeVisible(value){
-				this.dialogFormVisible=value;
+			changeVisible(value) {
+				this.dialogFormVisible = value;
 			},
 			getMaterialEnums() {
 				api.getMaterialEnums().then((res) => {
 					let options = res.data || [];
-					this.materialOptions = convertOptions(options);
+					this.materialOptions = convertOptions(options, 'desc', 'desc');
 				});
+			},
+			getProvince() {
+				api.getProvince().then((res) => {
+					let options = res.data || [];
+					this.provinceOptions = convertOptions(options, 'name', 'id');
+				});
+			},
+			changeProvince(value) {
+				this.addressItem.proviceId = value;
+				this.addressItem.provice = this.getLabelByValue(this.provinceOptions, value);
+				this.countyOptions = [];
+				this.cityOptions = [];
+				this.addressItem.cityId = undefined;
+				this.addressItem.districtId = undefined;
+				this.addressItem.city = '';
+				this.addressItem.district = '';
+				api.getCity({
+					provinceId: value
+				}).then((res) => {
+					let options = res.data || [];
+					this.cityOptions = convertOptions(options, 'name', 'id');
+				});
+			},
+			changeCity(value) {
+				this.addressItem.cityId = value;
+				this.addressItem.city = this.getLabelByValue(this.cityOptions, value);
+				this.countyOptions = [];
+				this.addressItem.districtId = undefined;
+				this.addressItem.district = '';
+				api.getDistrict({
+					cityId: value
+				}).then((res) => {
+					let options = res.data || [];
+					this.countyOptions = convertOptions(options, 'name', 'id');
+				});
+			},
+			changeCounty(value) {
+				this.addressItem.districtId = value;
+				this.addressItem.district = this.getLabelByValue(this.countyOptions, value);
+			},
+			getLabelByValue(list, value) {
+				let label = '';
+				list.forEach(item => {
+					if (item['value'] == value) {
+						label = item['label'];
+					}
+				})
+				return label;
 			},
 			addExamine() {
 				this.examineVisible = true;
 			},
 			addExamineTable() {
-				this.examineTable.push(this.examineInfo);
-				this.examineVisible=false;
+				this.$refs['newform'].validate((valid) => {
+					if (valid) {
+						this.examineTable.push(this.examineInfo);
+						this.examineVisible = false;
+					}
+				})
+
 			},
-			getDetail(id){
-				api.getQualityDetectionDetail({id:id}).then((res) => {
-					let data=res['data']||{};
-					this.formData=data;
+			getDetail(id) {
+				api.getQualityDetectionDetail({
+					id: id
+				}).then((res) => {
+					let data = res['data'] || {};
+					this.formData = data;
+					this.examineTable=data.detectionInfo||[];
+					this.reportTable=data.detectionReport||[];
+					this.factoryTable=data.factoryInfo||[];
+					this.attachTable=data.otherAttachment||[];
 				});
 			},
-			addOrModify(){
+			addOrModify() {
 				this.$refs['ruleForm'].validate((valid) => {
-					this.formData.detectionInfo=this.examineTable;
-					this.formData.detectionReport=this.reportTable;
-					this.formData.factoryInfo=this.factoryTable;
-					this.formData.otherAttachment=this.attachTable;
-					api.addOrUpdateQualityDetection(this.formData).then((res) => {
-						if(res.data){
-							this.$message({
-								type: 'success',
-								message: '提交成功!'
-							});
-							this.dialogFormVisible=false;
-							this.$emit("query");
-						}
-					});
+					if (valid) {
+						this.formData.detectionInfo = this.examineTable;
+						this.formData.detectionReport = this.reportTable;
+						this.formData.factoryInfo = this.factoryTable;
+						this.formData.otherAttachment = this.attachTable;
+						api.addOrUpdateQualityDetection(this.formData).then((res) => {
+							if (res.data) {
+								this.$message({
+									type: 'success',
+									message: '提交成功!'
+								});
+								this.dialogFormVisible = false;
+								this.$emit("query");
+							}
+						});
+					}
+
 				})
 			},
-			afterUpReport(data){
+			afterUpReport(data) {
 				this.reportTable.push({
-					createTime:formatDateTime(data['uploadTime']),
-					fileName:data['fileName'],
-					fileUrl:data['fileId'],
-					creatorName:'test'
+					createTime: formatDateTime(data['uploadTime']),
+					fileName: data['fileName'],
+					fileUrl: data['fileId'],
+					creatorName: 'test'
 				})
 			},
-			afterUpFactory(data){
+			afterUpFactory(data) {
 				this.factoryTable.push({
-					createTime:formatDateTime(data['uploadTime']),
-					fileName:data['fileName'],
-					fileUrl:data['fileId'],
-					creatorName:'test'
+					createTime: formatDateTime(data['uploadTime']),
+					fileName: data['fileName'],
+					fileUrl: data['fileId'],
+					creatorName: 'test'
 				})
 			},
-			afterUpAttach(data){
+			afterUpAttach(data) {
 				this.attachTable.push({
-					createTime:formatDateTime(data['uploadTime']),
-					fileName:data['fileName'],
-					fileUrl:data['fileId'],
-					creatorName:'test'
+					createTime: formatDateTime(data['uploadTime']),
+					fileName: data['fileName'],
+					fileUrl: data['fileId'],
+					creatorName: 'test'
 				})
 			},
+			changeArea() {
+				this.countyOptions = [];
+				this.cityOptions = [];
+				this.addressItem.cityId = undefined;
+				this.addressItem.districtId = undefined;
+				this.addressItem.proviceId = undefined;
+				this.addressItem.city = '';
+				this.addressItem.district = '';
+				this.addressItem.provice = '';
+				this.areaVisible = true;
+			},
+			checkArea() {
+				this.examineInfo.address = this.addressItem;
+				this.examineInfo.addressStr = this.addressItem.provice + '/' + this.addressItem.city + '/' + this
+					.addressItem.district;
+				this.areaVisible = false;
+			},
+			deleteExamine(row, index){
+				this.$confirm('确认是否删除?', '提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+				}).then(() => {
+					this.examineTable.splice(index,1);
+				});
+				
+			},
+			deleteReport(row, index){
+				this.$confirm('确认是否删除?', '提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+				}).then(() => {
+					this.reportTable.splice(index,1);
+				});
+				
+			},
+			deleteFactory(row, index){
+				this.$confirm('确认是否删除?', '提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+				}).then(() => {
+					this.factoryTable.splice(index,1);
+				});
+				
+			},
+			deleteAttach(row, index){
+				this.$confirm('确认是否删除?', '提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+				}).then(() => {
+					this.attachTable.splice(index,1);
+				});
+			}
 		},
 	};
 </script>

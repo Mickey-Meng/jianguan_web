@@ -35,13 +35,13 @@
 			</div>
 			<div class="input-box">
 				<div class="input-value">
-					<el-date-picker v-model="queryData.createEndTime" type="date" placeholder="开始日期">
+					<el-date-picker v-model="queryData.createStartTime" type="date" placeholder="开始日期">
 					</el-date-picker>
 				</div>
 			</div>
 			<div class="input-box">
 				<div class="input-value">
-					<el-date-picker v-model="queryData.createStartTime" type="date" placeholder="结束日期">
+					<el-date-picker v-model="queryData.createEndTime" type="date" placeholder="结束日期">
 					</el-date-picker>
 				</div>
 			</div>
@@ -89,8 +89,8 @@
 			</div>
 		</el-main>
 		
-		<edit ref="edit"  @query="query" :currentRow="currentRow"></edit>
-		<detail ref="detail" :currentRow="currentRow"></detail>
+		<edit ref="edit"  @query="query" :editRow="editRow"></edit>
+		<detail ref="detail" :detailRow="detailRow"></detail>
 	</el-container>
 </template>
 
@@ -136,7 +136,8 @@
 					pageSize: 10,
 				},
 				currentPattern: 0, //0查看，1新增，2修改
-				currentRow:null
+				editRow:null,
+				detailRow:null
 			};
 		},
 		created() {},
@@ -165,15 +166,15 @@
 				return list;
 			},
 			addNew() {
-				this.currentRow=null;
+				this.editRow=null;
 				this.$refs.edit.changeVisible(true);
 			},
 			modify(row) {
-				this.currentRow=row;
+				this.editRow=row;
 				this.$refs.edit.changeVisible(true);
 			},
 			viewDetail(row) {
-				this.currentRow=row;
+				this.detailRow=row;
 				this.$refs.detail.changeVisible(true);
 			},
 			deleteRow(row) {

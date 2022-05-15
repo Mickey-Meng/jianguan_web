@@ -444,7 +444,66 @@ export const getFileInfo = data => {
     data: data
   });
 };
-
+/**
+ * 查询待办任务
+ */
+export const listHandleTask = data => {
+  return request({
+    url: api.listHandleTask,
+    method: "post",
+    data: data
+  });
+};
+/**
+ * 查询已办任务
+ */
+export const listHistoricTask = data => {
+  return request({
+    url: api.listHistoricTask,
+    method: "post",
+    data: data
+  });
+};
+/**
+ * 查询历史任务
+ */
+export const listHistoricProcessInstance = data => {
+  return request({
+    url: api.listHistoricProcessInstance,
+    method: "post",
+    data: data
+  });
+};
+/**
+ * 查询省份
+ */
+export const getProvince = () => {
+  return request({
+    url: api.getProvince,
+    method: "get",
+    params: {}
+  });
+};
+/**
+ * 查询地市
+ */
+export const getCity = params => {
+  return request({
+    url: api.getCity,
+    method: "get",
+    params: params
+  });
+};
+/**
+ * 查询区县
+ */
+export const getDistrict = params => {
+  return request({
+    url: api.getDistrict,
+    method: "get",
+    params: params
+  });
+};
 /**
  * 新增或者更新质量检测数据
  */
