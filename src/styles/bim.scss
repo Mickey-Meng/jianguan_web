@@ -344,82 +344,152 @@
   }
 }
 //全局dialog填报样式
-.full_global_dialog {
-
-  .el-dialog {
-    display: flex;
-    flex-direction: column;
-
-    .el-dialog__header {
-      height: 50px;
-    }
-
-    .el-dialog__body {
-      padding: 0;
-      height: 100%;
-      flex: 1;
-
-      .full_dialog_container {
-        height: 100%;
-        box-sizing: border-box;
-        min-width: 0;
-
-        .el-main {
-          background-color: rgb(228, 228, 228);
-          height: calc(100vh - 50px);
-          overflow-y: scroll;
-          padding: 0 !important;
-          margin-top: 0 !important;
-
-          .form_content {
-            background: rgb(255, 255, 255);
-            width: 1350px;
-            margin: 0 auto;
-            min-height: 100%;
-            padding: 30px 10px 10px;
-
-            .header_title {
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              font-size: 24px;
-              font-weight: 600;
-            }
-
-            .el-form {
-              color: black;
-
-              .form_item {
-                .form_item_title {
-                  margin: 8px 0;
-                  font-family: "Microsoft YaHei";
-                  font-size: 16px;
-                  display: inline-flex;
-                  height: 24px;
-                  line-height: 24px;
-
-                  .title_bar {
-                    width: 4px;
-                    height: 20px;
-                    background-image: url(../assets/process/bar.png);
-                    background-size: 100% 100%;
-                    background-repeat: no-repeat;
-                    margin: 2px 8px 2px 0;
-                  }
-                }
-              }
-
-              .form_item_table {
-                width: 95%;
-                margin: 0 auto;
-
-              }
-            }
-          }
-        }
-      }
-    }
-
-  }
-}
+//.full_global_dialog {
+//  background: rgba(0,0,0,0.5);
+//
+//  .el-dialog {
+//    display: flex;
+//    flex-direction: column;
+//    background-color: transparent !important;
+//
+//    .el-dialog__header {
+//      height: 96px;
+//      padding: 36px 20px;
+//      border-bottom: 1px solid #ebebeb;
+//      background: #fff;
+//      color: #191919;
+//      font-weight: 600;
+//
+//      .el-dialog__headerbtn {
+//        top: 96px;
+//        right: 0;
+//        color: #355DFF;
+//        background: rgba(53, 93, 255, 0.1);
+//        width: 36px;
+//        height: 36px;
+//        border-radius: 0 0 0 50px;
+//      }
+//
+//      .el-dialog__close {
+//        position: absolute;
+//        right: 0px;
+//        color: #355DFF !important;
+//        font-size: 20px;
+//        font-weight: 600;
+//        top: 4px;
+//      }
+//
+//    }
+//
+//    .el-button--default {
+//      color: #355DFF;
+//    }
+//
+//    .el-button--primary:hover {
+//      color: #FFFFFF;
+//      background-color: #409EFF;
+//    }
+//
+//    .el-button--primary {
+//      color: #FFFFFF;
+//      background-color: #355DFF;
+//      border-color: #355DFF;
+//      height: 36px;
+//      line-height: 36px;
+//      padding: 0 20px;
+//    }
+//
+//    .el-input__inner {
+//      height: 36px;
+//      line-height: 36px;
+//    }
+//
+//    .el-table thead {
+//      color: #040415;
+//    }
+//
+//    .el-table thead {
+//      color: #040415;
+//    }
+//
+//    .el-select {
+//      width: 100%;
+//    }
+//
+//    .el-tabs__item:hover {
+//      color: #355DFF !important;
+//    }
+//
+//    .el-tabs__item.is-active {
+//      color: #355DFF !important;
+//    }
+//
+//    .el-dialog__body {
+//      padding: 0;
+//      height: 100%;
+//      flex: 1;
+//
+//      .full_dialog_container {
+//        height: 100%;
+//        box-sizing: border-box;
+//        min-width: 0;
+//
+//        .el-main {
+//          height: calc(100vh - 96px);
+//          overflow-y: scroll;
+//          padding: 0 !important;
+//          margin-top: 0 !important;
+//
+//          .form_content {
+//            background: rgb(255, 255, 255);
+//            width: 984px;
+//            margin: 0 auto;
+//            min-height: 100%;
+//            padding: 30px 20px 20px;
+//            overflow-y: auto;
+//
+//            //.header_title {
+//            //  display: flex;
+//            //  justify-content: center;
+//            //  align-items: center;
+//            //  font-size: 24px;
+//            //  font-weight: 600;
+//            //}
+//            //
+//            //.el-form {
+//            //  color: black;
+//            //
+//            //  .form_item {
+//            //    .form_item_title {
+//            //      margin: 8px 0;
+//            //      font-family: "Microsoft YaHei";
+//            //      font-size: 16px;
+//            //      display: inline-flex;
+//            //      height: 24px;
+//            //      line-height: 24px;
+//            //
+//            //      .title_bar {
+//            //        width: 4px;
+//            //        height: 20px;
+//            //        background-image: url(../assets/process/bar.png);
+//            //        background-size: 100% 100%;
+//            //        background-repeat: no-repeat;
+//            //        margin: 2px 8px 2px 0;
+//            //      }
+//            //    }
+//            //  }
+//            //
+//            //  .form_item_table {
+//            //    width: 95%;
+//            //    margin: 0 auto;
+//            //
+//            //  }
+//            //}
+//          }
+//        }
+//      }
+//    }
+//
+//  }
+//}
 
