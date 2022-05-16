@@ -9,42 +9,82 @@
 <template>
   <el-container class="container-box">
     <el-header>
-      <el-button type="primary" size="medium" @click="openDialog">人员填报</el-button>
+      <div class="input-box">
+        <div class="input-value">
+          <el-input v-model="queryData.projectCode" placeholder="请输入标段"></el-input>
+        </div>
+
+      </div>
+      <div class="input-box">
+        <div class="input-value">
+          <el-input v-model="queryData.subProject" placeholder="请输入记录人"></el-input>
+        </div>
+      </div>
+      <el-button type="primary">搜索</el-button>
+
+      <div class="right-btns">
+        <!-- <el-button type="primary" size="small"
+          :icon="operateBtnsVisible?'el-icon-d-arrow-right':'el-icon-d-arrow-left'"
+          @click="operateBtnsVisible=!operateBtnsVisible"></el-button> -->
+        <div class="operate-btns">
+          <el-button size="small" @click="openDialog">新增填报</el-button>
+          <el-button size="small">导出</el-button>
+          <el-button size="small">批量操作</el-button>
+        </div>
+      </div>
     </el-header>
     <el-main>
-      <el-table :data="listData" style="width: 100%" border height="100%">
-        <el-table-column prop="uploadname" label="标段"></el-table-column>
-        <el-table-column prop="uploadname" label="记录人"></el-table-column>
-        <el-table-column prop="uploadname" label="填报时间"></el-table-column>
-        <el-table-column prop="uploadname" label="人员类型"></el-table-column>
-        <el-table-column prop="uploadname" label="是否自管"></el-table-column>
-        <el-table-column prop="uploadname" label="状态"></el-table-column>
-        <el-table-column prop="uploadname" label="操作"></el-table-column>
-      </el-table>
-      <el-dialog class="full_global_dialog" title="新建" :fullscreen="true" :visible.sync="dialogFormVisible">
-        <el-container class="full_dialog_container">
-          <el-main>
-            <div class="form_content">
-              <el-form ref="form" :model="form" label-width="120px">
-                <div class="header_title">人员填报</div>
-                <div class="form_item">
-                  <div class="form_item_title">
-                    <div class="title_bar"></div>
-                    <strong>基本信息</strong>
+      <div class="container">
+        <el-table :data="listData" style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
+          <el-table-column prop="uploadname" label="标段"></el-table-column>
+          <el-table-column prop="uploadname" label="记录人"></el-table-column>
+          <el-table-column prop="uploadname" label="填报时间"></el-table-column>
+          <el-table-column prop="uploadname" label="人员类型"></el-table-column>
+          <el-table-column prop="uploadname" label="是否自管"></el-table-column>
+          <el-table-column prop="uploadname" label="状态"></el-table-column>
+          <el-table-column prop="uploadname" label="操作"></el-table-column>
+        </el-table>
+        <el-dialog class="full-dialog defined-dialog" :fullscreen="true" :visible.sync="dialogFormVisible">
+          <template slot="title">
+            {{ dialogTitle }}
+          </template>
+          <el-container class="full_dialog_container">
+            <el-main style="height: calc(100vh - 96px); overflow-y: scroll;padding: 0px;margin: 0;">
+              <div class="form-bg">
+                <el-form ref="form" :model="form" label-width="80px">
+                  <div class="form-title">
+                    <div class="title-big-bar"></div>
+                    <strong>人员填报</strong>
+                    <div class="form-btns">
+                      <el-button size="medium">暂存</el-button>
+                      <el-button size="medium">保存草稿</el-button>
+                      <el-button size="medium">选择草稿</el-button>
+                      <el-button size="medium" type="primary">复制填充</el-button>
+                    </div>
                   </div>
-                  <div class="form_item_content">
-                    <el-row>
-                      <el-col :span="8">
-                        <el-form-item label="标段">
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="8">
-                        <el-form-item label="记录人">
-                          <el-input v-model="form.userName" readonly></el-input>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="8">
-                        <el-form-item label="报审日期" prop="time">
+                  <div class="form-block">
+                    <div class="form-block-title">
+                      <div class="title-bar"></div>
+                      <strong>基本信息</strong>
+                    </div>
+                    <div class="block-line">
+                      <div class="block-item">
+                        <div class="block-item-label">标段</div>
+                        <div class="block-item-value">
+                          {{ form.section }}
+                        </div>
+                      </div>
+                      <div class="block-item">
+                        <div class="block-item-label">记录人</div>
+                        <div class="block-item-value">
+                          <el-input v-model="form.username" readonly></el-input>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="block-line">
+                      <div class="block-item">
+                        <div class="block-item-label">报审日期</div>
+                        <div class="block-item-value">
                           <el-date-picker
                             v-model="form.time"
                             type="datetime"
@@ -53,69 +93,62 @@
                             value-format="yyyy-MM-dd HH:mm:ss"
                           >
                           </el-date-picker>
-                        </el-form-item>
-                      </el-col>
+                        </div>
+                      </div>
+                      <div class="block-item">
+                        <div class="block-item-label">人员类型</div>
+                        <div class="block-item-value">
+                          <el-form-item prop="projectChargeUser">
+                            <el-select v-model="form.projectChargeUser" placeholder="请选择">
+                              <el-option label="合同人员" value="1"></el-option>
+                              <el-option label="非合同人员" value="2"></el-option>
+                            </el-select>
+                          </el-form-item>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="block-line">
 
-                    </el-row>
-                    <el-row type="flex" justify="center">
-                      <el-col :span="8">
-                        <el-form-item label="人员类型">
-                          <el-switch
-                            v-model="form.isContract"
-                            active-color="#13ce66"
-                            inactive-color="#ff4949"
-                            :active-value="true"
-                            active-text="合同人员"
-                            inactive-text="非合同人员"
-                            :inactive-value="false">
-                          </el-switch>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="8">
-                        <el-form-item label="是否自管">
-                          <el-switch
-                            v-model="form.autogestion"
-                            active-color="#13ce66"
-                            inactive-color="#ff4949"
-                            active-text="自管"
-                            inactive-text="非自管"
-                            :active-value="true"
-                            :inactive-value="false">
-                          </el-switch>
-                        </el-form-item>
-                      </el-col>
-                    </el-row>
+                      <div class="block-item">
+                        <div class="block-item-label">是否自管</div>
+                        <div class="block-item-value">
+                          <el-form-item prop="projectChargeUser">
+                            <el-select v-model="form.abc" placeholder="请选择">
+                              <el-option label="自管" value="1"></el-option>
+                              <el-option label="非自管" value="2"></el-option>
+                            </el-select>
+                          </el-form-item>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div class="form_item">
-                  <div class="form_item_title">
-                    <div class="title_bar"></div>
-                    <strong>报审信息</strong>
-                  </div>
-                  <div class="form_item_content">
-                    <el-button type="primary" size="medium" style="margin: 0 0 10px 36px" @click="addRow">添加行
-                    </el-button>
-                    <div class="form_item_table">
+                  <div class="form-block">
+                    <div class="form-block-title">
+                      <div class="title-bar"></div>
+                      <strong>报审信息</strong>
+                    </div>
+                    <div class="block-line">
+                      <el-button size="small" type="primary" @click="addRow">添加行</el-button>
+                    </div>
+                    <div class="block-table">
                       <el-table
                         :data="tableData"
                         border
                         style="width: 100%">
                         <el-table-column
                           label="姓名"
-                          width="180">
+                          width="120">
                           <template slot-scope="{row}">
                             <div class="user_select">
                               <i class="el-icon-plus"></i>
                               <div class="name">{{ row.name }}</div>
                             </div>
-
-                            <!--                            <el-input v-model="row.name"></el-input>-->
                           </template>
                         </el-table-column>
 
                         <el-table-column
                           label="岗位"
-                          width="180">
+                          width="120">
                           <template slot-scope="{row}">
                             <el-input v-model="row.name"></el-input>
                           </template>
@@ -140,12 +173,12 @@
                         </el-table-column>
                         <el-table-column
                           label="有效期"
-                          width="420">
+                          width="320">
                           <template slot-scope="{row}">
                             <el-date-picker
                               v-model="row.time"
-                              type="datetimerange"
-                              value-format="yyyy-MM-dd HH:mm:ss"
+                              type="daterange"
+                              value-format="yyyy-MM-dd"
                               range-separator="至"
                               start-placeholder="开始日期"
                               end-placeholder="结束日期">
@@ -162,34 +195,55 @@
                       </el-table>
                     </div>
                   </div>
-                </div>
-                <div class="form_item">
-                  <div class="form_item_title">
-                    <div class="title_bar"></div>
-                    <strong>待处理人</strong>
+                  <div class="form-block">
+                    <div class="form-block-title">
+                      <div class="title-bar"></div>
+                      <strong>待处理人</strong>
+                    </div>
+                    <div class="block-line">
+                      <div class="block-item">
+                        <div class="block-item-label">待处理人<i class="require-icon"></i></div>
+                        <div class="block-item-value">
+                          <el-form-item prop="qualityCheckUser">
+                            <el-select v-model="form.qualityCheckUser" placeholder="请选择">
+                              <el-option v-for="item in userOptions" :key="item.value"
+                                         :label="item.label" :value="item.value">
+                              </el-option>
+                            </el-select>
+                          </el-form-item>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="form_item_content">
-                    <el-row>
-                      <el-col :span="24">
-                        <el-form-item class="set-margin" label="负责人">
-                        </el-form-item>
-                      </el-col>
-                    </el-row>
+                  <div class="form-block">
+                    <el-button class="submit-btn" size="small" type="primary">提交
+                    </el-button>
                   </div>
-                </div>
-                <div class="form_item" style="text-align: center;padding: 5px 0">
-                  <el-button type="primary">提交</el-button>
-                </div>
+                </el-form>
+              </div>
+            </el-main>
+            <el-aside width="8px" class="close-wrapper">
+              <div class="close-wrap">
+                <i class="el-icon-caret-right"></i>
+              </div>
+            </el-aside>
+            <el-aside
+              style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
+              <!--              <tasklog></tasklog>-->
+            </el-aside>
+          </el-container>
 
-              </el-form>
-            </div>
-          </el-main>
-        </el-container>
+        </el-dialog>
 
-      </el-dialog>
-      <el-dialog title="选择人员" :visible.sync="dialogPersonVisible"></el-dialog>
-
+        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                       :current-page="queryData.pageNum" :page-size="queryData.pageSize"
+                       layout="total, sizes, prev, pager, next, jumper"
+                       :total="queryData.totalPage">
+        </el-pagination>
+      </div>
     </el-main>
+
+
   </el-container>
 </template>
 
@@ -205,12 +259,22 @@
           time: getNowDate(),
           userName: "",
           isContract: true,
-          autogestion: true
+          autogestion: true,
+          section: "G235改建"
         },
         tableData: [],
         listData: [],
+        userOptions: [],
         dialogFormVisible: false,
-        dialogPersonVisible: false
+        dialogPersonVisible: false,
+        queryData: {
+          projectCode: "",
+          subProject: "",
+          pageNum: 1,
+          totalPage: 1,
+          pageSize: 10
+        },
+        dialogTitle: "项目全生命周期数字管理平台"
       };
     },
     created() {
@@ -228,34 +292,29 @@
       },
       deleteInfo(index) {
         this.tableData.splice(index, 1);
+      },
+      handleSizeChange() {
+      },
+      handleCurrentChange() {
       }
     }
   };
 </script>
 
 <style scoped lang="scss">
-  .container-box {
-    background-color: #ebecee;
-    padding: 5px;
+  @import "../../assets/css/table.scss";
+  @import "../../assets/css/dialog.scss";
 
-    .el-header {
-      line-height: 60px;
-      background-color: #ffffff;
-    }
+  .form-bg {
+    width: 80% !important;
 
-    .el-main {
-      padding: 0;
-      margin-top: 10px;
+    .form-block {
+      .el-date-editor {
+        width: 100% !important;
+      }
     }
   }
 
-  .center-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
-    font-weight: 600;
-  }
 
   .user_select {
     display: flex;
@@ -270,4 +329,5 @@
       font-size: 14px;
     }
   }
+
 </style>
