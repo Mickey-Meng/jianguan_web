@@ -29,7 +29,30 @@ export const constantRoutes = [{
 		component: Pandect,
 		hidden: true
 	},
-
+	// {
+	// 	path: "/handlerFlowTask",
+	// 	name: "handlerFlowTask",
+	// 	component: () => import("@/views/task/handlerFlowTask/index"),
+	// 	children:[{
+	// 		path: "/qualityTest_detail",
+	// 		name: "qualityTest_detail",
+	// 		component: () => import("@/views/quality/newPage/qualityTest/detail"),
+	// 	},{
+	// 		path: "/concealedWorksManagement_detail",
+	// 		name: "concealedWorksManagement_detail",
+	// 		component: () => import("@/views/quality/newPage/concealedWorksManagement/detail")
+	// 	}]
+	// },
+	{
+			path: "/qualityTest_detail",
+			name: "qualityTest_detail",
+			component: () => import("@/views/quality/newPage/qualityTest/detail"),
+	},
+	{
+		path: "/concealedWorksManagement_detail",
+		name: "concealedWorksManagement_detail",
+		component: () => import("@/views/quality/newPage/concealedWorksManagement/detail")
+	},
 	{
 		path: "*",
 		redirect: "/home",
@@ -113,6 +136,7 @@ export const asyncRoutes = [{
 			}
 		]
 	},
+
 	{
 		path: "/scene",
 		meta: {
@@ -485,6 +509,7 @@ export const asyncRoutes = [{
 			//   component: () => import('@/views/quality/standard'),
 			//   meta: { title: '验收标准', icon: '', allMap: false, partMap: false, noMap: true }
 			// }
+
 			{
 				path: "/concealedWorksManagement",
 				name: "concealedWorksManagement",
@@ -511,6 +536,7 @@ export const asyncRoutes = [{
 					noMap: true
 				}
 			},
+
 			{
 				path: "/qualityPresentation",
 				name: "qualityPresentation",

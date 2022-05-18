@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<el-dialog class="full-dialog defined-dialog" :fullscreen="true" :visible.sync="dialogFormVisible">
+		<el-dialog class="full-dialog defined-dialog" @close="closeDialog"  :fullscreen="true" :visible.sync="dialogFormVisible">
 			<template slot="title">
 				{{dialogTitle}}
 				<div class="logo-icon"></div>
@@ -177,6 +177,7 @@
 									</div>
 								</div>
 							</el-form>
+							<taskhandle :taskInfo="taskInfo"></taskhandle>
 						</div>
 					</div>
 				</el-main>
@@ -187,7 +188,7 @@
 				</el-aside>
 				<el-aside
 					style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
-					<tasklog></tasklog>
+					<tasklog :taskInfo="taskInfo"></tasklog>
 				</el-aside>
 			</el-container>
 		</el-dialog>
@@ -196,7 +197,12 @@
 
 <script>
 	import * as api from "@/api/quality";
+	import {
+		convertOptions,
+		getQueryVariable
+	} from "@/utils/format.js";
 	import tasklog from "../../../common/tasklog.vue"
+	import taskhandle from '../../../common/taskhandle'
 	
 	export default {
 		props:['detailRow'],
@@ -236,10 +242,20 @@
 		},
 		created() {},
 		components: {
-			tasklog
+			tasklog,
+			taskhandle
 		},
 		computed: {},
 		mounted() {
+			setTimeout(()=>{
+				var params = getQueryVariable();
+				if (params['processDefinitionId']) {
+					this.dialogFormVisible=true;
+					params['id'] = params['businessKey'];
+					this.taskInfo=params;
+					this.getDetail(params['businessKey']);
+				}
+			},500)
 		},
 		watch:{
 			detailRow(obj){

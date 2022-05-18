@@ -176,6 +176,14 @@ const api = {
   listHandleTask:'/ZhuJiApi/admin/flow/flowOperation/listHandleTask',//待办
   listHistoricTask:'/ZhuJiApi/admin/flow/flowOperation/listHistoricTask',//已办
   listHistoricProcessInstance:'/ZhuJiApi/admin/flow/flowOperation/listHistoricProcessInstance',//历史任务
+  submitUserTask:'/ZhuJiApi/admin/flow/flowStaticPage/submitUserTask',
+  rejectRuntimeTask:'/ZhuJiApi/admin/flow/flowOperation/rejectRuntimeTask',//驳回
+  
+  viewRuntimeTaskInfo:'/ZhuJiApi/admin/flow/flowOperation/viewRuntimeTaskInfo',//查询流程按钮
+  viewHighlightFlowData:'/ZhuJiApi/admin/flow/flowOperation/viewHighlightFlowData',//高亮流程图
+  viewProcessBpmn:'/ZhuJiApi/admin/flow/flowOperation/viewProcessBpmn',//获取流程图bpmn
+  listFlowTaskComment:'/ZhuJiApi/admin/flow/flowOperation/listFlowTaskComment',//获取当前流程任务的审批列表
+  
   //省市区
   getDistrict:'/ZhuJiApi/web/api/v1/proviceCityArea/getDistrict',//区县
   getCity:'/ZhuJiApi/web/api/v1/proviceCityArea/getCity',//地市
@@ -191,6 +199,9 @@ const api = {
   getMaterialEnums: "/ZhuJiApi/web/api/v1/qualityDetection/material/enums",
   deleteQualityDetection: "/ZhuJiApi/web/api/v1/qualityDetection/id",
   getQualityDetectionList: "/ZhuJiApi/web/api/v1/qualityDetection/page",
+  
+  //流程引擎相关接口
+  
   //-----------------------流程引擎新增接口 ------------------------
   //-----------------------流程引擎新增接口 ZH ---------------------
   addOrUpdateManagementObjectList: "/ZhuJiApi/web/api/v1/manageTarget/addOrUpdate", // 新增或更新管理目标数据

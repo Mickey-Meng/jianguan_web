@@ -46,7 +46,7 @@ const convertOptions = function(list, labelField, valueField) {
  * @param {Object} inputTime
  */
 const formatDateTime = function(inputTime) {
-	var date = inputTime?new Date(inputTime):new Date();
+	var date = inputTime ? new Date(inputTime) : new Date();
 	var y = date.getFullYear();
 	var m = date.getMonth() + 1;
 	m = m < 10 ? ('0' + m) : m;
@@ -66,7 +66,7 @@ const formatDateTime = function(inputTime) {
  * @param {Object} inputTime
  */
 const formatDate = function(inputTime) {
-	var date = inputTime?new Date(inputTime):new Date();
+	var date = inputTime ? new Date(inputTime) : new Date();
 	var y = date.getFullYear();
 	var m = date.getMonth() + 1;
 	m = m < 10 ? ('0' + m) : m;
@@ -81,10 +81,25 @@ const formatDate = function(inputTime) {
 	return y + '-' + m + '-' + d;
 }
 
+/**
+ * 获取页面参数
+ * @param {Object} variable
+ */
+const getQueryVariable = function() {
+	var query = window.location.hash.split('?')[1];
+	var vars = query.split("&");
+	var result={};
+	for (var i = 0; i < vars.length; i++) {
+		var pair = vars[i].split("=");
+		result[pair[0]]=decodeURIComponent(pair[1]);
+	}
+	return (result);
+}
 export {
 	handleNull,
 	handleListNull,
 	convertOptions,
 	formatDateTime,
-	formatDate
+	formatDate,
+	getQueryVariable
 }
