@@ -178,7 +178,7 @@ const api = {
   listHistoricProcessInstance:'/ZhuJiApi/admin/flow/flowOperation/listHistoricProcessInstance',//历史任务
   submitUserTask:'/ZhuJiApi/admin/flow/flowStaticPage/submitUserTask',
   rejectRuntimeTask:'/ZhuJiApi/admin/flow/flowOperation/rejectRuntimeTask',//驳回
-  
+  viewTaskUserInfo:'/ZhuJiApi/admin/flow/flowOperation/viewTaskUserInfo',//审批人
   viewRuntimeTaskInfo:'/ZhuJiApi/admin/flow/flowOperation/viewRuntimeTaskInfo',//查询流程按钮
   viewHighlightFlowData:'/ZhuJiApi/admin/flow/flowOperation/viewHighlightFlowData',//高亮流程图
   viewProcessBpmn:'/ZhuJiApi/admin/flow/flowOperation/viewProcessBpmn',//获取流程图bpmn

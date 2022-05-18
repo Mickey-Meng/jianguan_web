@@ -535,6 +535,16 @@ export const listFlowTaskComment = (params) => {
   });
 };
 /**
+ * viewTaskUserInfo
+ */
+export const viewTaskUserInfo = (params) => {
+  return request({
+    url: api.viewTaskUserInfo,
+    method: "get",
+    params: params
+  });
+};
+/**
  * 查询地市
  */
 export const getCity = params => {
