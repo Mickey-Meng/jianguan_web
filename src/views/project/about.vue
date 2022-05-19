@@ -120,7 +120,8 @@ export default {
 
 <style scoped lang="scss">
 .wrapper {
-  padding-top: 5px;
+  //padding-top: 5px;
+  padding: 5px;
   background-color: #edeff8;
   color: #4a4a4a;
   height: 100%;
@@ -129,15 +130,15 @@ export default {
     text-align: center;
     height: 70px;
     line-height: 70px;
-    width: 98%;
-    margin: 5px auto;
+    width: 100%;
+    margin-bottom: 5px;
     color: #333333;
     font-size: 22px;
     font-weight: 600;
     background-color: #fff;
   }
   .content {
-    width: 98%;
+    width: 100%;
     margin: 0 auto;
     height: calc(100% - 100px);
     display: flex;

@@ -36,12 +36,12 @@ module.exports = {
         }
       },
       "/ZhuJiRoad": {
-        target: 'http://101.200.223.171:8085',
+        // target: 'http://101.200.223.171:8085',
         // target: 'https://system.zlskkj.com:59030',
-        // target: "http://192.168.2.122:8720",
+        target: "http://192.168.2.128:8720",
         changeOrigin: true,
         pathRewrite: {
-          // "^/ZhuJiRoad": ""
+          "^/ZhuJiRoad": ""
         }
       },
       "/zlsk_js_api": {
@@ -55,7 +55,7 @@ module.exports = {
 		  target: "http://101.200.223.171:80",
 		  changeOrigin: true,
 		  pathRewrite: {}
-		}
+	  	}
     }
   },
   configureWebpack: {

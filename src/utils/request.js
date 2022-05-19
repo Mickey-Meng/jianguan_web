@@ -25,7 +25,7 @@ service.interceptors.request.use(
     if (config.url.indexOf('STSfmzj') != -1) {
     } else {
       if (store.getters.token) {
-        config.headers['token'] = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTI1OTA0MjIsInVzZXIiOiJ7XCJnb25ncXVzXCI6W10sXCJpZFwiOjEsXCJwcm9qZWN0c1wiOltdLFwicm9sZVwiOjJ9In0.veTutc67STt0xNGUayyiZ6rA0zd6q34wkuquaqJ6Xyc'//getToken('zj_token')
+        config.headers['token'] = getToken('zj_token')
       }
     }
     if ((config.method === 'post' || config.method === 'put') && !config.headers['Content-Type']) {

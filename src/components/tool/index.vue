@@ -1257,6 +1257,7 @@ export default {
   width: 100%;
   height: 100%;
   pointer-events: none;
+  color: #ffffff;
 }
 .wrapper {
   position: absolute;

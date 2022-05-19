@@ -317,7 +317,7 @@ export default {
             fillerColor: "#BFCCE3",
             showDataShadow: false,
             height: 13,
-            handleSize: 22,
+            // handleSize: 22,
             right: 60,
             left: 60,
             bottom: 15,
@@ -757,8 +757,8 @@ export default {
 <style scoped lang="scss">
 .container-box {
   color: #000000;
-  background-color: #ebecee;
-  padding: 0 20px;
+  //background-color: #ebecee;
+  //padding: 0 5px;
 
   .el-header {
     line-height: 60px;
@@ -807,6 +807,7 @@ export default {
     }
     .el-select {
       margin: 0 5px;
+      width: 220px;
     }
     .el-button {
       margin-left: 10px;
@@ -815,7 +816,7 @@ export default {
 
   .el-main {
     padding: 0;
-    margin-top: 10px;
+    margin: 10px -5px 0 -5px;
     display: flex;
     // flex-direction: column;
     justify-content: space-between;

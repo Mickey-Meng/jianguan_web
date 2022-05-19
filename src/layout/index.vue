@@ -3,10 +3,10 @@
     <!-- <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" /> -->
     <div class="box">
       <!--      <Header class="top-menu-box" />-->
-      <sidebar class="sidebar_container"/>
+      <newHeader class="top_header"></newHeader>
 
       <div class="wrapper">
-        <newHeader class="top_header"></newHeader>
+        <sidebar class="sidebar_container"/>
 
         <div class="main-container">
           <!--              <div :class="{'fixed-header':fixedHeader}">-->
@@ -117,33 +117,38 @@
   position: absolute;
   z-index: 999;
 }
+
+.top_header {
+  border-bottom: 1px solid #E8E8E8;
+
+}
+
 .box {
   width: 100vw;
   height: 100vh;
-  display: flex;
+  //display: flex;
 
-  .sidebar_container {
-    width: 210px;
-    background: #F5F5F5;
-  }
 
   .wrapper {
-    width: calc(100% - 210px);
-    height: 100%;
+    height: calc(100% - 60px) !important;
+    //height: 100%;
     position: relative;
     background-color: #fff;
+    display: flex;
+
+    .sidebar_container {
+      width: 210px;
+      background: #F5F5F5;
+    }
 
     .main-container {
-      width: 100%;
+      width: calc(100% - 210px);
       padding: 2px;
-      height: calc(100% - 60px) !important;
+      height: 100%;
+      //height: calc(100% - 60px) !important;
     }
   }
 
-  .top_header {
-    border-bottom: 1px solid #E8E8E8;
-
-  }
 }
 
 

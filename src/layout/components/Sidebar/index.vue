@@ -1,9 +1,9 @@
 <template>
   <div>
     <!--    <logo v-if="showLogo" :collapse="isCollapse" />-->
-    <div class="projectName">
-      <div class="name">{{ project.name }}</div>
-    </div>
+    <!--    <div class="projectName">-->
+    <!--      <div class="name">{{ project.name }}</div>-->
+    <!--    </div>-->
     <div class="menu_box_w">
       <el-scrollbar wrap-class="scrollbar-wrapper">
         <el-menu
@@ -80,12 +80,29 @@ export default {
   }
 
   .menu_box_w {
-    height: calc(100% - 80px);
+    //height: calc(100% - 80px);
+    height: 100%;
     overflow: hidden;
 
-    .el-scrollbar {
+  ::v-deep  .el-scrollbar {
       height: 100%;
+
+      .el-scrollbar__view {
+        .el-submenu__title{
+          .nav_title_name{
+            margin-left: 5px;
+          }
+        }
+
+      }
+     .el-submenu.is-active > .el-submenu__title{
+       color: #365FF0 !important;
+     }
     }
 
   }
+  ::v-deep.svg-icon {
+    vertical-align: -0.2em ;
+  }
+
 </style>
