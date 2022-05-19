@@ -43,7 +43,7 @@
 					</el-table-column>
 					<el-table-column fixed="right" width="120" align="center" label="操作">
 						<template slot-scope="{ row, $index }">
-							<el-button type="text" size="mini">办理</el-button>
+							<el-button type="text" @click="gotoHandle(row)" size="mini">办理</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -57,6 +57,7 @@
 </template>
 
 <script>
+	import { mapGetters } from 'vuex'
 	import * as api from "@/api/quality";
 	export default {
 		data() {
@@ -73,11 +74,16 @@
 						pageSize: 1000
 					}
 				},
+				routes:null
 			};
 		},
-		created() {},
+		created() {
+			this.routes = this.menus;
+		},
 		components: {},
-		computed: {},
+		computed: {
+			...mapGetters(["menus"])
+		},
 		mounted() {
 			this.query();
 		},
@@ -96,6 +102,30 @@
 			},
 			handleCurrentChange(val) {
 				console.log(`当前页: ${val}`);
+			},
+			gotoHandle(row){
+				row['taskFormKey']=(typeof row['taskFormKey'])=='string'?JSON.parse(row['taskFormKey']):row['taskFormKey'];
+				this.routes.forEach(parent=>{
+					parent['children'].forEach(child=>{
+						if(child['meta']['code']==row['taskFormKey']['routerName']){
+							console.log(child['path'])
+							this.$router.push({
+								path:child['path']+'_detail',//'/handlerFlowTask',
+								// path:'/handlerFlowTask',
+								query:{
+									taskId: row.taskId,
+									businessKey:row.businessKey,
+									processDefinitionKey: row.processDefinitionKey,
+									processInstanceId: row.processInstanceId,
+									processDefinitionId: row.processDefinitionId,
+									taskName: row.taskName,
+									flowEntryName: row.processDefinitionName,
+									processInstanceInitiator: row.processInstanceInitiator,
+								}
+							});
+						}
+					})
+				})
 			}
 		}
 	}

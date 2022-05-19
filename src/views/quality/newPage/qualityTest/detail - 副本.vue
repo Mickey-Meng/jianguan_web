@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible" :fullscreen="true">
+		<el-dialog class="full-dialog defined-dialog" :visible.sync="dialogFormVisible" :fullscreen="true">
 			<template slot="title">
 				{{dialogTitle}}
 				<div class="logo-icon"></div>
@@ -227,7 +227,7 @@
 								</div> -->
 								</div>
 							</el-form>
-							<taskhandle :taskInfo="taskInfo"></taskhandle>
+							<!-- <taskhandle :taskInfo="taskInfo"></taskhandle> -->
 						</div>
 					</div>
 				</el-main>
@@ -238,7 +238,7 @@
 				</el-aside>
 				<el-aside
 					style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
-					<tasklog :taskInfo="taskInfo"></tasklog>
+					<!-- <tasklog></tasklog> -->
 				</el-aside>
 			</el-container>
 		</el-dialog>
@@ -254,13 +254,13 @@
 	} from "@/utils/format.js";
 	import tasklog from "../../../common/tasklog.vue"
 	
-	import taskhandle from '../../../common/taskhandle'
+	import taskhandle from '../../../task/taskhandle'
 
 	export default {
 		props:['detailRow'],
 		data() {
 			return {
-				dialogFormVisible: false,
+				dialogFormVisible: true,
 				dialogTitle: '项目全生命周期数字管理平台',
 				annexTableData: [],
 				activeName: 'first',
@@ -319,16 +319,17 @@
 					this.dialogFormVisible=true;
 					params['id'] = params['businessKey'];
 					this.taskInfo=params;
-					this.getDetail(params['businessKey']);
+					api.viewRuntimeTaskInfo({
+						processDefinitionId:params['processDefinitionId'],
+						processInstanceId:params['processInstanceId'],
+						taskId:params['taskId']
+					}).then((res) => {
+						this.getDetail(res['businessKey'])
+					});
 				}
 			},500)
 		},
 		methods: {
-			closeDialog(){
-				if(this.taskInfo['processDefinitionId']){
-					this.$router.go(-1);
-				}
-			},
 			changeVisible(value){
 				this.dialogFormVisible=value;
 			},

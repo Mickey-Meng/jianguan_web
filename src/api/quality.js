@@ -485,6 +485,66 @@ export const getProvince = () => {
   });
 };
 /**
+ * 提交流程的用户任务
+ */
+export const submitUserTask = data => {
+  return request({
+    url: api.submitUserTask,
+    method: "post",
+    data: data
+  });
+};
+/**
+ * viewRuntimeTaskInfo
+ */
+export const viewRuntimeTaskInfo = (params) => {
+  return request({
+    url: api.viewRuntimeTaskInfo,
+    method: "get",
+    params: params
+  });
+};
+/**
+ * viewHighlightFlowData
+ */
+export const viewHighlightFlowData = (params) => {
+  return request({
+    url: api.viewHighlightFlowData,
+    method: "get",
+    params: params
+  });
+};
+/**
+ * viewProcessBpmn
+ */
+export const viewProcessBpmn = (params) => {
+  return request({
+    url: api.viewProcessBpmn,
+    method: "get",
+    params: params
+  });
+};
+/**
+ * listFlowTaskComment
+ */
+export const listFlowTaskComment = (params) => {
+  return request({
+    url: api.listFlowTaskComment,
+    method: "get",
+    params: params
+  });
+};
+/**
+ * viewTaskUserInfo
+ */
+export const viewTaskUserInfo = (params) => {
+  return request({
+    url: api.viewTaskUserInfo,
+    method: "get",
+    params: params
+  });
+};
+/**
  * 查询地市
  */
 export const getCity = params => {

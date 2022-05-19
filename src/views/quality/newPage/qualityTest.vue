@@ -88,8 +88,8 @@
 				</el-pagination>
 			</div>
 		</el-main>
-		
-		<edit ref="edit"  @query="query" :editRow="editRow"></edit>
+
+		<edit ref="edit" @query="query" :editRow="editRow"></edit>
 		<detail ref="detail" :detailRow="detailRow"></detail>
 	</el-container>
 </template>
@@ -102,8 +102,9 @@
 	import edit from './qualityTest/edit';
 	import detail from './qualityTest/detail';
 
+
 	export default {
-		components:{
+		components: {
 			edit,
 			detail
 		},
@@ -136,8 +137,8 @@
 					pageSize: 10,
 				},
 				currentPattern: 0, //0查看，1新增，2修改
-				editRow:null,
-				detailRow:null
+				editRow: null,
+				detailRow: null
 			};
 		},
 		created() {},
@@ -158,23 +159,24 @@
 			formateTableData(list) {
 				list = list || [];
 				list.forEach(item => {
-					item['materialSpecification'] = item['materialSpecification']?item['materialSpecification'].join('、'):'';
-					item['materialsName'] = item['materialsName']?item['materialsName'].join('、'):'';
-					item['projectParts'] = item['projectParts']?item['projectParts'].join('、'):'';
-					item['testResult'] = item['testResult']?item['testResult'].join('、'):'';
+					item['materialSpecification'] = item['materialSpecification'] ? item['materialSpecification']
+						.join('、') : '';
+					item['materialsName'] = item['materialsName'] ? item['materialsName'].join('、') : '';
+					item['projectParts'] = item['projectParts'] ? item['projectParts'].join('、') : '';
+					item['testResult'] = item['testResult'] ? item['testResult'].join('、') : '';
 				})
 				return list;
 			},
 			addNew() {
-				this.editRow=null;
+				this.editRow = null;
 				this.$refs.edit.changeVisible(true);
 			},
 			modify(row) {
-				this.editRow=row;
+				this.editRow = row;
 				this.$refs.edit.changeVisible(true);
 			},
 			viewDetail(row) {
-				this.detailRow=row;
+				this.detailRow = row;
 				this.$refs.detail.changeVisible(true);
 			},
 			deleteRow(row) {
@@ -183,7 +185,9 @@
 					cancelButtonText: '取消',
 					type: 'warning'
 				}).then(() => {
-					api.deleteQualityDetection({id:row['id']}).then((res) => {
+					api.deleteQualityDetection({
+						id: row['id']
+					}).then((res) => {
 						this.query();
 						this.$message({
 							type: 'success',
