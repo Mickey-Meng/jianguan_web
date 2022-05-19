@@ -266,17 +266,15 @@ export default {
   padding: 0 10px;
   display: flex;
   width: 100%;
+  border-radius: 5px;
   border: 1px solid #E8E8E8;
-
   .item-box {
     flex: 1px;
     display: flex;
     flex-direction: column;
-
     .charts {
       height: calc(100% - 50px);
     }
-
     .chart {
       height: 100%;
     }

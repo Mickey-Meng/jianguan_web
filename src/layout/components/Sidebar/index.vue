@@ -88,17 +88,22 @@ export default {
       height: 100%;
 
       .el-scrollbar__view {
-        .el-submenu__title{
-          .nav_title_name{
+        .el-submenu__title {
+          .nav_title_name {
             margin-left: 5px;
           }
         }
 
       }
-     .el-submenu.is-active > .el-submenu__title{
-       color: #365FF0 !important;
-     }
+
+    .el-submenu.is-active > .el-submenu__title {
+      color: #365FF0 !important;
     }
+
+    .el-submenu.is-active > .el-submenu__title i {
+      color: #365FF0 !important;
+    }
+  }
 
   }
   ::v-deep.svg-icon {

@@ -41,6 +41,7 @@ const api = {
   getHomeBottomChart: "/ZhuJiRoad/count/getGqFirst", //首页统计模式图表数据
   getSafeChart: "/ZhuJiRoad/safe/newInterface", //首页安全统计
   getAreaProgress: "/ZhuJiRoad/count/getCountIncresConponentGroupGq", //获取进度总览左下进度折线图数据
+  getAllProject: "/ZhuJiRoad/projects/getAllProjects",//获取所有项目、后续根据用户查询有权限访问的数据
   /*
    * 工程统计
    * */
@@ -183,7 +184,7 @@ const api = {
   viewHighlightFlowData:'/ZhuJiApi/admin/flow/flowOperation/viewHighlightFlowData',//高亮流程图
   viewProcessBpmn:'/ZhuJiApi/admin/flow/flowOperation/viewProcessBpmn',//获取流程图bpmn
   listFlowTaskComment:'/ZhuJiApi/admin/flow/flowOperation/listFlowTaskComment',//获取当前流程任务的审批列表
-  
+
   //省市区
   getDistrict:'/ZhuJiApi/web/api/v1/proviceCityArea/getDistrict',//区县
   getCity:'/ZhuJiApi/web/api/v1/proviceCityArea/getCity',//地市
@@ -199,16 +200,16 @@ const api = {
   getMaterialEnums: "/ZhuJiApi/web/api/v1/qualityDetection/material/enums",
   deleteQualityDetection: "/ZhuJiApi/web/api/v1/qualityDetection/id",
   getQualityDetectionList: "/ZhuJiApi/web/api/v1/qualityDetection/page",
-  
+
   //流程引擎相关接口
-  
+
   //-----------------------流程引擎新增接口 ------------------------
   //-----------------------流程引擎新增接口 ZH ---------------------
   addOrUpdateManagementObjectList: "/ZhuJiApi/web/api/v1/manageTarget/addOrUpdate", // 新增或更新管理目标数据
   getManagementObject: "/ZhuJiApi/web/api/v1/manageTarget/detail/id", // 通过id获取一条管理目标数据
   deleteManagementObject: "/ZhuJiApi/web/api/v1/manageTarget/id", // 删除单个管理目标数据
   getManagementObjectList: "/ZhuJiApi/web/api/v1/manageTarget/page", // 管理目标list
-  
+
   addOrUpdateManageRegimeList: "/ZhuJiApi/web/api/v1/manageRegime/addOrUpdate", // 新增或更新管理制度数据
   getManageRegime: "/ZhuJiApi/web/api/v1/manageRegime/detail/id", // 通过id获取一条管理制度数据
   deleteManageRegime: "/ZhuJiApi/web/api/v1/manageRegime/id", // 删除单个管理制度数据

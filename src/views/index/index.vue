@@ -82,6 +82,7 @@ import img4 from "@/assets/projectImg/图层7.png";
 import img5 from "@/assets/projectImg/图层4.png";
 import img6 from "@/assets/projectImg/图层5.png";
 import img7 from "@/assets/projectImg/图层6.png";
+import {getAllProject} from "@/api/project";
 export default {
   name: "",
   data() {
@@ -90,17 +91,17 @@ export default {
       allView: allView,
       box: box,
       lists: [
-        {
-          name: "G235改建",
-          img: img1,
-        },
+        // {
+        //   name: "G235改建",
+        //   img: img1,
+        // },
         {
           name: "项目2",
-          img: img2,
+          img: img2
         },
         {
           name: "项目3",
-          img: img3,
+          img: img3
         },
         {
           name: "项目4",
@@ -130,7 +131,6 @@ export default {
     };
   },
   created() {
-    this.initData();
     this.init();
   },
   computed: {
@@ -140,7 +140,18 @@ export default {
     document.onselectstart = function () {
       return false;
     };
-    this.initEffects();
+    getAllProject().then(res => {
+      let data = res.data;
+      data.forEach(item => {
+        item.img = img1;
+      });
+      let arr = data.concat(this.lists);
+      this.lists = arr;
+      this.initData();
+      this.$nextTick(() => {
+        this.initEffects();
+      });
+    });
   },
   methods: {
     ...mapMutations("project", ["SET_PROJECT"]),
@@ -240,17 +251,15 @@ export default {
       this.$router.push("/pandect");
     },
     seeProject(item) {
-      if (item.name == "G235改建") {
+      if (item.id) {
         this.SET_PROJECT(item);
         if (this.menus && this.menus.length > 0) {
           let item = this.menus[0];
-          // let {}
           if (item.children && item.children.length > 0) {
             let path = item.children[0];
             this.$router.push(path.path);
           }
         }
-        // this.$router.push("/data");
       }
     },
     exitSys() {
@@ -285,6 +294,7 @@ export default {
     right: 20px;
     font-size: 18px;
     cursor: pointer;
+    color: #FFFFFF;
   }
   > img {
     position: fixed;
