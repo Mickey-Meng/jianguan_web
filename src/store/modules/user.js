@@ -19,7 +19,7 @@ const getDefaultState = () => {
     avatar: "",
     ID: getToken("ID"),
     roles: getToken("roles"),
-    GROUPID: getToken("GROUPID"),
+    GROUPID: getToken("groupId"),
     menus: [],
     rights: getToken("rights") ? getToken("rights") : []
   };

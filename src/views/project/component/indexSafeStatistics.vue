@@ -22,23 +22,27 @@
       </div>
     </div>
     <ul class="nav_menu">
-      <li v-for="(item) in lists" :key="item.gongquid">{{ item.gongquname }}</li>
+      <li v-for="(item) in lists" :key="item.gongquid" @click="initChart(item)"
+          :class="{is_active_area:item.gongquid === currentAreaId}">{{ item.gongquname }}
+      </li>
     </ul>
     <div class="chart_box">
-      <div class="box"></div>
+      <div class="box">
+        <v-chart autoresize :options="option" class="charts"></v-chart>
+      </div>
 
     </div>
     <ul class="card_box">
       <li style="background-color:#FBD97F ">
-        <div class="value">1</div>
+        <div class="value">{{ count }}</div>
         <div class="text">提出整改(起)</div>
       </li>
       <li style="background-color:#B6E980 ">
-        <div class="value">1</div>
+        <div class="value">{{ finish }}</div>
         <div class="text">完成整改(起)</div>
       </li>
       <li style="background-color:#EE9090 ">
-        <div class="value">1</div>
+        <div class="value">{{ overdue }}</div>
         <div class="text">已逾期(起)</div>
       </li>
     </ul>
@@ -48,6 +52,7 @@
 
 <script>
   import {getSafeChart} from "@/api/data";
+  import echarts from "echarts";
 
   export default {
     props: [],
@@ -55,7 +60,76 @@
     data() {
       return {
         radio: "1",
-        lists: []
+        currentAreaId: null,
+        lists: [],
+        enentData: [],
+        count: null,
+        finish: null,
+        overdue: null,
+        option: {
+          grid: {
+            left: "3%",
+            right: "3%",
+            bottom: "3%",
+            containLabel: true
+          },
+          title: {
+            text: "",
+            textStyle: {
+              fontWeight: "bold",
+              fontSize: 38
+            },
+            subtext: "整改完成率",
+            subtextStyle: {
+              color: "#000000",
+              fontSize:14
+            },
+            textAlign: "center",
+            top: "15%",
+            left: "34%"
+          },
+          series: [
+            {
+              name: "一般",
+              type: "pie",
+              //起始刻度的角度，默认为 90 度，即圆心的正上方。0 度为圆心的正右方。
+              startAngle: 0,
+              hoverAnimation: false,
+              tooltip: {},
+              radius: ["70%", "64%"],
+              center: ["35%", "38%"],
+              labelLine: {
+                normal: {
+                  show: false
+                }
+              },
+              data: [
+                {
+                  value: 100,
+                  itemStyle: {
+                    normal: {
+                      color: "rgba(80,150,224,0)"
+                    }
+                  }
+                },
+                {
+                  value: 0,  // 渐变色部分
+                  itemStyle: {
+                    color: "rgba(244,180,68,1)"
+                  }
+                },
+                {
+                  value: 100, // 右侧部分
+                  itemStyle: {
+                    normal: {
+                      color: "rgba(244,180,68,0.2)"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
       };
     },
     created() {
@@ -65,13 +139,44 @@
     },
     methods: {
       changeSelect() {
+        this.init();
       },
       init() {
         getSafeChart(this.radio).then(res => {
-          console.log(res);
-          this.lists = res.data.total;
+          let data = res.data.total.filter(e => e.gongquname);
+          this.lists = data;
+          this.enentData = res.data.overdueList;
+          this.initChart(data[0]);
 
         });
+      },
+      initChart(item) {
+        this.currentAreaId = item.gongquid;
+        let {count, finish} = item;
+        if (count) {
+          let obj = this.enentData.find(e => e.gongquid === item.gongquid);
+          this.count = count;
+          this.finish = finish;
+          let num = count - finish;
+          let rate = Math.floor((finish / count) * 100);
+          this.option.title.text = rate + "%";
+          this.option.series[0].data[0].value = count;
+          this.option.series[0].data[1].value = finish;
+          this.option.series[0].data[2].value = num;
+          if (obj) {
+            this.overdue = obj.overdue;
+          } else {
+            this.overdue = 0;
+          }
+        } else {
+          this.count = 0;
+          this.finish = 0;
+          this.overdue = 0;
+          this.option.title.text = "100%";
+          this.option.series[0].data[0].value = 100;
+          this.option.series[0].data[1].value = 0;
+          this.option.series[0].data[2].value = 100;
+        }
       }
     },
     components: {},
@@ -119,6 +224,13 @@
       border: 1px solid #E8E8E8;
       padding: 0 10px;
     }
+
+    .is_active_area {
+      border: none;
+      background: #F7F7F7;
+      color: #3E69E2;
+      border-radius: 20px;
+    }
   }
 
   .chart_box {
@@ -164,5 +276,6 @@
       }
     }
   }
+
 
 </style>
