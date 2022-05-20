@@ -62,10 +62,10 @@ export default {
           name: "工点管理",
           key: "siteManage"
         },
-        {
-          name: "组织管理",
-          key: "depManagementVue"
-        },
+        // {
+        //   name: "组织管理",
+        //   key: "depManagementVue"
+        // },
         // {
         //   name: "组织用户",
         //   key: "orgUser"

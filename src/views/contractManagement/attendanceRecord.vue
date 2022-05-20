@@ -1,8 +1,8 @@
 <!--
 @name:
-@description: 请假记录
+@description: 考勤记录
 @author: 王海林
-@time: 2022-05-11 15:53:37
+@time: 2022-05-20 17:08:22
 @modifier:
 @modifierTime:
 -->
@@ -11,7 +11,7 @@
     <el-header>
       <div class="input-box">
         <div class="input-value">
-          <el-input v-model="queryData.projectCode" placeholder="请输入请假人"></el-input>
+          <el-input v-model="queryData.projectCode" placeholder="请输入人员姓名"></el-input>
         </div>
 
       </div>
@@ -34,7 +34,7 @@
           :icon="operateBtnsVisible?'el-icon-d-arrow-right':'el-icon-d-arrow-left'"
           @click="operateBtnsVisible=!operateBtnsVisible"></el-button> -->
         <div class="operate-btns">
-<!--          <el-button size="small" @click="openDialog">新增请假</el-button>-->
+          <!--          <el-button size="small" @click="openDialog">新增请假</el-button>-->
           <el-button size="small">导出</el-button>
           <!--          <el-button size="small">批量操作</el-button>-->
         </div>
@@ -43,15 +43,13 @@
     <el-main>
       <div class="container">
         <el-table :data="listData" style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
-          <el-table-column prop="uploadname" label="请假人"></el-table-column>
-          <el-table-column prop="uploadname" label="请假类型"></el-table-column>
-          <el-table-column prop="uploadname" label="开始时间"></el-table-column>
-          <el-table-column prop="uploadname" label="结束时间"></el-table-column>
-          <el-table-column prop="uploadname" label="请假天数"></el-table-column>
-          <el-table-column prop="uploadname" label="工作交接人"></el-table-column>
-          <el-table-column prop="uploadname" label="请假原因"></el-table-column>
+          <el-table-column prop="uploadname" label="打卡人"></el-table-column>
+          <el-table-column prop="uploadname" label="图片"></el-table-column>
+          <el-table-column prop="uploadname" label="标段"></el-table-column>
+          <el-table-column prop="uploadname" label="打卡时间"></el-table-column>
+          <el-table-column prop="uploadname" label="打卡次数"></el-table-column>
+          <el-table-column prop="uploadname" label="打卡位置"></el-table-column>
           <el-table-column prop="uploadname" label="备注"></el-table-column>
-          <el-table-column prop="uploadname" label="状态"></el-table-column>
         </el-table>
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
                        :current-page="queryData.pageNum" :page-size="queryData.pageSize"

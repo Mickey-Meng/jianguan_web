@@ -1,5 +1,6 @@
 <template>
   <div class="header_wrapper">
+    <div class="project_name">{{ project.name }}</div>
     <div class="search"></div>
     <div class="info_box">
       <div class="show-date">
@@ -409,6 +410,19 @@
     height: 60px;
     display: flex;
     justify-content: space-between;
+
+    .project_name {
+      height: 60px;
+      padding: 0 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      //border-bottom: 1px solid #fff;
+      color: black;
+      font-size: 24px;
+      font-weight: 600;
+
+    }
 
     .info_box {
       display: flex;

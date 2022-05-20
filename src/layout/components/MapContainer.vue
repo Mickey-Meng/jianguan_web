@@ -174,4 +174,5 @@ export default {
 .close-open {
   left: 10px;
 }
+
 </style>

@@ -109,6 +109,7 @@ const actions = {
               setToken("explorerRoles", res2.data.roles);
               setToken("rights", rights);
               commit("SET_RIGHTS", rights);
+              console.log(res,res1,res2,999)
               setToken("GROUPID", res2.data.userInfo.GROUPID);
               store.dispatch("user/getUserRights").then(res3 => {
                 resolve(res);

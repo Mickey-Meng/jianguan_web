@@ -95,7 +95,7 @@ export default {
 <style scoped lang='scss'>
 .wrapper {
   height: 100%;
-  padding: 5px;
+  //padding: 5px;
   ::v-deep .el-button {
     width: 75px;
     height: 28px;

@@ -1215,6 +1215,19 @@ export const asyncRoutes = [{
 					noMap: true
 				}
 			},
+      {
+        path: "/areaSetting",
+        name: "areaSetting",
+        component: () => import("@/views/contractManagement/areaSetting"),
+        meta: {
+          title: "电子围栏",
+          code: "dianziweilan",
+          icon: "circle",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
 			{
 				path: "/attendanceClock",
 				name: "attendanceClock",
@@ -1228,6 +1241,19 @@ export const asyncRoutes = [{
 					noMap: true
 				}
 			},
+      {
+        path: "/attendanceRecord",
+        name: "attendanceRecord",
+        component: () => import("@/views/contractManagement/attendanceRecord"),
+        meta: {
+          title: "考勤记录",
+          code: "kaoqinjilu",
+          icon: "circle",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
 			{
 				path: "/constructionSubcontract",
 				name: "constructionSubcontract",

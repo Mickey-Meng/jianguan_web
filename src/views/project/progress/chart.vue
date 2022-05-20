@@ -85,18 +85,8 @@ export default {
           hoverAnimation: false,
           data: [{
             value: 0,
-            // name: "01",
             itemStyle: {
               normal: {
-                // color: { // 完成的圆环的颜色
-                //   colorStops: [{
-                //     offset: 0,
-                //     color: "#E9EFFD" // 0% 处的颜色
-                //   }, {
-                //     offset: 1,
-                //     color: "#2772F2" // 100% 处的颜色
-                //   }]
-                // },
                 color: "#2772F2",
                 label: {
                   show: false
@@ -107,7 +97,6 @@ export default {
               }
             }
           }, {
-            // name: "02",
             value: 100,
             itemStyle: {
               normal: {
@@ -178,7 +167,7 @@ export default {
               data: [],
               showBackground: true,
               backgroundStyle: {
-                color: "#BDEBFF",
+                color: "#E9EFFD",
               },
               coordinateSystem: "polar",
               roundCap: true,
@@ -186,18 +175,7 @@ export default {
               itemStyle: {
                 normal: {
                   opacity: 1,
-                  color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                    {
-                      offset: 0,
-                      color: "#25BFFF",
-                    },
-                    {
-                      offset: 1,
-                      color: "#5284DE",
-                    },
-                  ]),
-                  shadowBlur: 5,
-                  shadowColor: "#2A95F9",
+                  color:'#2772F2'
                 },
               },
             },
@@ -240,9 +218,13 @@ export default {
 
         dl.title.subtext = `${dlnum}%`;
         dl.series[0].data = [dlnum];
+        dl.series[0].backgroundStyle.color = 'rgba(238,182,73,0.2)';
+        dl.series[0].itemStyle.normal.color = 'rgba(238,182,73,1)';
 
         sd.title.subtext = `${sdnum}%`;
         sd.series[0].data = [sdnum];
+        sd.series[0].backgroundStyle.color = 'rgba(74,163,72,0.2)';
+        sd.series[0].itemStyle.normal.color = 'rgba(74,163,72,1)';
         this.option = ql;
         this.roadOption = dl;
         this.sdOption = sd;
@@ -266,17 +248,15 @@ export default {
   padding: 0 10px;
   display: flex;
   width: 100%;
+  border-radius: 5px;
   border: 1px solid #E8E8E8;
-
   .item-box {
     flex: 1px;
     display: flex;
     flex-direction: column;
-
     .charts {
       height: calc(100% - 50px);
     }
-
     .chart {
       height: 100%;
     }

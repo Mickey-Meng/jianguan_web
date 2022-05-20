@@ -3,13 +3,24 @@
     <div class="header">
       <div class="global_text_style">关联单位</div>
     </div>
-    <ul class="table-wrp">
-      <li v-for="(item,index) in lists" :key="index">
-        <el-tooltip class="item" effect="dark" :content="item.title + ':' + item.name" placement="top">
-          <span> {{ item.title }}:{{ item.name }}</span>
-        </el-tooltip>
-      </li>
-    </ul>
+    <div class="table-wrp">
+      <el-table :data="lists" stripe style="width: 100%" height="100%" :show-header="false">
+        <el-table-column
+          prop="title"
+          width="120">
+        </el-table-column>
+        <el-table-column
+          prop="name" show-overflow-tooltip>
+        </el-table-column>
+      </el-table>
+    </div>
+    <!--    <ul class="table-wrp">-->
+    <!--      <li v-for="(item,index) in lists" :key="index">-->
+    <!--        <el-tooltip class="item" effect="dark" :content="item.title + ':' + item.name" placement="top">-->
+    <!--          <span> {{ item.title }}:{{ item.name }}</span>-->
+    <!--        </el-tooltip>-->
+    <!--      </li>-->
+    <!--    </ul>-->
   </div>
 </template>
 
@@ -73,23 +84,36 @@ export default {
     padding: 5px;
     overflow: auto;
 
-    li {
-      width: 100%;
-      height: 50px;
-      line-height: 50px;
-      background-color: #F6F6F6;
-      margin-bottom: 5px;
-      //text-indent: 1em;
-      padding: 0 10px;
-      border-radius: 10px;
-      font-weight: 600;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      &:hover{
-        border: 1px solid #395CFB;
+    ::v-deep.el-table {
+      .el-table__body-wrapper {
+        height: 100%;
+        //.el-table__body{
+        //  tbody{
+        //    tr{
+        //      background-color: #F6F6F6;
+        //    }
+        //  }
+        //}
       }
     }
+
+    //li {
+    //  width: 100%;
+    //  height: 50px;
+    //  line-height: 50px;
+    //  background-color: #F6F6F6;
+    //  margin-bottom: 5px;
+    //  //text-indent: 1em;
+    //  padding: 0 10px;
+    //  border-radius: 10px;
+    //  font-weight: 600;
+    //  overflow: hidden;
+    //  text-overflow: ellipsis;
+    //  white-space: nowrap;
+    //  &:hover{
+    //    border: 1px solid #395CFB;
+    //  }
+    //}
   }
 
 

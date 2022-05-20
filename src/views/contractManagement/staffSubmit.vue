@@ -55,12 +55,12 @@
                   <div class="form-title">
                     <div class="title-big-bar"></div>
                     <strong>人员填报</strong>
-                    <div class="form-btns">
-                      <el-button size="medium">暂存</el-button>
-                      <el-button size="medium">保存草稿</el-button>
-                      <el-button size="medium">选择草稿</el-button>
-                      <el-button size="medium" type="primary">复制填充</el-button>
-                    </div>
+                    <!--                    <div class="form-btns">-->
+                    <!--                      <el-button size="medium">暂存</el-button>-->
+                    <!--                      <el-button size="medium">保存草稿</el-button>-->
+                    <!--                      <el-button size="medium">选择草稿</el-button>-->
+                    <!--                      <el-button size="medium" type="primary">复制填充</el-button>-->
+                    <!--                    </div>-->
                   </div>
                   <div class="form-block">
                     <div class="form-block-title">
@@ -71,13 +71,13 @@
                       <div class="block-item">
                         <div class="block-item-label">标段</div>
                         <div class="block-item-value">
-                          {{ form.section }}
+                          {{ projectName }}
                         </div>
                       </div>
                       <div class="block-item">
                         <div class="block-item-label">记录人</div>
                         <div class="block-item-value">
-                          <el-input v-model="form.username" readonly></el-input>
+                          <el-input v-model="form.recorder" readonly></el-input>
                         </div>
                       </div>
                     </div>
@@ -86,7 +86,7 @@
                         <div class="block-item-label">报审日期</div>
                         <div class="block-item-value">
                           <el-date-picker
-                            v-model="form.time"
+                            v-model="form.subDate"
                             type="datetime"
                             :clearable="false"
                             placeholder="选择日期时间"
@@ -99,25 +99,19 @@
                         <div class="block-item-label">人员类型</div>
                         <div class="block-item-value">
                           <el-form-item prop="projectChargeUser">
-                            <el-select v-model="form.projectChargeUser" placeholder="请选择">
+                            <el-select v-model="form.isContract" placeholder="请选择">
                               <el-option label="合同人员" value="1"></el-option>
-                              <el-option label="非合同人员" value="2"></el-option>
+                              <el-option label="非合同人员" value="0"></el-option>
                             </el-select>
                           </el-form-item>
                         </div>
                       </div>
                     </div>
                     <div class="block-line">
-
                       <div class="block-item">
                         <div class="block-item-label">是否自管</div>
                         <div class="block-item-value">
-                          <el-form-item prop="projectChargeUser">
-                            <el-select v-model="form.abc" placeholder="请选择">
-                              <el-option label="自管" value="1"></el-option>
-                              <el-option label="非自管" value="2"></el-option>
-                            </el-select>
-                          </el-form-item>
+                          自管
                         </div>
                       </div>
                     </div>
@@ -134,41 +128,30 @@
                       <el-table
                         :data="tableData"
                         border
+                        class="have_scrolling"
                         style="width: 100%">
                         <el-table-column
                           label="姓名"
-                          width="120">
+                          width="160">
                           <template slot-scope="{row}">
                             <div class="user_select">
-                              <i class="el-icon-plus"></i>
-                              <div class="name">{{ row.name }}</div>
+                              <el-select v-model="row.name" filterable placeholder="请选择人员">
+                                <el-option
+                                  v-for="item in allUsers"
+                                  :key="item.value"
+                                  :label="item.label"
+                                  :value="item.value">
+                                </el-option>
+                              </el-select>
                             </div>
                           </template>
                         </el-table-column>
 
                         <el-table-column
-                          label="岗位"
-                          width="120">
+                          label="身份证号"
+                          width="220">
                           <template slot-scope="{row}">
-                            <el-input v-model="row.name"></el-input>
-                          </template>
-                        </el-table-column>
-                        <el-table-column
-                          label="证件名称">
-                          <template slot-scope="{row}">
-                            <el-input v-model="row.name"></el-input>
-                          </template>
-                        </el-table-column>
-                        <el-table-column
-                          label="证件编号">
-                          <template slot-scope="{row}">
-                            <el-input v-model="row.name"></el-input>
-                          </template>
-                        </el-table-column>
-                        <el-table-column
-                          label="发证单位">
-                          <template slot-scope="{row}">
-                            <el-input v-model="row.name"></el-input>
+                            <el-input v-model="row.identityId" placeholder="请输入身份证号"></el-input>
                           </template>
                         </el-table-column>
                         <el-table-column
@@ -176,7 +159,7 @@
                           width="320">
                           <template slot-scope="{row}">
                             <el-date-picker
-                              v-model="row.time"
+                              v-model="row.identityTime"
                               type="daterange"
                               value-format="yyyy-MM-dd"
                               range-separator="至"
@@ -186,9 +169,78 @@
                           </template>
                         </el-table-column>
                         <el-table-column
+                          label="性别"
+                          width="120">
+                          <template slot-scope="{row}">
+                            <!--                            <el-input v-model="row.name"></el-input>-->
+                            <el-select v-model="row.gender" placeholder="请选择">
+                              <el-option label="男" :value="1"></el-option>
+                              <el-option label="女" :value="0"></el-option>
+                            </el-select>
+                          </template>
+                        </el-table-column>
+                        <el-table-column
+                          label="岗位"
+                          width="150">
+                          <template slot-scope="{row}">
+                            <el-input v-model="row.post" readonly></el-input>
+                          </template>
+                        </el-table-column>
+                        <el-table-column
+                          label="证件名称"
+                          width="250">
+                          <template slot-scope="{row}">
+                            <el-input v-model="row.certificateName"></el-input>
+                          </template>
+                        </el-table-column>
+                        <el-table-column
+                          label="证件编号"
+                          width="250">
+                          <template slot-scope="{row}">
+                            <el-input v-model="row.certificateCode"></el-input>
+                          </template>
+                        </el-table-column>
+                        <el-table-column
+                          label="发证单位"
+                          width="250">
+                          <template slot-scope="{row}">
+                            <el-input v-model="row.issuer"></el-input>
+                          </template>
+                        </el-table-column>
+                        <el-table-column
+                          label="有效期"
+                          width="320">
+                          <template slot-scope="{row}">
+                            <el-date-picker
+                              v-model="row.effectiveTime"
+                              type="daterange"
+                              value-format="yyyy-MM-dd"
+                              range-separator="至"
+                              start-placeholder="开始日期"
+                              end-placeholder="结束日期">
+                            </el-date-picker>
+                          </template>
+                        </el-table-column>
+                        <el-table-column
+                          label="文化程度"
+                          width="120">
+                          <template slot-scope="{row}">
+                            <el-input v-model="row.education"></el-input>
+                          </template>
+                        </el-table-column>
+                        <el-table-column
+                          label="脸部照片"
+                          width="120"
+                          align="center">
+                          <template slot-scope="{row}">
+                            <img-viewer :img-list="[row.peoplePic]"></img-viewer>
+                          </template>
+                        </el-table-column>
+                        <el-table-column
                           label="操作"
-                          width="80">
+                          width="200">
                           <template slot-scope="{$index}">
+                            <el-button type="primary" size="mini" class="primary_mini">上传照片</el-button>
                             <el-button type="danger" size="mini" @click="deleteInfo($index)">删除</el-button>
                           </template>
                         </el-table-column>
@@ -255,18 +307,13 @@
     name: "",
     data() {
       return {
-        form: {
-          time: getNowDate(),
-          userName: "",
-          isContract: true,
-          autogestion: true,
-          section: "G235改建"
-        },
+        form: {},
+        projectName: "",
         tableData: [],
         listData: [],
         userOptions: [],
         dialogFormVisible: false,
-        dialogPersonVisible: false,
+        dialogPersonVisible: false,//控制选择人的弹框
         queryData: {
           projectCode: "",
           subProject: "",
@@ -274,18 +321,42 @@
           totalPage: 1,
           pageSize: 10
         },
+        allUsers: [],//所有的用户
+        tableRowData: {
+          identityId: "",//身份证ID;
+          identityTime: "",//身份证有效时间
+          gender: 1,//性别 0女 1男
+          post: "",//角色
+          certificateName: "",//证件名称
+          certificateCode: "", //证件编号
+          issuer: "", //发证单位
+          effectiveTime: "", //证件有效期
+          education: "", //文化程度
+          peoplePic: "", //人脸照片
+          name: "", //用户名,
+          userId: null,//用户ID
+          roldid: null//角色id
+        },
         dialogTitle: "项目全生命周期数字管理平台"
       };
     },
     created() {
-      this.form.userName = this.name;
+      this.projectName = this.project.name;
+      this.form = {
+        recorder: this.name,
+        recordId: this.userInfo.ID,
+        subDate: getNowDate(),//填报时间
+        projectId: this.project.id,
+        isContract: "1"
+      };
     },
     computed: {
-      ...mapGetters(["userInfo", "name"])
+      ...mapGetters(["userInfo", "name", "project"])
     },
     methods: {
       addRow() {
-        this.tableData.push({name: "11", time: ""});
+        let obj = Object.assign({}, this.tableRowData);
+        this.tableData.push(obj);
       },
       openDialog() {
         this.dialogFormVisible = true;
@@ -306,7 +377,7 @@
   @import "../../assets/css/dialog.scss";
 
   .form-bg {
-    width: 80% !important;
+    width: 90% !important;
 
     .form-block {
       .el-date-editor {

@@ -7,7 +7,7 @@
  * @LastEditTime: 2022-02-17 17:32:13
 -->
 <template>
-  <div class="wrapper">
+  <div class="con_wrapper">
     <div class="header">
       <ul>
         <li
@@ -271,16 +271,17 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-.wrapper {
+.con_wrapper {
   height: 100%;
   // padding: 10px;
   background-color: #edeff8;
+  padding: 5px;
   .header {
     background-color: #ffffff;
     height: 70px;
     display: flex;
     align-items: center;
-    margin: 0 5px;
+    //margin:5px;
     ul {
       display: flex;
       align-items: center;
@@ -309,8 +310,8 @@ export default {
     }
   }
   .content {
-    // margin-top: 10px;
-    height: calc(100% - 70px);
+     margin-top: 5px;
+    height: calc(100% - 85px);
   }
 }
 </style>
