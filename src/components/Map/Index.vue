@@ -82,7 +82,7 @@ export default {
   mounted() {
     getMap(
       getToken("explorerId"),
-      getToken("groupId"),
+      getToken("GROUPID"),
       getToken("explorerRoles")
     ).then((res) => {
       earth.layers = res.data.getMe;
