@@ -40,12 +40,14 @@
 
 <script>
 	import tasklog from "../../common/tasklog.vue"
-	import taskhandle from '../../task/taskhandle'
+	import taskhandle from '../../common/taskhandle'
 	export default {
-		props:['dialogTitle','menuTitle'],
+		// props:['dialogTitle','menuTitle'],
 		data() {
 			return {
 				dialogFormVisible:true,
+				dialogTitle:'项目全生命周期数字管理平台',
+				menuTitle:'质量检测',
 				taskInfo:{}
 			}
 		},

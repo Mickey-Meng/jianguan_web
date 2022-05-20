@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="handle-bg">
 		<el-form ref="ruleform" label-width="80px" :rules="rules" :model="formData">
 			<div class="form-block">
 				<div class="form-block-title">

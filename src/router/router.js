@@ -29,30 +29,30 @@ export const constantRoutes = [{
 		component: Pandect,
 		hidden: true
 	},
+	{
+		path: "/handlerFlowTask",
+		name: "handlerFlowTask",
+		component: () => import("@/views/task/handlerFlowTask/index"),
+		children:[{
+			path: "/qualityTest_detail",
+			name: "qualityTest_detail",
+			component: () => import("@/views/quality/newPage/qualityTest/view"),
+		},{
+			path: "/concealedWorksManagement_detail",
+			name: "concealedWorksManagement_detail",
+			component: () => import("@/views/quality/newPage/concealedWorksManagement/detail")
+		}]
+	},
 	// {
-	// 	path: "/handlerFlowTask",
-	// 	name: "handlerFlowTask",
-	// 	component: () => import("@/views/task/handlerFlowTask/index"),
-	// 	children:[{
 	// 		path: "/qualityTest_detail",
 	// 		name: "qualityTest_detail",
 	// 		component: () => import("@/views/quality/newPage/qualityTest/detail"),
-	// 	},{
-	// 		path: "/concealedWorksManagement_detail",
-	// 		name: "concealedWorksManagement_detail",
-	// 		component: () => import("@/views/quality/newPage/concealedWorksManagement/detail")
-	// 	}]
 	// },
-	{
-			path: "/qualityTest_detail",
-			name: "qualityTest_detail",
-			component: () => import("@/views/quality/newPage/qualityTest/detail"),
-	},
-	{
-		path: "/concealedWorksManagement_detail",
-		name: "concealedWorksManagement_detail",
-		component: () => import("@/views/quality/newPage/concealedWorksManagement/detail")
-	},
+	// {
+	// 	path: "/concealedWorksManagement_detail",
+	// 	name: "concealedWorksManagement_detail",
+	// 	component: () => import("@/views/quality/newPage/concealedWorksManagement/detail")
+	// },
 	{
 		path: "*",
 		redirect: "/home",
