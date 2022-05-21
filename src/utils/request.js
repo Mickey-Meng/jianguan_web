@@ -25,7 +25,7 @@ service.interceptors.request.use(
     if (config.url.indexOf('STSfmzj') != -1) {
     } else {
       if (store.getters.token) {
-        config.headers['token'] = getToken('zj_token')
+        config.headers['token'] ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTMxMzYwMzgsInVzZXIiOiJ7XCJnb25ncXVzXCI6W10sXCJpZFwiOjEsXCJwcm9qZWN0c1wiOltdLFwicm9sZVwiOjJ9In0.KmkUJX2AvUJlXjo-jHKAax3oilQHMWsXLxkUh0ZfjnM'// getToken('zj_token')
       }
     }
     if ((config.method === 'post' || config.method === 'put') && !config.headers['Content-Type']) {
@@ -54,7 +54,7 @@ service.interceptors.response.use(
    */
   response => {
     const res = response.data
-    if (res.status === 200 || res.meow === 0 || res.status === 300) {
+    if (res.status === 200 || res.meow === 0 || res.status === 300 || res.success === true) {
       return Promise.resolve(res)
     }
 

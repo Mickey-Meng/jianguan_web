@@ -24,7 +24,7 @@
 						</el-table-column>
 					</el-table>
 				</el-tab-pane>
-				<el-tab-pane label="审批人" name="second">
+				<el-tab-pane v-if="hasTaskUser" label="审批人" name="second">
 					<el-table :data="userData" style="width: 100%" border class="have_scrolling">
 						<el-table-column type="index" width="50" align="center" label="序号">
 						</el-table-column>
@@ -57,40 +57,47 @@
 				activeName: 'first',
 				userData: [],
 				bpmnModeler: null,
-				xmlStr:''
+				xmlStr:'',
+				hasTaskUser:true
 			};
 		},
 		created() {},
 		components: {},
 		computed: {},
 		mounted() {
-			
-			api.viewProcessBpmn({
-				processDefinitionId:this.taskInfo['processDefinitionId']
-			}).then((res) => {
-				this.xmlStr=res['data'];
-				
-			});
-			// api.viewHighlightFlowData({
-			// 	processInstanceId:this.taskInfo['processInstanceId']
-			// }).then((res) => {
-			// 	debugger
-			// });
-			api.listFlowTaskComment({
-				processInstanceId:this.taskInfo['processInstanceId']
-			}).then((res) => {
-				this.logData=res['data']||[];
-			});
-			api.viewTaskUserInfo({
-				processDefinitionId: this.taskInfo['processDefinitionId'],
-				processInstanceId: this.taskInfo['processInstanceId'],
-				taskId: this.taskInfo['taskId'],
-				historic:true
-			}).then((res) => {
-				this.userData=res['data']||[];
-			});
 		},
 		methods: {
+			initData(){
+				api.viewProcessBpmn({
+					processDefinitionId:this.taskInfo['processDefinitionId']
+				}).then((res) => {
+					this.xmlStr=res['data'];
+					
+				});
+				// api.viewHighlightFlowData({
+				// 	processInstanceId:this.taskInfo['processInstanceId']
+				// }).then((res) => {
+				// 	debugger
+				// });
+				api.listFlowTaskComment({
+					processInstanceId:this.taskInfo['processInstanceId']
+				}).then((res) => {
+					this.logData=res['data']||[];
+				});
+				
+				if(this.taskInfo['taskId']){
+					api.viewTaskUserInfo({
+						processDefinitionId: this.taskInfo['processDefinitionId'],
+						processInstanceId: this.taskInfo['processInstanceId'],
+						taskId: this.taskInfo['taskId'],
+						historic:true
+					}).then((res) => {
+						this.userData=res['data']||[];
+					});
+				}else{
+					this.hasTaskUser=false;
+				}
+			},
 			createFlow() {
 				this.dialogVisible = true;
 				if(this.bpmnModeler)return;

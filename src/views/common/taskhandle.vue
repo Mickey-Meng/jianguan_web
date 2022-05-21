@@ -42,7 +42,7 @@
 			return {
 				formData: {
 					approvalType: "agree",
-					comment: "我今天不同意",
+					comment: "",
 					delegateAssginee: ""
 				},
 				rules: {
@@ -84,19 +84,21 @@
 			},
 		},
 		mounted() {
-			api.viewRuntimeTaskInfo({
-				processDefinitionId: this.taskInfo['processDefinitionId'],
-				processInstanceId: this.taskInfo['processInstanceId'],
-				taskId: this.taskInfo['taskId']
-			}).then((res) => {
-				this.operationList = (res.data.operationList || []).filter(item => {
-					return item.type !== this.SysFlowTaskOperationType.CO_SIGN && item.type !== this
-						.SysFlowTaskOperationType.REVOKE;
-				})
-				console.log(this.operationList)
-			});
+			
 		},
 		methods: {
+			initData(){
+				api.viewRuntimeTaskInfo({
+					processDefinitionId: this.taskInfo['processDefinitionId'],
+					processInstanceId: this.taskInfo['processInstanceId'],
+					taskId: this.taskInfo['taskId']
+				}).then((res) => {
+					this.operationList = (res.data.operationList || []).filter(item => {
+						return item.type !== this.SysFlowTaskOperationType.CO_SIGN && item.type !== this
+							.SysFlowTaskOperationType.REVOKE;
+					})
+				});
+			},
 			agreeTask() {
 				api.submitUserTask({
 					copyData: {},

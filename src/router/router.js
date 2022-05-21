@@ -40,7 +40,7 @@ export const constantRoutes = [{
 		},{
 			path: "/concealedWorksManagement_detail",
 			name: "concealedWorksManagement_detail",
-			component: () => import("@/views/quality/newPage/concealedWorksManagement/detail")
+			component: () => import("@/views/quality/newPage/concealedWorksManagement/view")
 		}]
 	},
 	// {

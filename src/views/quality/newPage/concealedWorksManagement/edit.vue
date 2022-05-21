@@ -260,7 +260,7 @@
 						</div>
 					</div>
 				</el-main>
-				<el-aside width="8px" class="close-wrapper">
+				<!-- <el-aside width="8px" class="close-wrapper">
 					<div class="close-wrap">
 						<i class="el-icon-caret-right"></i>
 					</div>
@@ -268,7 +268,7 @@
 				<el-aside
 					style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
 					<tasklog></tasklog>
-				</el-aside>
+				</el-aside> -->
 			</el-container>
 		</el-dialog>
 	</div>
@@ -280,7 +280,6 @@
 		formatDateTime
 	} from "@/utils/format.js";
 	import upload from "../../../common/upload.vue"
-	import tasklog from "../../../common/tasklog.vue"
 	
 	export default {
 		props: ['editRow'],
@@ -357,8 +356,7 @@
 		},
 		created() {},
 		components: {
-			upload,
-			tasklog
+			upload
 		},
 		computed: {},
 		mounted() {},

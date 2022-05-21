@@ -41,21 +41,22 @@
 					class="have_scrolling">
 					<el-table-column type="index" width="50" align="center" label="序号">
 					</el-table-column>
+					
+					
+					
 					<el-table-column prop="processDefinitionName" align="center" label="流程名称" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="processDefinitionKey" align="center" label="流程标识" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="name" align="center" label="任务名称" show-overflow-tooltip>
+					<el-table-column prop="startUserId" align="center" label="任务发起人" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="approvalType" align="center" label="执行操作" show-overflow-tooltip>
+					<el-table-column prop="startTime" align="center" label="任务发起时间" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="startUser" align="center" label="任务发起人" show-overflow-tooltip>
-					</el-table-column>
-					<el-table-column prop="createTime" align="center" label="任务发起时间" show-overflow-tooltip>
+					<el-table-column prop="endTime" align="center" label="任务结束时间" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column fixed="right" width="120" align="center" label="操作">
 						<template slot-scope="{ row, $index }">
-							<el-button type="text" size="mini">详情</el-button>
+							<el-button type="text" size="mini" @click="gotoHandle(row)">详情</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -70,6 +71,7 @@
 
 <script>
 	import * as api from "@/api/quality";
+	import { mapGetters } from 'vuex'
 	export default {
 		data() {
 			return {
@@ -82,13 +84,18 @@
 						pageNum: 1,
 						totalPage: 1,
 						pageSize: 10
-					}
+					},
 				},
+				routes:null
 			};
 		},
-		created() {},
+		created() {
+			this.routes = this.menus;
+		},
 		components: {},
-		computed: {},
+		computed: {
+			...mapGetters(["menus"])
+		},
 		mounted() {
 			this.query();
 		},
@@ -96,7 +103,7 @@
 			query(){
 				api.listHistoricProcessInstance(this.queryData).then((res) => {
 					this.allData = res.data || {};
-					this.tableData = this.allData.list||[];
+					this.tableData = this.allData.dataList||[];
 					this.queryData.pageParam.pageNum = res.data.pageNum;
 					this.queryData.pageParam.totalPage = res.data.total;
 					this.queryData.pageParam.pageSize = res.data.pageSize;
@@ -107,6 +114,28 @@
 			},
 			handleCurrentChange(val) {
 				console.log(`当前页: ${val}`);
+			},
+			gotoHandle(row){
+				//row['taskFormKey']=(typeof row['taskFormKey'])=='string'?JSON.parse(row['taskFormKey']):row['taskFormKey'];
+				this.routes.forEach(parent=>{
+					parent['children'].forEach(child=>{
+						if(child['meta']['code']==row['processDefinitionKey']){
+							this.$router.push({
+								path:child['path']+'_detail',
+								query:{
+									taskId: row.taskId,
+									businessKey:row.businessKey,
+									processDefinitionKey: row.processDefinitionKey,
+									processInstanceId: row.processInstanceId,
+									processDefinitionId: row.processDefinitionId,
+									taskName: row.taskName,
+									flowEntryName: row.processDefinitionName,
+									processInstanceInitiator: row.processInstanceInitiator,
+								}
+							});
+						}
+					})
+				})
 			}
 		}
 	}

@@ -3,7 +3,6 @@
 
 		<div class="form-content">
 			<el-form ref="form" label-width="80px">
-
 				<div class="form-block">
 					<div class="form-block-title">
 						<div class="title-bar"></div><strong>基本信息</strong>
@@ -67,29 +66,29 @@
 						<el-table :data="examineTable" style="width: 100%" border class="have_scrolling">
 							<el-table-column type="index" width="50" align="center" label="序号">
 							</el-table-column>
-							<el-table-column prop="pro" align="center" label="材料名称" show-overflow-tooltip>
+							<el-table-column prop="name" align="center" label="材料名称" show-overflow-tooltip>
 							</el-table-column>
-							<el-table-column prop="qualityfirstname" width="160px" align="center" label="材料来源">
+							<el-table-column prop="addressStr" width="160px" align="center" label="材料来源">
 							</el-table-column>
-							<el-table-column prop="qualitysecondname" width="120px" align="center" label="材料规格">
+							<el-table-column prop="specification" width="120px" align="center" label="材料规格">
 							</el-table-column>
-							<el-table-column prop="qualitysecondname" width="120px" align="center" label="工程部位">
+							<el-table-column prop="projectPart" width="120px" align="center" label="工程部位">
 							</el-table-column>
-							<el-table-column prop="qualitysecondname" width="120px" align="center" label="材料数量(吨)">
+							<el-table-column prop="num" width="120px" align="center" label="材料数量(吨)">
 							</el-table-column>
-							<el-table-column prop="qualitysecondname" width="120px" align="center" label="取样地点">
+							<el-table-column prop="takeAddress" width="120px" align="center" label="取样地点">
 							</el-table-column>
-							<el-table-column prop="qualitysecondname" width="120px" align="center" label="试验日期">
+							<el-table-column prop="testDate" width="120px" align="center" label="试验日期">
 							</el-table-column>
-							<el-table-column prop="qualitysecondname" width="120px" align="center" label="实验数量">
+							<el-table-column prop="testNum" width="120px" align="center" label="实验数量">
 							</el-table-column>
-							<el-table-column prop="qualitysecondname" width="120px" align="center" label="合格数量">
+							<el-table-column prop="qualifiedNum" width="120px" align="center" label="合格数量">
 							</el-table-column>
-							<el-table-column prop="qualitysecondname" width="120px" align="center" label="总合格率(%)">
+							<el-table-column prop="qualifiedRate" width="120px" align="center" label="总合格率(%)">
 							</el-table-column>
-							<el-table-column prop="qualitysecondname" width="120px" align="center" label="检测结果">
+							<el-table-column prop="detectionResult" width="120px" align="center" label="检测结果">
 							</el-table-column>
-							<el-table-column prop="qualitysecondname" width="120px" align="center" label="报告编号">
+							<el-table-column prop="reportCode" width="120px" align="center" label="报告编号">
 							</el-table-column>
 						</el-table>
 					</div>
@@ -104,14 +103,14 @@
 							文件，且不超过 200M</span>
 					</div>
 					<div class="block-table">
-						<el-table :data="annexTableData" style="width: 100%" border class="have_scrolling">
+						<el-table :data="reportTable" style="width: 100%" border class="have_scrolling">
 							<el-table-column type="index" width="50" align="center" label="序号">
 							</el-table-column>
-							<el-table-column prop="pro" align="center" label="附件" show-overflow-tooltip>
+							<el-table-column prop="fileName" align="center" label="附件" show-overflow-tooltip>
 							</el-table-column>
-							<el-table-column prop="qualityfirstname" width="160px" align="center" label="上传日期">
+							<el-table-column prop="createTime" width="160px" align="center" label="上传日期">
 							</el-table-column>
-							<el-table-column prop="qualitysecondname" width="120px" align="center" label="上传人">
+							<el-table-column prop="creatorName" width="120px" align="center" label="上传人">
 							</el-table-column>
 						</el-table>
 					</div>
@@ -123,7 +122,7 @@
 							文件，且不超过 200M</span>
 					</div>
 					<div class="block-table">
-						<el-table :data="annexTableData" style="width: 100%" border class="have_scrolling">
+						<el-table :data="factoryTable" style="width: 100%" border class="have_scrolling">
 							<el-table-column type="index" width="50" align="center" label="序号">
 							</el-table-column>
 							<el-table-column prop="pro" align="center" label="附件" show-overflow-tooltip>
@@ -142,7 +141,7 @@
 							文件，且不超过 200M</span>
 					</div>
 					<div class="block-table">
-						<el-table :data="annexTableData" style="width: 100%" border class="have_scrolling">
+						<el-table :data="attachTable" style="width: 100%" border class="have_scrolling">
 							<el-table-column type="index" width="50" align="center" label="序号">
 							</el-table-column>
 							<el-table-column prop="pro" align="center" label="附件" show-overflow-tooltip>
@@ -196,15 +195,8 @@
 		getQueryVariable
 	} from "@/utils/format.js";
 	export default {
-		props: ['detailRow'],
 		data() {
 			return {
-				dialogFormVisible: true,
-				dialogTitle: '项目全生命周期数字管理平台',
-				annexTableData: [],
-				activeName: 'first',
-				waitTableData: [],
-
 				baseInfo: {
 					buildSection: 1,
 					buildSectionName: '235国道杭州至诸暨公路萧山河上至诸暨安华段改建工程',
@@ -230,12 +222,10 @@
 					updateTime: null,
 					updateUserId: null
 				},
-
 				examineTable: [], //检测信息
 				reportTable: [], //试验检测报告
 				factoryTable: [], //出厂信息
 				attachTable: [], //其他附件
-				taskInfo: {}
 			};
 		},
 		created() {},
@@ -243,32 +233,12 @@
 		},
 		computed: {},
 		watch: {
-			detailRow(obj) {
-				if (obj['id']) {
-					this.getDetail(obj['id']);
-				}
-			}
+			
 		},
 		mounted() {
-			setTimeout(() => {
-				var params = getQueryVariable();
-				if (params['processDefinitionId']) {
-					this.dialogFormVisible = true;
-					params['id'] = params['businessKey'];
-					this.taskInfo = params;
-					this.getDetail(params['businessKey']);
-				}
-			}, 500)
+			
 		},
 		methods: {
-			closeDialog() {
-				if (this.taskInfo['processDefinitionId']) {
-					this.$router.go(-1);
-				}
-			},
-			changeVisible(value) {
-				this.dialogFormVisible = value;
-			},
 			getDetail(id) {
 				api.getQualityDetectionDetail({
 					id: id

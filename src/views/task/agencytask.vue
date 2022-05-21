@@ -108,10 +108,8 @@
 				this.routes.forEach(parent=>{
 					parent['children'].forEach(child=>{
 						if(child['meta']['code']==row['taskFormKey']['routerName']){
-							console.log(child['path'])
 							this.$router.push({
-								path:child['path']+'_detail',//'/handlerFlowTask',
-								// path:'/handlerFlowTask',
+								path:child['path']+'_detail',
 								query:{
 									taskId: row.taskId,
 									businessKey:row.businessKey,
