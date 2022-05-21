@@ -170,6 +170,14 @@ const api = {
 
 
   //-----------------------流程引擎新增接口 ------------------------
+  //项目相关
+  getChildProject: "/ZhuJiRoad/projects/getChildProject",//通过项目id获取项目子级的标段信息
+  getCompanyByProjectId: "/ZhuJiRoad/projects/getCompanyByProjectId",//通过项目下的标段id获取项目的单位信息
+  getInfoByProjectId: "/ZhuJiRoad/projects/getInfoByProjectId",//通过项目id查询组织信息和用户信息
+  getProjectInfoById: "/ZhuJiRoad/projects/getProjectInfoById",//通过项目id查询项目详细信息（项目名、施工单位、监理单位、合同号等）
+  getProjectRoleTree: "/ZhuJiRoad/projects/getProjectRoleTree",//获取项目下面的组织角色树
+  getProjectUserTree: "/ZhuJiRoad/projects/getProjectUserTree",//获取项目下面的组织用户树
+  getUserByRoleId: "/ZhuJiRoad/projects/getUserByRoleId",//通过角色id获取用户信息
   //上传文件接口
   uploadFile: "/ZhuJiRoad/mong/newUpload",
   getFileInfo: "/ZhuJiRoad/mong/findFile",

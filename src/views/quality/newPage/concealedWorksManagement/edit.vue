@@ -277,7 +277,8 @@
 <script>
 	import * as api from "@/api/quality";
 	import {
-		formatDateTime
+		formatDateTime,
+		createProjectInfo
 	} from "@/utils/format.js";
 	import upload from "../../../common/upload.vue"
 	
@@ -328,10 +329,10 @@
 				},
 				baseInfo: {
 					buildSection: 1,
-					buildSectionName: '235国道杭州至诸暨公路萧山河上至诸暨安华段改建工程',
-					contractCode: '235SJSG01',
-					buildCompany: '中交上海航道局有限公司、中国交通建设股份有限公司、浙江诸安建设集团有限公司、浙江省交通规划设计研究院有限公司',
-					supervisionUnit: '浙江交科公路水运工程监理有限公司',
+					buildSectionName: '',
+					contractCode: '',
+					buildCompany: '',
+					supervisionUnit: '',
 				},
 				formData: { //表单参数
 					attachment: [],
@@ -343,7 +344,7 @@
 					projectBuildUser: 1,
 					projectChargeUser: 1,
 					projectCode: '',
-					projectId: 1,
+					projectId: this.$store.getters.project['id'],
 					qualityCheckUser: 1,
 					subProject: '',
 					supervisorEngineerUser: 1,
@@ -359,7 +360,9 @@
 			upload
 		},
 		computed: {},
-		mounted() {},
+		mounted() {
+			this.getProjectInfoById();
+		},
 		watch: {
 			editRow(obj) {
 				if (obj['id']) {
@@ -375,7 +378,7 @@
 						projectBuildUser: 1,
 						projectChargeUser: 1,
 						projectCode: '',
-						projectId: 1,
+						projectId: this.$store.getters.project['id'],
 						qualityCheckUser: 1,
 						subProject: '',
 						supervisorEngineerUser: 1,
@@ -388,6 +391,18 @@
 		methods: {
 			changeVisible(value) {
 				this.dialogFormVisible = value;
+			},
+			getProjectInfoById(){
+				api.getProjectInfoById({
+					projectid:this.$store.getters.project['id']
+				}).then((res) => {
+					let data = res['data'] || {};
+					this.baseInfo['buildSectionName']=data['project']?data['project']['name']:'';
+					let list=data['companys'] || [];
+					let info=createProjectInfo(list);
+					this.baseInfo['buildCompany']=info['buildCompany'];
+					this.baseInfo['supervisionUnit']=info['supervisionUnit'];
+				});
 			},
 			getDetail(id) {
 				api.getHiddenProjectDetail({

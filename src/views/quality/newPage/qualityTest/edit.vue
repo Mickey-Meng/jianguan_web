@@ -28,9 +28,17 @@
 									</div>
 									<div class="block-line">
 										<div class="block-item">
-											<div class="block-item-label">施工标段</div>
+											<div class="block-item-label">施工标段<i class="require-icon"></i></div>
 											<div class="block-item-value">
-												{{baseInfo.buildSectionName}}
+												<el-form-item prop="buildSection">
+													<el-select
+													@change="changeChild"
+													    v-model="formData.buildSection" placeholder="请选择">
+														<el-option v-for="item in childOptions" :key="item.value" :label="item.label"
+															:value="item.value">
+														</el-option>
+													</el-select>
+												</el-form-item>
 											</div>
 										</div>
 										<div class="block-item">
@@ -473,6 +481,7 @@
 		data() {
 			return {
 				dialogFormVisible: false,
+				childOptions:[],
 				examineResultOptions1: [{
 					label: '合格',
 					value: 0
@@ -491,14 +500,14 @@
 				options: [],
 				baseInfo: {
 					buildSection: 1,
-					buildSectionName: '235国道杭州至诸暨公路萧山河上至诸暨安华段改建工程',
-					contractCode: '235SJSG01',
-					buildCompany: '中交上海航道局有限公司、中国交通建设股份有限公司、浙江诸安建设集团有限公司、浙江省交通规划设计研究院有限公司',
-					supervisionUnit: '浙江交科公路水运工程监理有限公司',
-					supervisionSection: '监理办'
+					buildSectionName: '',
+					contractCode: '',
+					buildCompany: '',
+					supervisionUnit: '',
+					supervisionSection: ''
 				},
 				formData: { //表单参数
-					buildSection: 1,
+					buildSection: '',
 					deletedFlag: 1,
 					detectionInfo: [],
 					detectionReport: [],
@@ -509,7 +518,7 @@
 					fillDate: formatDate(new Date()),
 					// id: 222,
 					inspectionCode: '',
-					projectId: 1,
+					projectId: this.$store.getters.project['id'],
 					remark: '',
 					// createTime: null,
 					// createUserId: null,
@@ -517,6 +526,11 @@
 					// updateUserId: null
 				},
 				rules: {
+					buildSection: [{
+						required: true,
+						message: '请选择施工标段',
+						trigger: 'blur'
+					}],
 					inspectionCode: [{
 						required: true,
 						message: '请填写报验单号',
@@ -617,14 +631,16 @@
 		components: {
 			upload
 		},
-		computed: {},
+		computed: {
+			
+		},
 		watch: {
 			editRow(obj) {
 				if (obj['id']) {
 					this.getDetail(obj['id']);
 				} else {
 					this.formData = {
-						buildSection: 1,
+						buildSection: '',
 						deletedFlag: 1,
 						detectionInfo: [],
 						detectionReport: [],
@@ -635,19 +651,35 @@
 						fillDate: formatDate(new Date()),
 						// id: 222,
 						inspectionCode: '',
-						projectId: 1,
+						projectId: this.$store.getters.project['id'],
 						remark: '',
 					}
 				}
 			}
 		},
 		mounted() {
+			this.getChildProject();
 			this.getMaterialEnums();
 			this.getProvince();
 		},
 		methods: {
 			changeVisible(value) {
 				this.dialogFormVisible = value;
+			},
+			getChildProject(){
+				api.getChildProject({
+					projectid:this.$store.getters.project['id']
+				}).then((res) => {
+					let options = res.data || [];
+					this.childOptions = convertOptions(options, 'name', 'id');
+				});
+			},
+			changeChild(){
+				api.getCompanyByProjectId({
+					projectid:this.formData.buildSection
+				}).then((res) => {
+					this.baseInfo=res;
+				});
 			},
 			getMaterialEnums() {
 				api.getMaterialEnums().then((res) => {

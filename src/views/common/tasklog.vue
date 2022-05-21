@@ -58,7 +58,7 @@
 				userData: [],
 				bpmnModeler: null,
 				xmlStr:'',
-				hasTaskUser:true
+				hasTaskUser:false
 			};
 		},
 		created() {},
@@ -85,18 +85,18 @@
 					this.logData=res['data']||[];
 				});
 				
-				if(this.taskInfo['taskId']){
-					api.viewTaskUserInfo({
-						processDefinitionId: this.taskInfo['processDefinitionId'],
-						processInstanceId: this.taskInfo['processInstanceId'],
-						taskId: this.taskInfo['taskId'],
-						historic:true
-					}).then((res) => {
-						this.userData=res['data']||[];
-					});
-				}else{
-					this.hasTaskUser=false;
-				}
+				// if(this.taskInfo['taskId']){
+				// 	api.viewTaskUserInfo({
+				// 		processDefinitionId: this.taskInfo['processDefinitionId'],
+				// 		processInstanceId: this.taskInfo['processInstanceId'],
+				// 		taskId: this.taskInfo['taskId'],
+				// 		historic:true
+				// 	}).then((res) => {
+				// 		this.userData=res['data']||[];
+				// 	});
+				// }else{
+				// 	this.hasTaskUser=false;
+				// }
 			},
 			createFlow() {
 				this.dialogVisible = true;

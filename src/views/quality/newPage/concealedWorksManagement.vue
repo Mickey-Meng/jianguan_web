@@ -90,6 +90,7 @@
 					pageNum: 1,
 					totalPage: 1,
 					pageSize: 10,
+					projectId:this.$store.getters.project['id']
 				},
 				editRow:null,
 				detailRow:null

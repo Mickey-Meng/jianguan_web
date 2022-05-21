@@ -101,7 +101,7 @@
 	} from "@/utils/format.js";
 	import edit from './qualityTest/edit';
 	import detail from './qualityTest/detail';
-
+	import { mapGetters } from 'vuex'
 
 	export default {
 		components: {
@@ -110,6 +110,7 @@
 		},
 		data() {
 			return {
+				
 				examineResultOptions: [{
 					label: '全部',
 					value: null
@@ -135,6 +136,7 @@
 					pageNum: 1,
 					totalPage: 1,
 					pageSize: 10,
+					projectId:this.$store.getters.project['id']
 				},
 				currentPattern: 0, //0查看，1新增，2修改
 				editRow: null,
@@ -142,7 +144,9 @@
 			};
 		},
 		created() {},
-		computed: {},
+		computed: {
+			...mapGetters(["project"])
+		},
 		mounted() {
 			this.query();
 		},

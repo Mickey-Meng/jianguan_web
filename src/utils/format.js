@@ -87,13 +87,35 @@ const formatDate = function(inputTime) {
  */
 const getQueryVariable = function() {
 	var query = window.location.hash.split('?')[1];
-	var vars = query.split("&");
 	var result={};
-	for (var i = 0; i < vars.length; i++) {
-		var pair = vars[i].split("=");
-		result[pair[0]]=decodeURIComponent(pair[1]);
+	if(query){
+		var vars = query.split("&");
+		for (var i = 0; i < vars.length; i++) {
+			var pair = vars[i].split("=");
+			result[pair[0]]=decodeURIComponent(pair[1]);
+		}
 	}
-	return (result);
+	return result;
+}
+
+/**
+ * 组装项目相关信息
+ */
+const createProjectInfo=function(list){
+	let buildCompany='';
+	let supervisionUnit='';
+	list.forEach(item=>{
+		if(item['typecode']=='sgdw'){
+			buildCompany+=item['name']+'、'
+		}
+		if(item['typecode']=='jldw'){
+			supervisionUnit+=item['name']+'、'
+		}
+	})
+	return {
+		buildCompany:buildCompany,
+		supervisionUnit:supervisionUnit
+	}
 }
 export {
 	handleNull,
@@ -101,5 +123,6 @@ export {
 	convertOptions,
 	formatDateTime,
 	formatDate,
-	getQueryVariable
+	getQueryVariable,
+	createProjectInfo
 }

@@ -424,6 +424,64 @@ export const deleteQualityEvent = params => {
 
 
 //-----------------------流程引擎新增接口 ------------------------
+//项目相关
+export const getChildProject = params => {
+	// return request.post(api.getChildProject,data)
+  return request({
+    url: api.getChildProject,
+    method: "post",
+    data: {},
+	params
+  });
+};
+export const getCompanyByProjectId = params => {
+  return request({
+    url: api.getCompanyByProjectId,
+    method: "post",
+    data: {},
+    params
+  });
+};
+export const getInfoByProjectId = params => {
+  return request({
+    url: api.getInfoByProjectId,
+    method: "post",
+    data: {},
+    params
+  });
+};
+export const getProjectInfoById = params => {
+  return request({
+    url: api.getProjectInfoById,
+    method: "post",
+    data: {},
+    params
+  });
+};
+export const getProjectRoleTree = params => {
+  return request({
+    url: api.getProjectRoleTree,
+    method: "post",
+    data: {},
+    params
+  });
+};
+export const getProjectUserTree = params => {
+  return request({
+    url: api.getProjectUserTree,
+    method: "post",
+    data: {},
+    params
+  });
+};
+export const getUserByRoleId = params => {
+  return request({
+    url: api.getUserByRoleId,
+    method: "post",
+    data: {},
+    params
+  });
+};
 /**
  * 上传文件
  */
