@@ -41,6 +41,10 @@ export const constantRoutes = [{
 			path: "/concealedWorksManagement_detail",
 			name: "concealedWorksManagement_detail",
 			component: () => import("@/views/quality/newPage/concealedWorksManagement/view")
+		},{
+			path: "/constructionSubcontract_detail",
+			name: "constructionSubcontract_detail",
+			component: () => import("@/views/contractManagement/constructionSubcontract/view")
 		}]
 	},
 	// {

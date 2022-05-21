@@ -223,6 +223,20 @@ const api = {
   deleteManageRegime: "/ZhuJiApi/web/api/v1/manageRegime/id", // 删除单个管理制度数据
   getManageRegimeList: "/ZhuJiApi/web/api/v1/manageRegime/page", // 管理制度list
   //-----------------------流程引擎新增接口 ZH ----------------------
+  
+  
+  //劳务分包合同
+  addOrUpdateContractLabor: "/ZhuJiApi/web/api/v1/laborContract/addOrUpdate",
+  getContractLaborDeatil: "/ZhuJiApi/web/api/v1/laborContract/detail/id",
+  deleteContractLabor: "/ZhuJiApi/web/api/v1/laborContract/id",
+  getContractLaborList: "/ZhuJiApi/web/api/v1/laborContract/page",
+  
+  //施工专业分包合同
+  addOrUpdateContractBuild: "/ZhuJiApi/web/api/v1/buildContract/addOrUpdate",
+  getContractBuildDeatil: "/ZhuJiApi/web/api/v1/buildContract/detail/id",
+  deleteContractBuild: "/ZhuJiApi/web/api/v1/buildContract/id",
+  getContractBuildList: "/ZhuJiApi/web/api/v1/buildContract/page",
+  getContractBuildEnums: "/ZhuJiApi/web/api/v1/buildContract/buildContractPart/enums",
 };
 
 export default api;

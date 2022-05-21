@@ -2,220 +2,150 @@
  * @Descripttion:劳务分包合同
  * @version:
  * @Author: WangHarry
- * @Date: 2021-09-08 09:11:27
- * @LastEditors: WangHarry
- * @LastEditTime: 2022-02-21 17:00:15
+ * @Date: 2022-05-09 14:10:50
+ * @LastEditors: yangtao
+ * @LastEditTime: 2022-05-11 14:10:57
 -->
 <template>
-  <el-container class="container-box">
-    <el-header>
-      <el-button type="primary" @click="showDialog">添加劳务分包合同</el-button>
-    </el-header>
-    <el-main>
-      <el-table :data="tableData" style="width: 100%" border height="100%">
-        <el-table-column type="index" label="序号" width="80"></el-table-column>
-        <el-table-column prop="uploadname" label="合同名称"></el-table-column>
-        <el-table-column prop="uploadtime" label="时间"></el-table-column>
-        <el-table-column prop="uploadtype" label="文件类型"></el-table-column>
-        <!-- <el-table-column label="预览"></el-table-column> -->
-        <el-table-column label="操作">
-          <template slot-scope="{ row, $index }">
-            <el-button size="mini" type="primary" @click="showEdit(row)"
-            >编辑
-            </el-button
-            >
-            <el-button size="mini" type="primary" @click="downFile(row)"
-            >下载
-            </el-button
-            >
-            <el-button
-              size="mini"
-              type="primary"
-              @click="handleDelete(row, $index)"
-            >删除
-            </el-button
-            >
-          </template>
-        </el-table-column>
-      </el-table>
-    </el-main>
-    <el-footer/>
-    <el-dialog
-      :title="isCreate ? '上传合同' : '修改信息'"
-      :visible.sync="dialogVisible"
-      destroy-on-close
-      :close-on-click-modal="false"
-      :append-to-body="true"
-    >
-      <el-form
-        :model="form"
-        v-if="dialogVisible"
-        ref="form"
-        size="small"
-        label-position="right"
-        label-width="80px"
-        :rules="rules"
-      >
-        <el-form-item label="合同名称" prop="uploadname">
-          <el-input
-            placeholder="请输入合同名称"
-            v-model="form.uploadname"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="上传合同" prop="fileurl" v-if="isCreate">
-          <uploadFile
-            ref="otherOrgAttachments"
-            @changeValue="changeValue"
-          ></uploadFile>
-        </el-form-item>
-      </el-form>
-      <div slot="footer">
-        <el-button size="mini" @click="dialogVisible = false">取消</el-button>
-        <el-button size="mini" type="primary" @click="addFile">确定</el-button>
-      </div>
-    </el-dialog>
-  </el-container>
+	<el-container class="container-box">
+		<el-header>
+			<div class="input-box">
+				<div class="input-value">
+					<el-input v-model="queryData.buildSectionName" placeholder="施工标段"></el-input>
+				</div>
+			</div>
+			<div class="input-box">
+				<div class="input-value">
+					<el-input v-model="queryData.laborContractProjectName" placeholder="拟劳务合作工程名称"></el-input>
+				</div>
+			</div>
+			<el-button type="primary" @click="query">搜索</el-button>
+			<div class="right-btns">
+				<div class="operate-btns" v-show="operateBtnsVisible">
+					<el-button size="small" @click="addNew">新增质量检测</el-button>
+					<el-button size="small">导出</el-button>
+					<el-button size="small">批量操作</el-button>
+				</div>
+			</div>
+		</el-header>
+		<el-main>
+			<div class="container">
+				<el-table :data="tableData" style="width: 100%" border height="calc(100% - 48px)"
+					class="have_scrolling">
+					<el-table-column type="index" width="50" align="center" label="序号">
+					</el-table-column>
+					<el-table-column prop="buildSectionName" align="center" label="施工标段" show-overflow-tooltip>
+					</el-table-column>
+					<el-table-column prop="laborContractProjectName" align="center" label="拟劳务合作工程名称" show-overflow-tooltip>
+					</el-table-column>
+					<el-table-column prop="createTime" align="center" label="备案日期" show-overflow-tooltip>
+					</el-table-column>
+					<el-table-column prop="contractUser" align="center" label="承包人" show-overflow-tooltip>
+					</el-table-column>
+					<el-table-column fixed="right" width="120" align="center" label="操作">
+						<template slot-scope="{ row, $index }">
+							<el-button type="text" size="mini" @click="modify(row)">修改</el-button>
+							<el-button type="text" size="mini" @click="viewDetail(row)">详情</el-button>
+							<el-button type="text" size="mini" @click="deleteRow(row)">删除</el-button>
+						</template>
+					</el-table-column>
+				</el-table>
+				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+					:current-page="queryData.pageNum" :page-size="queryData.pageSize"
+					layout="total, sizes, prev, pager, next, jumper" :total="queryData.totalPage">
+				</el-pagination>
+			</div>
+		</el-main>
+
+		<edit ref="edit" @query="query" :editRow="editRow"></edit>
+		<detail ref="detail" :detailRow="detailRow"></detail>
+	</el-container>
 </template>
 
 <script>
-  import {uploadF, getFile, deleteFile, updateFileInfo} from "@/api/file";
-  import {downLoadFile} from "@/utils/download";
+	import * as api from "@/api/contract.js";
+	import edit from './laborSubcontract/edit.vue';
+	import detail from './laborSubcontract/detail';
 
-  export default {
-    name: "",
-    data() {
-      return {
-        dialogVisible: false,
-        isCreate: false,
-        showPreview: true,
-        tableData: [],
-        form: {
-          fileurl: "",
-          uploadname: "",
-          uploadtype: "",
-          uploadusername: "",
-          type: 1
-        },
-        rules: {
-          uploadname: [
-            {required: true, message: "请输入合同名称", trigger: "blur"}
-          ],
-          fileurl: [
-            {required: true, message: "请上传合同文件", trigger: "blur"}
-          ]
-        }
-      };
-    },
-    created() {
-      this.initData();
-    },
-    mounted() {
-    },
-    computed: {},
-    methods: {
-      showDialog() {
-        this.isCreate = true;
-        this.dialogVisible = true;
-        this.form = {
-          fileurl: "",
-          uploadname: "",
-          uploadtype: "",
-          uploadusername: "",
-          type: 18
-        };
-      },
-      showEdit(row) {
-        this.isCreate = false;
-        this.form = Object.assign({}, row);
-        this.dialogVisible = true;
-      },
-      initData() {
-        getFile(18).then((res) => {
-          this.tableData = res.data;
-        });
-      },
-      addFile() {
-        if (this.isCreate) {
-          this.$refs["form"].validate((valid) => {
-            if (valid) {
-              let obj = Object.assign({}, this.form);
-              uploadF(obj).then((res) => {
-                this.dialogVisible = false;
-                this.$message({
-                  message: "文件上传上传成功",
-                  type: "success",
-                  customClass: "message_override"
-                });
-                this.initData();
-              });
-            } else {
-              return false;
-            }
-          });
-        } else {
-          this.$refs["form"].validate((valid) => {
-            if (valid) {
-              let obj = Object.assign({}, this.form);
-              updateFileInfo(obj).then((res) => {
-                this.dialogVisible = false;
-                this.$message({
-                  message: "信息修改成功",
-                  type: "success",
-                  customClass: "message_override"
-                });
-                this.initData();
-              });
-            } else {
-              return false;
-            }
-          });
-        }
-      },
-      downFile(row) {
-        downLoadFile(row.fileurl);
-      },
-      changeValue(value) {
-        if (value) {
-          this.form = Object.assign(this.form, value);
-        } else {
-          this.form.fileurl = "";
-          this.form.uploadtype = "";
-        }
-      },
-      handleDelete(row, index) {
-        this.$confirm("是否删除该文件?", "删除文件", {
-          cancelButtonText: "取消",
-          confirmButtonText: "确定",
-          customClass: "ceshi",
-          type: "warning"
-        }).then(() => {
-          deleteFile(row.id).then((res) => {
-            this.$message({
-              message: "删除成功",
-              type: "success",
-              customClass: "message_override"
-            });
-            this.tableData.splice(index, 1);
-          });
-        });
-      }
-    }
-  };
+	export default {
+		components: {
+			edit,
+			detail
+		},
+		data() {
+			return {
+				allData: [],
+				tableData: [],
+				operateBtnsVisible: true,
+				queryData: { //查询参数
+					buildSectionName: '',
+					laborContractProjectName: '',
+					pageNum: 1,
+					totalPage: 1,
+					pageSize: 10,
+					projectId:this.$store.getters.project['id']
+				},
+				editRow: null,
+				detailRow: null
+			};
+		},
+		created() {},
+		computed: {
+		},
+		mounted() {
+			this.query();
+		},
+		methods: {
+			query() {
+				api.getContractLaborList(this.queryData).then((res) => {
+					this.allData = res.data || {};
+					this.tableData = this.allData['list']||[];
+					this.queryData.pageNum = res.data.pageNum;
+					this.queryData.totalPage = res.data.total;
+					this.queryData.pageSize = res.data.pageSize;
+				});
+			},
+			addNew() {
+				this.editRow = null;
+				this.$refs.edit.changeVisible(true);
+			},
+			modify(row) {
+				this.editRow = row;
+				this.$refs.edit.changeVisible(true);
+			},
+			viewDetail(row) {
+				this.detailRow = row;
+				this.$refs.detail.changeVisible(true);
+			},
+			deleteRow(row) {
+				this.$confirm('确认是否删除?', '提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+				}).then(() => {
+					api.deleteContractLabor(row['id']).then((res) => {
+						this.query();
+						this.$message({
+							type: 'success',
+							message: '删除成功!'
+						});
+					}).catch(error => {
+						this.$message({
+							type: 'fail',
+							message: '删除失败!'
+						});
+					});
+				});
+			},
+			handleSizeChange(val) {
+				console.log(`每页 ${val} 条`);
+			},
+			handleCurrentChange(val) {
+				console.log(`当前页: ${val}`);
+			}
+		},
+	};
 </script>
-
 <style scoped lang="scss">
-  .container-box {
-    background-color: #ebecee;
-    padding: 5px;
-
-    .el-header {
-      line-height: 60px;
-      background-color: #ffffff;
-    }
-
-    .el-main {
-      padding: 0;
-      margin-top: 10px;
-    }
-  }
+	@import "../../assets/css/table.scss"
 </style>
