@@ -238,6 +238,7 @@
 					unit:''
 				},
 				attachTable: [], //附件
+				taskInfo:{}
 			};
 		},
 		created() {},
@@ -247,15 +248,15 @@
 		},
 		computed: {},
 		mounted() {
-			setTimeout(()=>{
-				var params = getQueryVariable();
-				if (params['processDefinitionId']) {
-					this.dialogFormVisible=true;
-					params['id'] = params['businessKey'];
-					this.taskInfo=params;
-					this.getDetail(params['businessKey']);
-				}
-			},500)
+			// setTimeout(()=>{
+			// 	var params = getQueryVariable();
+			// 	if (params['processDefinitionId']) {
+			// 		this.dialogFormVisible=true;
+			// 		params['id'] = params['businessKey'];
+			// 		this.taskInfo=params;
+			// 		this.getDetail(params['businessKey']);
+			// 	}
+			// },500)
 		},
 		watch:{
 			detailRow(obj){

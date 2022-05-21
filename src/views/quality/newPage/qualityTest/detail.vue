@@ -267,7 +267,7 @@
 				waitTableData: [],
 
 				baseInfo: {
-					buildSection: 1,
+					buildSection: '',
 					buildSectionName: '235国道杭州至诸暨公路萧山河上至诸暨安华段改建工程',
 					contractCode: '235SJSG01',
 					buildCompany: '中交上海航道局有限公司、中国交通建设股份有限公司、浙江诸安建设集团有限公司、浙江省交通规划设计研究院有限公司',
@@ -275,7 +275,7 @@
 					supervisionSection: '监理办'
 				},
 				formData: { //表单参数
-					buildSection: 1,
+					buildSection: '',
 					deletedFlag: 1,
 					detectionInfo: [],
 					detectionReport: [],
@@ -313,15 +313,15 @@
 			}
 		},
 		mounted() {
-			setTimeout(()=>{
-				var params = getQueryVariable();
-				if (params['processDefinitionId']) {
-					this.dialogFormVisible=true;
-					params['id'] = params['businessKey'];
-					this.taskInfo=params;
-					this.getDetail(params['businessKey']);
-				}
-			},500)
+			// setTimeout(()=>{
+			// 	var params = getQueryVariable();
+			// 	if (params['processDefinitionId']) {
+			// 		this.dialogFormVisible=true;
+			// 		params['id'] = params['businessKey'];
+			// 		this.taskInfo=params;
+			// 		this.getDetail(params['businessKey']);
+			// 	}
+			// },500)
 		},
 		methods: {
 			closeDialog(){
