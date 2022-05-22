@@ -25,7 +25,7 @@ service.interceptors.request.use(
     if (config.url.indexOf('STSfmzj') != -1) {
     } else {
       if (store.getters.token) {
-        config.headers['token'] ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTMyMTU0MjIsInVzZXIiOiJ7XCJnb25ncXVzXCI6W10sXCJpZFwiOjEsXCJwcm9qZWN0c1wiOltdLFwicm9sZVwiOjJ9In0.wkEdRW186ac4NR2OpdM9nhFwFCSXCRaQsGPC8n7QyI8'// getToken('zj_token')
+        config.headers['token'] ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTMzMDEyODAsInVzZXIiOiJ7XCJnb25ncXVzXCI6W10sXCJpZFwiOjEsXCJwcm9qZWN0c1wiOltdLFwicm9sZVwiOjJ9In0.4aGSU-nCf-oK6dfNn22JJAr8VdDYsszKNJ3UR33AbKg'// getToken('zj_token')
       }
     }
     if ((config.method === 'post' || config.method === 'put') && !config.headers['Content-Type']) {
