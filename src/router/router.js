@@ -1284,6 +1284,33 @@ export const asyncRoutes = [{
 					noMap: true
 				}
 			},
+
+      {
+        path: "/entranceAndExitManagement",
+        name: "entranceAndExitManagement",
+        component: () => import("@/views/contractManagement/entranceAndExitManagement"),
+        meta: {
+          title: "进退场管理",
+          code: "jintuichangguanli",
+          icon: "circle",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/currentAccountManagement",
+        name: "currentAccountManagement",
+        component: () => import("@/views/contractManagement/currentAccountManagement"),
+        meta: {
+          title: "往来款管理",
+          code: "wanglaikuanguanli",
+          icon: "circle",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
 		]
 	}
 ];

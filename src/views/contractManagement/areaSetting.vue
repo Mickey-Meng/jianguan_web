@@ -44,7 +44,7 @@
       <div class="container">
         <el-table :data="listData" style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
           <el-table-column prop="uploadname" label="打卡方案"></el-table-column>
-          <el-table-column prop="uploadname" label="请假类型"></el-table-column>
+          <el-table-column prop="uploadname" label="人员岗位"></el-table-column>
           <el-table-column prop="uploadname" label="时间范围"></el-table-column>
           <el-table-column prop="uploadname" label="时长(h)"></el-table-column>
           <el-table-column prop="uploadname" label="描述"></el-table-column>
