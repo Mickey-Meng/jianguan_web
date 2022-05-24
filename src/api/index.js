@@ -152,13 +152,13 @@ const api = {
   addWorkPoint: "/ZhuJiRoad/digitalTwin/addData", //新增工点
   deleteWorkPoint: "/ZhuJiRoad/digitalTwin/delData", //删除工点
   updateWorkPoint: "/ZhuJiRoad/digitalTwin/updateData", //更新工点
-  //------------------------系统管理、岗位管理 --------------------------
+  //------------------------系统管理、岗位管理 --------------------------弃用
   getAllPost: "/ZhuJiRoad/person/getPosts", //查询岗位信息
   addPost: "/ZhuJiRoad/person/addPost", //新增岗位
   deletePost: "/ZhuJiRoad/person/deletePost", //删除岗位
   updatePost: "/ZhuJiRoad/person/updatePost", //修改岗位
   personnelBindingPost: "/ZhuJiRoad/person/addUserPost",//人员绑定岗位
-  //-----------------------系统管理、组织管理 ------------------------
+  //-----------------------系统管理、组织管理 ------------------------ 弃用
   addOrganization: "/ZhuJiRoad/person/addDepartment", //新增组织
   updateOrganization: "/ZhuJiRoad/person/updateDepartment", //更新组织
   deleteOrganization: "/ZhuJiRoad/person/deleteDepartment", //删除组织
@@ -166,7 +166,11 @@ const api = {
   bindingUsersToOrganizations: "/ZhuJiRoad/person/addUserGroup",//组织绑定用户
   getUserBindOrganizations: "/ZhuJiRoad/person/getPersonRole",//获取用户组织关联关系
   getAllOrganization: "/ZhuJiRoad/person/getUserByGroup",//获取组织，一维数组
-  getUserByOrg: "",
+  //-------------------人员报审模块开始 ---------------------------
+  getOrgUser: "/ZhuJiRoad/projects/getUsersByUserid",//获取用户对应组织下的所有用户信息
+  getUsersRoles: "/ZhuJiRoad/projects/getAllRoles",//获取用户和角色的数据
+  addStaffApproval: "/ZhuJiRoad/person/subContract",//上传报审信息,
+  getStaffApprovalBase: "/ZhuJiRoad/person/getContracts",//获取报审的基本信息
 
 
   //-----------------------流程引擎新增接口 ------------------------
@@ -223,14 +227,14 @@ const api = {
   deleteManageRegime: "/ZhuJiApi/web/api/v1/manageRegime/id", // 删除单个管理制度数据
   getManageRegimeList: "/ZhuJiApi/web/api/v1/manageRegime/page", // 管理制度list
   //-----------------------流程引擎新增接口 ZH ----------------------
-  
-  
+
+
   //劳务分包合同
   addOrUpdateContractLabor: "/ZhuJiApi/web/api/v1/laborContract/addOrUpdate",
   getContractLaborDeatil: "/ZhuJiApi/web/api/v1/laborContract/detail/id",
   deleteContractLabor: "/ZhuJiApi/web/api/v1/laborContract/id",
   getContractLaborList: "/ZhuJiApi/web/api/v1/laborContract/page",
-  
+
   //施工专业分包合同
   addOrUpdateContractBuild: "/ZhuJiApi/web/api/v1/buildContract/addOrUpdate",
   getContractBuildDeatil: "/ZhuJiApi/web/api/v1/buildContract/detail/id",
