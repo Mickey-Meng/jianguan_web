@@ -39,10 +39,6 @@ import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css';
  * Currently MockJs will be used in the production environment,
  * please remove it before going online ! ! !
  */
-// if (process.env.NODE_ENV === 'production') {
-//   const { mockXHR } = require('../mock')
-//   mockXHR()
-// }
 
 Vue.use(ElementUI);
 Vue.use(dataV);

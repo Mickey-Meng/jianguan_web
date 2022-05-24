@@ -21,6 +21,7 @@ const getDefaultState = () => {
     roles: getToken("roles"),
     GROUPID: getToken("GROUPID"),
     menus: [],
+    roleId:getToken('groupId'),
     rights: getToken("rights") ? getToken("rights") : []
   };
 };
@@ -42,6 +43,9 @@ const mutations = {
   },
   SET_ID: (state, id) => {
     state.ID = id;
+  },
+  SET_ROLE_ID: (state,id) => {
+    state.roleId = id
   },
   SET_GROUPID: (state, id) => {
     state.GROUPID = id;
@@ -75,6 +79,7 @@ const actions = {
             commit("SET_TOKEN", loginData.token);
             commit("SET_NAME", loginData.name);
             commit("SET_ID", loginData.id);
+            commit("SET_ROLE_ID", groupid);
             setToken("ID", loginData.id);
             setToken("zj_token", loginData.token);
             setToken("userName",loginData.name);
