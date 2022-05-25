@@ -52,8 +52,8 @@
           <!--          <el-table-column prop="uploadname" label="状态"></el-table-column>-->
           <el-table-column prop="uploadname" label="操作">
             <template slot-scope="{row,$index}">
-              <el-button type="text" size="mini" @click="issueStep(row)">发布</el-button>
-              <el-button type="text" size="mini">修改</el-button>
+<!--              <el-button type="text" size="mini" @click="issueStep(row)">发布</el-button>-->
+<!--              <el-button type="text" size="mini">修改</el-button>-->
               <el-button type="text" size="mini">详情</el-button>
               <el-button type="text" size="mini">删除</el-button>
             </template>
@@ -86,7 +86,7 @@
                       <div class="block-item">
                         <div class="block-item-label">标段</div>
                         <div class="block-item-value">
-                          {{ projectName }}
+                          {{ form.projectName }}
                         </div>
                       </div>
                       <div class="block-item">
@@ -262,7 +262,7 @@
                                          ref="upload"
                                          accept=".jpg,.jpeg,.png,gif,JPG,JPEG,PNG,GIF,.map4,.xlsx,.xls,.pdf,.doc,.docx"
                                          :http-request="importFile">
-                                <el-button size="mini" type="primary" class="primary_mini" @click="currentRowData(row)">
+                                <el-button size="mini" type="primary" class="primary_mini" @click="currentRowData(row,$index)">
                                   上传照片
                                 </el-button>
                               </el-upload>
@@ -385,7 +385,7 @@
 <script>
   import {getNowDate} from "@/utils/date";
   import {mapGetters} from "vuex";
-  import {getUserByRoleId} from "@/api/quality";
+  import {submitUserTask, listHandleTask} from "@/api/quality";
   import uploadView from "@/views/common/upload";
   import * as api from "@/api/quality";
   import {uploadFile} from "@/api/file";
@@ -445,8 +445,9 @@
     components: {uploadView},
     methods: {
       initForm() {
-        this.projectName = this.project.name;
+        // this.projectName = this.project.name;
         this.form = {
+          projectName: this.project.name,
           recorder: this.name,
           recordId: this.userInfo.ID,
           subDate: getNowDate(),//填报时间
@@ -503,7 +504,15 @@
           this.selectUsers = res.data || [];
         });
         getStaffApprovalBase({projectid: this.project.id}).then(res => {
-          this.listData = res.data;
+          let data = res.data || [];
+          if (data && data.length > 0) {
+            this.listData = data.map(item => {
+              let obj = Object.assign(item, item.person);
+              return obj;
+            });
+          } else {
+            this.listData = [];
+          }
         });
       },
       //选择填报人员事件
@@ -512,7 +521,7 @@
         let tablerow = this.tableData.find(e => e.userId === val);
         let info = this.selectUsers.find(e => e.id === val);
         tablerow.post = info.rolename;
-        tablerow.roldid = info.roleid;
+        tablerow.roldId = info.roleid;
         tablerow.name = info.name;
       },
       //提交表单
@@ -538,6 +547,25 @@
           processKey: "hetongrenyuanbaoshen"
         };
         addStaffApproval(dd).then(res => {
+
+          this.issueStep(res);
+        });
+      },
+      issueStep(row) {
+        let obj = {
+          copyData: {},
+          flowTaskCommentDto: {
+            approvalType: "",
+            comment: "",
+            delegateAssginee: ""
+          },
+          masterData: {},
+          processInstanceId: row.data,
+          slaveData: {},
+          taskId: "",
+          taskVariableData: {}
+        };
+        submitUserTask(obj).then(res1 => {
           this.$message({
             type: "success",
             message: "填报成功!",
@@ -546,14 +574,15 @@
           this.initData();
           this.dialogFormVisible = false;
         });
-      },
-      issueStep(row) {
-        //发起流程
       }
     },
     filters: {
       getTime(val) {
-        return formatDate(val);
+        if (val) {
+          return formatDate(val);
+        } else {
+          return "";
+        }
       }
     }
   };

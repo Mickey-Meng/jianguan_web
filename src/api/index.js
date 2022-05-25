@@ -18,6 +18,9 @@ const api = {
   getConstructionMsg: "/ZhuJiRoad/message/getMessage2", //消息提示
   tellOnline: "/ZhuJiRoad/user/updateOnline", //上报在新
   getComponentProgressByModel: "/ZhuJiRoad/component/getComponentProgress", //根据模型id查询构件的进度信息
+
+  //----------------------根据项目id获取数据、修改------------------------
+  getWorkAreaByProjectId: "/ZhuJiRoad/projects/getGongQu",//根据项目id获取下面的工区
   /*
    * 数据中心首页接口
    * */
@@ -171,6 +174,7 @@ const api = {
   getUsersRoles: "/ZhuJiRoad/projects/getAllRoles",//获取用户和角色的数据
   addStaffApproval: "/ZhuJiRoad/person/subContract",//上传报审信息,
   getStaffApprovalBase: "/ZhuJiRoad/person/getContracts",//获取报审的基本信息
+  getStaffByProcessIdAndProjectId: "/ZhuJiRoad/person/getContractByProcessId",//根据项目id和工单ID查询报审的信息
 
 
   //-----------------------流程引擎新增接口 ------------------------

@@ -62,6 +62,13 @@ export const getUserByGroupId = (groupid, code, name = undefined) => {
     method: "get"
   });
 };
+//获取组织信息
+export const getOrgInfo = () => {
+  return request({
+    url: `/STSfmzj/userauth/selectGroup`,
+    method: "get"
+  });
+};
 //huoquzuzhi
 export const getGroupInfo = (id = 0) => {
   return request({
