@@ -302,7 +302,6 @@
           businessKey: id
         };
         getStaffByProcessIdAndProjectId(obj).then((res) => {
-          console.log(res);
           if (res) {
             this.form = Object.assign({}, res.data.person);
             let data = res.data.personSub;
@@ -316,10 +315,6 @@
               });
             }
           }
-          // let data = res['data'] || {};
-          // this.formData = data;
-          // this.attachTable = data.attachment || [];
-          // this.contractTable = data.contractInfo || [];
         });
       }
     }

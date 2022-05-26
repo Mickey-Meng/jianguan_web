@@ -74,13 +74,13 @@
                   <div class="block-item">
                     <div class="block-item-label">标段</div>
                     <div class="block-item-value">
-                      <el-input readonly></el-input>
+                      <el-input readonly v-model="form.projectChildName"></el-input>
                     </div>
                   </div>
                   <div class="block-item">
                     <div class="block-item-label">填报人</div>
                     <div class="block-item-value">
-                      <el-input readonly></el-input>
+                      <el-input readonly v-model="form.recorder"></el-input>
                     </div>
                   </div>
                 </div>
@@ -89,7 +89,7 @@
                     <div class="block-item-label">填报日期</div>
                     <div class="block-item-value">
                       <el-date-picker
-                        v-model="form.time"
+                        v-model="form.subDate"
                         type="datetime"
                         :clearable="false"
                         placeholder="选择日期时间"
@@ -110,7 +110,7 @@
                     <div class="block-item-label">项目</div>
                     <div class="block-item-value">
                       <el-form-item prop="qualityCheckUser">
-                        <el-input readonly></el-input>
+                        <el-input readonly v-model="form.projectName"></el-input>
                       </el-form-item>
                     </div>
                   </div>
@@ -118,7 +118,7 @@
                     <div class="block-item-label">标段</div>
                     <div class="block-item-value">
                       <el-form-item prop="qualityCheckUser">
-                        <el-input readonly></el-input>
+                        <el-input readonly v-model="form.projectChildName"></el-input>
                       </el-form-item>
                     </div>
                   </div>
@@ -128,27 +128,13 @@
                     <div class="block-item-label">人员变更类型</div>
                     <div class="block-item-value">
                       <el-form-item prop="qualityCheckUser">
-                        <el-select placeholder="请选择">
-                        </el-select>
-                      </el-form-item>
-                    </div>
-                  </div>
-                  <div class="block-item">
-                    <div class="block-item-label">建设单位</div>
-                    <div class="block-item-value">
-                      <el-form-item prop="qualityCheckUser">
-                        <el-select placeholder="请选择">
-                        </el-select>
-                      </el-form-item>
-                    </div>
-                  </div>
-                </div>
-                <div class="block-line">
-                  <div class="block-item">
-                    <div class="block-item-label">变更单位</div>
-                    <div class="block-item-value">
-                      <el-form-item prop="qualityCheckUser">
-                        <el-select placeholder="请选择">
+                        <el-select placeholder="请选择" v-model="form.changeType" @change="changeValue">
+                          <el-option
+                            v-for="item in roleType"
+                            :key="item.roleid"
+                            :label="item.rolename"
+                            :value="item.roleid">
+                          </el-option>
                         </el-select>
                       </el-form-item>
                     </div>
@@ -157,18 +143,31 @@
                     <div class="block-item-label">变更岗位</div>
                     <div class="block-item-value">
                       <el-form-item prop="qualityCheckUser">
-                        <el-select placeholder="请选择">
+                        <el-select placeholder="请选择" disabled v-model="form.changePost">
+                          <el-option
+                            v-for="item in roleType"
+                            :key="item.roleid"
+                            :label="item.rolename"
+                            :value="item.roleid">
+                          </el-option>
                         </el-select>
                       </el-form-item>
                     </div>
                   </div>
                 </div>
+
                 <div class="block-line">
                   <div class="block-item">
                     <div class="block-item-label">变更前人员</div>
                     <div class="block-item-value">
                       <el-form-item prop="qualityCheckUser">
-                        <el-select placeholder="请选择">
+                        <el-select placeholder="请选择" v-model="form.beforePersonId">
+                          <el-option
+                            v-for="item in beforeUsers"
+                            :key="item.id"
+                            :label="item.name"
+                            :value="item.id">
+                          </el-option>
                         </el-select>
                       </el-form-item>
                     </div>
@@ -177,7 +176,7 @@
                     <div class="block-item-label">变更前(执业)资格证书号</div>
                     <div class="block-item-value">
                       <el-form-item prop="qualityCheckUser">
-                        <el-input readonly></el-input>
+                        <el-input v-model="form.beforeCode"></el-input>
                       </el-form-item>
                     </div>
                   </div>
@@ -187,7 +186,13 @@
                     <div class="block-item-label">变更后人员</div>
                     <div class="block-item-value">
                       <el-form-item prop="qualityCheckUser">
-                        <el-select placeholder="请选择">
+                        <el-select placeholder="请选择" v-model="form.afterPersonId">
+                          <el-option
+                            v-for="item in afterUsers"
+                            :key="item.id"
+                            :label="item.name"
+                            :value="item.id">
+                          </el-option>
                         </el-select>
                       </el-form-item>
                     </div>
@@ -196,7 +201,17 @@
                     <div class="block-item-label">变更后(执业)资格证书号</div>
                     <div class="block-item-value">
                       <el-form-item prop="qualityCheckUser">
-                        <el-input readonly></el-input>
+                        <el-input v-model="form.afterCode"></el-input>
+                      </el-form-item>
+                    </div>
+                  </div>
+                </div>
+                <div class="block-line">
+                  <div class="block-item">
+                    <div class="block-item-label">变更单位</div>
+                    <div class="block-item-value">
+                      <el-form-item prop="qualityCheckUser">
+                        <el-input readonly v-model="form.changeUnitName"></el-input>
                       </el-form-item>
                     </div>
                   </div>
@@ -212,8 +227,8 @@
 											xisx xis pdf文件，且不超过100m</span>
                 </div>
                 <div class="block-line">
-                  <el-button size="small" type="primary">上传附件</el-button>
-                  <!--                  <upload @afterUp="afterUp($event)"></upload>-->
+                  <!--                  <el-button size="small" type="primary">上传附件</el-button>-->
+                  <upload @afterUp="afterUp($event)"></upload>
                   <!-- <div class="block-table-title">附件</div> -->
                   <div class="block-table-btns">
                     <el-button size="small" type="primary">下载全部</el-button>
@@ -221,10 +236,14 @@
                 </div>
                 <div class="block-table">
                   <el-table :data="fileData" border style="width: 100%;">-->
-                    <el-table-column prop="uploadname" label="附件"></el-table-column>
-                    <el-table-column prop="uploadname" label="上传日期"></el-table-column>
-                    <el-table-column prop="uploadname" label="上传人"></el-table-column>
-                    <el-table-column prop="uploadname" label="操作"></el-table-column>
+                    <el-table-column prop="fileName" label="附件"></el-table-column>
+                    <el-table-column prop="uploadTime" label="上传日期"></el-table-column>
+                    <el-table-column prop="uploadPerson" label="上传人"></el-table-column>
+                    <el-table-column label="操作">
+                      <template slot-scope="{row,$index}">
+                        <el-button type="danger" size="mini" @click="deleteInfo(row,$index)">删除</el-button>
+                      </template>
+                    </el-table-column>
                   </el-table>
                 </div>
                 <div class="block-line">
@@ -282,37 +301,141 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      tableDta: [],
-      fileData: [],//上传的附件
-      form: {},
-      dialogTitle: "项目全生命周期数字管理平台",
-      dialogFormVisible: true,
-      queryData: {
-        projectCode: "",
-        subProject: "",
-        pageNum: 1,
-        totalPage: 1,
-        pageSize: 10
+  import {mapGetters} from "vuex";
+  import upload from "@/views/common/upload";
+  import {getAllProjectsData} from "@/api/project";
+  import {getNowDate} from "@/utils/date";
+  import {getRoleInfoByUserId} from "@/api/system";
+  import {getUserByRoleId} from "@/api/quality";
+  import {getOrgUser} from "@/api/staffApproval";
+  import {getOrgInfo} from "@/api/user";
+
+  export default {
+    data() {
+      return {
+        tableDta: [],
+        fileData: [],//上传的附件
+        form: {
+          projectName: "",
+          projectId: ""
+        },
+        dialogTitle: "项目全生命周期数字管理平台",
+        dialogFormVisible: false,
+        queryData: {
+          projectCode: "",
+          subProject: "",
+          pageNum: 1,
+          totalPage: 1,
+          pageSize: 10
+        },
+        roleType: [],//人员变更类型
+        beforeUsers: [],//变更前人员
+        afterUsers: [],//变更后人员
+        currentOrgUsers: [],//当前用户组织下的所有用户信息
+        orgInfo: {},//当前用户的组织信息
+        projectInfo: {},
+        isCreate: true
+      };
+    },
+    created() {
+      this.form = {};
+      this.init();
+    },
+    components: {upload},
+    computed: {
+      ...mapGetters(["project", "name", "userInfo"])
+    },
+    methods: {
+      openDialog() {
+        this.dialogFormVisible = true;
+        this.isCreate = true;
+        this.initForm();
+      },
+      handleSizeChange() {
+      },
+      handleCurrentChange() {
+      },
+      init() {
+        getAllProjectsData().then(res => {
+          let obj = res.data.find(e => e.id === this.project.parentid);
+          this.projectInfo = obj;
+          getOrgInfo().then(res1 => {
+            let data = res1.data.getMe;
+            let info = data.find(e => e.ID === this.userInfo.GROUPID);
+            this.orgInfo = info;
+            this.initForm();
+          });
+        });
+        getRoleInfoByUserId(this.project.id).then(res => {
+          let data = res.data;
+          if (data && data.length > 0) {
+            for (let i = 0; i < data.length; i++) {
+              for (let j = i + 1; j < data.length; j++) {
+                if (data[i].roleid === data[j].roleid) {
+                  data.splice(j, 1);
+                  j--;
+                }
+              }
+            }
+          }
+          this.roleType = data;
+        });
+        getOrgUser({projectid: this.project.id}).then(res => {
+          this.currentOrgUsers = res.data;
+        });
+
+      },
+      initForm() {
+        this.form = {
+          afterCode: "",//变更后（执业）资格证书号
+          afterPerson: "",//变更后人员名
+          afterPersonId: null,//变更后人员id
+          beforeCode: "",//变更前（执业）资格证书号
+          beforePerson: "",//变更前人员名
+          beforePersonId: null,//变更前人员id
+          changePost: null,//变更岗位id
+          changePostName: "",//变更岗位名
+          changeReason: "",//变更原因
+          changeType: null,//角色id
+          changeTypeName: "",//角色名
+          changeUnit: this.orgInfo.ID,//组织id
+          changeUnitName: this.orgInfo.NAME,//组织名
+          projectChildId: this.project.id,//项目标段id
+          projectChildName: this.project.name,//项目标段名
+          projectId: this.projectInfo.id,//项目id
+          projectName: this.projectInfo.name,//项目名
+          recordId: this.userInfo.ID,//变更发起人id
+          recorder: this.name,//变更发起人名
+          subDate: getNowDate()//变更发起时间
+        };
+      },
+      afterUp(data) {
+        let obj = {
+          fileName: data.fileName,
+          fileId: data.fileId,
+          uploadPerson: this.name,
+          uploadPersonId: this.userInfo.ID,
+          uploadTime: data.uploadTime
+        };
+        this.fileData.push(obj);
+      },
+      //人员变更类型选择变更事件
+      changeValue(val) {
+        this.form.changePost = val;
+        let obj = this.roleType.find(e => e.roleid == val);
+        this.form.changePostName = obj.rolename;
+        this.form.changeTypeName = obj.rolename;
+        this.afterPersonId = null;
+        this.beforePersonId = null;
+        this.beforeUsers = this.currentOrgUsers.filter(e => e.roleid === val);
+        this.afterUsers = this.currentOrgUsers.filter(e => e.roleid !== val);
+      },
+      //删除文件
+      deleteInfo(row, index) {
+        this.fileData.splice(index, 1);
       }
-    };
-  },
-  created() {
-  },
-  components: {},
-  computed: {},
-  methods: {
-    openDialog() {
-      this.dialogFormVisible = true;
-    },
-    handleSizeChange() {
-    },
-    handleCurrentChange() {
     }
-  }
-};
+  };
 </script>
 <style lang='scss' scoped>
   @import "../../assets/css/table.scss";

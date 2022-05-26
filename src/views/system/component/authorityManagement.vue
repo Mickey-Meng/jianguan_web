@@ -109,13 +109,10 @@
     methods: {
       initData() {
         getWorkAreaByProjectId(this.project.id).then((res) => {
-          console.log(res)
           this.areaData = res.data;
         });
         getOrgInfo().then(res => {
           let data = res.data.getMe;
-          console.log(data)
-
           function getTree(ary, pid = -1) {
             if (!pid) {
               // 如果没有父id（第一次递归的时候）将所有父级查询出来

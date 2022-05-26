@@ -22,16 +22,16 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(
   config => {
-    if (config.url.indexOf('STSfmzj') != -1) {
+    if (config.url.indexOf("STSfmzj") != -1) {
     } else {
       if (store.getters.token) {
-        config.headers['token'] = getToken('zj_token')
+        config.headers["token"] = getToken("zj_token");
       }
     }
-    if ((config.method === 'post' || config.method === 'put') && !config.headers['Content-Type']) {
-      config.headers['Content-Type'] = 'application/json'
+    if ((config.method === "post" || config.method === "put") && !config.headers["Content-Type"]) {
+      config.headers["Content-Type"] = "application/json";
     }
-    return config
+    return config;
   },
   error => {
     // do something with request error

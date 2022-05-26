@@ -45,6 +45,7 @@ const api = {
   getSafeChart: "/ZhuJiRoad/safe/newInterface", //首页安全统计
   getAreaProgress: "/ZhuJiRoad/count/getCountIncresConponentGroupGq", //获取进度总览左下进度折线图数据
   getAllProject: "/ZhuJiRoad/projects/getAllProjects",//获取所有项目、后续根据用户查询有权限访问的数据
+  getAllProjectsData: "/ZhuJiRoad/projects/getAll",//获取项目表所有数据
   /*
    * 工程统计
    * */
@@ -169,6 +170,7 @@ const api = {
   bindingUsersToOrganizations: "/ZhuJiRoad/person/addUserGroup",//组织绑定用户
   getUserBindOrganizations: "/ZhuJiRoad/person/getPersonRole",//获取用户组织关联关系
   getAllOrganization: "/ZhuJiRoad/person/getUserByGroup",//获取组织，一维数组
+  getRoleInfoByUserId: "/ZhuJiRoad/projects/getUsersByUserid",//根据用ID和项目想ID查询角色信息
   //-------------------人员报审模块开始 ---------------------------
   getOrgUser: "/ZhuJiRoad/projects/getUsersByUserid",//获取用户对应组织下的所有用户信息
   getUsersRoles: "/ZhuJiRoad/projects/getAllRoles",//获取用户和角色的数据
