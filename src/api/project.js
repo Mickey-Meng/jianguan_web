@@ -15,3 +15,17 @@ export const getAllProject = () => {
     data: {}
   });
 };
+/**
+ * @Description: 查询项目表所有数据
+ * @author wangharry
+ * @param {}
+ * @returns {}
+ * @date
+ */
+export const getAllProjectsData = () => {
+  return request({
+    url: api.getAllProjectsData,
+    method: "post",
+    data: {}
+  });
+};

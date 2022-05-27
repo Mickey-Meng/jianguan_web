@@ -125,3 +125,14 @@ export const getAllOrganization = () => {
     data: {}
   });
 };
+
+export const getRoleInfoByUserId = (id) => {
+  return request({
+    url: api.getRoleInfoByUserId,
+    method: "post",
+    data: {},
+    params: {
+      projectid: id
+    }
+  });
+};

@@ -47,13 +47,13 @@
             </el-table-column>
             <el-table-column prop="NEWPOST" label="岗位" align="center">
             </el-table-column>
-<!--            <el-table-column label="操作" align="center">-->
-<!--              <template slot-scope="{ row }">-->
-<!--                <el-button type="primary" size="mini" @click="seeAuthority(row)"-->
-<!--                  >查看权限</el-button-->
-<!--                >-->
-<!--              </template>-->
-<!--            </el-table-column>-->
+            <el-table-column label="操作" align="center">
+              <template slot-scope="{ row }">
+                <el-button type="primary" size="mini" @click="seeAuthority(row)"
+                  >查看权限</el-button
+                >
+              </template>
+            </el-table-column>
           </el-table>
         </div>
       </div>
@@ -79,85 +79,71 @@
 </template>
 
 <script>
-import { getWorkArea } from "@/api/workArea";
-import { getGroupInfo, getUserByGroupId, bindUserToGroup } from "@/api/user";
-export default {
-  data() {
-    return {
-      userData: [],
-      areaData: [],
-      tree: [],
-      selectArea: [],
-      selectUser: [],
-      allUserData: [],
-      defaultProps: {
-        children: "children",
-        label: "name",
-      },
-      name: "",
-    };
-  },
-  created() {
-    this.initData();
-  },
-  components: {},
-  computed: {},
-  methods: {
-    initData() {
-      getWorkArea().then((res) => {
-        this.areaData = res.data;
-      });
-      getGroupInfo().then((res) => {
-        const findSon = function (item, data) {
-          if (item.parentid == -1) {
-            let children = data.filter((e) => e.parentid === item.id);
-            if (children && children.length > 0) {
-              item.children = findDescendant(children, data);
-            } else {
-              item.children = [];
-            }
-            return item;
-          }
-        };
-        const findDescendant = function (children, data) {
-          let arr = [];
-          for (let i = 0; i < children.length; i++) {
-            let item = children[i];
-            let node = data.filter((e) => e.parentid === item.id);
-            if (node && node.length > 0) {
-              item.children = findDescendant(node, data);
-            } else {
-              item.children = [];
-            }
-            arr.push(item);
-          }
-          return arr;
-        };
+  import {getWorkAreaByProjectId} from "@/api/workArea";
+  import {getGroupInfo, getUserByGroupId, bindUserToGroup, getOrgInfo} from "@/api/user";
+  import {mapGetters} from 'vuex'
 
-        let data = res.data;
-        let tree = [];
-        for (let i = 0; i < data.length; i++) {
-          let item = data[i];
-          if (item.parentid == -1) {
-            this.handleNodeClick(item);
+  export default {
+    data() {
+      return {
+        userData: [],
+        areaData: [],
+        tree: [],
+        selectArea: [],
+        selectUser: [],
+        allUserData: [],
+        defaultProps: {
+          children: "children",
+          label: "NAME"
+        },
+        name: ""
+      };
+    },
+    created() {
+      this.initData();
+    },
+    components: {},
+    computed: {
+      ...mapGetters(['project'])
+    },
+    methods: {
+      initData() {
+        getWorkAreaByProjectId(this.project.id).then((res) => {
+          this.areaData = res.data;
+        });
+        getOrgInfo().then(res => {
+          let data = res.data.getMe;
+          function getTree(ary, pid = -1) {
+            if (!pid) {
+              // 如果没有父id（第一次递归的时候）将所有父级查询出来
+              return ary.filter(item => !item.PARENTID).map(item => {
+                // 通过父节点ID查询所有子节点
+                item.children = getTree(ary, item.ID);
+                return item;
+              });
+            } else {
+              return ary.filter(item => item.PARENTID === pid).map(item => {
+                // 通过父节点ID查询所有子节点
+                item.children = getTree(ary, item.ID);
+                return item;
+              });
+            }
           }
-          let node = findSon(item, data);
-          if (node) {
-            tree.push(node);
-          }
-        }
-        this.tree = tree;
-      });
-    },
-    handUserSelectionChange(val) {
-      this.selectUser = val;
-    },
-    handAreaSelectionChange(val) {
-      this.selectArea = val;
-    },
-    handleNodeClick(row) {
-      let { id, code } = row;
-      getUserByGroupId(id, code).then((res) => {
+
+          let tre = getTree(data);
+          this.tree = tre
+        });
+      },
+
+      handUserSelectionChange(val) {
+        this.selectUser = val;
+      },
+      handAreaSelectionChange(val) {
+        this.selectArea = val;
+      },
+      handleNodeClick(row) {
+        let {ID, CODE} = row;
+        getUserByGroupId(ID, CODE).then((res) => {
         if (res) {
           let data = res.data.getMe;
           let arr = data.filter((e) => ![1, 2, 3].includes(e.ID));

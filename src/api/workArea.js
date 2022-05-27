@@ -25,6 +25,17 @@ export const getWorkArea = id => {
     }
   });
 };
+
+export const getWorkAreaByProjectId = id => {
+  return request({
+    url: api.getWorkAreaByProjectId,
+    method: "post",
+    data: {},
+    params: {
+      projectid: id || undefined
+    }
+  });
+};
 /**
  * @des: 根据用户权限返回对应的工区
  * @test:

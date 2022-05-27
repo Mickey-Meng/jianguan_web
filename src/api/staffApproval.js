@@ -32,3 +32,13 @@ export const getStaffApprovalBase = (params) => {
     params
   });
 };
+
+export const getStaffByProcessIdAndProjectId = (params) => {
+  return request({
+    url: api.getStaffByProcessIdAndProjectId,
+    method: "post",
+    data:{},
+    params
+  });
+};
+

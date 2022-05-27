@@ -145,11 +145,13 @@ const actions = {
       let userId = store.getters.userInfo.ID;
       if (userId) {
         let routers = filterAsyncRouter(asyncRouters, state.rights);
+        let filRouters = routers.filter(e => e.children.length>0)
+
         let router = resetRouter();
-        router.addRoutes(routers);
-        commit("SET_MENUS", routers);
-        setToken("routerMenus", routers);
-        resolve(routers);
+        router.addRoutes(filRouters);
+        commit("SET_MENUS", filRouters);
+        setToken("routerMenus", filRouters);
+        resolve(filRouters);
       } else {
         reject();
       }

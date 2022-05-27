@@ -50,11 +50,11 @@
           </el-table-column>
           <!--          <el-table-column prop="uploadname" label="是否自管"></el-table-column>-->
           <!--          <el-table-column prop="uploadname" label="状态"></el-table-column>-->
-          <el-table-column prop="uploadname" label="操作">
+          <el-table-column label="操作">
             <template slot-scope="{row,$index}">
-              <el-button type="text" size="mini" @click="issueStep(row)">发布</el-button>
-              <el-button type="text" size="mini">修改</el-button>
-              <el-button type="text" size="mini">详情</el-button>
+              <!--              <el-button type="text" size="mini" @click="issueStep(row)">发布</el-button>-->
+              <!--              <el-button type="text" size="mini">修改</el-button>-->
+              <el-button type="text" size="mini" @click="seeDetail(row)">详情</el-button>
               <el-button type="text" size="mini">删除</el-button>
             </template>
           </el-table-column>
@@ -86,7 +86,7 @@
                       <div class="block-item">
                         <div class="block-item-label">标段</div>
                         <div class="block-item-value">
-                          {{ projectName }}
+                          {{ form.projectName }}
                         </div>
                       </div>
                       <div class="block-item">
@@ -115,8 +115,8 @@
                         <div class="block-item-value">
                           <el-form-item prop="projectChargeUser">
                             <el-select v-model="form.isContract" placeholder="请选择">
-                              <el-option label="合同人员" value="1"></el-option>
-                              <el-option label="非合同人员" value="0" :disabled="true"></el-option>
+                              <el-option label="合同人员" :value="1"></el-option>
+                              <el-option label="非合同人员" :value="0" :disabled="true"></el-option>
                             </el-select>
                           </el-form-item>
                         </div>
@@ -136,13 +136,15 @@
                       <div class="title-bar"></div>
                       <strong>报审信息</strong>
                     </div>
-                    <div class="block-line">
+                    <div class="block-line" v-if="isCreate">
                       <el-button size="small" type="primary" @click="addRow">添加行</el-button>
                     </div>
                     <div class="block-table">
                       <el-table
                         :data="tableData"
                         border
+                        v-if="isCreate"
+                        key="create_table"
                         class="have_scrolling"
                         style="width: 100%">
                         <el-table-column
@@ -262,13 +264,85 @@
                                          ref="upload"
                                          accept=".jpg,.jpeg,.png,gif,JPG,JPEG,PNG,GIF,.map4,.xlsx,.xls,.pdf,.doc,.docx"
                                          :http-request="importFile">
-                                <el-button size="mini" type="primary" class="primary_mini" @click="currentRowData(row)">
+                                <el-button size="mini" type="primary" class="primary_mini"
+                                           @click="currentRowData(row,$index)">
                                   上传照片
                                 </el-button>
                               </el-upload>
                               <el-button type="danger" size="mini" @click="deleteInfo(row,$index)">删除</el-button>
                             </div>
 
+                          </template>
+                        </el-table-column>
+                      </el-table>
+                      <el-table
+                        :data="tableData"
+                        border
+                        v-else
+                        key="detail_iii"
+                        class="have_scrolling"
+                        style="width: 100%">
+                        <el-table-column
+                          label="姓名"
+                          prop="name"
+                          width="160">
+                        </el-table-column>
+
+                        <el-table-column
+                          label="身份证号"
+                          width="220"
+                          prop="identityId">
+                        </el-table-column>
+                        <el-table-column
+                          label="有效期"
+                          width="320"
+                          prop="identityTime">
+                        </el-table-column>
+                        <el-table-column
+                          label="性别"
+                          width="120">
+                          <template slot-scope="{row}">
+                            {{ row.gender == 1 ? "男" : "女" }}
+
+                          </template>
+                        </el-table-column>
+                        <el-table-column
+                          label="岗位"
+                          width="150"
+                          prop="post">
+                        </el-table-column>
+                        <el-table-column
+                          label="证件名称"
+                          width="250"
+                          prop="certificateName">
+                        </el-table-column>
+                        <el-table-column
+                          label="证件编号"
+                          width="250"
+                          prop="certificateCode">
+                        </el-table-column>
+                        <el-table-column
+                          label="发证单位"
+                          width="250"
+                          prop="issuer">
+                        </el-table-column>
+                        <el-table-column
+                          label="有效期"
+                          width="320"
+                          prop="effectiveTime">
+
+                        </el-table-column>
+                        <el-table-column
+                          label="文化程度"
+                          width="120"
+                          prop="education">
+                        </el-table-column>
+                        <el-table-column
+                          label="脸部照片"
+                          width="120"
+                          align="center">
+                          <template slot-scope="{row}">
+                            <img-viewer :img-list="[row.peoplePic]"></img-viewer>
                           </template>
                         </el-table-column>
                       </el-table>
@@ -350,7 +424,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="form-block">
+                  <div class="form-block" v-if="isCreate">
                     <el-button class="submit-btn" size="small" type="primary" @click="submitStaffInfo">提交
                     </el-button>
                   </div>
@@ -363,8 +437,9 @@
               </div>
             </el-aside>
             <el-aside
-              style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
-              <!--              <tasklog></tasklog>-->
+              style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);"
+            >
+              <tasklog v-show="!isCreate"></tasklog>
             </el-aside>
           </el-container>
 
@@ -385,13 +460,13 @@
 <script>
   import {getNowDate} from "@/utils/date";
   import {mapGetters} from "vuex";
-  import {getUserByRoleId} from "@/api/quality";
+  import {submitUserTask, listHandleTask} from "@/api/quality";
   import uploadView from "@/views/common/upload";
   import * as api from "@/api/quality";
   import {uploadFile} from "@/api/file";
   import {formatDate} from "@/utils/date";
   import {getOrgUser, addStaffApproval, getStaffApprovalBase} from "@/api/staffApproval";
-
+  import tasklog from "@/views/common/tasklog";
 
   export default {
     name: "",
@@ -431,7 +506,9 @@
         dialogTitle: "项目全生命周期数字管理平台",
         currentRow: {},
         currentRowIndex: null,
-        disabledArr: []
+        disabledArr: [],
+        isShow: true,
+        isCreate: true
       };
     },
     created() {
@@ -442,11 +519,11 @@
     computed: {
       ...mapGetters(["userInfo", "name", "project", "roleId", "getUrl"])
     },
-    components: {uploadView},
+    components: {uploadView, tasklog},
     methods: {
       initForm() {
-        this.projectName = this.project.name;
         this.form = {
+          projectName: this.project.name,
           recorder: this.name,
           recordId: this.userInfo.ID,
           subDate: getNowDate(),//填报时间
@@ -465,6 +542,7 @@
         this.tableData = [];
         this.initForm();
         this.dialogFormVisible = true;
+        this.isCreate = true;
       },
       //删除行数据
       deleteInfo(row, index) {
@@ -503,7 +581,15 @@
           this.selectUsers = res.data || [];
         });
         getStaffApprovalBase({projectid: this.project.id}).then(res => {
-          this.listData = res.data;
+          let data = res.data || [];
+          if (data && data.length > 0) {
+            this.listData = data.map(item => {
+              let obj = Object.assign(item, item.person);
+              return obj;
+            });
+          } else {
+            this.listData = [];
+          }
         });
       },
       //选择填报人员事件
@@ -512,7 +598,7 @@
         let tablerow = this.tableData.find(e => e.userId === val);
         let info = this.selectUsers.find(e => e.id === val);
         tablerow.post = info.rolename;
-        tablerow.roldid = info.roleid;
+        tablerow.roldId = info.roleid;
         tablerow.name = info.name;
       },
       //提交表单
@@ -538,6 +624,25 @@
           processKey: "hetongrenyuanbaoshen"
         };
         addStaffApproval(dd).then(res => {
+
+          this.issueStep(res);
+        });
+      },
+      issueStep(row) {
+        let obj = {
+          copyData: {},
+          flowTaskCommentDto: {
+            approvalType: "",
+            comment: "",
+            delegateAssginee: ""
+          },
+          masterData: {},
+          processInstanceId: row.data,
+          slaveData: {},
+          taskId: "",
+          taskVariableData: {}
+        };
+        submitUserTask(obj).then(res1 => {
           this.$message({
             type: "success",
             message: "填报成功!",
@@ -547,13 +652,30 @@
           this.dialogFormVisible = false;
         });
       },
-      issueStep(row) {
-        //发起流程
+      seeDetail(row) {
+        //查看详情
+        this.form = Object.assign({}, row.person);
+        let data = row.personSubs;
+        if (data && data.length > 0) {
+          this.tableData = data.map(item => {
+            if (item.peoplePic) {
+              item.peoplePic = this.getUrl + item.peoplePic;
+            }
+            return item;
+          });
+        }
+        this.isCreate = false;
+        this.dialogFormVisible = true;
+        console.log(row);
       }
     },
     filters: {
       getTime(val) {
-        return formatDate(val);
+        if (val) {
+          return formatDate(val);
+        } else {
+          return "";
+        }
       }
     }
   };
