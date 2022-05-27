@@ -42,16 +42,16 @@
     </el-header>
     <el-main>
       <div class="container">
-        <el-table :data="listData" style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
-          <el-table-column prop="uploadname" label="请假人"></el-table-column>
-          <el-table-column prop="uploadname" label="请假类型"></el-table-column>
-          <el-table-column prop="uploadname" label="开始时间"></el-table-column>
-          <el-table-column prop="uploadname" label="结束时间"></el-table-column>
-          <el-table-column prop="uploadname" label="请假天数"></el-table-column>
-          <el-table-column prop="uploadname" label="工作交接人"></el-table-column>
-          <el-table-column prop="uploadname" label="请假原因"></el-table-column>
-          <el-table-column prop="uploadname" label="备注"></el-table-column>
-          <el-table-column prop="uploadname" label="状态"></el-table-column>
+        <el-table :data="tableData" style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
+          <el-table-column prop="leaverPersonName" label="请假人"></el-table-column>
+          <el-table-column prop="leaverType" label="请假类型"></el-table-column>
+          <el-table-column prop="startTime" label="开始时间"></el-table-column>
+          <el-table-column prop="endTime" label="结束时间"></el-table-column>
+          <el-table-column prop="leaveDay" label="请假天数"></el-table-column>
+          <el-table-column prop="handoffPerson" label="工作交接人"></el-table-column>
+          <el-table-column prop="leaveReason" label="请假原因"></el-table-column>
+          <el-table-column prop="remark" label="备注"></el-table-column>
+          <!--          <el-table-column prop="uploadname" label="状态"></el-table-column>-->
         </el-table>
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
                        :current-page="queryData.pageNum" :page-size="queryData.pageSize"
@@ -83,13 +83,20 @@
                   <div class="block-item">
                     <div class="block-item-label">请假人</div>
                     <div class="block-item-value">
-                      <!--                      {{ form.projectName }}-->
+                      {{ form.leaverPersonName }}
                     </div>
                   </div>
                   <div class="block-item">
                     <div class="block-item-label">请假类型</div>
                     <div class="block-item-value">
-                      <!--                      <el-input v-model="form.recorder" readonly></el-input>-->
+                      <el-select placeholder="请选择" v-model="form.leaverType">
+                        <el-option
+                          v-for="item in eventType"
+                          :key="item.id"
+                          :label="item.name"
+                          :value="item.name">
+                        </el-option>
+                      </el-select>
                     </div>
                   </div>
                 </div>
@@ -98,12 +105,13 @@
                     <div class="block-item-label">请假时间</div>
                     <div class="block-item-value">
                       <el-date-picker
-                        v-model="form.subDate"
-                        type="datetime"
-                        :clearable="false"
-                        placeholder="选择日期时间"
+                        v-model="leaveTime"
+                        @change="changeTime"
+                        type="datetimerange"
                         value-format="yyyy-MM-dd HH:mm:ss"
-                      >
+                        range-separator="至"
+                        start-placeholder="开始日期"
+                        end-placeholder="结束日期">
                       </el-date-picker>
                     </div>
                   </div>
@@ -111,7 +119,7 @@
                     <div class="block-item-label">请假天数</div>
                     <div class="block-item-value">
                       <el-form-item prop="projectChargeUser">
-                        <el-input></el-input>
+                        <el-input v-model="form.leaveDay"></el-input>
                       </el-form-item>
                     </div>
                   </div>
@@ -121,7 +129,11 @@
                     <div class="block-item-label">工作交接人</div>
                     <div class="block-item-value">
                       <el-form-item prop="projectChargeUser">
-                        <el-input></el-input>
+                        <el-select v-model="form.handoffPersonId" placeholder="请选择">
+                          <el-option v-for="item in handoffPerson" :key="item.id"
+                                     :label="item.name" :value="item.id">
+                          </el-option>
+                        </el-select>
                       </el-form-item>
                     </div>
                   </div>
@@ -129,7 +141,7 @@
                     <div class="block-item-label">请假原因</div>
                     <div class="block-item-value">
                       <el-form-item prop="projectChargeUser">
-                        <el-input></el-input>
+                        <el-input v-model="form.leaveReason"></el-input>
                       </el-form-item>
                     </div>
                   </div>
@@ -139,7 +151,7 @@
                     <div class="block-item-label">备注</div>
                     <div class="block-item-value">
                       <el-form-item prop="projectChargeUser">
-                        <el-input></el-input>
+                        <el-input v-model="form.remark"></el-input>
                       </el-form-item>
                     </div>
                   </div>
@@ -152,7 +164,9 @@
                 </div>
                 <div class="block-line">
                   <div class="block-item">
-                    <div class="block-item-label">施工经理<i class="require-icon"></i></div>
+                    <div class="block-item-label">施工经理
+                      <!--                      <i class="require-icon"></i>-->
+                    </div>
                     <div class="block-item-value">
                       <el-form-item prop="qualityCheckUser">
                         <el-select v-model="form.qualityCheckUser" placeholder="请选择">
@@ -166,7 +180,7 @@
                 </div>
               </div>
               <div class="form-block" v-if="isCreate">
-                <el-button class="submit-btn" size="small" type="primary" @click="submitStaffInfo">提交
+                <el-button class="submit-btn" size="small" type="primary" @click="submitStaffInfo" v-if="isCreate">提交
                 </el-button>
               </div>
             </el-form>
@@ -192,19 +206,22 @@
 
 <script>
   import {getNowDate} from "@/utils/date";
+  import {getDic} from "@/api/user";
   import {mapGetters} from "vuex";
+  import {getOrgUser, submitLeave, getLeave} from "@/api/staffApproval";
+  import {submitUserTask} from "@/api/quality";
 
   export default {
     name: "",
     data() {
       return {
         form: {},
-        projectName: "",
-        tableData: [],
-        listData: [],
-        userOptions: [],
+        tableData: [],//请假数据
+        userOptions: [],//选择用户
+        handoffPerson: [],//工作交接可选人
+        eventType: [],
+        leaveTime: "",
         dialogFormVisible: false,
-        dialogPersonVisible: false,//控制选择人的弹框
         queryData: {
           projectCode: "",
           subProject: "",
@@ -213,32 +230,111 @@
           pageSize: 10
         },
         isCreate: true,
-        dialogTitle: "项目全生命周期数字管理平台"
+        dialogTitle: "项目全生命周期数字管理平台",
+        workTime: {
+          wh: 8,//上班时长,
+          on: "9:00",//上班时间
+          off: "18:00",//下班时间
+          noonOn: "12:00",//午休开始时间
+          noonOff: "14:00"//午休结束时间
+        }
       };
     },
     created() {
-      this.projectName = this.project.name;
-      this.form = {
-        recorder: this.name,
-        recordId: this.userInfo.ID,
-        subDate: getNowDate(),//填报时间
-        projectId: this.project.id,
-        isContract: "1"
-      };
+      this.init();
+      this.initData();
     },
     computed: {
-      ...mapGetters(["userInfo", "name", "project"])
+      ...mapGetters(["userInfo", "name", "project", "roleId"])
     },
     methods: {
-      addRow() {
-        let obj = Object.assign({}, this.tableRowData);
-        this.tableData.push(obj);
+
+      init() {
+        getDic("qjlx").then(res => {
+          this.eventType = res.data.qjlx;
+        });
+        getOrgUser({projectid: this.project.id}).then(res => {
+          this.handoffPerson = res.data.filter(e => e.roleid === this.roleId && e.id !== this.userInfo.ID);
+        });
+      },
+      initData() {
+        getLeave(this.project.id).then(res => {
+          this.tableData = res.data;
+        });
+      },
+      initForm() {
+        this.form = {
+          startTime: "",//开始时间
+          endTime: "",//结束时间
+          handoffPerson: "",//工作交接人
+          handoffPersonId: null,//交接人ID
+          leaveDay: null,//请假天数
+          leavePersonId: this.userInfo.ID,//leavePersonId
+          leaverPersonName: this.name,//leaverPersonName
+          leaveReason: "",//leaveReason
+          leaverType: "",//请假类型id
+          projectId: this.project.id,//项目id
+          remark: "",//备注
+          subDate: ""//填报时间
+        };
       },
       openDialog() {
         this.dialogFormVisible = true;
+        this.initForm();
+        this.leaveTime = "";
       },
-      deleteInfo(index) {
-        this.tableData.splice(index, 1);
+      submitStaffInfo() {
+        let obj = Object.assign({}, this.form);
+        if (this.leaveTime.length > 0) {
+          obj.startTime = this.leaveTime[0];
+          obj.endTime = this.leaveTime[1];
+        }
+        obj.subDate = getNowDate();
+        obj.processDefinitionKey = "qingjiashenqing";
+        if (obj.handoffPersonId) {
+          let info = this.handoffPerson.find(e => e.id === obj.handoffPersonId);
+          obj.handoffPerson = info.name;
+        }
+        submitLeave(obj).then(res => {
+          this.issueStep(res);
+        });
+      },
+      issueStep(row) {
+        let obj = {
+          copyData: {},
+          flowTaskCommentDto: {
+            approvalType: "",
+            comment: "",
+            delegateAssginee: ""
+          },
+          masterData: {},
+          processInstanceId: row.data,
+          slaveData: {},
+          taskId: "",
+          taskVariableData: {}
+        };
+        submitUserTask(obj).then(res1 => {
+          this.$message({
+            type: "success",
+            message: "填报成功!",
+            customClass: "message_override"
+          });
+          this.initData();
+          this.dialogFormVisible = false;
+        });
+      },
+      //判断时间是不是同一天
+      judgeFn(time, time1) {
+        return new Date(time).toDateString() === new Date(time1).toDateString();
+      },
+      changeTime(time) {
+        // if (time.length > 0) {
+        // let start = time[0];
+        // let end = time[1];
+        // console.log(this.judgeFn(start, end));
+        // let timestamp1 = new Date(start)
+        // }
+        // console.log(time);
       },
       handleSizeChange() {
       },

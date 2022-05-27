@@ -36,15 +36,20 @@
     <el-main>
       <div class="container">
         <el-table :data="tableDta" style="width: 100%" height="calc(100% - 48px)" class="have_scrolling" border>
-          <el-table-column prop="uploadname" label="标段"></el-table-column>
-          <el-table-column prop="uploadname" label="人员变更类型"></el-table-column>
-          <el-table-column prop="uploadname" label="变更岗位"></el-table-column>
-          <el-table-column prop="uploadname" label="变更前人员"></el-table-column>
-          <el-table-column prop="uploadname" label="变更后人员"></el-table-column>
-          <el-table-column prop="uploadname" label="录入日期"></el-table-column>
-          <el-table-column prop="uploadname" label="负责人"></el-table-column>
-          <el-table-column prop="uploadname" label="状态"></el-table-column>
-          <el-table-column prop="uploadname" label="操作"></el-table-column>
+          <el-table-column prop="projectChildName" label="标段"></el-table-column>
+          <el-table-column prop="changeTypeName" label="人员变更类型"></el-table-column>
+          <el-table-column prop="changePostName" label="变更岗位"></el-table-column>
+          <el-table-column prop="beforePerson" label="变更前人员"></el-table-column>
+          <el-table-column prop="afterPerson" label="变更后人员"></el-table-column>
+          <el-table-column prop="subDate" label="录入日期"></el-table-column>
+          <!--          <el-table-column prop="uploadname" label="负责人"></el-table-column>-->
+          <!--          <el-table-column prop="uploadname" label="状态"></el-table-column>-->
+          <el-table-column label="操作">
+            <template slot-scope="{row,$index}">
+              <el-button type="text" size="mini" @click="seeDetail(row)">详情</el-button>
+              <el-button type="text" size="mini">删除</el-button>
+            </template>
+          </el-table-column>
         </el-table>
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
                        :current-page="queryData.pageNum" :page-size="queryData.pageSize"
@@ -94,8 +99,10 @@
                         :clearable="false"
                         placeholder="选择日期时间"
                         value-format="yyyy-MM-dd HH:mm:ss"
+                        v-if="isCreate"
                       >
                       </el-date-picker>
+                      <div v-if="">{{ form.subDate }}</div>
                     </div>
                   </div>
                 </div>
@@ -128,7 +135,7 @@
                     <div class="block-item-label">人员变更类型</div>
                     <div class="block-item-value">
                       <el-form-item prop="qualityCheckUser">
-                        <el-select placeholder="请选择" v-model="form.changeType" @change="changeValue">
+                        <el-select placeholder="请选择" v-model="form.changeType" @change="changeValue" v-if="isCreate">
                           <el-option
                             v-for="item in roleType"
                             :key="item.roleid"
@@ -136,6 +143,7 @@
                             :value="item.roleid">
                           </el-option>
                         </el-select>
+                        <div v-else>{{ form.changeTypeName }}</div>
                       </el-form-item>
                     </div>
                   </div>
@@ -143,7 +151,7 @@
                     <div class="block-item-label">变更岗位</div>
                     <div class="block-item-value">
                       <el-form-item prop="qualityCheckUser">
-                        <el-select placeholder="请选择" disabled v-model="form.changePost">
+                        <el-select placeholder="请选择" disabled v-model="form.changePost" v-if="isCreate">
                           <el-option
                             v-for="item in roleType"
                             :key="item.roleid"
@@ -151,6 +159,7 @@
                             :value="item.roleid">
                           </el-option>
                         </el-select>
+                        <div v-else>{{ form.changePostName }}</div>
                       </el-form-item>
                     </div>
                   </div>
@@ -161,7 +170,7 @@
                     <div class="block-item-label">变更前人员</div>
                     <div class="block-item-value">
                       <el-form-item prop="qualityCheckUser">
-                        <el-select placeholder="请选择" v-model="form.beforePersonId">
+                        <el-select placeholder="请选择" v-model="form.beforePersonId" v-if="isCreate">
                           <el-option
                             v-for="item in beforeUsers"
                             :key="item.id"
@@ -169,6 +178,7 @@
                             :value="item.id">
                           </el-option>
                         </el-select>
+                        <div v-else>{{ form.beforePerson }}</div>
                       </el-form-item>
                     </div>
                   </div>
@@ -186,7 +196,7 @@
                     <div class="block-item-label">变更后人员</div>
                     <div class="block-item-value">
                       <el-form-item prop="qualityCheckUser">
-                        <el-select placeholder="请选择" v-model="form.afterPersonId">
+                        <el-select placeholder="请选择" v-model="form.afterPersonId" v-if="isCreate">
                           <el-option
                             v-for="item in afterUsers"
                             :key="item.id"
@@ -194,6 +204,7 @@
                             :value="item.id">
                           </el-option>
                         </el-select>
+                        <div v-else>{{ form.afterPerson }}</div>
                       </el-form-item>
                     </div>
                   </div>
@@ -226,9 +237,9 @@
                   <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
 											xisx xis pdf文件，且不超过100m</span>
                 </div>
-                <div class="block-line">
+                <div class="block-line" style="height: 35px">
                   <!--                  <el-button size="small" type="primary">上传附件</el-button>-->
-                  <upload @afterUp="afterUp($event)"></upload>
+                  <upload @afterUp="afterUp($event)" v-if="isCreate"></upload>
                   <!-- <div class="block-table-title">附件</div> -->
                   <div class="block-table-btns">
                     <el-button size="small" type="primary">下载全部</el-button>
@@ -279,7 +290,7 @@
                 </div>
               </div>
               <div class="form-block">
-                <el-button class="submit-btn" size="small" type="primary">提交
+                <el-button class="submit-btn" size="small" type="primary" @click="submitInfo" v-if="isCreate">提交
                 </el-button>
               </div>
             </el-form>
@@ -307,8 +318,9 @@
   import {getNowDate} from "@/utils/date";
   import {getRoleInfoByUserId} from "@/api/system";
   import {getUserByRoleId} from "@/api/quality";
-  import {getOrgUser} from "@/api/staffApproval";
+  import {getOrgUser, addPersonChange, getPersonChange} from "@/api/staffApproval";
   import {getOrgInfo} from "@/api/user";
+  import {submitUserTask} from "@/api/quality";
 
   export default {
     data() {
@@ -340,6 +352,7 @@
     created() {
       this.form = {};
       this.init();
+      this.initData();
     },
     components: {upload},
     computed: {
@@ -350,10 +363,16 @@
         this.dialogFormVisible = true;
         this.isCreate = true;
         this.initForm();
+        this.fileData = [];
       },
       handleSizeChange() {
       },
       handleCurrentChange() {
+      },
+      initData() {
+        getPersonChange(this.project.id).then(res => {
+          this.tableDta = res.data;
+        });
       },
       init() {
         getAllProjectsData().then(res => {
@@ -433,6 +452,61 @@
       //删除文件
       deleteInfo(row, index) {
         this.fileData.splice(index, 1);
+      },
+      //提交事件
+      submitInfo() {
+        let obj = Object.assign({}, this.form);
+        if (obj.beforePersonId) {
+          let info = this.beforeUsers.find(e => e.id === obj.beforePersonId);
+          obj.beforePerson = info.name;
+        }
+        if (obj.afterPersonId) {
+          let info = this.afterUsers.find(e => e.id === obj.afterPersonId);
+          obj.afterPerson = info.name;
+        }
+        if (obj.changeType) {
+          let info = this.roleType.find(e => e.roleid === obj.changeType);
+          obj.changeTypeName = info.rolename;
+        }
+        if (this.fileData.length > 0) {
+          obj.files = this.fileData;
+        }
+        obj.processDefinitionKey = "renyuanbiangeng";
+        //提交
+        addPersonChange(obj).then(res => {
+          this.issueStep(res);
+        });
+      },
+      issueStep(row) {
+        let obj = {
+          copyData: {},
+          flowTaskCommentDto: {
+            approvalType: "",
+            comment: "",
+            delegateAssginee: ""
+          },
+          masterData: {},
+          processInstanceId: row.data,
+          slaveData: {},
+          taskId: "",
+          taskVariableData: {}
+        };
+        submitUserTask(obj).then(res1 => {
+          this.$message({
+            type: "success",
+            message: "填报成功!",
+            customClass: "message_override"
+          });
+          this.initData();
+          this.dialogFormVisible = false;
+        });
+      },
+      //查看详情
+      seeDetail(row) {
+        this.form = Object.assign({}, row);
+        this.fileData = row.files;
+        this.isCreate = false;
+        this.dialogFormVisible = true;
       }
     }
   };

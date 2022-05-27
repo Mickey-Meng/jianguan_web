@@ -177,6 +177,14 @@ const api = {
   addStaffApproval: "/ZhuJiRoad/person/subContract",//上传报审信息,
   getStaffApprovalBase: "/ZhuJiRoad/person/getContracts",//获取报审的基本信息
   getStaffByProcessIdAndProjectId: "/ZhuJiRoad/person/getContractByProcessId",//根据项目id和工单ID查询报审的信息
+  //----------------人员变更 -----------------
+  addPersonChange: "/ZhuJiRoad/person/subPersonChange",//提交人员变更
+  getPersonChange: "/ZhuJiRoad/person/getPersonChange",//获取人员变更信息
+  getPersonChangeByProcessId: "/ZhuJiRoad/person/getChangeByProcessId",//根据项目id和工单ID查询变更信息
+  //-------------------- 请假申请------------------
+  submitLeave: "/ZhuJiRoad/person/subLeave",//提交请假申请
+  getLeave: "/ZhuJiRoad/person/getLeaveData",//获取请假数据
+  getLeaveByProcessId: "/ZhuJiRoad/person/getLeaveByProcessId",
 
 
   //-----------------------流程引擎新增接口 ------------------------

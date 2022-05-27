@@ -50,6 +50,16 @@ export const constantRoutes = [{
         path: "/staffSubmit_detail",
         name: "staffSubmit_detail",
         component: () => import("@/views/contractManagement/staffSubmit/view")
+      },
+      {
+        path: "/personnelChange_detail",
+        name: "personnelChange_detail",
+        component: () => import("@/views/contractManagement/personChange/view")
+      },
+      {
+        path: "/applicationForLeave_detail",
+        name: "applicationForLeave_detail",
+        component: () => import("@/views/contractManagement/leave/view")
       }]
 	},
 	// {
