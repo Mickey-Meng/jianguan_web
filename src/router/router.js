@@ -1318,6 +1318,32 @@ export const asyncRoutes = [{
           noMap: true
         }
       },
+      {
+        path: "/equipmentEntryForInspection",
+        name: "equipmentEntryForInspection",
+        component: () => import("@/views/contractManagement/equipmentEntryForInspection"),
+        meta: {
+          title: "设备进场报验",
+          code: "shebeijinchangbaoyan",
+          icon: "circle",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/equipmentExitForInspection",
+        name: "equipmentExitForInspection",
+        component: () => import("@/views/contractManagement/equipmentExitForInspection"),
+        meta: {
+          title: "设备退场报验",
+          code: "shebeituichangbaoyan",
+          icon: "circle",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
 		]
 	}
 ];
