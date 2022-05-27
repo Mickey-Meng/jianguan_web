@@ -70,12 +70,6 @@
                   <div class="form-title">
                     <div class="title-big-bar"></div>
                     <strong>人员填报</strong>
-                    <!--                    <div class="form-btns">-->
-                    <!--                      <el-button size="medium">暂存</el-button>-->
-                    <!--                      <el-button size="medium">保存草稿</el-button>-->
-                    <!--                      <el-button size="medium">选择草稿</el-button>-->
-                    <!--                      <el-button size="medium" type="primary">复制填充</el-button>-->
-                    <!--                    </div>-->
                   </div>
                   <div class="form-block">
                     <div class="form-block-title">
