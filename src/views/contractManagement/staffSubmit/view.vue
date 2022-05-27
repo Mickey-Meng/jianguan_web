@@ -15,12 +15,6 @@
           <div class="form-title">
             <div class="title-big-bar"></div>
             <strong>人员填报</strong>
-            <!--                    <div class="form-btns">-->
-            <!--                      <el-button size="medium">暂存</el-button>-->
-            <!--                      <el-button size="medium">保存草稿</el-button>-->
-            <!--                      <el-button size="medium">选择草稿</el-button>-->
-            <!--                      <el-button size="medium" type="primary">复制填充</el-button>-->
-            <!--                    </div>-->
           </div>
           <div class="form-block">
             <div class="form-block-title">
@@ -244,7 +238,6 @@
 </template>
 
 <script>
-  // import * as api from "@/api/contract";
   import {mapGetters} from "vuex";
   import {getStaffByProcessIdAndProjectId} from "@/api/staffApproval";
 
@@ -253,30 +246,6 @@
       return {
         dialogTitle: "项目全生命周期数字管理平台",
         dialogFormVisible: false,
-
-        // baseInfo: {
-        //   buildSection: 1,
-        //   buildSectionName: '235国道项目部',
-        //   contractCode: '',
-        //   buildCompany: '',
-        //   supervisionUnit: '',
-        // },
-        // formData: { //表单参数
-        //   attachment: [],
-        //   buildSection: '4',
-        //   commandUser: 1,
-        //   contractCode: '',
-        //   contractInfo: [],
-        //   contractUser: '',
-        //   deletedFlag: 1,
-        //   draftFlag: 1,
-        //   projectId: this.$store.getters.project['id'],
-        //   projectManageUser: 1,
-        //   projectName: '',
-        //   supervisionUser: 1
-        // },
-        // attachTable: [], //附件
-        // contractTable: [],
         form: { //基础信息
 
         },

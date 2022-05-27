@@ -1,28 +1,23 @@
 <!--
- * @Descripttion:施工方案
- * @version:
- * @Author: WangHarry
- * @Date: 2022-05-09 14:16:58
- * @LastEditors: WangHarry
- * @LastEditTime: 2022-05-09 14:17:04
+@name:
+@description:设备进场报验
+@author: 王海林
+@time: 2022-05-27 14:28:18
+@modifier:
+@modifierTime:
 -->
 <template>
 	<el-container class="container-box">
 		<el-header>
 			<div class="input-box">
 				<div class="input-value">
-					<el-input v-model="queryData.projectCode" placeholder="专项施工方案名称"></el-input>
+					<el-input v-model="queryData.projectCode" placeholder="监理单位"></el-input>
 				</div>
 
 			</div>
 			<div class="input-box">
 				<div class="input-value">
-					<el-input v-model="queryData.subProject" placeholder="施工标段"></el-input>
-				</div>
-			</div>
-			<div class="input-box">
-				<div class="input-value">
-					<el-input v-model="queryData.subProject" placeholder="监理标段"></el-input>
+					<el-input v-model="queryData.subProject" placeholder="施工单位"></el-input>
 				</div>
 			</div>
 			<el-button type="primary">搜索</el-button>
@@ -44,25 +39,25 @@
 					class="have_scrolling">
 					<el-table-column type="index" width="50" align="center" label="序号">
 					</el-table-column>
-					<el-table-column prop="projectName" align="center" label="工程编号" show-overflow-tooltip>
+					<el-table-column prop="projectName" align="center" label="工程名称" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="buildUnit" align="center" label="项目名称" show-overflow-tooltip>
+					<el-table-column prop="buildUnit" align="center" label="工程编号" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="contractCode" align="center" label="监理标段" show-overflow-tooltip>
+					<el-table-column prop="contractCode" align="center" label="施工单位" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="supervisorUnit" align="center" label="施工标段" show-overflow-tooltip>
+					<el-table-column prop="supervisorUnit" align="center" label="合同段" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="buildSectionId" align="center" label="合同号" show-overflow-tooltip>
+					<el-table-column prop="buildSectionId" align="center" label="监理标段" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="buildSectionId" align="center" label="专项施工方案名称" show-overflow-tooltip>
+					<el-table-column prop="supervisorSection" align="center" label="监理单位">
 					</el-table-column>
-					<el-table-column prop="buildSectionId" align="center" label="合同段" show-overflow-tooltip>
+					<el-table-column prop="supervisorSection" align="center" label="合同号">
 					</el-table-column>
-					<el-table-column prop="supervisorSection" align="center" label="状态描述">
+					<el-table-column prop="statusStr" align="center" label="状态描述">
 					</el-table-column>
 					<el-table-column fixed="right" width="120" align="center" label="操作">
 						<template slot-scope="{ row, $index }">
-							<!-- <el-button type="text" size="mini" @click="modify(row)">修改</el-button> -->
+							<el-button type="text" size="mini" @click="modify(row)">修改</el-button>
 							<el-button type="text" size="mini" @click="viewDetail(row)">详情</el-button>
 							<el-button type="text" size="mini" @click="deleteRow(row)">删除</el-button>
 						</template>
@@ -81,8 +76,8 @@
 
 <script>
 	import * as api from "@/api/quality";
-	import edit from './constructionScheme/edit';
-	import detail from './constructionScheme/detail';
+	import edit from './equipmentEntryForInspection/edit';
+	import detail from './equipmentEntryForInspection/detail';
 	export default {
 		data() {
 			return {
@@ -177,5 +172,5 @@
 	};
 </script>
 <style scoped lang="scss">
-	@import "../../../assets/css/table.scss"
+	@import "../../assets/css/table.scss"
 </style>

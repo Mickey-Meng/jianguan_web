@@ -95,3 +95,9 @@ export const updatePassword = data => {
     data
   });
 };
+export const getDic = (key) => {
+  return request({
+    url: `/STSfmzj/userauth/selectDicByParentKey?keyStr=${key}`,
+    method: "get"
+  });
+};

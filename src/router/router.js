@@ -50,6 +50,16 @@ export const constantRoutes = [{
         path: "/staffSubmit_detail",
         name: "staffSubmit_detail",
         component: () => import("@/views/contractManagement/staffSubmit/view")
+      },
+      {
+        path: "/personnelChange_detail",
+        name: "personnelChange_detail",
+        component: () => import("@/views/contractManagement/personChange/view")
+      },
+      {
+        path: "/applicationForLeave_detail",
+        name: "applicationForLeave_detail",
+        component: () => import("@/views/contractManagement/leave/view")
       }]
 	},
 	// {
@@ -1312,6 +1322,32 @@ export const asyncRoutes = [{
         meta: {
           title: "往来款管理",
           code: "wanglaikuanguanli",
+          icon: "circle",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/equipmentEntryForInspection",
+        name: "equipmentEntryForInspection",
+        component: () => import("@/views/contractManagement/equipmentEntryForInspection"),
+        meta: {
+          title: "设备进场报验",
+          code: "shebeijinchangbaoyan",
+          icon: "circle",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/equipmentExitForInspection",
+        name: "equipmentExitForInspection",
+        component: () => import("@/views/contractManagement/equipmentExitForInspection"),
+        meta: {
+          title: "设备退场报验",
+          code: "shebeituichangbaoyan",
           icon: "circle",
           allMap: false,
           partMap: false,
