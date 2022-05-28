@@ -22,7 +22,7 @@
 			<el-button type="primary" @click="query">搜索</el-button>
 			<div class="right-btns">
 				<div class="operate-btns" v-show="operateBtnsVisible">
-					<el-button size="small" @click="addNew">新增质量检测</el-button>
+					<el-button size="small" @click="addNew">新增</el-button>
 					<el-button size="small">导出</el-button>
 					<el-button size="small">批量操作</el-button>
 				</div>

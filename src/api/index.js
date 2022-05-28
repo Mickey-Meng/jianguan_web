@@ -264,7 +264,11 @@ const api = {
   deleteComeGoMoney: "/ZhuJiApi/web/api/v1/comeGoMoney/id",
   getComeGoMoneyList: "/ZhuJiApi/web/api/v1/comeGoMoney/page",
   //进退场
-  
+  addOrUpdateEnterExit: "/ZhuJiApi/web/api/v1/enterExit/addOrUpdate",
+  getEnterExitDeatil: "/ZhuJiApi/web/api/v1/enterExit/detail/id",
+  deleteEnterExit: "/ZhuJiApi/web/api/v1/enterExit/id",
+  getEnterExitList: "/ZhuJiApi/web/api/v1/enterExit/page",
+  getEnterExitUserList: "/ZhuJiApi/web/api/v1/enterExitUser/page",
 };
 
 export default api;

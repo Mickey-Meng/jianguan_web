@@ -23,7 +23,7 @@
 			<el-button type="primary" @click="query">搜索</el-button>
 			<div class="right-btns">
 				<div class="operate-btns" v-show="operateBtnsVisible">
-					<el-button size="small" @click="addNew">新增质量检测</el-button>
+					<el-button size="small" @click="addNew">新增</el-button>
 					<el-button size="small">导出</el-button>
 					<el-button size="small">批量操作</el-button>
 				</div>
@@ -35,7 +35,7 @@
 					class="have_scrolling">
 					<el-table-column type="index" width="50" align="center" label="序号">
 					</el-table-column>
-					<el-table-column prop="buildSectionName" align="center" label="施工标段" show-overflow-tooltip>
+					<el-table-column prop="buildSection" align="center" label="施工标段" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="billCode" align="center" label="账单编号" show-overflow-tooltip>
 					</el-table-column>

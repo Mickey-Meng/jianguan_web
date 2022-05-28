@@ -47,9 +47,9 @@
 						</template>
 					</el-table-column>
 				</el-table>
-				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+				<el-pagination @current-change="handleCurrentChange"
 					:current-page="queryData.pageParam.pageNum" :page-size="queryData.pageParam.pageSize"
-					layout="total, sizes, prev, pager, next, jumper" :total="queryData.pageParam.totalPage">
+					layout="total, prev, pager, next, jumper" :total="queryData.pageParam.totalPage">
 				</el-pagination>
 			</div>
 		</el-main>
@@ -92,16 +92,14 @@
 				api.listHandleTask(this.queryData).then((res) => {
 					this.allData = res.data || {};
 					this.tableData = this.allData.dataList||[];
-					// this.queryData.pageParam.pageNum = res.data.pageNum;
-					// this.queryData.pageParam.totalPage = res.data.total;
-					// this.queryData.pageParam.pageSize = res.data.pageSize;
+					this.queryData.pageParam.pageNum = res.data.pageNum;
+					this.queryData.pageParam.totalPage = res.data.total;
+					this.queryData.pageParam.pageSize = res.data.pageSize;
 				});
 			},
-			handleSizeChange(val) {
-				console.log(`每页 ${val} 条`);
-			},
-			handleCurrentChange(val) {
-				console.log(`当前页: ${val}`);
+			handleCurrentChange(page) {
+				this.queryData.pageNum=page
+				this.query()
 			},
 			gotoHandle(row){
 				row['taskFormKey']=(typeof row['taskFormKey'])=='string'?JSON.parse(row['taskFormKey']):row['taskFormKey'];

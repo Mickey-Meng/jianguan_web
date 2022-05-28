@@ -123,3 +123,48 @@ export const getComeGoMoneyList = data => {
 		data: data
 	});
 };
+
+
+export const addOrUpdateEnterExit = data => {
+	return request({
+		url: api.addOrUpdateEnterExit,
+		method: "post",
+		data: data
+	});
+};
+
+export const getEnterExitDeatil = id => {
+	return request({
+		url: api.getEnterExitDeatil,
+		method: "get",
+		params: {
+			id
+		}
+	});
+};
+
+export const deleteEnterExit = id => {
+	return request({
+		url: api.deleteEnterExit,
+		method: "get",
+		params: {
+			id
+		}
+	});
+};
+
+export const getEnterExitList = data => {
+	return request({
+		url: api.getEnterExitList,
+		method: "post",
+		data: data
+	});
+};
+
+export const getEnterExitUserList = data => {
+	return request({
+		url: api.getEnterExitUserList,
+		method: "post",
+		data: data
+	});
+};
