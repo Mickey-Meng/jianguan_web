@@ -101,7 +101,7 @@
 		},
 		methods: {
 			query() {
-				api.getContractLaborList(this.queryData).then((res) => {
+				api.getComeGoMoneyList(this.queryData).then((res) => {
 					this.allData = res.data || {};
 					this.tableData = this.allData['list'] || [];
 					this.queryData.pageNum = res.data.pageNum;
@@ -127,7 +127,7 @@
 					cancelButtonText: '取消',
 					type: 'warning'
 				}).then(() => {
-					api.deleteContractLabor(row['id']).then((res) => {
+					api.deleteComeGoMoney(row['id']).then((res) => {
 						if (this.tableData.length == 1) {
 							this.queryData.pageNum = this.queryData.pageNum> 1 ? this.queryData.pageNum - 1 : 1
 						}
