@@ -199,6 +199,8 @@ const api = {
   //上传文件接口
   uploadFile: "/ZhuJiRoad/mong/newUpload",
   getFileInfo: "/ZhuJiRoad/mong/findFile",
+  downloadFile: "/ZhuJiRoad/mong/download",//下载文件
+  previewFile: "/ZhuJiRoad/mong/preview",//预览文件
   //任务
   listHandleTask:'/ZhuJiApi/admin/flow/flowOperation/listHandleTask',//待办
   listHistoricTask:'/ZhuJiApi/admin/flow/flowOperation/listHistoricTask',//已办
@@ -255,6 +257,14 @@ const api = {
   deleteContractBuild: "/ZhuJiApi/web/api/v1/buildContract/id",
   getContractBuildList: "/ZhuJiApi/web/api/v1/buildContract/page",
   getContractBuildEnums: "/ZhuJiApi/web/api/v1/buildContract/buildContractPart/enums",
+  
+  //往来款
+  addOrUpdateComeGoMoney: "/ZhuJiApi/web/api/v1/comeGoMoney/addOrUpdate",
+  getComeGoMoneyDeatil: "/ZhuJiApi/web/api/v1/comeGoMoney/detail/id",
+  deleteComeGoMoney: "/ZhuJiApi/web/api/v1/comeGoMoney/id",
+  getComeGoMoneyList: "/ZhuJiApi/web/api/v1/comeGoMoney/page",
+  //进退场
+  
 };
 
 export default api;

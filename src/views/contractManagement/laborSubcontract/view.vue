@@ -71,22 +71,8 @@
 							xisx xis pdf文件，且不超过100m</span>
 					</div>
 				
-					<div class="block-table">
-						<el-table :data="attachTable" style="width: 100%" border class="have_scrolling">
-							<el-table-column type="index" width="50" align="center" label="序号">
-							</el-table-column>
-							<el-table-column prop="fileName" align="center" label="附件"
-								show-overflow-tooltip>
-							</el-table-column>
-							<el-table-column prop="createTime" width="160px" align="center"
-								label="上传日期">
-							</el-table-column>
-							<el-table-column prop="creatorName" width="120px" align="center"
-								label="上传人">
-							</el-table-column>
-							
-						</el-table>
-					</div>
+					<attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>
+					
 				</div>
 				<div class="form-block">
 					<div class="form-block-title">
@@ -160,13 +146,13 @@
 					</div>
 				</div>
 			</el-form>
-			<taskhandle :taskInfo="taskInfo"></taskhandle>
 		</div>
 	</div>
 </template>
 
 <script>
 	import * as api from "@/api/contract";
+	import attachlist from "../../common/attachlist"
 	import {
 		formatMonth,
 		formatDate,
@@ -208,6 +194,7 @@
 		},
 		created() {},
 		components: {
+			attachlist
 		},
 		computed: {},
 		watch: {

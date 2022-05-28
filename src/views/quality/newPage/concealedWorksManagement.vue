@@ -20,7 +20,7 @@
 					<el-input v-model="queryData.subProject" placeholder="请输入分项工程"></el-input>
 				</div>
 			</div>
-			<el-button type="primary">搜索</el-button>
+			<el-button type="primary" @click="query">搜索</el-button>
 
 			<div class="right-btns">
 				<!-- <el-button type="primary" size="small"
@@ -61,8 +61,8 @@
 						</template>
 					</el-table-column>
 				</el-table>
-				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-					:current-page="queryData.pageNum" :page-size="queryData.pageSize" layout="total, sizes, prev, pager, next, jumper"
+				<el-pagination @current-change="handleCurrentChange" :current-page="queryData.pageNum"
+					:page-size="queryData.pageSize" layout="total, prev, pager, next, jumper"
 					:total="queryData.totalPage">
 				</el-pagination>
 			</div>
@@ -79,7 +79,7 @@
 	export default {
 		data() {
 			return {
-				allData:{},
+				allData: {},
 				tableData: [],
 				operateBtnsVisible: true,
 				dialogTitle: '智慧建设通用版-【绍兴市】235国道杭州',
@@ -90,10 +90,10 @@
 					pageNum: 1,
 					totalPage: 1,
 					pageSize: 10,
-					projectId:this.$store.getters.project['id']
+					projectId: this.$store.getters.project['id']
 				},
-				editRow:null,
-				detailRow:null
+				editRow: null,
+				detailRow: null
 			};
 		},
 		created() {},
@@ -107,12 +107,13 @@
 		},
 		methods: {
 			query() {
+				
 				api.getHiddenProjectList(this.queryData).then((res) => {
 					this.allData = res.data || {};
 					this.tableData = this.formateTableData(res.data.list);
-					this.queryData.pageNum=res.data.pageNum;
-					this.queryData.totalPage=res.data.total;
-					this.queryData.pageSize=res.data.pageSize;
+					this.queryData.pageNum = res.data.pageNum;
+					this.queryData.totalPage = res.data.total;
+					this.queryData.pageSize = res.data.pageSize;
 				});
 			},
 			formateTableData(list) {
@@ -129,15 +130,15 @@
 				return list;
 			},
 			addNew() {
-				this.editRow=null;
+				this.editRow = null;
 				this.$refs.edit.changeVisible(true);
 			},
 			modify(row) {
-				this.editRow=row;
+				this.editRow = row;
 				this.$refs.edit.changeVisible(true);
 			},
 			viewDetail(row) {
-				this.detailRow=row;
+				this.detailRow = row;
 				this.$refs.detail.changeVisible(true);
 			},
 			deleteRow(row) {
@@ -146,7 +147,12 @@
 					cancelButtonText: '取消',
 					type: 'warning'
 				}).then(() => {
-					api.deleteHiddenProject({id:row['id']}).then((res) => {
+					api.deleteHiddenProject({
+						id: row['id']
+					}).then((res) => {
+						if (this.tableData.length == 1) {
+							this.queryData.pageNum = this.queryData.pageNum> 1 ? this.queryData.pageNum - 1 : 1
+						}
 						this.query();
 						this.$message({
 							type: 'success',
@@ -160,11 +166,9 @@
 					});
 				});
 			},
-			handleSizeChange(val) {
-				console.log(`每页 ${val} 条`);
-			},
-			handleCurrentChange(val) {
-				console.log(`当前页: ${val}`);
+			handleCurrentChange(page) {
+				this.queryData.pageNum=page
+				this.query()
 			}
 		},
 	};

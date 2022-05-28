@@ -155,31 +155,9 @@
 										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 											文件，且不超过 200M</span>
 									</div>
-									<div class="block-line">
-										<upload @afterUp="afterUpReport($event)"></upload>
-									</div>
-									<div class="block-table">
-										<el-table :data="reportTable" style="width: 100%" border class="have_scrolling">
-											<el-table-column type="index" width="50" align="center" label="序号">
-											</el-table-column>
-											<el-table-column prop="fileName" align="center" label="附件"
-												show-overflow-tooltip>
-											</el-table-column>
-											<el-table-column prop="createTime" width="160px" align="center"
-												label="上传日期">
-											</el-table-column>
-											<el-table-column prop="creatorName" width="120px" align="center"
-												label="上传人">
-											</el-table-column>
-											<el-table-column fixed="right" width="120" align="center" label="操作">
-												<template slot-scope="{ row, $index }">
-													<el-button type="text" size="mini">下载</el-button>
-													<el-button type="text" size="mini">预览</el-button>
-													<el-button type="text" size="mini" @click="deleteReport(row, $index)">删除</el-button>
-												</template>
-											</el-table-column>
-										</el-table>
-									</div>
+									<attachlist :editAble="true" ref="attachlist" :attachTable="reportTable"></attachlist>
+									
+									
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
@@ -187,32 +165,8 @@
 										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 											文件，且不超过 200M</span>
 									</div>
-									<div class="block-line">
-										<upload @afterUp="afterUpFactory($event)"></upload>
-									</div>
-									<div class="block-table">
-										<el-table :data="factoryTable" style="width: 100%" border
-											class="have_scrolling">
-											<el-table-column type="index" width="50" align="center" label="序号">
-											</el-table-column>
-											<el-table-column prop="fileName" align="center" label="附件"
-												show-overflow-tooltip>
-											</el-table-column>
-											<el-table-column prop="createTime" width="160px" align="center"
-												label="上传日期">
-											</el-table-column>
-											<el-table-column prop="creatorName" width="120px" align="center"
-												label="上传人">
-											</el-table-column>
-											<el-table-column fixed="right" width="120" align="center" label="操作">
-												<template slot-scope="{ row, $index }">
-													<el-button type="text" size="mini">下载</el-button>
-													<el-button type="text" size="mini">预览</el-button>
-													<el-button type="text" size="mini" @click="deleteFactory(row, $index)">删除</el-button>
-												</template>
-											</el-table-column>
-										</el-table>
-									</div>
+									<attachlist :editAble="true" ref="attachlist" :attachTable="factoryTable"></attachlist>
+									
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
@@ -220,31 +174,9 @@
 										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 											文件，且不超过 200M</span>
 									</div>
-									<div class="block-line">
-										<upload @afterUp="afterUpAttach($event)"></upload>
-									</div>
-									<div class="block-table">
-										<el-table :data="attachTable" style="width: 100%" border class="have_scrolling">
-											<el-table-column type="index" width="50" align="center" label="序号">
-											</el-table-column>
-											<el-table-column prop="fileName" align="center" label="附件"
-												show-overflow-tooltip>
-											</el-table-column>
-											<el-table-column prop="createTime" width="160px" align="center"
-												label="上传日期">
-											</el-table-column>
-											<el-table-column prop="creatorName" width="120px" align="center"
-												label="上传人">
-											</el-table-column>
-											<el-table-column fixed="right" width="120" align="center" label="操作">
-												<template slot-scope="{ row, $index }">
-													<el-button type="text" size="mini">下载</el-button>
-													<el-button type="text" size="mini">预览</el-button>
-													<el-button type="text" size="mini" @click="deleteAttach(row, $index)">删除</el-button>
-												</template>
-											</el-table-column>
-										</el-table>
-									</div>
+									<attachlist :editAble="true" ref="attachlist" :attachTable="attachTable"></attachlist>
+									
+									
 									<div class="block-line">
 										<div class="block-item">
 											<div class="block-item-label">备注</div>
@@ -475,6 +407,7 @@
 	} from "@/utils/format.js";
 
 	import upload from "../../../common/upload.vue"
+	import attachlist from "../../../common/attachlist.vue"
 
 	export default {
 		props: ['editRow'],
@@ -629,7 +562,8 @@
 		},
 		created() {},
 		components: {
-			upload
+			upload,
+			attachlist
 		},
 		computed: {
 			
@@ -780,30 +714,6 @@
 
 				})
 			},
-			afterUpReport(data) {
-				this.reportTable.push({
-					createTime: formatDateTime(data['uploadTime']),
-					fileName: data['fileName'],
-					fileUrl: data['fileId'],
-					creatorName: 'test'
-				})
-			},
-			afterUpFactory(data) {
-				this.factoryTable.push({
-					createTime: formatDateTime(data['uploadTime']),
-					fileName: data['fileName'],
-					fileUrl: data['fileId'],
-					creatorName: 'test'
-				})
-			},
-			afterUpAttach(data) {
-				this.attachTable.push({
-					createTime: formatDateTime(data['uploadTime']),
-					fileName: data['fileName'],
-					fileUrl: data['fileId'],
-					creatorName: 'test'
-				})
-			},
 			changeArea() {
 				this.countyOptions = [];
 				this.cityOptions = [];
@@ -831,35 +741,7 @@
 				});
 				
 			},
-			deleteReport(row, index){
-				this.$confirm('确认是否删除?', '提示', {
-					confirmButtonText: '确定',
-					cancelButtonText: '取消',
-					type: 'warning'
-				}).then(() => {
-					this.reportTable.splice(index,1);
-				});
-				
-			},
-			deleteFactory(row, index){
-				this.$confirm('确认是否删除?', '提示', {
-					confirmButtonText: '确定',
-					cancelButtonText: '取消',
-					type: 'warning'
-				}).then(() => {
-					this.factoryTable.splice(index,1);
-				});
-				
-			},
-			deleteAttach(row, index){
-				this.$confirm('确认是否删除?', '提示', {
-					confirmButtonText: '确定',
-					cancelButtonText: '取消',
-					type: 'warning'
-				}).then(() => {
-					this.attachTable.splice(index,1);
-				});
-			}
+			
 		},
 	};
 </script>

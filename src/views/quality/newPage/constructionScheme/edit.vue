@@ -382,6 +382,7 @@
 		createProjectInfo
 	} from "@/utils/format.js";
 	import upload from "../../../common/upload.vue"
+	import attachlist from "../../../common/attachlist.vue"
 	
 	export default {
 		props: ['editRow'],
@@ -458,7 +459,8 @@
 		},
 		created() {},
 		components: {
-			upload
+			upload,
+			attachlist
 		},
 		computed: {},
 		mounted() {

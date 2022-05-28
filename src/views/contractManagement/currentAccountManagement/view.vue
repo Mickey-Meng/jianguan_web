@@ -10,157 +10,58 @@
 					</div>
 					<div class="block-line">
 						<div class="block-item">
-							<div class="block-item-label">项目名称</div>
+							<div class="block-item-label">施工标段<i class="require-icon"></i></div>
 							<div class="block-item-value">
-								{{baseInfo.projectName}}
+								{{formData.buildSection}}
 							</div>
 						</div>
 						<div class="block-item">
-							<div class="block-item-label">施工标段标段</div>
+							<div class="block-item-label">账单编号<i class="require-icon"></i></div>
 							<div class="block-item-value">
-								{{baseInfo.buildSectionName}}
-							</div>
-						</div>
-					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">合同号</div>
-							<div class="block-item-value">
-								{{baseInfo.contractCode}}
-							</div>
-						</div>
-						<div class="block-item">
-							<div class="block-item-label">发起人</div>
-							<div class="block-item-value">
-								{{baseInfo.startupUser}}
-				
+								{{formData.billCode}}
 							</div>
 						</div>
 					</div>
 					<div class="block-line">
 						<div class="block-item">
-							<div class="block-item-label">发起日期</div>
+							<div class="block-item-label">付款单位<i class="require-icon"></i></div>
 							<div class="block-item-value">
-								{{formData.startDate}}
+								{{formData.payUnit}}
+							</div>
+						</div>
+						<div class="block-item">
+							<div class="block-item-label">收款单位<i class="require-icon"></i></div>
+							<div class="block-item-value">
+								{{formData.gatherUnit}}
+							</div>
+						</div>
+					</div>
+					<div class="block-line">
+						<div class="block-item">
+							<div class="block-item-label">支付金额<i class="require-icon"></i></div>
+							<div class="block-item-value">
+								{{formData.payAmount}}
+							</div>
+						</div>
+						<div class="block-item">
+							<div class="block-item-label">支付日期<i class="require-icon"></i></div>
+							<div class="block-item-value">
+								{{formData.payDate}}
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="form-block">
 					<div class="form-block-title">
-						<div class="title-bar"></div><strong>合同信息</strong>
-					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">合同编号</div>
-							<div class="block-item-value">
-								{{formData.contractCode}}
-								
-							</div>
-						</div>
-						<div class="block-item">
-							<div class="block-item-label">承包人</div>
-							<div class="block-item-value">
-								{{formData.contractUser}}
-							</div>
-						</div>
-					</div>
-					<div class="form-block-title">
-						<div class="title-bar"></div><strong>合同附件</strong>
+						<div class="title-bar"></div><strong>附件上传</strong>
 						<span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
 							xisx xis pdf文件，且不超过100m</span>
 					</div>
 				
-					<div class="block-table">
-						<el-table :data="attachTable" style="width: 100%" border class="have_scrolling">
-							<el-table-column type="index" width="50" align="center" label="序号">
-							</el-table-column>
-							<el-table-column prop="fileName" align="center" label="附件"
-								show-overflow-tooltip>
-							</el-table-column>
-							<el-table-column prop="createTime" width="160px" align="center"
-								label="上传日期">
-							</el-table-column>
-							<el-table-column prop="creatorName" width="120px" align="center"
-								label="上传人">
-							</el-table-column>
-							
-						</el-table>
-					</div>
-				</div>
-				<div class="form-block">
-					<div class="form-block-title">
-						<div class="title-bar"></div><strong>信息填报</strong>
-					</div>
-					<div class="block-table">
-						<el-table :data="contractTable" style="width: 100%" border
-							class="have_scrolling">
-							<el-table-column type="index" width="50" align="center" label="序号">
-							</el-table-column>
-							<el-table-column prop="buildProjectName" align="center" label="拟分包工程名称"
-								show-overflow-tooltip>
-							</el-table-column>
-							<el-table-column prop="buildProjectPartName" width="180px" align="center"
-								label="拟分包工程部位">
-							</el-table-column>
-							<el-table-column prop="contractUserName" width="120px" align="center"
-								label="承包人名称">
-							</el-table-column>
-							<el-table-column prop="contractChargeUserName" width="120px" align="center"
-								label="承包负责人">
-							</el-table-column>
-							<el-table-column prop="cardNum" width="120px" align="center" label="身份证号">
-							</el-table-column>
-							<el-table-column prop="contractNum" width="120px" align="center"
-								label="拟分包工程合同金额(元)">
-							</el-table-column>
-							<el-table-column prop="buildStartMonth" width="120px" align="center"
-								label="拟分包施工工期结束月份">
-							</el-table-column>
-							<el-table-column prop="buildEndMonth" width="120px" align="center"
-								label="拟分包施工工期开始月份">
-							</el-table-column>
-							<el-table-column prop="contractUserQualification" width="120px"
-								align="center" label="承包人专业分包资质">
-							</el-table-column>
-							<el-table-column prop="remark" width="120px" align="center" label="备注">
-							</el-table-column>
-							
-						</el-table>
-					</div>
+					<attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>
 				</div>
 				
-				<div class="form-block">
-					<div class="form-block-title">
-						<div class="title-bar"></div><strong>待处理人</strong>
-					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">项目经理</div>
-							<div class="block-item-value">
-								{{formData.projectManageUser}}
-							</div>
-						</div>
-					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">专监</div>
-							<div class="block-item-value">
-								{{formData.specialUser}}
-							</div>
-						</div>
-					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">总监</div>
-							<div class="block-item-value">
-								{{formData.directorUser}}
-							</div>
-						</div>
-					</div>
-				</div>
 			</el-form>
-			<taskhandle :taskInfo="taskInfo"></taskhandle>
 		</div>
 	</div>
 </template>
@@ -191,19 +92,17 @@
 				formData: { //表单参数
 					attachment: [],
 					buildSection: '4',
-					contractCode: '',
-					information: [],
-					contractUser: '',
+					billCode: '',
+					explain: '',
+					gatherUnit:'',
+					payAmount:null,
 					deletedFlag: 1,
 					draftFlag: 1,
+					payUnit:'',
 					projectId: this.$store.getters.project['id'],
-					projectManageUser: 1,
-					specialUser:1,
-					directorUser:1,
-					startDate:formatDate(new Date())
+					payDate:formatDate(new Date())
 				},
-				attachTable: [], //附件
-				contractTable: []
+				attachTable: []
 			};
 		},
 		created() {},
@@ -218,11 +117,10 @@
 		},
 		methods: {
 			getDetail(id) {
-				api.getContractLaborDeatil(id).then((res) => {
+				api.getComeGoMoneyDeatil(id).then((res) => {
 					let data = res['data'] || {};
 					this.formData = data;
 					this.attachTable = data.attachment || [];
-					this.contractTable = data.information || [];
 				});
 			},
 		},

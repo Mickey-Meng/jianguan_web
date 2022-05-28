@@ -16,7 +16,7 @@
 			</div>
 			<div class="input-box">
 				<div class="input-value">
-					<el-input v-model="queryData.laborContractProjectName" placeholder="编号">
+					<el-input v-model="queryData.billCode" placeholder="编号">
 					</el-input>
 				</div>
 			</div>
@@ -37,15 +37,15 @@
 					</el-table-column>
 					<el-table-column prop="buildSectionName" align="center" label="施工标段" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="laborContractProjectName" align="center" label="账单编号" show-overflow-tooltip>
+					<el-table-column prop="billCode" align="center" label="账单编号" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="createTime" align="center" label="付款单位" show-overflow-tooltip>
+					<el-table-column prop="payUnit" align="center" label="付款单位" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="contractUser" align="center" label="收款单位" show-overflow-tooltip>
+					<el-table-column prop="gatherUnit" align="center" label="收款单位" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="laborContractProjectName" align="center" label="支付金额(元)" show-overflow-tooltip>
+					<el-table-column prop="payAmount" align="center" label="支付金额(元)" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="createTime" align="center" label="状态" show-overflow-tooltip>
+					<el-table-column prop="statusStr" align="center" label="状态" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column fixed="right" width="120" align="center" label="操作">
 						<template slot-scope="{ row, $index }">
@@ -55,9 +55,9 @@
 						</template>
 					</el-table-column>
 				</el-table>
-				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+				<el-pagination @current-change="handleCurrentChange"
 					:current-page="queryData.pageNum" :page-size="queryData.pageSize"
-					layout="total, sizes, prev, pager, next, jumper" :total="queryData.totalPage">
+					layout="total, prev, pager, next, jumper" :total="queryData.totalPage">
 				</el-pagination>
 			</div>
 		</el-main>
@@ -69,8 +69,8 @@
 
 <script>
 	import * as api from "@/api/contract.js";
-	import edit from './laborSubcontract/edit.vue';
-	import detail from './laborSubcontract/detail';
+	import edit from './currentAccountManagement/edit.vue';
+	import detail from './currentAccountManagement/detail';
 
 	export default {
 		components: {
@@ -84,7 +84,7 @@
 				operateBtnsVisible: true,
 				queryData: { //查询参数
 					buildSectionName: '',
-					laborContractProjectName: '',
+					billCode: '',
 					pageNum: 1,
 					totalPage: 1,
 					pageSize: 10,
@@ -128,6 +128,9 @@
 					type: 'warning'
 				}).then(() => {
 					api.deleteContractLabor(row['id']).then((res) => {
+						if (this.tableData.length == 1) {
+							this.queryData.pageNum = this.queryData.pageNum> 1 ? this.queryData.pageNum - 1 : 1
+						}
 						this.query();
 						this.$message({
 							type: 'success',
@@ -141,11 +144,9 @@
 					});
 				});
 			},
-			handleSizeChange(val) {
-				console.log(`每页 ${val} 条`);
-			},
-			handleCurrentChange(val) {
-				console.log(`当前页: ${val}`);
+			handleCurrentChange(page) {
+				this.queryData.pageNum=page
+				this.query()
 			}
 		},
 	};

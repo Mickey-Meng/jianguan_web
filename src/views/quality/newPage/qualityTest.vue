@@ -82,9 +82,9 @@
 						</template>
 					</el-table-column>
 				</el-table>
-				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-					:current-page="queryData.pageNum" :page-size="queryData.pageSize"
-					layout="total, sizes, prev, pager, next, jumper" :total="queryData.totalPage">
+				<el-pagination @current-change="handleCurrentChange" :current-page="queryData.pageNum"
+					:page-size="queryData.pageSize" layout="total, prev, pager, next, jumper"
+					:total="queryData.totalPage">
 				</el-pagination>
 			</div>
 		</el-main>
@@ -192,6 +192,9 @@
 					api.deleteQualityDetection({
 						id: row['id']
 					}).then((res) => {
+						if (this.tableData.length == 1) {
+							this.queryData.pageNum = this.queryData.pageNum> 1 ? this.queryData.pageNum - 1 : 1
+						}
 						this.query();
 						this.$message({
 							type: 'success',
@@ -205,11 +208,9 @@
 					});
 				});
 			},
-			handleSizeChange(val) {
-				console.log(`每页 ${val} 条`);
-			},
-			handleCurrentChange(val) {
-				console.log(`当前页: ${val}`);
+			handleCurrentChange(page) {
+				this.queryData.pageNum=page
+				this.query()
 			}
 		},
 	};

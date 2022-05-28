@@ -86,3 +86,40 @@ export const getContractBuildEnums = () => {
 		params: {}
 	});
 };
+
+
+export const addOrUpdateComeGoMoney = data => {
+	return request({
+		url: api.addOrUpdateComeGoMoney,
+		method: "post",
+		data: data
+	});
+};
+
+export const getComeGoMoneyDeatil = id => {
+	return request({
+		url: api.getComeGoMoneyDeatil,
+		method: "get",
+		params: {
+			id
+		}
+	});
+};
+
+export const deleteComeGoMoney = id => {
+	return request({
+		url: api.deleteComeGoMoney,
+		method: "get",
+		params: {
+			id
+		}
+	});
+};
+
+export const getComeGoMoneyList = data => {
+	return request({
+		url: api.getComeGoMoneyList,
+		method: "post",
+		data: data
+	});
+};

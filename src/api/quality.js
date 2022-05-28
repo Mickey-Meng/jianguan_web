@@ -12,10 +12,10 @@ import request from "@/utils/request";
  * @date 2021/7/8
  */
 export const getQualityTree = () => {
-  return request({
-    url: api.checkViewTree,
-    method: "get"
-  });
+	return request({
+		url: api.checkViewTree,
+		method: "get"
+	});
 };
 
 /**
@@ -26,10 +26,10 @@ export const getQualityTree = () => {
  * @date 2021/7/8
  */
 export const getQualityTable = () => {
-  return request({
-    url: api.checkViewTable,
-    method: "get"
-  });
+	return request({
+		url: api.checkViewTable,
+		method: "get"
+	});
 };
 
 /**
@@ -40,20 +40,20 @@ export const getQualityTable = () => {
  * @date 2021/7/8
  */
 export const getNewCheckViewTable = data => {
-  return request({
-    url: api.getNewCheckViewTable,
-    method: "post",
-    data
-  });
+	return request({
+		url: api.getNewCheckViewTable,
+		method: "post",
+		data
+	});
 };
 export const getCurrentPdf = id => {
-  return request({
-    url: api.getCurrentPdf,
-    method: "get",
-    params: {
-      recodeid: id
-    }
-  });
+	return request({
+		url: api.getCurrentPdf,
+		method: "get",
+		params: {
+			recodeid: id
+		}
+	});
 };
 /**
  * @Description: 根据记录id查询每到工序的记录  质量总览页面查看详情 填报记录审核记录也可以查询
@@ -63,10 +63,10 @@ export const getCurrentPdf = id => {
  * @date 2021/7/12
  */
 export const getProcessRecordsById = id => {
-  return request({
-    url: api.processRecords + `?id=${id}`,
-    method: "get"
-  });
+	return request({
+		url: api.processRecords + `?id=${id}`,
+		method: "get"
+	});
 };
 
 /*
@@ -81,16 +81,16 @@ export const getProcessRecordsById = id => {
  * @date 2021/7/14
  */
 export const getCheckDataByConponentId = (id, type) => {
-  return request({
-    url: api.checkData + `?id=${id}&type=${type}`,
-    method: "get"
-  });
+	return request({
+		url: api.checkData + `?id=${id}&type=${type}`,
+		method: "get"
+	});
 };
 export const getCheckData = id => {
-  return request({
-    url: api.getCheckData + `?id=${id}`,
-    method: "get"
-  });
+	return request({
+		url: api.getCheckData + `?id=${id}`,
+		method: "get"
+	});
 };
 /**
  * @Description: 根据构件编码查询报检人信息  根据构件编码编号查询指定的监理人员
@@ -100,13 +100,13 @@ export const getCheckData = id => {
  * @date 2021/7/15
  */
 export const getPersonByComponentId = id => {
-  return request({
-    url: api.checker,
-    method: "get",
-    params: {
-      group: id || undefined
-    }
-  });
+	return request({
+		url: api.checker,
+		method: "get",
+		params: {
+			group: id || undefined
+		}
+	});
 };
 /**
  * @Description: 获取当前人报检的项目，返回3个项目类型桥梁，地面，地道工程下面的每一个子项目
@@ -116,10 +116,10 @@ export const getPersonByComponentId = id => {
  * @date 2021/7/14
  */
 export const getPorjectItem = id => {
-  return request({
-    url: api.fillProject,
-    method: "get"
-  });
+	return request({
+		url: api.fillProject,
+		method: "get"
+	});
 };
 /**
  * @Description: 上传填报记录
@@ -129,11 +129,11 @@ export const getPorjectItem = id => {
  * @date 2021/7/14
  */
 export const addRecord = data => {
-  return request({
-    url: api.addRecord,
-    method: "post",
-    data
-  });
+	return request({
+		url: api.addRecord,
+		method: "post",
+		data
+	});
 };
 
 /**
@@ -144,10 +144,10 @@ export const addRecord = data => {
  * @date 2021/7/19
  */
 export const getAgency = () => {
-  return request({
-    url: api.getAgency,
-    method: "get"
-  });
+	return request({
+		url: api.getAgency,
+		method: "get"
+	});
 };
 
 /**
@@ -158,11 +158,11 @@ export const getAgency = () => {
  * @date 2021/7/21
  */
 export const confirmReport = data => {
-  return request({
-    url: api.confirmReport,
-    method: "post",
-    data
-  });
+	return request({
+		url: api.confirmReport,
+		method: "post",
+		data
+	});
 };
 
 /**
@@ -173,10 +173,10 @@ export const confirmReport = data => {
  * @date 2021/7/19
  */
 export const getAllcheckData = type => {
-  return request({
-    url: api.getAllcheckData + `?type=${type}`,
-    method: "post"
-  });
+	return request({
+		url: api.getAllcheckData + `?type=${type}`,
+		method: "post"
+	});
 };
 
 //-----------------------------------------质量检查，审核-确认等-----------------------------------------------
@@ -189,13 +189,13 @@ export const getAllcheckData = type => {
  * @return {*}
  */
 export const getQualityBigSmallData = id => {
-  return request({
-    url: api.bigSmallQuality,
-    method: "get",
-    params: {
-      id: id || undefined
-    }
-  });
+	return request({
+		url: api.bigSmallQuality,
+		method: "get",
+		params: {
+			id: id || undefined
+		}
+	});
 };
 /** 获取工区负责人数据
  * @des:
@@ -205,10 +205,10 @@ export const getQualityBigSmallData = id => {
  * @return {*}
  */
 export const getQualityPrincipal = () => {
-  return request({
-    url: api.getQualityPrincipal,
-    method: "get"
-  });
+	return request({
+		url: api.getQualityPrincipal,
+		method: "get"
+	});
 };
 /**
  * @des:监理上传质量事件接口
@@ -218,11 +218,11 @@ export const getQualityPrincipal = () => {
  * @return {*}
  */
 export const addQuality = data => {
-  return request({
-    url: api.addQuality,
-    method: "post",
-    data
-  });
+	return request({
+		url: api.addQuality,
+		method: "post",
+		data
+	});
 };
 /**
  * @des:施工方获取质量检查事件
@@ -232,10 +232,10 @@ export const addQuality = data => {
  * @return {*}
  */
 export const getWorkLists = () => {
-  return request({
-    url: api.getWorkList,
-    method: "get"
-  });
+	return request({
+		url: api.getWorkList,
+		method: "get"
+	});
 };
 /**
  * @des:施工方填报质量整改
@@ -245,11 +245,11 @@ export const getWorkLists = () => {
  * @return {*}
  */
 export const submitFinishEvent = data => {
-  return request({
-    url: api.submitFinishEvent,
-    method: "post",
-    data
-  });
+	return request({
+		url: api.submitFinishEvent,
+		method: "post",
+		data
+	});
 };
 /**
  * @des:施工方对质量事件延期处理
@@ -259,11 +259,11 @@ export const submitFinishEvent = data => {
  * @return {*}
  */
 export const submitDealEvent = data => {
-  return request({
-    url: api.submitDealEvent,
-    method: "post",
-    data
-  });
+	return request({
+		url: api.submitDealEvent,
+		method: "post",
+		data
+	});
 };
 /**
  * @des:监理查询延期申请事件
@@ -273,10 +273,10 @@ export const submitDealEvent = data => {
  * @return {*}
  */
 export const getDelayEvent = () => {
-  return request({
-    url: api.getDelayEvent,
-    method: "get"
-  });
+	return request({
+		url: api.getDelayEvent,
+		method: "get"
+	});
 };
 /**
  * @des:监理方处理延期申请
@@ -286,11 +286,11 @@ export const getDelayEvent = () => {
  * @return {*}
  */
 export const disposeDelay = data => {
-  return request({
-    url: api.disposeDelay,
-    method: "post",
-    data
-  });
+	return request({
+		url: api.disposeDelay,
+		method: "post",
+		data
+	});
 };
 /**
  * @des:监理方确认质量整改事件
@@ -300,11 +300,11 @@ export const disposeDelay = data => {
  * @return {*}
  */
 export const disposeFinishQualityEvent = data => {
-  return request({
-    url: api.disposeFinishQualityEvent,
-    method: "post",
-    data
-  });
+	return request({
+		url: api.disposeFinishQualityEvent,
+		method: "post",
+		data
+	});
 };
 /**
  * @des:监理方获取已整改待确认事件
@@ -314,10 +314,10 @@ export const disposeFinishQualityEvent = data => {
  * @return {*}
  */
 export const getFinishQualityEvent = () => {
-  return request({
-    url: api.getFinishQualityEvent,
-    method: "get"
-  });
+	return request({
+		url: api.getFinishQualityEvent,
+		method: "get"
+	});
 };
 /**
  * @des:获取监理已审核确认质量事件
@@ -327,10 +327,10 @@ export const getFinishQualityEvent = () => {
  * @return {*}
  */
 export const getCompleteEvents = () => {
-  return request({
-    url: api.getCompleteEvents,
-    method: "get"
-  });
+	return request({
+		url: api.getCompleteEvents,
+		method: "get"
+	});
 };
 /**
  * @des:获取所有质量事件
@@ -340,13 +340,13 @@ export const getCompleteEvents = () => {
  * @return {*}
  */
 export const getAllQualityEvents = projectid => {
-  return request({
-    url: api.getAllQualityEvents,
-    method: "get",
-    params: {
-      projectid: projectid || undefined
-    }
-  });
+	return request({
+		url: api.getAllQualityEvents,
+		method: "get",
+		params: {
+			projectid: projectid || undefined
+		}
+	});
 };
 /**
  * @des:获取质量总览右上角数据
@@ -356,13 +356,13 @@ export const getAllQualityEvents = projectid => {
  * @return {*}
  */
 export const getQualityEventsStatistic = (type = 1) => {
-  return request({
-    url: api.getQualityEventsStatistic,
-    method: "get",
-    params: {
-      count: type
-    }
-  });
+	return request({
+		url: api.getQualityEventsStatistic,
+		method: "get",
+		params: {
+			count: type
+		}
+	});
 };
 /**
  * @des:获取质量总览左上角数据
@@ -372,13 +372,13 @@ export const getQualityEventsStatistic = (type = 1) => {
  * @return {*}
  */
 export const getQualityChart = (type = 1) => {
-  return request({
-    url: api.getQualityChart,
-    method: "get",
-    params: {
-      count: type
-    }
-  });
+	return request({
+		url: api.getQualityChart,
+		method: "get",
+		params: {
+			count: type
+		}
+	});
 };
 /**
  * @des:获取质量总览左下角
@@ -388,23 +388,23 @@ export const getQualityChart = (type = 1) => {
  * @return {*}
  */
 export const getAllQualityGetPerday = date => {
-  return request({
-    url: api.getAllQualityGetPerday,
-    method: "get",
-    params: {
-      date
-    }
-  });
+	return request({
+		url: api.getAllQualityGetPerday,
+		method: "get",
+		params: {
+			date
+		}
+	});
 };
 export const getQualityEventsGetDay = (gqid, date) => {
-  return request({
-    url: api.getQualityEventsGetDay,
-    method: "get",
-    params: {
-      gqid,
-      date
-    }
-  });
+	return request({
+		url: api.getQualityEventsGetDay,
+		method: "get",
+		params: {
+			gqid,
+			date
+		}
+	});
 };
 /**
  * @des:删除质量事件
@@ -414,12 +414,12 @@ export const getQualityEventsGetDay = (gqid, date) => {
  * @return {*}
  */
 export const deleteQualityEvent = params => {
-  return request({
-    url: api.deleteQualityEvent,
-    method: "post",
-    data: {},
-    params
-  });
+	return request({
+		url: api.deleteQualityEvent,
+		method: "post",
+		data: {},
+		params
+	});
 };
 
 
@@ -427,290 +427,331 @@ export const deleteQualityEvent = params => {
 //项目相关
 export const getChildProject = params => {
 	// return request.post(api.getChildProject,data)
-  return request({
-    url: api.getChildProject,
-    method: "post",
-    data: {},
-	params
-  });
+	return request({
+		url: api.getChildProject,
+		method: "post",
+		data: {},
+		params
+	});
 };
 export const getCompanyByProjectId = params => {
-  return request({
-    url: api.getCompanyByProjectId,
-    method: "post",
-    data: {},
-    params
-  });
+	return request({
+		url: api.getCompanyByProjectId,
+		method: "post",
+		data: {},
+		params
+	});
 };
 export const getInfoByProjectId = params => {
-  return request({
-    url: api.getInfoByProjectId,
-    method: "post",
-    data: {},
-    params
-  });
+	return request({
+		url: api.getInfoByProjectId,
+		method: "post",
+		data: {},
+		params
+	});
 };
 export const getProjectInfoById = params => {
-  return request({
-    url: api.getProjectInfoById,
-    method: "post",
-    data: {},
-    params
-  });
+	return request({
+		url: api.getProjectInfoById,
+		method: "post",
+		data: {},
+		params
+	});
 };
 export const getProjectRoleTree = params => {
-  return request({
-    url: api.getProjectRoleTree,
-    method: "post",
-    data: {},
-    params
-  });
+	return request({
+		url: api.getProjectRoleTree,
+		method: "post",
+		data: {},
+		params
+	});
 };
 export const getProjectUserTree = params => {
-  return request({
-    url: api.getProjectUserTree,
-    method: "post",
-    data: {},
-    params
-  });
+	return request({
+		url: api.getProjectUserTree,
+		method: "post",
+		data: {},
+		params
+	});
 };
 export const getUserByRoleId = params => {
-  return request({
-    url: api.getUserByRoleId,
-    method: "post",
-    data: {},
-    params
-  });
+	return request({
+		url: api.getUserByRoleId,
+		method: "post",
+		data: {},
+		params
+	});
 };
 /**
  * 上传文件
  */
 export const uploadFile = data => {
-  return request({
-    url: api.uploadFile,
-    method: "post",
-    data: data
-  });
+	return request({
+		url: api.uploadFile,
+		method: "post",
+		data: data
+	});
 };
 /**
  * 查询文件信息
  */
 export const getFileInfo = data => {
-  return request({
-    url: api.getFileInfo,
-    method: "post",
-    data: data
-  });
+	return request({
+		url: api.getFileInfo,
+		method: "post",
+		data: data
+	});
+};
+/**
+ * @des:下载文件
+ * @test:
+ * @msg:
+ * @param {*}
+ * @return {*}
+ */
+export const downloadFile = params => {
+	// return request({
+	//   url: api.downloadFile,
+	//   method: "get",
+	//   params
+	// });
+	var url = '';
+	var fields = [];
+	for (var i in params) {
+		fields.push(i)
+	}
+	for (var i = 0; i < fields.length; i++) {
+		if (i == 0) {
+			url += '?' + fields[i] + '=' + params[fields[i]];
+		} else {
+			url += '&' + fields[i] + '=' + params[fields[i]];
+		}
+	}
+	window.open(api.downloadFile+url,'_blank')
+};
+/**
+ * @des:预览文件
+ * @test:
+ * @msg:
+ * @param {*}
+ * @return {*}
+ */
+export const previewFile = params => {
+	return request({
+		url: api.previewFile,
+		method: "get",
+		params
+	});
 };
 /**
  * 查询待办任务
  */
 export const listHandleTask = data => {
-  return request({
-    url: api.listHandleTask,
-    method: "post",
-    data: data
-  });
+	return request({
+		url: api.listHandleTask,
+		method: "post",
+		data: data
+	});
 };
 /**
  * 查询已办任务
  */
 export const listHistoricTask = data => {
-  return request({
-    url: api.listHistoricTask,
-    method: "post",
-    data: data
-  });
+	return request({
+		url: api.listHistoricTask,
+		method: "post",
+		data: data
+	});
 };
 /**
  * 查询历史任务
  */
 export const listHistoricProcessInstance = data => {
-  return request({
-    url: api.listHistoricProcessInstance,
-    method: "post",
-    data: data
-  });
+	return request({
+		url: api.listHistoricProcessInstance,
+		method: "post",
+		data: data
+	});
 };
 /**
  * 查询省份
  */
 export const getProvince = () => {
-  return request({
-    url: api.getProvince,
-    method: "get",
-    params: {}
-  });
+	return request({
+		url: api.getProvince,
+		method: "get",
+		params: {}
+	});
 };
 /**
  * 提交流程的用户任务
  */
 export const submitUserTask = data => {
-  return request({
-    url: api.submitUserTask,
-    method: "post",
-    data: data
-  });
+	return request({
+		url: api.submitUserTask,
+		method: "post",
+		data: data
+	});
 };
 /**
  * viewRuntimeTaskInfo
  */
 export const viewRuntimeTaskInfo = (params) => {
-  return request({
-    url: api.viewRuntimeTaskInfo,
-    method: "get",
-    params: params
-  });
+	return request({
+		url: api.viewRuntimeTaskInfo,
+		method: "get",
+		params: params
+	});
 };
 /**
  * viewHighlightFlowData
  */
 export const viewHighlightFlowData = (params) => {
-  return request({
-    url: api.viewHighlightFlowData,
-    method: "get",
-    params: params
-  });
+	return request({
+		url: api.viewHighlightFlowData,
+		method: "get",
+		params: params
+	});
 };
 /**
  * viewProcessBpmn
  */
 export const viewProcessBpmn = (params) => {
-  return request({
-    url: api.viewProcessBpmn,
-    method: "get",
-    params: params
-  });
+	return request({
+		url: api.viewProcessBpmn,
+		method: "get",
+		params: params
+	});
 };
 /**
  * listFlowTaskComment
  */
 export const listFlowTaskComment = (params) => {
-  return request({
-    url: api.listFlowTaskComment,
-    method: "get",
-    params: params
-  });
+	return request({
+		url: api.listFlowTaskComment,
+		method: "get",
+		params: params
+	});
 };
 /**
  * viewTaskUserInfo
  */
 export const viewTaskUserInfo = (params) => {
-  return request({
-    url: api.viewTaskUserInfo,
-    method: "get",
-    params: params
-  });
+	return request({
+		url: api.viewTaskUserInfo,
+		method: "get",
+		params: params
+	});
 };
 /**
  * 查询地市
  */
 export const getCity = params => {
-  return request({
-    url: api.getCity,
-    method: "get",
-    params: params
-  });
+	return request({
+		url: api.getCity,
+		method: "get",
+		params: params
+	});
 };
 /**
  * 查询区县
  */
 export const getDistrict = params => {
-  return request({
-    url: api.getDistrict,
-    method: "get",
-    params: params
-  });
+	return request({
+		url: api.getDistrict,
+		method: "get",
+		params: params
+	});
 };
 /**
  * 新增或者更新质量检测数据
  */
 export const addOrUpdateQualityDetection = data => {
-  return request({
-    url: api.addOrUpdateQualityDetection,
-    method: "post",
-    data: data
-  });
+	return request({
+		url: api.addOrUpdateQualityDetection,
+		method: "post",
+		data: data
+	});
 };
 /**
  * 通过id获取一条质量检测数据
  */
 export const getQualityDetectionDetail = params => {
-  return request({
-    url: api.getQualityDetectionDetail,
-    method: "get",
-    params: params
-  });
+	return request({
+		url: api.getQualityDetectionDetail,
+		method: "get",
+		params: params
+	});
 };
 /**
  * 通过id删除一条质量检测数据
  */
 export const deleteQualityDetection = params => {
-  return request({
-    url: api.deleteQualityDetection,
-    method: "get",
-    params: params
-  });
+	return request({
+		url: api.deleteQualityDetection,
+		method: "get",
+		params: params
+	});
 };
 /**
  * 质量检测分页查询
  */
 export const getQualityDetectionList = data => {
-  return request({
-    url: api.getQualityDetectionList,
-    method: "post",
-    data: data
-  });
+	return request({
+		url: api.getQualityDetectionList,
+		method: "post",
+		data: data
+	});
 };
 /**
  * 获取材料枚举
  */
-export const getMaterialEnums=()=>{
+export const getMaterialEnums = () => {
 	return request({
-	  url: api.getMaterialEnums,
-	  method: "get",
-	  params: {}
+		url: api.getMaterialEnums,
+		method: "get",
+		params: {}
 	});
 }
 /**
  * 新增或者更新隐蔽工程验收记录数据
  */
 export const addOrUpdateHiddenProject = data => {
-  return request({
-    url: api.addOrUpdateHiddenProject,
-    method: "post",
-    data: data
-  });
+	return request({
+		url: api.addOrUpdateHiddenProject,
+		method: "post",
+		data: data
+	});
 };
 /**
  * 通过id获取一条隐蔽工程验收记录数据
  */
 export const getHiddenProjectDetail = params => {
-  return request({
-    url: api.getHiddenProjectDetail,
-    method: "get",
-    params: params
-  });
+	return request({
+		url: api.getHiddenProjectDetail,
+		method: "get",
+		params: params
+	});
 };
 /**
  * 通过id删除一条隐蔽工程验收记录数据
  */
 export const deleteHiddenProject = params => {
-  return request({
-    url: api.deleteHiddenProject,
-    method: "get",
-    params: params
-  });
+	return request({
+		url: api.deleteHiddenProject,
+		method: "get",
+		params: params
+	});
 };
 /**
  * 分页查询隐蔽工程验收记录数据
  */
 export const getHiddenProjectList = data => {
-  return request({
-    url: api.getHiddenProjectList,
-    method: "post",
-    data: data
-  });
+	return request({
+		url: api.getHiddenProjectList,
+		method: "post",
+		data: data
+	});
 };
 //-----------------------流程引擎新增接口 ------------------------
 
@@ -719,87 +760,95 @@ export const getHiddenProjectList = data => {
 /**
  * 管理目标分页查询
  */
- export const getManagementObjectList = data => {
-  return request({
-    url: api.getManagementObjectList,
-    method: "post",
-    data: data
-  });
+export const getManagementObjectList = data => {
+	return request({
+		url: api.getManagementObjectList,
+		method: "post",
+		data: data
+	});
 };
 /**
-* 新增或更新 管理目标 数据
-*/
+ * 新增或更新 管理目标 数据
+ */
 export const addOrUpdateManagementObjectList = data => {
-  return request({
-    url: api.addOrUpdateManagementObjectList,
-    method: "post",
-    data: data
-  });
- };
+	return request({
+		url: api.addOrUpdateManagementObjectList,
+		method: "post",
+		data: data
+	});
+};
 
- /**
+/**
  * 通过id获取一条管理目标数据
  */
- export const getManagementObject = id => {
-   return request({
-     url: api.getManagementObject,
-     method: "get",
-     params: {id}
-   });
-  };
+export const getManagementObject = id => {
+	return request({
+		url: api.getManagementObject,
+		method: "get",
+		params: {
+			id
+		}
+	});
+};
 
 /**
  * 删除 管理目标 数据
-*/
+ */
 export const deleteManagementObject = id => {
-  return request({
-    url: api.deleteManagementObject,
-    method: "get",
-    params: {id}
-  });
- };
+	return request({
+		url: api.deleteManagementObject,
+		method: "get",
+		params: {
+			id
+		}
+	});
+};
 
- 
+
 /**
  * 管理目标分页查询
  */
- export const getManageRegimeList = data => {
-  return request({
-    url: api.getManageRegimeList,
-    method: "post",
-    data: data
-  });
+export const getManageRegimeList = data => {
+	return request({
+		url: api.getManageRegimeList,
+		method: "post",
+		data: data
+	});
 };
 /**
-* 新增或更新 管理目标 数据
-*/
+ * 新增或更新 管理目标 数据
+ */
 export const addOrUpdateManageRegimeList = data => {
-  return request({
-    url: api.addOrUpdateManageRegimeList,
-    method: "post",
-    data: data
-  });
- };
+	return request({
+		url: api.addOrUpdateManageRegimeList,
+		method: "post",
+		data: data
+	});
+};
 
- /**
+/**
  * 通过id获取一条管理目标数据
  */
- export const getManageRegime = id => {
-   return request({
-     url: api.getManageRegime,
-     method: "get",
-     params: {id}
-   });
-  };
+export const getManageRegime = id => {
+	return request({
+		url: api.getManageRegime,
+		method: "get",
+		params: {
+			id
+		}
+	});
+};
 
 /**
  * 删除 管理目标 数据
-*/
+ */
 export const deleteManageRegime = id => {
-  return request({
-    url: api.deleteManageRegime,
-    method: "get",
-    params: {id}
-  });
- };
+	return request({
+		url: api.deleteManageRegime,
+		method: "get",
+		params: {
+			id
+		}
+	});
+};
 //-----------------------流程引擎新增接口 ZH ---------------------

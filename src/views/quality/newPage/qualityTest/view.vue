@@ -102,18 +102,8 @@
 						<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 							文件，且不超过 200M</span>
 					</div>
-					<div class="block-table">
-						<el-table :data="reportTable" style="width: 100%" border class="have_scrolling">
-							<el-table-column type="index" width="50" align="center" label="序号">
-							</el-table-column>
-							<el-table-column prop="fileName" align="center" label="附件" show-overflow-tooltip>
-							</el-table-column>
-							<el-table-column prop="createTime" width="160px" align="center" label="上传日期">
-							</el-table-column>
-							<el-table-column prop="creatorName" width="120px" align="center" label="上传人">
-							</el-table-column>
-						</el-table>
-					</div>
+					<attachlist :editAble="false" ref="attachlist" :attachTable="reportTable"></attachlist>
+					
 				</div>
 				<div class="form-block">
 					<div class="form-block-title">
@@ -121,18 +111,8 @@
 						<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 							文件，且不超过 200M</span>
 					</div>
-					<div class="block-table">
-						<el-table :data="factoryTable" style="width: 100%" border class="have_scrolling">
-							<el-table-column type="index" width="50" align="center" label="序号">
-							</el-table-column>
-							<el-table-column prop="pro" align="center" label="附件" show-overflow-tooltip>
-							</el-table-column>
-							<el-table-column prop="qualityfirstname" width="160px" align="center" label="上传日期">
-							</el-table-column>
-							<el-table-column prop="qualitysecondname" width="120px" align="center" label="上传人">
-							</el-table-column>
-						</el-table>
-					</div>
+					<attachlist :editAble="false" ref="attachlist" :attachTable="factoryTable"></attachlist>
+					
 				</div>
 				<div class="form-block">
 					<div class="form-block-title">
@@ -140,18 +120,8 @@
 						<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 							文件，且不超过 200M</span>
 					</div>
-					<div class="block-table">
-						<el-table :data="attachTable" style="width: 100%" border class="have_scrolling">
-							<el-table-column type="index" width="50" align="center" label="序号">
-							</el-table-column>
-							<el-table-column prop="pro" align="center" label="附件" show-overflow-tooltip>
-							</el-table-column>
-							<el-table-column prop="qualityfirstname" width="160px" align="center" label="上传日期">
-							</el-table-column>
-							<el-table-column prop="qualitysecondname" width="120px" align="center" label="上传人">
-							</el-table-column>
-						</el-table>
-					</div>
+					<attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>
+					
 					<div class="block-line">
 						<div class="block-item">
 							<div class="block-item-label">备注</div>
@@ -194,6 +164,8 @@
 		convertOptions,
 		getQueryVariable
 	} from "@/utils/format.js";
+	import attachlist from "../../../common/attachlist"
+	
 	export default {
 		data() {
 			return {
@@ -230,6 +202,7 @@
 		},
 		created() {},
 		components: {
+			attachlist
 		},
 		computed: {},
 		watch: {

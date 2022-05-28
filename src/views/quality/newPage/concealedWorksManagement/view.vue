@@ -93,28 +93,12 @@
 
 					<div class="block-line">
 						<div class="block-table-title">附件</div>
-						<div class="block-table-btns">
+				<!-- 		<div class="block-table-btns">
 							<el-button size="small" type="primary">下载全部</el-button>
-						</div>
+						</div> -->
 					</div>
-					<div class="block-table">
-						<el-table :data="attachTable" style="width: 100%" border class="have_scrolling">
-							<el-table-column type="index" width="50" align="center" label="序号">
-							</el-table-column>
-							<el-table-column prop="fileName" align="center" label="附件" show-overflow-tooltip>
-							</el-table-column>
-							<el-table-column prop="createTime" width="160px" align="center" label="上传日期">
-							</el-table-column>
-							<el-table-column prop="creatorName" width="120px" align="center" label="上传人">
-							</el-table-column>
-							<el-table-column fixed="right" width="120" align="center" label="操作">
-								<template slot-scope="{ row, $index }">
-									<el-button type="primary" size="mini">下载</el-button>
-									<el-button type="danger" size="mini">预览</el-button>
-								</template>
-							</el-table-column>
-						</el-table>
-					</div>
+					<attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>
+					
 				</div>
 
 				<div class="form-title">
@@ -176,6 +160,8 @@
 		convertOptions,
 		getQueryVariable
 	} from "@/utils/format.js";
+	import attachlist from "../../../common/attachlist"
+	
 	export default {
 		props: ['detailRow'],
 		data() {
@@ -209,7 +195,9 @@
 			};
 		},
 		created() {},
-		components: {},
+		components: {
+			attachlist
+		},
 		computed: {},
 		mounted() {
 			setTimeout(() => {
