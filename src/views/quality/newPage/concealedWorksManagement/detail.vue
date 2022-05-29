@@ -13,7 +13,7 @@
 							<el-form ref="form" label-width="80px">
 								<div class="form-title">
 									<div class="title-big-bar"></div>
-									<strong>隐蔽工程验收记录-浙公路（JL）011</strong>
+									<strong>隐蔽工程管理</strong>
 								</div>
 		
 								<div class="form-block">

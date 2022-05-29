@@ -13,7 +13,7 @@
 							<el-form :model="formData" :rules="rules" ref="ruleForm" label-width="80px">
 								<div class="form-title">
 									<div class="title-big-bar"></div>
-									<strong>隐蔽功能验收记录-浙公路（JL）011</strong>
+									<strong>隐蔽工程管理</strong>
 									<div class="form-btns">
 										<el-button size="medium">暂存</el-button>
 										<el-button size="medium">保存草稿</el-button>

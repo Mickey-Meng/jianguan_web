@@ -7,7 +7,7 @@
 @modifierTime:
 -->
 <template>
-	<div>
+	<div class="tab-page">
 		<el-tabs v-model="activeName">
 			<el-tab-pane label="人员报审" name="first">
 				<el-container class="container-box">
