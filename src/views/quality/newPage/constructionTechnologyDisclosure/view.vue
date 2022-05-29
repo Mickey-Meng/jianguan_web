@@ -133,7 +133,7 @@
 					buildCheckselfResult: '',
 					deletedFlag: 1,
 					draftFlag: 1,
-					hiddenProject: '',
+					BuildTechBottom: '',
 					id: null,
 					projectBuildUser: 1,
 					projectChargeUser: 1,
@@ -171,7 +171,7 @@
 		},
 		methods: {
 			getDetail(id) {
-				api.getHiddenProjectDetail({
+				api.getBuildTechBottomDetail({
 					id: id
 				}).then((res) => {
 					let data = res['data'] || {};

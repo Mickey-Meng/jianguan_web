@@ -30,7 +30,7 @@
 										<div class="block-item">
 											<div class="block-item-label">登记时间</div>
 											<div class="block-item-value">
-												{{baseInfo.contractCode}}
+												{{formData.checkDate}}
 											</div>
 										</div>
 									</div>
@@ -38,13 +38,13 @@
 										<div class="block-item">
 											<div class="block-item-label">工程名称</div>
 											<div class="block-item-value">
-												{{baseInfo.buildCompany}}
+												{{baseInfo.buildSectionName}}
 											</div>
 										</div>
 										<div class="block-item">
 											<div class="block-item-label">施工单位</div>
 											<div class="block-item-value">
-												{{baseInfo.supervisionUnit}}
+												{{baseInfo.buildCompany}}
 											</div>
 										</div>
 									</div>
@@ -53,13 +53,13 @@
 										<div class="block-item">
 											<div class="block-item-label">施工技术交底概述</div>
 											<div class="block-item-value">
-												{{formData.projectCode}}
+												{{formData.buildTechBottom}}
 											</div>
 										</div>
 										<div class="block-item">
 											<div class="block-item-label">备注</div>
 											<div class="block-item-value">
-												{{formData.projectCode}}
+												{{formData.remark}}
 											</div>
 										</div>
 									</div>
@@ -139,6 +139,7 @@
 	import * as api from "@/api/quality";
 	import {
 		convertOptions,
+		createProjectInfo,
 		getQueryVariable
 	} from "@/utils/format.js";
 	import tasklog from "../../../common/tasklog.vue"
@@ -161,11 +162,15 @@
 					supervisionUnit: '浙江交科公路水运工程监理有限公司',
 				},
 				formData: { //表单参数
+					buildSection: 1, // 施工标段id
+					buildTechBottom: '', // 施工交底概述
+					checkDate: '', // 登记时间
+					remark: '', // 备注
+
 					attachment:[],
 					buildCheckselfResult:'',
 					deletedFlag:1,
 					draftFlag:1,
-					hiddenProject:'',
 					id:null,
 					projectBuildUser:1,
 					projectChargeUser:1,
@@ -197,6 +202,7 @@
 			// 		this.getDetail(params['businessKey']);
 			// 	}
 			// },500)
+			this.getProjectInfoById();
 		},
 		watch:{
 			detailRow(obj){
@@ -214,9 +220,24 @@
 			changeVisible(value){
 				this.dialogFormVisible=value;
 			},
+			getProjectInfoById(){
+				api.getProjectInfoById({
+					projectid: this.$store.getters.project['id']
+				}).then((res) => {
+					let data = res['data'] || {};
+					this.baseInfo['buildSectionName'] = data['project'] ? data['project']['name'] : '';
+					let list = data['companys'] || [];
+					let info = createProjectInfo(list);
+					this.baseInfo['buildCompany'] = info['buildCompany'];
+					this.baseInfo['supervisionUnit'] = info['supervisionUnit'];
+
+					this.formData['buildSection'] = data['project'] ? data['project']['id'] : 1;
+				});
+			},
 			getDetail(id){
-				api.getHiddenProjectDetail({id:id}).then((res) => {
+				api.getBuildTechBottomDetail({id:id}).then((res) => {
 					let data=res['data']||{};
+					console.log(res)
 					this.formData=data;
 					this.attachTable=data.attachment||[];
 				});

@@ -11,13 +11,13 @@
 		<el-header>
 			<div class="input-box">
 				<div class="input-value">
-					<el-input v-model="queryData.projectCode" placeholder="施工标段"></el-input>
+					<el-input v-model="queryData.buildSectionName" placeholder="施工标段"></el-input>
 				</div>
 
 			</div>
 			<div class="input-box">
 				<div class="input-value">
-					<el-input v-model="queryData.subProject" placeholder="创建人"></el-input>
+					<el-input v-model="queryData.createName" placeholder="创建人"></el-input>
 				</div>
 			</div>
 			<div class="input-box">
@@ -27,16 +27,16 @@
 			</div>
 			<div class="input-box">
 				<div class="input-value">
-					<el-date-picker v-model="value1" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+					<el-date-picker v-model="queryData.checkDate" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" @change="queryTimeFormat">
                </el-date-picker>
 				</div>
 			</div>
 			<div class="input-box">
 				<div class="input-value">
-					<el-input v-model="queryData.subProject" placeholder="施工单位"></el-input>
+					<el-input v-model="queryData.buildCompany" placeholder="施工单位"></el-input>
 				</div>
 			</div>
-			<el-button type="primary">搜索</el-button>
+			<el-button type="primary" @click="query">搜索</el-button>
 
 			<div class="right-btns">
 				<!-- <el-button type="primary" size="small"
@@ -55,15 +55,15 @@
 					class="have_scrolling">
 					<el-table-column type="index" width="50" align="center" label="序号">
 					</el-table-column>
-					<el-table-column prop="projectName" align="center" label="施工标段" show-overflow-tooltip>
+					<el-table-column prop="buildSectionName" align="center" label="施工标段" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="buildUnit" align="center" label="施工单位" show-overflow-tooltip>
+					<el-table-column prop="buildUnits" align="center" label="施工单位" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="contractCode" align="center" label="施工技术交底概述" show-overflow-tooltip>
+					<el-table-column prop="buildTechBottom" align="center" label="施工技术交底概述" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="supervisorUnit" align="center" label="登记人" show-overflow-tooltip>
+					<el-table-column prop="createName" align="center" label="登记人" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="buildSectionId" align="center" label="登记时间" show-overflow-tooltip>
+					<el-table-column prop="checkDate" align="center" label="登记时间" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="supervisorSection" align="center" label="状态描述">
 					</el-table-column>
@@ -87,7 +87,11 @@
 </template>
 
 <script>
+	
 	import * as api from "@/api/quality";
+	import {
+		formatDate,
+	} from "@/utils/format.js";
 	import edit from './constructionTechnologyDisclosure/edit';
 	import detail from './constructionTechnologyDisclosure/detail';
 	export default {
@@ -99,6 +103,12 @@
 				dialogTitle: '智慧建设通用版-【绍兴市】235国道杭州',
 				dialogFormVisible: false,
 				queryData: {
+					buildSectionName: '',
+					createName: '',
+					startCheckDate: '',
+					endCheckDate: '',
+					checkDate: '',
+
 					projectCode: '',
 					subProject: '',
 					pageNum: 1,
@@ -120,8 +130,13 @@
 			this.query();
 		},
 		methods: {
+			queryTimeFormat(res) {
+				console.log(res);
+				this.queryData.startCheckDate = formatDate(res[0]);
+				this.queryData.endCheckDate = formatDate(res[1]);
+			},
 			query() {
-				api.getHiddenProjectList(this.queryData).then((res) => {
+				api.getBuildTechBottomList(this.queryData).then((res) => {
 					this.allData = res.data || {};
 					this.tableData = this.formateTableData(res.data.list);
 					this.queryData.pageNum=res.data.pageNum;
@@ -160,7 +175,7 @@
 					cancelButtonText: '取消',
 					type: 'warning'
 				}).then(() => {
-					api.deleteHiddenProject({id:row['id']}).then((res) => {
+					api.deleteBuildTechBottom({id:row['id']}).then((res) => {
 						this.query();
 						this.$message({
 							type: 'success',

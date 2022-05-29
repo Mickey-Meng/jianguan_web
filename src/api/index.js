@@ -242,6 +242,13 @@ const api = {
   getManageRegime: "/ZhuJiApi/web/api/v1/manageRegime/detail/id", // 通过id获取一条管理制度数据
   deleteManageRegime: "/ZhuJiApi/web/api/v1/manageRegime/id", // 删除单个管理制度数据
   getManageRegimeList: "/ZhuJiApi/web/api/v1/manageRegime/page", // 管理制度list
+
+  
+  //施工技术交底
+  getBuildTechBottomList: "/ZhuJiApi/web/api/v1/buildTechBottom/page",
+  getBuildTechBottomDetail: "/ZhuJiApi/web/api/v1/buildTechBottom/detail/id",
+  addOrUpdateBuildTechBottom: "/ZhuJiApi/web/api/v1/buildTechBottom/addOrUpdate",
+  deleteBuildTechBottom: "/ZhuJiApi/web/api/v1/buildTechBottom/id",
   //-----------------------流程引擎新增接口 ZH ----------------------
 
 

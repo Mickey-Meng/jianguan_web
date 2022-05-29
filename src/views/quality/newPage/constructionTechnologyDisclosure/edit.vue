@@ -36,7 +36,7 @@
 										<div class="block-item">
 											<div class="block-item-label">登记时间</div>
 											<div class="block-item-value">
-												{{baseInfo.contractCode}}
+												{{formData.checkDate}}
 											</div>
 										</div>
 									</div>
@@ -44,13 +44,13 @@
 										<div class="block-item">
 											<div class="block-item-label">工程名称</div>
 											<div class="block-item-value">
-												{{baseInfo.buildCompany}}
+												{{baseInfo.buildSectionName}}
 											</div>
 										</div>
 										<div class="block-item">
 											<div class="block-item-label">施工单位</div>
 											<div class="block-item-value">
-												{{baseInfo.supervisionUnit}}
+												{{baseInfo.buildCompany}}
 											</div>
 										</div>
 									</div>
@@ -59,13 +59,13 @@
 										<div class="block-item">
 											<div class="block-item-label">施工技术交底概述</div>
 											<div class="block-item-value">
-												<el-input v-model="formData.projectCode" type="textarea" :rows="4"></el-input>
+												<el-input v-model="formData.buildTechBottom" type="textarea" :rows="4"></el-input>
 											</div>
 										</div>
 										<div class="block-item">
 											<div class="block-item-label">备注</div>
 											<div class="block-item-value">
-												<el-input v-model="formData.projectCode" type="textarea" :rows="4"></el-input>
+												<el-input v-model="formData.remark" type="textarea" :rows="4"></el-input>
 											</div>
 										</div>
 									</div>
@@ -175,9 +175,30 @@
 </template>
 
 <script>
+	Date.prototype.format = function (fmt) {
+		var o = {
+			"M+": this.getMonth() + 1, //月份
+			"d+": this.getDate(), //日
+			"h+": this.getHours(), //小时
+			"m+": this.getMinutes(), //分
+			"s+": this.getSeconds(), //秒
+			"q+": Math.floor((this.getMonth() + 3) / 3), //季度
+			"S": this.getMilliseconds() //毫秒
+		};
+		if (/(y+)/.test(fmt)) {
+			fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+		}
+		for (var k in o) {
+			if (new RegExp("(" + k + ")").test(fmt)) {
+			fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+			}
+		}
+		return fmt;
+	}
 	import * as api from "@/api/quality";
 	import {
 		formatDateTime,
+		formatDate,
 		createProjectInfo
 	} from "@/utils/format.js";
 	import upload from "../../../common/upload.vue"
@@ -206,7 +227,7 @@
 						message: '请填写	单位、分部工程',
 						trigger: 'blur'
 					}],
-					hiddenProject: [{
+					BuildTechBottom: [{
 						required: true,
 						message: '请填写隐蔽工程项目',
 						trigger: 'blur'
@@ -235,11 +256,16 @@
 					supervisionUnit: '',
 				},
 				formData: { //表单参数
+					buildSection: 1, // 施工标段id
+					buildTechBottom: '', // 施工交底概述
+					checkDate: formatDate(new Date()), // 登记时间
+					remark: '', // 备注
+
 					attachment: [],
 					buildCheckselfResult: '',
 					deletedFlag: 1,
 					draftFlag: 1,
-					hiddenProject: '',
+					BuildTechBottom: '',
 					// id: null,
 					projectBuildUser: 1,
 					projectChargeUser: 1,
@@ -273,7 +299,7 @@
 						buildCheckselfResult: '',
 						deletedFlag: 1,
 						draftFlag: 1,
-						hiddenProject: '',
+						BuildTechBottom: '',
 						// id: null,
 						projectBuildUser: 1,
 						projectChargeUser: 1,
@@ -302,10 +328,12 @@
 					let info=createProjectInfo(list);
 					this.baseInfo['buildCompany']=info['buildCompany'];
 					this.baseInfo['supervisionUnit']=info['supervisionUnit'];
+
+					this.formData['buildSection'] = data['project'] ? data['project']['id'] : 1;
 				});
 			},
 			getDetail(id) {
-				api.getHiddenProjectDetail({
+				api.getBuildTechBottomDetail({
 					id: id
 				}).then((res) => {
 					let data = res['data'] || {};
@@ -317,7 +345,7 @@
 				this.$refs['ruleForm'].validate((valid) => {
 					if(valid){
 						this.formData.attachment=this.attachTable;
-						api.addOrUpdateHiddenProject(this.formData).then((res) => {
+						api.addOrUpdateBuildTechBottom(this.formData).then((res) => {
 							if (res.data) {
 								this.$message({
 									type: 'success',
