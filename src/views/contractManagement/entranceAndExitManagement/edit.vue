@@ -241,7 +241,7 @@
 							<div class="block-item-label">是否到过中高风险地区<i class="require-icon"></i></div>
 							<div class="block-item-value">
 								<el-form-item prop="isRisk">
-									<el-select v-model="formData.isRisk" placeholder="请选择">
+									<el-select v-model="inoutUserInfo.isRisk" placeholder="请选择">
 										<el-option v-for="item in boolOptions" :key="item.value" :label="item.label"
 											:value="item.value">
 										</el-option>
@@ -281,7 +281,7 @@
 							<div class="block-item-label">是否完成疫苗接种<i class="require-icon"></i></div>
 							<div class="block-item-value">
 								<el-form-item prop="isVaccine">
-									<el-select v-model="formData.isVaccine" placeholder="请选择">
+									<el-select v-model="inoutUserInfo.isVaccine" placeholder="请选择">
 										<el-option v-for="item in boolOptions" :key="item.value" :label="item.label"
 											:value="item.value">
 										</el-option>
@@ -293,7 +293,7 @@
 							<div class="block-item-label">健康码（是否为绿码）<i class="require-icon"></i></div>
 							<div class="block-item-value">
 								<el-form-item prop="isHealth">
-									<el-select v-model="formData.isHealth" placeholder="请选择">
+									<el-select v-model="inoutUserInfo.isHealth" placeholder="请选择">
 										<el-option v-for="item in boolOptions" :key="item.value" :label="item.label"
 											:value="item.value">
 										</el-option>

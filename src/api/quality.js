@@ -574,6 +574,16 @@ export const listHistoricProcessInstance = data => {
 	});
 };
 /**
+ * 
+ */
+export const rejectRuntimeTask = data => {
+	return request({
+		url: api.rejectRuntimeTask,
+		method: "post",
+		data: data
+	});
+};
+/**
  * 查询省份
  */
 export const getProvince = () => {
