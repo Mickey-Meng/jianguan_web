@@ -35,7 +35,7 @@
 								<el-table-column prop="buildSectionName" align="center" label="施工标段"
 									show-overflow-tooltip>
 								</el-table-column>
-								<el-table-column prop="buildUnits" align="center" label="施工单位" show-overflow-tooltip>
+								<el-table-column prop="buildUnitsStr" align="center" label="施工单位" show-overflow-tooltip>
 								</el-table-column>
 								<el-table-column prop="typeStr" align="center" label="报审类型" show-overflow-tooltip>
 								</el-table-column>
@@ -202,11 +202,18 @@
 			query() {
 				api.getEnterExitList(this.queryData).then((res) => {
 					this.allData = res.data || {};
-					this.tableData = this.allData['list'] || [];
+					this.tableData = this.formateTableData(res.data.list);
 					this.queryData.pageNum = res.data.pageNum;
 					this.queryData.totalPage = res.data.total;
 					this.queryData.pageSize = res.data.pageSize;
 				});
+			},
+			formateTableData(list) {
+				list = list || [];
+				list.forEach(item => {
+					item['buildUnitsStr'] = item['buildUnits']?item['buildUnits'].join('、'):'';
+				})
+				return list;
 			},
 			query_1() {
 				api.getEnterExitUserList(this.queryData_1).then((res) => {
@@ -235,7 +242,7 @@
 					cancelButtonText: '取消',
 					type: 'warning'
 				}).then(() => {
-					api.deleteContractLabor(row['id']).then((res) => {
+					api.deleteEnterExit(row['id']).then((res) => {
 						if (this.tableData.length == 1) {
 							this.queryData.pageNum = this.queryData.pageNum> 1 ? this.queryData.pageNum - 1 : 1
 						}

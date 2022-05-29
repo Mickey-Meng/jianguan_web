@@ -165,6 +165,6 @@ export const getEnterExitUserList = data => {
 	return request({
 		url: api.getEnterExitUserList,
 		method: "post",
-		data: data
+		data:data
 	});
 };
