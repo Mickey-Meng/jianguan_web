@@ -99,7 +99,7 @@
 					deletedFlag: 1,
 					draftFlag: 1,
 					payUnit:'',
-					projectId: this.$store.getters.project['id'],
+					projectId: this.$store.getters.project['parentid'],
 					payDate:formatDate(new Date())
 				},
 				attachTable: []

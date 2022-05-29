@@ -187,46 +187,6 @@
 										</div>
 									</div>
 								</div>
-
-								<div class="form-title">
-									<div class="title-big-bar"></div><strong>审核人员</strong>
-								</div>
-								<div class="form-block">
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">岗位</div>
-											<div class="block-item-value">
-												施工负责人
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">审核人<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												<el-form-item prop="detectionUser">
-													<el-select v-model="formData.detectionUser" placeholder="请选择">
-														<el-option v-for="item in userOptions" :key="item.value"
-															:label="item.label" :value="item.value">
-														</el-option>
-													</el-select>
-												</el-form-item>
-											</div>
-										</div>
-									</div>
-									<!-- <div class="block-line">
-									<div class="block-item">
-										<div class="block-item-label"></div>
-										<div class="block-item-value">
-											<el-select v-model="value" placeholder="请选择">
-												<el-option v-for="item in options" :key="item.value"
-													:label="item.label" :value="item.value">
-												</el-option>
-											</el-select>
-										</div>
-									</div>
-								</div> -->
-								</div>
 								<div class="form-block">
 									<el-button class="submit-btn" size="small" type="primary" @click="addOrModify">提交
 									</el-button>
@@ -422,10 +382,6 @@
 					label: '不合格',
 					value: 1
 				}],
-				userOptions: [{
-					label: '陈武林',
-					value: 1
-				}],
 				dialogTitle: '项目全生命周期数字管理平台',
 				annexTableData: [],
 				activeName: 'first',
@@ -446,12 +402,11 @@
 					detectionReport: [],
 					factoryInfo: [],
 					otherAttachment: [],
-					detectionUser: 1,
 					draftFlag: 1,
 					fillDate: formatDate(new Date()),
 					// id: 222,
 					inspectionCode: '',
-					projectId: this.$store.getters.project['id'],
+					projectId: this.$store.getters.project['parentid'],
 					remark: '',
 					// createTime: null,
 					// createUserId: null,
@@ -472,11 +427,6 @@
 					fillDate: [{
 						required: true,
 						message: '请选择填报日期',
-						trigger: 'blur'
-					}],
-					detectionUser: [{
-						required: true,
-						message: '请选择审核人员',
 						trigger: 'blur'
 					}]
 				},
@@ -580,12 +530,11 @@
 						detectionReport: [],
 						factoryInfo: [],
 						otherAttachment: [],
-						detectionUser: 1,
 						draftFlag: 1,
 						fillDate: formatDate(new Date()),
 						// id: 222,
 						inspectionCode: '',
-						projectId: this.$store.getters.project['id'],
+						projectId: this.$store.getters.project['parentid'],
 						remark: '',
 					}
 				}
@@ -602,7 +551,7 @@
 			},
 			getChildProject(){
 				api.getChildProject({
-					projectid:this.$store.getters.project['id']
+					projectid:this.$store.getters.project['parentid']
 				}).then((res) => {
 					let options = res.data || [];
 					this.childOptions = convertOptions(options, 'name', 'id');

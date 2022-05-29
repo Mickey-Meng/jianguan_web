@@ -121,56 +121,7 @@
 									</div>
 								</div>
 								
-								<div class="form-block">
-									<div class="form-block-title">
-										<div class="title-bar"></div><strong>待处理人</strong>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">项目经理<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												<el-form-item prop="projectManageUser">
-													<el-select v-model="formData.projectManageUser" placeholder="请选择">
-														<el-option v-for="item in userOptions" :key="item.value"
-															:label="item.label" :value="item.value">
-														</el-option>
-													</el-select>
-												</el-form-item>
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">监理办<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												<el-form-item prop="supervisionUser">
-													<el-select v-model="formData.supervisionUser" placeholder="请选择">
-														<el-option v-for="item in userOptions" :key="item.value"
-															:label="item.label" :value="item.value">
-														</el-option>
-													</el-select>
-												</el-form-item>
-
-
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">指挥部<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												<el-form-item prop="commandUser">
-													<el-select v-model="formData.commandUser" placeholder="请选择">
-														<el-option v-for="item in userOptions" :key="item.value"
-															:label="item.label" :value="item.value">
-														</el-option>
-													</el-select>
-												</el-form-item>
-
-											</div>
-										</div>
-									</div>
-								</div>
+								
 								<div class="form-block">
 									<el-button @click="addOrModify" class="submit-btn" size="small" type="primary">提交
 									</el-button>
@@ -309,21 +260,7 @@
 						message: '请填写合同编号',
 						trigger: 'blur'
 					}],
-					projectManageUser: [{
-						required: true,
-						message: '请选择项目经理',
-						trigger: 'blur'
-					}],
-					supervisionUser: [{
-						required: true,
-						message: '请选择监理办',
-						trigger: 'blur'
-					}],
-					commandUser: [{
-						required: true,
-						message: '请选择指挥部',
-						trigger: 'blur'
-					}]
+					
 				},
 				newrules:{
 					buildProjectName: [{
@@ -351,16 +288,13 @@
 				formData: { //表单参数
 					attachment: [],
 					buildSection: '4',
-					commandUser: 1,
 					contractCode: '',
 					contractInfo: [],
 					contractUser: '',
 					deletedFlag: 1,
 					draftFlag: 1,
-					projectId: this.$store.getters.project['id'],
-					projectManageUser: 1,
+					projectId: this.$store.getters.project['parentid'],
 					projectName: '',
-					supervisionUser: 1
 				},
 				attachTable: [], //附件
 				contractTable: [],
@@ -395,16 +329,13 @@
 					this.formData = {
 						attachment: [],
 						buildSection: '4',
-						commandUser: 1,
 						contractCode: '',
 						contractInfo: [],
 						contractUser: '',
 						deletedFlag: 1,
 						draftFlag: 1,
-						projectId: this.$store.getters.project['id'],
-						projectManageUser: 1,
+						projectId: this.$store.getters.project['parentid'],
 						projectName: '',
-						supervisionUser: 1
 					}
 				}
 			}

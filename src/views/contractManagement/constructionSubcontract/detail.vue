@@ -95,35 +95,7 @@
 								</div>
 								
 								
-								<div class="form-block">
-									<div class="form-block-title">
-										<div class="title-bar"></div><strong>待处理人</strong>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">项目经理</div>
-											<div class="block-item-value">
-												{{formData.projectManageUser}}
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">监理办</div>
-											<div class="block-item-value">
-												{{formData.supervisionUser}}
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">指挥部</div>
-											<div class="block-item-value">
-												{{formData.commandUser}}
-											</div>
-										</div>
-									</div>
-								</div>
+								
 							</el-form>
 							<taskhandle :taskInfo="taskInfo"></taskhandle>
 						</div>
@@ -167,16 +139,14 @@
 				formData: { //表单参数
 					attachment: [],
 					buildSection: '4',
-					commandUser: 1,
 					contractCode: '',
 					contractInfo: [],
 					contractUser: '',
 					deletedFlag: 1,
 					draftFlag: 1,
-					projectId: this.$store.getters.project['id'],
-					projectManageUser: 1,
+					projectId: this.$store.getters.project['parentid'],
+
 					projectName: '',
-					supervisionUser: 1
 				},
 				attachTable: [], //附件
 				contractTable: [],

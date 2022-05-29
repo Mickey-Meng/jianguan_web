@@ -13,7 +13,7 @@
 							<el-form :model="formData" :rules="rules" ref="ruleForm" label-width="80px">
 								<div class="form-title">
 									<div class="title-big-bar"></div>
-									<strong>劳务分包合同</strong>
+									<strong>往来款管理</strong>
 									<div class="form-btns">
 										<el-button size="medium">暂存</el-button>
 										<el-button size="medium">保存草稿</el-button>
@@ -197,7 +197,7 @@
 					deletedFlag: 1,
 					draftFlag: 1,
 					payUnit:'',
-					projectId: this.$store.getters.project['id'],
+					projectId: this.$store.getters.project['parentid'],
 					payDate:formatDate(new Date()),
 					status:0
 				},
@@ -227,7 +227,7 @@
 						deletedFlag: 1,
 						draftFlag: 1,
 						payUnit:'',
-						projectId: this.$store.getters.project['id'],
+						projectId: this.$store.getters.project['parentid'],
 						payDate:formatDate(new Date())
 					}
 				}
@@ -246,7 +246,7 @@
 			},
 			getChildProject(){
 				proapi.getChildProject({
-					projectid:this.$store.getters.project['id']
+					projectid:this.$store.getters.project['parentid']
 				}).then((res) => {
 					let options = res.data || [];
 					this.childOptions = convertOptions(options, 'name', 'id');

@@ -50,7 +50,7 @@
 			<el-button type="primary" @click="query">搜索</el-button>
 			<div class="right-btns">
 				<div class="operate-btns" v-show="operateBtnsVisible">
-					<el-button size="small" @click="addNew">新增质量检测</el-button>
+					<el-button size="small" @click="addNew">新增</el-button>
 					<el-button size="small">导出</el-button>
 					<el-button size="small">批量操作</el-button>
 				</div>
@@ -136,7 +136,7 @@
 					pageNum: 1,
 					totalPage: 1,
 					pageSize: 10,
-					projectId:this.$store.getters.project['id']
+					projectId:this.$store.getters.project['parentid']
 				},
 				currentPattern: 0, //0查看，1新增，2修改
 				editRow: null,

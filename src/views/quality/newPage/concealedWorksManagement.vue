@@ -27,7 +27,7 @@
 					:icon="operateBtnsVisible?'el-icon-d-arrow-right':'el-icon-d-arrow-left'"
 					@click="operateBtnsVisible=!operateBtnsVisible"></el-button> -->
 				<div class="operate-btns" v-show="operateBtnsVisible">
-					<el-button size="small" @click="addNew">新增验收记录</el-button>
+					<el-button size="small" @click="addNew">新增</el-button>
 					<el-button size="small">导出</el-button>
 					<el-button size="small">批量操作</el-button>
 				</div>
@@ -90,7 +90,7 @@
 					pageNum: 1,
 					totalPage: 1,
 					pageSize: 10,
-					projectId: this.$store.getters.project['id']
+					projectId: this.$store.getters.project['parentid']
 				},
 				editRow: null,
 				detailRow: null
