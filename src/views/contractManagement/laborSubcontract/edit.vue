@@ -151,55 +151,7 @@
 									</div>
 								</div>
 								
-								<div class="form-block">
-									<div class="form-block-title">
-										<div class="title-bar"></div><strong>待处理人</strong>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">项目经理<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												<el-form-item prop="projectManageUser">
-													<el-select v-model="formData.projectManageUser" placeholder="请选择">
-														<el-option v-for="item in userOptions" :key="item.value"
-															:label="item.label" :value="item.value">
-														</el-option>
-													</el-select>
-												</el-form-item>
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">专监<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												<el-form-item prop="specialUser">
-													<el-select v-model="formData.specialUser" placeholder="请选择">
-														<el-option v-for="item in userOptions" :key="item.value"
-															:label="item.label" :value="item.value">
-														</el-option>
-													</el-select>
-												</el-form-item>
-
-
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">总监<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												<el-form-item prop="directorUser">
-													<el-select v-model="formData.directorUser" placeholder="请选择">
-														<el-option v-for="item in userOptions" :key="item.value"
-															:label="item.label" :value="item.value">
-														</el-option>
-													</el-select>
-												</el-form-item>
-											</div>
-										</div>
-									</div>
-								</div>
+								
 								<div class="form-block">
 									<el-button @click="addOrModify" class="submit-btn" size="small" type="primary">提交
 									</el-button>
@@ -338,30 +290,11 @@
 			return {
 				dialogTitle: '项目全生命周期数字管理平台',
 				dialogFormVisible: false,
-				userOptions: [{
-					label: '陈武林',
-					value: 1
-				}],
 				partOptions:[],
 				rules: {
 					contractCode: [{
 						required: true,
 						message: '请填写合同编号',
-						trigger: 'blur'
-					}],
-					projectManageUser: [{
-						required: true,
-						message: '请选择项目经理',
-						trigger: 'blur'
-					}],
-					specialUser: [{
-						required: true,
-						message: '请选择专监',
-						trigger: 'blur'
-					}],
-					directorUser: [{
-						required: true,
-						message: '请选择总监',
 						trigger: 'blur'
 					}]
 				},
@@ -397,10 +330,7 @@
 					contractUser: '',
 					deletedFlag: 1,
 					draftFlag: 1,
-					projectId: this.$store.getters.project['id'],
-					projectManageUser: 1,
-					specialUser:1,
-					directorUser:1,
+					projectId: this.$store.getters.project['parentid'],
 					startDate:formatDate(new Date())
 				},
 				attachTable: [], //附件
@@ -442,10 +372,7 @@
 						contractUser: '',
 						deletedFlag: 1,
 						draftFlag: 1,
-						projectId: this.$store.getters.project['id'],
-						projectManageUser: 1,
-						specialUser:1,
-						directorUser:1,
+						projectId: this.$store.getters.project['parentid'],
 						startDate:formatDate(new Date())
 					}
 				}

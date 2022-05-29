@@ -13,7 +13,7 @@
 							<el-form :model="formData" :rules="rules" ref="ruleForm" label-width="80px">
 								<div class="form-title">
 									<div class="title-big-bar"></div>
-									<strong>劳务分包合同</strong>
+									<strong>进退场管理</strong>
 									<div class="form-btns">
 										<el-button size="medium">暂存</el-button>
 										<el-button size="medium">保存草稿</el-button>
@@ -496,7 +496,7 @@
 					explaination: '',
 					deletedFlag: 1,
 					draftFlag: 1,
-					projectId: this.$store.getters.project['id'],
+					projectId: this.$store.getters.project['parentid'],
 					laborContractId: null,
 					num: null,
 					type: 0
@@ -544,7 +544,7 @@
 						explaination: '',
 						deletedFlag: 1,
 						draftFlag: 1,
-						projectId: this.$store.getters.project['id'],
+						projectId: this.$store.getters.project['parentid'],
 						laborContractId: null,
 						num: null,
 						type: 0
@@ -558,7 +558,7 @@
 			},
 			getChildProject() {
 				proapi.getChildProject({
-					projectid: this.$store.getters.project['id']
+					projectid: this.$store.getters.project['parentid']
 				}).then((res) => {
 					let options = res.data || [];
 					this.childOptions = convertOptions(options, 'name', 'id');

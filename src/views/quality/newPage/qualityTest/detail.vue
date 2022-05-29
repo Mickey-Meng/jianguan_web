@@ -155,40 +155,6 @@
 										</div>
 									</div>
 								</div>
-
-								<div class="form-title">
-									<div class="title-big-bar"></div><strong>审核人员</strong>
-								</div>
-								<div class="form-block">
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">岗位</div>
-											<div class="block-item-value">
-												施工负责人
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">审核人</div>
-											<div class="block-item-value">
-												{{formData.detectionUser}}
-											</div>
-										</div>
-									</div>
-									<!-- <div class="block-line">
-									<div class="block-item">
-										<div class="block-item-label"></div>
-										<div class="block-item-value">
-											<el-select v-model="value" placeholder="请选择">
-												<el-option v-for="item in options" :key="item.value"
-													:label="item.label" :value="item.value">
-												</el-option>
-											</el-select>
-										</div>
-									</div>
-								</div> -->
-								</div>
 							</el-form>
 							<taskhandle :taskInfo="taskInfo"></taskhandle>
 						</div>
@@ -243,7 +209,6 @@
 					deletedFlag: 1,
 					detectionInfo: [],
 					detectionReport: [],
-					detectionUser: 1,
 					draftFlag: 1,
 					fillDate: new Date(),
 					id: 1,

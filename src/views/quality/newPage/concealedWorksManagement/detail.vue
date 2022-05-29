@@ -13,7 +13,7 @@
 							<el-form ref="form" label-width="80px">
 								<div class="form-title">
 									<div class="title-big-bar"></div>
-									<strong>隐蔽工程验收记录-浙公路（JL）011</strong>
+									<strong>隐蔽工程管理</strong>
 								</div>
 		
 								<div class="form-block">
@@ -109,54 +109,7 @@
 									
 								</div>
 		
-								<div class="form-title">
-									<div class="title-big-bar"></div><strong>监理办验收情况</strong>
-								</div>
-								<div class="form-block">
-									<div class="form-block-title">
-										<div class="title-bar"></div><strong>待审批人</strong>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">项目质检负责人<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												{{formData.qualityCheckUser}}
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">项目施工负责人<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												{{formData.projectBuildUser}}
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">现场监理人员<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												{{formData.supervisorUser}}
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">专业监理工程师<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												{{formData.supervisorEngineerUser}}
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">项目负责人<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												{{formData.projectChargeUser}}
-											</div>
-										</div>
-									</div>
-								</div>
+								
 							</el-form>
 							<taskhandle :taskInfo="taskInfo"></taskhandle>
 						</div>
@@ -209,14 +162,9 @@
 					draftFlag:1,
 					hiddenProject:'',
 					id:null,
-					projectBuildUser:1,
-					projectChargeUser:1,
 					projectCode:'',
 					projectId:1,
-					qualityCheckUser:1,
 					subProject:'',
-					supervisorEngineerUser:1,
-					supervisorUser:1,
 					unit:''
 				},
 				attachTable: [], //附件

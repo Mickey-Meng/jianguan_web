@@ -116,35 +116,7 @@
 					</div>
 				</div>
 				
-				<div class="form-block">
-					<div class="form-block-title">
-						<div class="title-bar"></div><strong>待处理人</strong>
-					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">项目经理</div>
-							<div class="block-item-value">
-								{{formData.projectManageUser}}
-							</div>
-						</div>
-					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">专监</div>
-							<div class="block-item-value">
-								{{formData.specialUser}}
-							</div>
-						</div>
-					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">总监</div>
-							<div class="block-item-value">
-								{{formData.directorUser}}
-							</div>
-						</div>
-					</div>
-				</div>
+				
 			</el-form>
 		</div>
 	</div>
@@ -182,10 +154,7 @@
 					contractUser: '',
 					deletedFlag: 1,
 					draftFlag: 1,
-					projectId: this.$store.getters.project['id'],
-					projectManageUser: 1,
-					specialUser:1,
-					directorUser:1,
+					projectId: this.$store.getters.project['parentid'],
 					startDate:formatDate(new Date())
 				},
 				attachTable: [], //附件

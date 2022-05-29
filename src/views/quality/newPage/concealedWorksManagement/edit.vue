@@ -13,7 +13,7 @@
 							<el-form :model="formData" :rules="rules" ref="ruleForm" label-width="80px">
 								<div class="form-title">
 									<div class="title-big-bar"></div>
-									<strong>隐蔽功能验收记录-浙公路（JL）011</strong>
+									<strong>隐蔽工程管理</strong>
 									<div class="form-btns">
 										<el-button size="medium">暂存</el-button>
 										<el-button size="medium">保存草稿</el-button>
@@ -120,111 +120,7 @@
 									
 								</div>
 
-								<div class="form-title">
-									<div class="title-big-bar"></div><strong>监理办验收情况</strong>
-								</div>
-
-								<!-- <div class="form-block">
-									<div class="form-block-title">
-										<div class="title-bar"></div><strong>审批意见</strong>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">处理人</div>
-											<div class="block-item-value">江逸</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">处理操作</div>
-											<div class="block-item-value">同意</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">处理时间</div>
-											<div class="block-item-value">2022-04-19 11:30:31</div>
-										</div>
-									</div>
-								</div> -->
-								<div class="form-block">
-									<div class="form-block-title">
-										<div class="title-bar"></div><strong>待审批人</strong>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">项目质检负责人<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												<el-form-item prop="qualityCheckUser">
-													<el-select v-model="formData.qualityCheckUser" placeholder="请选择">
-														<el-option v-for="item in userOptions" :key="item.value"
-															:label="item.label" :value="item.value">
-														</el-option>
-													</el-select>
-												</el-form-item>
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">项目施工负责人<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												<el-form-item prop="projectBuildUser">
-													<el-select v-model="formData.projectBuildUser" placeholder="请选择">
-														<el-option v-for="item in userOptions" :key="item.value"
-															:label="item.label" :value="item.value">
-														</el-option>
-													</el-select>
-												</el-form-item>
-												
-												
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">现场监理人员</div>
-											<div class="block-item-value">
-												<el-form-item prop="supervisorUser">
-													<el-select v-model="formData.supervisorUser" placeholder="请选择">
-														<el-option v-for="item in userOptions" :key="item.value"
-															:label="item.label" :value="item.value">
-														</el-option>
-													</el-select>
-												</el-form-item>
-												
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">专业监理工程师</div>
-											<div class="block-item-value">
-												<el-form-item prop="supervisorEngineerUser">
-													<el-select v-model="formData.supervisorEngineerUser" placeholder="请选择">
-														<el-option v-for="item in userOptions" :key="item.value"
-															:label="item.label" :value="item.value">
-														</el-option>
-													</el-select>
-												</el-form-item>
-												
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">项目负责人</div>
-											<div class="block-item-value">
-												<el-form-item prop="projectChargeUser">
-													<el-select v-model="formData.projectChargeUser" placeholder="请选择">
-														<el-option v-for="item in userOptions" :key="item.value"
-															:label="item.label" :value="item.value">
-														</el-option>
-													</el-select>
-												</el-form-item>
-												
-											</div>
-										</div>
-									</div>
-								</div>
+								
 								<div class="form-block">
 									<el-button @click="addOrModify" class="submit-btn" size="small" type="primary">提交
 									</el-button>
@@ -265,10 +161,6 @@
 				annexTableData: [],
 				activeName: 'first',
 				waitTableData: [],
-				userOptions: [{
-					label: '陈武林',
-					value: 1
-				}],
 				rules: {
 					subProject: [{
 						required: true,
@@ -290,16 +182,7 @@
 						message: '请填写施工自检结果',
 						trigger: 'blur'
 					}],
-					qualityCheckUser: [{
-						required: true,
-						message: '请选择项目质检负责人',
-						trigger: 'blur'
-					}],
-					projectBuildUser: [{
-						required: true,
-						message: '请选择项目施工负责人',
-						trigger: 'blur'
-					}]
+					
 				},
 				baseInfo: {
 					buildSection: 1,
@@ -315,14 +198,9 @@
 					draftFlag: 1,
 					hiddenProject: '',
 					// id: null,
-					projectBuildUser: 1,
-					projectChargeUser: 1,
 					projectCode: '',
-					projectId: this.$store.getters.project['id'],
-					qualityCheckUser: 1,
+					projectId: this.$store.getters.project['parentid'],
 					subProject: '',
-					supervisorEngineerUser: 1,
-					supervisorUser: 1,
 					unit: ''
 				},
 				attachTable: [], //附件
@@ -352,14 +230,9 @@
 						draftFlag: 1,
 						hiddenProject: '',
 						// id: null,
-						projectBuildUser: 1,
-						projectChargeUser: 1,
 						projectCode: '',
-						projectId: this.$store.getters.project['id'],
-						qualityCheckUser: 1,
+						projectId: this.$store.getters.project['parentid'],
 						subProject: '',
-						supervisorEngineerUser: 1,
-						supervisorUser: 1,
 						unit: ''
 					}
 				}
@@ -371,7 +244,7 @@
 			},
 			getProjectInfoById(){
 				api.getProjectInfoById({
-					projectid:this.$store.getters.project['id']
+					projectid:this.$store.getters.project['parentid']
 				}).then((res) => {
 					let data = res['data'] || {};
 					this.baseInfo['buildSectionName']=data['project']?data['project']['name']:'';
