@@ -851,4 +851,45 @@ export const deleteManageRegime = id => {
 		}
 	});
 };
+
+/**
+ * 新增或者更新施工技术交底记录数据
+ */
+ export const addOrUpdateBuildTechBottom = data => {
+	return request({
+		url: api.addOrUpdateBuildTechBottom,
+		method: "post",
+		data: data
+	});
+};
+/**
+ * 通过id获取一条施工技术交底记录数据
+ */
+export const getBuildTechBottomDetail = params => {
+	return request({
+		url: api.getBuildTechBottomDetail,
+		method: "get",
+		params: params
+	});
+};
+/**
+ * 通过id删除一条施工技术交底记录数据
+ */
+export const deleteBuildTechBottom = params => {
+	return request({
+		url: api.deleteBuildTechBottom,
+		method: "get",
+		params: params
+	});
+};
+/**
+ * 分页查询施工技术交底记录数据
+ */
+export const getBuildTechBottomList = data => {
+	return request({
+		url: api.getBuildTechBottomList,
+		method: "post",
+		data: data
+	});
+};
 //-----------------------流程引擎新增接口 ZH ---------------------
