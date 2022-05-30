@@ -1,0 +1,23 @@
+{
+  "map": {
+    "zoom": 14,
+    "center": {
+      "X": 120.1095329338229,
+      "y": 29.706018768457866
+    },
+    "minZoom": 5,
+    "maxZoom": 18,
+    "centerAutoLevel": 15,
+    "zoomControl": false,
+    "attributionControl": false,
+    "basemaps": [
+      {
+        "pid": 10,
+        "name": "高德地图",
+        "type": "www_gaode",
+        "layer": "vec",
+        "icon": "bingmap.png"
+      }
+    ]
+  }
+}

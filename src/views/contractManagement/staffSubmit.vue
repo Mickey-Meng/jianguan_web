@@ -522,7 +522,7 @@
           recordId: this.userInfo.ID,
           subDate: getNowDate(),//填报时间
           projectId: this.project.id,
-          isContract: "1"
+          isContract: 1
         };
       },
       //添加行数据

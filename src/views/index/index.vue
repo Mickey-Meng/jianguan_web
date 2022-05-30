@@ -402,6 +402,7 @@ export default {
             transform: translateX(-50%);
             bottom: 20px;
             z-index: 100;
+            color: #FFFFFF;
           }
         }
       }
@@ -474,7 +475,8 @@ export default {
             text-align: center;
             transform: translateX(-50%);
             font-size: 20px;
-            color: #04ffff;
+            //color: #04ffff;
+            color: #FFFFFF;
           }
         }
       }

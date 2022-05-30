@@ -134,7 +134,7 @@
             </div>
             <div class="block-line" style="height: 35px;">
               <div class="block-table-btns">
-                <el-button size="small" type="primary">下载全部</el-button>
+                <el-button size="small" type="primary" @click="downloadFileEvent">下载全部</el-button>
               </div>
             </div>
             <div class="block-table">
@@ -190,6 +190,7 @@
 <script>
   import {mapGetters} from "vuex";
   import {getPersonChangeByProcessId} from "@/api/staffApproval";
+  import {downLoadFile} from "@/utils/download";
 
   export default {
     props: [],
@@ -222,6 +223,13 @@
             this.fileData = obj.files;
           }
         });
+      },
+      downloadFileEvent() {
+        if (this.fileData && this.fileData.length > 0) {
+          this.fileData.forEach(item => {
+            downLoadFile(item.fileId);
+          });
+        }
       }
     },
     components: {},

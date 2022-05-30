@@ -65,7 +65,7 @@
       <el-container class="full_dialog_container">
         <el-main style="height: calc(100vh - 96px); overflow-y: scroll;padding: 0px;margin: 0;">
           <div class="form-bg">
-            <el-form ref="form" :model="form" label-width="80px">
+            <el-form ref="form" :model="form" label-width="80px" :rules="rules">
               <div class="form-title">
                 <div class="title-big-bar"></div>
                 <strong>人员变更</strong>
@@ -77,13 +77,13 @@
                 </div>
                 <div class="block-line">
                   <div class="block-item">
-                    <div class="block-item-label">标段</div>
+                    <div class="block-item-label">标段<i class="require-icon"></i></div>
                     <div class="block-item-value">
                       <el-input readonly v-model="form.projectChildName"></el-input>
                     </div>
                   </div>
                   <div class="block-item">
-                    <div class="block-item-label">填报人</div>
+                    <div class="block-item-label">填报人<i class="require-icon"></i></div>
                     <div class="block-item-value">
                       <el-input readonly v-model="form.recorder"></el-input>
                     </div>
@@ -91,18 +91,20 @@
                 </div>
                 <div class="block-line">
                   <div class="block-item">
-                    <div class="block-item-label">填报日期</div>
+                    <div class="block-item-label">填报日期<i class="require-icon"></i></div>
                     <div class="block-item-value">
-                      <el-date-picker
-                        v-model="form.subDate"
-                        type="datetime"
-                        :clearable="false"
-                        placeholder="选择日期时间"
-                        value-format="yyyy-MM-dd HH:mm:ss"
-                        v-if="isCreate"
-                      >
-                      </el-date-picker>
-                      <div v-if="">{{ form.subDate }}</div>
+                      <el-form-item prop="subDate" v-if="isCreate">
+                        <el-date-picker
+                          v-model="form.subDate"
+                          type="datetime"
+                          :clearable="false"
+                          placeholder="选择日期时间"
+                          value-format="yyyy-MM-dd HH:mm:ss"
+
+                        >
+                        </el-date-picker>
+                      </el-form-item>
+                      <div v-else>{{ form.subDate }}</div>
                     </div>
                   </div>
                 </div>
@@ -114,15 +116,15 @@
                 </div>
                 <div class="block-line">
                   <div class="block-item">
-                    <div class="block-item-label">项目</div>
+                    <div class="block-item-label">项目<i class="require-icon"></i></div>
                     <div class="block-item-value">
-                      <el-form-item prop="qualityCheckUser">
+                      <el-form-item prop="projectName">
                         <el-input readonly v-model="form.projectName"></el-input>
                       </el-form-item>
                     </div>
                   </div>
                   <div class="block-item">
-                    <div class="block-item-label">标段</div>
+                    <div class="block-item-label">标段<i class="require-icon"></i></div>
                     <div class="block-item-value">
                       <el-form-item prop="qualityCheckUser">
                         <el-input readonly v-model="form.projectChildName"></el-input>
@@ -132,9 +134,9 @@
                 </div>
                 <div class="block-line">
                   <div class="block-item">
-                    <div class="block-item-label">人员变更类型</div>
+                    <div class="block-item-label">人员变更类型<i class="require-icon"></i></div>
                     <div class="block-item-value">
-                      <el-form-item prop="qualityCheckUser">
+                      <el-form-item prop="changeType">
                         <el-select placeholder="请选择" v-model="form.changeType" @change="changeValue" v-if="isCreate">
                           <el-option
                             v-for="item in roleType"
@@ -148,9 +150,9 @@
                     </div>
                   </div>
                   <div class="block-item">
-                    <div class="block-item-label">变更岗位</div>
+                    <div class="block-item-label">变更岗位<i class="require-icon"></i></div>
                     <div class="block-item-value">
-                      <el-form-item prop="qualityCheckUser">
+                      <el-form-item prop="changePost">
                         <el-select placeholder="请选择" disabled v-model="form.changePost" v-if="isCreate">
                           <el-option
                             v-for="item in roleType"
@@ -167,9 +169,9 @@
 
                 <div class="block-line">
                   <div class="block-item">
-                    <div class="block-item-label">变更前人员</div>
+                    <div class="block-item-label">变更前人员<i class="require-icon"></i></div>
                     <div class="block-item-value">
-                      <el-form-item prop="qualityCheckUser">
+                      <el-form-item prop="beforePersonId">
                         <el-select placeholder="请选择" v-model="form.beforePersonId" v-if="isCreate">
                           <el-option
                             v-for="item in beforeUsers"
@@ -193,9 +195,9 @@
                 </div>
                 <div class="block-line">
                   <div class="block-item">
-                    <div class="block-item-label">变更后人员</div>
+                    <div class="block-item-label">变更后人员<i class="require-icon"></i></div>
                     <div class="block-item-value">
-                      <el-form-item prop="qualityCheckUser">
+                      <el-form-item prop="afterPersonId">
                         <el-select placeholder="请选择" v-model="form.afterPersonId" v-if="isCreate">
                           <el-option
                             v-for="item in afterUsers"
@@ -219,7 +221,7 @@
                 </div>
                 <div class="block-line">
                   <div class="block-item">
-                    <div class="block-item-label">变更单位</div>
+                    <div class="block-item-label">变更单位<i class="require-icon"></i></div>
                     <div class="block-item-value">
                       <el-form-item prop="qualityCheckUser">
                         <el-input readonly v-model="form.changeUnitName"></el-input>
@@ -242,7 +244,7 @@
                   <upload @afterUp="afterUp($event)" v-if="isCreate"></upload>
                   <!-- <div class="block-table-title">附件</div> -->
                   <div class="block-table-btns">
-                    <el-button size="small" type="primary">下载全部</el-button>
+                    <el-button size="small" type="primary" v-if="!isCreate" @click="downLoadEvent">下载全部</el-button>
                   </div>
                 </div>
                 <div class="block-table">
@@ -321,6 +323,7 @@
   import {getOrgUser, addPersonChange, getPersonChange} from "@/api/staffApproval";
   import {getOrgInfo} from "@/api/user";
   import {submitUserTask} from "@/api/quality";
+  import {downLoadFile} from "@/utils/download";
 
   export default {
     data() {
@@ -346,7 +349,18 @@
         currentOrgUsers: [],//当前用户组织下的所有用户信息
         orgInfo: {},//当前用户的组织信息
         projectInfo: {},
-        isCreate: true
+        isCreate: true,
+        rules: {
+          changeType: [
+            {required: true, message: "请选择人员变更类型", trigger: "blur"}
+          ],
+          beforePersonId: [
+            {required: true, message: "请选择变更前人员", trigger: "blur"}
+          ],
+          afterPersonId: [
+            {required: true, message: "请选择变更后人员", trigger: "blur"}
+          ]
+        }
       };
     },
     created() {
@@ -455,27 +469,31 @@
       },
       //提交事件
       submitInfo() {
-        let obj = Object.assign({}, this.form);
-        if (obj.beforePersonId) {
-          let info = this.beforeUsers.find(e => e.id === obj.beforePersonId);
-          obj.beforePerson = info.name;
-        }
-        if (obj.afterPersonId) {
-          let info = this.afterUsers.find(e => e.id === obj.afterPersonId);
-          obj.afterPerson = info.name;
-        }
-        if (obj.changeType) {
-          let info = this.roleType.find(e => e.roleid === obj.changeType);
-          obj.changeTypeName = info.rolename;
-        }
-        if (this.fileData.length > 0) {
-          obj.files = this.fileData;
-        }
-        obj.processDefinitionKey = "renyuanbiangeng";
-        //提交
-        addPersonChange(obj).then(res => {
-          this.issueStep(res);
+        this.$refs["form"].validate((valid) => {
+          if (valid) {
+            let obj = Object.assign({}, this.form);
+            //获取变更前人员姓名
+            let beforeInfo = this.beforeUsers.find(e => e.id === obj.beforePersonId);
+            obj.beforePerson = beforeInfo.name;
+            //获取变更后人员姓名
+            let afterInfo = this.afterUsers.find(e => e.id === obj.afterPersonId);
+            obj.afterPerson = afterInfo.name;
+            //获取人员变更类型
+            let info = this.roleType.find(e => e.roleid === obj.changeType);
+            obj.changeTypeName = info.rolename;
+            if (this.fileData.length > 0) {
+              obj.files = this.fileData;
+            }
+            obj.processDefinitionKey = "renyuanbiangeng";
+            //提交
+            addPersonChange(obj).then(res => {
+              this.issueStep(res);
+            });
+          } else {
+            return false;
+          }
         });
+
       },
       issueStep(row) {
         let obj = {
@@ -507,6 +525,15 @@
         this.fileData = row.files;
         this.isCreate = false;
         this.dialogFormVisible = true;
+      },
+      //下载文件
+      downLoadEvent() {
+        if (this.fileData && this.fileData.length > 0) {
+          this.fileData.forEach(item => {
+            downLoadFile(item.fileId);
+          });
+
+        }
       }
     }
   };
