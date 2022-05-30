@@ -220,6 +220,7 @@
 		},
 		watch: {
 			editRow(obj) {
+				obj=obj||{};
 				if (obj['id']) {
 					this.getDetail(obj['id']);
 				} else {
@@ -229,12 +230,12 @@
 						deletedFlag: 1,
 						draftFlag: 1,
 						hiddenProject: '',
-						// id: null,
 						projectCode: '',
 						projectId: this.$store.getters.project['parentid'],
 						subProject: '',
 						unit: ''
 					}
+					this.attachTable=[];
 				}
 			}
 		},

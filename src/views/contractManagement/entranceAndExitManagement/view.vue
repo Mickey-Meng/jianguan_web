@@ -121,7 +121,6 @@
 					</div>
 				</div>
 			</el-form>
-			<taskhandle :taskInfo="taskInfo"></taskhandle>
 		</div>
 	</div>
 </template>

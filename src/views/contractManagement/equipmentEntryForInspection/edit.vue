@@ -69,15 +69,51 @@
 										<div class="title-bar"></div><strong>进场设备信息</strong>
 									</div>
 									<div class="block-line">
-										
 										<div class="block-item">
 											<div class="block-item-label">监理办<i class="require-icon"></i></div>
 											<div class="block-item-value">
-												<el-form-item prop="unit">
-													<el-input v-model="formData.unit"></el-input>
+												<el-form-item prop="supervisionBan">
+													<el-input v-model="formData.supervisionBan"></el-input>
 												</el-form-item>
 											</div>
 										</div>
+									</div>
+									<div class="block-line">
+										<el-button size="small" @click="addEquipment" type="primary">新增</el-button>
+									</div>
+									<div class="block-table">
+										<el-table :data="equipmentTable" style="width: 100%" border
+											class="have_scrolling">
+											<el-table-column type="index" width="50" align="center" label="序号">
+											</el-table-column>
+											<el-table-column prop="equipmentType" align="center" label="设备类型"
+												show-overflow-tooltip>
+											</el-table-column>
+											<el-table-column prop="equipmentName" width="180px" align="center"
+												label="设备名称">
+											</el-table-column>
+											<el-table-column prop="specification" width="120px" align="center"
+												label="规格型号">
+											</el-table-column>
+											<el-table-column prop="num" width="120px" align="center" label="数量">
+											</el-table-column>
+											<el-table-column prop="enterDate" width="120px" align="center" label="进场日期">
+											</el-table-column>
+											<el-table-column prop="techCondition" width="120px" align="center"
+												label="技术状况">
+											</el-table-column>
+											<el-table-column prop="useWhere" width="120px" align="center" label="拟用何处">
+											</el-table-column>
+											<el-table-column prop="remark" width="120px" align="center" label="备注">
+											</el-table-column>
+											<el-table-column fixed="right" width="120" align="center" label="操作">
+												<template slot-scope="{ row, $index }">
+													<el-button type="text" size="mini">预览</el-button>
+													<el-button type="text" size="mini"
+														@click="deleteEquipment(row, $index)">删除</el-button>
+												</template>
+											</el-table-column>
+										</el-table>
 									</div>
 								</div>
 								<div class="form-block">
@@ -87,56 +123,9 @@
 											xisx xis pdf文件，且不超过100m</span>
 									</div>
 
-									<div class="block-line">
-										<upload @afterUp="afterUp($event)"></upload>
-										<!-- <div class="block-table-title">附件</div> -->
-										<div class="block-table-btns">
-											<el-button size="small" type="primary">下载全部</el-button>
-										</div>
-									</div>
-									<div class="block-table">
-										<el-table :data="attachTable" style="width: 100%" border class="have_scrolling">
-											<el-table-column type="index" width="50" align="center" label="序号">
-											</el-table-column>
-											<el-table-column prop="fileName" align="center" label="附件"
-												show-overflow-tooltip>
-											</el-table-column>
-											<el-table-column prop="createTime" width="160px" align="center"
-												label="上传日期">
-											</el-table-column>
-											<el-table-column prop="creatorName" width="120px" align="center"
-												label="上传人">
-											</el-table-column>
-											<el-table-column fixed="right" width="120" align="center" label="操作">
-												<template slot-scope="{ row, $index }">
-													<el-button type="text" size="mini">下载</el-button>
-													<el-button type="text" size="mini">预览</el-button>
-													<el-button type="text" size="mini" @click="deleteAttach(row, $index)">删除</el-button>
-												</template>
-											</el-table-column>
-										</el-table>
-									</div>
-								</div>
+									<attachlist :editAble="true" ref="attachlist" :attachTable="attachTable">
+									</attachlist>
 
-								
-								<div class="form-block">
-									<div class="form-block-title">
-										<div class="title-bar"></div><strong>待审批人</strong>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">专业监理工程师<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												<el-form-item prop="qualityCheckUser">
-													<el-select v-model="formData.qualityCheckUser" placeholder="请选择">
-														<el-option v-for="item in userOptions" :key="item.value"
-															:label="item.label" :value="item.value">
-														</el-option>
-													</el-select>
-												</el-form-item>
-											</div>
-										</div>
-									</div>
 								</div>
 								<div class="form-block">
 									<el-button @click="addOrModify" class="submit-btn" size="small" type="primary">提交
@@ -146,71 +135,147 @@
 						</div>
 					</div>
 				</el-main>
-				<!-- <el-aside width="8px" class="close-wrapper">
-					<div class="close-wrap">
-						<i class="el-icon-caret-right"></i>
-					</div>
-				</el-aside>
-				<el-aside
-					style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
-					<tasklog></tasklog>
-				</el-aside> -->
 			</el-container>
+		</el-dialog>
+		<el-dialog class="defined-dialog" title="新增" :visible.sync="equipmentVisible">
+			<el-form ref="newform" label-width="80px" :rules="newrules" :model="equipmentInfo">
+				<div class="form-block">
+					<div class="block-line">
+						<div class="block-item">
+							<div class="block-item-label">设备类型<i class="require-icon"></i></div>
+							<div class="block-item-value">
+								<el-form-item prop="equipmentType">
+									<el-select v-model="equipmentInfo.equipmentType" placeholder="请选择">
+										<el-option v-for="item in equipmentOptions" :key="item.value"
+											:label="item.label" :value="item.value">
+										</el-option>
+									</el-select>
+								</el-form-item>
+							</div>
+						</div>
+						<div class="block-item">
+							<div class="block-item-label">设备名称<i class="require-icon"></i></div>
+							<div class="block-item-value">
+								<el-form-item prop="equipmentName">
+									<el-input v-model="equipmentInfo.equipmentName"></el-input>
+								</el-form-item>
+							</div>
+						</div>
+					</div>
+					<div class="block-line">
+						<div class="block-item">
+							<div class="block-item-label">规格型号</div>
+							<div class="block-item-value">
+								<el-form-item prop="specification">
+									<el-input v-model="equipmentInfo.specification"></el-input>
+								</el-form-item>
+							</div>
+						</div>
+						<div class="block-item">
+							<div class="block-item-label">数量<i class="require-icon"></i></div>
+							<div class="block-item-value">
+								<el-form-item prop="num">
+									<el-input v-model.number="equipmentInfo.num"></el-input>
+								</el-form-item>
+							</div>
+						</div>
+					</div>
+					<div class="block-line">
+						<div class="block-item">
+							<div class="block-item-label">进场日期<i class="require-icon"></i></div>
+							<div class="block-item-value">
+								<el-form-item prop="enterDate">
+									<el-date-picker format="yyyy-MM-dd" v-model="equipmentInfo.enterDate" type="date"
+										placeholder="请选择">
+									</el-date-picker>
+								</el-form-item>
+							</div>
+						</div>
+						<div class="block-item">
+							<div class="block-item-label">技术状况</div>
+							<div class="block-item-value">
+								<el-form-item prop="techCondition">
+									<el-input v-model.number="equipmentInfo.techCondition"></el-input>
+								</el-form-item>
+							</div>
+						</div>
+					</div>
+
+					<div class="block-line">
+						<div class="block-item">
+							<div class="block-item-label">拟何用处</div>
+							<div class="block-item-value">
+								<el-form-item prop="useWhere">
+									<el-input v-model="equipmentInfo.useWhere"></el-input>
+								</el-form-item>
+							</div>
+						</div>
+						<div class="block-item">
+							<div class="block-item-label">备注</div>
+							<div class="block-item-value">
+								<el-form-item prop="remark">
+									<el-input v-model="equipmentInfo.remark"></el-input>
+								</el-form-item>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-block">
+					<el-button @click="addEquipmentTable" class="submit-btn" size="small" type="primary">提交</el-button>
+				</div>
+			</el-form>
 		</el-dialog>
 	</div>
 </template>
 
 <script>
-	import * as api from "@/api/quality";
+	import * as api from "@/api/contract.js";
+	import * as proapi from "@/api/project.js";
 	import {
+		formatDate,
 		formatDateTime,
+		convertOptions,
 		createProjectInfo
 	} from "@/utils/format.js";
-	import upload from "../../common/upload.vue"
-	
+	import attachlist from "../../common/attachlist.vue"
+
 	export default {
 		props: ['editRow'],
 		data() {
 			return {
 				dialogTitle: '项目全生命周期数字管理平台',
 				dialogFormVisible: false,
-				annexTableData: [],
-				activeName: 'first',
-				waitTableData: [],
-				userOptions: [{
-					label: '陈武林',
-					value: 1
-				}],
+				equipmentOptions:[],
 				rules: {
-					subProject: [{
+					supervisionBan: [{
 						required: true,
-						message: '请填写分项工程',
+						message: '必须项',
+						trigger: 'blur'
+					}]
+				},
+				newrules:{
+					equipmentType: [{
+						required: true,
+						message: '必须项',
 						trigger: 'blur'
 					}],
-					unit: [{
+					equipmentName: [{
 						required: true,
-						message: '请填写	单位、分部工程',
+						message: '必须项',
 						trigger: 'blur'
 					}],
-					hiddenProject: [{
+					enterDate: [{
 						required: true,
-						message: '请填写隐蔽工程项目',
+						message: '必须项',
 						trigger: 'blur'
 					}],
-					buildCheckselfResult: [{
+					num:[{
 						required: true,
-						message: '请填写施工自检结果',
+						message: '必须项',
 						trigger: 'blur'
-					}],
-					qualityCheckUser: [{
-						required: true,
-						message: '请选择项目质检负责人',
-						trigger: 'blur'
-					}],
-					projectBuildUser: [{
-						required: true,
-						message: '请选择项目施工负责人',
-						trigger: 'blur'
+					},{
+						type: 'number',
+						message: '数量必须为数字'
 					}]
 				},
 				baseInfo: {
@@ -222,55 +287,54 @@
 				},
 				formData: { //表单参数
 					attachment: [],
-					buildCheckselfResult: '',
+					equipmentInfo:[],
 					deletedFlag: 1,
 					draftFlag: 1,
-					hiddenProject: '',
-					// id: null,
-					projectBuildUser: 1,
-					projectChargeUser: 1,
 					projectCode: '',
 					projectId: this.$store.getters.project['parentid'],
-					qualityCheckUser: 1,
-					subProject: '',
-					supervisorEngineerUser: 1,
-					supervisorUser: 1,
-					unit: ''
+					supervisionBan: ''
 				},
 				attachTable: [], //附件
-				fileList:[]
+				equipmentTable: [],
+				equipmentVisible: false,
+				equipmentInfo: {
+					equipmentName: '',
+					equipmentType: '',
+					num: null,
+					specification: '',
+					techCondition: '',
+					useWhere: '',
+					remark: '',
+					enterDate: formatDate(new Date())
+				}
 			};
 		},
 		created() {},
 		components: {
-			upload
+			attachlist
 		},
 		computed: {},
 		mounted() {
 			this.getProjectInfoById();
+			this.getEquipmentEnterEnums();
 		},
 		watch: {
 			editRow(obj) {
+				obj=obj||{};
 				if (obj['id']) {
 					this.getDetail(obj['id']);
 				} else {
 					this.formData = {
 						attachment: [],
-						buildCheckselfResult: '',
+						equipmentInfo:[],
 						deletedFlag: 1,
 						draftFlag: 1,
-						hiddenProject: '',
-						// id: null,
-						projectBuildUser: 1,
-						projectChargeUser: 1,
 						projectCode: '',
 						projectId: this.$store.getters.project['parentid'],
-						qualityCheckUser: 1,
-						subProject: '',
-						supervisorEngineerUser: 1,
-						supervisorUser: 1,
-						unit: ''
+						supervisionBan: ''
 					}
+					this.attachTable=[];
+					this.equipmentTable=[];
 				}
 			}
 		},
@@ -278,32 +342,39 @@
 			changeVisible(value) {
 				this.dialogFormVisible = value;
 			},
-			getProjectInfoById(){
-				api.getProjectInfoById({
-					projectid:this.$store.getters.project['parentid']
+			getProjectInfoById() {
+				proapi.getProjectInfoById({
+					projectid: this.$store.getters.project['parentid']
 				}).then((res) => {
 					let data = res['data'] || {};
-					this.baseInfo['buildSectionName']=data['project']?data['project']['name']:'';
-					let list=data['companys'] || [];
-					let info=createProjectInfo(list);
-					this.baseInfo['buildCompany']=info['buildCompany'];
-					this.baseInfo['supervisionUnit']=info['supervisionUnit'];
+					this.baseInfo['buildSectionName'] = data['project'] ? data['project']['name'] : '';
+					let list = data['companys'] || [];
+					let info = createProjectInfo(list);
+					this.baseInfo['buildCompany'] = info['buildCompany'];
+					this.baseInfo['supervisionUnit'] = info['supervisionUnit'];
+				});
+			},
+			getEquipmentEnterEnums() {
+				api.getEquipmentEnterEnums().then((res) => {
+					let options = res.data || [];
+					
+					this.equipmentOptions = convertOptions(options, 'desc', 'code');
 				});
 			},
 			getDetail(id) {
-				api.getHiddenProjectDetail({
-					id: id
-				}).then((res) => {
+				api.getEquipmentEnterDeatil(id).then((res) => {
 					let data = res['data'] || {};
 					this.formData = data;
-					this.attachTable=data.attachment||[];
+					this.attachTable = data.attachment || [];
+					this.equipmentTable = data.equipmentInfo || [];
 				});
 			},
 			addOrModify() {
 				this.$refs['ruleForm'].validate((valid) => {
-					if(valid){
-						this.formData.attachment=this.attachTable;
-						api.addOrUpdateHiddenProject(this.formData).then((res) => {
+					if (valid) {
+						this.formData.attachment = this.attachTable;
+						this.formData.equipmentInfo = this.equipmentTable;
+						api.addOrUpdateEquipmentEnter(this.formData).then((res) => {
 							if (res.data) {
 								this.$message({
 									type: 'success',
@@ -314,26 +385,30 @@
 							}
 						});
 					}
-					
+
 				})
 			},
-			afterUp(data){
-				this.attachTable.push({
-					createTime:formatDateTime(data['uploadTime']),
-					fileName:data['fileName'],
-					fileUrl:data['fileId'],
-					creatorName:'test'
+			addEquipment() {
+				this.equipmentVisible = true;
+			},
+			addEquipmentTable() {
+				this.$refs['newform'].validate((valid) => {
+					if (valid) {
+						this.equipmentTable.push(this.equipmentInfo);
+						this.equipmentVisible = false;
+					}
 				})
 			},
-			deleteAttach(row, index){
+			deleteEquipment(row, index) {
 				this.$confirm('确认是否删除?', '提示', {
 					confirmButtonText: '确定',
 					cancelButtonText: '取消',
 					type: 'warning'
 				}).then(() => {
-					this.attachTable.splice(index,1);
+					this.equipmentTable.splice(index, 1);
 				});
-			}
+
+			},
 		},
 	};
 </script>

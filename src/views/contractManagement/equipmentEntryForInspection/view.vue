@@ -41,7 +41,7 @@
 						</div>
 					</div>
 					<div class="block-line">
-
+				
 						<div class="block-item">
 							<div class="block-item-label">工程编号</div>
 							<div class="block-item-value">
@@ -55,88 +55,49 @@
 						<div class="title-bar"></div><strong>进场设备信息</strong>
 					</div>
 					<div class="block-line">
-						
 						<div class="block-item">
 							<div class="block-item-label">监理办<i class="require-icon"></i></div>
 							<div class="block-item-value">
-								{{formData.unit}}
+								{{formData.supervisionBan}}
 							</div>
 						</div>
 					</div>
-
-					<div class="block-line">
-						<div class="block-table-title">附件</div>
-						<div class="block-table-btns">
-							<el-button size="small" type="primary">下载全部</el-button>
-						</div>
-					</div>
 					<div class="block-table">
-						<el-table :data="attachTable" style="width: 100%" border
+						<el-table :data="equipmentTable" style="width: 100%" border
 							class="have_scrolling">
 							<el-table-column type="index" width="50" align="center" label="序号">
 							</el-table-column>
-							<el-table-column prop="fileName" align="center" label="附件" show-overflow-tooltip>
+							<el-table-column prop="equipmentType" align="center" label="设备类型"
+								show-overflow-tooltip>
 							</el-table-column>
-							<el-table-column prop="createTime" width="160px" align="center"
-								label="上传日期">
+							<el-table-column prop="equipmentName" width="180px" align="center"
+								label="设备名称">
 							</el-table-column>
-							<el-table-column prop="creatorName" width="120px" align="center"
-								label="上传人">
+							<el-table-column prop="specification" width="120px" align="center"
+								label="规格型号">
 							</el-table-column>
-							<el-table-column fixed="right" width="120" align="center" label="操作">
-								<template slot-scope="{ row, $index }">
-									<el-button type="primary" size="mini">下载</el-button>
-									<el-button type="danger" size="mini">预览</el-button>
-								</template>
+							<el-table-column prop="num" width="120px" align="center" label="数量">
+							</el-table-column>
+							<el-table-column prop="enterDate" width="120px" align="center" label="进场日期">
+							</el-table-column>
+							<el-table-column prop="techCondition" width="120px" align="center"
+								label="技术状况">
+							</el-table-column>
+							<el-table-column prop="useWhere" width="120px" align="center" label="拟用何处">
+							</el-table-column>
+							<el-table-column prop="remark" width="120px" align="center" label="备注">
 							</el-table-column>
 						</el-table>
 					</div>
 				</div>
-
 				<div class="form-block">
 					<div class="form-block-title">
-						<div class="title-bar"></div><strong>待审批人</strong>
+						<div class="title-bar"></div><strong>附件清单</strong>
 					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">项目质检负责人<i class="require-icon"></i></div>
-							<div class="block-item-value">
-								{{formData.qualityCheckUser}}
-							</div>
-						</div>
-					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">项目施工负责人<i class="require-icon"></i></div>
-							<div class="block-item-value">
-								{{formData.projectBuildUser}}
-							</div>
-						</div>
-					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">现场监理人员<i class="require-icon"></i></div>
-							<div class="block-item-value">
-								{{formData.supervisorUser}}
-							</div>
-						</div>
-					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">专业监理工程师<i class="require-icon"></i></div>
-							<div class="block-item-value">
-								{{formData.supervisorEngineerUser}}
-							</div>
-						</div>
-					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">项目负责人<i class="require-icon"></i></div>
-							<div class="block-item-value">
-								{{formData.projectChargeUser}}
-							</div>
-						</div>
-					</div>
+				
+					<attachlist :editAble="false" ref="attachlist" :attachTable="attachTable">
+					</attachlist>
+				
 				</div>
 			</el-form>
 		</div>
@@ -144,9 +105,11 @@
 </template>
 
 <script>
-	import * as api from "@/api/quality";
+	import * as api from "@/api/contract";
+	import * as proapi from "@/api/project.js";
 	import {
 		convertOptions,
+		createProjectInfo,
 		getQueryVariable
 	} from "@/utils/format.js";
 	export default {
@@ -163,28 +126,23 @@
 				},
 				formData: { //表单参数
 					attachment: [],
-					buildCheckselfResult: '',
+					equipmentInfo:[],
 					deletedFlag: 1,
 					draftFlag: 1,
-					hiddenProject: '',
-					id: null,
-					projectBuildUser: 1,
-					projectChargeUser: 1,
 					projectCode: '',
-					projectId: 1,
-					qualityCheckUser: 1,
-					subProject: '',
-					supervisorEngineerUser: 1,
-					supervisorUser: 1,
-					unit: ''
+					projectId: this.$store.getters.project['parentid'],
+					supervisionBan: ''
 				},
 				attachTable: [], //附件
+				equipmentTable: [],
 			};
 		},
 		created() {},
 		components: {},
 		computed: {},
 		mounted() {
+			this.getProjectInfoById();
+			
 			setTimeout(() => {
 				var params = getQueryVariable();
 				if (params['processDefinitionId']) {
@@ -204,12 +162,23 @@
 		},
 		methods: {
 			getDetail(id) {
-				api.getHiddenProjectDetail({
-					id: id
-				}).then((res) => {
+				api.getEquipmentEnterDeatil(id).then((res) => {
 					let data = res['data'] || {};
 					this.formData = data;
 					this.attachTable = data.attachment || [];
+					this.equipmentTable = data.equipmentInfo || [];
+				});
+			},
+			getProjectInfoById() {
+				proapi.getProjectInfoById({
+					projectid: this.$store.getters.project['parentid']
+				}).then((res) => {
+					let data = res['data'] || {};
+					this.baseInfo['buildSectionName'] = data['project'] ? data['project']['name'] : '';
+					let list = data['companys'] || [];
+					let info = createProjectInfo(list);
+					this.baseInfo['buildCompany'] = info['buildCompany'];
+					this.baseInfo['supervisionUnit'] = info['supervisionUnit'];
 				});
 			},
 		},

@@ -468,6 +468,7 @@
 		},
 		watch: {
 			editRow(obj) {
+				obj=obj||{};
 				if (obj['id']) {
 					this.getDetail(obj['id']);
 				} else {
@@ -488,6 +489,7 @@
 						supervisorUser: 1,
 						unit: ''
 					}
+					this.attachTable=[]
 				}
 			}
 		},

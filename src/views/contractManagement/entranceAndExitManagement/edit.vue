@@ -534,6 +534,7 @@
 		},
 		watch: {
 			editRow(obj) {
+				obj=obj||{};
 				if (obj['id']) {
 					this.getDetail(obj['id']);
 				} else {
@@ -549,6 +550,7 @@
 						num: null,
 						type: 0
 					}
+					this.inOutUserTable=[];
 				}
 			}
 		},

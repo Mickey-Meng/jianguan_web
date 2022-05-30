@@ -71,7 +71,7 @@
 					pageParam:{
 						pageNum: 1,
 						totalPage: 1,
-						pageSize: 1000
+						pageSize: 10
 					}
 				},
 				routes:null
@@ -91,7 +91,7 @@
 			query(){
 				api.listHandleTask(this.queryData).then((res) => {
 					this.allData = res.data || {};
-					this.tableData = this.allData.dataList||[];
+					this.tableData = this.allData.list||[];
 					this.queryData.pageParam.pageNum = res.data.pageNum;
 					this.queryData.pageParam.totalPage = res.data.total;
 					this.queryData.pageParam.pageSize = res.data.pageSize;

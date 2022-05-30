@@ -520,6 +520,7 @@
 		},
 		watch: {
 			editRow(obj) {
+				obj=obj||{};
 				if (obj['id']) {
 					this.getDetail(obj['id']);
 				} else {
@@ -537,6 +538,10 @@
 						projectId: this.$store.getters.project['parentid'],
 						remark: '',
 					}
+					this.examineTable=[];
+					this.reportTable=[];
+					this.factoryTable=[];
+					this.attachTable=[];
 				}
 			}
 		},

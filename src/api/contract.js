@@ -168,3 +168,87 @@ export const getEnterExitUserList = data => {
 		data:data
 	});
 };
+
+
+export const addOrUpdateEquipmentEnter = data => {
+	return request({
+		url: api.addOrUpdateEquipmentEnter,
+		method: "post",
+		data: data
+	});
+};
+
+export const getEquipmentEnterDeatil = id => {
+	return request({
+		url: api.getEquipmentEnterDeatil,
+		method: "get",
+		params: {
+			id
+		}
+	});
+};
+
+export const deleteEquipmentEnter = id => {
+	return request({
+		url: api.deleteEquipmentEnter,
+		method: "get",
+		params: {
+			id
+		}
+	});
+};
+
+export const getEquipmentEnterList = data => {
+	return request({
+		url: api.getEquipmentEnterList,
+		method: "post",
+		data: data
+	});
+};
+
+export const getEquipmentEnterEnums = () => {
+	return request({
+		url: api.getEquipmentEnterEnums,
+		method: "get",
+		params: {}
+	});
+};
+
+
+export const addOrUpdateEquipmentExit = data => {
+	return request({
+		url: api.addOrUpdateEquipmentExit,
+		method: "post",
+		data: data
+	});
+};
+
+export const getEquipmentExitDeatil = id => {
+	return request({
+		url: api.getEquipmentExitDeatil,
+		method: "get",
+		params: {
+			id
+		}
+	});
+};
+
+export const deleteEquipmentExit = id => {
+	return request({
+		url: api.deleteEquipmentExit,
+		method: "get",
+		params: {
+			id
+		}
+	});
+};
+
+export const getEquipmentExitList = data => {
+	return request({
+		url: api.getEquipmentExitList,
+		method: "post",
+		data: data
+	});
+};
+
+

@@ -11,13 +11,13 @@
 		<el-header>
 			<div class="input-box">
 				<div class="input-value">
-					<el-input v-model="queryData.projectCode" placeholder="监理单位"></el-input>
+					<el-input v-model="queryData.supervisionBan" placeholder="监理单位"></el-input>
 				</div>
 
 			</div>
 			<div class="input-box">
 				<div class="input-value">
-					<el-input v-model="queryData.subProject" placeholder="施工单位"></el-input>
+					<el-input v-model="queryData.projectCode" placeholder="工程编号"></el-input>
 				</div>
 			</div>
 			<el-button type="primary">搜索</el-button>
@@ -39,19 +39,19 @@
 					class="have_scrolling">
 					<el-table-column type="index" width="50" align="center" label="序号">
 					</el-table-column>
-					<el-table-column prop="projectName" align="center" label="工程名称" show-overflow-tooltip>
+					<el-table-column prop="projectName" align="center" label="项目名称" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="buildUnit" align="center" label="工程编号" show-overflow-tooltip>
+					<el-table-column prop="projectCode" align="center" label="工程编号" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="contractCode" align="center" label="施工单位" show-overflow-tooltip>
+					<el-table-column prop="buildUnits" align="center" label="施工单位" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="supervisorUnit" align="center" label="合同段" show-overflow-tooltip>
+					<el-table-column prop="contractCode" align="center" label="合同段" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="buildSectionId" align="center" label="监理标段" show-overflow-tooltip>
+					<el-table-column prop="supervisionBan" align="center" label="监理办" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="supervisorSection" align="center" label="监理单位">
+					<el-table-column prop="supervisorUnits" align="center" label="监理单位">
 					</el-table-column>
-					<el-table-column prop="supervisorSection" align="center" label="合同号">
+					<el-table-column prop="contractCode" align="center" label="合同号">
 					</el-table-column>
 					<el-table-column prop="statusStr" align="center" label="状态描述">
 					</el-table-column>
@@ -63,8 +63,8 @@
 						</template>
 					</el-table-column>
 				</el-table>
-				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-					:current-page="queryData.pageNum" :page-size="queryData.pageSize" layout="total, sizes, prev, pager, next, jumper"
+				<el-pagination @current-change="handleCurrentChange"
+					:current-page="queryData.pageNum" :page-size="queryData.pageSize" layout="total, prev, pager, next, jumper"
 					:total="queryData.totalPage">
 				</el-pagination>
 			</div>
@@ -75,7 +75,7 @@
 </template>
 
 <script>
-	import * as api from "@/api/quality";
+	import * as api from "@/api/contract";
 	import edit from './equipmentEntryForInspection/edit';
 	import detail from './equipmentEntryForInspection/detail';
 	export default {
@@ -87,8 +87,9 @@
 				dialogTitle: '智慧建设通用版-【绍兴市】235国道杭州',
 				dialogFormVisible: false,
 				queryData: {
+					supervisionBan: '',
 					projectCode: '',
-					subProject: '',
+					draftFlag:1,
 					pageNum: 1,
 					totalPage: 1,
 					pageSize: 10,
@@ -109,9 +110,9 @@
 		},
 		methods: {
 			query() {
-				api.getHiddenProjectList(this.queryData).then((res) => {
+				api.getEquipmentEnterList(this.queryData).then((res) => {
 					this.allData = res.data || {};
-					this.tableData = this.formateTableData(res.data.list);
+					this.tableData = this.formateTableData(this.allData['list']);
 					this.queryData.pageNum=res.data.pageNum;
 					this.queryData.totalPage=res.data.total;
 					this.queryData.pageSize=res.data.pageSize;
@@ -120,13 +121,8 @@
 			formateTableData(list) {
 				list = list || [];
 				list.forEach(item => {
-					item['projectName'] = '235国道杭州至诸暨公路萧山河上至诸暨安华段改建工程';
-					item['buildUnit'] = '中交上海航道局有限公司、中国交通建设股份有限公司、浙江诸安建设集团有限公司、浙江省交通规划设计研究院有限公司';
-					item['contractCode'] = '235SJSG01';
-					item['supervisorUnit'] = '浙江交科公路水运工程监理有限公司';
-					item['buildSectionId'] = '';
-					item['supervisorSection'] = '';
-					item['statusStr'] = '';
+					item['buildUnits'] = item['buildUnits'] ? item['buildUnits'].join('、') : '';
+					item['supervisorUnits'] = item['supervisorUnits'] ? item['supervisorUnits'].join('、') : '';
 				})
 				return list;
 			},
@@ -148,7 +144,10 @@
 					cancelButtonText: '取消',
 					type: 'warning'
 				}).then(() => {
-					api.deleteHiddenProject({id:row['id']}).then((res) => {
+					api.deleteEquipmentEnter(row['id']).then((res) => {
+						if (this.tableData.length == 1) {
+							this.queryData.pageNum = this.queryData.pageNum> 1 ? this.queryData.pageNum - 1 : 1
+						}
 						this.query();
 						this.$message({
 							type: 'success',
@@ -162,11 +161,9 @@
 					});
 				});
 			},
-			handleSizeChange(val) {
-				console.log(`每页 ${val} 条`);
-			},
-			handleCurrentChange(val) {
-				console.log(`当前页: ${val}`);
+			handleCurrentChange(page) {
+				this.queryData.pageNum=page
+				this.query()
 			}
 		},
 	};

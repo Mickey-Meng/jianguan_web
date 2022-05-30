@@ -7,7 +7,7 @@
 				</div>
 				<div class="block-line">
 					<div class="block-item">
-						<div class="block-item-label">审批意见<i class="require-icon"></i></div>
+						<div class="block-item-label">审批意见</div>
 						<div class="block-item-value">
 							<el-form-item prop="comment">
 								<el-input v-model="formData.comment" type="textarea" :rows="4" placeholder="请输入审批意见">

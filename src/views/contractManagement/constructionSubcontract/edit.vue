@@ -323,6 +323,7 @@
 		},
 		watch: {
 			editRow(obj) {
+				obj=obj||{};
 				if (obj['id']) {
 					this.getDetail(obj['id']);
 				} else {
@@ -337,6 +338,8 @@
 						projectId: this.$store.getters.project['parentid'],
 						projectName: '',
 					}
+					this.attachTable=[];
+					this.contractTable=[];
 				}
 			}
 		},

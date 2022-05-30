@@ -276,6 +276,18 @@ const api = {
   deleteEnterExit: "/ZhuJiApi/web/api/v1/enterExit/id",
   getEnterExitList: "/ZhuJiApi/web/api/v1/enterExit/page",
   getEnterExitUserList: "/ZhuJiApi/web/api/v1/enterExitUser/page",
+  
+  //设备进场
+  addOrUpdateEquipmentEnter: "/ZhuJiApi/web/api/v1/equipmentEnter/addOrUpdate",
+  getEquipmentEnterDeatil: "/ZhuJiApi/web/api/v1/equipmentEnter/detail/id",
+  deleteEquipmentEnter: "/ZhuJiApi/web/api/v1/equipmentEnter/id",
+  getEquipmentEnterList: "/ZhuJiApi/web/api/v1/equipmentEnter/page",
+  getEquipmentEnterEnums: "/ZhuJiApi/web/api/v1/equipmentEnter/equipment/enums",
+  //设备退场
+  addOrUpdateEquipmentExit: "/ZhuJiApi/web/api/v1/equipmentExit/addOrUpdate",
+  getEquipmentExitDeatil: "/ZhuJiApi/web/api/v1/equipmentExit/detail/id",
+  deleteEquipmentExit: "/ZhuJiApi/web/api/v1/equipmentExit/id",
+  getEquipmentExitList: "/ZhuJiApi/web/api/v1/equipmentExit/page",
 };
 
 export default api;

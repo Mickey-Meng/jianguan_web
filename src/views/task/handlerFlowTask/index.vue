@@ -80,10 +80,12 @@
 					if(params['taskId']){
 						this.isHandleVisible=true;
 						this.isUnEdit=true;
+						
+						this.updateTaskHandle();
+						this.updateTaskLog();
 					}
 					this.isInfoVisible=true;
-					this.updateTaskHandle();
-					this.updateTaskLog();
+					
 				}else{
 					this.isUnEdit=false;
 				}
