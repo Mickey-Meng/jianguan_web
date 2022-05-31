@@ -43,7 +43,12 @@ export function getUserInfo(id) {
     method: "get"
   });
 }
-
+export const getRoles = () => {
+  return request({
+    url: `/STSfmzj/userauth/selectRole`,
+    method: "get"
+  });
+}
 export const getMap = (ID, GROUPID, roles) => {
   let r = "";
   for (let i = 0; i < roles.length; i++) {

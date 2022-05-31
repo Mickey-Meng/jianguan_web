@@ -24,9 +24,10 @@
 <script>
   let map;
   let L = window.L;
+  let featureGroup, marker;
   let workDraw = null;
   export default {
-    props: [],
+    props: ["siteStr"],
     watch: {},
     data() {
       return {};
@@ -60,6 +61,7 @@
           success: function (i) {
             map = i;
             that.initDrawer();
+            that.addLine();
           }
         });
 
@@ -95,6 +97,7 @@
       },
       startDraw() {
         this.$emit("clearStr");
+        marker && marker.remove();
         workDraw && workDraw.clearDraw();
         workDraw.startDraw("polygon", {
           style: {
@@ -120,7 +123,26 @@
           let str = arr.map(item => {
             return [item.lat, item.lng];
           });
+          let start = str[0];
+          str.push(start);
           this.$emit("setStr", JSON.stringify(str));
+        }
+      },
+      addLine() {
+        featureGroup && featureGroup.remove();
+        featureGroup = L.featureGroup().addTo(map);
+        marker && marker.remove();
+        if (this.siteStr) {
+          let str = JSON.parse(this.siteStr);
+          marker= L.polyline(str, {
+            weight: 2,
+            dashArray: '5,10',
+            color: 'black',
+            opacity: 0.8,
+          });
+          map.fitBounds(marker.getBounds());
+          featureGroup.addLayer(marker);
+
         }
       }
     },

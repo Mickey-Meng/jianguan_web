@@ -1118,3 +1118,49 @@
   line-height: 1 !important;
   font-size: 12px !important;
 }
+
+
+.select_tree{
+  height: 500px !important;
+  .el-scrollbar {
+    height: 100%;
+    .el-select-dropdown__wrap {
+      margin-top: 10px;
+      max-height: 470px;
+      .el-select-dropdown__list {
+        padding: 0;
+        .el-select-dropdown__item {
+          padding: 10px 10px;
+          // overflow: auto;
+          height: auto;
+          &:hover {
+            //background-color: transparent;
+          }
+          .el-tree {
+            //background-color: transparent !important;
+            //color: #fff;
+            .el-tree-node {
+              &:focus {
+                //background-color: #011c3e !important;
+                .el-tree-node__content {
+                  //background-color: transparent !important;
+                }
+              }
+              .el-tree-node__content {
+                &:hover {
+                  //background-color: transparent !important;
+                  //background: url('../assets/image/tree_item_bg.png') no-repeat;
+                  //background-size: 100% 100%;
+                  //color: #298aff;
+                }
+              }
+            }
+          }
+        }
+        .hover {
+          background-color: transparent;
+        }
+      }
+    }
+  }
+}

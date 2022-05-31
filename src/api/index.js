@@ -185,6 +185,11 @@ const api = {
   submitLeave: "/ZhuJiRoad/person/subLeave",//提交请假申请
   getLeave: "/ZhuJiRoad/person/getLeaveData",//获取请假数据
   getLeaveByProcessId: "/ZhuJiRoad/person/getLeaveByProcessId",
+  //-------------电子围栏--------------
+  addFence: "/ZhuJiRoad/fence/addFence",//新增电子围栏
+  deleteFence: "/ZhuJiRoad/fence/delFence",//删除电子围栏
+  getFence: "/ZhuJiRoad/fence/getFence",//获取电子围栏
+  updateFence: "/ZhuJiRoad/fence/updateFence",//更新电子围栏
 
 
   //-----------------------流程引擎新增接口 ------------------------
@@ -243,7 +248,7 @@ const api = {
   deleteManageRegime: "/ZhuJiApi/web/api/v1/manageRegime/id", // 删除单个管理制度数据
   getManageRegimeList: "/ZhuJiApi/web/api/v1/manageRegime/page", // 管理制度list
 
-  
+
   //施工技术交底
   getBuildTechBottomList: "/ZhuJiApi/web/api/v1/buildTechBottom/page",
   getBuildTechBottomDetail: "/ZhuJiApi/web/api/v1/buildTechBottom/detail/id",
@@ -264,7 +269,7 @@ const api = {
   deleteContractBuild: "/ZhuJiApi/web/api/v1/buildContract/id",
   getContractBuildList: "/ZhuJiApi/web/api/v1/buildContract/page",
   getContractBuildEnums: "/ZhuJiApi/web/api/v1/buildContract/buildContractPart/enums",
-  
+
   //往来款
   addOrUpdateComeGoMoney: "/ZhuJiApi/web/api/v1/comeGoMoney/addOrUpdate",
   getComeGoMoneyDeatil: "/ZhuJiApi/web/api/v1/comeGoMoney/detail/id",
@@ -276,7 +281,7 @@ const api = {
   deleteEnterExit: "/ZhuJiApi/web/api/v1/enterExit/id",
   getEnterExitList: "/ZhuJiApi/web/api/v1/enterExit/page",
   getEnterExitUserList: "/ZhuJiApi/web/api/v1/enterExitUser/page",
-  
+
   //设备进场
   addOrUpdateEquipmentEnter: "/ZhuJiApi/web/api/v1/equipmentEnter/addOrUpdate",
   getEquipmentEnterDeatil: "/ZhuJiApi/web/api/v1/equipmentEnter/detail/id",

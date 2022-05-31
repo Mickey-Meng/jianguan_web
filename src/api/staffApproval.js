@@ -95,3 +95,39 @@ export const getLeaveByProcessId = (params) => {
     params
   });
 };
+//--------------------------电子围栏-------------------
+export const addFence = (data) => {
+  return request({
+    url: api.addFence,
+    method: "post",
+    data
+  });
+};
+export const updateFence = (data) => {
+  return request({
+    url: api.updateFence,
+    method: "post",
+    data
+  });
+};
+export const getFence = (id) => {
+  return request({
+    url: api.getFence,
+    method: "post",
+    data: {},
+    params: {
+      projectId: id
+    }
+  });
+};
+export const deleteFence = (pid, id) => {
+  return request({
+    url: api.deleteFence,
+    method: "post",
+    data: {},
+    params: {
+      projectId: pid,
+      id
+    }
+  });
+};

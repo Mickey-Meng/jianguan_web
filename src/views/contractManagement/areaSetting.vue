@@ -17,27 +17,31 @@
       </div>
       <el-button type="primary">搜索</el-button>
 
+
       <div class="right-btns">
         <!-- <el-button type="primary" size="small"
           :icon="operateBtnsVisible?'el-icon-d-arrow-right':'el-icon-d-arrow-left'"
           @click="operateBtnsVisible=!operateBtnsVisible"></el-button> -->
         <div class="operate-btns">
-                    <el-button size="small" @click="openDialog">新建电子围栏</el-button>
+          <el-button size="small" @click="openDialog">新建电子围栏</el-button>
+          <el-button size="small" @click="openTimeDialog">打卡时间制定</el-button>
         </div>
       </div>
     </el-header>
     <el-main>
       <div class="container">
         <el-table :data="tableData" style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
-          <el-table-column prop="uploadname" label="打卡方案"></el-table-column>
-          <el-table-column prop="uploadname" label="人员岗位"></el-table-column>
-          <el-table-column prop="uploadname" label="时间范围"></el-table-column>
-          <el-table-column prop="uploadname" label="时长(h)"></el-table-column>
-          <el-table-column prop="uploadname" label="描述"></el-table-column>
-          <el-table-column prop="uploadname" label="操作"></el-table-column>
-          <!--          <el-table-column prop="uploadname" label="请假原因"></el-table-column>-->
-          <!--          <el-table-column prop="uploadname" label="备注"></el-table-column>-->
-          <!--          <el-table-column prop="uploadname" label="状态"></el-table-column>-->
+          <el-table-column prop="title" label="标题"></el-table-column>
+          <el-table-column prop="clockGroupName" label="工区"></el-table-column>
+          <el-table-column prop="coordinate" label="坐标" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="describe" label="描述"></el-table-column>
+          <el-table-column label="操作">
+            <template slot-scope="{ row, $index }">
+              <el-button type="text" size="mini" @click="modify(row)">修改</el-button>
+              <!--              <el-button type="text" size="mini" @click="viewDetail(row)">详情</el-button>-->
+              <el-button type="text" size="mini" @click="deleteRow(row)">删除</el-button>
+            </template>
+          </el-table-column>
         </el-table>
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
                        :current-page="queryData.pageNum" :page-size="queryData.pageSize"
@@ -66,9 +70,12 @@
                 </div>
                 <div class="block-line">
                   <div class="block-item">
-                    <div class="block-item-label">标段<i class="require-icon"></i></div>
+                    <div class="block-item-label">标题<i class="require-icon"></i></div>
                     <div class="block-item-value">
-                      <el-input readonly v-model="form.title"></el-input>
+                      <el-form-item prop="title">
+                        <el-input v-model="form.title"></el-input>
+
+                      </el-form-item>
                     </div>
                   </div>
                   <div class="block-item">
@@ -80,7 +87,8 @@
                             v-for="item in areaData"
                             :key="item.id"
                             :label="item.name"
-                            :value="item.id">
+                            :value="item.id"
+                            :disabled="disabledAreaId.includes(item.id)">
                           </el-option>
                         </el-select>
                       </el-form-item>
@@ -112,7 +120,7 @@
               </div>
               <div class="form-block">
                 <div id="map">
-                  <mapView @clearStr="clearStr" @setStr="setStr"></mapView>
+                  <mapView @clearStr="clearStr" @setStr="setStr" :siteStr="siteStr" v-if="dialogFormVisible"></mapView>
                 </div>
               </div>
               <div class="form-block">
@@ -128,6 +136,10 @@
     </el-dialog>
 
 
+    <!--    打卡时间制定-->
+    <clickTime ref="clickTime"></clickTime>
+
+
   </el-container>
 </template>
 
@@ -135,7 +147,10 @@
   import {getNowDate} from "@/utils/date";
   import {mapGetters} from "vuex";
   import mapView from "@/views/contractManagement/map/map";
+  import clickTime from "@/views/contractManagement/areaSetting/clickTime";
   import {getChildProject} from "@/api/project";
+  import {addFence, getFence, deleteFence, updateFence} from "@/api/staffApproval";
+  import * as api from "@/api/quality";
 
   export default {
     name: "",
@@ -144,6 +159,7 @@
         form: {},
         tableData: [],
         areaData: [],
+        disabledAreaId: [],
         dialogFormVisible: false,
         queryData: {
           projectCode: "",
@@ -154,12 +170,16 @@
         },
         dialogTitle: "项目全生命周期数字管理平台",
         isCreate: false,
+        siteStr: "",
         rules: {
           clockGroupId: [
             {required: true, message: "请请选择工区", trigger: "blur"}
           ],
           coordinate: [
             {required: true, message: "请绘制范围", trigger: "blur"}
+          ],
+          title: [
+            {required: true, message: "请绘输入标题", trigger: "blur"}
           ]
         }
       };
@@ -167,25 +187,21 @@
     created() {
       this.init();
       this.initForm();
+      this.initTableData();
     },
-    components: {mapView},
+    components: {mapView, clickTime},
     computed: {
       ...mapGetters(["userInfo", "name", "project"])
     },
     methods: {
       initForm() {
         this.form = {
-          clockGroupId: null,
-          clockGroupName: "",
-          clockInEndTime: "",
-          clockInOften: "",
-          clockInStartTime: "",
-          coordinate: "",
-          describe: "",
-          postId: "",
-          postName: "",
+          clockGroupId: null,//打卡工区id
+          clockGroupName: "",//打卡工区
+          coordinate: "",//坐标
+          describe: "",//描述
           projectId: this.project.id,
-          title: this.project.name
+          title: ""
         };
       },
       init() {
@@ -193,10 +209,22 @@
           this.areaData = res.data;
         });
       },
+      initTableData() {
+        getFence(this.project.id).then(res => {
+          this.disabledAreaId = [];
+          if (res.data && res.data.length > 0) {
+            this.disabledAreaId = res.data.map(e => {
+              return e.clockGroupId;
+            });
+          }
+          this.tableData = res.data || [];
+        });
+      },
       openDialog() {
         this.initForm();
         this.isCreate = true;
         this.dialogFormVisible = true;
+        this.siteStr = "";
       },
       clearStr() {
         this.form.coordinate = "";
@@ -207,10 +235,62 @@
       submitInfo() {
         this.$refs['form'].validate((valid) => {
           if (valid) {
+            let obj = Object.assign({}, this.form);
+            let area = this.areaData.find(e => e.id === obj.clockGroupId);
+            obj.clockGroupName = area.name;
+            if (this.isCreate) {
+              addFence(obj).then(res => {
+                this.$message({
+                  type: "success",
+                  message: "电子围栏添加成功",
+                  customClass: "message_override"
+                });
+                this.initTableData();
+                this.dialogFormVisible = false;
+              });
+            } else {
+              updateFence(obj).then(res => {
+                this.$message({
+                  type: "success",
+                  message: "电子围栏修改成功",
+                  customClass: "message_override"
+                });
+                this.initTableData();
+                this.dialogFormVisible = false;
+              });
+            }
           } else {
             return false;
           }
         });
+      },
+      deleteRow(row) {
+        this.$confirm("确认是否删除?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        }).then(() => {
+          deleteFence(this.project.id, row.id).then(res => {
+            this.initTableData();
+            this.$message({
+              type: "success",
+              message: "删除成功",
+              customClass: "message_override"
+            });
+          });
+
+        });
+      },
+      modify(row) {
+        this.form = Object.assign({}, row);
+        this.siteStr = row.coordinate;
+        this.dialogFormVisible = true;
+        this.isCreate = false;
+      },
+      openTimeDialog() {
+        this.$refs.clickTime.dialogFormVisible = true;
+        this.$refs.clickTime.initForm();
+        this.$refs.clickTime.initData();
       },
       handleSizeChange() {
       },
