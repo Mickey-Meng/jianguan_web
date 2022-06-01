@@ -30,13 +30,15 @@
                   <div class="block-item">
                     <div class="block-item-label">标题<i class="require-icon"></i></div>
                     <div class="block-item-value">
-                      <el-input readonly v-model="form.title"></el-input>
+                      <el-form-item prop="title">
+                        <el-input v-model="form.title"></el-input>
+                      </el-form-item>
                     </div>
                   </div>
                   <div class="block-item">
                     <div class="block-item-label">人员岗位<i class="require-icon"></i></div>
                     <div class="block-item-value">
-                      <el-form-item prop="clockGroupId">
+                      <el-form-item prop="postName">
                         <el-select
                           ref="select"
                           :value="selectLabel"
@@ -47,11 +49,14 @@
                             <el-tree
                               id="tree-option"
                               ref="tree"
+                              node-key="ID"
                               show-checkbox
                               :accordion="true"
                               :data="treeData"
                               :props="props"
                               :expand-on-click-node="false"
+                              @check="checkEvent"
+                              @check-change="checkChange"
                             >
                               <template slot-scope="{ node }">
                                 <span class="node_label">{{ node.label }}</span>
@@ -93,6 +98,12 @@
                 </div>
               </div>
               <div class="form-block">
+                <el-button style="margin: 20px 0 20px 160px;padding: 0 70px" size="small" type="primary"
+                           @click="submitInfo"
+                >提交
+                </el-button>
+              </div>
+              <div class="form-block">
                 <div class="form-block-title">
                   <div class="title-bar"></div>
                   <strong>打卡时间明细</strong>
@@ -111,11 +122,7 @@
                   </el-table>
                 </div>
               </div>
-              <div class="form-block">
-                <el-button style="margin: 20px 0 20px 160px;padding: 0 70px" size="small" type="primary"
-                >提交
-                </el-button>
-              </div>
+
             </el-form>
           </div>
         </el-main>
@@ -130,6 +137,7 @@
   import {diff, getCurrentDate} from "@/utils/date";
 
   import {getRoles} from "@/api/user";
+  import {addClockTime, updateClockTime, getClockTime, deleteClockTime} from "@/api/staffApproval";
 
   export default {
     props: [],
@@ -145,7 +153,12 @@
         },
         form: {},
         timeValue: "",
-        rules: {},
+        isCreate: true,
+        rules: {
+          name: [
+            {required: true, message: "请请填写标题", trigger: "blur"}
+          ]
+        },
         tableData: [],
         dialogTitle: "项目全生命周期数字管理平台",
         dialogFormVisible: false
@@ -153,18 +166,19 @@
     },
     created() {
       this.initData();
+      this.initClockTime();
     },
     mounted() {
     },
     methods: {
       initForm() {
         this.timeValue = "";
+        this.selectLabel = "";
         this.form = {
           clockInEndTime: "",
           clockInOften: "",
           clockInStartTime: "",
-          postId: "",
-          postName: "",
+          posts: null,
           projectId: this.project.id
         };
       },
@@ -186,11 +200,18 @@
               });
             }
           }
-          let data = res.data.getMe;
-          let tree = getTree(data)
-          this.treeData = tree
+
+          let filterId = [2, 3];
+          let data = res.data.getMe.filter(e => !filterId.includes(e.ID));
+          let tree = getTree(data);
+          this.treeData = tree;
         });
 
+      },
+      initClockTime() {
+        getClockTime(this.project.id).then(res => {
+          console.log(res);
+        });
       },
       timeChange(val) {
         if (val && val.length > 0) {
@@ -204,6 +225,53 @@
             this.form.clockInOften = "";
           }
         }
+      },
+      checkEvent(node, data) {
+        this.form.posts = null;
+        let checkNodes = data.checkedNodes;
+        if (checkNodes && checkNodes.length > 0) {
+          let roles = checkNodes.filter(e => e.PARENTID !== -1);
+          let str = "";
+          let posts = roles.map(item => {
+            str += item.NAME + ",";
+            return {
+              id: item.ID,
+              name: item.NAME
+            };
+          });
+          this.form.posts = JSON.stringify(posts);
+          this.selectLabel = str;
+        }
+
+      },
+      checkChange(a, b, c) {
+        // console.log(a,b,c);
+      },
+      submitInfo() {
+        let {selectLabel, timeValue, isCreate} = this;
+        if (!selectLabel || !timeValue) {
+          this.$message({
+            type: "warning",
+            message: "请选择岗位或者时间",
+            customClass: "message_override"
+          });
+          return false;
+        }
+        this.$refs["form"].validate((valid) => {
+          if (valid) {
+            let obj = Object.assign({}, this.form);
+            obj.clockInStartTime = timeValue[0];
+            obj.clockInEndTime = timeValue[1];
+            if (isCreate) {
+              addClockTime(obj).then(res => {
+                console.log(res);
+              });
+
+            }
+          } else {
+            return false;
+          }
+        });
       }
     },
     computed: {

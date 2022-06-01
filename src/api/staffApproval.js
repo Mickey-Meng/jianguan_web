@@ -131,3 +131,39 @@ export const deleteFence = (pid, id) => {
     }
   });
 };
+//--------------------- 打卡时间制定----------------------
+export const addClockTime = (data) => {
+  return request({
+    url: api.addClockTime,
+    method: "post",
+    data
+  });
+};
+export const updateClockTime = (data) => {
+  return request({
+    url: api.updateClockTime,
+    method: "post",
+    data
+  });
+};
+export const getClockTime = (id) => {
+  return request({
+    url: api.getClockTime,
+    method: "post",
+    data: {},
+    params: {
+      projectId: id
+    }
+  });
+};
+export const deleteClockTime = (pid, id) => {
+  return request({
+    url: api.deleteClockTime,
+    method: "post",
+    data: {},
+    params: {
+      projectId: pid,
+      id
+    }
+  });
+};
