@@ -115,6 +115,7 @@
       },
       clearFeature() {
         this.$emit("clearStr");
+        marker && marker.remove();
         workDraw && workDraw.clearDraw();
         workDraw && workDraw.stopDraw();
       },
