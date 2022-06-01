@@ -902,4 +902,45 @@ export const getBuildTechBottomList = data => {
 		data: data
 	});
 };
+
+/**
+ * 新增或者更新施工方案记录数据
+ */
+ export const addOrUpdateBuildPlan = data => {
+	return request({
+		url: api.addOrUpdateBuildPlan,
+		method: "post",
+		data: data
+	});
+};
+/**
+ * 通过id获取一条施工方案记录数据
+ */
+export const getBuildPlanDetail = params => {
+	return request({
+		url: api.getBuildPlanDetail,
+		method: "get",
+		params: params
+	});
+};
+/**
+ * 通过id删除一条施工方案记录数据
+ */
+export const deleteBuildPlan = params => {
+	return request({
+		url: api.deleteBuildPlan,
+		method: "get",
+		params: params
+	});
+};
+/**
+ * 分页查询施工方案记录数据
+ */
+export const getBuildPlanList = data => {
+	return request({
+		url: api.getBuildPlanList,
+		method: "post",
+		data: data
+	});
+};
 //-----------------------流程引擎新增接口 ZH ---------------------

@@ -36,7 +36,7 @@
 										<div class="block-item">
 											<div class="block-item-label">施工单位</div>
 											<div class="block-item-value">
-												{{baseInfo.contractCode}}
+												{{baseInfo.buildCompany}}
 											</div>
 										</div>
 									</div>
@@ -44,7 +44,7 @@
 										<div class="block-item">
 											<div class="block-item-label">合同号</div>
 											<div class="block-item-value">
-												{{baseInfo.buildCompany}}
+												{{baseInfo.contractCode}}
 											</div>
 										</div>
 										<div class="block-item">
@@ -55,12 +55,15 @@
 										</div>
 									</div>
 									<div class="block-line">
-
 										<div class="block-item">
-											<div class="block-item-label">工程编号</div>
-											<div class="block-item-value">
-												<el-input v-model="formData.projectCode"></el-input>
+											<div class="block-item-label">工程编号<i class="require-icon"></i></div>
+											<div class="block-item-value" prop="projectCode">
+												<!-- <el-input v-model="formData.projectCode"></el-input> -->
+												<el-form-item prop="projectCode">
+													<el-input v-model="formData.projectCode"></el-input>
+												</el-form-item>
 											</div>
+											
 										</div>
 									</div>
 								</div>
@@ -71,15 +74,17 @@
 									</div>
 									<div class="block-line">
 										<div class="block-item">
-											<div class="block-item-label">专项施工方案名称</div>
+											<div class="block-item-label">专项施工方案名称<i class="require-icon"></i></div>
 											<div class="block-item-value">
-												{{baseInfo.buildSectionName}}
+												<el-form-item prop="buildPlanName">
+													<el-input v-model="formData.buildPlanName"></el-input>
+												</el-form-item>
 											</div>
 										</div>
 										<div class="block-item">
 											<div class="block-item-label">附件清单</div>
 											<div class="block-item-value">
-												<el-input v-model="formData.projectCode" type="textarea" :rows="4"></el-input>
+												<el-input v-model="formData.attachmentList" type="textarea" :rows="4"></el-input>
 											</div>
 										</div>
 									</div>
@@ -91,35 +96,7 @@
 											xisx xis pdf文件，且不超过100m</span>
 									</div>
 
-									<div class="block-line">
-										<upload @afterUp="afterUp($event)"></upload>
-										<!-- <div class="block-table-title">附件</div> -->
-										<div class="block-table-btns">
-											<el-button size="small" type="primary">下载全部</el-button>
-										</div>
-									</div>
-									<div class="block-table">
-										<el-table :data="attachTable" style="width: 100%" border class="have_scrolling">
-											<el-table-column type="index" width="50" align="center" label="序号">
-											</el-table-column>
-											<el-table-column prop="fileName" align="center" label="附件"
-												show-overflow-tooltip>
-											</el-table-column>
-											<el-table-column prop="createTime" width="160px" align="center"
-												label="上传日期">
-											</el-table-column>
-											<el-table-column prop="creatorName" width="120px" align="center"
-												label="上传人">
-											</el-table-column>
-											<el-table-column fixed="right" width="120" align="center" label="操作">
-												<template slot-scope="{ row, $index }">
-													<el-button type="text" size="mini">下载</el-button>
-													<el-button type="text" size="mini">预览</el-button>
-													<el-button type="text" size="mini" @click="deleteAttach(row, $index)">删除</el-button>
-												</template>
-											</el-table-column>
-										</el-table>
-									</div>
+									<attachlist :editAble="true" ref="attachlist" :attachTable="buildPlanAttachTable"></attachlist>
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
@@ -127,36 +104,7 @@
 										<span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
 											xisx xis pdf文件，且不超过100m</span>
 									</div>
-
-									<div class="block-line">
-										<upload @afterUp="afterUp($event)"></upload>
-										<!-- <div class="block-table-title">附件</div> -->
-										<div class="block-table-btns">
-											<el-button size="small" type="primary">下载全部</el-button>
-										</div>
-									</div>
-									<div class="block-table">
-										<el-table :data="attachTable" style="width: 100%" border class="have_scrolling">
-											<el-table-column type="index" width="50" align="center" label="序号">
-											</el-table-column>
-											<el-table-column prop="fileName" align="center" label="附件"
-												show-overflow-tooltip>
-											</el-table-column>
-											<el-table-column prop="createTime" width="160px" align="center"
-												label="上传日期">
-											</el-table-column>
-											<el-table-column prop="creatorName" width="120px" align="center"
-												label="上传人">
-											</el-table-column>
-											<el-table-column fixed="right" width="120" align="center" label="操作">
-												<template slot-scope="{ row, $index }">
-													<el-button type="text" size="mini">下载</el-button>
-													<el-button type="text" size="mini">预览</el-button>
-													<el-button type="text" size="mini" @click="deleteAttach(row, $index)">删除</el-button>
-												</template>
-											</el-table-column>
-										</el-table>
-									</div>
+									<attachlist :editAble="true" ref="attachlist" :attachTable="expertMeetingAttachTable"></attachlist>
 								</div>
 
 								<div class="form-block">
@@ -167,7 +115,7 @@
 										<div class="block-item">
 											<div class="block-item-label">是否需要专家论证</div>
 											<div class="block-item-value">
-												<el-switch style="display: block" v-model="value2"
+												<el-switch :active-value="0" :inactive-value="1" style="display: block" v-model="formData.expertArgument"
 												active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否">
 												</el-switch>
 											</div>
@@ -177,13 +125,13 @@
 										<div class="block-item">
 											<div class="block-item-label">专家论证意见</div>
 											<div class="block-item-value">
-												<el-input v-model="formData.projectCode" type="textarea" :rows="4"></el-input>
+												<el-input v-model="formData.expertOpinion" type="textarea" :rows="4" :disabled="formData.expertArgument==1"></el-input>
 											</div>
 										</div>
 										<div class="block-item">
 											<div class="block-item-label">专家论证意见的落实情况</div>
 											<div class="block-item-value">
-												<el-input v-model="formData.projectCode" type="textarea" :rows="4"></el-input>
+												<el-input v-model="formData.expertOpinionImplement" type="textarea" :rows="4" :disabled="formData.expertArgument==1"></el-input>
 											</div>
 										</div>
 									</div>
@@ -195,35 +143,7 @@
 											xisx xis pdf文件，且不超过100m</span>
 									</div>
 
-									<div class="block-line">
-										<upload @afterUp="afterUp($event)"></upload>
-										<!-- <div class="block-table-title">附件</div> -->
-										<div class="block-table-btns">
-											<el-button size="small" type="primary">下载全部</el-button>
-										</div>
-									</div>
-									<div class="block-table">
-										<el-table :data="attachTable" style="width: 100%" border class="have_scrolling">
-											<el-table-column type="index" width="50" align="center" label="序号">
-											</el-table-column>
-											<el-table-column prop="fileName" align="center" label="附件"
-												show-overflow-tooltip>
-											</el-table-column>
-											<el-table-column prop="createTime" width="160px" align="center"
-												label="上传日期">
-											</el-table-column>
-											<el-table-column prop="creatorName" width="120px" align="center"
-												label="上传人">
-											</el-table-column>
-											<el-table-column fixed="right" width="120" align="center" label="操作">
-												<template slot-scope="{ row, $index }">
-													<el-button type="text" size="mini">下载</el-button>
-													<el-button type="text" size="mini">预览</el-button>
-													<el-button type="text" size="mini" @click="deleteAttach(row, $index)">删除</el-button>
-												</template>
-											</el-table-column>
-										</el-table>
-									</div>
+									<attachlist :editAble="true" ref="attachlist" :attachTable="replyAttachTable"></attachlist>
 								</div>
 								
 								<div class="form-block">
@@ -398,6 +318,16 @@
 					value: 1
 				}],
 				rules: {
+					projectCode: [{
+						required: true,
+						message: '请输入工程编号',
+						trigger: 'blur'
+					}],
+					buildPlanName: [{
+						required: true,
+						message: '请输入专项施工方案名称',
+						trigger: 'blur'
+					}],
 					subProject: [{
 						required: true,
 						message: '请填写分项工程',
@@ -437,6 +367,11 @@
 					supervisionUnit: '',
 				},
 				formData: { //表单参数
+					buildPlanName: '', // 专项施工方案名称
+					attachmentList: '', // 附件清单
+					expertArgument:0,
+
+
 					attachment: [],
 					buildCheckselfResult: '',
 					deletedFlag: 1,
@@ -454,6 +389,9 @@
 					unit: ''
 				},
 				attachTable: [], //附件
+				buildPlanAttachTable: [], // 专项施工方案附件
+				expertMeetingAttachTable: [], // 专家论证会议纪要附件
+				replyAttachTable: [], // 整改回复附件
 				fileList:[]
 			};
 		},
@@ -473,6 +411,12 @@
 					this.getDetail(obj['id']);
 				} else {
 					this.formData = {
+						buildPlanName: '', // 专项施工方案名称
+						attachmentList: '', // 附件清单
+						buildPlanAttachTable: [], // 专项施工方案附件
+						expertMeetingAttachTable: [], // 专家论证会议纪要附件
+						replyAttachTable: [], // 整改回复附件
+
 						attachment: [],
 						buildCheckselfResult: '',
 						deletedFlag: 1,
@@ -490,6 +434,9 @@
 						unit: ''
 					}
 					this.attachTable=[]
+					this.buildPlanAttachTable=[]
+					this.expertMeetingAttachTable=[]
+					this.replyAttachTable=[]
 				}
 			}
 		},
@@ -521,8 +468,11 @@
 			addOrModify() {
 				this.$refs['ruleForm'].validate((valid) => {
 					if(valid){
+						this.formData.buildPlanAttachment=this.buildPlanAttachTable;
+						this.formData.expertMeetingAttachment=this.expertMeetingAttachTable;
+						this.formData.replyAttachment=this.replyAttachTable;
 						this.formData.attachment=this.attachTable;
-						api.addOrUpdateHiddenProject(this.formData).then((res) => {
+						api.addOrUpdateBuildPlan(this.formData).then((res) => {
 							if (res.data) {
 								this.$message({
 									type: 'success',
@@ -532,8 +482,37 @@
 								this.$emit("query");
 							}
 						});
+					} else {
+						this.$message({
+							type: 'success',
+							message: '请检查必填项!'
+						});
 					}
 					
+				})
+			},
+			buildPlanAfterUp(data){
+				this.buildPlanAttachTable.push({
+					createTime:formatDateTime(data['uploadTime']),
+					fileName:data['fileName'],
+					fileUrl:data['fileId'],
+					creatorName:'test'
+				})
+			},
+			expertMeetingAfterUp(data){
+				this.expertMeetingAttachTable.push({
+					createTime:formatDateTime(data['uploadTime']),
+					fileName:data['fileName'],
+					fileUrl:data['fileId'],
+					creatorName:'test'
+				})
+			},
+			replyAfterUp(data){
+				this.replyAttachTable.push({
+					createTime:formatDateTime(data['uploadTime']),
+					fileName:data['fileName'],
+					fileUrl:data['fileId'],
+					creatorName:'test'
 				})
 			},
 			afterUp(data){

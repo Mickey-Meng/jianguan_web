@@ -46,6 +46,10 @@ export const constantRoutes = [{
 				name: "constructionSubcontract_detail",
 				component: () => import("@/views/contractManagement/constructionSubcontract/view")
 			}, {
+				path: "/constructionScheme_detail",
+				name: "constructionScheme_detail",
+				component: () => import("@/views/quality/newPage/constructionScheme/view")
+			}, {
 				path: "/laborSubcontract_detail",
 				name: "laborSubcontract_detail",
 				component: () => import("@/views/contractManagement/laborSubcontract/view")

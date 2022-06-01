@@ -254,6 +254,11 @@ const api = {
   getBuildTechBottomDetail: "/ZhuJiApi/web/api/v1/buildTechBottom/detail/id",
   addOrUpdateBuildTechBottom: "/ZhuJiApi/web/api/v1/buildTechBottom/addOrUpdate",
   deleteBuildTechBottom: "/ZhuJiApi/web/api/v1/buildTechBottom/id",
+  //施工方案
+  getBuildPlanList: "/ZhuJiApi/web/api/v1/buildPlan/page",
+  getBuildPlanDetail: "/ZhuJiApi/web/api/v1/buildPlan/detail/id",
+  addOrUpdateBuildPlan: "/ZhuJiApi/web/api/v1/buildPlan/addOrUpdate",
+  deleteBuildPlan: "/ZhuJiApi/web/api/v1/buildPlan/id",
   //-----------------------流程引擎新增接口 ZH ----------------------
 
 

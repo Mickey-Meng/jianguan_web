@@ -22,7 +22,7 @@
 						<div class="block-item">
 							<div class="block-item-label">施工单位</div>
 							<div class="block-item-value">
-								{{baseInfo.contractCode}}
+								{{baseInfo.buildCompany}}
 							</div>
 						</div>
 					</div>
@@ -30,7 +30,7 @@
 						<div class="block-item">
 							<div class="block-item-label">合同号</div>
 							<div class="block-item-value">
-								{{baseInfo.buildCompany}}
+								{{baseInfo.contractCode}}
 							</div>
 						</div>
 						<div class="block-item">
@@ -58,13 +58,13 @@
 						<div class="block-item">
 							<div class="block-item-label">专项施工方案名称</div>
 							<div class="block-item-value">
-								{{baseInfo.buildSectionName}}
+								{{formData.buildPlanName}}
 							</div>
 						</div>
 						<div class="block-item">
 							<div class="block-item-label">附件清单</div>
 							<div class="block-item-value">
-								{{baseInfo.contractCode}}
+								{{formData.attachmentList}}
 							</div>
 						</div>
 					</div>
@@ -78,33 +78,7 @@
 							xisx xis pdf文件，且不超过100m</span>
 					</div>
 
-					<div class="block-line">
-						<div class="block-table-title">附件</div>
-						<div class="block-table-btns">
-							<el-button size="small" type="primary">下载全部</el-button>
-						</div>
-					</div>
-					<div class="block-table">
-						<el-table :data="attachTable" style="width: 100%" border
-							class="have_scrolling">
-							<el-table-column type="index" width="50" align="center" label="序号">
-							</el-table-column>
-							<el-table-column prop="fileName" align="center" label="附件" show-overflow-tooltip>
-							</el-table-column>
-							<el-table-column prop="createTime" width="160px" align="center"
-								label="上传日期">
-							</el-table-column>
-							<el-table-column prop="creatorName" width="120px" align="center"
-								label="上传人">
-							</el-table-column>
-							<el-table-column fixed="right" width="120" align="center" label="操作">
-								<template slot-scope="{ row, $index }">
-									<el-button type="primary" size="mini">下载</el-button>
-									<el-button type="danger" size="mini">预览</el-button>
-								</template>
-							</el-table-column>
-						</el-table>
-					</div>
+					<attachlist :editAble="false" ref="attachlist" :attachTable="buildPlanAttachTable"></attachlist>
 				</div>
 				<div class="form-block">
 					<div class="form-block-title">
@@ -113,33 +87,7 @@
 							xisx xis pdf文件，且不超过100m</span>
 					</div>
 
-					<div class="block-line">
-						<div class="block-table-title">附件</div>
-						<div class="block-table-btns">
-							<el-button size="small" type="primary">下载全部</el-button>
-						</div>
-					</div>
-					<div class="block-table">
-						<el-table :data="attachTable" style="width: 100%" border
-							class="have_scrolling">
-							<el-table-column type="index" width="50" align="center" label="序号">
-							</el-table-column>
-							<el-table-column prop="fileName" align="center" label="附件" show-overflow-tooltip>
-							</el-table-column>
-							<el-table-column prop="createTime" width="160px" align="center"
-								label="上传日期">
-							</el-table-column>
-							<el-table-column prop="creatorName" width="120px" align="center"
-								label="上传人">
-							</el-table-column>
-							<el-table-column fixed="right" width="120" align="center" label="操作">
-								<template slot-scope="{ row, $index }">
-									<el-button type="primary" size="mini">下载</el-button>
-									<el-button type="danger" size="mini">预览</el-button>
-								</template>
-							</el-table-column>
-						</el-table>
-					</div>
+					<attachlist :editAble="false" ref="attachlist" :attachTable="expertMeetingAttachTable"></attachlist>
 				</div>
 				<div class="form-block">
 					<div class="form-block-title">
@@ -149,7 +97,7 @@
 						<div class="block-item">
 							<div class="block-item-label">是否需要专家论证</div>
 							<div class="block-item-value">
-								<el-switch style="display: block" v-model="value2"
+								<el-switch disabled :active-value="0" :inactive-value="1" style="display: block" v-model="formData.expertArgument"
 								active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否">
 								</el-switch>
 							</div>
@@ -159,13 +107,13 @@
 						<div class="block-item">
 							<div class="block-item-label">专家论证意见</div>
 							<div class="block-item-value">
-								<el-input v-model="formData.projectCode" type="textarea" :rows="4" disabled></el-input>
+								<el-input v-model="formData.expertOpinion" type="textarea" :rows="4" disabled></el-input>
 							</div>
 						</div>
 						<div class="block-item">
 							<div class="block-item-label">专家论证意见的落实情况</div>
 							<div class="block-item-value">
-								<el-input v-model="formData.projectCode" type="textarea" :rows="4" disabled></el-input>
+								<el-input v-model="formData.expertOpinionImplement" type="textarea" :rows="4" disabled></el-input>
 							</div>
 						</div>
 					</div>
@@ -178,33 +126,7 @@
 							xisx xis pdf文件，且不超过100m</span>
 					</div>
 
-					<div class="block-line">
-						<div class="block-table-title">附件</div>
-						<div class="block-table-btns">
-							<el-button size="small" type="primary">下载全部</el-button>
-						</div>
-					</div>
-					<div class="block-table">
-						<el-table :data="attachTable" style="width: 100%" border
-							class="have_scrolling">
-							<el-table-column type="index" width="50" align="center" label="序号">
-							</el-table-column>
-							<el-table-column prop="fileName" align="center" label="附件" show-overflow-tooltip>
-							</el-table-column>
-							<el-table-column prop="createTime" width="160px" align="center"
-								label="上传日期">
-							</el-table-column>
-							<el-table-column prop="creatorName" width="120px" align="center"
-								label="上传人">
-							</el-table-column>
-							<el-table-column fixed="right" width="120" align="center" label="操作">
-								<template slot-scope="{ row, $index }">
-									<el-button type="primary" size="mini">下载</el-button>
-									<el-button type="danger" size="mini">预览</el-button>
-								</template>
-							</el-table-column>
-						</el-table>
-					</div>
+					<attachlist :editAble="false" ref="attachlist" :attachTable="replyAttachTable"></attachlist>
 				</div>
 				<div class="form-block">
 					<div class="form-block-title">
@@ -301,6 +223,7 @@
 		convertOptions,
 		getQueryVariable
 	} from "@/utils/format.js";
+	import attachlist from "../../../common/attachlist.vue"
 	export default {
 		props: ['detailRow'],
 		data() {
@@ -331,10 +254,15 @@
 					unit: ''
 				},
 				attachTable: [], //附件
+				buildPlanAttachTable: [], // 专项施工方案附件
+				expertMeetingAttachTable: [], // 专家论证会议纪要附件
+				replyAttachTable: [], // 整改回复附件
 			};
 		},
 		created() {},
-		components: {},
+		components: {
+			attachlist
+		},
 		computed: {},
 		mounted() {
 			setTimeout(() => {
@@ -356,12 +284,15 @@
 		},
 		methods: {
 			getDetail(id) {
-				api.getHiddenProjectDetail({
+				api.getBuildPlanDetail({
 					id: id
 				}).then((res) => {
 					let data = res['data'] || {};
 					this.formData = data;
-					this.attachTable = data.attachment || [];
+					this.buildPlanAttachTable=data.buildPlanAttachment||[];
+					this.expertMeetingAttachTable=data.expertMeetingAttachment||[];
+					this.replyAttachTable=data.replyAttachment||[];
+					this.attachTable=data.attachment||[];
 				});
 			},
 		},

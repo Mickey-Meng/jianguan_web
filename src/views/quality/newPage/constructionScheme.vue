@@ -44,17 +44,17 @@
 					class="have_scrolling">
 					<el-table-column type="index" width="50" align="center" label="序号">
 					</el-table-column>
-					<el-table-column prop="projectName" align="center" label="工程编号" show-overflow-tooltip>
+					<el-table-column prop="projectCode" align="center" label="工程编号" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="buildUnit" align="center" label="项目名称" show-overflow-tooltip>
+					<el-table-column prop="projectName" align="center" label="项目名称" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="contractCode" align="center" label="监理标段" show-overflow-tooltip>
+					<el-table-column prop="supervisionSectionName" align="center" label="监理标段" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="supervisorUnit" align="center" label="施工标段" show-overflow-tooltip>
+					<el-table-column prop="buildSectionName" align="center" label="施工标段" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="buildSectionId" align="center" label="合同号" show-overflow-tooltip>
+					<el-table-column prop="contractCode" align="center" label="合同号" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="buildSectionId" align="center" label="专项施工方案名称" show-overflow-tooltip>
+					<el-table-column prop="buildPlanName" align="center" label="专项施工方案名称" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="buildSectionId" align="center" label="合同段" show-overflow-tooltip>
 					</el-table-column>
@@ -114,7 +114,7 @@
 		},
 		methods: {
 			query() {
-				api.getHiddenProjectList(this.queryData).then((res) => {
+				api.getBuildPlanList(this.queryData).then((res) => {
 					this.allData = res.data || {};
 					this.tableData = this.formateTableData(res.data.list);
 					this.queryData.pageNum=res.data.pageNum;
@@ -153,7 +153,7 @@
 					cancelButtonText: '取消',
 					type: 'warning'
 				}).then(() => {
-					api.deleteHiddenProject({id:row['id']}).then((res) => {
+					api.deleteBuildPlan({id:row['id']}).then((res) => {
 						this.query();
 						this.$message({
 							type: 'success',
