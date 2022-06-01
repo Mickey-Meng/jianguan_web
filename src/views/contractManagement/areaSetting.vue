@@ -289,8 +289,10 @@
       },
       openTimeDialog() {
         this.$refs.clickTime.dialogFormVisible = true;
+        this.$refs.clickTime.isCreate = true;
         this.$refs.clickTime.initForm();
         this.$refs.clickTime.initData();
+        this.$refs.clickTime.initClockTime();
       },
       handleSizeChange() {
       },

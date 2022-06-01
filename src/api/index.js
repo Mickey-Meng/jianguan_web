@@ -190,6 +190,11 @@ const api = {
   deleteFence: "/ZhuJiRoad/fence/delFence",//删除电子围栏
   getFence: "/ZhuJiRoad/fence/getFence",//获取电子围栏
   updateFence: "/ZhuJiRoad/fence/updateFence",//更新电子围栏
+  //-------------打卡时间制定-------------------
+  addClockTime: "/ZhuJiRoad/fence/addClock",
+  getClockTime: "/ZhuJiRoad/fence/getClock",
+  updateClockTime: "/ZhuJiRoad/fence/updateClock",
+  deleteClockTime: "/ZhuJiRoad/fence/delClock",
 
 
   //-----------------------流程引擎新增接口 ------------------------

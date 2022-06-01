@@ -664,6 +664,84 @@ export const asyncRoutes = [{
 					noMap: true
 				}
 			},
+      {
+        path: "/firstProcessApproval",
+        name: "firstProcessApproval",
+        component: () => import("@/views/quality/newPage/firstProcessApproval"),
+        meta: {
+          title: "首件认可",
+          code: "shoujianrenke",
+          icon: "circle",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/projectCommencementApplication",
+        name: "projectCommencementApplication",
+        component: () => import("@/views/quality/newPage/projectCommencementApplication"),
+        meta: {
+          title: "项目开工申请",
+          code: "xiangmukaigongshenqing",
+          icon: "circle",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/separateApplicationForCommencement",
+        name: "separateApplicationForCommencement",
+        component: () => import("@/views/quality/newPage/separateApplicationForCommencement"),
+        meta: {
+          title: "分项开工申请",
+          code: "fenxiangkaigongshenqing",
+          icon: "circle",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/qualityActivity",
+        name: "qualityActivity",
+        component: () => import("@/views/quality/newPage/qualityActivity"),
+        meta: {
+          title: "质量活动",
+          code: "zhilianghuodong",
+          icon: "circle",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/supervisionOfInstruction",
+        name: "supervisionOfInstruction",
+        component: () => import("@/views/quality/newPage/supervisionOfInstruction"),
+        meta: {
+          title: "监理指令",
+          code: "jianlizhiling",
+          icon: "circle",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/supervisionNotice",
+        name: "supervisionNotice",
+        component: () => import("@/views/quality/newPage/supervisionNotice"),
+        meta: {
+          title: "监理通知",
+          code: "jianlitongzhi",
+          icon: "circle",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
 		]
 	},
 	{

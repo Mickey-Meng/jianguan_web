@@ -30,13 +30,15 @@
                   <div class="block-item">
                     <div class="block-item-label">标题<i class="require-icon"></i></div>
                     <div class="block-item-value">
-                      <el-input readonly v-model="form.title"></el-input>
+                      <el-form-item prop="title">
+                        <el-input v-model="form.title"></el-input>
+                      </el-form-item>
                     </div>
                   </div>
                   <div class="block-item">
                     <div class="block-item-label">人员岗位<i class="require-icon"></i></div>
                     <div class="block-item-value">
-                      <el-form-item prop="clockGroupId">
+                      <el-form-item prop="postName">
                         <el-select
                           ref="select"
                           :value="selectLabel"
@@ -47,11 +49,14 @@
                             <el-tree
                               id="tree-option"
                               ref="tree"
+                              node-key="ID"
                               show-checkbox
                               :accordion="true"
                               :data="treeData"
                               :props="props"
                               :expand-on-click-node="false"
+                              @check="checkEvent"
+                              @check-change="checkChange"
                             >
                               <template slot-scope="{ node }">
                                 <span class="node_label">{{ node.label }}</span>
@@ -93,29 +98,40 @@
                 </div>
               </div>
               <div class="form-block">
+                <el-button style="margin: 20px 0 20px 160px;padding: 0 70px" size="small" type="primary"
+                           @click="submitInfo"
+                >提交
+                </el-button>
+              </div>
+              <div class="form-block">
                 <div class="form-block-title">
                   <div class="title-bar"></div>
                   <strong>打卡时间明细</strong>
                 </div>
                 <div class="block-table">
                   <el-table :data="tableData" border style="width: 100%;">
-                    <el-table-column prop="fileName" label="标题" show-overflow-tooltip></el-table-column>
-                    <el-table-column prop="uploadTime" label="人员岗位" show-overflow-tooltip></el-table-column>
-                    <el-table-column prop="uploadPerson" label="时间范围" show-overflow-tooltip></el-table-column>
-                    <el-table-column prop="uploadPerson" label="时长(h)" show-overflow-tooltip></el-table-column>
+                    <el-table-column prop="title" label="标题" show-overflow-tooltip></el-table-column>
+                    <el-table-column label="人员岗位" show-overflow-tooltip>
+                      <template slot-scope="{row}">
+                        <span>{{ row.posts | getName }}</span>
+                      </template>
+                    </el-table-column>
+                    <el-table-column label="时间范围" show-overflow-tooltip>
+                      <template slot-scope="{row}">
+                        <span>{{ row.clockInStartTime }} 至 {{ row.clockInEndTime }}</span>
+                      </template>
+                    </el-table-column>
+                    <el-table-column prop="clockInOften" label="时长(h)" show-overflow-tooltip></el-table-column>
                     <el-table-column label="操作">
                       <template slot-scope="{row,$index}">
-                        <!--                        <el-button type="danger" size="mini" @click="deleteInfo(row,$index)">删除</el-button>-->
+                        <el-button type="text" size="mini" @click="modify(row,$index)">编辑</el-button>
+                        <el-button type="text" size="mini" @click="deleteInfo(row,$index)">删除</el-button>
                       </template>
                     </el-table-column>
                   </el-table>
                 </div>
               </div>
-              <div class="form-block">
-                <el-button style="margin: 20px 0 20px 160px;padding: 0 70px" size="small" type="primary"
-                >提交
-                </el-button>
-              </div>
+
             </el-form>
           </div>
         </el-main>
@@ -130,6 +146,7 @@
   import {diff, getCurrentDate} from "@/utils/date";
 
   import {getRoles} from "@/api/user";
+  import {addClockTime, updateClockTime, getClockTime, deleteClockTime, deleteFence} from "@/api/staffApproval";
 
   export default {
     props: [],
@@ -138,14 +155,22 @@
       return {
         selectLabel: "",
         selectKey: "",
-        treeData: [],
+        treeData: [],//角色树
+        allRoles: [],//所有的角色数据
+        disabledId: [],
         props: {
           children: "children",
-          label: "NAME"
+          label: "NAME",
+          disabled: this.disFn
         },
         form: {},
         timeValue: "",
-        rules: {},
+        isCreate: true,
+        rules: {
+          name: [
+            {required: true, message: "请请填写标题", trigger: "blur"}
+          ]
+        },
         tableData: [],
         dialogTitle: "项目全生命周期数字管理平台",
         dialogFormVisible: false
@@ -153,18 +178,19 @@
     },
     created() {
       this.initData();
+      this.initClockTime();
     },
     mounted() {
     },
     methods: {
       initForm() {
         this.timeValue = "";
+        this.selectLabel = "";
         this.form = {
           clockInEndTime: "",
           clockInOften: "",
           clockInStartTime: "",
           postId: "",
-          postName: "",
           projectId: this.project.id
         };
       },
@@ -186,11 +212,37 @@
               });
             }
           }
-          let data = res.data.getMe;
-          let tree = getTree(data)
-          this.treeData = tree
+
+          let filterId = [2, 3];
+          let data = res.data.getMe.filter(e => !filterId.includes(e.ID));
+          this.allRoles = data;
+          let tree = getTree(data);
+          this.treeData = tree;
         });
 
+      },
+      initClockTime() {
+        getClockTime(this.project.id).then(res => {
+          let data = res.data;
+          this.tableData = data || [];
+          let arr = [];
+          if (data && data.length > 0) {
+            data.forEach(item => {
+              if (item.postId) {
+                let idArr = item.postId.split(",");
+                arr = arr.concat(idArr);
+              }
+            });
+          }
+          this.disabledId = arr.map(item => {
+            return Number(item);
+          });
+        });
+      },
+      disFn(a) {
+        if (this.disabledId.includes(a.ID)) {
+          return true;
+        }
       },
       timeChange(val) {
         if (val && val.length > 0) {
@@ -204,10 +256,141 @@
             this.form.clockInOften = "";
           }
         }
+      },
+      checkEvent(node, data) {
+        this.form.postId = "";
+        this.selectLabel = "";
+        let ids = "";
+        let checkNodes = data.checkedNodes;
+        if (checkNodes && checkNodes.length > 0) {
+          let roles = checkNodes.filter(e => e.PARENTID !== -1);
+          let str = "";
+          roles.forEach(item => {
+            str += item.NAME + ",";
+            ids += item.ID + ",";
+          });
+          ids = ids.substring(0, ids.lastIndexOf(","));
+          this.selectLabel = str;
+          this.form.postId = ids;
+        }
+
+      },
+      checkChange(a, b, c) {
+        // console.log(a,b,c);
+      },
+      modify(row) {
+        let obj = Object.assign({}, row);
+        this.selectLabel = "";
+        let ids = "";
+        if (obj.postId) {
+          let arr = obj.postId.split(",");
+          let data = arr.map(item => {
+            let id = Number(item);
+            let index = this.disabledId.findIndex(e => e === id);
+            ids += id + ",";
+            if (index !== -1) {
+              this.disabledId.splice(index, 1);
+            }
+            return id;
+          });
+          this.$refs.tree.setCheckedKeys(data);
+        }
+        let {posts} = obj;
+        let pname = "";
+        if (posts && posts.length > 0) {
+          posts.forEach(item => {
+            pname += item.postName + ",";
+          });
+          this.selectLabel = pname;
+        }
+        this.isCreate = false;
+        this.timeValue = [obj.clockInStartTime, obj.clockInEndTime];
+        ids = ids.substring(0, ids.lastIndexOf(","));
+        obj.postId = ids;
+        this.form = obj;
+      },
+      submitInfo() {
+        let {selectLabel, timeValue, isCreate} = this;
+        if (!selectLabel || !timeValue) {
+          this.$message({
+            type: "warning",
+            message: "请选择岗位或者时间",
+            customClass: "message_override"
+          });
+          return false;
+        }
+        this.$refs["form"].validate((valid) => {
+          if (valid) {
+            let obj = Object.assign({}, this.form);
+            obj.clockInStartTime = timeValue[0];
+            obj.clockInEndTime = timeValue[1];
+            if (isCreate) {
+              addClockTime(obj).then(res => {
+                this.initForm();
+                this.initClockTime();
+                this.$refs.tree.setCheckedKeys([]);
+                this.$message({
+                  type: "success",
+                  message: "新增成功",
+                  customClass: "message_override"
+                });
+              });
+
+            } else {
+              delete obj.posts;
+              updateClockTime(obj).then(res => {
+                this.initForm();
+                this.initClockTime();
+                this.$refs.tree.setCheckedKeys([]);
+                this.$message({
+                  type: "success",
+                  message: "修改成功",
+                  customClass: "message_override"
+                });
+                this.isCreate = true;
+              });
+
+            }
+          } else {
+            return false;
+          }
+        });
+      },
+      deleteInfo(row) {
+        this.initForm();
+        this.isCreate = true;
+        this.$refs.tree.setCheckedKeys([]);
+        this.$confirm("确认是否删除?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        }).then(() => {
+          deleteClockTime(this.project.id, row.id).then(res => {
+            this.initClockTime();
+            this.$message({
+              type: "success",
+              message: "删除成功",
+              customClass: "message_override"
+            });
+          });
+
+        });
       }
     },
     computed: {
       ...mapGetters(["project"])
+    },
+    filters: {
+      getName(val) {
+        let str = "";
+        if (val && val.length > 0) {
+          val.forEach(item => {
+            str += item.postName + ",";
+          });
+          str = str.substring(0, str.lastIndexOf(","));
+        }
+        return str;
+      }
     },
     components: {},
     beforeDestroy() {
