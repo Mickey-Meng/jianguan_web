@@ -72,7 +72,7 @@ export const constantRoutes = [{
       {
         path: "/staffSubmit_detail",
         name: "staffSubmit_detail",
-        code: "hetongrenyuanbaoshen",
+        code: "hetongrenyuanbaoshen,sgdwhtrybs,jldwhtrybs,qzdwhtrybs",
         component: () => import("@/views/contractManagement/staffSubmit/view")
       },
       {

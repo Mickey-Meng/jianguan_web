@@ -267,30 +267,30 @@
                   </p>
                 </div>
               </div>
-              <div class="form-block">
-                <div class="form-block-title">
-                  <div class="title-bar"></div>
-                  <strong>待处理人</strong>
-                </div>
-                <div class="block-line">
-                  <div class="block-item">
-                    <div class="block-item-label">负责人<i class="require-icon"></i></div>
-                    <div class="block-item-value">
-                      <el-form-item prop="qualityCheckUser">
+<!--              <div class="form-block">-->
+<!--                <div class="form-block-title">-->
+<!--                  <div class="title-bar"></div>-->
+<!--                  <strong>待处理人</strong>-->
+<!--                </div>-->
+<!--                <div class="block-line">-->
+<!--                  <div class="block-item">-->
+<!--                    <div class="block-item-label">负责人<i class="require-icon"></i></div>-->
+<!--                    <div class="block-item-value">-->
+<!--                      <el-form-item prop="qualityCheckUser">-->
 
-                      </el-form-item>
-                    </div>
-                  </div>
-                  <div class="block-item">
-                    <div class="block-item-label">项目部<i class="require-icon"></i></div>
-                    <div class="block-item-value">
-                      <el-form-item prop="qualityCheckUser">
+<!--                      </el-form-item>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <div class="block-item">-->
+<!--                    <div class="block-item-label">项目部<i class="require-icon"></i></div>-->
+<!--                    <div class="block-item-value">-->
+<!--                      <el-form-item prop="qualityCheckUser">-->
 
-                      </el-form-item>
-                    </div>
-                  </div>
-                </div>
-              </div>
+<!--                      </el-form-item>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
               <div class="form-block">
                 <el-button class="submit-btn" size="small" type="primary" @click="submitInfo" v-if="isCreate">提交
                 </el-button>

@@ -157,28 +157,28 @@
                   </div>
                 </div>
               </div>
-              <div class="form-block">
-                <div class="form-block-title">
-                  <div class="title-bar"></div>
-                  <strong>待处理人</strong>
-                </div>
-                <div class="block-line">
-                  <div class="block-item">
-                    <div class="block-item-label">施工经理
-                      <!--                      <i class="require-icon"></i>-->
-                    </div>
-                    <div class="block-item-value">
-                      <el-form-item prop="qualityCheckUser">
-                        <el-select v-model="form.qualityCheckUser" placeholder="请选择">
-                          <el-option v-for="item in userOptions" :key="item.value"
-                                     :label="item.label" :value="item.value">
-                          </el-option>
-                        </el-select>
-                      </el-form-item>
-                    </div>
-                  </div>
-                </div>
-              </div>
+<!--              <div class="form-block">-->
+<!--                <div class="form-block-title">-->
+<!--                  <div class="title-bar"></div>-->
+<!--                  <strong>待处理人</strong>-->
+<!--                </div>-->
+<!--                <div class="block-line">-->
+<!--                  <div class="block-item">-->
+<!--                    <div class="block-item-label">施工经理-->
+<!--                      &lt;!&ndash;                      <i class="require-icon"></i>&ndash;&gt;-->
+<!--                    </div>-->
+<!--                    <div class="block-item-value">-->
+<!--                      <el-form-item prop="qualityCheckUser">-->
+<!--                        <el-select v-model="form.qualityCheckUser" placeholder="请选择">-->
+<!--                          <el-option v-for="item in userOptions" :key="item.value"-->
+<!--                                     :label="item.label" :value="item.value">-->
+<!--                          </el-option>-->
+<!--                        </el-select>-->
+<!--                      </el-form-item>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
               <div class="form-block" v-if="isCreate">
                 <el-button class="submit-btn" size="small" type="primary" @click="submitStaffInfo" v-if="isCreate">提交
                 </el-button>
