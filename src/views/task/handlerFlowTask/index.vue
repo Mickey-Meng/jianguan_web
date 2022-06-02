@@ -34,7 +34,7 @@
 					<tasklog v-if="isInfoVisible" :taskInfo="taskInfo" ref="tasklog"></tasklog>
 				</el-aside>
 			</el-container>
-		</el-dialog>				
+		</el-dialog>
 	</div>
 </template>
 
@@ -80,18 +80,21 @@
 					if(params['taskId']){
 						this.isHandleVisible=true;
 						this.isUnEdit=true;
-						
+
 						this.updateTaskHandle();
 						this.updateTaskLog();
 					}
 					this.isInfoVisible=true;
-					
+
 				}else{
 					this.isUnEdit=false;
 				}
 			}else{
 				this.isUnEdit=false;
 			}
+			if(params['isHiddenEdit'] === 'true'){
+			  this.isUnEdit = false
+      }
 		},
 		methods:{
 			updateView(){

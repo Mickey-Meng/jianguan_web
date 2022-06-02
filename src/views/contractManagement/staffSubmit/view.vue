@@ -274,7 +274,6 @@
           if (res) {
             this.form = Object.assign({}, res.data.person);
             let data = res.data.personSub;
-            console.log(data, this.form);
             if (data && data.length > 0) {
               this.tableData = data.map(item => {
                 if (item.peoplePic) {

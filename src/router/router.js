@@ -34,49 +34,59 @@ export const constantRoutes = [{
 		name: "handlerFlowTask",
 		component: () => import("@/views/task/handlerFlowTask/index"),
 		children: [{
-				path: "/qualityTest_detail",
-				name: "qualityTest_detail",
-				component: () => import("@/views/quality/newPage/qualityTest/view")
-			}, {
-				path: "/concealedWorksManagement_detail",
-				name: "concealedWorksManagement_detail",
-				component: () => import("@/views/quality/newPage/concealedWorksManagement/view")
-			}, {
-				path: "/constructionSubcontract_detail",
-				name: "constructionSubcontract_detail",
-				component: () => import("@/views/contractManagement/constructionSubcontract/view")
-			}, {
-				path: "/constructionScheme_detail",
-				name: "constructionScheme_detail",
-				component: () => import("@/views/quality/newPage/constructionScheme/view")
-			}, {
-				path: "/laborSubcontract_detail",
-				name: "laborSubcontract_detail",
-				component: () => import("@/views/contractManagement/laborSubcontract/view")
-			}, {
-				path: "/entranceAndExitManagement_detail",
-				name: "entranceAndExitManagement_detail",
-				component: () => import("@/views/contractManagement/entranceAndExitManagement/view")
-			}, {
-				path: "/currentAccountManagement_detail",
-				name: "currentAccountManagement_detail",
-				component: () => import("@/views/contractManagement/currentAccountManagement/view")
-			},
-			{
-				path: "/staffSubmit_detail",
-				name: "staffSubmit_detail",
-				component: () => import("@/views/contractManagement/staffSubmit/view")
-			},
-			{
-				path: "/personnelChange_detail",
-				name: "personnelChange_detail",
-				component: () => import("@/views/contractManagement/personChange/view")
-			},
-			{
-				path: "/applicationForLeave_detail",
-				name: "applicationForLeave_detail",
-				component: () => import("@/views/contractManagement/leave/view")
-			}
+      path: "/qualityTest_detail",
+      name: "qualityTest_detail",
+      code: "zhiliangjiance",
+      component: () => import("@/views/quality/newPage/qualityTest/view")
+    }, {
+      path: "/concealedWorksManagement_detail",
+      name: "concealedWorksManagement_detail",
+      code: "yinbigongchengguanli",
+      component: () => import("@/views/quality/newPage/concealedWorksManagement/view")
+    }, {
+      path: "/constructionSubcontract_detail",
+      name: "constructionSubcontract_detail",
+      code: "shigongfenbaohetong",
+      component: () => import("@/views/contractManagement/constructionSubcontract/view")
+    }, {
+      path: "/constructionScheme_detail",
+      name: "constructionScheme_detail",
+      code: "shigongfangan",
+      component: () => import("@/views/quality/newPage/constructionScheme/view")
+    }, {
+      path: "/laborSubcontract_detail",
+      name: "laborSubcontract_detail",
+      code: "laowufenbaohetong",
+      component: () => import("@/views/contractManagement/laborSubcontract/view")
+    }, {
+      path: "/entranceAndExitManagement_detail",
+      name: "entranceAndExitManagement_detail",
+      code: "jintuichangguanli",
+      component: () => import("@/views/contractManagement/entranceAndExitManagement/view")
+    }, {
+      path: "/currentAccountManagement_detail",
+      name: "currentAccountManagement_detail",
+      code: "wanglaikuanguanli",
+      component: () => import("@/views/contractManagement/currentAccountManagement/view")
+    },
+      {
+        path: "/staffSubmit_detail",
+        name: "staffSubmit_detail",
+        code: "hetongrenyuanbaoshen",
+        component: () => import("@/views/contractManagement/staffSubmit/view")
+      },
+      {
+        path: "/personnelChange_detail",
+        name: "personnelChange_detail",
+        code: "renyuanbiangeng",
+        component: () => import("@/views/contractManagement/personChange/view")
+      },
+      {
+        path: "/applicationForLeave_detail",
+        name: "applicationForLeave_detail",
+        code: "qingjiashenqing",
+        component: () => import("@/views/contractManagement/leave/view")
+      }
 		]
 	},
 	// {

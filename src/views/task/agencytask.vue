@@ -57,74 +57,99 @@
 </template>
 
 <script>
-	import { mapGetters } from 'vuex'
-	import * as api from "@/api/quality";
-	export default {
-		data() {
-			return {
-				tableData: [],
-				queryData: {
-					processDefinitionName: '',
-					processDefinitionKey: '',
-					taskName: '',
-					taskHandleStatus:1,
-					pageParam:{
-						pageNum: 1,
-						totalPage: 1,
-						pageSize: 10
-					}
-				},
-				routes:null
-			};
-		},
-		created() {
-			this.routes = this.menus;
-		},
-		components: {},
-		computed: {
-			...mapGetters(["menus"])
-		},
-		mounted() {
-			this.query();
-		},
-		methods: {
-			query(){
-				api.listHandleTask(this.queryData).then((res) => {
-					this.allData = res.data || {};
-					this.tableData = this.allData.list||[];
-					this.queryData.pageParam.pageNum = res.data.pageNum;
-					this.queryData.pageParam.totalPage = res.data.total;
-					this.queryData.pageParam.pageSize = res.data.pageSize;
-				});
-			},
-			handleCurrentChange(page) {
-				this.queryData.pageNum=page
-				this.query()
-			},
-			gotoHandle(row){
-				row['taskFormKey']=(typeof row['taskFormKey'])=='string'?JSON.parse(row['taskFormKey']):row['taskFormKey'];
-				this.routes.forEach(parent=>{
-					parent['children'].forEach(child=>{
-						if(child['meta']['code']==row['taskFormKey']['routerName']){
-							this.$router.push({
-								path:child['path']+'_detail',
-								query:{
-									taskId: row.taskId,
-									businessKey:row.businessKey,
-									processDefinitionKey: row.processDefinitionKey,
-									processInstanceId: row.processInstanceId,
-									processDefinitionId: row.processDefinitionId,
-									taskName: row.taskName,
-									flowEntryName: row.processDefinitionName,
-									processInstanceInitiator: row.processInstanceInitiator,
-								}
-							});
-						}
-					})
-				})
-			}
-		}
-	}
+  import {mapGetters} from "vuex";
+  import * as api from "@/api/quality";
+  import {constantRoutes} from "@/router/router";
+
+  export default {
+    data() {
+      return {
+        tableData: [],
+        queryData: {
+          processDefinitionName: "",
+          processDefinitionKey: "",
+          taskName: "",
+          taskHandleStatus: 1,
+          pageParam: {
+            pageNum: 1,
+            totalPage: 1,
+            pageSize: 10
+          }
+        },
+        routes: null,
+        detailRouters: []
+      };
+    },
+    created() {
+      this.routes = this.menus;
+      let detailRouter = constantRoutes.find(e => e.name === "handlerFlowTask");
+      this.detailRouters = detailRouter?.children;
+    },
+    components: {},
+    computed: {
+      ...mapGetters(["menus"])
+    },
+    mounted() {
+      this.query();
+    },
+    methods: {
+      query() {
+        api.listHandleTask(this.queryData).then((res) => {
+          this.allData = res.data || {};
+          this.tableData = this.allData.list || [];
+          this.queryData.pageParam.pageNum = res.data.pageNum;
+          this.queryData.pageParam.totalPage = res.data.total;
+          this.queryData.pageParam.pageSize = res.data.pageSize;
+        });
+      },
+      handleCurrentChange(page) {
+        this.queryData.pageNum = page;
+        this.query();
+      },
+      gotoHandle(row) {
+        row["taskFormKey"] = (typeof row["taskFormKey"]) == "string" ? JSON.parse(row["taskFormKey"]) : row["taskFormKey"];
+        let key = row["taskFormKey"]["routerName"];
+        let router = this.detailRouters.find(e => e.code.indexOf(key) !== -1);
+        let hiddenEdit = ["hetongrenyuanbaoshen", "renyuanbiangeng", "qingjiashenqing"];
+        if (router) {
+          this.$router.push({
+            path: router.path,
+            query: {
+              taskId: row.taskId,
+              businessKey: row.businessKey,
+              processDefinitionKey: row.processDefinitionKey,
+              processInstanceId: row.processInstanceId,
+              processDefinitionId: row.processDefinitionId,
+              taskName: row.taskName,
+              flowEntryName: row.processDefinitionName,
+              processInstanceInitiator: row.processInstanceInitiator,
+              isHiddenEdit: hiddenEdit.includes(key),
+              flowKey: hiddenEdit.includes(key) ? key : ""
+            }
+          });
+        }
+        // this.routes.forEach(parent => {
+        //   parent["children"].forEach(child => {
+        //     if (child["meta"]["code"] == row["taskFormKey"]["routerName"]) {
+        //       this.$router.push({
+        //         path: child["path"] + "_detail",
+        //         query: {
+        //           taskId: row.taskId,
+        //           businessKey: row.businessKey,
+        //           processDefinitionKey: row.processDefinitionKey,
+        //           processInstanceId: row.processInstanceId,
+        //           processDefinitionId: row.processDefinitionId,
+        //           taskName: row.taskName,
+        //           flowEntryName: row.processDefinitionName,
+        //           processInstanceInitiator: row.processInstanceInitiator
+        //         }
+        //       });
+        //     }
+        //   });
+        // });
+      }
+    }
+  };
 </script>
 <style scoped lang="scss">
 	@import "../../assets/css/table.scss"
