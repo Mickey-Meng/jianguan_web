@@ -305,7 +305,7 @@
         </el-aside>
         <el-aside
           style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
-          <!--              <tasklog></tasklog>-->
+          <tasklog v-if="!isCreate"></tasklog>
         </el-aside>
       </el-container>
 
@@ -316,6 +316,7 @@
 <script>
   import {mapGetters} from "vuex";
   import upload from "@/views/common/upload";
+  import tasklog from "@/views/common/tasklog";
   import {getAllProjectsData} from "@/api/project";
   import {getNowDate} from "@/utils/date";
   import {getRoleInfoByUserId} from "@/api/system";
@@ -324,6 +325,7 @@
   import {getOrgInfo} from "@/api/user";
   import {submitUserTask} from "@/api/quality";
   import {downLoadFile} from "@/utils/download";
+  import {getUserRoleAndCode} from "@/api/newProject";
 
   export default {
     data() {
@@ -349,6 +351,21 @@
         currentOrgUsers: [],//当前用户组织下的所有用户信息
         orgInfo: {},//当前用户的组织信息
         projectInfo: {},
+        flowTypes: [
+          {
+            key: "shigongjihe",//施工单位合同人员报审
+            flowKey: "sgdwrybg"
+          },
+          {
+            key: "jianlijihe",//监理单位合同人员报审
+            flowKey: "jldwrybg"
+          },
+          {
+            key: "quanzijihe",//监理单位合同人员报审
+            flowKey: "qzdwrybg"
+          }
+        ],
+        userRoleParentCode: "",
         isCreate: true,
         rules: {
           changeType: [
@@ -368,7 +385,7 @@
       this.init();
       this.initData();
     },
-    components: {upload},
+    components: {upload,tasklog},
     computed: {
       ...mapGetters(["project", "name", "userInfo"])
     },
@@ -416,7 +433,12 @@
         getOrgUser({projectid: this.project.id}).then(res => {
           this.currentOrgUsers = res.data;
         });
-
+        //获取用户角色
+        getUserRoleAndCode(this.project.id).then(res => {
+          if (res && res.data) {
+            this.userRoleParentCode = res.data.parentCode;
+          }
+        });
       },
       initForm() {
         this.form = {
@@ -469,6 +491,23 @@
       },
       //提交事件
       submitInfo() {
+        if (!this.userRoleParentCode) {
+          this.$message({
+            type: "warning",
+            message: "配置错误、无法获取审批流程，请联系管理员！",
+            customClass: "message_override"
+          });
+          return false;
+        }
+        let flowObj = this.flowTypes.find(e => e.key === this.userRoleParentCode);
+        if (!flowObj) {
+          this.$message({
+            type: "warning",
+            message: "配置错误、无法获取审批流程，请联系管理员！",
+            customClass: "message_override"
+          });
+          return false;
+        }
         this.$refs["form"].validate((valid) => {
           if (valid) {
             let obj = Object.assign({}, this.form);
@@ -484,7 +523,7 @@
             if (this.fileData.length > 0) {
               obj.files = this.fileData;
             }
-            obj.processDefinitionKey = "renyuanbiangeng";
+            obj.processDefinitionKey = flowObj.flowKey;
             //提交
             addPersonChange(obj).then(res => {
               this.issueStep(res);

@@ -110,7 +110,7 @@
         row["taskFormKey"] = (typeof row["taskFormKey"]) == "string" ? JSON.parse(row["taskFormKey"]) : row["taskFormKey"];
         let key = row["taskFormKey"]["routerName"];
         let router = this.detailRouters.find(e => e.code.indexOf(key) !== -1);
-        let hiddenEdit = ["hetongrenyuanbaoshen", "renyuanbiangeng", "qingjiashenqing"];
+        let hiddenEdit = ["sgdwhtrybs", "jldwhtrybs", "qzdwhtrybs", "sgdwrybg", "jldwrybg", "qzdwrybg", "sgdwryqj", "jldwryqj", "qzdwryqj"];
         if (router) {
           this.$router.push({
             path: router.path,

@@ -78,13 +78,13 @@ export const constantRoutes = [{
       {
         path: "/personnelChange_detail",
         name: "personnelChange_detail",
-        code: "renyuanbiangeng",
+        code: "renyuanbiangeng,sgdwrybg,jldwrybg,qzdwrybg",
         component: () => import("@/views/contractManagement/personChange/view")
       },
       {
         path: "/applicationForLeave_detail",
         name: "applicationForLeave_detail",
-        code: "qingjiashenqing",
+        code: "qingjiashenqing,sgdwryqj,jldwryqj,qzdwryqj",
         component: () => import("@/views/contractManagement/leave/view")
       }
 		]

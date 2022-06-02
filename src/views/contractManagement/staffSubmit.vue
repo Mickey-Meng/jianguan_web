@@ -456,23 +456,41 @@
   import {mapGetters} from "vuex";
   import {submitUserTask, listHandleTask} from "@/api/quality";
   import uploadView from "@/views/common/upload";
-  import * as api from "@/api/quality";
+  // import * as api from "@/api/quality";
   import {uploadFile} from "@/api/file";
   import {formatDate} from "@/utils/date";
   import {getOrgUser, addStaffApproval, getStaffApprovalBase} from "@/api/staffApproval";
   import tasklog from "@/views/common/tasklog";
+  import {getUserRoleAndCode} from "@/api/newProject";
 
   export default {
     name: "",
     data() {
       return {
-        form: {},
-        projectName: "",
-        tableData: [],
-        listData: [],
+        form: {},//表单
+        tableData: [],//填报的数据
+        listData: [],//报审数据
         userOptions: [],
         dialogFormVisible: false,
-        dialogPersonVisible: false,//控制选择人的弹框
+        allFlowTypes: [
+          {
+            key: "shigongjihe",//施工单位合同人员报审
+            isContract: 1,
+            flowKey: "sgdwhtrybs"
+          },
+          {
+            key: "jianlijihe",//监理单位合同人员报审
+            isContract: 1,
+            flowKey: "jldwhtrybs"
+          },
+          {
+            key: "quanzijihe",//监理单位合同人员报审
+            isContract: 1,
+            flowKey: "qzdwhtrybs"
+          }
+        ],
+        userRoleParentCode: "",
+        // dialogPersonVisible: false,//控制选择人的弹框
         queryData: {
           projectCode: "",
           subProject: "",
@@ -569,13 +587,15 @@
           this.tableData.splice(this.currentRowIndex, 1, this.currentRow);
         });
       },
-      //获取当前人员对应组织下所有用户
+
       initData() {
+        //获取当前人员对应组织下所有用户
         getOrgUser({projectid: this.project.id}).then(res => {
           this.selectUsers = res.data || [];
         });
+        //获取报审的数据
         getStaffApprovalBase({projectid: this.project.id}).then(res => {
-          let data = res.data || [];
+          let data = res?.data || [];
           if (data && data.length > 0) {
             this.listData = data.map(item => {
               let obj = Object.assign(item, item.person);
@@ -583,6 +603,12 @@
             });
           } else {
             this.listData = [];
+          }
+        });
+        //获取用户角色
+        getUserRoleAndCode(this.project.id).then(res => {
+          if (res && res.data) {
+            this.userRoleParentCode = res.data.parentCode;
           }
         });
       },
@@ -597,6 +623,23 @@
       },
       //提交表单
       submitStaffInfo() {
+        if (!this.userRoleParentCode) {
+          this.$message({
+            type: "warning",
+            message: "配置错误、无法获取审批流程，请联系管理员！",
+            customClass: "message_override"
+          });
+          return false;
+        }
+        let flowObj = this.allFlowTypes.find(e => e.key === this.userRoleParentCode && e.isContract === this.form.isContract);
+        if (!flowObj) {
+          this.$message({
+            type: "warning",
+            message: "配置错误、无法获取审批流程，请联系管理员！",
+            customClass: "message_override"
+          });
+          return false;
+        }
         if (this.tableData.length === 0) {
           return false;
         }
@@ -615,10 +658,9 @@
         let dd = {
           person: form,
           personSubs: data,
-          processKey: "hetongrenyuanbaoshen"
+          processKey: flowObj.flowKey
         };
         addStaffApproval(dd).then(res => {
-
           this.issueStep(res);
         });
       },

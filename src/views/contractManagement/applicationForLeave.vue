@@ -194,7 +194,7 @@
         <el-aside
           style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);"
         >
-          <!--          <tasklog v-show="!isCreate"></tasklog>-->
+                    <tasklog v-show="!isCreate"></tasklog>
         </el-aside>
       </el-container>
 
@@ -210,6 +210,8 @@
   import {mapGetters} from "vuex";
   import {getOrgUser, submitLeave, getLeave} from "@/api/staffApproval";
   import {submitUserTask} from "@/api/quality";
+  import {getUserRoleAndCode} from "@/api/newProject";
+  import tasklog from "@/views/common/tasklog";
 
   export default {
     name: "",
@@ -229,6 +231,21 @@
           totalPage: 1,
           pageSize: 10
         },
+        flowTypes: [
+          {
+            key: "shigongjihe",//施工单位合同人员报审
+            flowKey: "sgdwryqj"
+          },
+          {
+            key: "jianlijihe",//监理单位合同人员报审
+            flowKey: "jldwryqj"
+          },
+          {
+            key: "quanzijihe",//监理单位合同人员报审
+            flowKey: "qzdwryqj"
+          }
+        ],
+        userRoleParentCode: "",
         isCreate: true,
         dialogTitle: "项目全生命周期数字管理平台",
         workTime: {
@@ -247,6 +264,7 @@
     computed: {
       ...mapGetters(["userInfo", "name", "project", "roleId"])
     },
+    components: {tasklog},
     methods: {
 
       init() {
@@ -255,6 +273,12 @@
         });
         getOrgUser({projectid: this.project.id}).then(res => {
           this.handoffPerson = res.data.filter(e => e.roleid === this.roleId && e.id !== this.userInfo.ID);
+        });
+        //获取用户角色
+        getUserRoleAndCode(this.project.id).then(res => {
+          if (res && res.data) {
+            this.userRoleParentCode = res.data.parentCode;
+          }
         });
       },
       initData() {
@@ -284,19 +308,43 @@
         this.leaveTime = "";
       },
       submitStaffInfo() {
+        if (!this.userRoleParentCode) {
+          this.$message({
+            type: "warning",
+            message: "配置错误、无法获取审批流程，请联系管理员！",
+            customClass: "message_override"
+          });
+          return false;
+        }
+        let flowObj = this.flowTypes.find(e => e.key === this.userRoleParentCode);
+        if (!flowObj) {
+          this.$message({
+            type: "warning",
+            message: "配置错误、无法获取审批流程，请联系管理员！",
+            customClass: "message_override"
+          });
+          return false;
+        }
         let obj = Object.assign({}, this.form);
         if (this.leaveTime.length > 0) {
           obj.startTime = this.leaveTime[0];
           obj.endTime = this.leaveTime[1];
         }
         obj.subDate = getNowDate();
-        obj.processDefinitionKey = "qingjiashenqing";
+        obj.processDefinitionKey = flowObj.flowKey;
         if (obj.handoffPersonId) {
           let info = this.handoffPerson.find(e => e.id === obj.handoffPersonId);
           obj.handoffPerson = info.name;
         }
         submitLeave(obj).then(res => {
           this.issueStep(res);
+          // this.$message({
+          //   type: "success",
+          //   message: "填报成功!",
+          //   customClass: "message_override"
+          // });
+          // this.initData();
+          // this.dialogFormVisible = false;
         });
       },
       issueStep(row) {
