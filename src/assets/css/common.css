@@ -52,6 +52,10 @@
 	top: 4px;
 
 }
+.full-dialog.el-dialog__wrapper {
+	/* z-index: 2003 !important; */
+
+}
 
 .el-button--primary:hover {
 	color: #FFFFFF;
@@ -100,4 +104,18 @@
 
 .tab-page .el-tab-pane{
 	height: 100%;
+}
+
+.little-container .el-dialog{
+	min-height: 540px;
+}
+.little-container .el-dialog__body{
+	min-height: 510px;
+	/* display: initial; */
+}
+.little-container .el-table{
+	min-height: 288px;
+}
+.el-message{
+	z-index: 99999999!important;
 }

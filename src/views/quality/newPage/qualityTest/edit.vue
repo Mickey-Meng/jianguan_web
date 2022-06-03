@@ -14,12 +14,8 @@
 								<div class="form-title">
 									<div class="title-big-bar"></div>
 									<strong>质量检测</strong>
-									<div class="form-btns">
-										<el-button size="medium">暂存</el-button>
-										<el-button size="medium">保存草稿</el-button>
-										<el-button size="medium">选择草稿</el-button>
-										<el-button size="medium" type="primary">复制填充</el-button>
-									</div>
+									v<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify"
+										@checkDraft="checkDraft" ref="drafthandle"></drafthandle>
 								</div>
 
 								<div class="form-block">
@@ -355,6 +351,11 @@
 				</el-form>
 			</el-dialog>
 		</el-dialog>
+		<el-dialog width="80%" class="little-container" :visible.sync="draftVisible">
+			<qualityTest @hideDraft="hideDraft" @getDetail="getDetail" :isDraft="draftVisible"
+				v-if="draftVisible">
+			</qualityTest>
+		</el-dialog>
 	</div>
 </template>
 
@@ -363,16 +364,19 @@
 	import {
 		convertOptions,
 		formatDate,
-		formatDateTime
+		formatDateTime,
+		diffCompare
 	} from "@/utils/format.js";
 
 	import upload from "../../../common/upload.vue"
 	import attachlist from "../../../common/attachlist.vue"
+	import drafthandle from "../../../common/drafthandle.vue"
 
 	export default {
-		props: ['editRow'],
 		data() {
 			return {
+				draftVisible: false,
+				addOrModifyFlag: true,
 				dialogFormVisible: false,
 				childOptions:[],
 				examineResultOptions1: [{
@@ -513,14 +517,26 @@
 		created() {},
 		components: {
 			upload,
-			attachlist
+			attachlist,
+			drafthandle,
+			qualityTest: () => import("../qualityTest.vue")
 		},
 		computed: {
 			
 		},
 		watch: {
-			editRow(obj) {
-				obj=obj||{};
+			
+		},
+		mounted() {
+			this.getChildProject();
+			this.getMaterialEnums();
+			this.getProvince();
+		},
+		methods: {
+			changeVisible(obj,value) {
+				this.dialogFormVisible = value;
+				obj = obj || {};
+				this.addOrModifyFlag = obj['id'] ? false : true;
 				if (obj['id']) {
 					this.getDetail(obj['id']);
 				} else {
@@ -543,16 +559,6 @@
 					this.factoryTable=[];
 					this.attachTable=[];
 				}
-			}
-		},
-		mounted() {
-			this.getChildProject();
-			this.getMaterialEnums();
-			this.getProvince();
-		},
-		methods: {
-			changeVisible(value) {
-				this.dialogFormVisible = value;
 			},
 			getChildProject(){
 				api.getChildProject({
@@ -647,26 +653,67 @@
 					this.attachTable=data.otherAttachment||[];
 				});
 			},
-			addOrModify() {
-				this.$refs['ruleForm'].validate((valid) => {
-					if (valid) {
-						this.formData.detectionInfo = this.examineTable;
-						this.formData.detectionReport = this.reportTable;
-						this.formData.factoryInfo = this.factoryTable;
-						this.formData.otherAttachment = this.attachTable;
-						api.addOrUpdateQualityDetection(this.formData).then((res) => {
-							if (res.data) {
-								this.$message({
-									type: 'success',
-									message: '提交成功!'
-								});
-								this.dialogFormVisible = false;
-								this.$emit("query");
-							}
+			addOrModify(isdraft) {
+				if (isdraft) {
+					if (diffCompare([this.formData, this.examineTable,this.reportTable,this.factoryTable,this.attachTable], [{
+								buildSection: '',
+								deletedFlag: 1,
+								detectionInfo: [],
+								detectionReport: [],
+								factoryInfo: [],
+								otherAttachment: [],
+								draftFlag: 1,
+								fillDate: formatDate(new Date()),
+								inspectionCode: '',
+								projectId: this.$store.getters.project['parentid'],
+								remark: '',
+							},
+							[],[],[],[]
+						],['fillDate'])) {
+						this.$message({
+							type: 'warning',
+							message: '不能提交空白!'
 						});
+						return;
 					}
-
-				})
+					this.formData.detectionInfo = this.examineTable;
+					this.formData.detectionReport = this.reportTable;
+					this.formData.factoryInfo = this.factoryTable;
+					this.formData.otherAttachment = this.attachTable;
+					this.formData.draftFlag = isdraft ? 0 : 1;
+					api.addOrUpdateQualityDetection(this.formData).then((res) => {
+						if (res.data) {
+							this.$message({
+								type: 'success',
+								message: '提交成功!'
+							});
+							this.dialogFormVisible = false;
+							this.$emit("query");
+						}
+					});
+					
+				}else{
+					this.$refs['ruleForm'].validate((valid) => {
+						if (valid) {
+							this.formData.detectionInfo = this.examineTable;
+							this.formData.detectionReport = this.reportTable;
+							this.formData.factoryInfo = this.factoryTable;
+							this.formData.otherAttachment = this.attachTable;
+							api.addOrUpdateQualityDetection(this.formData).then((res) => {
+								if (res.data) {
+									this.$message({
+										type: 'success',
+										message: '提交成功!'
+									});
+									this.dialogFormVisible = false;
+									this.$emit("query");
+								}
+							});
+						}
+					
+					})
+				}
+				
 			},
 			changeArea() {
 				this.countyOptions = [];
@@ -695,7 +742,12 @@
 				});
 				
 			},
-			
+			hideDraft() {
+				this.draftVisible = false;
+			},
+			checkDraft() {
+				this.draftVisible = true;
+			}
 		},
 	};
 </script>

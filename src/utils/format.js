@@ -137,6 +137,28 @@ const createProjectInfo=function(list){
 		supervisionUnit:supervisionUnit
 	}
 }
+
+/**
+ * 对比两组数据是否有差异
+ */
+const diffCompare=function(leftData,rightData,options){
+	let tempLeft=JSON.parse(JSON.stringify(leftData));
+	let tempRight=JSON.parse(JSON.stringify(rightData));
+	options=options||[];
+	if(tempLeft[0]){
+		options.forEach(item=>{
+			delete tempLeft[0][item];
+		})
+	}
+	if(tempRight[0]){
+		options.forEach(item=>{
+			delete tempRight[0][item];
+		})
+	}
+	let result=JSON.stringify(tempLeft)===JSON.stringify(tempRight);
+	return result;
+}
+
 export {
 	handleNull,
 	handleListNull,
@@ -145,5 +167,6 @@ export {
 	formatDate,
 	formatMonth,
 	getQueryVariable,
-	createProjectInfo
+	createProjectInfo,
+	diffCompare
 }

@@ -14,12 +14,8 @@
 								<div class="form-title">
 									<div class="title-big-bar"></div>
 									<strong>隐蔽工程管理</strong>
-									<div class="form-btns">
-										<el-button size="medium">暂存</el-button>
-										<el-button size="medium">保存草稿</el-button>
-										<el-button size="medium">选择草稿</el-button>
-										<el-button size="medium" type="primary">复制填充</el-button>
-									</div>
+									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify"
+										@checkDraft="checkDraft" ref="drafthandle"></drafthandle>
 								</div>
 
 								<div class="form-block">
@@ -69,7 +65,7 @@
 										<div class="title-bar"></div><strong>隐蔽功能信息</strong>
 									</div>
 									<div class="block-line">
-										
+
 										<div class="block-item">
 											<div class="block-item-label">单位、分部工程<i class="require-icon"></i></div>
 											<div class="block-item-value">
@@ -95,7 +91,7 @@
 													<el-input v-model="formData.hiddenProject" type="textarea" :rows="4"
 														placeholder="请输入隐蔽工程项目"></el-input>
 												</el-form-item>
-												
+
 											</div>
 										</div>
 										<div class="block-item">
@@ -115,12 +111,13 @@
 										<span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
 											xisx xis pdf文件，且不超过100m</span>
 									</div>
-									
-									<attachlist :editAble="true" ref="attachlist" :attachTable="attachTable"></attachlist>
-									
+
+									<attachlist :editAble="true" ref="attachlist" :attachTable="attachTable">
+									</attachlist>
+
 								</div>
 
-								
+
 								<div class="form-block">
 									<el-button @click="addOrModify" class="submit-btn" size="small" type="primary">提交
 									</el-button>
@@ -140,6 +137,12 @@
 				</el-aside> -->
 			</el-container>
 		</el-dialog>
+		<el-dialog width="80%" class="little-container" :visible.sync="draftVisible">
+			<concealedWorksManagement @hideDraft="hideDraft" @getDetail="getDetail" :isDraft="draftVisible"
+				v-if="draftVisible">
+			</concealedWorksManagement>
+		</el-dialog>
+
 	</div>
 </template>
 
@@ -147,15 +150,18 @@
 	import * as api from "@/api/quality";
 	import {
 		formatDateTime,
-		createProjectInfo
+		createProjectInfo,
+		diffCompare
 	} from "@/utils/format.js";
 	import upload from "../../../common/upload.vue"
 	import attachlist from "../../../common/attachlist.vue"
-	
+	import drafthandle from "../../../common/drafthandle.vue"
+
 	export default {
-		props: ['editRow'],
 		data() {
 			return {
+				draftVisible: false,
+				addOrModifyFlag: true,
 				dialogTitle: '项目全生命周期数字管理平台',
 				dialogFormVisible: false,
 				annexTableData: [],
@@ -182,7 +188,7 @@
 						message: '请填写施工自检结果',
 						trigger: 'blur'
 					}],
-					
+
 				},
 				baseInfo: {
 					buildSection: 1,
@@ -203,24 +209,33 @@
 					subProject: '',
 					unit: ''
 				},
+				formData_bak: null,
+				attachTable_bak: null,
 				attachTable: [], //附件
-				fileList:[]
+				fileList: []
 			};
 		},
 		created() {},
 		components: {
 			upload,
-			attachlist
+			attachlist,
+			drafthandle,
+			concealedWorksManagement: () => import("../concealedWorksManagement.vue")
 		},
 		computed: {
-		  
+
 		},
 		mounted() {
 			this.getProjectInfoById();
 		},
 		watch: {
-			editRow(obj) {
-				obj=obj||{};
+
+		},
+		methods: {
+			changeVisible(obj, value) {
+				this.dialogFormVisible = value;
+				obj = obj || {};
+				this.addOrModifyFlag = obj['id'] ? false : true;
 				if (obj['id']) {
 					this.getDetail(obj['id']);
 				} else {
@@ -235,24 +250,19 @@
 						subProject: '',
 						unit: ''
 					}
-					this.attachTable=[];
+					this.attachTable = [];
 				}
-			}
-		},
-		methods: {
-			changeVisible(value) {
-				this.dialogFormVisible = value;
 			},
-			getProjectInfoById(){
+			getProjectInfoById() {
 				api.getProjectInfoById({
-					projectid:this.$store.getters.project['parentid']
+					projectid: this.$store.getters.project['parentid']
 				}).then((res) => {
 					let data = res['data'] || {};
-					this.baseInfo['buildSectionName']=data['project']?data['project']['name']:'';
-					let list=data['companys'] || [];
-					let info=createProjectInfo(list);
-					this.baseInfo['buildCompany']=info['buildCompany'];
-					this.baseInfo['supervisionUnit']=info['supervisionUnit'];
+					this.baseInfo['buildSectionName'] = data['project'] ? data['project']['name'] : '';
+					let list = data['companys'] || [];
+					let info = createProjectInfo(list);
+					this.baseInfo['buildCompany'] = info['buildCompany'];
+					this.baseInfo['supervisionUnit'] = info['supervisionUnit'];
 				});
 			},
 			getDetail(id) {
@@ -261,25 +271,67 @@
 				}).then((res) => {
 					let data = res['data'] || {};
 					this.formData = data;
-					this.attachTable=data.attachment||[];
+					this.attachTable = data.attachment || [];
 				});
 			},
-			addOrModify() {
-				this.$refs['ruleForm'].validate((valid) => {
-					if(valid){
-						this.formData.attachment=this.attachTable;
-						api.addOrUpdateHiddenProject(this.formData).then((res) => {
-							if (res.data) {
-								this.$message({
-									type: 'success',
-									message: '提交成功!'
-								});
-								this.dialogFormVisible = false;
-								this.$emit("query");
-							}
+			addOrModify(isdraft) {
+				if (isdraft) {
+					if (diffCompare([this.formData, this.attachTable], [{
+								attachment: [],
+								buildCheckselfResult: '',
+								deletedFlag: 1,
+								draftFlag: 1,
+								hiddenProject: '',
+								projectCode: '',
+								projectId: this.$store.getters.project['parentid'],
+								subProject: '',
+								unit: ''
+							},
+							[]
+						])) {
+						this.$message({
+							type: 'warning',
+							message: '不能提交空白!'
 						});
+						return;
 					}
-				})
+					this.formData.attachment = this.attachTable;
+					this.formData.draftFlag = isdraft ? 0 : 1;
+					api.addOrUpdateHiddenProject(this.formData).then((res) => {
+						if (res.data) {
+							this.$message({
+								type: 'success',
+								message: '提交成功!'
+							});
+							this.dialogFormVisible = false;
+							this.$emit("query");
+						}
+					});
+					
+				} else {
+					this.$refs['ruleForm'].validate((valid) => {
+						if (valid) {
+							this.formData.attachment = this.attachTable;
+							api.addOrUpdateHiddenProject(this.formData).then((res) => {
+								if (res.data) {
+									this.$message({
+										type: 'success',
+										message: '提交成功!'
+									});
+									this.dialogFormVisible = false;
+									this.$emit("query");
+								}
+							});
+						}
+					})
+				}
+
+			},
+			hideDraft() {
+				this.draftVisible = false;
+			},
+			checkDraft() {
+				this.draftVisible = true;
 			}
 		},
 	};
