@@ -235,10 +235,12 @@
 
 <script>
 	import * as api from "@/api/contract.js";
+	import * as proapi from "@/api/project.js";
 	import {
 		formatDate,
 		formatDateTime,
-		convertOptions
+		convertOptions,
+		createProjectInfo
 	} from "@/utils/format.js";
 	import upload from "../../common/upload.vue"
 	import attachlist from "../../common/attachlist.vue"
@@ -319,6 +321,7 @@
 		},
 		computed: {},
 		mounted() {
+			this.getProjectInfoById();
 			this.getContractBuildEnums();
 		},
 		watch: {
@@ -401,6 +404,18 @@
 					this.contractTable.splice(index, 1);
 				});
 
+			},
+			getProjectInfoById() {
+				proapi.getProjectInfoById({
+					projectid: this.$store.getters.project['parentid']
+				}).then((res) => {
+					let data = res['data'] || {};
+					this.baseInfo['buildSectionName'] = data['project'] ? data['project']['name'] : '';
+					let list = data['companys'] || [];
+					let info = createProjectInfo(list);
+					this.baseInfo['buildCompany'] = info['buildCompany'];
+					this.baseInfo['supervisionUnit'] = info['supervisionUnit'];
+				});
 			},
 		},
 	};

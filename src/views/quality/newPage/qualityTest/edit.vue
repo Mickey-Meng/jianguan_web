@@ -14,7 +14,7 @@
 								<div class="form-title">
 									<div class="title-big-bar"></div>
 									<strong>质量检测</strong>
-									v<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify"
+									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify"
 										@checkDraft="checkDraft" ref="drafthandle"></drafthandle>
 								</div>
 
