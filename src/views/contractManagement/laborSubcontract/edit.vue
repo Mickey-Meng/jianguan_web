@@ -50,7 +50,7 @@
 										<div class="block-item">
 											<div class="block-item-label">发起人</div>
 											<div class="block-item-value">
-												{{baseInfo.startupUser}}
+												{{userInfo.NAME}}
 
 											</div>
 										</div>
@@ -275,6 +275,7 @@
 
 <script>
 	import * as api from "@/api/contract.js";
+	import { getUserInfo } from "@/api/user";
 	import {
 		formatMonth,
 		formatDate,
@@ -313,6 +314,9 @@
 						type: 'number',
 						message: '合同金额必须为数字'
 					}]
+				},
+				userInfo: {
+					userName: ''
 				},
 				baseInfo: {
 					buildSection: 1,
@@ -358,6 +362,7 @@
 		computed: {},
 		mounted() {
 			this.getContractBuildEnums();
+			this.getUserInfo();
 		},
 		watch: {
 			editRow(obj) {
@@ -382,6 +387,11 @@
 			}
 		},
 		methods: {
+			getUserInfo() {
+				getUserInfo(localStorage.getItem('ID')).then(res => {
+					this.userInfo = res.data.userInfo;
+				});
+			},
 			changeVisible(value) {
 				this.dialogFormVisible = value;
 			},

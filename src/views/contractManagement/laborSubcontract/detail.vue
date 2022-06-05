@@ -146,6 +146,7 @@
 
 <script>
 	import * as api from "@/api/contract";
+	import { getUserInfo } from "@/api/user";
 	import tasklog from "../../common/tasklog.vue"
 	import taskhandle from '../../common/taskhandle'
 	import attachlist from "../../common/attachlist"
@@ -205,6 +206,11 @@
 			
 		},
 		methods: {
+			getUserInfo(id) {
+				getUserInfo(id).then(res => {
+					this.baseInfo.startupUser = res.data.userInfo.NAME;
+				});
+			},
 			closeDialog(){
 				if(this.taskInfo['processDefinitionId']){
 					this.$router.go(-1);
@@ -219,6 +225,7 @@
 					this.formData = data;
 					this.attachTable = data.attachment || [];
 					this.contractTable = data.information || [];
+					this.getUserInfo(data.createUserId)
 				});
 			},
 		},

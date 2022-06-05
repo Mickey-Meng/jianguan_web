@@ -124,6 +124,7 @@
 
 <script>
 	import * as api from "@/api/contract";
+	import { getUserInfo } from "@/api/user";
 	import attachlist from "../../common/attachlist"
 	import {
 		formatMonth,
@@ -173,12 +174,18 @@
 			
 		},
 		methods: {
+			getUserInfo(id) {
+				getUserInfo(id).then(res => {
+					this.baseInfo.startupUser = res.data.userInfo.NAME;
+				});
+			},
 			getDetail(id) {
 				api.getContractLaborDeatil(id).then((res) => {
 					let data = res['data'] || {};
 					this.formData = data;
 					this.attachTable = data.attachment || [];
 					this.contractTable = data.information || [];
+					this.getUserInfo(data.createUserId)
 				});
 			},
 		},

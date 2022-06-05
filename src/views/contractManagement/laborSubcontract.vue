@@ -38,7 +38,7 @@
 					</el-table-column>
 					<el-table-column prop="laborContractProjectName" align="center" label="拟劳务合作工程名称" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="createTime" align="center" label="备案日期" show-overflow-tooltip>
+					<el-table-column prop="startDate" align="center" label="备案日期" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="contractUser" align="center" label="承包人" show-overflow-tooltip>
 					</el-table-column>
