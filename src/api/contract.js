@@ -251,4 +251,15 @@ export const getEquipmentExitList = data => {
 	});
 };
 
-
+/**
+ * 获取流程对应节点的人员范围flowAuditEntry/detail/id
+ * @param {*} data 
+ * @returns 
+ */
+ export const getFlowAuditEntry = data => {
+	return request({
+		url: api.flowAuditEntry,
+		method: "get",
+		params: data
+	});
+};

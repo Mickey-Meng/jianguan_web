@@ -124,6 +124,29 @@
 										</div>
 									</div>
 								</div> -->
+								
+								<div class="form-title">
+									<div class="title-big-bar"></div><strong>审批信息</strong>
+								</div>
+								<div class="form-block">
+									<div class="form-block-title">
+										<div class="title-bar"></div><strong>待审批人</strong>
+									</div>
+									<div class="block-line" v-for="userOptions in flowNodesUsersData">
+										<div class="block-item">
+											<div class="block-item-label">{{userOptions.entryName}}<i class="require-icon"></i></div>
+											<div class="block-item-value">
+												<el-form-item prop="qualityCheckUser">
+													<el-select placeholder="请选择" v-model="auditUser[userOptions.entryUserVariable]" @change="flowUserChange($event, userOptions.entryUserVariable)">
+														<el-option v-for="(item, idx) in userOptions.userName" :key="item"
+															:label="userOptions.userNameStr[idx]" :value="item">
+														</el-option>
+													</el-select>
+												</el-form-item>
+											</div>
+										</div>
+									</div>
+								</div>
 								<div class="form-block">
 									<el-button @click="addOrModify" class="submit-btn" size="small" type="primary">提交
 									</el-button>
@@ -168,6 +191,7 @@
 		return fmt;
 	}
 	import * as api from "@/api/quality";
+	import { getUserInfo } from "@/api/user";
 	import {
 		formatDateTime,
 		formatDate,
@@ -250,7 +274,9 @@
 					unit: ''
 				},
 				attachTable: [], //附件
-				fileList:[]
+				fileList:[],
+				flowNodesUsersData: [],
+				auditUser: {}
 			};
 		},
 		created() {},
@@ -260,6 +286,7 @@
 		computed: {},
 		mounted() {
 			this.getProjectInfoById();
+			this.getFlowAuditEntry();
 		},
 		watch: {
 			editRow(obj) {
@@ -289,6 +316,32 @@
 			}
 		},
 		methods: {
+			flowUserChange(data, data1){
+				this.auditUser[data1] = data;
+				this.$forceUpdate();
+			},
+			getFlowAuditEntry() {
+				api.getFlowAuditEntry({
+					flowKey: 'shigongjishujiaodi',
+					projectId: this.$store.getters.project['parentid'] || 2
+				}).then((res) => {
+					console.log(11111111111111111111, res);
+					for (let i = 0; i < res.data.length; i++) {
+						const item = res.data[i];
+						this.auditUser[item.entryUserVariable] = item.userName[0];
+						if (!item.userNameStr) item.userNameStr = [];
+						for (let j = 0; j < item.userId.length; j++) {
+							const id = item.userId[j];
+							getUserInfo(id).then(res => {
+								item.userNameStr[j] = res.data.userInfo.NAME;
+								this.$forceUpdate();
+							})
+						}
+					}
+					console.log(this.auditUser);
+					this.flowNodesUsersData = res.data;
+				});
+			},
 			changeVisible(value) {
 				this.dialogFormVisible = value;
 			},
@@ -319,6 +372,7 @@
 				this.$refs['ruleForm'].validate((valid) => {
 					if(valid){
 						this.formData.attachment=this.attachTable;
+						this.formData.auditUser = this.auditUser;
 						api.addOrUpdateBuildTechBottom(this.formData).then((res) => {
 							if (res.data) {
 								this.$message({

@@ -151,6 +151,28 @@
 									</div>
 								</div>
 								
+								<div class="form-title">
+									<div class="title-big-bar"></div><strong>审批信息</strong>
+								</div>
+								<div class="form-block">
+									<div class="form-block-title">
+										<div class="title-bar"></div><strong>待审批人</strong>
+									</div>
+									<div class="block-line" v-for="userOptions in flowNodesUsersData">
+										<div class="block-item">
+											<div class="block-item-label">{{userOptions.entryName}}<i class="require-icon"></i></div>
+											<div class="block-item-value">
+												<el-form-item prop="qualityCheckUser">
+													<el-select placeholder="请选择" v-model="auditUser[userOptions.entryUserVariable]" @change="flowUserChange($event, userOptions.entryUserVariable)">
+														<el-option v-for="(item, idx) in userOptions.userName" :key="item"
+															:label="userOptions.userNameStr[idx]" :value="item">
+														</el-option>
+													</el-select>
+												</el-form-item>
+											</div>
+										</div>
+									</div>
+								</div>
 								
 								<div class="form-block">
 									<el-button @click="addOrModify" class="submit-btn" size="small" type="primary">提交
@@ -351,7 +373,9 @@
 					remark: '',
 					buildStartMonth: formatMonth(new Date()),
 					buildEndMonth: formatMonth(new Date())
-				}
+				},
+				flowNodesUsersData: [],
+				auditUser: {}
 			};
 		},
 		created() {},
@@ -363,6 +387,7 @@
 		mounted() {
 			this.getContractBuildEnums();
 			this.getUserInfo();
+			this.getFlowAuditEntry();
 		},
 		watch: {
 			editRow(obj) {
@@ -387,6 +412,32 @@
 			}
 		},
 		methods: {
+			flowUserChange(data, data1){
+				this.auditUser[data1] = data;
+				this.$forceUpdate();
+			},
+			getFlowAuditEntry() {
+				api.getFlowAuditEntry({
+					flowKey: 'laowufenbaohetong',
+					projectId: this.$store.getters.project['parentid'] || 2
+				}).then((res) => {
+					console.log(11111111111111111111, res);
+					for (let i = 0; i < res.data.length; i++) {
+						const item = res.data[i];
+						this.auditUser[item.entryUserVariable] = item.userName[0];
+						if (!item.userNameStr) item.userNameStr = [];
+						for (let j = 0; j < item.userId.length; j++) {
+							const id = item.userId[j];
+							getUserInfo(id).then(res => {
+								item.userNameStr[j] = res.data.userInfo.NAME;
+								this.$forceUpdate();
+							})
+						}
+					}
+					console.log(this.auditUser);
+					this.flowNodesUsersData = res.data;
+				});
+			},
 			getUserInfo() {
 				getUserInfo(localStorage.getItem('ID')).then(res => {
 					this.userInfo = res.data.userInfo;
@@ -414,6 +465,7 @@
 					if (valid) {
 						this.formData.attachment = this.attachTable;
 						this.formData.information = this.contractTable;
+						this.formData.auditUser = this.auditUser;
 						api.addOrUpdateContractLabor(this.formData).then((res) => {
 							if (res.data) {
 								this.$message({

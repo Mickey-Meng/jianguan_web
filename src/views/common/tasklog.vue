@@ -18,7 +18,7 @@
 						</el-table-column>
 						<el-table-column prop="approvalType" align="center" label="操作">
 						</el-table-column>
-						<el-table-column prop="taskComment" align="center" label="审批意见"  show-overflow-tooltip>
+						<el-table-column prop="comment" align="center" label="审批意见"  show-overflow-tooltip>
 						</el-table-column>
 						<el-table-column prop="createTime" align="center" label="处理时间" show-overflow-tooltip>
 						</el-table-column>

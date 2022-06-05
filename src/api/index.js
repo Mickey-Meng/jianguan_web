@@ -233,6 +233,7 @@ const api = {
   addOrUpdateHiddenProject: "/ZhuJiApi/web/api/v1/hiddenProjectAccept/addOrUpdate",
   deleteHiddenProject: "/ZhuJiApi/web/api/v1/hiddenProjectAccept/id",
   //质量检测
+  flowAuditEntry: "/ZhuJiApi/web/api/v1/flowAuditEntry/getAuditInfoByFlowKey",
   addOrUpdateQualityDetection: "/ZhuJiApi/web/api/v1/qualityDetection/addOrUpdate",
   getQualityDetectionDetail: "/ZhuJiApi/web/api/v1/qualityDetection/detail/id",
   getMaterialEnums: "/ZhuJiApi/web/api/v1/qualityDetection/material/enums",
