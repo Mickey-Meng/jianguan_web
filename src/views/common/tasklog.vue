@@ -118,12 +118,12 @@
 							const canvas = this.bpmnModeler.get('canvas')
 							canvas.zoom('fit-viewport')
 
-							let { finishedTaskSet } = this.processNodeInfo;
+							let { finishedTaskSet, unfinishedTaskSet } = this.processNodeInfo;
 							// 目的：为第一个节点添加绿色，为第二个节点添加黄色
 							// 实现步骤：1、找到页面里所有节点
 							const elementRegistry = this.bpmnModeler.get('elementRegistry');
 							const nodeList = elementRegistry.filter (
-							(item) => finishedTaskSet.indexOf(item.id) > -1
+							(item) => finishedTaskSet.indexOf(item.id) > -1 && unfinishedTaskSet.indexOf(item.id) < 0
 							);
 							// 此时得到的userTaskList 便是流程图中所有的节点的集合
 							console.log(nodeList, elementRegistry);
