@@ -64,11 +64,16 @@ export const constantRoutes = [{
       code: "jintuichangguanli",
       component: () => import("@/views/contractManagement/entranceAndExitManagement/view")
     }, {
-      path: "/currentAccountManagement_detail",
-      name: "currentAccountManagement_detail",
-      code: "wanglaikuanguanli",
-      component: () => import("@/views/contractManagement/currentAccountManagement/view")
-    },
+		path: "/currentAccountManagement_detail",
+		name: "currentAccountManagement_detail",
+		code: "wanglaikuanguanli",
+		component: () => import("@/views/contractManagement/currentAccountManagement/view")
+	  }, { // 施工技术交底
+		path: "/constructionTechnologyDisclosure_detail",
+		name: "constructionTechnologyDisclosure_detail",
+		code: "shigongjishujiaodi",
+		component: () => import("@/views/quality/newPage/constructionTechnologyDisclosure/view")
+	  },
       {
         path: "/staffSubmit_detail",
         name: "staffSubmit_detail",

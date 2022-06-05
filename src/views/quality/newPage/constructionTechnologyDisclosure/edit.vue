@@ -77,35 +77,7 @@
 											xisx xis pdf文件，且不超过100m</span>
 									</div>
 
-									<div class="block-line">
-										<upload @afterUp="afterUp($event)"></upload>
-										<!-- <div class="block-table-title">附件</div> -->
-										<div class="block-table-btns">
-											<el-button size="small" type="primary">下载全部</el-button>
-										</div>
-									</div>
-									<div class="block-table">
-										<el-table :data="attachTable" style="width: 100%" border class="have_scrolling">
-											<el-table-column type="index" width="50" align="center" label="序号">
-											</el-table-column>
-											<el-table-column prop="fileName" align="center" label="附件"
-												show-overflow-tooltip>
-											</el-table-column>
-											<el-table-column prop="createTime" width="160px" align="center"
-												label="上传日期">
-											</el-table-column>
-											<el-table-column prop="creatorName" width="120px" align="center"
-												label="上传人">
-											</el-table-column>
-											<el-table-column fixed="right" width="120" align="center" label="操作">
-												<template slot-scope="{ row, $index }">
-													<el-button type="text" size="mini">下载</el-button>
-													<el-button type="text" size="mini">预览</el-button>
-													<el-button type="text" size="mini" @click="deleteAttach(row, $index)">删除</el-button>
-												</template>
-											</el-table-column>
-										</el-table>
-									</div>
+									<attachlist :editAble="true" ref="attachlist" :attachTable="attachTable"></attachlist>
 								</div>
 
 								<div class="form-title">
@@ -133,7 +105,7 @@
 										</div>
 									</div>
 								</div> -->
-								<div class="form-block">
+								<!-- <div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>待审批人</strong>
 									</div>
@@ -151,7 +123,7 @@
 											</div>
 										</div>
 									</div>
-								</div>
+								</div> -->
 								<div class="form-block">
 									<el-button @click="addOrModify" class="submit-btn" size="small" type="primary">提交
 									</el-button>
@@ -201,7 +173,7 @@
 		formatDate,
 		createProjectInfo
 	} from "@/utils/format.js";
-	import upload from "../../../common/upload.vue"
+	import attachlist from "../../../common/attachlist.vue"
 	
 	export default {
 		props: ['editRow'],
@@ -283,7 +255,7 @@
 		},
 		created() {},
 		components: {
-			upload
+			attachlist
 		},
 		computed: {},
 		mounted() {
@@ -361,23 +333,6 @@
 					
 				})
 			},
-			afterUp(data){
-				this.attachTable.push({
-					createTime:formatDateTime(data['uploadTime']),
-					fileName:data['fileName'],
-					fileUrl:data['fileId'],
-					creatorName:'test'
-				})
-			},
-			deleteAttach(row, index){
-				this.$confirm('确认是否删除?', '提示', {
-					confirmButtonText: '确定',
-					cancelButtonText: '取消',
-					type: 'warning'
-				}).then(() => {
-					this.attachTable.splice(index,1);
-				});
-			}
 		},
 	};
 </script>
