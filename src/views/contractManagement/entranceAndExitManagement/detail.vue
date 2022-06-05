@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<el-dialog class="full-dialog defined-dialog" :fullscreen="true" :visible.sync="dialogFormVisible">
+		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible" :fullscreen="true">
 			<template slot="title">
 				{{dialogTitle}}
 				<div class="logo-icon"></div>
@@ -10,25 +10,15 @@
 					style="background-color: rgba(0,0 0,0.5);height: calc(100vh - 96px); overflow-y: scroll;padding: 0px;margin: 0;">
 					<div class="form-bg">
 						<div class="form-content">
-							<el-form :model="formData" :rules="rules" ref="ruleForm" label-width="80px">
-								<div class="form-title">
-									<div class="title-big-bar"></div>
-									<strong>进退场管理</strong>
-									<div class="form-btns">
-										<el-button size="medium">暂存</el-button>
-										<el-button size="medium">保存草稿</el-button>
-										<el-button size="medium">选择草稿</el-button>
-										<el-button size="medium" type="primary">复制填充</el-button>
-									</div>
-								</div>
-
+							<el-form ref="form" label-width="80px">
+								
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
 									</div>
 									<div class="block-line">
 										<div class="block-item">
-											<div class="block-item-label">项目名称</div>
+											<div class="block-item-label">项目名称<i class="require-icon"></i></div>
 											<div class="block-item-value">
 												{{baseInfo.projectName}}
 											</div>
@@ -36,20 +26,13 @@
 										<div class="block-item">
 											<div class="block-item-label">施工标段标段<i class="require-icon"></i></div>
 											<div class="block-item-value">
-												<el-form-item prop="buildSection">
-													<el-select @change="changeChild" v-model="formData.buildSection"
-														placeholder="请选择">
-														<el-option v-for="item in childOptions" :key="item.value"
-															:label="item.label" :value="item.value">
-														</el-option>
-													</el-select>
-												</el-form-item>
+												{{formData.buildSection}}
 											</div>
 										</div>
 									</div>
 									<div class="block-line">
 										<div class="block-item">
-											<div class="block-item-label">施工单位</div>
+											<div class="block-item-label">施工单位<i class="require-icon"></i></div>
 											<div class="block-item-value">
 												{{baseInfo.buildCompany}}
 											</div>
@@ -57,13 +40,7 @@
 										<div class="block-item">
 											<div class="block-item-label">报审类型<i class="require-icon"></i></div>
 											<div class="block-item-value">
-												<el-form-item prop="type">
-													<el-select v-model="formData.type" placeholder="请选择">
-														<el-option v-for="item in typeOptions" :key="item.value"
-															:label="item.label" :value="item.value">
-														</el-option>
-													</el-select>
-												</el-form-item>
+												{{formData.type}}
 											</div>
 										</div>
 									</div>
@@ -71,43 +48,31 @@
 										<div class="block-item">
 											<div class="block-item-label">劳务分包合同<i class="require-icon"></i></div>
 											<div class="block-item-value">
-												<el-form-item prop="laborContractId">
-													<el-select filterable v-model="formData.laborContractId"
-														placeholder="请选择">
-														<el-option v-for="item in contractOptions" :key="item.value"
-															:label="item.label" :value="item.value">
-														</el-option>
-													</el-select>
-												</el-form-item>
+												{{formData.laborContractId}}
 											</div>
 										</div>
 										<div class="block-item">
 											<div class="block-item-label">人数<i class="require-icon"></i></div>
 											<div class="block-item-value">
-												<el-form-item prop="num">
-													<el-input v-model.number="formData.num"></el-input>
-												</el-form-item>
+												{{formData.num}}
 											</div>
 										</div>
 									</div>
 									<div class="block-line">
 										<div class="block-item">
-											<div class="block-item-label">说明</div>
+											<div class="block-item-label">说明<i class="require-icon"></i></div>
 											<div class="block-item-value">
-												<el-form-item prop="explaination">
-													<el-input v-model="formData.explaination"></el-input>
-												</el-form-item>
+												{{formData.explaination}}
 											</div>
 										</div>
 									</div>
 								</div>
+								
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>人员清单</strong>
 									</div>
-									<div class="block-line">
-										<el-button size="small" @click="addInOutUser" type="primary">新增</el-button>
-									</div>
+									
 									<div class="block-table">
 										<el-table :data="inOutUserTable" style="width: 100%" border
 											class="have_scrolling">
@@ -172,322 +137,54 @@
 										</el-table>
 									</div>
 								</div>
-								<div class="form-block">
-									<el-button @click="addOrModify" class="submit-btn" size="small" type="primary">提交
-									</el-button>
-								</div>
+								
 							</el-form>
+							<taskhandle :taskInfo="taskInfo"></taskhandle>
 						</div>
 					</div>
 				</el-main>
+				<el-aside width="8px" class="close-wrapper">
+					<div class="close-wrap">
+						<i class="el-icon-caret-right"></i>
+					</div>
+				</el-aside>
+				<el-aside
+					style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
+					<tasklog :taskInfo="taskInfo"></tasklog>
+				</el-aside>
 			</el-container>
 		</el-dialog>
-		<el-dialog class="defined-dialog" title="新增" :visible.sync="inoutUserVisible">
-			<el-form ref="newform" label-width="80px" :rules="newrules" :model="inoutUserInfo">
-				<div class="form-block">
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">人员姓名<i class="require-icon"></i></div>
-							<div class="block-item-value">
-								<el-form-item prop="name">
-									<el-input v-model="inoutUserInfo.name">
-									</el-input>
-								</el-form-item>
-							</div>
-						</div>
-						<div class="block-item">
-							<div class="block-item-label">手机号码<i class="require-icon"></i></div>
-							<div class="block-item-value">
-								<el-form-item prop="phone">
-									<el-input v-model="inoutUserInfo.phone">
-									</el-input>
-								</el-form-item>
-							</div>
-						</div>
-					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">身份证号<i class="require-icon"></i></div>
-							<div class="block-item-value">
-								<el-form-item prop="card">
-									<el-input v-model="inoutUserInfo.card"></el-input>
-								</el-form-item>
-							</div>
-						</div>
-						<div class="block-item">
-							<div class="block-item-label">户籍<i class="require-icon"></i></div>
-							<div class="block-item-value">
-								<el-form-item prop="household">
-									<el-input v-model="inoutUserInfo.household"></el-input>
-								</el-form-item>
-							</div>
-						</div>
-					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">健康状况<i class="require-icon"></i></div>
-							<div class="block-item-value">
-								<el-form-item prop="bodyStatus">
-									<el-input v-model="inoutUserInfo.bodyStatus"></el-input>
-								</el-form-item>
-							</div>
-						</div>
-					</div>
-					<div class="form-block-title">
-						<div class="title-bar"></div><strong>接触中高风险疫区情况</strong>
-					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">是否到过中高风险地区<i class="require-icon"></i></div>
-							<div class="block-item-value">
-								<el-form-item prop="isRisk">
-									<el-select v-model="inoutUserInfo.isRisk" placeholder="请选择">
-										<el-option v-for="item in boolOptions" :key="item.value" :label="item.label"
-											:value="item.value">
-										</el-option>
-									</el-select>
-								</el-form-item>
-							</div>
-						</div>
-						<div class="block-item">
-							<div class="block-item-label">中高风险地区</div>
-							<div class="block-item-value">
-								<el-form-item prop="riskArea">
-									<el-input v-model="inoutUserInfo.riskArea"></el-input>
-								</el-form-item>
-							</div>
-						</div>
-					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">出发地<i class="require-icon"></i></div>
-							<div class="block-item-value">
-								<el-form-item prop="startArea">
-									<el-input v-model="inoutUserInfo.startArea"></el-input>
-								</el-form-item>
-							</div>
-						</div>
-						<div class="block-item">
-							<div class="block-item-label">途径城市</div>
-							<div class="block-item-value">
-								<el-form-item prop="wayCity">
-									<el-input v-model="inoutUserInfo.wayCity"></el-input>
-								</el-form-item>
-							</div>
-						</div>
-					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">是否完成疫苗接种<i class="require-icon"></i></div>
-							<div class="block-item-value">
-								<el-form-item prop="isVaccine">
-									<el-select v-model="inoutUserInfo.isVaccine" placeholder="请选择">
-										<el-option v-for="item in boolOptions" :key="item.value" :label="item.label"
-											:value="item.value">
-										</el-option>
-									</el-select>
-								</el-form-item>
-							</div>
-						</div>
-						<div class="block-item">
-							<div class="block-item-label">健康码（是否为绿码）<i class="require-icon"></i></div>
-							<div class="block-item-value">
-								<el-form-item prop="isHealth">
-									<el-select v-model="inoutUserInfo.isHealth" placeholder="请选择">
-										<el-option v-for="item in boolOptions" :key="item.value" :label="item.label"
-											:value="item.value">
-										</el-option>
-									</el-select>
-								</el-form-item>
-							</div>
-						</div>
-					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">工种</div>
-							<div class="block-item-value">
-								<el-form-item prop="workType">
-									<el-input v-model="inoutUserInfo.workType"></el-input>
-								</el-form-item>
-							</div>
-						</div>
-						<div class="block-item">
-							<div class="block-item-label">备注</div>
-							<div class="block-item-value">
-								<el-form-item prop="remark">
-									<el-input v-model="inoutUserInfo.remark"></el-input>
-								</el-form-item>
-							</div>
-						</div>
-					</div>
-					<div class="form-block-title">
-						<div class="title-bar"></div><strong>队伍公司</strong>
-					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">名称</div>
-							<div class="block-item-value">
-								<el-form-item prop="companyName">
-									<el-input v-model="inoutUserInfo.companyName"></el-input>
-								</el-form-item>
-							</div>
-						</div>
-						<div class="block-item">
-							<div class="block-item-label">联系电话</div>
-							<div class="block-item-value">
-								<el-form-item prop="companyPhone">
-									<el-input v-model="inoutUserInfo.companyPhone"></el-input>
-								</el-form-item>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="form-block">
-					<el-button @click="addInOutUserTable" class="submit-btn" size="small" type="primary">提交</el-button>
-				</div>
-			</el-form>
-		</el-dialog>
+		
 	</div>
 </template>
 
 <script>
-	import * as api from "@/api/contract.js";
 	import * as proapi from "@/api/project.js";
+	import * as api from "@/api/contract";
+	import tasklog from "../../common/tasklog.vue"
+	import taskhandle from '../../common/taskhandle'
+	import attachlist from "../../common/attachlist"
 	import {
 		formatMonth,
 		formatDate,
 		formatDateTime,
 		convertOptions
 	} from "@/utils/format.js";
-	import upload from "../../common/upload.vue"
 
 	export default {
-		props: ['editRow'],
+		props:['detailRow'],
 		data() {
 			return {
 				dialogTitle: '项目全生命周期数字管理平台',
 				dialogFormVisible: false,
-				childOptions: [],
-				typeOptions: [{
-					label: '进场',
-					value: 0
-				}, {
-					label: '退场',
-					value: 1
-				}],
-				contractOptions: [{
-					label: '劳务分包合同',
-					value: 1
-				}],
-				boolOptions: [{
-					label: '是',
-					value: '是'
-				}, {
-					label: '否',
-					value: '否'
-				}],
-				partOptions: [],
-				rules: {
-					buildSection: [{
-						required: true,
-						message: '必选项',
-						trigger: 'blur'
-					}],
-					type: [{
-						required: true,
-						message: '必选项',
-						trigger: 'blur'
-					}],
-					laborContractId: [{
-						required: true,
-						message: '必选项',
-						trigger: 'blur'
-					}],
-					num: [{
-						required: true,
-						message: '必选项',
-						trigger: 'blur'
-					}, {
-						type: 'number',
-						message: '必须为数字'
-					}]
-				},
-				newrules: {
-					name: [{
-						required: true,
-						message: '必选项',
-						trigger: 'blur'
-					}],
-					phone: [{
-						required: false,
-						message: '必选项',
-						trigger: 'blur'
-					}, {
-						validator: (rule, value, callback) => {
-							var reg =/^1[3-9]\d{9}$/
-							let valid = reg.test(value)
-							if (valid) {
-								callback()
-							} else {
-								callback(new Error('正确的手机号'))
-							}
-						},
-						trigger: 'blur',
-					}],
-					card: [{
-						required: false,
-						message: '必选项',
-						trigger: 'blur'
-					},{
-						validator: (rule, value, callback) => {
-							var reg =/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
-							let valid = reg.test(value)
-							if (valid) {
-								callback()
-							} else {
-								callback(new Error('正确的身份证号码'))
-							}
-						},
-						trigger: 'blur',
-					}],
-					household: [{
-						required: true,
-						message: '必选项',
-						trigger: 'blur'
-					}],
-					bodyStatus: [{
-						required: true,
-						message: '必选项',
-						trigger: 'blur'
-					}],
-					isRisk: [{
-						required: true,
-						message: '必选项',
-						trigger: 'blur'
-					}],
-					startArea: [{
-						required: true,
-						message: '必选项',
-						trigger: 'blur'
-					}],
-					isVaccine: [{
-						required: true,
-						message: '必选项',
-						trigger: 'blur'
-					}],
-					isHealth: [{
-						required: true,
-						message: '必选项',
-						trigger: 'blur'
-					}]
-				},
+
 				baseInfo: {
 					buildSection: 1,
 					projectName: '235国道杭州至诸暨公路萧山河上至诸暨安华段改建工程',
-					buildSectionName: '235国道项目部',
-					contractCode: 'ORG_00004',
-					startupUser: '赵赞文',
-					startupDate: formatMonth(new Date()),
+					buildSectionName: '235国道杭州至诸暨公路萧山河上至诸暨安华段改建工程',
+					contractCode: '235SJSG01',
+					buildCompany: '中交上海航道局有限公司、中国交通建设股份有限公司、浙江诸安建设集团有限公司、浙江省交通规划设计研究院有限公司',
+					supervisionUnit: '浙江交科公路水运工程监理有限公司',
 				},
 				formData: { //表单参数
 					enterExitUsers: [],
@@ -501,127 +198,55 @@
 					num: null,
 					type: 0
 				},
-				inOutUserTable: [],
-				inoutUserVisible: false,
-				inoutUserInfo: {
-					bodyStatus: '',
-					card: '',
-					companyName: '',
-					companyPhone: '',
-					household: null,
-					isHealth: '是',
-					isRisk: '否',
-					isVaccine: '是',
-					name: '',
-					phone: '',
-					remark: '',
-					riskArea: '',
-					startArea: '',
-					type: 0,
-					wayCity: '',
-					workType: ''
-				}
+				inOutUserTable: [], //附件
+				attachTable: [], //附件
+				taskInfo:{}
 			};
 		},
 		created() {},
 		components: {
-			upload
+			tasklog,
+			taskhandle,
+			attachlist
 		},
 		computed: {},
-		mounted() {
-			// this.getContractBuildEnums();
-			this.getChildProject();
-		},
-		watch: {
-			editRow(obj) {
-				if (obj['id']) {
+		watch:{
+			detailRow(obj){
+				if(obj['id']){
 					this.getDetail(obj['id']);
-				} else {
-					this.formData = {
-						enterExitUsers: [],
-						buildSection: '4',
-						deletedFlag: 1,
-						explaination: '',
-						deletedFlag: 1,
-						draftFlag: 1,
-						projectId: this.$store.getters.project['parentid'],
-						laborContractId: null,
-						num: null,
-						type: 0
-					}
 				}
 			}
 		},
+		mounted() {
+			
+		},
 		methods: {
-			changeVisible(value) {
-				this.dialogFormVisible = value;
+			closeDialog(){
+				if(this.taskInfo['processDefinitionId']){
+					this.$router.go(-1);
+				}
 			},
-			getChildProject() {
-				proapi.getChildProject({
+			changeVisible(value){
+				this.dialogFormVisible=value;
+			},
+			getProjectInfoById() {
+				proapi.getProjectInfoById({
 					projectid: this.$store.getters.project['parentid']
 				}).then((res) => {
-					let options = res.data || [];
-					this.childOptions = convertOptions(options, 'name', 'id');
+					let data = res['data'] || {};
+					this.baseInfo['buildSectionName'] = data['project'] ? data['project']['name'] : '';
+					let list = data['companys'] || [];
+					let info = createProjectInfo(list);
+					this.baseInfo['buildCompany'] = info['buildCompany'];
+					this.baseInfo['supervisionUnit'] = info['supervisionUnit'];
 				});
 			},
-			changeChild() {
-				proapi.getCompanyByProjectId({
-					projectid: this.formData.buildSection
-				}).then((res) => {
-					this.baseInfo = res;
-				});
-			},
-			getDetail(id) {
+			getDetail(id){
 				api.getEnterExitDeatil(id).then((res) => {
 					let data = res['data'] || {};
 					this.formData = data;
 					this.inOutUserTable = data.enterExitUsers || [];
 				});
-			},
-			// getContractBuildEnums() {
-			// 	api.getContractBuildEnums().then((res) => {
-			// 		let options = res.data || [];
-			// 		this.partOptions = convertOptions(options, 'desc', 'desc');
-			// 	});
-			// },
-			addOrModify() {
-				this.$refs['ruleForm'].validate((valid) => {
-					if (valid) {
-						this.formData.enterExitUsers = this.inOutUserTable;
-						api.addOrUpdateEnterExit(this.formData).then((res) => {
-							if (res.data) {
-								this.$message({
-									type: 'success',
-									message: '提交成功!'
-								});
-								this.dialogFormVisible = false;
-								this.$emit("query");
-							}
-						});
-					}
-
-				})
-			},
-			addInOutUser() {
-				this.inoutUserVisible = true;
-			},
-			addInOutUserTable() {
-				this.$refs['newform'].validate((valid) => {
-					if (valid) {
-						this.inOutUserTable.push(this.inoutUserInfo);
-						this.inoutUserVisible = false;
-					}
-				})
-			},
-			deleteInOutUser(row, index) {
-				this.$confirm('确认是否删除?', '提示', {
-					confirmButtonText: '确定',
-					cancelButtonText: '取消',
-					type: 'warning'
-				}).then(() => {
-					this.inOutUserTable.splice(index, 1);
-				});
-
 			},
 		},
 	};

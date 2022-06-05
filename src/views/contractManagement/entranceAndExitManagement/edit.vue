@@ -34,7 +34,7 @@
 											</div>
 										</div>
 										<div class="block-item">
-											<div class="block-item-label">施工标段标段<i class="require-icon"></i></div>
+											<div class="block-item-label">施工标段<i class="require-icon"></i></div>
 											<div class="block-item-value">
 												<el-form-item prop="buildSection">
 													<el-select @change="changeChild" v-model="formData.buildSection"
@@ -587,6 +587,13 @@
 			// 	});
 			// },
 			addOrModify() {
+				if (this.inOutUserTable.length != this.formData.num) {
+					this.$message({
+						type: 'error',
+						message: '人数不符!'
+					});
+					return
+				}
 				this.$refs['ruleForm'].validate((valid) => {
 					if (valid) {
 						this.formData.enterExitUsers = this.inOutUserTable;
@@ -610,7 +617,7 @@
 			addInOutUserTable() {
 				this.$refs['newform'].validate((valid) => {
 					if (valid) {
-						this.inOutUserTable.push(this.inoutUserInfo);
+						this.inOutUserTable.push(JSON.parse(JSON.stringify(this.inoutUserInfo)));
 						this.inoutUserVisible = false;
 					}
 				})
