@@ -58,7 +58,8 @@
 				userData: [],
 				bpmnModeler: null,
 				xmlStr:'',
-				hasTaskUser:false
+				hasTaskUser:false,
+				processNodeInfo: {}
 			};
 		},
 		created() {},
@@ -74,11 +75,11 @@
 					this.xmlStr=res['data'];
 					
 				});
-				// api.viewHighlightFlowData({
-				// 	processInstanceId:this.taskInfo['processInstanceId']
-				// }).then((res) => {
-				// 	debugger
-				// });
+				api.viewHighlightFlowData({
+					processInstanceId:this.taskInfo['processInstanceId']
+				}).then((res) => {
+					this.processNodeInfo = res.data;
+				});
 				api.listFlowTaskComment({
 					processInstanceId:this.taskInfo['processInstanceId']
 				}).then((res) => {
@@ -116,12 +117,62 @@
 							// 让图能自适应屏幕
 							const canvas = this.bpmnModeler.get('canvas')
 							canvas.zoom('fit-viewport')
+
+							let { finishedTaskSet } = this.processNodeInfo;
+							// 目的：为第一个节点添加绿色，为第二个节点添加黄色
+							// 实现步骤：1、找到页面里所有节点
+							const elementRegistry = this.bpmnModeler.get('elementRegistry');
+							const nodeList = elementRegistry.filter (
+							(item) => finishedTaskSet.indexOf(item.id) > -1
+							);
+							// 此时得到的userTaskList 便是流程图中所有的节点的集合
+							console.log(nodeList, elementRegistry);
+							// 步骤2 ：为节点添加颜色
+							// 方式1 ：modeling.setColor(参数1：节点，可以是单个元素实例，也可是多个节点组成的数组，参数2：class类);
+							let modeling = this.bpmnModeler.get('modeling');
+							nodeList.forEach(item => {
+								modeling.setColor(item, {
+									stroke: 'green',
+									fill: 'rgb(197 255 197)'
+								});
+							});
+							// this.setProcessStatus(this.processNodeInfo) // 未起作用，可能是css问题
 						} else {
 							console.log('something went wrong:', err);
 						}
 					});
 				},200)
 			},
+			// 设置流程图元素状态
+			setProcessStatus (processNodeInfo) {
+				this.processNodeInfo = processNodeInfo;
+				// if (this.isLoading || this.processNodeInfo == null || this.bpmnModeler == null) return;
+				let { finishedSequenceFlowSet, finishedTaskSet, unfinishedTaskSet } = this.processNodeInfo;
+				const canvas = this.bpmnModeler.get('canvas');
+				const elementRegistry = this.bpmnModeler.get('elementRegistry');
+				if (Array.isArray(finishedSequenceFlowSet)) {
+					finishedSequenceFlowSet.forEach(item => {
+					if (item != null) {
+						canvas.addMarker(item, 'success');
+						let element = elementRegistry.get(item);
+						const conditionExpression = element.businessObject.conditionExpression;
+						if (conditionExpression) {
+							canvas.addMarker(item, 'condition-expression');
+						}
+					}
+					});
+				}
+				if (Array.isArray(finishedTaskSet)) {
+					finishedTaskSet.forEach(item => {
+					canvas.addMarker(item, 'success');
+					});
+				}
+				if (Array.isArray(unfinishedTaskSet)) {
+					unfinishedTaskSet.forEach(item => {
+					canvas.addMarker(item, 'current');
+					});
+				}
+			}
 		},
 	};
 </script>
