@@ -146,7 +146,7 @@
 									<attachlist :editAble="true" ref="attachlist" :attachTable="replyAttachTable"></attachlist>
 								</div>
 								
-								<div class="form-block">
+								<!-- <div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>审批意见</strong>
 									</div>
@@ -172,7 +172,7 @@
 											</div>
 										</div>
 									</div>
-								</div>
+								</div> -->
 								<div class="form-title">
 									<div class="title-big-bar"></div><strong>审批信息</strong>
 								</div>
