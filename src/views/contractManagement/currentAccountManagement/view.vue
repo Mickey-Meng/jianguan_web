@@ -74,6 +74,7 @@
 		formatDateTime,
 		convertOptions
 	} from "@/utils/format.js";
+	import attachlist from "../../common/attachlist.vue"
 	
 	export default {
 		data() {
@@ -107,6 +108,7 @@
 		},
 		created() {},
 		components: {
+			attachlist
 		},
 		computed: {},
 		watch: {

@@ -35,7 +35,7 @@
 					class="have_scrolling">
 					<el-table-column type="index" width="50" align="center" label="序号">
 					</el-table-column>
-					<el-table-column prop="buildSection" align="center" label="施工标段" show-overflow-tooltip>
+					<el-table-column prop="buildSectionName" align="center" label="施工标段" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="billCode" align="center" label="账单编号" show-overflow-tooltip>
 					</el-table-column>

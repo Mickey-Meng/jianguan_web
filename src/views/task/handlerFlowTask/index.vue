@@ -52,7 +52,7 @@
 			return {
 				dialogFormVisible:true,
 				dialogTitle:'项目全生命周期数字管理平台',
-				menuTitle:'质量检测',
+				menuTitle:'流程审批',
 				detailRow:{},
 				taskInfo:{},
 				isUnEdit:false,
