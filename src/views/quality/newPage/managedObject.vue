@@ -1,7 +1,7 @@
 <!--
 @name:
 @description: 管理目标
-@author: 王海林
+@author: zhouhai
 @time: 2022-05-13 09:17:13
 @modifier:
 @modifierTime:
@@ -112,32 +112,10 @@
 										<div class="title-bar"></div><strong>文件</strong>
 										<span style="font-size: 12px;margin-left: 40px;" v-show="!previewMode">支持上传 jpg/jpeg png mp4 docx doc xlsx xls pdf 文件，且不超过 50M</span>
 									</div>
-									<div class="block-line">
-										<upload v-show="!previewMode" @afterUp="afterUpAttach($event)"></upload>
-										<!-- <el-button size="small" type="primary" v-show="!previewMode">点击上传</el-button> -->
-										<el-button size="small" type="primary" v-show="previewMode">下载全部</el-button>
-									</div>
-									<div class="block-table">
-										<el-table :data="formData.attachment" style="width: 100%" border
-											class="have_scrolling">
-											<el-table-column type="index" width="50" align="center" label="序号">
-											</el-table-column>
-											<el-table-column prop="fileName" align="center" label="附件" show-overflow-tooltip>
-											</el-table-column>
-											<el-table-column prop="uploadTime" width="160px" align="center"
-												label="上传日期">
-											</el-table-column>
-											<el-table-column prop="creatorName" width="120px" align="center"
-												label="上传人">
-											</el-table-column>
-											<el-table-column fixed="right" width="120" align="center" label="操作">
-												<template slot-scope="{ row, $index }">
-													<el-button type="text" size="mini" @click="downLoadFile(row.fileUrl)">下载</el-button>
-													<el-button type="text" size="mini" @click="viewImg(row)">预览</el-button>
-												</template>
-											</el-table-column>
-										</el-table>
-									</div>
+									
+									
+									<attachlist :editAble="true" ref="attachlist" :attachTable="attachTable"></attachlist>
+									
 								</div>
 								<div class="form-block">
 									<el-button class="submit-btn" size="small" type="primary" @click="addManagedObject" v-show="!previewMode">提交</el-button>
@@ -194,7 +172,7 @@
 										<div class="log-line">
 											<div class="log-line-label">上传</div>
 										</div>
-										<el-table :data="formData.attachment" style="width: 100%" border
+										<el-table :data="attachment" style="width: 100%" border
 											class="have_scrolling">
 											<el-table-column type="fileName" align="center" label="附件" show-overflow-tooltip>
 											</el-table-column>
@@ -218,12 +196,6 @@
 					</div>
 				</el-aside>
 			</el-container>
-		</el-dialog>
-		<el-dialog title="预览" :visible.sync="viewImgVisible" :fullscreen="true" width="100%" height="100%">
-			{{viewImgUrl}}
-			<img v-if="viewImgType=='img'" style="width: 100%; height: 100%" :src="viewImgUrl"/>
-			<!-- <el-image style="width: 100%; height: 100%" :src="viewImgUrl" :fit="fill"></el-image> -->
-			<iframe width="100%" height="100%" style="min-height:800px" v-if="viewImgType=='pdf'" :src="viewImgUrl" frameborder="0"></iframe>
 		</el-dialog>
 	</el-container>
 </template>
@@ -251,9 +223,8 @@
 	}
 	import * as api from "@/api/quality";
 	import store from "@/store/index";
-	import upload from "../../common/upload.vue"
+	import attachlist from "../../common/attachlist.vue"
 	import { getUserInfo } from "@/api/user";
-	import { downLoadFile } from "@/utils/download";
 	export default {
 		data() {
 			return {
@@ -271,13 +242,14 @@
 					pageNum: 1,
 					totalPage:1,
 					pageSize: 10,
+					projectId:this.$store.getters.project['parentid']
 				},
 				userInfo: {},
 				formData: {
 					id: '',
 					title: '测试', // 标题
 					publishDate: '2022-05-06', // 发布时间
-					projectId: '1', // 项目id
+					projectId: this.$store.getters.project['parentid'], // 项目id
 					userName: '',	// 登记人
 					groupName: '',	// 登记部门
 					projectName: '',// 项目名称 
@@ -285,13 +257,16 @@
 					]
 				},
 				viewImgVisible: false,
+				attachment: [],
+				attachTable: [ // 附件
+				],
 				viewImgType: 'img',
 				viewImgUrl: '',
 			};
 		},
 		created() {},
 		components: {
-			upload
+			attachlist
 		},
 		computed: {},
 		mounted() {
@@ -319,9 +294,12 @@
 				this.formData.groupName = this.userInfo.GROUPNAME;
 				this.formData.id = '';
 				this.formData.attachment = [];
+				this.attachTable = [];
 			},
 			addManagedObject() {
 				if (this.formData.publishDate instanceof Date) this.formData.publishDate = this.formData.publishDate.format("yyyy-MM-dd");
+				
+				this.formData.attachment = this.attachTable;
 				api.addOrUpdateManagementObjectList(this.formData).then((res) => {
 				  	this.query();
 					this.dialogFormVisible = false;
@@ -362,6 +340,7 @@
 							item.uploadTime = new Date(item.uploadTime).format('yyyy-MM-dd hh:mm:ss')
 						}
 						this.formData = res.data;
+						this.attachTable = res.data.attachment;
 						getUserInfo(res.data.createUserId).then(res => {
 							that.formData.userName = res.data.userInfo.NAME;
 							that.formData.groupName = this.userInfo.GROUPNAME;
@@ -370,19 +349,6 @@
 					}
 				});
 			},
-			viewImg(row) {
-				// store.getters.lookUrl
-				console.log(row)
-				let format = '';
-				if (row.fileName.indexOf('.png') > -1) format = 'img';
-				if (row.fileName.indexOf('.pdf') > -1) format = 'pdf';
-				this.viewImgType = format;
-				this.viewImgUrl = store.getters.lookUrl + row.fileUrl;
-				this.viewImgVisible = true;
-			},
-			downLoadFile(url) {
-				downLoadFile(url)
-			},
 			handleSizeChange(val) {
 				console.log(`每页 ${val} 条`);
 			},
@@ -390,12 +356,13 @@
 				console.log(`当前页: ${val}`);
 			},
 			afterUpAttach(data){
+				debugger
 				api.getFileInfo({id: data['fileId']}).then((res) => {
 				  	if (res) {
 						debugger
 					}
 				});
-				this.formData.attachment.push({
+				this.attachment.push({
 					uploadTime: new Date(data['uploadTime']).format('yyyy-MM-dd hh:mm:ss'),
 					fileName: data['fileName'],
 					fileUrl: data['fileId'],

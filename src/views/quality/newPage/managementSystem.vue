@@ -1,7 +1,7 @@
 <!--
 @name:
 @description: 管理制度
-@author: 王海林
+@author: zhouhai
 @time: 2022-05-13 09:17:45
 @modifier:
 @modifierTime:
@@ -97,30 +97,8 @@
 										<div class="title-bar"></div><strong>制度文件</strong>
 										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 jpg/jpeg png mp4 docx doc xlsx xls pdf zip 文件，且不超过 200M</span>
 									</div>
-									<div class="block-line">
-										<upload v-show="!previewMode" @afterUp="afterUpAttach($event)"></upload>
-									</div>
-									<div class="block-table">
-										<el-table :data="formData.attachment" style="width: 100%" border
-											class="have_scrolling">
-											<el-table-column type="index" width="50" align="center" label="序号">
-											</el-table-column>
-											<el-table-column prop="fileName" align="center" label="附件" show-overflow-tooltip>
-											</el-table-column>
-											<el-table-column prop="uploadTime" width="160px" align="center"
-												label="上传日期">
-											</el-table-column>
-											<el-table-column prop="creatorName" width="120px" align="center"
-												label="上传人">
-											</el-table-column>
-											<el-table-column fixed="right" width="120" align="center" label="操作">
-												<template slot-scope="{ row, $index }">
-													<el-button type="text" size="mini" @click="downLoadFile(row.fileUrl)">下载</el-button>
-													<el-button type="text" size="mini" @click="viewImg(row)">预览</el-button>
-												</template>
-											</el-table-column>
-										</el-table>
-									</div>
+									
+									<attachlist :editAble="true" ref="attachlist" :attachTable="attachTable"></attachlist>
 									<div class="block-line">
 										<div class="block-item">
 											<div class="block-item-label">制度内容<i class="require-icon"></i></div>
@@ -177,23 +155,8 @@
 										<div class="log-line">
 											<div class="log-line-label">上传</div>
 										</div>
-										<el-table :data="formData.attachment" style="width: 100%" border
-											class="have_scrolling">
-											<el-table-column prop="fileName" align="center" label="附件" show-overflow-tooltip>
-											</el-table-column>
-											<el-table-column prop="uploadTime" width="160px" align="center"
-												label="上传日期">
-											</el-table-column>
-											<el-table-column prop="creatorName" width="120px" align="center"
-												label="上传人">
-											</el-table-column>
-											<el-table-column fixed="right" width="120" align="center" label="操作">
-												<template slot-scope="{ row, $index }">
-													<el-button type="text" size="mini" @click="downLoadFile(row.fileUrl)">下载</el-button>
-													<el-button type="text" size="mini" @click="viewImg(row)">预览</el-button>
-												</template>
-											</el-table-column>
-										</el-table>
+										
+										<attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>
                               
 										<div class="log-line">
 											<div class="log-line-label">制度内容：</div>
@@ -206,13 +169,6 @@
 					</div>
 				</el-aside>
 			</el-container>
-		</el-dialog>
-		
-		<el-dialog title="预览" :visible.sync="viewImgVisible" :fullscreen="true" width="100%" height="100%">
-			{{viewImgUrl}}
-			<img v-if="viewImgType=='img'" style="width: 100%; height: 100%" :src="viewImgUrl"/>
-			<!-- <el-image style="width: 100%; height: 100%" :src="viewImgUrl" :fit="fill"></el-image> -->
-			<iframe width="100%" height="100%" style="min-height:800px" v-if="viewImgType=='pdf'" :src="viewImgUrl" frameborder="0"></iframe>
 		</el-dialog>
 	</el-container>
 </template>
@@ -240,9 +196,8 @@
 	}
 	import * as api from "@/api/quality";
 	import store from "@/store/index";
-	import upload from "../../common/upload.vue"
+	import attachlist from "../../common/attachlist.vue"
 	import { getUserInfo } from "@/api/user";
-	import { downLoadFile } from "@/utils/download";
 	export default {
 		data() {
 			return {
@@ -259,6 +214,7 @@
 					pageNum: 1,
 					totalPage:1,
 					pageSize: 10,
+					projectId: this.$store.getters.project['parentid'], // 项目id
 				},
 				userInfo: {},
 				formData: {
@@ -268,11 +224,13 @@
 					compileUser: '1', // 编制人
 					userName: '',	// 编制人名称
 					projectName: '',// 项目名称
-					projectId: '1',// 项目名称
 					regimeContent: '', // 制度内容
+					projectId: this.$store.getters.project['parentid'], // 项目id
 				    attachment: [ // 附件
 					]
 				},
+				attachTable: [ // 附件
+				],
 				viewImgVisible: false,
 				viewImgType: 'img',
 				viewImgUrl: '',
@@ -280,7 +238,7 @@
 		},
 		created() {},
 		components: {
-			upload
+			attachlist
 		},
 		computed: {},
 		mounted() {
@@ -309,9 +267,12 @@
 				this.formData.id = '';
 				this.formData.regimeContent = '';
 				this.formData.attachment = [];
+				this.attachTable = [];
 			},
 			addManagedSystem() {
 				if (this.formData.compileDate instanceof Date) this.formData.compileDate = this.formData.compileDate.format("yyyy-MM-dd");
+				
+				this.formData.attachment = this.attachTable;
 				api.addOrUpdateManageRegimeList(this.formData).then((res) => {
 				  	this.query();
 					this.dialogFormVisible = false;
@@ -356,6 +317,7 @@
 							item.uploadTime = new Date(item.uploadTime).format('yyyy-MM-dd hh:mm:ss')
 						}
 						this.formData = res.data;
+						this.attachTable = res.data.attachment;
 						
 						// that.formData.userName = 'rers';
 						getUserInfo(res.data.compileUser).then(res => {
@@ -365,19 +327,6 @@
 						});
 					}
 				});
-			},
-			viewImg(row) {
-				// store.getters.lookUrl
-				console.log(row)
-				let format = '';
-				if (row.fileName.indexOf('.png') > -1) format = 'img';
-				if (row.fileName.indexOf('.pdf') > -1) format = 'pdf';
-				this.viewImgType = format;
-				this.viewImgUrl = store.getters.lookUrl + row.fileUrl;
-				this.viewImgVisible = true;
-			},
-			downLoadFile(url) {
-				downLoadFile(url)
 			},
 			handleSizeChange(val) {
 				console.log(`每页 ${val} 条`);
