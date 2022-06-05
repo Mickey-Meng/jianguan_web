@@ -26,6 +26,13 @@
 				</el-table-column>
 			</el-table>
 		</div>
+		
+		<el-dialog title="预览" :visible.sync="viewFileVisible" :fullscreen="true" width="100%" height="100%">
+			<!-- {{viewFileUrl}} -->
+			<img v-if="viewFileType=='img'" style="width: 100%; height: 100%" :src="viewFileUrl"/>
+			<!-- <el-image style="width: 100%; height: 100%" :src="viewImgUrl" :fit="fill"></el-image> -->
+			<iframe width="100%" height="100%" style="min-height:800px" v-if="viewFileType=='pdf'" :src="viewFileUrl" frameborder="0"></iframe>
+		</el-dialog>
 	</div>
 </template>
 
@@ -40,7 +47,9 @@
 		props: ['attachTable','editAble'],
 		data() {
 			return {
-
+				viewFileType: '',
+				viewFileUrl: '',
+				viewFileVisible: false
 			}
 		},
 		computed: {
@@ -53,11 +62,18 @@
 				})
 			},
 			reviewAttach(row, index) {
-				api.previewFile({
-					fileid:row['fileId']
-				}).then((res) => {
+				// api.previewFile({
+				// 	fileid:row['fileId']
+				// }).then((res) => {
 					
-				});
+				// });
+				console.log(row);
+				let format = '';
+				if (row.fileName.indexOf('.png') > -1 || row.fileName.indexOf('.jpg') > -1) format = 'img';
+				if (row.fileName.indexOf('.pdf') > -1) format = 'pdf';
+				this.viewFileType = format;
+				this.viewFileUrl = this.$store.getters.lookUrl + row.fileId;
+				this.viewFileVisible = true;
 			},
 			deleteAttach(row, index) {
 				this.$confirm('确认是否删除?', '提示', {
