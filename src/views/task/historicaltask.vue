@@ -121,7 +121,7 @@
 							this.$router.push({
 								path:child['path']+'_detail',
 								query:{
-									taskId: row.executionId,
+									taskId: row.deploymentId,
 									businessKey:row.businessKey,
 									processDefinitionKey: row.processDefinitionKey,
 									processInstanceId: row.processInstanceId,
