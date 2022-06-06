@@ -277,7 +277,7 @@
             if (data && data.length > 0) {
               this.tableData = data.map(item => {
                 if (item.peoplePic) {
-                  item.peoplePic = this.getUrl + item.peoplePic;
+                  item.peoplePic = '/ZhuJiRoad/mong/preview?fileid=' + item.peoplePic;
                 }
                 return item;
               });
