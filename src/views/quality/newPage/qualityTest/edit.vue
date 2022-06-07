@@ -207,7 +207,7 @@
 									</div>
 								</div>
 								<div class="form-block">
-									<el-button class="submit-btn" size="small" type="primary" @click="addOrModify">提交
+									<el-button class="submit-btn" size="small" type="primary" @click="addOrModify()">提交
 									</el-button>
 								</div>
 							</el-form>
@@ -733,7 +733,7 @@
 					this.formData.detectionReport = this.reportTable;
 					this.formData.factoryInfo = this.factoryTable;
 					this.formData.otherAttachment = this.attachTable;
-					this.formData.draftFlag = isdraft ? 1 : 0;
+					this.formData.draftFlag = isdraft ? 0 : 1;
 					this.formData.auditUser = this.auditUser;
 					api.addOrUpdateQualityDetection(this.formData).then((res) => {
 						if (res.data) {
@@ -754,6 +754,7 @@
 							this.formData.factoryInfo = this.factoryTable;
 							this.formData.otherAttachment = this.attachTable;
 							this.formData.auditUser = this.auditUser;
+							this.formData.draftFlag=1;
 							api.addOrUpdateQualityDetection(this.formData).then((res) => {
 								if (res.data) {
 									this.$message({

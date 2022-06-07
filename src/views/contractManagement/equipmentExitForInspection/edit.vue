@@ -14,12 +14,8 @@
 								<div class="form-title">
 									<div class="title-big-bar"></div>
 									<strong>退场设备报验单-浙公路（JL）011</strong>
-									<div class="form-btns">
-										<el-button size="medium">暂存</el-button>
-										<el-button size="medium">保存草稿</el-button>
-										<el-button size="medium">选择草稿</el-button>
-										<el-button size="medium" type="primary">复制填充</el-button>
-									</div>
+									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify"
+										@checkDraft="checkDraft" ref="drafthandle"></drafthandle>
 								</div>
 
 								<div class="form-block">
@@ -148,7 +144,7 @@
 									</div>
 								</div>
 								<div class="form-block">
-									<el-button @click="addOrModify" class="submit-btn" size="small" type="primary">提交
+									<el-button @click="addOrModify()" class="submit-btn" size="small" type="primary">提交
 									</el-button>
 								</div>
 							</el-form>
@@ -234,6 +230,11 @@
 				</div>
 			</el-form>
 		</el-dialog>
+		<el-dialog width="80%" class="little-container" :visible.sync="draftVisible">
+			<constructionSubcontract @hideDraft="hideDraft" @getDetail="getDetail" :isDraft="draftVisible"
+				v-if="draftVisible">
+			</constructionSubcontract>
+		</el-dialog>
 	</div>
 </template>
 
@@ -245,14 +246,18 @@
 		formatDate,
 		formatDateTime,
 		convertOptions,
-		createProjectInfo
+		createProjectInfo,
+		diffCompare
 	} from "@/utils/format.js";
 	import attachlist from "../../common/attachlist.vue"
+	import drafthandle from "../../common/drafthandle.vue"
 
 	export default {
 		props: ['editRow'],
 		data() {
 			return {
+				draftVisible: false,
+				addOrModifyFlag: true,
 				dialogTitle: '项目全生命周期数字管理平台',
 				dialogFormVisible: false,
 				rules: {
@@ -324,24 +329,6 @@
 			this.getFlowAuditEntry();
 		},
 		watch: {
-			editRow(obj) {
-				obj=obj||{};
-				if (obj['id']) {
-					this.getDetail(obj['id']);
-				} else {
-					this.formData = {
-						attachment: [],
-						equipmentInfo:[],
-						deletedFlag: 1,
-						draftFlag: 1,
-						projectCode: '',
-						projectId: this.$store.getters.project['parentid'],
-						supervisionBan: ''
-					}
-					this.attachTable=[];
-					this.equipmentTable=[];
-				}
-			}
 		},
 		methods: {
 			flowUserChange(data, data1){
@@ -370,8 +357,24 @@
 					this.flowNodesUsersData = res.data;
 				});
 			},
-			changeVisible(value) {
+			changeVisible(obj,value) {
 				this.dialogFormVisible = value;
+				obj=obj||{};
+				if (obj['id']) {
+					this.getDetail(obj['id']);
+				} else {
+					this.formData = {
+						attachment: [],
+						equipmentInfo:[],
+						deletedFlag: 1,
+						draftFlag: 1,
+						projectCode: '',
+						projectId: this.$store.getters.project['parentid'],
+						supervisionBan: ''
+					}
+					this.attachTable=[];
+					this.equipmentTable=[];
+				}
 			},
 			getProjectInfoById() {
 				proapi.getProjectInfoById({
@@ -393,25 +396,62 @@
 					this.equipmentTable = data.equipmentInfo || [];
 				});
 			},
-			addOrModify() {
-				this.$refs['ruleForm'].validate((valid) => {
-					if (valid) {
-						this.formData.attachment = this.attachTable;
-						this.formData.equipmentInfo = this.equipmentTable;
-						this.formData.auditUser = this.auditUser;
-						api.addOrUpdateEquipmentExit(this.formData).then((res) => {
-							if (res.data) {
-								this.$message({
-									type: 'success',
-									message: '提交成功!'
-								});
-								this.dialogFormVisible = false;
-								this.$emit("query");
-							}
+			addOrModify(isdraft) {
+				if(isdraft){
+					if (diffCompare([this.formData, this.attachTable, this.equipmentTable], [{
+								attachment: [],
+								equipmentInfo:[],
+								deletedFlag: 1,
+								draftFlag: 1,
+								projectCode: '',
+								projectId: this.$store.getters.project['parentid'],
+								supervisionBan: ''
+							},
+							[],
+							[]
+						])) {
+						this.$message({
+							type: 'warning',
+							message: '不能提交空白!'
 						});
+						return;
 					}
-
-				})
+					this.formData.draftFlag = isdraft ? 0 : 1;
+					this.formData.attachment = this.attachTable;
+					this.formData.equipmentInfo = this.equipmentTable;
+					this.formData.auditUser = this.auditUser;
+					api.addOrUpdateEquipmentExit(this.formData).then((res) => {
+						if (res.data) {
+							this.$message({
+								type: 'success',
+								message: '提交成功!'
+							});
+							this.dialogFormVisible = false;
+							this.$emit("query");
+						}
+					});
+				}else{
+					this.$refs['ruleForm'].validate((valid) => {
+						if (valid) {
+							this.formData.attachment = this.attachTable;
+							this.formData.equipmentInfo = this.equipmentTable;
+							this.formData.auditUser = this.auditUser;
+							this.formData.draftFlag=1;
+							api.addOrUpdateEquipmentExit(this.formData).then((res) => {
+								if (res.data) {
+									this.$message({
+										type: 'success',
+										message: '提交成功!'
+									});
+									this.dialogFormVisible = false;
+									this.$emit("query");
+								}
+							});
+						}
+					
+					})
+				}
+				
 			},
 			addEquipment() {
 				this.equipmentVisible = true;
@@ -434,6 +474,12 @@
 				});
 
 			},
+			hideDraft() {
+				this.draftVisible = false;
+			},
+			checkDraft() {
+				this.draftVisible = true;
+			}
 		},
 	};
 </script>

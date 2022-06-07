@@ -140,7 +140,7 @@
 								</div>
 
 								<div class="form-block">
-									<el-button @click="addOrModify" class="submit-btn" size="small" type="primary">提交
+									<el-button @click="addOrModify()" class="submit-btn" size="small" type="primary">提交
 									</el-button>
 								</div>
 							</el-form>
@@ -346,7 +346,7 @@
 						return;
 					}
 					this.formData.attachment = this.attachTable;
-					this.formData.draftFlag = isdraft ? 1 : 0;
+					this.formData.draftFlag = isdraft ? 0 : 1;
 					this.formData.auditUser = this.auditUser;
 					api.addOrUpdateHiddenProject(this.formData).then((res) => {
 						if (res.data) {
@@ -364,6 +364,7 @@
 						if (valid) {
 							this.formData.attachment = this.attachTable;
 							this.formData.auditUser = this.auditUser;
+							this.formData.draftFlag = 1;
 							api.addOrUpdateHiddenProject(this.formData).then((res) => {
 								if (res.data) {
 									this.$message({

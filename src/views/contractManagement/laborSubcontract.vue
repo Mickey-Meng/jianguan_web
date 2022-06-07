@@ -20,7 +20,7 @@
 				</div>
 			</div>
 			<el-button type="primary" @click="query">搜索</el-button>
-			<div class="right-btns">
+			<div v-if="!isDraft" class="right-btns">
 				<div class="operate-btns" v-show="operateBtnsVisible">
 					<el-button size="small" @click="addNew">新增</el-button>
 					<el-button size="small">导出</el-button>
@@ -44,9 +44,12 @@
 					</el-table-column>
 					<el-table-column fixed="right" width="120" align="center" label="操作">
 						<template slot-scope="{ row, $index }">
-							<el-button type="text" size="mini" @click="modify(row)">修改</el-button>
-							<el-button type="text" size="mini" @click="viewDetail(row)">详情</el-button>
-							<el-button type="text" size="mini" @click="deleteRow(row)">删除</el-button>
+							<el-button v-if="!isDraft"  type="text" size="mini" @click="modify(row)">修改</el-button>
+							<el-button v-if="!isDraft"  type="text" size="mini" @click="viewDetail(row)">详情</el-button>
+							
+							<el-button v-if="isDraft" type="text" size="mini" @click="checkDetail(row)">选择</el-button>
+							
+							<el-button  type="text" size="mini" @click="deleteRow(row)">删除</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -68,6 +71,12 @@
 	import detail from './laborSubcontract/detail';
 
 	export default {
+		props:{
+			isDraft:{
+				type:Boolean,
+				default:false
+			}
+		},
 		components: {
 			edit,
 			detail
@@ -97,6 +106,7 @@
 		},
 		methods: {
 			query() {
+				this.queryData.draftFlag=this.isDraft?0:1;
 				api.getContractLaborList(this.queryData).then((res) => {
 					this.allData = res.data || {};
 					this.tableData = this.allData['list']||[];
@@ -106,12 +116,12 @@
 				});
 			},
 			addNew() {
-				this.editRow = null;
-				this.$refs.edit.changeVisible(true);
+				// this.editRow = null;
+				this.$refs.edit.changeVisible(null,true);
 			},
 			modify(row) {
-				this.editRow = row;
-				this.$refs.edit.changeVisible(true);
+				// this.editRow = row;
+				this.$refs.edit.changeVisible(row,true);
 			},
 			viewDetail(row) {
 				this.detailRow = row;
@@ -143,6 +153,10 @@
 			handleCurrentChange(page) {
 				this.queryData.pageNum=page
 				this.query()
+			},
+			checkDetail(row){
+				this.$emit("hideDraft");
+				this.$emit("getDetail",row['id']);
 			}
 		},
 	};
