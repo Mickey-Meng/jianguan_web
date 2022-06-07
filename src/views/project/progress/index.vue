@@ -8,11 +8,10 @@
 -->
 <template>
   <div class="progress_box">
-    <div class="header">
-      <div class="global_text_style">项目进度</div>
+    <div class="top">
+      <progressChart></progressChart>
     </div>
-    <progressChart></progressChart>
-    <div class="container">
+    <div class="bottom">
       <statisticsPage></statisticsPage>
     </div>
   </div>
@@ -34,13 +33,16 @@ export default {
 <style lang='scss' scoped>
 .progress_box {
   height: 100%;
-  padding: 5px;
-  //background-image: url(../../../assets/image/边框-大.png);
-  //background-repeat: no-repeat;
-  //background-size: 100% 100%;
 
-  .container {
-    height: calc(100% - 185px);
+  .top {
+    height: 30%;
+    margin-bottom: 20px;
+
+  }
+
+  .bottom {
+    height: calc(70% - 20px);
+
   }
 }
 </style>

@@ -89,19 +89,52 @@ export default {
 
       .el-scrollbar__view {
         .el-submenu__title {
+          padding-left: 40px !important;
+          font-size: 16px;
+
           .nav_title_name {
-            margin-left: 5px;
+            margin-left: 17px;
+            letter-spacing: 3px;
+            font-weight: bold;
+            //font-family: PingFang SC;
+          }
+
+          &:hover {
+            background-color: #fff !important;
+          }
+        }
+
+        .nest-menu {
+          padding-left: 10px !important;
+
+          .el-menu-item {
+            padding-left: 64px !important;
+            font-size: 14px;
+
+            &:hover {
+              background-color: #fff !important;
+            }
+
+            .nav_title_name {
+              margin-left: 17px;
+              font-weight: 500;
+              letter-spacing: 3px;
+            }
+          }
+          .el-menu-item.is-active{
+            background-color: #EAF0F9 !important;
+            border-radius: 24px 0px 0px 24px !important;
           }
         }
 
       }
 
     .el-submenu.is-active > .el-submenu__title {
-      color: #365FF0 !important;
+      color: #1E6EEB !important;
     }
 
     .el-submenu.is-active > .el-submenu__title i {
-      color: #365FF0 !important;
+      color: #1E6EEB !important;
     }
   }
 
