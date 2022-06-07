@@ -27,7 +27,10 @@
     <div class="area_select">
       <div class="area_date">
         <ul v-if="radio === '1'">
-          <li v-for="(item,index) in areaLists" :key="index"> {{ item.gongquname }}</li>
+          <li v-for="(item,index) in areaLists" :key="index"
+              :class="{active:item.gongqucode=== currentAreaInfo.gongqucode}" @click="changeArea(item)">
+            {{ item.gongquname }}
+          </li>
         </ul>
         <div v-if="radio === '2'" class="port_box">
           <el-select v-model="timeKey">
@@ -53,10 +56,10 @@
         :currentView="currentView"
         :timeKey="timeKey"
       ></weeklyAndMonthly>
-      <!--      <statisticsChart-->
-      <!--        v-if="radio === '1'"-->
-      <!--        :currentView="currentView"-->
-      <!--      ></statisticsChart>-->
+      <statisticsChart
+        v-if="radio === '1'"
+        :currentAreaInfo="currentAreaInfo"
+      ></statisticsChart>
     </div>
   </div>
 </template>
@@ -113,8 +116,10 @@ export default {
     init() {
       getHomeBottomChart(this.currentView).then(res => {
         let data = res.data || [];
+        this.currentAreaInfo = null;
         if (data && data.length > 0) {
           data.sort((a, b) => a.gongqucode - b.gongqucode);
+          this.currentAreaInfo = data[0];
         }
         this.areaLists = data;
       });
@@ -122,6 +127,9 @@ export default {
     changeModel(item) {
       this.currentView = item;
       this.init();
+    },
+    changeArea(item) {
+      this.currentAreaInfo = item;
     }
   }
 };
@@ -244,18 +252,35 @@ export default {
       }
     }
 
+    .area_date {
+      flex: 1;
+    }
+
     ul {
       display: flex;
       align-items: center;
+      overflow-x: auto;
 
       li {
         background: url("../../../assets/newUi/area_bg.png") no-repeat;
-        padding: 0 20px;
+        width: 76px;
+        text-align: center;
+        background-size: 100%;
         height: 28px;
         line-height: 28px;
         font-weight: 500;
         color: #808EA9;
         cursor: pointer;
+        margin-right: 20px;
+      }
+
+      .active {
+        font-size: 14px;
+        font-family: PingFang SC;
+        background: url("../../../assets/newUi/area_active_bg.png") no-repeat;
+        background-size: 100%;
+        font-weight: 500;
+        color: #1E6EEB;
       }
     }
   }

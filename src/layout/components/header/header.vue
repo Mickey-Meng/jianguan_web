@@ -1,11 +1,13 @@
 <template>
   <div class="header_wrapper">
-    <div class="project_name">{{ project.name }}</div>
+    <div class="project_box">
+      <div class="project_name">{{ project.name }}</div>
+      <img src="../../../assets/newUi/return_home.png" alt="" @click="returnProjects">
+
+    </div>
     <div class="search"></div>
     <div class="info_box">
       <div class="show-date">
-        <!--        <div class="datecolitem"></div>-->
-        <!--        <div class="daterowitem"></div>-->
         <div class="showtime">{{ nowTime }}</div>
         <div class="shownowdate">
           <div>{{ nowday }}</div>
@@ -102,9 +104,9 @@
             <el-dropdown-item @click.native="systemManagement">
               系统管理
             </el-dropdown-item>
-            <el-dropdown-item @click.native="returnProjects">
-              返回多项目
-            </el-dropdown-item>
+<!--            <el-dropdown-item @click.native="returnProjects">-->
+<!--              返回多项目-->
+<!--            </el-dropdown-item>-->
             <el-dropdown-item @click.native="logout">
               退出登陆
             </el-dropdown-item>
@@ -409,20 +411,32 @@
   .header_wrapper {
     height: 76px;
     display: flex;
+    align-items: center;
     justify-content: space-between;
 
-    .project_name {
-      height: 60px;
-      padding: 0 25px;
+    .project_box {
       display: flex;
-      justify-content: center;
       align-items: center;
-      //border-bottom: 1px solid #fff;
-      color: black;
-      font-size: 24px;
-      font-weight: 600;
 
+      .project_name {
+        height: 60px;
+        padding: 0 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        //border-bottom: 1px solid #fff;
+        font-size: 28px;
+        font-family: ShiShangZhongHeiJianTi;
+        font-weight: 400;
+        color: #211D1E;
+        margin-right: 20px;
+
+      }
+      img{
+        cursor: pointer;
+      }
     }
+
 
     .info_box {
       display: flex;

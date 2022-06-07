@@ -51,7 +51,12 @@
           <el-table-column prop="handoffPerson" label="工作交接人"></el-table-column>
           <el-table-column prop="leaveReason" label="请假原因"></el-table-column>
           <el-table-column prop="remark" label="备注"></el-table-column>
-          <!--          <el-table-column prop="uploadname" label="状态"></el-table-column>-->
+          <el-table-column label="操作">
+            <template slot-scope="{row,$index}">
+              <el-button type="text" size="mini" @click="seeDetail(row)">详情</el-button>
+              <el-button type="text" size="mini">删除</el-button>
+            </template>
+          </el-table-column>
         </el-table>
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
                        :current-page="queryData.pageNum" :page-size="queryData.pageSize"
@@ -89,7 +94,7 @@
                   <div class="block-item">
                     <div class="block-item-label">请假类型</div>
                     <div class="block-item-value">
-                      <el-select placeholder="请选择" v-model="form.leaverType">
+                      <el-select placeholder="请选择" v-model="form.leaverType" v-if="isCreate">
                         <el-option
                           v-for="item in eventType"
                           :key="item.id"
@@ -97,6 +102,7 @@
                           :value="item.name">
                         </el-option>
                       </el-select>
+                      <div v-else>{{ form.leaverType }}</div>
                     </div>
                   </div>
                 </div>
@@ -107,20 +113,23 @@
                       <el-date-picker
                         v-model="leaveTime"
                         @change="changeTime"
+                        v-if="isCreate"
                         type="datetimerange"
                         value-format="yyyy-MM-dd HH:mm:ss"
                         range-separator="至"
                         start-placeholder="开始日期"
                         end-placeholder="结束日期">
                       </el-date-picker>
+                      <div v-else>{{ form.startTime }}至{{ form.endTime }}</div>
                     </div>
                   </div>
                   <div class="block-item">
                     <div class="block-item-label">请假天数</div>
                     <div class="block-item-value">
-                      <el-form-item prop="projectChargeUser">
+                      <el-form-item prop="projectChargeUser" v-if="isCreate">
                         <el-input v-model="form.leaveDay"></el-input>
                       </el-form-item>
+                      <div v-else>{{ form.leaveDay }}</div>
                     </div>
                   </div>
                 </div>
@@ -128,21 +137,23 @@
                   <div class="block-item">
                     <div class="block-item-label">工作交接人</div>
                     <div class="block-item-value">
-                      <el-form-item prop="projectChargeUser">
+                      <el-form-item prop="projectChargeUser" v-if="isCreate">
                         <el-select v-model="form.handoffPersonId" placeholder="请选择">
                           <el-option v-for="item in handoffPerson" :key="item.id"
                                      :label="item.name" :value="item.id">
                           </el-option>
                         </el-select>
                       </el-form-item>
+                      <div v-else>{{ form.leaveReason }}</div>
                     </div>
                   </div>
                   <div class="block-item">
                     <div class="block-item-label">请假原因</div>
                     <div class="block-item-value">
-                      <el-form-item prop="projectChargeUser">
+                      <el-form-item prop="leaveReason" v-if="isCreate">
                         <el-input v-model="form.leaveReason"></el-input>
                       </el-form-item>
+                      <div v-else>{{ form.leaveReason }}</div>
                     </div>
                   </div>
                 </div>
@@ -304,6 +315,7 @@
       },
       openDialog() {
         this.dialogFormVisible = true;
+        this.isCreate = true;
         this.initForm();
         this.leaveTime = "";
       },
@@ -338,13 +350,6 @@
         }
         submitLeave(obj).then(res => {
           this.issueStep(res);
-          // this.$message({
-          //   type: "success",
-          //   message: "填报成功!",
-          //   customClass: "message_override"
-          // });
-          // this.initData();
-          // this.dialogFormVisible = false;
         });
       },
       issueStep(row) {
@@ -370,6 +375,11 @@
           this.initData();
           this.dialogFormVisible = false;
         });
+      },
+      seeDetail(row) {
+        this.isCreate = false;
+        this.form = Object.assign({}, row);
+        this.dialogFormVisible = true;
       },
       //判断时间是不是同一天
       judgeFn(time, time1) {

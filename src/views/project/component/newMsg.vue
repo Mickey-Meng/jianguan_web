@@ -44,7 +44,7 @@ export default {
     };
   },
   created() {
-    // this.initData();
+    this.initData();
   },
   methods: {
     initData() {
