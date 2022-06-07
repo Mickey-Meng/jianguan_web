@@ -54,7 +54,7 @@ service.interceptors.response.use(
    */
   response => {
     const res = response.data
-    if (res.status === 200 || res.meow === 0 || res.status === 300 || res.success === true) {
+    if (res.status === 200 || res.meow === 0 || res.status === 300 || res.success === true || (response.headers['content-type'].indexOf('excel') > -1)) {
       return Promise.resolve(res)
     }
 

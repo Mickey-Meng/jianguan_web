@@ -775,6 +775,17 @@ export const getHiddenProjectList = data => {
 		data: data
 	});
 };
+/**
+ * 导出隐蔽工程验收记录数据
+ */
+export const exportHiddenProjectList = data => {
+	return request({
+		url: api.exportHiddenProject,
+		method: "post",
+		data: data,
+		"responseType": 'blob'
+	});
+};
 //-----------------------流程引擎新增接口 ------------------------
 
 //-----------------------流程引擎新增接口 ZH ---------------------
