@@ -240,6 +240,7 @@ const api = {
   getMaterialEnums: "/ZhuJiApi/web/api/v1/qualityDetection/material/enums",
   deleteQualityDetection: "/ZhuJiApi/web/api/v1/qualityDetection/id",
   getQualityDetectionList: "/ZhuJiApi/web/api/v1/qualityDetection/page",
+  exportQualityDetection: "/ZhuJiApi/web/api/v1/qualityDetection/export",
 
   //流程引擎相关接口
 

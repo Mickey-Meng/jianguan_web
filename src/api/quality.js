@@ -726,6 +726,17 @@ export const getQualityDetectionList = data => {
 	});
 };
 /**
+ * 导出质量检测记录数据
+ */
+export const exportQualityDetectionList = data => {
+	return request({
+		url: api.exportQualityDetection,
+		method: "post",
+		data: data,
+		"responseType": 'blob'
+	});
+};
+/**
  * 获取材料枚举
  */
 export const getMaterialEnums = () => {
