@@ -287,28 +287,27 @@ export default {
 <style scoped lang="scss">
 .wrapper {
   height: 100%;
-  background-image: url(../../assets/image/三维场景背景.png);
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-color: #FFFFFF;
+
   .header {
     display: flex;
     align-items: center;
     justify-content: space-around;
     padding: 20px;
-    // height: 70px;
+
     ::v-deep .el-select {
-      // width: 210px;
+      width: 232px;
       text-indent: 0;
-      //height: 35px !important;
+
       .el-input {
         .el-input__inner {
-          height: 28px !important;
-          line-height: 28px;
-          // background-color: #060C26 !important;
-          background-image: url(../../assets/image/日期选择.png);
-          background-repeat: no-repeat;
-          background-size: 100% 100%;
-          color: #fff;
+          height: 35px !important;
+          line-height: 35px;
+          background-color: rgba(128, 142, 169, .14);
+          font-size: 14px;
+          font-family: PingFang SC;
+          font-weight: 500;
+          color: #2D405E;
           border: none;
         }
         input {
@@ -316,81 +315,72 @@ export default {
         }
         .el-input__suffix {
           .el-input__icon {
-            line-height: 28px;
-            color: #7ceff6;
+            line-height: 35px;
+            color: rgba(75, 89, 115, 1);
           }
         }
       }
     }
     .el-button {
-      height: 28px;
       align-items: center;
-      background-image: url(../../assets/image/导出.png);
-      background-repeat: no-repeat;
-      background-size: 100% 100%;
+      background-color: #1E6EEB;
       font-size: 14px;
-      font-family: PingFangSC;
       font-weight: 500;
-      color: #eaeefb;
+      color: #FFFFFF;
+      font-family: PingFangSC;
+      padding: 10px 18px;
       border: none;
-      // padding: 10px 20px;
     }
   }
   .center {
-    // height: 70px;
-    padding-bottom: 10px;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    padding: 20px;
+    padding: 0 20px;
+    margin-bottom: 29px;
+
     li {
-      width: 20%;
-      height: 24px;
+      width: 64px;
+      height: 28px;
       text-align: center;
-      line-height: 24px;
-      // flex: 1;
-      font-size: 18px;
-      cursor: pointer;
-      background-image: url(../../assets/image/tab.png);
-      background-repeat: no-repeat;
+      line-height: 28px;
+      background: url("../../assets/newUi/nav.png") no-repeat;
       background-size: 100% 100%;
       font-size: 14px;
       font-family: PingFang SC;
-      font-weight: 400;
-      color: #ffffff;
-      opacity: 0.8;
+      font-weight: 500;
+      color: #808EA9;
+      cursor: pointer;
     }
 
     .active {
-      color: rgb(249, 182, 51);
-      // border-bottom: 2px solid rgb(249, 182, 51);
-      background-image: url(../../assets/image/tab-bg.png);
-      background-repeat: no-repeat;
+      background: url("../../assets/newUi/nav_active.png") no-repeat;
       background-size: 100% 100%;
-      font-size: 14px;
-      font-family: PingFang SC;
-      font-weight: 400;
-      color: #ffffff;
+      color: #1E6EEB;
     }
   }
   .main {
-    height: calc(100% - 140px);
+    height: calc(100% - 135px);
     padding-bottom: 10px;
     box-sizing: border-box;
     // border-top: 1px solid #1E374B;
     // border-bottom: 1px solid #1E374B;
     overflow: scroll;
     ::v-deep .tree-box {
-      background-color: transparent;
-      color: #ffffff;
+      background-color: #FFFFFF;
+      //color: #ffffff;
+      font-size: 16px;
+      font-family: PingFang SC;
+      font-weight: 500;
+      color: #4B5973;
 
       .el-tree-node {
         .el-tree-node__content {
-          background-color: #060c26;
+          //background-color: #060c26;
 
           &:hover {
-            border: 1px solid #1e374b;
-            background-color: #1e374b;
+            //border: 1px solid #1e374b;
+            //background-color: #1e374b;
           }
         }
       }
@@ -398,8 +388,8 @@ export default {
       .is-current {
         //当前选中的节点
         > .el-tree-node__content {
-          border: 1px solid #1e374b;
-          background-color: #1e374b;
+          //border: 1px solid #1e374b;
+          //background-color: #1e374b;
         }
       }
 

@@ -8,17 +8,19 @@
 -->
 <template>
   <div class="safe_statistics">
-    <div class="header">
-      <div class="title">
-        <div class="titleitem"></div>
-        <div class="title-text">{{ title }}</div>
+    <div class="new_ui_header">
+      <div class="left">
+        <div class="header_line"></div>
+        <div class="header_text">安全文明</div>
       </div>
       <div class="check_box">
         <el-radio v-model="radio" label="1" @change="changeSelect"
-          >近一个月</el-radio
+        >近一个月
+        </el-radio
         >
         <el-radio v-model="radio" label="3" @change="changeSelect"
-          >近三个月</el-radio
+        >近三个月
+        </el-radio
         >
       </div>
     </div>
@@ -30,16 +32,20 @@
         </div>
         <div class="c_footer">
           <div class="all_events">
-            提出整改<span>{{ item.count }}</span
-            >起
+            <span class="label">提出整改</span>
+            <span class="value">{{ item.count }}<span class="text">起</span
+            ></span>
+
           </div>
           <div class="finish_events">
-            完成整改<span>{{ item.finish }}</span
-            >起
+            <span class="label">完成整改</span>
+            <span class="value">{{ item.finish }}<span class="text">起</span
+            ></span>
           </div>
           <div class="postpone_events">
-            已逾期<span>{{ item.overdue }}</span
-            >起
+            <span class="label">已逾期</span>
+            <span class="value">{{ item.overdue }}<span class="text">起</span
+            ></span>
           </div>
         </div>
       </li>
@@ -48,7 +54,6 @@
 </template>
 
 <script>
-import echarts from "echarts";
 import { merge } from "lodash";
 import { getSafeChart } from "@/api/data";
 export default {
@@ -81,24 +86,25 @@ export default {
             {
               text: "整改完成率",
               x: "center",
-              top: "40%",
+              top: "55%",
               textStyle: {
-                color: "#FFFFFF",
+                color: "#2D405E",
                 fontSize: 14,
-                fontWeight: "100",
-              },
+                fontWeight: "500",
+                fontFamily: "HuXiaoBo-NanShe"
+              }
             },
             {
-              text: "",
+              text: "100%",
               x: "center",
-              top: "50%",
+              top: "40%",
               textStyle: {
-                fontSize: "18",
-                color: "#FFFFFF",
-                fontFamily: "DINAlternate-Bold, DINAlternate",
-                foontWeight: "600",
-              },
-            },
+                fontSize: "24",
+                color: "#1E6EEB",
+                fontFamily: "PingFang SC",
+                foontWeight: "400"
+              }
+            }
           ],
           polar: {
             radius: ["83%", "75%"],
@@ -112,72 +118,54 @@ export default {
             type: "category",
             show: true,
             axisLabel: {
-              show: false,
+              show: false
             },
             axisLine: {
-              show: false,
+              show: false
             },
             axisTick: {
-              show: false,
-            },
+              show: false
+            }
           },
+          color: ["rgba(210,226,251, 1)"],
           series: [
             {
               name: "",
-              type: "bar",
-              roundCap: true,
-              barWidth: 90,
-              showBackground: true,
-              backgroundStyle: {
-                color: "rgba(66, 66, 66, .3)",
-              },
-              data: [],
-              coordinateSystem: "polar",
-
+              type: "pie",
+              radius: ["58%", "76%"],
               itemStyle: {
                 normal: {
-                  color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [
-                    {
-                      offset: 0,
-                      color: "#16CEB9",
-                    },
-                    {
-                      offset: 1,
-                      color: "#6648FF",
-                    },
-                  ]),
-                },
+                  label: {
+                    show: false
+                  },
+                  labelLine: {
+                    show: false
+                  }
+                }
               },
-            },
-            {
-              name: "",
-              type: "pie",
-              startAngle: 80,
-              radius: ["86%"],
               hoverAnimation: false,
-              center: ["50%", "50%"],
-              itemStyle: {
-                color: "rgba(66, 66, 66, .1)",
-                borderWidth: 1,
-                borderColor: "#5269EE",
-              },
-              data: [100],
-            },
-            {
-              name: "",
-              type: "pie",
-              startAngle: 80,
-              radius: ["72%"],
-              hoverAnimation: false,
-              center: ["50%", "50%"],
-              itemStyle: {
-                color: "rgba(66, 66, 66, .1)",
-                borderWidth: 1,
-                borderColor: "#5269EE",
-              },
-              data: [100],
-            },
-          ],
+              data: [{
+                value: 100,
+                name: "完成",
+                itemStyle: {
+                  normal: {
+                    color: "#1E6EEB",
+                    label: {
+                      show: false
+                    },
+                    labelLine: {
+                      show: false
+                    }
+                  }
+                }
+              }, {
+                name: "未完成",
+                value: 0
+              }]
+            }
+
+
+          ]
         };
         let overdueList = res.data.overdueList;
         let total = res.data.total;
@@ -199,9 +187,12 @@ export default {
             if (isNaN(rate)) {
               rate = 0;
             }
-            obj.series[0].data = [rate];
+            if(finish && count){
+              obj.series[0].data[0].value= rate;
+              obj.series[0].data[1].value = 100 - rate;
+              obj.title[1].text = rate + "%";
+            }
             item.option = obj;
-            obj.title[1].text = rate + "%";
           });
         }
         this.chartsData = total;
@@ -212,42 +203,56 @@ export default {
 </script>
 <style lang='scss' scoped>
 .safe_statistics {
-  height: 100%;
-  background-image: url(../../../assets/image/边框-大.png);
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  .header {
-    height: 40px;
+  height: calc(100% - 3px);
+  background-color: #FFFFFF;
+  border-radius: 15px;
+
+
+  .new_ui_header {
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    .title {
+    padding: 10px 0px 5px 20px;
+
+    .left {
       display: flex;
       align-items: center;
-      height: 40px;
-      .titleitem {
-        width: 2px;
-        height: 15px;
-        background: #4f71ff;
-        margin-left: 16px;
-        margin-right: 12px;
+
+      .header_line {
+        width: 4px;
+        height: 16px;
+        background-color: #1E6EEB;
+        margin-right: 8px;
+        border-radius: 3px;
       }
-      .title-text {
-        font-size: 16px;
-        font-family: PingFangSC;
-        font-weight: 600;
-        color: #ffffff;
+
+      .header_text {
+        color: #2D405E;
+        font-size: 18px;
+        font-weight: bold;
+        font-family: PingFang SC;
       }
     }
+
     .check_box {
       padding-right: 20px;
       display: flex;
       align-items: center;
+
       ::v-deep.el-radio {
         .el-radio__label {
-          color: #ffffff;
+          color: #85858F;
+        }
+      }
+
+      ::v-deep.el-radio.is-checked {
+        .el-radio__label {
+          color: #2D405E;
         }
       }
     }
+
+
   }
   .content {
     height: calc(100% - 40px);
@@ -255,10 +260,9 @@ export default {
     justify-content: space-around;
     li {
       width: 24%;
-      // border: 1px solid #4f71ff;
       .c_title {
-        height: 30px;
-        line-height: 30px;
+        height: 40px;
+        line-height: 40px;
         text-align: center;
         font-weight: 600;
         overflow: hidden;
@@ -266,38 +270,63 @@ export default {
         white-space: nowrap;
       }
       .c_main {
-        height: calc(100% - 120px);
+        height: calc(100% - 150px);
+
         .charts {
           width: 100%;
           height: 100%;
         }
       }
       .c_footer {
-        height: 70px;
+        //height: 70px;
         display: flex;
         flex-direction: column;
         justify-content: space-around;
         align-items: center;
         div {
-          font-size: 12px;
-          span {
-            font-size: 22px;
-            margin: 0 3px;
+          width: 160px;
+          padding: 0 5px;
+          height: 28px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          border-radius: 2px;
+
+          .label {
+            font-size: 14px;
+            font-family: PingFang SC;
+            font-weight: 500;
+            color: #2D405E;
+          }
+
+          .value {
+            font-family: ShiShangZhongHeiJianTi;
+
+            .text {
+              font-family: PingFang SC;
+            }
           }
         }
         .all_events {
-          span {
-            color: #f5f512;
+          background-color: rgba(30, 110, 235, .12);
+
+          .value {
+            color: #1E6EEB;
           }
         }
         .finish_events {
-          span {
-            color: #14f314;
+          background-color: rgba(82, 193, 245, .12);
+          margin: 5px 0;
+
+          .value {
+            color: #52C1F5;
           }
         }
         .postpone_events {
-          span {
-            color: #F5400A;
+          background-color: rgba(251, 98, 96, .12);
+
+          .value {
+            color: #FB6260;
           }
         }
       }

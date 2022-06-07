@@ -138,6 +138,7 @@ export default {
 .left {
   width: 400px;
   // height: calc(100vh - 180px);
+  background-color: #FFFFFF;
   height: 100%;
   position: absolute;
   top: 0;
@@ -157,17 +158,18 @@ export default {
   position: absolute;
   top: 50%;
   left: 355px;
-  z-index: 10;
+  z-index: 10000;
   width: 50px;
   height: 50px;
   border-radius: 50%;
   line-height: 50px;
   text-align: center;
-  background-color: #060c26;
+  background-color: #FFFFFF;
   transform: translateY(-50%);
   cursor: pointer;
   i {
     font-size: 30px;
+    color: rgba(128, 142, 169, 1);
     vertical-align: middle;
   }
 }

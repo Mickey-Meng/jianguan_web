@@ -8,26 +8,35 @@
 -->
 <template>
   <div class="keep_watch">
-    <div class="watch_table allbg">
-      <div class="watch_table_header">
-        <div class="header_g">
-          <div class="title_item"></div>
-          <div class="title_text">安全检查一览</div>
+    <div class="watch_table">
+<!--      <div class="watch_table_header">-->
+<!--        <div class="header_g">-->
+<!--          <div class="title_item"></div>-->
+<!--          <div class="title_text">安全检查一览</div>-->
+<!--        </div>-->
+<!--        <el-date-picker-->
+<!--          v-model="month"-->
+<!--          type="month"-->
+<!--          :clearable="false"-->
+<!--          value-format="yyyy-MM"-->
+<!--          placeholder="选择月"-->
+<!--          @change="monthChange"-->
+<!--        >-->
+<!--        </el-date-picker>-->
+<!--      </div>-->
+      <div class="new_ui_header">
+        <div class="left">
+          <div class="header_line"></div>
+          <div class="header_text">安全检查一览</div>
         </div>
-        <el-date-picker
-          v-model="month"
-          type="month"
-          :clearable="false"
-          value-format="yyyy-MM"
-          placeholder="选择月"
-          @change="monthChange"
-        >
-        </el-date-picker>
+
+
+
       </div>
       <div class="main">
         <el-table
           :data="tableData"
-          class="watch_table"
+          class="watch_table_w"
           height="100%"
           border
           style="width: 100%"
@@ -66,7 +75,7 @@
         </el-table>
       </div>
     </div>
-    <div class="watch_detail allbg">
+    <div class="watch_detail">
       <div class="header_g">
         <div class="title_item"></div>
         <div class="title_text">{{ currentDay }} 安全检查明细</div>
@@ -248,11 +257,14 @@ export default {
 <style lang='scss' scoped>
 .keep_watch {
   height: 100%;
+  margin-top: 2px;
   display: flex;
   justify-content: space-between;
   pointer-events: auto;
   .watch_table {
-    width: 62%;
+    width: 1025px;
+    background-color:#FFFFFF;
+    border-radius: 15px;
     .watch_table_header {
       display: flex;
       align-items: center;
@@ -269,7 +281,7 @@ export default {
     }
   }
   .watch_detail {
-    width: 37.5%;
+    width: calc(100% - 1025px);
     ::v-deep.el-table {
       font-size: 14px;
       th {
@@ -312,35 +324,64 @@ export default {
     }
   }
 }
-::v-deep.watch_table {
-  background-color: rgba(15, 15, 46, 1);
-  .el-table__header-wrapper {
-    .el-table__header {
-      th {
-        background-color: rgba(15, 15, 46, 1) !important;
-        color: rgba(124, 239, 246, 1);
-      }
+//::v-deep.watch_table {
+//  .el-table__header-wrapper {
+//    .el-table__header {
+//      th {
+//        background-color: rgba(15, 15, 46, 1) !important;
+//        color: rgba(124, 239, 246, 1);
+//      }
+//    }
+//  }
+//  .cell {
+//    padding: 0;
+//    .no-thing {
+//      margin: 0 auto;
+//      width: 22px;
+//      height: 22px;
+//      border-radius: 50%;
+//      background-color: #54f6f6;
+//      cursor: pointer;
+//    }
+//    .have-thing {
+//      margin: 0 auto;
+//      cursor: pointer;
+//      width: 22px;
+//      height: 22px;
+//      border-radius: 50%;
+//      background-color: #ffffff;
+//      border: 2px solid red;
+//    }
+//  }
+//}
+
+
+.new_ui_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0px 5px 20px;
+
+  .left {
+    display: flex;
+    align-items: center;
+
+    .header_line {
+      width: 4px;
+      height: 16px;
+      background-color: #1E6EEB;
+      margin-right: 8px;
+      border-radius: 3px;
+    }
+
+    .header_text {
+      color: #2D405E;
+      font-size: 18px;
+      font-weight: bold;
+      font-family: PingFang SC;
     }
   }
-  .cell {
-    padding: 0;
-    .no-thing {
-      margin: 0 auto;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background-color: #54f6f6;
-      cursor: pointer;
-    }
-    .have-thing {
-      margin: 0 auto;
-      cursor: pointer;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background-color: #ffffff;
-      border: 2px solid red;
-    }
-  }
+
+
 }
 </style>

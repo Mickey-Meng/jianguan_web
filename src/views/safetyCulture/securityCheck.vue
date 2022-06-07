@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <div class="header">安全检查</div>
+<!--    <div class="header">安全检查</div>-->
     <div class="nav">
       <div
         :class="{ active: currentView === 'check' }"
@@ -149,8 +149,7 @@
         key="check"
         :data="delayData"
         style="width: 100%"
-        class="bim-table"
-        height="90%"
+        height="100%"
         border
       >
         <el-table-column prop="delayday" label="延期天数" align="center" />
@@ -424,28 +423,30 @@ export default {
 <style scoped lang="scss">
 .wrapper {
   border: 1px solid #fff;
-  .header {
-    text-indent: 2em;
-    line-height: 50px;
-    height: 50px;
-    background-color: #1e374b;
-  }
+  //.header {
+  //  text-indent: 2em;
+  //  line-height: 50px;
+  //  height: 50px;
+  //  background-color: #1e374b;
+  //}
   .nav {
     display: flex;
-    border-bottom: 1px solid #a1c2dc;
-
+    padding: 20px;
     > div {
-      flex: 1;
-      height: 50px;
-      line-height: 50px;
-      text-align: center;
+      padding: 7px 25px;
       cursor: pointer;
+      margin-right: 20px;
+      background: url("../../assets/newUi/check_bg.png") no-repeat;
+      background-size: 100% 100%;
+      font-size: 14px;
+      font-family: PingFang SC;
+      font-weight: 500;
+      color: #808EA9;
     }
 
     .active {
-      background-color: #1e374b;
-      color: #f9b633;
-      border-top: 1px solid #f9b633;
+      background: url("../../assets/newUi/check_active_bg.png") no-repeat;
+      color: #1E6EEB;
     }
   }
 

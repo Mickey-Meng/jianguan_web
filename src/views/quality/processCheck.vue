@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <div class="header">质量检查</div>
+<!--    <div class="header">质量检查</div>-->
     <div class="nav">
       <div
         :class="{ active: currentView === 'check' }"
@@ -155,7 +155,6 @@
         key="delay"
         :data="delayData"
         style="width: 100%"
-        class="bim-table"
         height="98%"
         border
       >
@@ -481,10 +480,7 @@ export default {
 
 <style scoped lang="scss">
 .wrapper {
-  //height: 100%;
-
-  // display: flex;
-  // flex-direction: column;
+  //padding: 20px;
   .main {
     height: calc(100% - 101px);
     .bim-form-panel {
@@ -495,29 +491,26 @@ export default {
       }
     }
   }
-  .header {
-    background-color: #1e374b;
-    height: 50px;
-    line-height: 50px;
-    text-indent: 2em;
-  }
 
   .nav {
     display: flex;
-    border-bottom: 1px solid #a1c2dc;
-
+    //margin-bottom: 20px;
+    padding: 20px;
     > div {
-      flex: 1;
-      height: 50px;
-      line-height: 50px;
-      text-align: center;
+      padding: 7px 25px;
       cursor: pointer;
+      margin-right: 20px;
+      background: url("../../assets/newUi/check_bg.png") no-repeat;
+      background-size: 100% 100%;
+      font-size: 14px;
+      font-family: PingFang SC;
+      font-weight: 500;
+      color: #808EA9;
     }
 
     .active {
-      background-color: #1e374b;
-      color: #f9b633;
-      border-top: 1px solid #f9b633;
+      background: url("../../assets/newUi/check_active_bg.png") no-repeat;
+      color: #1E6EEB;
     }
   }
 
