@@ -1,24 +1,8 @@
 <template>
-  <!-- <div class="allbg"> -->
   <div class="wrapper">
     <div class="container-box">
-<!--      <div class="title">-->
-<!--        <div class="titleLeft">-->
-<!--          <div class="titleitem" />-->
-<!--          <div class="titletext">项目统计</div>-->
-<!--        </div>-->
-<!--        <div class="select">-->
 <!--          <el-button size="mini" @click="exportData">导出</el-button>-->
-<!--          <div class="titleselect">-->
-<!--            <el-select v-model="timeKey" @change="changData">-->
-<!--              <el-option-->
-<!--                v-for="item in sectionData"-->
-<!--                :key="item.key"-->
-<!--                :value="item.key"-->
-<!--                :label="item.name"-->
-<!--              />-->
-<!--            </el-select>-->
-<!--          </div>-->
+
           <!-- <el-date-picker
             v-model="timeValue"
             value-format="yyyy-MM-dd"
@@ -39,7 +23,6 @@
       </div>
     </div>
   </div>
-  <!-- </div> -->
 </template>
 
 <script>
@@ -56,26 +39,18 @@ export default {
   props: {
     currentView: {
       type: String,
-      default: () => "QL",
+      default: () => "QL"
     },
+    timeKey: {
+      type: [String, Number],
+      default: () => 3
+    }
   },
   components: { BridgeTable, RoadTable, tunneling, othetEngTable },
   data() {
     return {
       showComponent: "BridgeTable",
-      timeKey: 3,
-      typeKey: 1,
       timeValue: null,
-      sectionData: [
-        {
-          name: "周报",
-          key: 3,
-        },
-        {
-          name: "月报",
-          key: 4,
-        },
-      ],
       time: {},
       info: {},
     };
@@ -85,11 +60,6 @@ export default {
     this.initData();
   },
   methods: {
-    // changeView(str) {
-    //   if (this.currentView != str) {
-    //     this.currentView = str;
-    //   }
-    // },
     exportData() {
       this.$refs.child.exportTable();
     },
@@ -104,10 +74,10 @@ export default {
         this.info = res.data;
       });
     },
-    changData(val) {
-      if (val === 3) {
+    changData() {
+      if (this.timeKey === 3) {
         this.initData();
-      } else if (val === 4) {
+      } else if (this.timeKey  === 4) {
         this.time = getCurrentMonth();
         const obj = {
           type: 2,
@@ -132,6 +102,9 @@ export default {
         this.showComponent = "othetEngTable";
       }
     },
+    timeKey:function (){
+      this.changData()
+    }
   },
 };
 </script>
@@ -199,32 +172,6 @@ export default {
           background-size: 100% 100%;
           color: #fff;
         }
-        .titleselect {
-          ::v-deep .el-select {
-            width: 158px;
-            margin-left: 20px;
-            //height: 35px !important;
-            .el-input {
-              .el-input__inner {
-                height: 30px !important;
-                line-height: 30px;
-                background-image: url(../../../assets/image/日期选择.png);
-                background-repeat: no-repeat;
-                background-size: 100% 100%;
-                color: #fff;
-                border: none;
-              }
-              input {
-                background: transparent;
-              }
-              .el-input__suffix {
-                .el-input__icon {
-                  line-height: 30px;
-                }
-              }
-            }
-          }
-        }
       }
     }
     .header {
@@ -259,8 +206,8 @@ export default {
     }
     .main-table {
       //margin-top: 5px;
-      height: calc(100% - 20px);
-      //height: 100%;
+      //height: calc(100% - 20px);
+      height: 100%;
     }
   }
 }
