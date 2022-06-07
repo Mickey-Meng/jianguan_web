@@ -8,35 +8,36 @@
 -->
 <template>
   <div class="statistics_page">
-    <div class="header">
-      <div class="global_text_style" style="margin: 12px 0">项目统计</div>
+    <div class="new_ui_header">
+      <div class="header_line"></div>
+      <div class="header_text">项目统计</div>
     </div>
-    <div class="progress_nav">
-      <ul>
-        <li
-          v-for="(item, index) in nav"
-          :key="index"
-          :class="{ active: currentView == item.key }"
-          @click="changeModel(item.key)"
-        >
-          {{ item.name }}
-        </li>
-      </ul>
-      <div class="check_box">
-        <el-radio v-model="radio" label="1">统计模式</el-radio>
-        <el-radio v-model="radio" label="2">报表模式</el-radio>
-      </div>
-    </div>
-    <div class="progress_content">
-      <weeklyAndMonthly
-        v-if="radio === '2'"
-        :currentView="currentView"
-      ></weeklyAndMonthly>
-      <statisticsChart
-        v-if="radio === '1'"
-        :currentView="currentView"
-      ></statisticsChart>
-    </div>
+    <!--    <div class="progress_nav">-->
+    <!--      <ul>-->
+    <!--        <li-->
+    <!--          v-for="(item, index) in nav"-->
+    <!--          :key="index"-->
+    <!--          :class="{ active: currentView == item.key }"-->
+    <!--          @click="changeModel(item.key)"-->
+    <!--        >-->
+    <!--          {{ item.name }}-->
+    <!--        </li>-->
+    <!--      </ul>-->
+    <!--      <div class="check_box">-->
+    <!--        <el-radio v-model="radio" label="1">统计模式</el-radio>-->
+    <!--        <el-radio v-model="radio" label="2">报表模式</el-radio>-->
+    <!--      </div>-->
+    <!--    </div>-->
+    <!--    <div class="progress_content">-->
+    <!--      <weeklyAndMonthly-->
+    <!--        v-if="radio === '2'"-->
+    <!--        :currentView="currentView"-->
+    <!--      ></weeklyAndMonthly>-->
+    <!--      <statisticsChart-->
+    <!--        v-if="radio === '1'"-->
+    <!--        :currentView="currentView"-->
+    <!--      ></statisticsChart>-->
+    <!--    </div>-->
   </div>
 </template>
 
@@ -89,45 +90,58 @@ export default {
 <style lang='scss' scoped>
 .statistics_page {
   height: 100%;
-  padding: 5px;
+  background-color: #FFFFFF;
+  border-radius: 15px;
+
+  .new_ui_header {
+    display: flex;
+    align-items: center;
+    padding: 20px 0px 10px 20px;
+
+    .header_line {
+      width: 4px;
+      height: 16px;
+      background-color: #1E6EEB;
+      margin-right: 8px;
+      border-radius: 3px;
+    }
+
+    .header_text {
+      color: #2D405E;
+      font-size: 18px;
+      font-weight: bold;
+      font-family: PingFang SC;
+    }
+
+  }
+
   .progress_nav {
     height: 50px;
     display: flex;
     align-items: center;
     padding: 0 20px;
     justify-content: space-between;
-    // border-top: 1px solid rgb(56, 122, 253);
-    // border-bottom: 1px solid rgb(56, 122, 253);
-    // margin: 5px 0;
+
     ul {
       display: flex;
+
       li {
         text-align: center;
         margin-left: 15px;
-        // width: 33%;
         width: 80px;
         height: 34px;
         font-size: 14px;
         font-family: PingFang SC;
-        //font-weight: 400;
-        //color: #ffffff;
         color: #85858F;
         line-height: 34px;
         border-radius: 20px;
         cursor: pointer;
-        //background-image: url(../../../assets/image/tab.png);
-        // background-image: url(../../);
         background-repeat: no-repeat;
         background-size: 100%;
         background-color: #FFFFFF;
         border: 1px solid #E8E8E8;
       }
       .active {
-        //border: none;
-        // background-color: rgb(56, 122, 253);
-        //background-image: url(../../../assets/image/tab-bg.png);
-        //background-repeat: no-repeat;
-        //background-size: 100%;
         background-color: #F7F7F7;
         color: #3E69E2;
       }

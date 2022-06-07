@@ -19,7 +19,6 @@
         <newMsg></newMsg>
       </div>
       <div class="safe_box">
-<!--        <safeStatistics title="安全文明"></safeStatistics>-->
         <indexSafeStatistics></indexSafeStatistics>
       </div>
     </div>
@@ -76,36 +75,45 @@ export default {
 .index_wrapper {
   display: flex;
   justify-content: space-between;
+  padding: 20px;
+
   .index_left {
-    width:400px;
-    // display: flex;
+    width: 426px;
+    display: flex;
+    flex-direction: column;
+
     .pro_base {
       height: 30%;
     }
+
     .company {
       width: 100%;
-      margin: 10px 0;
-      height: 32%;
+      height: 35%;
+      margin: 20px 0;
     }
     .video {
-      height: calc(38% - 20px);
+      height: calc(35% - 40px);
     }
   }
   .index_center {
-    //width: 728px;
-    width: calc(100% - 780px);
+    width: 640px;
   }
 
   .index_right {
-    width: 400px;
+    width: 495px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
     .news_box {
       height: 50%;
+      margin-bottom: 20px;
     }
+
     .safe_box {
-      height: 49%;
+      //flex: 1;
+      //height: 49%;
+      height: calc(50% - 20px);
     }
   }
 }

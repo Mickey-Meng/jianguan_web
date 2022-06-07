@@ -8,8 +8,12 @@
 -->
 <template>
   <div class="index_safe_statistics">
-    <div class="header">
-      <div class="global_text_style" style="margin: 12px 0">安全文明</div>
+
+    <div class="new_ui_header">
+      <div class="left">
+        <div class="header_line"></div>
+        <div class="header_text">安全文明</div>
+      </div>
       <div class="check_box">
         <el-radio v-model="radio" label="1" @change="changeSelect"
         >近一个月
@@ -20,6 +24,8 @@
         </el-radio
         >
       </div>
+
+
     </div>
     <ul class="nav_menu">
       <li v-for="(item) in lists" :key="item.gongquid" @click="initChart(item)"
@@ -33,16 +39,16 @@
 
     </div>
     <ul class="card_box">
-      <li style="background-color:#FBD97F ">
-        <div class="value">{{ count }}</div>
+      <li style="background-color:rgba(253, 185, 42, .1) ">
+        <div class="value" style="color: #FDB92A">{{ count }}</div>
         <div class="text">提出整改(起)</div>
       </li>
-      <li style="background-color:#B6E980 ">
-        <div class="value">{{ finish }}</div>
+      <li style="background-color:rgba(30, 110, 235, .1) ">
+        <div class="value" style="color: #1E6EEB">{{ finish }}</div>
         <div class="text">完成整改(起)</div>
       </li>
-      <li style="background-color:#EE9090 ">
-        <div class="value">{{ overdue }}</div>
+      <li style="background-color:rgba(251, 98, 96, .1) ">
+        <div class="value" style="color: #FB6260">{{ overdue }}</div>
         <div class="text">已逾期(起)</div>
       </li>
     </ul>
@@ -77,14 +83,15 @@
             text: "",
             textStyle: {
               fontWeight: "bold",
-              fontSize: 38
+              fontSize: 24,
+              color:"#1E6EEB"
             },
             subtext: "整改完成率",
             subtextStyle: {
-              color: "#000000",
+              color: "#2D405E",
               fontSize:14
             },
-            textAlign: "center",
+            // textAlign: "center",
             top: "15%",
             left: "34%"
           },
@@ -97,7 +104,7 @@
               hoverAnimation: false,
               tooltip: {},
               radius: ["70%", "64%"],
-              center: ["35%", "38%"],
+              center: ["40%", "38%"],
               labelLine: {
                 normal: {
                   show: false
@@ -108,21 +115,21 @@
                   value: 100,
                   itemStyle: {
                     normal: {
-                      color: "rgba(80,150,224,0)"
+                      color: "rgba(223,235,252,0)"
                     }
                   }
                 },
                 {
-                  value: 0,  // 渐变色部分
+                  value: 0,
                   itemStyle: {
-                    color: "rgba(244,180,68,1)"
+                    color: "rgba(30, 110, 235, 1)"
                   }
                 },
                 {
-                  value: 100, // 右侧部分
+                  value: 100,
                   itemStyle: {
                     normal: {
-                      color: "rgba(244,180,68,0.2)"
+                      color: "rgba(223,235,252,1)"
                     }
                   }
                 }
@@ -189,47 +196,78 @@
 <style lang='scss' scoped>
   .index_safe_statistics {
     height: 100%;
-    padding: 5px 5px 25px 5px;
-  }
+    background-color: #FFFFFF;
+    border-radius: 15px;
+    //padding: 5px 5px 25px 5px;
 
-  .header {
-    display: flex;
-    justify-content: space-between;
-  }
+    .new_ui_header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0px 5px 20px;
 
-  .check_box {
-    padding-right: 20px;
-    display: flex;
-    align-items: center;
+      .left {
+        display: flex;
+        align-items: center;
 
-    ::v-deep.el-radio {
-      .el-radio__label {
-        color: #85858F;
+        .header_line {
+          width: 4px;
+          height: 16px;
+          background-color: #1E6EEB;
+          margin-right: 8px;
+          border-radius: 3px;
+        }
+
+        .header_text {
+          color: #2D405E;
+          font-size: 18px;
+          font-weight: bold;
+          font-family: PingFang SC;
+        }
       }
+
+      .check_box {
+        padding-right: 20px;
+        display: flex;
+        align-items: center;
+
+        ::v-deep.el-radio {
+          .el-radio__label {
+            color: #85858F;
+          }
+        }
+      }
+
+
     }
   }
 
+
   .nav_menu {
+    padding: 15px 0 5px 0;
     display: flex;
     justify-content: space-around;
     overflow-x: auto;
 
     li {
-      height: 34px;
-      line-height: 34px;
-      color: #85858F;
-      border-radius: 20px;
+      padding: 0 20px;
+      height: 28px;
+      line-height: 28px;
+      background: url("../../../assets/newUi/area_bg.png") no-repeat;
+      background-size: 100% 100%;
+      font-family: PingFang SC;
+      font-weight: 500;
+      color: #808EA9;
       cursor: pointer;
-      background-color: #FFFFFF;
-      border: 1px solid #E8E8E8;
-      padding: 0 10px;
     }
 
     .is_active_area {
-      border: none;
-      background: #F7F7F7;
-      color: #3E69E2;
-      border-radius: 20px;
+      background: url("../../../assets/newUi/area_active_bg.png") no-repeat;
+      background-size: 100% 100%;
+      font-size: 14px;
+      font-family: PingFang SC;
+      font-weight: 500;
+      color: #1E6EEB;
     }
   }
 
@@ -242,24 +280,22 @@
     .box {
       width: 99%;
       height: 90%;
-      border: 1px solid #E8E8E8;
-      border-radius: 10px;
+      //border: 1px solid #E8E8E8;
+      //border-radius: 10px;
     }
-
-    //border: 1px solid #E8E8E8;
   }
 
   .card_box {
-    height: 140px;
+    height: 106px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
 
     li {
       //width: 33%;
-      width: 125px;
-      height: 125px;
-      border-radius: 10px;
+      width: 138px;
+      height: 106px;
+      border-radius: 2px;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -269,10 +305,15 @@
       .value {
         margin-bottom: 10px;
         font-size: 24px;
+        font-family: HuXiaoBo-NanShen;
+        font-weight: 400;
       }
 
       .text {
-        font-size: 16px;
+        font-size: 14px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: #2D405E;
       }
     }
   }

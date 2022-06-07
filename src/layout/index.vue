@@ -133,21 +133,22 @@
 
 
   .wrapper {
-    height: calc(100% - 60px) !important;
+    height: calc(100% - 76px) !important;
     //height: 100%;
     position: relative;
     background-color: #fff;
     display: flex;
 
     .sidebar_container {
-      width: 210px;
-      background: #F5F5F5;
+      width: 280px;
+      background: #FFFFFF;
     }
 
     .main-container {
-      width: calc(100% - 210px);
+      width: calc(100% - 280px);
       padding: 2px;
       height: 100%;
+      background-color: #EAF0F9;
       //height: calc(100% - 60px) !important;
     }
   }

@@ -8,31 +8,46 @@
 -->
 <template>
   <div class="progress_chart">
-    <div class="total item-box">
-      <div class="chart">
-        <!--        <dv-percent-pond :config="config" style="width: 280px; height: 40px"/>-->
-        <v-chart :options="totalChatrs" autoresize class="v-chart-box"/>
-
-      </div>
-      <!--      <div>总体投资进度</div>-->
+    <div class="new_ui_header">
+      <div class="header_line"></div>
+      <div class="header_text">项目进度</div>
     </div>
-    <div class="bridge item-box">
-      <div class="charts">
-        <v-chart :options="option" autoresize class="v-chart-box"/>
+    <div class="content">
+      <div class="left_chart">
+        <div class="chart_box">
+          <v-chart :options="option" autoresize class="v-chart-box"/>
+        </div>
+        <div class="text">总体投资进度</div>
       </div>
-      <div>桥梁进度</div>
-    </div>
-    <div class="road item-box">
-      <div class="charts">
-        <v-chart :options="roadOption" autoresize class="v-chart-box"/>
+      <div class="right_process">
+        <div class="item">
+          <div class="header_text">
+            <div class="text">桥梁进度</div>
+            <div class="num ql">{{ qlNum }}</div>
+          </div>
+          <div class="line">
+            <div class="actual_progress_ql" :style="{width:qlNum}" :class="{noBorderRadius:qlFinish}"></div>
+          </div>
+        </div>
+        <div class="item item_dl">
+          <div class="header_text">
+            <div class="text">道路进度</div>
+            <div class="num dl">{{ dlNum }}</div>
+          </div>
+          <div class="line">
+            <div class="actual_progress_dl" :style="{width:dlNum}" :class="{noBorderRadius:dlFinish}"></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="header_text">
+            <div class="text">隧道进度</div>
+            <div class="num sd">{{ sdNum }}</div>
+          </div>
+          <div class="line">
+            <div class="actual_progress_sd" :style="{width:sdNum}" :class="{noBorderRadius:sdFinish}"></div>
+          </div>
+        </div>
       </div>
-      <div>道路进度</div>
-    </div>
-    <div class="tunneling item-box">
-      <div class="charts">
-        <v-chart :options="sdOption" autoresize class="v-chart-box"/>
-      </div>
-      <div>隧道进度</div>
     </div>
   </div>
 </template>
@@ -44,33 +59,28 @@ import { merge } from "lodash";
 export default {
   data() {
     return {
-      config: {
-        value: 0
-      },
-      option: {},
-      roadOption: {},
-      sdOption: {},
-      totalChatrs: {
+      qlNum: 0 + "%",
+      dlNum: 0 + "%",
+      sdNum: 0 + "%",
+      qlFinish: false,
+      dlFinish: false,
+      sdFinish: false,
+      option: {
         title: {
-          text: "",
-          subtext: "总体投资进度",
+          text: "80%",
           x: "center",
-          y: "40%",
+          y: "center",
           textStyle: {
-            fontWeight: "bold",
-            color: "#000",
+            fontWeight: "normal",
+            color: "#1E6EEB",
             fontSize: "24"
-          },
-          subtextStyle: {
-            color: "#000",
-            fontWeight: "bold",
-            fontSize: 14
           }
         },
+        color: ["rgba(210,226,251, 1)"],
         series: [{
-          // name: "Line 1",
+          name: "",
           type: "pie",
-          clockWise: true,
+          // clockWise: true,
           radius: ["58%", "76%"],
           itemStyle: {
             normal: {
@@ -84,10 +94,11 @@ export default {
           },
           hoverAnimation: false,
           data: [{
-            value: 0,
+            value: 100,
+            name: "完成",
             itemStyle: {
               normal: {
-                color: "#2772F2",
+                color: "#1E6EEB",
                 label: {
                   show: false
                 },
@@ -97,12 +108,8 @@ export default {
               }
             }
           }, {
-            value: 100,
-            itemStyle: {
-              normal: {
-                color: "#E9EFFD"
-              }
-            }
+            name: "未完成",
+            value: 0
           }]
         }]
       }
@@ -117,172 +124,178 @@ export default {
   methods: {
     initData() {
       api.getMiddleData().then((res) => {
-        const { QL, SD, DL } = res.data;
-        const obj = {
-          title: {
-            textStyle: {
-              color: "#000000",
-              fontSize: 22,
-            },
-            subtext: "",
-            subtextStyle: {
-              color: "#000000",
-              fontSize: 20,
-            },
-            itemGap: 20,
-            left: "center",
-            top: "30%",
-          },
-          tooltip: {
-            formatter: function (params) {
-              return `<span style="color: #fff;">${params.value}%</span>`;
-            },
-          },
-          angleAxis: {
-            max: 100,
-            clockwise: true, // 逆时针
-            // 隐藏刻度线
-            show: false,
-          },
-          radiusAxis: {
-            type: "category",
-            show: true,
-            axisLabel: {
-              show: false,
-            },
-            axisLine: {
-              show: false,
-            },
-            axisTick: {
-              show: false,
-            },
-          },
-          polar: {
-            center: ["50%", "50%"],
-            radius: "130%", // 图形大小
-          },
-          series: [
-            {
-              type: "bar",
-              data: [],
-              showBackground: true,
-              backgroundStyle: {
-                color: "#E9EFFD",
-              },
-              coordinateSystem: "polar",
-              roundCap: true,
-              barWidth: 10,
-              itemStyle: {
-                normal: {
-                  opacity: 1,
-                  color:'#2772F2'
-                },
-              },
-            },
-          ],
-        };
-        // this.engineering = res.data;
-        // const ql = Object.assign({}, obj);
-        let ql = merge({}, obj);
-        let dl = merge({}, obj);
-        let sd = merge({}, obj);
-        let qlnum = 0,
-          dlnum = 0,
-          sdnum = 0,
-          allCount = 0,
+        const {QL, SD, DL} = res.data;
+        let allCount = 0,
           allFinish = 0;
         if (QL) {
           let finish = QL.finish || 0;
           let count = QL.count || 0;
+          if (finish && count && finish === count) {
+            this.qlFinish = true;
+          }
           allFinish += finish;
           allCount += count;
-          qlnum = Math.floor((finish / count) * 100);
+          this.qlNum = Math.floor((finish / count) * 100) + "%";
         }
         if (SD && SD) {
           let finish = SD.finish || 0;
           let count = SD.count || 0;
+          if (finish && count && finish === count) {
+            this.sdFinish = true;
+          }
           allFinish += finish;
           allCount += count;
-          sdnum = Math.floor((finish / count) * 100);
+          this.sdNum = Math.floor((finish / count) * 100) + "%";
         }
         if (DL) {
           let finish = DL.finish || 0;
           let count = DL.count || 0;
+          if (finish && count && finish === count) {
+            this.dlFinish = true;
+          }
           allFinish += finish;
           allCount += count;
-          dlnum = Math.floor((finish / count) * 100);
+          this.dlNum = Math.floor((finish / count) * 100) + "%";
         }
-
-        ql.title.subtext = `${qlnum}%`;
-        ql.series[0].data = [qlnum];
-
-        dl.title.subtext = `${dlnum}%`;
-        dl.series[0].data = [dlnum];
-        dl.series[0].backgroundStyle.color = 'rgba(238,182,73,0.2)';
-        dl.series[0].itemStyle.normal.color = 'rgba(238,182,73,1)';
-
-        sd.title.subtext = `${sdnum}%`;
-        sd.series[0].data = [sdnum];
-        sd.series[0].backgroundStyle.color = 'rgba(74,163,72,0.2)';
-        sd.series[0].itemStyle.normal.color = 'rgba(74,163,72,1)';
-        this.option = ql;
-        this.roadOption = dl;
-        this.sdOption = sd;
-
-        let globalRate = Math.floor((allFinish / allCount) * 100);
-        console.log(globalRate);
-        this.totalChatrs.series[0].data[0].value = globalRate;
-        this.totalChatrs.series[0].data[1].value = 100 - globalRate;
-        this.totalChatrs.title.text = globalRate + "%";
-        console.log(this.totalChatrs, 999);
-        // this.config.value = globalRate;
-        // this.config = { ...this.config };
+        let rate = Math.floor((allFinish / allCount) * 100);
+        let nFinish = 100 - rate;
+        this.option.series[0].data[0].value = rate;
+        this.option.series[0].data[1].value = nFinish;
+        this.option.title.text = rate + "%";
       });
     },
   },
 };
 </script>
 <style lang='scss' scoped>
-.progress_chart {
-  height: 215px;
-  padding: 0 10px;
-  display: flex;
-  width: 100%;
-  border-radius: 5px;
-  border: 1px solid #E8E8E8;
-  .item-box {
-    flex: 1px;
-    display: flex;
-    flex-direction: column;
-    .charts {
-      height: calc(100% - 50px);
-    }
-    .chart {
-      height: 100%;
-    }
-
-    > div {
-      text-align: center;
-      font-size: 18px;
-      line-height: 18px;
-      font-weight: 600;
-    }
+  .progress_chart {
+    height: 100%;
+    background-color: #FFFFFF;
+    border-radius: 15px;
   }
 
-  //.chart {
-  //  height: calc(100% - 20px);
-  //  padding-top: 50px;
-  //}
-  //.charts {
-  //  height: calc(100% - 20px);
-  //}
-  //> div {
-  //  flex: 1;
-  //  text-align: center;
-  //  font-size: 18px;
-  //  line-height: 18px;
-  //  font-weight: 600;
-  //}
-  //font-weight: bold;
-}
+  .new_ui_header {
+    display: flex;
+    align-items: center;
+    padding: 20px 0px 10px 20px;
+
+    .header_line {
+      width: 4px;
+      height: 16px;
+      background-color: #1E6EEB;
+      margin-right: 8px;
+      border-radius: 3px;
+    }
+
+    .header_text {
+      color: #2D405E;
+      font-size: 18px;
+      font-weight: bold;
+      font-family: PingFang SC;
+    }
+
+  }
+
+  .content {
+    height: calc(100% - 50px);
+    display: flex;
+    justify-content: space-between;
+
+    .left_chart {
+      width: 214px;
+
+
+      .chart_box {
+        width: 214px;
+        height: 160px;
+      }
+
+      .text {
+        text-align: center;
+        font-size: 14px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: #2D405E;
+      }
+
+    }
+
+    .right_process {
+      margin-right: 32px;
+      width: 380px;
+      display: flex;
+      flex-direction: column;
+
+      .item {
+        .header_text {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 7px;
+
+          .text {
+            font-size: 14px;
+            font-family: PingFang SC;
+            font-weight: 500;
+            color: #2D405E;
+          }
+
+          .ql {
+            font-size: 18px;
+            font-family: ShiShangZhongHeiJianTi;
+            font-weight: 400;
+            color: #5473E8;
+          }
+
+          .dl {
+            font-size: 18px;
+            font-family: ShiShangZhongHeiJianTi;
+            font-weight: 400;
+            color: #FEC03D;
+          }
+
+          .sd {
+            font-size: 18px;
+            font-family: ShiShangZhongHeiJianTi;
+            font-weight: 400;
+            color: #79D3FE;
+          }
+        }
+
+        .line {
+          width: 100%;
+          background-color: #E4EDFD;
+          height: 14px;
+          position: relative;
+
+          > div {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 14px;
+            border-radius: 0px 7px 7px 0px;
+          }
+
+          .noBorderRadius {
+            border-radius: 0;
+          }
+
+          .actual_progress_ql {
+            background: linear-gradient(86deg, #5473E8 0%, #6F8DFB 100%);
+          }
+
+          .actual_progress_dl {
+            background: linear-gradient(86deg, #FDB92A 0%, #FED277 100%);
+          }
+
+          .actual_progress_sd {
+            background: linear-gradient(86deg, #52C1F5 0%, #79D3FE 100%);
+          }
+        }
+      }
+
+      .item_dl {
+        margin: 22px 0;
+      }
+    }
+  }
 </style>

@@ -1,10 +1,11 @@
 <template>
   <div class="wrapper">
-    <div class="header">
-      <div class="global_text_style">关联单位</div>
+    <div class="new_ui_header">
+      <div class="header_line"></div>
+      <div class="header_text">关联单位</div>
     </div>
     <div class="table-wrp">
-      <el-table :data="lists" stripe style="width: 100%" height="100%" :show-header="false">
+      <el-table :data="lists"  style="width: 100%" height="100%" :show-header="false">
         <el-table-column
           prop="title"
           width="120">
@@ -14,13 +15,6 @@
         </el-table-column>
       </el-table>
     </div>
-    <!--    <ul class="table-wrp">-->
-    <!--      <li v-for="(item,index) in lists" :key="index">-->
-    <!--        <el-tooltip class="item" effect="dark" :content="item.title + ':' + item.name" placement="top">-->
-    <!--          <span> {{ item.title }}:{{ item.name }}</span>-->
-    <!--        </el-tooltip>-->
-    <!--      </li>-->
-    <!--    </ul>-->
   </div>
 </template>
 
@@ -72,16 +66,36 @@ export default {
 
 <style scoped lang="scss">
   .wrapper {
-    padding: 5px;
     height: 100%;
     width: 100%;
+    background-color: #FFFFFF;
+    border-radius: 15px;
+  }
+
+  .new_ui_header {
+    display: flex;
+    align-items: center;
+    padding: 20px 0px 10px 20px;
+
+    .header_line {
+      width: 4px;
+      height: 16px;
+      background-color: #1E6EEB;
+      margin-right: 8px;
+      border-radius: 3px;
+    }
+
+    .header_text {
+      color: #2D405E;
+      font-size: 18px;
+      font-weight: bold;
+      font-family: PingFang SC;
+    }
+
   }
 
   .table-wrp {
-    height: calc(100% - 30px);
-    border: 1px solid #E8E8E8;
-    border-radius: 10px;
-    padding: 5px;
+    height: calc(100% - 70px);
     overflow: auto;
 
     ::v-deep.el-table {
@@ -96,37 +110,5 @@ export default {
         //}
       }
     }
-
-    //li {
-    //  width: 100%;
-    //  height: 50px;
-    //  line-height: 50px;
-    //  background-color: #F6F6F6;
-    //  margin-bottom: 5px;
-    //  //text-indent: 1em;
-    //  padding: 0 10px;
-    //  border-radius: 10px;
-    //  font-weight: 600;
-    //  overflow: hidden;
-    //  text-overflow: ellipsis;
-    //  white-space: nowrap;
-    //  &:hover{
-    //    border: 1px solid #395CFB;
-    //  }
-    //}
   }
-
-
-  //  ::v-deep .el-table {
-  //    tr {
-  //      background-color: transparent !important;
-  //    }
-  //
-  //    &::after {
-  //    background-color: transparent !important;
-  //  }
-  //  &::before {
-  //    background-color: transparent !important;
-  //  }
-  //}
 </style>

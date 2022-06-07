@@ -407,7 +407,7 @@
 
 <style lang='scss' scoped>
   .header_wrapper {
-    height: 60px;
+    height: 76px;
     display: flex;
     justify-content: space-between;
 

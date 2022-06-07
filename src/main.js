@@ -30,6 +30,7 @@ import "@/assets/css/common.css"
 
 import 'bpmn-js/dist/assets/diagram-js.css';
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css';
+import '@/font/font.css';
 
 /**
  * If you don't want to use mock-server

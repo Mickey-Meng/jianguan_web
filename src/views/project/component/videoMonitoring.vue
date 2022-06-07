@@ -1,39 +1,44 @@
 <template>
   <div class="wrapper">
-    <div class="header">
-      <div class="global_text_style">监控视频</div>
-      <div class="title">
-        <div class="titletext">
-          <div class="titleitem"></div>
-          <el-select v-model="videoType" @change="changeValue">
-            <el-option
-              v-for="item in typeArr"
-              :key="item.key"
-              :value="item.key"
-              :label="item.name"
-            />
-          </el-select>
-        </div>
-      </div>
+    <!--    <div class="header">-->
+    <!--      <div class="global_text_style">监控视频</div>-->
+    <!--      <div class="title">-->
+    <!--        <div class="titletext">-->
+    <!--          <div class="titleitem"></div>-->
 
-      <!-- <span v-if="videoType == 1" class="see-new-btm"
-        >监控页面<i class="el-icon-d-arrow-right"
-      /></span> -->
-      <el-select class="select-site" v-if="videoType == 2" v-model="videoId" @change="changeVideo">
+    <!--        </div>-->
+    <!--      </div>-->
+
+    <!--      <el-select class="select-site" v-if="videoType == 2" v-model="videoId" @change="changeVideo">-->
+    <!--        <el-option-->
+    <!--          v-for="item in videoData"-->
+    <!--          :key="item.id"-->
+    <!--          :value="item.id"-->
+    <!--          :label="item.address"-->
+    <!--        />-->
+    <!--      </el-select>-->
+    <!--    </div>-->
+    <div class="new_ui_header">
+      <div class="left">
+        <div class="header_line"></div>
+        <div class="header_text">监控视频</div>
+      </div>
+      <el-select v-model="videoType" @change="changeValue">
         <el-option
-          v-for="item in videoData"
-          :key="item.id"
-          :value="item.id"
-          :label="item.address"
+          v-for="item in typeArr"
+          :key="item.key"
+          :value="item.key"
+          :label="item.name"
         />
       </el-select>
+
     </div>
     <div v-show="videoType == 1" class="video">
-      <div id="video-container" />
+      <div id="video-container"/>
     </div>
     <ul v-show="videoType == 2" class="content">
       <li>
-        <img :src="wendu" alt="" />
+        <img :src="wendu" alt=""/>
         <div class="text-box">
           <div>实时温度</div>
           <span>{{ currentVideo.tem }}℃</span>
@@ -101,7 +106,7 @@ export default {
           accessToken: res.data,
           url: "ezopen://open.ys7.com/E61698613/1.hd.live",
           width: 390,
-          height: 240,
+          height: 190,
           audio: 0,
           autoplay: false,
           template: "standard" //
@@ -132,100 +137,97 @@ export default {
 
 <style scoped lang="scss">
 .wrapper {
-  //background-image: url(../../../assets/image/边框-小.png);
-  //background-repeat: no-repeat;
-  //background-size: 100% 100%;
   height: 100%;
-  padding: 5px;
+  background-color: #FFFFFF;
+  border-radius: 15px;
 
-  .header {
+  .new_ui_header {
     display: flex;
-  }
-
-  .title {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
-    height: 40px;
-    // padding-top:16px ;
-    padding-right: 10px;
+    padding: 10px 0px 5px 20px;
 
-    .titletext {
+    .left {
       display: flex;
       align-items: center;
 
-      .titleitem {
-        z-index: 1;
-        margin-left: 16px;
+      .header_line {
+        width: 4px;
+        height: 16px;
+        background-color: #1E6EEB;
+        margin-right: 8px;
+        border-radius: 3px;
       }
-      ::v-deep .el-select {
-        width: 100px;
-        text-indent: 0;
-        //height: 35px !important;
-        .el-input {
-          .el-input__inner {
-            height: 30px !important;
+
+      .header_text {
+        color: #2D405E;
+        font-size: 18px;
+        font-weight: bold;
+        font-family: PingFang SC;
+      }
+    }
+
+    ::v-deep .el-select {
+      width: 100px;
+      text-indent: 0;
+      //height: 35px !important;
+      .el-input {
+        .el-input__inner {
+          height: 30px !important;
+          line-height: 30px;
+          background-color: transparent !important;
+          color: #000;
+          border: none;
+        }
+
+        .el-input__suffix {
+          .el-input__icon {
             line-height: 30px;
-            background-color: transparent !important;
-            color: #000;
-            border: none;
-          }
-          .el-input__suffix {
-            .el-input__icon {
-              line-height: 30px;
-              color: #4f71ff;
-            }
+            color: #4f71ff;
           }
         }
       }
-
     }
 
-    span {
-      cursor: pointer;
-    }
+
   }
-
   .select-site {
     width: 155px !important;
   }
 
  ::v-deep .video {
-    margin-top: 5px;
-    height: calc(100% - 40px);
     padding: 0 2px;
     display: flex;
     justify-content: center;
     align-items: center;
-    //border-radius: 5px;
-    //#video-container{
-    //  border-radius: 5px;
-    //  iframe{
-    //    //border-radius: 5px;
-    //    border-bottom-right-radius: 10px;
-    //  }
-    //}
   }
 
   .content {
-    margin-top: 5px;
-    height: calc(100% - 40px);
-    padding: 0px 2px;
+    padding: 0 10px;
+    height: calc(100% - 55px);
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
     li {
       background-color: #1e374b;
-      margin: 5px 0;
-      flex: 1;
+      height: 30%;
+      //margin: 5px 0;
+      //flex: 1;
       border-radius: 5px;
       display: flex;
       align-items: center;
       justify-content: space-around;
+      img{
+        width: 60px;
+        height: 60px;
+      }
       .text-box {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        div{
+          color: #FFFFFF;
+        }
         span {
           margin-top: 10px;
           color: #f4ea1c;

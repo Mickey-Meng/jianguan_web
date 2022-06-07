@@ -1,34 +1,38 @@
 <template>
   <div class="wrapper">
-    <div class="header">
-      <div class="global_text_style">项目信息</div>
+    <div class="new_ui_header">
+      <div class="header_line"></div>
+      <div class="header_text">项目信息</div>
     </div>
     <div class="project_content">
-      <div class="item" style="background-color: #B5E97D">
-        <span class="num">{{ time }}</span>
-        <span class="title-name">安全生产(天)</span>
-      </div>
-      <div class="item" style="background-color: #80C6FF">
-        <span class="num">{{ companyData.inputscale }}</span>
-        <span class="title-name">工程规模(km)</span>
-      </div>
-      <div class="item" style="background-color: #A1EBDC">
-        <span class="num"
-        >{{
-            companyData.projectduration
-          }}</span
-        >
-        <span class="title-name">合同工期(天)</span>
 
+      <div class="item">
+        <img src="../../../assets/newUi/home.png" alt="">
+        <div class="text_value">
+          <div class="value">{{ time }}</div>
+          <div class="text">安全生产(天)</div>
+        </div>
       </div>
-      <div class="item" style="background-color: #B19BFF">
-        <span class="num"
-        >{{
-            companyData.projectscale
-          }}</span
-        >
-        <span class="title-name">投资规模(万元)</span>
-
+      <div class="item">
+        <img src="../../../assets/newUi/home1.png" alt="">
+        <div class="text_value">
+          <div class="value">{{ companyData.inputscale }}</div>
+          <div class="text">工程规模(km)</div>
+        </div>
+      </div>
+      <div class="item">
+        <img src="../../../assets/newUi/home2.png" alt="">
+        <div class="text_value">
+          <div class="value">{{ companyData.projectduration }}</div>
+          <div class="text">合同工期(天)</div>
+        </div>
+      </div>
+      <div class="item">
+        <img src="../../../assets/newUi/home3.png" alt="">
+        <div class="text_value">
+          <div class="value">{{ companyData.projectscale }}</div>
+          <div class="text">投资规模(万元)</div>
+        </div>
       </div>
     </div>
   </div>
@@ -72,14 +76,38 @@ export default {
 <style scoped lang="scss">
 .wrapper {
   height: 100%;
-  padding: 5px;
+  background-color: #FFFFFF;
+  border-radius: 15px;
+  //padding: 5px;
 
   .header {
     height: 30px;
   }
 
+  .new_ui_header {
+    display: flex;
+    align-items: center;
+    padding: 20px 0px 20px 20px;
+
+    .header_line {
+      width: 4px;
+      height: 16px;
+      background-color: #1E6EEB;
+      margin-right: 8px;
+      border-radius: 3px;
+    }
+
+    .header_text {
+      color: #2D405E;
+      font-size: 18px;
+      font-weight: bold;
+      font-family: PingFang SC;
+    }
+
+  }
+
   .project_content {
-    height: calc(100% - 30px);
+    //height: calc(100% - 30px);
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -87,25 +115,39 @@ export default {
 
     .item {
       width: 49%;
-      height: 48%;
+      height: 62px;
       border-radius: 10px;
       display: flex;
-      flex-direction: column;
-      justify-content: space-around;
       align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
 
-      .title-name {
-        font-weight: 600;
+      img {
+        width: 62px;
+        height: 62px;
+        margin-right: 16px;
       }
 
-      .num {
-        font-size: 24px;
-        font-family: HuXiaoBo-NanShen;
-        font-weight: 600;
-        .numafter {
-          font-size: 14px;
-          margin-left: 15px;
+      .text_value {
+        display: flex;
+        height: 62px;
+        flex-direction: column;
+        justify-content: space-around;
+
+        .value {
+          font-size: 18px;
+          font-family: ShiShangZhongHeiJianTi;
+          font-weight: 400;
+          color: #2D405E;
         }
+
+        .text {
+          font-size: 14px;
+          font-weight: 500;
+          color: #808EA9;
+          font-family: PingFang SC;
+        }
+
       }
     }
   }
