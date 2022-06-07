@@ -14,12 +14,8 @@
 								<div class="form-title">
 									<div class="title-big-bar"></div>
 									<strong>施工方案-浙公路（JL）011</strong>
-									<div class="form-btns">
-										<el-button size="medium">暂存</el-button>
-										<el-button size="medium">保存草稿</el-button>
-										<el-button size="medium">选择草稿</el-button>
-										<el-button size="medium" type="primary">复制填充</el-button>
-									</div>
+									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify"
+										@checkDraft="checkDraft" ref="drafthandle"></drafthandle>
 								</div>
 
 								<div class="form-block">
@@ -210,7 +206,7 @@
 										<div class="block-item">
 											<div class="block-item-label">{{userOptions.entryName}}<i class="require-icon"></i></div>
 											<div class="block-item-value">
-												<el-form-item prop="qualityCheckUser">
+												<el-form-item>
 													<el-select placeholder="请选择" v-model="auditUser[userOptions.entryUserVariable]" @change="flowUserChange($event, userOptions.entryUserVariable)">
 														<el-option v-for="(item, idx) in userOptions.userName" :key="item"
 															:label="userOptions.userNameStr[idx]" :value="item">
@@ -222,7 +218,7 @@
 									</div>
 								</div>
 								<div class="form-block">
-									<el-button @click="addOrModify" class="submit-btn" size="small" type="primary">提交
+									<el-button @click="addOrModify()" class="submit-btn" size="small" type="primary">提交
 									</el-button>
 								</div>
 							</el-form>
@@ -240,6 +236,11 @@
 				</el-aside> -->
 			</el-container>
 		</el-dialog>
+		<el-dialog width="80%" class="little-container" :visible.sync="draftVisible">
+			<constructionScheme @hideDraft="hideDraft" @getDetail="getDetail" :isDraft="draftVisible"
+				v-if="draftVisible">
+			</constructionScheme>
+		</el-dialog>
 	</div>
 </template>
 
@@ -248,15 +249,19 @@
 	import { getUserInfo } from "@/api/user";
 	import {
 		formatDateTime,
-		createProjectInfo
+		createProjectInfo,
+		diffCompare
 	} from "@/utils/format.js";
 	import upload from "../../../common/upload.vue"
 	import attachlist from "../../../common/attachlist.vue"
+	import drafthandle from "../../../common/drafthandle.vue"
 	
 	export default {
 		props: ['editRow'],
 		data() {
 			return {
+				draftVisible: false,
+				addOrModifyFlag: true,
 				dialogTitle: '项目全生命周期数字管理平台',
 				dialogFormVisible: false,
 				annexTableData: [],
@@ -349,7 +354,9 @@
 		created() {},
 		components: {
 			upload,
-			attachlist
+			attachlist,
+			drafthandle,
+			constructionScheme: () => import("../constructionScheme.vue")
 		},
 		computed: {},
 		mounted() {
@@ -357,7 +364,36 @@
 			this.getFlowAuditEntry();
 		},
 		watch: {
-			editRow(obj) {
+		},
+		methods: {
+			flowUserChange(data, data1){
+				this.auditUser[data1] = data;
+				this.$forceUpdate();
+			},
+			getFlowAuditEntry() {
+				api.getFlowAuditEntry({
+					flowKey: 'shigongfangan',
+					projectId: this.$store.getters.project['parentid'] || 2
+				}).then((res) => {
+					console.log(11111111111111111111, res);
+					for (let i = 0; i < res.data.length; i++) {
+						const item = res.data[i];
+						this.auditUser[item.entryUserVariable] = item.userName[0];
+						if (!item.userNameStr) item.userNameStr = [];
+						for (let j = 0; j < item.userId.length; j++) {
+							const id = item.userId[j];
+							getUserInfo(id).then(res => {
+								item.userNameStr[j] = res.data.userInfo.NAME;
+								this.$forceUpdate();
+							})
+						}
+					}
+					console.log(this.auditUser);
+					this.flowNodesUsersData = res.data;
+				});
+			},
+			changeVisible(obj, value) {
+				this.dialogFormVisible = value;
 				obj=obj||{};
 				if (obj['id']) {
 					this.getDetail(obj['id']);
@@ -390,37 +426,6 @@
 					this.expertMeetingAttachTable=[]
 					this.replyAttachTable=[]
 				}
-			}
-		},
-		methods: {
-			flowUserChange(data, data1){
-				this.auditUser[data1] = data;
-				this.$forceUpdate();
-			},
-			getFlowAuditEntry() {
-				api.getFlowAuditEntry({
-					flowKey: 'shigongfangan',
-					projectId: this.$store.getters.project['parentid'] || 2
-				}).then((res) => {
-					console.log(11111111111111111111, res);
-					for (let i = 0; i < res.data.length; i++) {
-						const item = res.data[i];
-						this.auditUser[item.entryUserVariable] = item.userName[0];
-						if (!item.userNameStr) item.userNameStr = [];
-						for (let j = 0; j < item.userId.length; j++) {
-							const id = item.userId[j];
-							getUserInfo(id).then(res => {
-								item.userNameStr[j] = res.data.userInfo.NAME;
-								this.$forceUpdate();
-							})
-						}
-					}
-					console.log(this.auditUser);
-					this.flowNodesUsersData = res.data;
-				});
-			},
-			changeVisible(value) {
-				this.dialogFormVisible = value;
 			},
 			getProjectInfoById(){
 				api.getProjectInfoById({
@@ -444,31 +449,84 @@
 				});
 			},
 			addOrModify() {
-				this.$refs['ruleForm'].validate((valid) => {
-					if(valid){
-						this.formData.buildPlanAttachment=this.buildPlanAttachTable;
-						this.formData.expertMeetingAttachment=this.expertMeetingAttachTable;
-						this.formData.replyAttachment=this.replyAttachTable;
-						this.formData.attachment=this.attachTable;
-						this.formData.auditUser = this.auditUser;
-						api.addOrUpdateBuildPlan(this.formData).then((res) => {
-							if (res.data) {
-								this.$message({
-									type: 'success',
-									message: '提交成功!'
-								});
-								this.dialogFormVisible = false;
-								this.$emit("query");
-							}
-						});
-					} else {
+				if (isdraft) {
+					if (diffCompare([this.formData, this.attachTable], [{
+								buildPlanName: '', // 专项施工方案名称
+								attachmentList: '', // 附件清单
+								buildPlanAttachTable: [], // 专项施工方案附件
+								expertMeetingAttachTable: [], // 专家论证会议纪要附件
+								replyAttachTable: [], // 整改回复附件
+
+								attachment: [],
+								buildCheckselfResult: '',
+								deletedFlag: 1,
+								draftFlag: 1,
+								hiddenProject: '',
+								// id: null,
+								projectBuildUser: 1,
+								projectChargeUser: 1,
+								projectCode: '',
+								projectId: this.$store.getters.project['parentid'],
+								qualityCheckUser: 1,
+								subProject: '',
+								supervisorEngineerUser: 1,
+								supervisorUser: 1,
+								unit: ''
+							},
+							[]
+						])) {
 						this.$message({
-							type: 'success',
-							message: '请检查必填项!'
+							type: 'warning',
+							message: '不能提交空白!'
 						});
+						return;
 					}
-					
-				})
+					this.formData.attachment=this.attachTable;
+					this.formData.draftFlag = isdraft ? 0 : 1;
+					this.formData.auditUser = this.auditUser;
+					api.addOrUpdateBuildPlan(this.formData).then((res) => {
+						if (res.data) {
+							this.$message({
+								type: 'success',
+								message: '提交成功!'
+							});
+							this.dialogFormVisible = false;
+							this.$emit("query");
+						}
+					});
+				} else {
+					this.$refs['ruleForm'].validate((valid) => {
+						if(valid){
+							this.formData.buildPlanAttachment=this.buildPlanAttachTable;
+							this.formData.expertMeetingAttachment=this.expertMeetingAttachTable;
+							this.formData.replyAttachment=this.replyAttachTable;
+							this.formData.attachment=this.attachTable;
+							this.formData.auditUser = this.auditUser;
+							api.addOrUpdateBuildPlan(this.formData).then((res) => {
+								if (res.data) {
+									this.$message({
+										type: 'success',
+										message: '提交成功!'
+									});
+									this.dialogFormVisible = false;
+									this.$emit("query");
+								}
+							});
+						} else {
+							this.$message({
+								type: 'success',
+								message: '请检查必填项!'
+							});
+						}
+						
+					})
+				}
+			},
+			hideDraft() {
+				this.draftVisible = false;
+			},
+			checkDraft() {
+				this.draftVisible = true;
 			},
 			buildPlanAfterUp(data){
 				this.buildPlanAttachTable.push({

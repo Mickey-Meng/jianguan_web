@@ -3,7 +3,7 @@
  * @version:
  * @Author: WangHarry
  * @Date: 2022-05-09 14:16:22
- * @LastEditors: WangHarry
+ * @LastEditors: zhouhai
  * @LastEditTime: 2022-05-09 14:16:28
 -->
 <template>
@@ -38,7 +38,7 @@
 			</div>
 			<el-button type="primary" @click="query">搜索</el-button>
 
-			<div class="right-btns">
+			<div v-if="!isDraft" class="right-btns">
 				<!-- <el-button type="primary" size="small"
 					:icon="operateBtnsVisible?'el-icon-d-arrow-right':'el-icon-d-arrow-left'"
 					@click="operateBtnsVisible=!operateBtnsVisible"></el-button> -->
@@ -69,8 +69,10 @@
 					</el-table-column>
 					<el-table-column fixed="right" width="120" align="center" label="操作">
 						<template slot-scope="{ row, $index }">
-							<!-- <el-button type="text" size="mini" @click="modify(row)">修改</el-button> -->
-							<el-button type="text" size="mini" @click="viewDetail(row)">详情</el-button>
+							<!-- <el-button v-if="!isDraft" type="text" size="mini" @click="modify(row)">修改</el-button> -->
+							<el-button v-if="!isDraft" type="text" size="mini" @click="viewDetail(row)">详情</el-button>
+
+							<el-button v-if="isDraft" type="text" size="mini" @click="checkDetail(row)">选择</el-button>
 							<el-button type="text" size="mini" @click="deleteRow(row)">删除</el-button>
 						</template>
 					</el-table-column>
@@ -81,8 +83,8 @@
 				</el-pagination>
 			</div>
 		</el-main>
-		<edit ref="edit" @query="query" :editRow="editRow"></edit>
-		<detail ref="detail" :detailRow="detailRow"></detail>
+		<edit v-if="!isDraft" ref="edit" @query="query" :editRow="editRow"></edit>
+		<detail v-if="!isDraft" ref="detail" :detailRow="detailRow"></detail>
 	</el-container>
 </template>
 
@@ -95,6 +97,12 @@
 	import edit from './constructionTechnologyDisclosure/edit';
 	import detail from './constructionTechnologyDisclosure/detail';
 	export default {
+		props:{
+			isDraft:{
+				type:Boolean,
+				default:false
+			}
+		},
 		data() {
 			return {
 				allData:{},
@@ -136,6 +144,7 @@
 				this.queryData.endCheckDate = formatDate(res[1]);
 			},
 			query() {
+				this.queryData.draftFlag=this.isDraft ? 0 : 1;
 				api.getBuildTechBottomList(this.queryData).then((res) => {
 					this.allData = res.data || {};
 					this.tableData = this.formateTableData(res.data.list);
@@ -158,12 +167,12 @@
 				return list;
 			},
 			addNew() {
-				this.editRow=null;
-				this.$refs.edit.changeVisible(true);
+				// this.editRow=null;
+				this.$refs.edit.changeVisible(null, true);
 			},
 			modify(row) {
-				this.editRow=row;
-				this.$refs.edit.changeVisible(true);
+				// this.editRow=row;
+				this.$refs.edit.changeVisible(null, true);
 			},
 			viewDetail(row) {
 				this.detailRow=row;
@@ -194,6 +203,10 @@
 			},
 			handleCurrentChange(val) {
 				console.log(`当前页: ${val}`);
+			},
+			checkDetail(row){
+				this.$emit("hideDraft");
+				this.$emit("getDetail",row['id']);
 			}
 		},
 	};
