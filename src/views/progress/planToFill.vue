@@ -173,7 +173,7 @@ export default {
     text-indent: 2em;
     line-height: 50px;
     height: 50px;
-    background-color: #1e374b;
+    //background-color: #1e374b;
   }
   .bim-form-panel {
     .el-form-item {

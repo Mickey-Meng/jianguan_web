@@ -172,9 +172,12 @@ export default {
 <style scoped lang="scss">
 .wrapper {
   height: 100%;
-  padding: 10px;
+  padding: 2px 5px 5px 5px;
+  //padding: 5px;
+  //background-color: #FFFFFF;
   .header {
     height: 70px;
+    background-color: #FFFFFF;
     display: flex;
     .tabularDrawing-box {
       margin-left: 10px;
@@ -230,7 +233,7 @@ export default {
 
   .content {
     margin-top: 5px;
-    height: calc(100% - 60px);
+    height: calc(100% - 75px);
   }
 }
 .other {
