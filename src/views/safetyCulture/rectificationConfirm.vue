@@ -12,7 +12,7 @@
     <el-table
       :data="tableData"
       style="width: 100%"
-      class="bim-table"
+      class=""
       key="check"
       height="90%"
       border
@@ -208,7 +208,10 @@ export default {
     text-indent: 2em;
     line-height: 50px;
     height: 50px;
-    background-color: #1e374b;
+    font-size: 16px;
+    font-family: PingFang SC;
+    font-weight: 500;
+    color: #4B5973;
   }
 }
 </style>

@@ -162,6 +162,6 @@
   bottom: 0;
   font-size: 14px;
   color: #88a2c5;
-  z-index: 1000;
+  z-index: 100000;
 }
 </style>

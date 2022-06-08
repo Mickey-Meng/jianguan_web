@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="content">
-      <div class="allbg custom-scrollbar">
+      <div class="golbal_scrolling tree_wrapper_box">
         <el-tree
           ref="tree"
           :data="treeData"
@@ -727,79 +727,45 @@ export default {
 <style scoped lang="scss">
 .wrapper {
   height: 100%;
-  padding: 16px;
-  // background-color: #EDEFF8;
+  padding: 2px 5px 10px 5px;
 
   .content {
     height: 100%;
-    margin-top: 10px;
-    // background-color: #FFFFFF;
     display: flex;
-
-    .allbg {
-      width: 15%;
-      height: 99%;
-      margin-right: 20px;
-      overflow: auto;
-      ::v-deep .el-tree {
-        background-color: transparent;
-      }
+    .tree_wrapper_box{
+      width: 300px;
     }
-
     .table-content {
-      padding: 20px;
-      background-image: url(../../assets/image/边框-大.png);
+      background-color: #FFFFFF;
       background-repeat: no-repeat;
       background-size: 100% 100%;
-      width: 85%;
+      width: calc(100% - 305px);
+      margin-left: 5px;
       overflow: auto;
+      font-size: 14px;
+      font-family: PingFang SC;
+      font-weight: 500;
+      color: #4B5973;
       .header {
         display: flex;
         align-items: center;
         height: 50px;
-        // line-height: 70px;
-        color: #fff;
-        // background-color: #FFFFFF;
 
-        ul {
-          display: flex;
-          align-items: center;
-          margin-right: 10px;
-          font-size: 14px;
-          li {
-            height: 28px;
-            line-height: 28px;
-            text-align: center;
-            width: 84px;
-            border: none;
-            cursor: pointer;
-            background-image: url(../../assets/image/tab.png);
-            background-repeat: no-repeat;
-            background-size: 100% 100%;
-            margin-right: 16px;
-          }
-
-          .active {
-            color: #ffffff;
-            background-image: url(../../assets/image/tab-bg.png);
-          }
-        }
 
         ::v-deep .el-select {
           width: 240px;
           height: 28px;
           line-height: 28px;
           margin: 0 10px;
-          background-image: url(../../assets/image/日期选择.png);
-          background-repeat: no-repeat;
-          background-size: 100% 100%;
-          border: none;
+          background-color: rgba(128, 142, 169, .14);
           .el-input__inner {
             background-color: transparent;
             border: none;
             height: 28px;
             line-height: 28px;
-            color: #ffffff;
+            font-family: PingFang SC;
+            font-weight: 500;
+            color: #2D405E;
           }
           .el-input__suffix {
             .el-input__icon {
@@ -812,15 +778,17 @@ export default {
           height: 28px;
           line-height: 28px;
           margin-right: 10px;
-          color: #ffffff;
           text-align: center;
+          font-family: PingFang SC;
+          font-weight: 500;
+          color: #2D405E;
           .el-range-separator {
-            color: #eaeefb;
+            color: #2D405E;
             line-height: 28px;
             height: 28px;
           }
           .el-range-input {
-            color: #ffffff;
+            color: #2D405E;
           }
           .el-range__icon {
             height: 28px;
@@ -828,10 +796,8 @@ export default {
           }
         }
         ::v-deep .el-input__inner {
-          background-image: url(../../assets/image/日期选择.png);
-          background-color: transparent;
-          background-repeat: no-repeat;
-          background-size: 100% 100%;
+          //background-image: url(../../assets/image/日期选择.png);
+          background-color: rgba(128, 142, 169, .14);
           border: none;
           height: 28px;
           input {
@@ -892,26 +858,54 @@ export default {
     }
   }
 }
-::v-deep.tree-box {
-  color: #ffffff !important;
-  background-color: transparent;
+
+::v-deep .tree-box {
+  height: 100%;
+  background-color: #FFFFFF;
+  font-size: 18px;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #4B5973;
+
   .el-tree-node {
     .el-tree-node__content {
-      background-color: #060c26;
+      //background-color: #060c26;
+
       &:hover {
-        background-color: #1e374b !important;
-      }
-      .custom-tree-node {
-        .svg-icon {
-          margin-right: 5px;
-        }
+        //border: 1px solid #1e374b;
+        //background-color: #1e374b;
       }
     }
   }
+
   .is-current {
+    //当前选中的节点
     > .el-tree-node__content {
-      border: 1px solid #2d519b;
-      background-color: #2d519b;
+    }
+  }
+
+  .custom-tree-node {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    font-family: PingFang SC;
+    font-weight: 500;
+    color: #4B5973;
+    padding-right: 8px;
+    overflow: auto;
+    .svg-class {
+      margin-right: 5px;
+    }
+
+    .tree_btn {
+      font-size: 12px;
+      color: #3995fb;
+
+      + .el-button {
+        margin-left: 10px;
+      }
     }
   }
 }

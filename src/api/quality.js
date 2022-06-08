@@ -726,6 +726,17 @@ export const getQualityDetectionList = data => {
 	});
 };
 /**
+ * 导出质量检测记录数据
+ */
+export const exportQualityDetectionList = data => {
+	return request({
+		url: api.exportQualityDetection,
+		method: "post",
+		data: data,
+		"responseType": 'blob'
+	});
+};
+/**
  * 获取材料枚举
  */
 export const getMaterialEnums = () => {
@@ -773,6 +784,17 @@ export const getHiddenProjectList = data => {
 		url: api.getHiddenProjectList,
 		method: "post",
 		data: data
+	});
+};
+/**
+ * 导出隐蔽工程验收记录数据
+ */
+export const exportHiddenProjectList = data => {
+	return request({
+		url: api.exportHiddenProject,
+		method: "post",
+		data: data,
+		"responseType": 'blob'
 	});
 };
 //-----------------------流程引擎新增接口 ------------------------

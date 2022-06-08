@@ -87,7 +87,7 @@
 					const _data = [];
 					for (let i = 0; i < res.data.length; i++) {
 						const item = res.data[i];
-						item.comment = item.comment || "发起"; // 默认显示为发起
+						item.comment = item.comment === undefined ? "发起" : item.comment; // 默认显示为发起
 						getUserInfo(item.createUserId).then(res1 => {
 							item.createUsernameStr = res1.data.userInfo.NAME;
 							_data.push(JSON.parse(JSON.stringify(item)));

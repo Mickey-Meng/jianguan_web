@@ -41,7 +41,8 @@ export default {
   height: 100%;
 }
 .safe_overview_wrapper {
-  background-color: #0f0d22;
+  padding: 5px;
+  //background-color: #0f0d22;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -52,14 +53,13 @@ export default {
     flex: 1;
   }
   .safe_overview_wrapper_top {
-    margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
     .safe_statistics {
-      width: 62%;
+      width: 1020px;
     }
     .event_statistics {
-      width: 37.5%;
+      width: calc(100% - 1025px);
     }
   }
 }

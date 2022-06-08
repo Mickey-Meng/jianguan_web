@@ -8,26 +8,34 @@
 -->
 <template>
   <div class="keep_watch">
-    <div class="watch_table allbg">
-      <div class="watch_table_header">
-        <div class="header_g">
-          <div class="title_item"></div>
-          <div class="title_text">质量检查一览</div>
+    <div class="watch_table">
+      <div class="new_ui_header">
+        <div class="left">
+          <div class="header_line"></div>
+          <div class="header_text">安全检查一览</div>
         </div>
-        <el-date-picker
-          v-model="month"
-          type="month"
-          :clearable="false"
-          value-format="yyyy-MM"
-          placeholder="选择月"
-          @change="monthChange"
-        >
-        </el-date-picker>
+        <div class="right">
+          <div class="legend">
+            <img src="../../../../assets/newUi/normal.png" alt="">
+            <span>正常</span>
+            <img src="../../../../assets/newUi/abnormal.png" alt="">
+            <span>异常</span>
+          </div>
+          <el-date-picker
+            v-model="month"
+            type="month"
+            :clearable="false"
+            value-format="yyyy-MM"
+            placeholder="选择月"
+            @change="monthChange"
+          >
+          </el-date-picker>
+        </div>
       </div>
       <div class="main">
         <el-table
           :data="tableData"
-          class="watch_table"
+          class="watch_table_w"
           height="100%"
           border
           style="width: 100%"
@@ -58,16 +66,18 @@
         </el-table>
       </div>
     </div>
-    <div class="watch_detail allbg">
-      <div class="header_g">
-        <div class="title_item"></div>
-        <div class="title_text">{{ currentDay }} 质量检查明细</div>
+    <div class="watch_detail">
+      <div class="new_ui_header">
+        <div class="left">
+          <div class="header_line"></div>
+          <div class="header_text">{{ currentDay }} 质量检查明细</div>
+        </div>
       </div>
       <div class="main">
         <el-table
           :data="detailData"
           height="100%"
-          class="watch_table"
+          class="watch_table_W"
           border
           style="width: 100%"
         >
@@ -241,15 +251,13 @@ export default {
 .keep_watch {
   height: 100%;
   display: flex;
+  margin-top: 2px;
   justify-content: space-between;
   pointer-events: auto;
   .watch_table {
-    width: 62%;
-    .watch_table_header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+    width: 1020px;
+    background-color:#FFFFFF;
+    border-radius: 15px;
     ::v-deep.el-table {
       font-size: 12px;
       th {
@@ -261,7 +269,9 @@ export default {
     }
   }
   .watch_detail {
-    width: 37.5%;
+    width: calc(100% - 1025px);
+    background-color:#FFFFFF;
+    border-radius:15px;
     ::v-deep.el-table {
       font-size: 14px;
       th {
@@ -277,62 +287,102 @@ export default {
     height: calc(100% - 45px);
   }
 }
-::v-deep .el-date-editor {
-  margin-right: 25px;
-
-  .el-input__inner {
-    height: 30px !important;
-    line-height: 30px;
-    border: none;
-    color: #ffffff;
-    // background-color: #060C26 !important;
-    background-image: url(../../../../assets/image/日期选择.png);
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-  }
-  input {
-    background: transparent;
-  }
-  .el-input__prefix {
-    .el-input__icon {
-      line-height: 30px;
-    }
-  }
-  .el-input__suffix {
-    .el-input__icon {
-      line-height: 30px;
-    }
-  }
-}
 ::v-deep.watch_table {
-  background-color: rgba(15, 15, 46, 1);
-  .el-table__header-wrapper {
-    .el-table__header {
-      th {
-        background-color: rgba(15, 15, 46, 1) !important;
-        color: rgba(124, 239, 246, 1);
-      }
-    }
-  }
+  //background-color: rgba(15, 15, 46, 1);
   .cell {
     padding: 0;
     .no-thing {
       margin: 0 auto;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background-color: #54f6f6;
+      width: 14px;
+      height: 14px;
+      background: url("../../../../assets/newUi/normal.png") no-repeat;
       cursor: pointer;
     }
     .have-thing {
       margin: 0 auto;
       cursor: pointer;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background-color: #ffffff;
-      border: 2px solid red;
+      width: 14px;
+      height: 14px;
+      background: url("../../../../assets/newUi/abnormal.png") no-repeat;
     }
   }
+}
+
+.new_ui_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 35px;
+  margin-left: 20px;
+
+  .left {
+    display: flex;
+    align-items: center;
+
+    .header_line {
+      width: 4px;
+      height: 16px;
+      background-color: #1E6EEB;
+      margin-right: 8px;
+      border-radius: 3px;
+    }
+
+    .header_text {
+      color: #2D405E;
+      font-size: 18px;
+      font-weight: bold;
+      font-family: PingFang SC;
+    }
+  }
+
+  .right {
+    display: flex;
+
+    .legend {
+      display: flex;
+      align-items: center;
+
+      span {
+        margin: 0 10px;
+        font-size: 14px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: #2D405E;
+      }
+    }
+
+    ::v-deep .el-date-editor {
+      margin-right: 25px;
+
+      .el-input__inner {
+        height: 28px !important;
+        line-height: 28px;
+        border: none;
+        font-size: 14px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: #808EA9;
+        background-color: rgba(128, 142, 169, .14);
+      }
+
+      input {
+        background: transparent;
+      }
+
+      .el-input__prefix {
+        .el-input__icon {
+          line-height: 28px;
+        }
+      }
+
+      .el-input__suffix {
+        .el-input__icon {
+          line-height: 28px;
+        }
+      }
+    }
+  }
+
+
 }
 </style>
