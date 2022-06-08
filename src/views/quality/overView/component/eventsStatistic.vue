@@ -7,18 +7,20 @@
  * @LastEditTime: 2022-05-06 11:04:09
 -->
 <template>
-  <div class="allbg event_statistics">
-    <div class="header">
-      <div class="title">
-        <div class="titleitem"></div>
-        <div class="title-text">事件统计</div>
+  <div class="event_statistics">
+    <div class="new_ui_header">
+      <div class="left">
+        <div class="header_line"></div>
+        <div class="header_text">事件统计</div>
       </div>
       <div class="check_box">
         <el-radio v-model="radio" label="1" @change="changeSelect"
-          >近一个月</el-radio
+        >近一个月
+        </el-radio
         >
         <el-radio v-model="radio" label="3" @change="changeSelect"
-          >近三个月</el-radio
+        >近三个月
+        </el-radio
         >
       </div>
     </div>
@@ -47,13 +49,14 @@ export default {
         },
         legend: {
           textStyle: {
-            color: "#ffffff",
+            color: "#2D405E",
           },
         },
         grid: {
           left: "3%",
           right: "4%",
           bottom: "3%",
+          top: "22%",
           containLabel: true,
         },
         xAxis: {
@@ -61,7 +64,7 @@ export default {
           axisLabel: {
             show: true,
             textStyle: {
-              color: "#fff",
+              color: "#2D405E",
             },
           },
           axisTick: {
@@ -82,7 +85,7 @@ export default {
           axisLabel: {
             show: true,
             textStyle: {
-              color: "#fff",
+              color: "#2D405E",
             },
           },
           axisTick: {
@@ -182,38 +185,53 @@ export default {
 </script>
 <style lang='scss' scoped>
 .event_statistics {
-  .header {
-    height: 40px;
+  height: calc(100% - 3px);
+  background-color: #FFFFFF;
+  border-radius: 15px;
+  .new_ui_header {
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    .title {
+    padding: 10px 0px 5px 20px;
+
+    .left {
       display: flex;
       align-items: center;
-      height: 40px;
-      .titleitem {
-        width: 2px;
-        height: 15px;
-        background: #4f71ff;
-        margin-left: 16px;
-        margin-right: 12px;
+
+      .header_line {
+        width: 4px;
+        height: 16px;
+        background-color: #1E6EEB;
+        margin-right: 8px;
+        border-radius: 3px;
       }
-      .title-text {
-        font-size: 16px;
-        font-family: PingFangSC;
-        font-weight: 600;
-        color: #ffffff;
+
+      .header_text {
+        color: #2D405E;
+        font-size: 18px;
+        font-weight: bold;
+        font-family: PingFang SC;
       }
     }
+
     .check_box {
       padding-right: 20px;
       display: flex;
       align-items: center;
+
       ::v-deep.el-radio {
         .el-radio__label {
-          color: #ffffff;
+          color: #85858F;
+        }
+      }
+      ::v-deep.el-radio.is-checked{
+        .el-radio__label {
+          color: #2D405E;
         }
       }
     }
+
+
   }
   .event_content {
     height: calc(100% - 40px);

@@ -8,20 +8,6 @@
 -->
 <template>
   <div class="event_statistics">
-<!--    <div class="header">-->
-<!--      <div class="title">-->
-<!--        <div class="titleitem"></div>-->
-<!--        <div class="title-text">事件统计</div>-->
-<!--      </div>-->
-<!--      <div class="check_box">-->
-<!--        <el-radio v-model="radio" label="1" @change="changeSelect"-->
-<!--          >近一个月</el-radio-->
-<!--        >-->
-<!--        <el-radio v-model="radio" label="3" @change="changeSelect"-->
-<!--          >近三个月</el-radio-->
-<!--        >-->
-<!--      </div>-->
-<!--    </div>-->
     <div class="new_ui_header">
       <div class="left">
         <div class="header_line"></div>
@@ -37,11 +23,7 @@
         </el-radio
         >
       </div>
-
-
     </div>
-
-
     <div class="event_content">
       <v-chart :options="option" ref="schart" autoresize class="v-chart-box" />
     </div>
@@ -67,21 +49,22 @@ export default {
         },
         legend: {
           textStyle: {
-            color: "#ffffff",
+            color: "#2D405E"
           },
         },
         grid: {
           left: "3%",
           right: "4%",
+          top: "22%",
           bottom: "3%",
-          containLabel: true,
+          containLabel: true
         },
         xAxis: {
           type: "value",
           axisLabel: {
             show: true,
             textStyle: {
-              color: "#fff",
+              color: "#2D405E"
             },
           },
           axisTick: {
@@ -102,7 +85,7 @@ export default {
           axisLabel: {
             show: true,
             textStyle: {
-              color: "#fff",
+              color: "#2D405E"
             },
           },
           axisTick: {

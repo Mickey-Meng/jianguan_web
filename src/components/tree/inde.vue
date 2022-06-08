@@ -398,7 +398,10 @@ export default {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        font-size: 12px;
+        font-size: 14px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: #4B5973;
         padding-right: 8px;
         overflow: auto;
         .svg-class {

@@ -201,40 +201,41 @@ export default {
 
 <style scoped lang="scss">
 .wrapper {
+  padding: 5px;
+  background-color: #EAF0F9;
   height: 100%;
   display: flex;
-  padding: 0 !important;
   flex-direction: column;
-  color: #000000;
+  //color: #000000;
 
-  ::v-deep .el-date-editor {
-    width: 150px;
-
-    .el-input__inner {
-      border-color: black;
-      height: 30px;
-      width: 150px;
-      line-height: 30px;
-    }
-
-    .el-input__prefix {
-      .el-input__icon {
-        line-height: 30px;
-      }
-    }
-
-    .el-input__suffix {
-      .el-input__icon {
-        line-height: 30px;
-      }
-    }
-  }
-
-  .el-button {
-    background-color: rgb(51, 133, 255);
-    color: #ffffff;
-    padding: 8px 30px;
-  }
+  //::v-deep .el-date-editor {
+  //  width: 150px;
+  //
+  //  .el-input__inner {
+  //    border-color: black;
+  //    height: 30px;
+  //    width: 150px;
+  //    line-height: 30px;
+  //  }
+  //
+  //  .el-input__prefix {
+  //    .el-input__icon {
+  //      line-height: 30px;
+  //    }
+  //  }
+  //
+  //  .el-input__suffix {
+  //    .el-input__icon {
+  //      line-height: 30px;
+  //    }
+  //  }
+  //}
+  //
+  //.el-button {
+  //  background-color: rgb(51, 133, 255);
+  //  color: #ffffff;
+  //  padding: 8px 30px;
+  //}
 
   .header {
     height: 50px;

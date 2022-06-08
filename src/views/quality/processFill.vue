@@ -23,7 +23,7 @@
           <el-table
             :data="tableData"
             style="width: 100%"
-            class="bim-table"
+            class=""
             key="check"
             height="100%"
             v-if="currentView === 'fill'"
@@ -84,11 +84,11 @@
         <!-- <el-button type="primary" size="small">删除工序</el-button> -->
       </div>
       <div v-if="currentView === 'record'" class="record">
-        <el-cascader v-model="value" :options="options"></el-cascader>
+<!--        <el-cascader v-model="value" :options="options"></el-cascader>-->
         <el-table
           :data="recordsData"
           style="width: 100%"
-          class="bim-table have_scrolling"
+          class="small_scrolling"
           key="check"
           v-if="currentView === 'record'"
           height="95%"
@@ -802,60 +802,64 @@ export default {
 <style scoped lang="scss">
 .wrapper {
   .header {
-    background-color: #1e374b;
+    //background-color: #1e374b;
     height: 50px;
     line-height: 50px;
     text-indent: 2em;
+    border-bottom: 1px solid #E8E8E8;
 
     span {
-      color: #f9b633;
+      color: #1E6EEB;
     }
   }
 
   .nav {
     display: flex;
-    border-bottom: 1px solid #a1c2dc;
-
+    padding: 20px;
     > div {
-      flex: 1;
-      height: 50px;
-      line-height: 50px;
-      text-align: center;
+      padding: 7px 25px;
       cursor: pointer;
+      margin-right: 20px;
+      background: url("../../assets/newUi/check_bg.png") no-repeat;
+      background-size: 100% 100%;
+      font-size: 14px;
+      font-family: PingFang SC;
+      font-weight: 500;
+      color: #808EA9;
     }
 
     .active {
-      background-color: #1e374b;
-      color: #f9b633;
-      border-top: 1px solid #f9b633;
+      background: url("../../assets/newUi/check_active_bg.png") no-repeat;
+      color: #1E6EEB;
     }
   }
   .main {
-    height: calc(100% - 100px);
+    height: calc(100% - 120px);
     .record {
-      height: 95%;
+      height: 100%;
     }
     .fill {
-      height: 95%;
+      height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
       > div {
         width: 100%;
-        height: 85%;
+        height: 95%;
       }
     }
-    ::v-deep .el-cascader {
-      width: 100%;
-
-      .el-input {
-        .el-input__inner {
-          background-color: transparent;
-          border: none;
-        }
-      }
-    }
+    //::v-deep .el-cascader {
+    //  width: 100%;
+    //  padding: 0 20px;
+    //
+    //  .el-input {
+    //    .el-input__inner {
+    //      background-color: transparent;
+    //      //border: none;
+    //    }
+    //  }
+    //}
   }
 }
 

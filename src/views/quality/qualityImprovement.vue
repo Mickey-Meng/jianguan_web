@@ -12,9 +12,9 @@
     <el-table
       :data="tableData"
       style="width: 100%"
-      class="bim-table smll_scrolling"
+      class=" small_scrolling"
       key="check"
-      height="85%"
+      height="90%"
       border
     >
       <el-table-column label="质量照片" align="center" width="80px">
@@ -337,7 +337,6 @@ export default {
     text-indent: 2em;
     line-height: 50px;
     height: 50px;
-    background-color: #1e374b;
   }
 }
 </style>

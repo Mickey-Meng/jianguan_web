@@ -4,7 +4,7 @@
     <el-table
       :data="tableData"
       style="width: 100%"
-      class="bim-table smll_scrolling"
+      class="small_scrolling"
       ref="table_data"
       key="check"
       height="90%"
@@ -327,7 +327,7 @@ export default {
     text-indent: 2em;
     line-height: 50px;
     height: 50px;
-    background-color: #1e374b;
+    //background-color: #1e374b;
   }
 }
 </style>

@@ -2,7 +2,7 @@
   <el-container class="container-box">
     <el-header>
       <div class="title">质量记录</div>
-      <el-select v-model="typeKey" @change="changeValue">
+      <el-select v-model="typeKey" @change="changeValue"  style="width: 300px">
         <el-option
           v-for="item in typeArr"
           :key="item.projectid"
@@ -159,11 +159,12 @@
               <span v-else>无照片</span>
             </template>
           </el-table-column> -->
-          <el-table-column align="center" label="操作">
+          <el-table-column align="center" label="操作" width="150">
             <template slot-scope="{ row, $index }">
               <el-button
                 type="primary"
                 size="mini"
+                class="primary_mini"
                 @click="seeDetail(row, $index)"
                 >详情</el-button
               >
@@ -500,19 +501,24 @@ export default {
 <style scoped lang="scss">
 .container-box {
   background-color: #ebecee;
-  padding: 0 20px;
+  padding: 0 5px 20px 5px;
   .el-header {
     background-color: #ffffff;
     display: flex;
     align-items: center;
     .title {
-      height: 50px;
-      width: 150px;
+      width: 106px;
+      height: 44px;
       text-align: center;
-      line-height: 50px;
-      background-color: #387afd;
+      line-height: 44px;
+      background-color: #1E6EEB;
+      border-radius: 6px;
       cursor: pointer;
       margin-right: 20px;
+      font-size: 14px;
+      font-family: PingFang SC;
+      font-weight: 500;
+      color: #FFFFFF;
     }
   }
   .el-main {

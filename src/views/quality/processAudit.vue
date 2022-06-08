@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <div class="header">待审核工序列表</div>
+<!--    <div class="header">待审核工序列表</div>-->
     <div class="nav">
       <div
         :class="{ active: currentView === 'check' }"
@@ -15,35 +15,35 @@
         审核记录
       </div>
     </div>
-    <div class="select-search">
-      <el-cascader v-model="value" :options="options"></el-cascader>
-    </div>
-    <div class="date-s" v-if="currentView === 'record'">
-      <div class="label">完工日期</div>
-      <el-date-picker
-        v-model="timeValue"
-        type="date"
-        placeholder="选择日期"
-        value-format="yyyy-MM-dd"
-      >
-      </el-date-picker>
-    </div>
-    <div class="input-search">
-      <el-input
-        placeholder="请输入构件编码"
-        v-model="inputValue"
-        class="input-with-select"
-      >
-        <el-button slot="append" icon="el-icon-search">搜索</el-button>
-      </el-input>
-    </div>
+<!--    <div class="select-search">-->
+<!--      <el-cascader v-model="value" :options="options"></el-cascader>-->
+<!--    </div>-->
+<!--    <div class="date-s" v-if="currentView === 'record'">-->
+<!--      <div class="label">完工日期</div>-->
+<!--      <el-date-picker-->
+<!--        v-model="timeValue"-->
+<!--        type="date"-->
+<!--        placeholder="选择日期"-->
+<!--        value-format="yyyy-MM-dd"-->
+<!--      >-->
+<!--      </el-date-picker>-->
+<!--    </div>-->
+<!--    <div class="input-search">-->
+<!--      <el-input-->
+<!--        placeholder="请输入构件编码"-->
+<!--        v-model="inputValue"-->
+<!--        class="input-with-select"-->
+<!--      >-->
+<!--        <el-button slot="append" icon="el-icon-search">搜索</el-button>-->
+<!--      </el-input>-->
+<!--    </div>-->
     <div class="main" v-show="currentView === 'check'">
       <el-table
         :data="tableData"
         style="width: 100%"
-        class="bim-table have_scrolling"
+        class="small_scrolling"
         key="check"
-        height="90%"
+        height="100%"
         border
       >
         <!-- <el-table-column prop="conponentcode" label="构件编码" align="center">
@@ -93,7 +93,7 @@
       <el-table
         :data="recordsData"
         style="width: 100%"
-        class="bim-table have_scrolling"
+        class="small_scrolling"
         key="record"
         height="100%"
         border
@@ -647,103 +647,102 @@ export default {
 <style scoped lang="scss">
 .wrapper {
   .main {
-    height: calc(100% - 185px);
+    height: calc(100% - 90px);
   }
   .main-box-table {
-    height: calc(100% - 225px);
+    height: calc(100% - 90px);
   }
-  .header {
-    background-color: #1e374b;
-    height: 50px;
-    line-height: 50px;
-    text-indent: 2em;
-  }
+  //.header {
+  //  background-color: #1e374b;
+  //  height: 50px;
+  //  line-height: 50px;
+  //  text-indent: 2em;
+  //}
 
   .nav {
     display: flex;
-    border-bottom: 1px solid #a1c2dc;
-
+    padding: 20px;
     > div {
-      flex: 1;
-      height: 50px;
-      line-height: 50px;
-      text-align: center;
+      padding: 7px 25px;
       cursor: pointer;
+      margin-right: 20px;
+      background: url("../../assets/newUi/check_bg.png") no-repeat;
+      background-size: 100% 100%;
+      font-size: 14px;
+      font-family: PingFang SC;
+      font-weight: 500;
+      color: #808EA9;
     }
 
     .active {
-      background-color: #1e374b;
-      color: #f9b633;
-      border-top: 1px solid #f9b633;
+      background: url("../../assets/newUi/check_active_bg.png") no-repeat;
+      color: #1E6EEB;
     }
   }
-  .date-s {
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid #203c56;
-    height: 40px !important;
-    line-height: 40px;
+  //.date-s {
+  //  display: flex;
+  //  align-items: center;
+  //  border-bottom: 1px solid #203c56;
+  //  height: 40px !important;
+  //  line-height: 40px;
+  //
+  //  .label {
+  //    padding: 0 20px 0 15px;
+  //    font-size: 14px;
+  //    border-right: 1px solid #203c56;
+  //  }
+  //  ::v-deep .el-date-editor {
+  //    margin-left: 15px;
+  //
+  //    .el-input__inner {
+  //      height: 30px !important;
+  //      line-height: 30px;
+  //    }
+  //    .el-input__prefix {
+  //      .el-input__icon {
+  //        line-height: 30px;
+  //      }
+  //    }
+  //    .el-input__suffix {
+  //      .el-input__icon {
+  //        line-height: 30px;
+  //      }
+  //    }
+  //  }
+  //}
 
-    .label {
-      padding: 0 20px 0 15px;
-      font-size: 14px;
-      border-right: 1px solid #203c56;
-    }
-    ::v-deep .el-date-editor {
-      margin-left: 15px;
+  //.select-search {
+  //  border-bottom: 1px solid #203c56;
+  //
+  //  ::v-deep .el-cascader {
+  //    width: 100%;
+  //
+  //    .el-input {
+  //      .el-input__inner {
+  //        background-color: transparent;
+  //        border: none;
+  //      }
+  //    }
+  //  }
+  //}
 
-      .el-input__inner {
-        height: 30px !important;
-        line-height: 30px;
-        //border: 1px solid rgb(56, 122, 253);
-        //color: #FFFFFF;
-        //background-color: #060C26 !important;
-      }
-      .el-input__prefix {
-        .el-input__icon {
-          line-height: 30px;
-        }
-      }
-      .el-input__suffix {
-        .el-input__icon {
-          line-height: 30px;
-        }
-      }
-    }
-  }
-
-  .select-search {
-    border-bottom: 1px solid #203c56;
-
-    ::v-deep .el-cascader {
-      width: 100%;
-
-      .el-input {
-        .el-input__inner {
-          background-color: transparent;
-          border: none;
-        }
-      }
-    }
-  }
-
-  .input-search {
-    border-bottom: 1px solid #203c56;
-
-    ::v-deep .input-with-select {
-      .el-input__inner {
-        background-color: transparent;
-        border: none;
-      }
-
-      .el-input-group__append {
-        background-color: transparent;
-        border: none;
-        color: #ffffff;
-        border-left: 1px solid #203c56;
-      }
-    }
-  }
+  //.input-search {
+  //  border-bottom: 1px solid #203c56;
+  //
+  //  ::v-deep .input-with-select {
+  //    .el-input__inner {
+  //      background-color: transparent;
+  //      border: none;
+  //    }
+  //
+  //    .el-input-group__append {
+  //      background-color: transparent;
+  //      border: none;
+  //      color: #ffffff;
+  //      border-left: 1px solid #203c56;
+  //    }
+  //  }
+  //}
   .footer {
     height: 30px;
   }

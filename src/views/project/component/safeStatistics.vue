@@ -11,7 +11,7 @@
     <div class="new_ui_header">
       <div class="left">
         <div class="header_line"></div>
-        <div class="header_text">安全文明</div>
+        <div class="header_text">安全总览</div>
       </div>
       <div class="check_box">
         <el-radio v-model="radio" label="1" @change="changeSelect"
@@ -132,7 +132,7 @@ export default {
             {
               name: "",
               type: "pie",
-              radius: ["58%", "76%"],
+              radius: ["62%", "76%"],
               itemStyle: {
                 normal: {
                   label: {
