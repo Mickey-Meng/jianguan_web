@@ -644,6 +644,16 @@ export const listFlowTaskComment = (params) => {
 	});
 };
 /**
+ * getFlowAndTaskInfo
+ */
+export const getFlowAndTaskInfo = (params) => {
+	return request({
+		url: api.getFlowAndTaskInfo,
+		method: "get",
+		params: params
+	});
+};
+/**
  * viewTaskUserInfo
  */
 export const viewTaskUserInfo = (params) => {

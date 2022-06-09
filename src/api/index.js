@@ -232,6 +232,8 @@ const api = {
   viewProcessBpmn:'/ZhuJiApi/admin/flow/flowOperation/viewProcessBpmn',//获取流程图bpmn
   listFlowTaskComment:'/ZhuJiApi/admin/flow/flowOperation/listFlowTaskComment',//获取当前流程任务的审批列表
 
+  getFlowAndTaskInfo:'/ZhuJiApi/admin/flow/flowStaticPage/getFlowAndTaskInfo',//根据流程idH获取三个key 用于查看审批信息
+
   //省市区
   getDistrict:'/ZhuJiApi/web/api/v1/proviceCityArea/getDistrict',//区县
   getCity:'/ZhuJiApi/web/api/v1/proviceCityArea/getCity',//地市
