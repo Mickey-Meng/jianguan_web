@@ -16,37 +16,9 @@
 			</div>
 			<div class="input-box">
 				<div class="input-value">
-					<el-input v-model="queryData.name" placeholder="材料名称"></el-input>
+					<el-input v-model="queryData.place" placeholder="地点或桩号"></el-input>
 				</div>
 			</div>
-			<div class="input-box">
-				<div class="input-value">
-					<el-input v-model="queryData.specification" placeholder="材料规格"></el-input>
-				</div>
-			</div>
-			<div class="input-box">
-				<div class="input-value">
-					<el-select v-model="queryData.detectionResult" placeholder="检测结果">
-						<el-option v-for="item in examineResultOptions" :key="item.value" :label="item.label"
-							:value="item.value">
-						</el-option>
-					</el-select>
-				</div>
-			</div>
-			<div class="input-box">
-				<div class="input-value">
-					<el-date-picker v-model="queryData.createStartTime" type="date" placeholder="开始日期">
-					</el-date-picker>
-				</div>
-			</div>
-			<div class="input-box">
-				<div class="input-value">
-					<el-date-picker v-model="queryData.createEndTime" type="date" placeholder="结束日期">
-					</el-date-picker>
-				</div>
-			</div>
-
-
 			<el-button type="primary" @click="query">搜索</el-button>
 			<div v-if="!isDraft" class="right-btns">
 				<div class="operate-btns" v-show="operateBtnsVisible">

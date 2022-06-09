@@ -187,6 +187,7 @@
 	import {
 		convertOptions,
 		getQueryVariable,
+		formatDate,
 		getDaysBetween
 	} from "@/utils/format.js";
 	import tasklog from "../../../common/tasklog.vue"
@@ -273,7 +274,7 @@
 				this.dialogFormVisible=value;
 			},
 			getDetail(id){
-				api.getProjectOpenDeatil({id:id}).then((res) => {
+				api.getProjectOpenDeatil(id).then((res) => {
 					let data=res['data']||{};
 					this.formData=data;
 					this.attachTable=data.otherAttachment||[];

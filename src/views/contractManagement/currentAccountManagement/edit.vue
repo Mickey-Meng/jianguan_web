@@ -118,6 +118,8 @@
 											<div class="block-item-value">
 												<el-form-item prop="qualityCheckUser">
 													<el-select placeholder="请选择"
+														:disabled="userOptions['isSign']?true:false"
+														:multiple="userOptions['isSign']?true:false"
 														v-model="auditUser[userOptions.entryUserVariable]"
 														@change="flowUserChange($event, userOptions.entryUserVariable)">
 														<el-option v-for="(item, idx) in userOptions.userName"

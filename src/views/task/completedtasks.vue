@@ -115,6 +115,7 @@
 			},
 			gotoHandle(row){
 				row['formKey']=(typeof row['formKey'])=='string'?JSON.parse(row['formKey']):row['formKey'];
+				console.log(this.routes)
 				this.routes.forEach(parent=>{
 					parent['children'].forEach(child=>{
 						if(child['meta']['code']==row['formKey']['routerName']){
