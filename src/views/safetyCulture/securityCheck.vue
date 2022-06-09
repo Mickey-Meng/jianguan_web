@@ -100,11 +100,11 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="项目" prop="projectid">
+        <el-form-item label="单位工程" prop="singleProjectId">
           <el-select
-            v-model="safeForm.projectid"
+            v-model="safeForm.singleProjectId"
             clearable
-            placeholder="请选择项目"
+            placeholder="请选择单位工程"
           >
             <el-option
               v-for="item in projectData"
@@ -231,100 +231,106 @@
 </template>
 
 <script>
-import * as api from "@/api/safe";
-import { getToken } from "@/utils/auth";
-import { mapGetters } from "vuex";
-import { disposeUrl } from "@/utils/validate";
-import {
-  getWorkArea,
-  getAreaByAuthority,
-  getCheckerByAreaId,
-} from "@/api/workArea";
+  import * as api from "@/api/safe";
+  import {getToken} from "@/utils/auth";
+  import {mapGetters} from "vuex";
+  import {disposeUrl} from "@/utils/validate";
+  import {
+    getWorkArea,
+    getAreaByAuthority,
+    getCheckerByAreaId
+  } from "@/api/workArea";
 
-export default {
-  name: "",
-  data() {
-    return {
-      currentView: "check",
-      safeForm: {
-        modifydate: 3,
-      },
-      dialogVisible: false,
-      header: { token: "" }, // 文件上传带token
-      bigSafeData: [], // 安全大类数据
-      smallSafeData: [], // 安全小类数据
-      functionary: [], // 工区责任人
-      areaData: [], //工区数据
-      projectData: [], //工区下的项目数据
-      fileList: [],
-      delayData: [],
-      rowData: {},
-      delayForm: {},
-      rules: {
-        safesecond: [
-          { required: true, message: "请选择问题小类", trigger: "blur" },
-        ],
-        uploadtime: [
-          { required: true, message: "请选择检查日期", trigger: "blur" },
-        ],
-        modifyid: [
-          { required: true, message: "请选择工区负责人", trigger: "blur" },
-        ],
-        projectid: [{ required: true, message: "请选择项目", trigger: "blur" }],
-      },
-      delayRules: {
-        reason: [
-          { required: true, message: "请输入拒绝原因", trigger: "blur" },
-        ],
-      },
-    };
-  },
-  computed: {
-    ...mapGetters(["userInfo", "uploadUrl"]),
-  },
-  created() {
-    this.initData();
-  },
-  methods: {
-    changeView(val) {
-      if (this.currentView !== val) {
-        this.currentView = val;
-        if (val === "postpone") {
-          this.getPostponeData();
+
+  import {getAreaBySectionId, getConstructionWorkersBySectionId} from "@/api/newProject";
+
+  export default {
+    name: "",
+    data() {
+      return {
+        currentView: "check",
+        safeForm: {
+          modifydate: 3
+        },
+        dialogVisible: false,
+        header: {token: ""}, // 文件上传带token
+        bigSafeData: [], // 安全大类数据
+        smallSafeData: [], // 安全小类数据
+        functionary: [], // 工区责任人
+        areaData: [], //工区数据
+        projectData: [], //工区下的项目数据
+        fileList: [],
+        delayData: [],
+        rowData: {},
+        delayForm: {},
+        rules: {
+          safesecond: [
+            {required: true, message: "请选择问题小类", trigger: "blur"}
+          ],
+          uploadtime: [
+            {required: true, message: "请选择检查日期", trigger: "blur"}
+          ],
+          modifyid: [
+            {required: true, message: "请选择工区负责人", trigger: "blur"}
+          ],
+          singleProjectId: [{required: true, message: "请选择项目", trigger: "blur"}]
+        },
+        delayRules: {
+          reason: [
+            {required: true, message: "请输入拒绝原因", trigger: "blur"}
+          ]
         }
-      }
+      };
     },
-    initData() {
-      this.header.token = getToken("zj_token");
-      api.getBigSmallSafeData().then((res) => {
-        this.bigSafeData = res.data;
-      });
-      // api.getcheck().then((res) => {
-      //   this.functionary = res.data;
-      // });
-      getAreaByAuthority().then((res) => {
-        this.areaData = res.data || [];
-      });
+    computed: {
+      ...mapGetters(["userInfo", "uploadUrl", "project"])
     },
+    created() {
+      this.initData();
+    },
+    methods: {
+      changeView(val) {
+        if (this.currentView !== val) {
+          this.currentView = val;
+          if (val === "postpone") {
+            this.getPostponeData();
+          }
+        }
+      },
+      initData() {
+        this.header.token = getToken("zj_token");
+        api.getBigSmallSafeData().then((res) => {
+          this.bigSafeData = res.data;
+        });
+        // api.getcheck().then((res) => {
+        //   this.functionary = res.data;
+        // });
+        //根据标段ID查询工区数据
+        getAreaBySectionId(this.project.id).then((res) => {
+          this.areaData = res.data || [];
+        });
+      },
     changeArea(val) {
       this.projectData = [];
       this.functionary = [];
-      this.$set(this.safeForm, "projectid", null);
+      this.$set(this.safeForm, "singleProjectId", null);
       this.$set(this.safeForm, "modifyid", null);
       getWorkArea(val).then((res) => {
         //获取工区下的项目
         this.projectData = res.data || [];
       });
       //获取工区下的施工
-      getCheckerByAreaId(val).then((res) => {
+      getConstructionWorkersBySectionId(this.project.id, val).then(res => {
         this.functionary = res.data;
       });
     },
+      //获取延期数据
     getPostponeData() {
-      api.getDelaySafeEvent().then((res) => {
+      api.getDelaySafeEvent(this.project.id).then((res) => {
         this.delayData = res.data;
       });
     },
+      //安全大类变化事件，请求小类数据
     bigChange(val) {
       this.$set(this.safeForm, "safesecond", null);
       api.getSmallSafeData(val).then((res) => {
@@ -350,18 +356,19 @@ export default {
           obj.uploadname = this.userInfo.name;
           obj.modifyname = user.name;
           obj.uploadid = this.userInfo.ID;
-          // obj.gongquid = user.gongquid;
           obj.safefirstname = big.name;
           obj.safesecondname = small.name;
+          //大写ID是标段ID 小写是单位工程ID
+          obj.projectId = this.project.id;
           api.submitSafeData(obj).then((res) => {
             this.safeForm = {
-              modifydate: 3,
+              modifydate: 3
             };
             this.fileList = [];
             this.$message({
               message: "上报成功",
               type: "success",
-              customClass: "message_override",
+              customClass: "message_override"
             });
           });
         }

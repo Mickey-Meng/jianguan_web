@@ -159,7 +159,9 @@ export default {
       });
     },
     disposeData() {
-      this.$refs.schart.clear();
+      if (this.$refs.schart) {
+        this.$refs.schart.clear();
+      }
       let series = this.series;
       const init = function (d) {
         if (d.object || d.object.length == 0) {

@@ -218,12 +218,12 @@ export default {
     this.initData();
   },
   computed: {
-    ...mapGetters(["userInfo", "lookUrl", "uploadUrl"]),
+    ...mapGetters(["userInfo", "lookUrl", "uploadUrl","project"]),
   },
   methods: {
     initData() {
       this.header.token = getToken("zj_token");
-      api.getSafeEvent().then((res) => {
+      api.getSafeEvent(this.project.id).then((res) => {
         let { role, data } = res.data;
         if (data && data.length > 0) {
           let arr = data.map((item) => {
