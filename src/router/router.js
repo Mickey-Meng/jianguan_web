@@ -34,64 +34,74 @@ export const constantRoutes = [{
 		name: "handlerFlowTask",
 		component: () => import("@/views/task/handlerFlowTask/index"),
 		children: [{
-      path: "/qualityTest_detail",
-      name: "qualityTest_detail",
-      code: "zhiliangjiance",
-      component: () => import("@/views/quality/newPage/qualityTest/view")
-    }, {
-      path: "/concealedWorksManagement_detail",
-      name: "concealedWorksManagement_detail",
-      code: "yinbigongchengguanli",
-      component: () => import("@/views/quality/newPage/concealedWorksManagement/view")
-    }, {
-      path: "/constructionSubcontract_detail",
-      name: "constructionSubcontract_detail",
-      code: "shigongfenbaohetong",
-      component: () => import("@/views/contractManagement/constructionSubcontract/view")
-    }, {
-      path: "/constructionScheme_detail",
-      name: "constructionScheme_detail",
-      code: "shigongfangan",
-      component: () => import("@/views/quality/newPage/constructionScheme/view")
-    }, {
-      path: "/laborSubcontract_detail",
-      name: "laborSubcontract_detail",
-      code: "laowufenbaohetong",
-      component: () => import("@/views/contractManagement/laborSubcontract/view")
-    }, {
-      path: "/entranceAndExitManagement_detail",
-      name: "entranceAndExitManagement_detail",
-      code: "jintuichangguanli",
-      component: () => import("@/views/contractManagement/entranceAndExitManagement/view")
-    }, {
-		path: "/currentAccountManagement_detail",
-		name: "currentAccountManagement_detail",
-		code: "wanglaikuanguanli",
-		component: () => import("@/views/contractManagement/currentAccountManagement/view")
-	  }, { // 施工技术交底
-		path: "/constructionTechnologyDisclosure_detail",
-		name: "constructionTechnologyDisclosure_detail",
-		code: "shigongjishujiaodi",
-		component: () => import("@/views/quality/newPage/constructionTechnologyDisclosure/view")
-	  },
-      {
-        path: "/staffSubmit_detail",
-        name: "staffSubmit_detail",
-        code: "hetongrenyuanbaoshen,sgdwhtrybs,jldwhtrybs,qzdwhtrybs",
-        component: () => import("@/views/contractManagement/staffSubmit/view")
-      },
-      {
-        path: "/personnelChange_detail",
-        name: "personnelChange_detail",
-        code: "renyuanbiangeng,sgdwrybg,jldwrybg,qzdwrybg",
-        component: () => import("@/views/contractManagement/personChange/view")
-      },
-      {
-        path: "/applicationForLeave_detail",
-        name: "applicationForLeave_detail",
-        code: "qingjiashenqing,sgdwryqj,jldwryqj,qzdwryqj",
-        component: () => import("@/views/contractManagement/leave/view")
-      }
+				path: "/projectCommencementApplication_detail",
+				name: "projectCommencementApplication_detail",
+				code: "xiangmukaigongshenqing",
+				component: () => import("@/views/quality/newPage/projectCommencementApplication/view")
+			},{
+				path: "/separateApplicationForCommencement_detail",
+				name: "separateApplicationForCommencement_detail",
+				code: "fenxiangkaigongshenqing",
+				component: () => import("@/views/quality/newPage/separateApplicationForCommencement/view")
+			},{
+				path: "/qualityTest_detail",
+				name: "qualityTest_detail",
+				code: "zhiliangjiance",
+				component: () => import("@/views/quality/newPage/qualityTest/view")
+			}, {
+				path: "/concealedWorksManagement_detail",
+				name: "concealedWorksManagement_detail",
+				code: "yinbigongchengguanli",
+				component: () => import("@/views/quality/newPage/concealedWorksManagement/view")
+			}, {
+				path: "/constructionSubcontract_detail",
+				name: "constructionSubcontract_detail",
+				code: "shigongfenbaohetong",
+				component: () => import("@/views/contractManagement/constructionSubcontract/view")
+			}, {
+				path: "/constructionScheme_detail",
+				name: "constructionScheme_detail",
+				code: "shigongfangan",
+				component: () => import("@/views/quality/newPage/constructionScheme/view")
+			}, {
+				path: "/laborSubcontract_detail",
+				name: "laborSubcontract_detail",
+				code: "laowufenbaohetong",
+				component: () => import("@/views/contractManagement/laborSubcontract/view")
+			}, {
+				path: "/entranceAndExitManagement_detail",
+				name: "entranceAndExitManagement_detail",
+				code: "jintuichangguanli",
+				component: () => import("@/views/contractManagement/entranceAndExitManagement/view")
+			}, {
+				path: "/currentAccountManagement_detail",
+				name: "currentAccountManagement_detail",
+				code: "wanglaikuanguanli",
+				component: () => import("@/views/contractManagement/currentAccountManagement/view")
+			}, { // 施工技术交底
+				path: "/constructionTechnologyDisclosure_detail",
+				name: "constructionTechnologyDisclosure_detail",
+				code: "shigongjishujiaodi",
+				component: () => import("@/views/quality/newPage/constructionTechnologyDisclosure/view")
+			},
+			{
+				path: "/staffSubmit_detail",
+				name: "staffSubmit_detail",
+				code: "hetongrenyuanbaoshen,sgdwhtrybs,jldwhtrybs,qzdwhtrybs",
+				component: () => import("@/views/contractManagement/staffSubmit/view")
+			},
+			{
+				path: "/personnelChange_detail",
+				name: "personnelChange_detail",
+				code: "renyuanbiangeng,sgdwrybg,jldwrybg,qzdwrybg",
+				component: () => import("@/views/contractManagement/personChange/view")
+			},
+			{
+				path: "/applicationForLeave_detail",
+				name: "applicationForLeave_detail",
+				code: "qingjiashenqing,sgdwryqj,jldwryqj,qzdwryqj",
+				component: () => import("@/views/contractManagement/leave/view")
+			}
 		]
 	},
 	// {
@@ -679,84 +689,84 @@ export const asyncRoutes = [{
 					noMap: true
 				}
 			},
-      {
-        path: "/firstProcessApproval",
-        name: "firstProcessApproval",
-        component: () => import("@/views/quality/newPage/firstProcessApproval"),
-        meta: {
-          title: "首件认可",
-          code: "shoujianrenke",
-          icon: "circle",
-          allMap: false,
-          partMap: false,
-          noMap: true
-        }
-      },
-      {
-        path: "/projectCommencementApplication",
-        name: "projectCommencementApplication",
-        component: () => import("@/views/quality/newPage/projectCommencementApplication"),
-        meta: {
-          title: "项目开工申请",
-          code: "xiangmukaigongshenqing",
-          icon: "circle",
-          allMap: false,
-          partMap: false,
-          noMap: true
-        }
-      },
-      {
-        path: "/separateApplicationForCommencement",
-        name: "separateApplicationForCommencement",
-        component: () => import("@/views/quality/newPage/separateApplicationForCommencement"),
-        meta: {
-          title: "分项开工申请",
-          code: "fenxiangkaigongshenqing",
-          icon: "circle",
-          allMap: false,
-          partMap: false,
-          noMap: true
-        }
-      },
-      {
-        path: "/qualityActivity",
-        name: "qualityActivity",
-        component: () => import("@/views/quality/newPage/qualityActivity"),
-        meta: {
-          title: "质量活动",
-          code: "zhilianghuodong",
-          icon: "circle",
-          allMap: false,
-          partMap: false,
-          noMap: true
-        }
-      },
-      {
-        path: "/supervisionOfInstruction",
-        name: "supervisionOfInstruction",
-        component: () => import("@/views/quality/newPage/supervisionOfInstruction"),
-        meta: {
-          title: "监理指令",
-          code: "jianlizhiling",
-          icon: "circle",
-          allMap: false,
-          partMap: false,
-          noMap: true
-        }
-      },
-      {
-        path: "/supervisionNotice",
-        name: "supervisionNotice",
-        component: () => import("@/views/quality/newPage/supervisionNotice"),
-        meta: {
-          title: "监理通知",
-          code: "jianlitongzhi",
-          icon: "circle",
-          allMap: false,
-          partMap: false,
-          noMap: true
-        }
-      },
+			{
+				path: "/firstProcessApproval",
+				name: "firstProcessApproval",
+				component: () => import("@/views/quality/newPage/firstProcessApproval"),
+				meta: {
+					title: "首件认可",
+					code: "shoujianrenke",
+					icon: "circle",
+					allMap: false,
+					partMap: false,
+					noMap: true
+				}
+			},
+			{
+				path: "/projectCommencementApplication",
+				name: "projectCommencementApplication",
+				component: () => import("@/views/quality/newPage/projectCommencementApplication"),
+				meta: {
+					title: "项目开工申请",
+					code: "xiangmukaigongshenqing",
+					icon: "circle",
+					allMap: false,
+					partMap: false,
+					noMap: true
+				}
+			},
+			{
+				path: "/separateApplicationForCommencement",
+				name: "separateApplicationForCommencement",
+				component: () => import("@/views/quality/newPage/separateApplicationForCommencement"),
+				meta: {
+					title: "分项开工申请",
+					code: "fenxiangkaigongshenqing",
+					icon: "circle",
+					allMap: false,
+					partMap: false,
+					noMap: true
+				}
+			},
+			{
+				path: "/qualityActivity",
+				name: "qualityActivity",
+				component: () => import("@/views/quality/newPage/qualityActivity"),
+				meta: {
+					title: "质量活动",
+					code: "zhilianghuodong",
+					icon: "circle",
+					allMap: false,
+					partMap: false,
+					noMap: true
+				}
+			},
+			{
+				path: "/supervisionOfInstruction",
+				name: "supervisionOfInstruction",
+				component: () => import("@/views/quality/newPage/supervisionOfInstruction"),
+				meta: {
+					title: "监理指令",
+					code: "jianlizhiling",
+					icon: "circle",
+					allMap: false,
+					partMap: false,
+					noMap: true
+				}
+			},
+			{
+				path: "/supervisionNotice",
+				name: "supervisionNotice",
+				component: () => import("@/views/quality/newPage/supervisionNotice"),
+				meta: {
+					title: "监理通知",
+					code: "jianlitongzhi",
+					icon: "circle",
+					allMap: false,
+					partMap: false,
+					noMap: true
+				}
+			},
 		]
 	},
 	{

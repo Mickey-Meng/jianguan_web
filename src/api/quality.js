@@ -988,3 +988,80 @@ export const getBuildPlanList = data => {
 	});
 };
 //-----------------------流程引擎新增接口 ZH ---------------------
+
+
+
+
+
+
+export const addOrUpdateProjectOpenExit = data => {
+	return request({
+		url: api.addOrUpdateProjectOpenExit,
+		method: "post",
+		data: data
+	});
+};
+
+export const getProjectOpenDeatil = id => {
+	return request({
+		url: api.getProjectOpenDeatil,
+		method: "get",
+		params: {
+			id
+		}
+	});
+};
+
+export const deleteProjectOpen = id => {
+	return request({
+		url: api.deleteProjectOpen,
+		method: "get",
+		params: {
+			id
+		}
+	});
+};
+
+export const getProjectOpenList = data => {
+	return request({
+		url: api.getProjectOpenList,
+		method: "post",
+		data: data
+	});
+};
+
+export const addOrUpdateSubitemOpen = data => {
+	return request({
+		url: api.addOrUpdateSubitemOpen,
+		method: "post",
+		data: data
+	});
+};
+
+export const getSubitemOpenDeatil = id => {
+	return request({
+		url: api.getSubitemOpenDeatil,
+		method: "get",
+		params: {
+			id
+		}
+	});
+};
+
+export const deleteSubitemOpen = id => {
+	return request({
+		url: api.deleteSubitemOpen,
+		method: "get",
+		params: {
+			id
+		}
+	});
+};
+
+export const getSubitemOpenList = data => {
+	return request({
+		url: api.getSubitemOpenList,
+		method: "post",
+		data: data
+	});
+};
