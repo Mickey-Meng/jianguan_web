@@ -199,7 +199,7 @@ export default {
 <style scoped lang="scss">
 .wrapper {
   height: 100%;
-  padding: 10px;
+  padding: 2px 5px 5px 5px;
   background-color: #edeff8;
   color: #4a4a4a;
   .header {
@@ -207,6 +207,7 @@ export default {
     background-color: #ffffff;
     display: flex;
     align-items: center;
+    padding-left: 10px;
     ul {
       height: 100%;
       display: flex;
@@ -233,7 +234,7 @@ export default {
   .content {
     margin-top: 10px;
     background-color: #ffffff;
-    height: calc(100% - 110px);
+    height: calc(100% - 100px);
   }
 }
 </style>

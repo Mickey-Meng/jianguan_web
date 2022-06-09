@@ -33,7 +33,7 @@
           <el-table-column
             prop="pro"
             align="center"
-            label="项目名称"
+            label="单位工程"
             show-overflow-tooltip
           >
           </el-table-column>
@@ -298,59 +298,66 @@
 </template>
 
 <script>
-import {
-  getDoneSafeEvent,
-  getAllSafeEvents,
-  deleteSafeEvent,
-} from "@/api/safe";
-import { validPicurl } from "@/utils/validate";
-import { getProjectTypeData } from "@/api/progress";
-import { getWorkArea } from "@/api/workArea";
-import { getToken } from "@/utils/auth";
-import eventDetail from "@/components/detail/eventDetail";
-import { downLoadFile } from "@/utils/download";
-import { addAnyDays } from "@/utils/date";
-export default {
-  name: "",
-  data() {
-    return {
-      tableData: [],
-      typeKey: "",
-      typeArr: [],
-      area: [],
-      groupId: null,
-      photoLists: [],
-      detalRow: {},
-      drawer: false,
-    };
-  },
-  created() {
-    this.groupId = getToken("groupId");
-    this.initData();
-  },
-  components: { eventDetail },
-  methods: {
-    initData() {
-      getProjectTypeData().then((res) => {
-        let obj = {
-          projectname: "所有工程",
-          groupid: "all",
-        };
-        let data = res.data || [];
-        data.unshift(obj);
-        this.typeArr = data;
+  import {
+    getDoneSafeEvent,
+    getAllSafeEvents,
+    deleteSafeEvent
+  } from "@/api/safe";
+  import {validPicurl} from "@/utils/validate";
+  import {getProjectTypeData} from "@/api/progress";
+  import {getWorkArea} from "@/api/workArea";
+  import {getToken} from "@/utils/auth";
+  import eventDetail from "@/components/detail/eventDetail";
+  import {downLoadFile} from "@/utils/download";
+  import {addAnyDays} from "@/utils/date";
+  import {getAreaBySectionId} from "@/api/newProject";
+
+  import {mapGetters} from "vuex";
+
+  export default {
+    name: "",
+    data() {
+      return {
+        tableData: [],
+        typeKey: "",
+        typeArr: [],
+        area: [],
+        groupId: null,
+        photoLists: [],
+        detalRow: {},
+        drawer: false
+      };
+    },
+    created() {
+      this.groupId = getToken("groupId");
+      this.initData();
+    },
+    computed: {
+      ...mapGetters(["project"])
+    },
+    components: {eventDetail},
+    methods: {
+      initData() {
+        getProjectTypeData().then((res) => {
+          let obj = {
+            projectname: "所有工程",
+            groupid: "all"
+          };
+          let data = res.data || [];
+          data.unshift(obj);
+          this.typeArr = data;
         this.typeKey = "all";
-        getWorkArea().then((res1) => {
-          this.area = res1.data;
-          getAllSafeEvents().then((res3) => {
-            if (res3.data) {
-              let data = res3.data;
-              data.forEach((item) => {
-                let gq = this.area.find((e) => e.id === item.gongquid);
-                let pro = this.typeArr.find(
-                  (e) => e.groupid === item.projectid
-                );
-                item.modifyurl = validPicurl(item.modifyurl);
+          getAreaBySectionId(this.project.id).then((res1) => {
+            this.area = res1.data;
+            getAllSafeEvents().then((res3) => {
+              if (res3.data) {
+                let data = res3.data;
+                data.forEach((item) => {
+                  let gq = this.area.find((e) => e.sort === item.gongquid);
+                  let pro = this.typeArr.find(
+                    (e) => e.groupid === item.singleProjectId
+                  );
+                  item.modifyurl = validPicurl(item.modifyurl);
                 item.uploadurl = validPicurl(item.uploadurl);
                 item.gq = gq?.name;
                 item.pro = pro?.projectname;
@@ -374,11 +381,11 @@ export default {
     },
     changeValue(value) {
       if (value === "all") {
-        getAllSafeEvents().then((res) => {
+        getAllSafeEvents(this.project.id).then((res) => {
           if (res.data) {
             let data = res.data;
             data.forEach((item) => {
-              let gq = this.area.find((e) => e.id === item.gongquid);
+              let gq = this.area.find((e) => e.sort === item.gongquid);
               let pro = this.typeArr.find((e) => e.groupid === item.projectid);
               item.modifyurl = validPicurl(item.modifyurl);
               item.uploadurl = validPicurl(item.uploadurl);
@@ -389,11 +396,11 @@ export default {
           }
         });
       } else {
-        getAllSafeEvents(value).then((res) => {
+        getAllSafeEvents(this.project.id, value).then((res) => {
           if (res.data) {
             let data = res.data;
             data.forEach((item) => {
-              let gq = this.area.find((e) => e.id === item.gongquid);
+              let gq = this.area.find((e) => e.sort === item.gongquid);
               let pro = this.typeArr.find((e) => e.groupid === item.projectid);
               item.modifyurl = validPicurl(item.modifyurl);
               item.uploadurl = validPicurl(item.uploadurl);

@@ -11,10 +11,6 @@
     <el-row class="first-el-row">
       <el-col :span="12" class="first-el-col">
         <div class="pro-pre">
-          <div class="header_g">
-            <div class="title_item"></div>
-            <div class="title_text">项目进度</div>
-          </div>
           <progressChart></progressChart>
         </div>
         <div class="eng-pre">
@@ -23,7 +19,7 @@
       </el-col>
       <el-col :span="12">
         <!-- <reportAndBar></reportAndBar> -->
-        <div class="allbg">
+        <div style="height: 100%;">
           <statisticsPage></statisticsPage>
         </div>
       </el-col>
@@ -57,9 +53,6 @@ export default {
         height: 32%;
         margin-bottom: 10px;
         margin-right: 10px;
-        background-image: url("../../../assets/image/边框-小.png");
-        background-repeat: no-repeat;
-        background-size: 100% 100%;
         overflow: hidden;
         // height: 100%;
       }

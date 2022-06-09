@@ -117,20 +117,29 @@ const api = {
   /*
    * 安全
    * */
+
+
+  getDoneSafeEvent: "/ZhuJiRoad/safe/getDoneSafeEvent", //查询监理已审核确认整改安全事件  ------没有用到 -----------
+
+  //---------安全接口已修改-----
+  getNotDoneSafeEvent: "/ZhuJiRoad/safe/getNotDoneSafeEvent", //监理方根据标段ID查询需要整改确认的数据
+  getSafeEvent: "/ZhuJiRoad/safe/getSafeEvent", //施工方根据标段ID获取安全检查事件
+  getDelaySafeEvent: "/ZhuJiRoad/safe/getDelaySafeEvent", //监理方根据标段ID查询延期申请事件
+  //无需修改接口
   doDelaySafeEvent: "/ZhuJiRoad/safe/doDelaySafeEvent", //监理处理安全事件延期申请
   doNotDoneSafeEvent: "/ZhuJiRoad/safe/doNotDoneSafeEvent", //监理审核安全事件整改
-  getDelaySafeEvent: "/ZhuJiRoad/safe/getDelaySafeEvent", //查询延期申请事件
-  getDoneSafeEvent: "/ZhuJiRoad/safe/getDoneSafeEvent", //查询监理已审核确认整改安全事件
-  getNotDoneSafeEvent: "/ZhuJiRoad/safe/getNotDoneSafeEvent", //监理查询待审核确认整改事件
-  getSafeEvent: "/ZhuJiRoad/safe/getSafeEvent", //施工方获取安全检查事件
+  //---------安全接口已修改-----
+
   bigSmallSafe: "/ZhuJiRoad/safe/getTree", //获取安全事件大小类数据
-  getcheck: "/ZhuJiRoad/safe/getcheck", //获取安全事件工区负责人数据
+  getcheck: "/ZhuJiRoad/safe/getcheck", //获取安全事件工区负责人数据  ----弃用----------
   submitDealWithSafeEvent: "/ZhuJiRoad/safe/submitDealWithSafeEvent", //施工方对安全数据进行整改上报
   submitDelaySafeEvent: "/ZhuJiRoad/safe/submitDelaySafeEvent", //施工方申请事件延期处理
   submitSafeData: "/ZhuJiRoad/safe/uploadData", //监理方提交安全检查事件
   getAllSafeEvents: "/ZhuJiRoad/safe/getAllStatusSafeEvent",
   getSafeEventsStatistic: "/ZhuJiRoad/safe/group", //安全总览右上角事件统计接口
   deleteSafeEvent: "/ZhuJiRoad/safe/deleteEvent", //删除安全事件
+
+
   // 获取每月安全事件数据--表格左侧的工区每日状态
   getPerMonthSafeData: "/ZhuJiRoad/count/getPerMonthSafeData",
   // 获取某一天的安全事件

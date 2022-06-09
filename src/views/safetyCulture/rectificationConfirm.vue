@@ -120,18 +120,19 @@
 </template>
 
 <script>
-import * as api from "@/api/safe";
-import { disposeUrl, validPicurl } from "@/utils/validate";
+  import * as api from "@/api/safe";
+  import {disposeUrl, validPicurl} from "@/utils/validate";
+  import {mapGetters} from "vuex";
 
-export default {
-  name: "",
-  data() {
-    return {
-      dialogVisible: false,
-      tableData: [],
-      rowData: {},
-      index: null,
-      form: {
+  export default {
+    name: "",
+    data() {
+      return {
+        dialogVisible: false,
+        tableData: [],
+        rowData: {},
+        index: null,
+        form: {
         result: 1,
         eventid: null,
         reason: "",
@@ -146,26 +147,29 @@ export default {
           id: 2,
         },
       ],
-      rules: {
-        result: [
-          { required: true, message: "请选择审核状态", trigger: "blur" },
-        ],
-        reason: [
-          { required: true, message: "请输入不通过原因", trigger: "blur" },
-        ],
-      },
-    };
-  },
-  created() {
-    this.initData();
-  },
-  methods: {
-    initData() {
-      api.getNotDoneSafeEvent().then((res) => {
-        if (res.data && res.data.length > 0) {
-          res.data.forEach((item) => {
-            item.uploadurl = validPicurl(item.uploadurl);
-            item.modifyurl = validPicurl(item.modifyurl);
+        rules: {
+          result: [
+            {required: true, message: "请选择审核状态", trigger: "blur"}
+          ],
+          reason: [
+            {required: true, message: "请输入不通过原因", trigger: "blur"}
+          ]
+        }
+      };
+    },
+    computed: {
+      ...mapGetters(["project"])
+    },
+    created() {
+      this.initData();
+    },
+    methods: {
+      initData() {
+        api.getNotDoneSafeEvent(this.project.id).then((res) => {
+          if (res.data && res.data.length > 0) {
+            res.data.forEach((item) => {
+              item.uploadurl = validPicurl(item.uploadurl);
+              item.modifyurl = validPicurl(item.modifyurl);
           });
           this.tableData = res.data;
         }

@@ -62,10 +62,13 @@ export const doNotDoneSafeEvent = data => {
  * @returns {}
  * @date 2021/7/15
  */
-export const getDelaySafeEvent = () => {
+export const getDelaySafeEvent = (projectId) => {
   return request({
     url: api.getDelaySafeEvent,
-    method: "get"
+    method: "get",
+    params: {
+      projectId
+    }
   });
 };
 /**
@@ -89,12 +92,13 @@ export const getDoneSafeEvent = () => {
  * @param {*}
  * @return {*}
  */
-export const getAllSafeEvents = projectid => {
+export const getAllSafeEvents = (projectId, singleProjectId) => {
   return request({
     url: api.getAllSafeEvents,
     method: "get",
     params: {
-      projectid: projectid || undefined
+      projectId: projectId || undefined,
+      singleProjectId: singleProjectId || undefined
     }
   });
 };
@@ -106,10 +110,13 @@ export const getAllSafeEvents = projectid => {
  * @returns {}
  * @date 2021/7/15
  */
-export const getNotDoneSafeEvent = () => {
+export const getNotDoneSafeEvent = (projectId) => {
   return request({
     url: api.getNotDoneSafeEvent,
-    method: "get"
+    method: "get",
+    params: {
+      projectId
+    }
   });
 };
 /**
@@ -119,10 +126,13 @@ export const getNotDoneSafeEvent = () => {
  * @returns {}
  * @date 2021/7/15
  */
-export const getSafeEvent = () => {
+export const getSafeEvent = (projectId) => {
   return request({
     url: api.getSafeEvent,
-    method: "get"
+    method: "get",
+    params: {
+      projectId
+    }
   });
 };
 /**

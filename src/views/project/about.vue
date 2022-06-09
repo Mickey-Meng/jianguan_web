@@ -121,7 +121,7 @@ export default {
 <style scoped lang="scss">
 .wrapper {
   //padding-top: 5px;
-  padding: 5px;
+  padding: 2px 5px 5px 5px;
   background-color: #edeff8;
   color: #4a4a4a;
   height: 100%;
@@ -140,7 +140,7 @@ export default {
   .content {
     width: 100%;
     margin: 0 auto;
-    height: calc(100% - 100px);
+    height: calc(100% - 90px);
     display: flex;
     justify-content: space-between;
     .content-left {
@@ -255,7 +255,7 @@ export default {
               border-radius: 5px;
             }
             ul {
-              height: 280px;
+              height: 300px;
               background-color: #ebecee;
               border-radius: 5px;
               padding: 10px;

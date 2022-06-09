@@ -7,11 +7,13 @@
  * @LastEditTime: 2022-04-07 18:15:12
 -->
 <template>
-  <div class="allbg">
-    <div class="header_g">
-      <div class="title_item"></div>
-      <div class="title_text">进度变化</div>
-      <el-select v-model="type" @change="changeType">
+  <div class="change_wrapper">
+    <div class="new_ui_header">
+      <div class="left">
+        <div class="header_line"></div>
+        <div class="header_text">进度变化</div>
+      </div>
+      <el-select v-model="type" @change="changeType" style="width: 200px;margin-right: 20px">
         <el-option
           v-for="item in typeArr"
           :key="item.key"
@@ -58,7 +60,7 @@ export default {
           itemWidth: 15,
           itemHeight: 10,
           textStyle: {
-            color: "#ffffff",
+            color: "#2D405E",
           },
         },
         tooltip: {
@@ -66,7 +68,7 @@ export default {
           axisPointer: {
             label: {
               show: true,
-              backgroundColor: "#fff",
+              backgroundColor: "#2D405E",
               color: "#556677",
               borderColor: "rgba(0,0,0,0)",
               shadowColor: "rgba(0,0,0,0)",
@@ -76,7 +78,7 @@ export default {
               width: 0,
             },
           },
-          backgroundColor: "#fff",
+          // backgroundColor: "#fff",
           textStyle: {
             color: "#5c6c7c",
           },
@@ -100,7 +102,7 @@ export default {
             axisLabel: {
               interval: 0,
               textStyle: {
-                color: "#FFFFFF",
+                color: "#2D405E",
               },
               // 默认x轴字体大小
               fontSize: 12,
@@ -130,7 +132,7 @@ export default {
             },
             axisLabel: {
               textStyle: {
-                color: "#FFFFFF",
+                color: "#2D405E",
               },
             },
             splitLine: {
@@ -221,46 +223,63 @@ export default {
 };
 </script>
 <style lang='scss' scoped>
-.allbg {
-  .header_g {
-    display: flex;
-    align-items: center;
-    position: relative;
-    .el-select {
-      position: absolute;
-      right: 30px;
-      // flex-basis: ;
+  .change_wrapper {
+    height: 100%;
+    background-color: #FFFFFF;
+    border-radius: 15px;
+
+    .new_ui_header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0px 5px 20px;
+
+      .left {
+        display: flex;
+        align-items: center;
+
+        .header_line {
+          width: 4px;
+          height: 16px;
+          background-color: #1E6EEB;
+          margin-right: 8px;
+          border-radius: 3px;
+        }
+
+        .header_text {
+          color: #2D405E;
+          font-size: 18px;
+          font-weight: bold;
+          font-family: PingFang SC;
+        }
+      }
+
+      .check_box {
+        padding-right: 20px;
+        display: flex;
+        align-items: center;
+
+        ::v-deep.el-radio {
+          .el-radio__label {
+            color: #85858F;
+          }
+        }
+
+        ::v-deep.el-radio.is-checked {
+          .el-radio__label {
+            color: #2D405E;
+          }
+        }
+      }
+
+
     }
+
   }
+
   .charts {
     width: 100%;
     height: calc(100% - 40px);
   }
-}
-::v-deep .el-select {
-  // width: 210px;
-  text-indent: 0;
-  //height: 35px !important;
-  .el-input {
-    .el-input__inner {
-      height: 28px !important;
-      line-height: 28px;
-      // background-color: #060C26 !important;
-      background-image: url("../../../../assets/image/日期选择.png");
-      background-repeat: no-repeat;
-      background-size: 100% 100%;
-      color: #fff;
-      border: none;
-    }
-    input {
-      background: transparent;
-    }
-    .el-input__suffix {
-      .el-input__icon {
-        line-height: 28px;
-        color: #7ceff6;
-      }
-    }
-  }
-}
+
 </style>
