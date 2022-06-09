@@ -119,7 +119,7 @@
 			},
 			gotoHandle(row){
 				row['formKey']=(typeof row['formKey'])=='string'?JSON.parse(row['formKey']):row['formKey'];
-        let key = row["taskFormKey"]["routerName"];
+        let key = row["formKey"]["routerName"];
         let router = this.detailRouters.find(e => e.code.indexOf(key) !== -1);
         let hiddenEdit = ["sgdwhtrybs", "jldwhtrybs", "qzdwhtrybs", "sgdwrybg", "jldwrybg", "qzdwrybg", "sgdwryqj", "jldwryqj", "qzdwryqj"];
         if (router) {
