@@ -71,6 +71,7 @@
 <script>
 	import * as api from "@/api/quality";
 	import { mapGetters } from 'vuex'
+  import {constantRoutes} from "@/router/router";
 	export default {
 		data() {
 			return {
@@ -86,11 +87,14 @@
 						pageSize: 10
 					},
 				},
-				routes:null
+				routes:null,
+        detailRouters: []
 			};
 		},
 		created() {
 			this.routes = this.menus;
+      let detailRouter = constantRoutes.find(e => e.name === "handlerFlowTask");
+      this.detailRouters = detailRouter?.children;
 		},
 		components: {},
 		computed: {
@@ -115,26 +119,45 @@
 			},
 			gotoHandle(row){
 				row['formKey']=(typeof row['formKey'])=='string'?JSON.parse(row['formKey']):row['formKey'];
-				console.log(this.routes)
-				this.routes.forEach(parent=>{
-					parent['children'].forEach(child=>{
-						if(child['meta']['code']==row['formKey']['routerName']){
-							this.$router.push({
-								path:child['path']+'_detail',
-								query:{
-									taskId: row.executionId,
-									businessKey:row.businessKey,
-									processDefinitionKey: row.processDefinitionKey,
-									processInstanceId: row.processInstanceId,
-									processDefinitionId: row.processDefinitionId,
-									taskName: row.taskName,
-									flowEntryName: row.processDefinitionName,
-									processInstanceInitiator: row.processInstanceInitiator,
-								}
-							});
-						}
-					})
-				})
+        let key = row["formKey"]["routerName"];
+        let router = this.detailRouters.find(e => e.code.indexOf(key) !== -1);
+        let hiddenEdit = ["sgdwhtrybs", "jldwhtrybs", "qzdwhtrybs", "sgdwrybg", "jldwrybg", "qzdwrybg", "sgdwryqj", "jldwryqj", "qzdwryqj"];
+        if (router) {
+          this.$router.push({
+            path: router.path,
+            query: {
+              taskId: row.taskId,
+              businessKey: row.businessKey,
+              processDefinitionKey: row.processDefinitionKey,
+              processInstanceId: row.processInstanceId,
+              processDefinitionId: row.processDefinitionId,
+              taskName: row.taskName,
+              flowEntryName: row.processDefinitionName,
+              processInstanceInitiator: row.processInstanceInitiator,
+              isHiddenEdit: hiddenEdit.includes(key),
+              flowKey: hiddenEdit.includes(key) ? key : ""
+            }
+          });
+        }
+				// this.routes.forEach(parent=>{
+				// 	parent['children'].forEach(child=>{
+				// 		if(child['meta']['code']==row['formKey']['routerName']){
+				// 			this.$router.push({
+				// 				path:child['path']+'_detail',
+				// 				query:{
+				// 					taskId: row.executionId,
+				// 					businessKey:row.businessKey,
+				// 					processDefinitionKey: row.processDefinitionKey,
+				// 					processInstanceId: row.processInstanceId,
+				// 					processDefinitionId: row.processDefinitionId,
+				// 					taskName: row.taskName,
+				// 					flowEntryName: row.processDefinitionName,
+				// 					processInstanceInitiator: row.processInstanceInitiator,
+				// 				}
+				// 			});
+				// 		}
+				// 	})
+				// })
 			}
 		}
 	}
