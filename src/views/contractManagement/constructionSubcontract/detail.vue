@@ -108,7 +108,7 @@
 				</el-aside>
 				<el-aside
 					style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
-					<tasklog :taskInfo="taskInfo"></tasklog>
+					<tasklog :taskInfo="taskInfo" ref="tasklog"></tasklog>
 				</el-aside>
 			</el-container>
 		</el-dialog>
@@ -186,6 +186,21 @@
 					this.attachTable = data.attachment || [];
 					this.contractTable = data.contractInfo || [];
 				});
+				api.getFlowAndTaskInfo({businessKey: id}).then((res) => {
+					console.log(res.data);
+					let data=res['data'];
+					this.taskInfo={
+						processDefinitionId: data['processDefinitionId'],
+						processInstanceId: data['processInstanceId'],
+						taskId: data['taskId']
+					}
+					this.updateTaskLog();
+				});
+			},
+			updateTaskLog(){
+				setTimeout(()=>{
+					this.$refs['tasklog'].initData();
+				},100)
 			},
 		},
 	};
