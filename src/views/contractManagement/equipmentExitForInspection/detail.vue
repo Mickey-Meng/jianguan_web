@@ -91,7 +91,7 @@
 										</el-table>
 									</div>
 								</div>
-								<div class="form-block">
+								<!-- <div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>附件清单</strong>
 									</div>
@@ -99,7 +99,7 @@
 									<attachlist :editAble="false" ref="attachlist" :attachTable="attachTable">
 									</attachlist>
 								
-								</div>
+								</div> -->
 								
 							</el-form>
 							<taskhandle :taskInfo="taskInfo"></taskhandle>

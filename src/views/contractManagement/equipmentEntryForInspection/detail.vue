@@ -202,7 +202,7 @@
 				this.dialogFormVisible=value;
 			},
 			getDetail(id){
-				api.getEquipmentExitDeatil(id).then((res) => {
+				api.getEquipmentEnterDeatil(id).then((res) => {
 					let data = res['data'] || {};
 					this.formData = data;
 					this.attachTable = data.attachment || [];

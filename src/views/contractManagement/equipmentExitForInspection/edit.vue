@@ -109,7 +109,7 @@
 										</el-table>
 									</div>
 								</div>
-								<div class="form-block">
+								<!-- <div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>附件清单</strong>
 										<span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
@@ -119,7 +119,7 @@
 									<attachlist :editAble="true" ref="attachlist" :attachTable="attachTable">
 									</attachlist>
 
-								</div>
+								</div> -->
 								
 								<div class="form-title">
 									<div class="title-big-bar"></div><strong>审批信息</strong>
