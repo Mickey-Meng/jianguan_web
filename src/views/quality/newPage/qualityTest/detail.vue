@@ -76,40 +76,40 @@
 											class="have_scrolling">
 											<el-table-column type="index" width="50" align="center" label="序号">
 											</el-table-column>
-											<el-table-column prop="pro" align="center" label="材料名称"
+											<el-table-column prop="name" align="center" label="材料名称"
 												show-overflow-tooltip>
 											</el-table-column>
-											<el-table-column prop="qualityfirstname" width="160px" align="center"
+											<el-table-column prop="addressStr" width="160px" align="center"
 												label="材料来源">
 											</el-table-column>
-											<el-table-column prop="qualitysecondname" width="120px" align="center"
+											<el-table-column prop="specification" width="120px" align="center"
 												label="材料规格">
 											</el-table-column>
-											<el-table-column prop="qualitysecondname" width="120px" align="center"
+											<el-table-column prop="projectPart" width="120px" align="center"
 												label="工程部位">
 											</el-table-column>
-											<el-table-column prop="qualitysecondname" width="120px" align="center"
+											<el-table-column prop="num" width="120px" align="center"
 												label="材料数量(吨)">
 											</el-table-column>
-											<el-table-column prop="qualitysecondname" width="120px" align="center"
+											<el-table-column prop="takeAddress" width="120px" align="center"
 												label="取样地点">
 											</el-table-column>
-											<el-table-column prop="qualitysecondname" width="120px" align="center"
+											<el-table-column prop="testDate" width="120px" align="center"
 												label="试验日期">
 											</el-table-column>
-											<el-table-column prop="qualitysecondname" width="120px" align="center"
+											<el-table-column prop="testNum" width="120px" align="center"
 												label="实验数量">
 											</el-table-column>
-											<el-table-column prop="qualitysecondname" width="120px" align="center"
+											<el-table-column prop="qualifiedNum" width="120px" align="center"
 												label="合格数量">
 											</el-table-column>
-											<el-table-column prop="qualitysecondname" width="120px" align="center"
+											<el-table-column prop="qualifiedRate" width="120px" align="center"
 												label="总合格率(%)">
 											</el-table-column>
-											<el-table-column prop="qualitysecondname" width="120px" align="center"
+											<el-table-column prop="detectionResult" width="120px" align="center"
 												label="检测结果">
 											</el-table-column>
-											<el-table-column prop="qualitysecondname" width="120px" align="center"
+											<el-table-column prop="reportCode" width="120px" align="center"
 												label="报告编号">
 											</el-table-column>
 										</el-table>
@@ -266,6 +266,10 @@
 				api.getQualityDetectionDetail({id:id}).then((res) => {
 					let data=res['data']||{};
 					this.formData=data;
+					for (let i = 0; i < data.detectionInfo.length; i++) {
+						const item = data.detectionInfo[i];
+						item.addressStr = item.address.provice + item.address.city
+					}
 					this.examineTable=data.detectionInfo||[];
 					this.reportTable=data.detectionReport||[];
 					this.factoryTable=data.factoryInfo||[];
