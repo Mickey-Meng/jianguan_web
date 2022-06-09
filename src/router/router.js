@@ -48,6 +48,16 @@ export const constantRoutes = [{
 				name: "qualityTest_detail",
 				code: "zhiliangjiance",
 				component: () => import("@/views/quality/newPage/qualityTest/view")
+			},{
+				path: "/equipmentEntryForInspection_detail",
+				name: "equipmentEntryForInspection_detail",
+				code: "shebeijinchangbaoyan",
+				component: () => import("@/views/contractManagement/equipmentEntryForInspection/view")
+			},{
+				path: "/equipmentExitForInspection_detail",
+				name: "equipmentExitForInspection_detail",
+				code: "shebeituichangbaoyan",
+				component: () => import("@/views/contractManagement/equipmentExitForInspection/view")
 			}, {
 				path: "/concealedWorksManagement_detail",
 				name: "concealedWorksManagement_detail",
