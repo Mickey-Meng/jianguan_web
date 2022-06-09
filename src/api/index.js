@@ -232,6 +232,8 @@ const api = {
   viewProcessBpmn:'/ZhuJiApi/admin/flow/flowOperation/viewProcessBpmn',//获取流程图bpmn
   listFlowTaskComment:'/ZhuJiApi/admin/flow/flowOperation/listFlowTaskComment',//获取当前流程任务的审批列表
 
+  getFlowAndTaskInfo:'/ZhuJiApi/admin/flow/flowStaticPage/getFlowAndTaskInfo',//根据流程idH获取三个key 用于查看审批信息
+
   //省市区
   getDistrict:'/ZhuJiApi/web/api/v1/proviceCityArea/getDistrict',//区县
   getCity:'/ZhuJiApi/web/api/v1/proviceCityArea/getCity',//地市
@@ -315,6 +317,17 @@ const api = {
   getEquipmentExitDeatil: "/ZhuJiApi/web/api/v1/equipmentExit/detail/id",
   deleteEquipmentExit: "/ZhuJiApi/web/api/v1/equipmentExit/id",
   getEquipmentExitList: "/ZhuJiApi/web/api/v1/equipmentExit/page",
+  
+  //项目开工申请
+  addOrUpdateProjectOpenExit: "/ZhuJiApi/web/api/v1/projectOpen/addOrUpdate",
+  getProjectOpenDeatil: "/ZhuJiApi/web/api/v1/projectOpen/detail/id",
+  deleteProjectOpen: "/ZhuJiApi/web/api/v1/projectOpen/id",
+  getProjectOpenList: "/ZhuJiApi/web/api/v1/projectOpen/page",
+  //分项开工申请
+  addOrUpdateSubitemOpen: "/ZhuJiApi/web/api/v1/subitemOpen/addOrUpdate",
+  getSubitemOpenDeatil: "/ZhuJiApi/web/api/v1/subitemOpen/detail/id",
+  deleteSubitemOpen: "/ZhuJiApi/web/api/v1/subitemOpen/id",
+  getSubitemOpenList: "/ZhuJiApi/web/api/v1/subitemOpen/page",
 };
 
 export default api;

@@ -132,6 +132,8 @@
 											<div class="block-item-value">
 												<el-form-item prop="qualityCheckUser">
 													<el-select placeholder="请选择"
+														:disabled="userOptions['isSign']?true:false"
+														:multiple="userOptions['isSign']?true:false"
 														v-model="auditUser[userOptions.entryUserVariable]"
 														@change="flowUserChange($event, userOptions.entryUserVariable)">
 														<el-option v-for="(item, idx) in userOptions.userName"
@@ -380,7 +382,12 @@
 					console.log(11111111111111111111, res);
 					for (let i = 0; i < res.data.length; i++) {
 						const item = res.data[i];
-						this.auditUser[item.entryUserVariable] = item.userName[0];
+						if(res.data[i]['isSign']){
+							this.auditUser[item.entryUserVariable] = item.userName;
+						}else{
+							this.auditUser[item.entryUserVariable] = item.userName[0];
+						}
+						
 						if (!item.userNameStr) item.userNameStr = [];
 						for (let j = 0; j < item.userId.length; j++) {
 							const id = item.userId[j];

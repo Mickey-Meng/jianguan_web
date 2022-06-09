@@ -65,8 +65,10 @@ const formatDateTime = function(inputTime) {
  * 格式化日期
  * @param {Object} inputTime
  */
-const formatDate = function(inputTime) {
+const formatDate = function(inputTime, interval) {
+	interval = interval || 0;
 	var date = inputTime ? new Date(inputTime) : new Date();
+	date=new Date(date.setDate(date.getDate()+interval));
 	var y = date.getFullYear();
 	var m = date.getMonth() + 1;
 	m = m < 10 ? ('0' + m) : m;
@@ -98,7 +100,7 @@ const formatMonth = function(inputTime) {
 	var second = date.getSeconds();
 	minute = minute < 10 ? ('0' + minute) : minute;
 	second = second < 10 ? ('0' + second) : second;
-	return y + '-' + m ;
+	return y + '-' + m;
 }
 
 /**
@@ -107,12 +109,12 @@ const formatMonth = function(inputTime) {
  */
 const getQueryVariable = function() {
 	var query = window.location.hash.split('?')[1];
-	var result={};
-	if(query){
+	var result = {};
+	if (query) {
 		var vars = query.split("&");
 		for (var i = 0; i < vars.length; i++) {
 			var pair = vars[i].split("=");
-			result[pair[0]]=decodeURIComponent(pair[1]);
+			result[pair[0]] = decodeURIComponent(pair[1]);
 		}
 	}
 	return result;
@@ -121,42 +123,55 @@ const getQueryVariable = function() {
 /**
  * 组装项目相关信息
  */
-const createProjectInfo=function(list){
-	let buildCompany='';
-	let supervisionUnit='';
-	list.forEach(item=>{
-		if(item['typecode']=='sgdw'){
-			buildCompany+=item['name']+'、'
+const createProjectInfo = function(list) {
+	let buildCompany = '';
+	let supervisionUnit = '';
+	list.forEach(item => {
+		if (item['typecode'] == 'sgdw') {
+			buildCompany += item['name'] + '、'
 		}
-		if(item['typecode']=='jldw'){
-			supervisionUnit+=item['name']+'、'
+		if (item['typecode'] == 'jldw') {
+			supervisionUnit += item['name'] + '、'
 		}
 	})
 	return {
-		buildCompany:buildCompany,
-		supervisionUnit:supervisionUnit
+		buildCompany: buildCompany,
+		supervisionUnit: supervisionUnit
 	}
 }
 
 /**
  * 对比两组数据是否有差异
  */
-const diffCompare=function(leftData,rightData,options){
-	let tempLeft=JSON.parse(JSON.stringify(leftData));
-	let tempRight=JSON.parse(JSON.stringify(rightData));
-	options=options||[];
-	if(tempLeft[0]){
-		options.forEach(item=>{
+const diffCompare = function(leftData, rightData, options) {
+	let tempLeft = JSON.parse(JSON.stringify(leftData));
+	let tempRight = JSON.parse(JSON.stringify(rightData));
+	options = options || [];
+	if (tempLeft[0]) {
+		options.forEach(item => {
 			delete tempLeft[0][item];
 		})
 	}
-	if(tempRight[0]){
-		options.forEach(item=>{
+	if (tempRight[0]) {
+		options.forEach(item => {
 			delete tempRight[0][item];
 		})
 	}
-	let result=JSON.stringify(tempLeft)===JSON.stringify(tempRight);
+	let result = JSON.stringify(tempLeft) === JSON.stringify(tempRight);
 	return result;
+}
+
+
+/**
+ * 时间相隔天数
+ */
+const getDaysBetween = function(startDate, enDate) {
+	if (!startDate || !enDate) return '';
+	const sDate = Date.parse(startDate)
+	const eDate = Date.parse(enDate)
+	if (sDate > eDate) return 0 //开始日期大于结束日期，返回0
+	if (sDate === eDate) return 1 //如果日期相同 返回一天 
+	return parseInt((eDate - sDate) / (1 * 24 * 60 * 60 * 1000))
 }
 
 export {
@@ -168,5 +183,6 @@ export {
 	formatMonth,
 	getQueryVariable,
 	createProjectInfo,
-	diffCompare
+	diffCompare,
+	getDaysBetween
 }

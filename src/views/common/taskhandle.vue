@@ -165,6 +165,8 @@
 			 * @param {Object} operation 流程操作
 			 */
 			handlerOperation(operation) {
+				
+				this.formData.approvalType=operation.type;
 				// 加签操作
 				// if (operation.type === this.SysFlowTaskOperationType.CO_SIGN) {
 				// 	this.submitConsign((res || {}).assignee).then(res => {
