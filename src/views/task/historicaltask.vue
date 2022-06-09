@@ -41,9 +41,9 @@
 					class="have_scrolling">
 					<el-table-column type="index" width="50" align="center" label="序号">
 					</el-table-column>
-					
-					
-					
+
+
+
 					<el-table-column prop="processDefinitionName" align="center" label="流程名称" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="processDefinitionKey" align="center" label="流程标识" show-overflow-tooltip>
@@ -72,6 +72,7 @@
 <script>
 	import * as api from "@/api/quality";
 	import { mapGetters } from 'vuex'
+  import {constantRoutes} from "@/router/router";
 	export default {
 		data() {
 			return {
@@ -86,11 +87,14 @@
 						pageSize: 10
 					},
 				},
-				routes:null
+				routes:null,
+        detailRouters: []
 			};
 		},
 		created() {
 			this.routes = this.menus;
+      let detailRouter = constantRoutes.find(e => e.name === "handlerFlowTask");
+      this.detailRouters = detailRouter?.children;
 		},
 		components: {},
 		computed: {
@@ -115,25 +119,45 @@
 			},
 			gotoHandle(row){
 				//row['taskFormKey']=(typeof row['taskFormKey'])=='string'?JSON.parse(row['taskFormKey']):row['taskFormKey'];
-				this.routes.forEach(parent=>{
-					parent['children'].forEach(child=>{
-						if(child['meta']['code']==row['processDefinitionKey']){
-							this.$router.push({
-								path:child['path']+'_detail',
-								query:{
-									taskId: row.deploymentId,
-									businessKey:row.businessKey,
-									processDefinitionKey: row.processDefinitionKey,
-									processInstanceId: row.processInstanceId,
-									processDefinitionId: row.processDefinitionId,
-									taskName: row.taskName,
-									flowEntryName: row.processDefinitionName,
-									processInstanceInitiator: row.processInstanceInitiator,
-								}
-							});
-						}
-					})
-				})
+        let key = row["processDefinitionKey"];
+        let router = this.detailRouters.find(e => e.code.indexOf(key) !== -1);
+        let hiddenEdit = ["sgdwhtrybs", "jldwhtrybs", "qzdwhtrybs", "sgdwrybg", "jldwrybg", "qzdwrybg", "sgdwryqj", "jldwryqj", "qzdwryqj"];
+        if (router) {
+          this.$router.push({
+            path: router.path,
+            query: {
+              taskId: row.taskId,
+              businessKey: row.businessKey,
+              processDefinitionKey: row.processDefinitionKey,
+              processInstanceId: row.processInstanceId,
+              processDefinitionId: row.processDefinitionId,
+              taskName: row.taskName,
+              flowEntryName: row.processDefinitionName,
+              processInstanceInitiator: row.processInstanceInitiator,
+              isHiddenEdit: hiddenEdit.includes(key),
+              flowKey: hiddenEdit.includes(key) ? key : ""
+            }
+          });
+        }
+				// this.routes.forEach(parent=>{
+				// 	parent['children'].forEach(child=>{
+				// 		if(child['meta']['code']==row['processDefinitionKey']){
+				// 			this.$router.push({
+				// 				path:child['path']+'_detail',
+				// 				query:{
+				// 					taskId: row.deploymentId,
+				// 					businessKey:row.businessKey,
+				// 					processDefinitionKey: row.processDefinitionKey,
+				// 					processInstanceId: row.processInstanceId,
+				// 					processDefinitionId: row.processDefinitionId,
+				// 					taskName: row.taskName,
+				// 					flowEntryName: row.processDefinitionName,
+				// 					processInstanceInitiator: row.processInstanceInitiator,
+				// 				}
+				// 			});
+				// 		}
+				// 	})
+				// })
 			}
 		}
 	}
