@@ -207,10 +207,9 @@
 									</attachlist>
 
 								</div>
-								
+
 								<approveuser :auditUser="auditUser"  :flowKey="flowKey">
 								</approveuser>
-								
 								<div class="form-block">
 									<el-button class="submit-btn" size="small" type="primary" @click="addOrModify()">提交
 									</el-button>
@@ -254,7 +253,7 @@
 	import upload from "../../../common/upload.vue"
 	import attachlist from "../../../common/attachlist.vue"
 	import drafthandle from "../../../common/drafthandle.vue"
-	import approveuser from "../../../common/approveuser.vue"
+import approveuser from "../../../common/approveuser.vue"
 	export default {
 		data() {
 			return {
@@ -363,7 +362,6 @@
 					}]
 				},
 				attachTable: [], //其他附件
-				flowNodesUsersData: [],
 				auditUser: {},
 				flowKey:'xiangmukaigongshenqing'
 			};

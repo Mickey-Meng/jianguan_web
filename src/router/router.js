@@ -34,6 +34,16 @@ export const constantRoutes = [{
 		name: "handlerFlowTask",
 		component: () => import("@/views/task/handlerFlowTask/index"),
 		children: [{
+				path: "/firstProcessApproval_detail",
+				name: "firstProcessApproval_detail",
+				code: "shoujianrenke",
+				component: () => import("@/views/quality/newPage/firstProcessApproval/view")
+			},{
+				path: "/qualityPresentation_detail",
+				name: "qualityPresentation_detail",
+				code: "zhiliangjianbao",
+				component: () => import("@/views/quality/newPage/qualityPresentation/view")
+			},{
 				path: "/projectCommencementApplication_detail",
 				name: "projectCommencementApplication_detail",
 				code: "xiangmukaigongshenqing",
@@ -431,6 +441,18 @@ export const asyncRoutes = [{
 			meta: {
 				title: "流程配置temp",
 				code: "liuchengrenyuanpeizhi",
+				icon: "circle",
+				allMap: false,
+				partMap: false,
+				noMap: true
+			}
+		}, {
+			path: "/copytask",
+			name: "copytask",
+			component: () => import("@/views/task/copytask"),
+			meta: {
+				title: "抄送列表",
+				code: "copytask",
 				icon: "circle",
 				allMap: false,
 				partMap: false,

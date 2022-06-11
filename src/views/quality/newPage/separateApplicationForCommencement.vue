@@ -9,11 +9,11 @@
 <template>
 	<el-container class="container-box">
 		<el-header>
-			<div class="input-box">
+			<!-- <div class="input-box">
 				<div class="input-value">
 					<el-input v-model="queryData.buildSection" placeholder="标段"></el-input>
 				</div>
-			</div>
+			</div> -->
 			<div class="input-box">
 				<div class="input-value">
 					<el-input v-model="queryData.place" placeholder="地点或桩号"></el-input>
@@ -34,17 +34,23 @@
 					class="have_scrolling">
 					<el-table-column type="index" width="50" align="center" label="序号">
 					</el-table-column>
-					<el-table-column prop="buildSection" align="center" label="标段" show-overflow-tooltip>
+					<el-table-column prop="projectName" align="center" label="标段" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="materialsName" align="center" label="材料名称" show-overflow-tooltip>
+					<el-table-column prop="buildUnits" align="center" label="材料名称" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="fillDate" align="center" label="填报日期" show-overflow-tooltip>
+					<el-table-column prop="openDate" align="center" label="填报日期" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="materialSpecification" align="center" label="材料规格" show-overflow-tooltip>
+					<el-table-column prop="endDate" align="center" label="材料规格" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="projectParts" align="center" label="工程部位" show-overflow-tooltip>
+					<el-table-column prop="place" align="center" label="工程部位" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="testResult" align="center" label="检测结果">
+					<el-table-column prop="liveUserName" align="center" label="检测结果" show-overflow-tooltip>
+					</el-table-column>
+					<el-table-column prop="buildUserName" align="center" label="材料规格" show-overflow-tooltip>
+					</el-table-column>
+					<el-table-column prop="checkUserName" align="center" label="工程部位" show-overflow-tooltip>
+					</el-table-column>
+					<el-table-column prop="statusStr" align="center" label="检测结果">
 					</el-table-column>
 					<el-table-column fixed="right" width="120" align="center" label="操作">
 						<template slot-scope="{ row, $index }">
@@ -74,8 +80,8 @@
 	import {
 		convertOptions
 	} from "@/utils/format.js";
-	import edit from './qualityTest/edit';
-	import detail from './qualityTest/detail';
+	import edit from './separateApplicationForCommencement/edit';
+	import detail from './separateApplicationForCommencement/detail';
 	import { mapGetters } from 'vuex'
 
 	export default {
@@ -90,31 +96,14 @@
 			detail
 		},
 		data() {
-			
 			return {
-				
-				examineResultOptions: [{
-					label: '全部',
-					value: null
-				}, {
-					label: '合格',
-					value: 0
-				}, {
-					label: '不合格',
-					value: 1
-				}],
 				allData: [],
 				tableData: [],
 				operateBtnsVisible: true,
 				dialogFormVisible: false,
 				queryData: { //查询参数
-					buildSection: null,
-					createEndTime: null,
-					createStartTime: null,
-					detectionResult: null,
+					place: '',
 					draftFlag: 1,
-					name: '',
-					specification: '',
 					pageNum: 1,
 					totalPage: 1,
 					pageSize: 10,
@@ -135,24 +124,13 @@
 		methods: {
 			query() {
 				this.queryData.draftFlag=this.isDraft?0:1;
-				api.getQualityDetectionList(this.queryData).then((res) => {
+				api.getSubitemOpenList(this.queryData).then((res) => {
 					this.allData = res.data || {};
-					this.tableData = this.formateTableData(res.data.list);
+					this.tableData = this.allData.list;
 					this.queryData.pageNum = res.data.pageNum;
 					this.queryData.totalPage = res.data.total;
 					this.queryData.pageSize = res.data.pageSize;
 				});
-			},
-			formateTableData(list) {
-				list = list || [];
-				list.forEach(item => {
-					item['materialSpecification'] = item['materialSpecification'] ? item['materialSpecification']
-						.join('、') : '';
-					item['materialsName'] = item['materialsName'] ? item['materialsName'].join('、') : '';
-					item['projectParts'] = item['projectParts'] ? item['projectParts'].join('、') : '';
-					item['testResult'] = item['testResult'] ? item['testResult'].join('、') : '';
-				})
-				return list;
 			},
 			addNew() {
 				// this.editRow = null;
@@ -172,7 +150,7 @@
 					cancelButtonText: '取消',
 					type: 'warning'
 				}).then(() => {
-					api.deleteQualityDetection({
+					api.deleteSubitemOpen({
 						id: row['id']
 					}).then((res) => {
 						if (this.tableData.length == 1) {
