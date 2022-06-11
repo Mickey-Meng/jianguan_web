@@ -553,6 +553,18 @@ export const listHandleTask = data => {
 		data: data
 	});
 };
+
+/**
+ * 抄送列表
+ */
+export const listRemindingTask = data => {
+	return request({
+		url: api.listRemindingTask,
+		method: "post",
+		data: data
+	});
+};
+
 /**
  * 查询已办任务
  */
@@ -705,6 +717,15 @@ export const getFlowAuditEntry = data => {
 		params: data
 	});
 };
+
+export const getCopyUserByFlowKey = data => {
+	return request({
+		url: api.getCopyUserByFlowKey,
+		method: "get",
+		params: data
+	});
+};
+
 /**
  * 通过id获取一条质量检测数据
  */
@@ -1061,6 +1082,79 @@ export const deleteSubitemOpen = id => {
 export const getSubitemOpenList = data => {
 	return request({
 		url: api.getSubitemOpenList,
+		method: "post",
+		data: data
+	});
+};
+
+
+export const addOrUpdateFirstAccept = data => {
+	return request({
+		url: api.addOrUpdateFirstAccept,
+		method: "post",
+		data: data
+	});
+};
+
+export const getFirstAcceptDeatil = id => {
+	return request({
+		url: api.getFirstAcceptDeatil,
+		method: "get",
+		params: {
+			id
+		}
+	});
+};
+
+export const deleteFirstAccept = id => {
+	return request({
+		url: api.deleteFirstAccept,
+		method: "get",
+		params: {
+			id
+		}
+	});
+};
+
+export const getFirstAcceptList = data => {
+	return request({
+		url: api.getFirstAcceptList,
+		method: "post",
+		data: data
+	});
+};
+
+export const addOrUpdateQualityReport = data => {
+	return request({
+		url: api.addOrUpdateQualityReport,
+		method: "post",
+		data: data
+	});
+};
+
+export const getQualityReportDeatil = id => {
+	return request({
+		url: api.getQualityReportDeatil,
+		method: "get",
+		params: {
+			id
+		}
+	});
+};
+
+export const deleteQualityReport = id => {
+	return request({
+		url: api.deleteQualityReport,
+		method: "get",
+		params: {
+			id
+		}
+	});
+};
+
+export const getQualityReportList = data => {
+	return request({
+		url: api.getQualityReportList,
 		method: "post",
 		data: data
 	});

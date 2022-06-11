@@ -1,10 +1,10 @@
 <!--
- * @Descripttion:监理旁站
+ * @Descripttion:监理巡视
  * @version:
  * @Author: WangHarry
- * @Date: 2022-05-09 14:12:51
+ * @Date: 2022-05-09 14:15:44
  * @LastEditors: WangHarry
- * @LastEditTime: 2022-05-09 14:15:22
+ * @LastEditTime: 2022-05-09 14:15:51
 -->
 <template>
 	<el-container class="container-box">
@@ -41,18 +41,17 @@
 					class="have_scrolling">
 					<el-table-column type="index" width="50" align="center" label="序号">
 					</el-table-column>
-
-
-
 					<el-table-column prop="processDefinitionName" align="center" label="流程名称" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="processDefinitionKey" align="center" label="流程标识" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="startUserId" align="center" label="任务发起人" show-overflow-tooltip>
+					<el-table-column prop="name" align="center" label="任务名称" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="startTime" align="center" label="任务发起时间" show-overflow-tooltip>
+					<el-table-column prop="approvalType" align="center" label="执行操作" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="endTime" align="center" label="任务结束时间" show-overflow-tooltip>
+					<el-table-column prop="startUser" align="center" label="任务发起人" show-overflow-tooltip>
+					</el-table-column>
+					<el-table-column prop="createTime" align="center" label="任务发起时间" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column fixed="right" width="120" align="center" label="操作">
 						<template slot-scope="{ row, $index }">
@@ -81,6 +80,7 @@
 					// processDefinitionName:'',
 					// beginDate:'2021-05-15',
 					// endDate:'2022-05-15',
+					// taskHandleStatus:3,
 					pageParam:{
 						pageNum: 1,
 						totalPage: 1,
@@ -105,7 +105,7 @@
 		},
 		methods: {
 			query(){
-				api.listHistoricProcessInstance(this.queryData).then((res) => {
+				api.listRemindingTask(this.queryData).then((res) => {
 					this.allData = res.data || {};
 					this.tableData = this.allData.list||[];
 					this.queryData.pageParam.pageNum = res.data.pageNum;
@@ -118,8 +118,8 @@
 				this.query()
 			},
 			gotoHandle(row){
-				//row['taskFormKey']=(typeof row['taskFormKey'])=='string'?JSON.parse(row['taskFormKey']):row['taskFormKey'];
-        let key = row["processDefinitionKey"];
+				row['formKey']=(typeof row['formKey'])=='string'?JSON.parse(row['formKey']):row['formKey'];
+        let key = row["formKey"]["routerName"];
         let router = this.detailRouters.find(e => e.code.indexOf(key) !== -1);
         let hiddenEdit = ["sgdwhtrybs", "jldwhtrybs", "qzdwhtrybs", "sgdwrybg", "jldwrybg", "qzdwrybg", "sgdwryqj", "jldwryqj", "qzdwryqj"];
         if (router) {
@@ -142,11 +142,11 @@
         }
 				// this.routes.forEach(parent=>{
 				// 	parent['children'].forEach(child=>{
-				// 		if(child['meta']['code']==row['processDefinitionKey']){
+				// 		if(child['meta']['code']==row['formKey']['routerName']){
 				// 			this.$router.push({
 				// 				path:child['path']+'_detail',
 				// 				query:{
-				// 					taskId: row.deploymentId,
+				// 					taskId: row.executionId,
 				// 					businessKey:row.businessKey,
 				// 					processDefinitionKey: row.processDefinitionKey,
 				// 					processInstanceId: row.processInstanceId,
@@ -166,3 +166,4 @@
 <style scoped lang="scss">
 	@import "../../assets/css/table.scss"
 </style>
+

@@ -195,31 +195,9 @@
 									</div>
 								</div> -->
 								
-								<div class="form-title">
-									<div class="title-big-bar"></div><strong>审批信息</strong>
-								</div>
-								<div class="form-block">
-									<div class="form-block-title">
-										<div class="title-bar"></div><strong>待审批人</strong>
-									</div>
-									<div class="block-line" v-for="userOptions in flowNodesUsersData">
-										<div class="block-item">
-											<div class="block-item-label">{{userOptions.entryName}}<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												<el-form-item>
-													<el-select placeholder="请选择" 
-													:disabled="userOptions['isSign']?true:false"
-													:multiple="userOptions['isSign']?true:false"
-													v-model="auditUser[userOptions.entryUserVariable]" @change="flowUserChange($event, userOptions.entryUserVariable)">
-														<el-option v-for="(item, idx) in userOptions.userName" :key="item"
-															:label="userOptions.userNameStr[idx]" :value="item">
-														</el-option>
-													</el-select>
-												</el-form-item>
-											</div>
-										</div>
-									</div>
-								</div>
+								<approveuser :auditUser="auditUser"  :flowKey="flowKey">
+								</approveuser>
+								
 								<div class="form-block">
 									<el-button @click="addOrModify()" class="submit-btn" size="small" type="primary">提交
 									</el-button>
@@ -258,7 +236,7 @@
 	import upload from "../../../common/upload.vue"
 	import attachlist from "../../../common/attachlist.vue"
 	import drafthandle from "../../../common/drafthandle.vue"
-	
+	import approveuser from "../../../common/approveuser.vue"
 	export default {
 		props: ['editRow'],
 		data() {
@@ -350,8 +328,8 @@
 				expertMeetingAttachTable: [], // 专家论证会议纪要附件
 				replyAttachTable: [], // 整改回复附件
 				fileList:[],
-				flowNodesUsersData: [],
-				auditUser: {}
+				auditUser: {},
+				flowKey:'shigongfangan'
 			};
 		},
 		created() {},
@@ -359,46 +337,16 @@
 			upload,
 			attachlist,
 			drafthandle,
+			approveuser,
 			constructionScheme: () => import("../constructionScheme.vue")
 		},
 		computed: {},
 		mounted() {
 			this.getProjectInfoById();
-			this.getFlowAuditEntry();
 		},
 		watch: {
 		},
 		methods: {
-			flowUserChange(data, data1){
-				this.auditUser[data1] = data;
-				this.$forceUpdate();
-			},
-			getFlowAuditEntry() {
-				api.getFlowAuditEntry({
-					flowKey: 'shigongfangan',
-					projectId: this.$store.getters.project['parentid'] || 2
-				}).then((res) => {
-					console.log(11111111111111111111, res);
-					for (let i = 0; i < res.data.length; i++) {
-						const item = res.data[i];
-						if(res.data[i]['isSign']){
-													this.auditUser[item.entryUserVariable] = item.userName;
-												}else{
-													this.auditUser[item.entryUserVariable] = item.userName[0];
-												}
-						if (!item.userNameStr) item.userNameStr = [];
-						for (let j = 0; j < item.userId.length; j++) {
-							const id = item.userId[j];
-							getUserInfo(id).then(res => {
-								item.userNameStr[j] = res.data.userInfo.NAME;
-								this.$forceUpdate();
-							})
-						}
-					}
-					console.log(this.auditUser);
-					this.flowNodesUsersData = res.data;
-				});
-			},
 			changeVisible(obj, value) {
 				this.dialogFormVisible = value;
 				obj=obj||{};

@@ -75,7 +75,9 @@
 					this.taskInfo={
 						processDefinitionId: params['processDefinitionId'],
 						processInstanceId: params['processInstanceId'],
-						taskId: params['taskId']
+						taskId: params['taskId'],
+						flowKey:params['processDefinitionKey'],
+						entryKey:params['taskKey']
 					};
 					if(params['taskId']){
 						this.isHandleVisible=true;

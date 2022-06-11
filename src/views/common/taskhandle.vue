@@ -16,7 +16,23 @@
 						</div>
 					</div>
 				</div>
-
+				<div class="block-line">
+					<div class="block-item">
+						<div class="block-item-label">抄送</div>
+						<div class="block-item-value">
+							<el-form-item prop="qualityCheckUser">
+								<el-select placeholder="请选择" 
+									multiple
+									v-model="auditUser">
+									<el-option v-for="(item, index) in userOptions"
+										:key="index" :label="item.name"
+										:value="item.username">
+									</el-option>
+								</el-select>
+							</el-form-item>
+						</div>
+					</div>
+				</div>
 			</div>
 			<div class="form-block" style="text-align: center;">
 				<!-- <el-button @click="agreeTask" size="small" type="primary">同意</el-button>
@@ -52,8 +68,10 @@
 						trigger: 'blur'
 					}]
 				},
-				operationList: []
-
+				operationList: [],
+				
+				userOptions:[],
+				auditUser:[]
 			};
 		},
 		created() {},
@@ -88,6 +106,9 @@
 		},
 		methods: {
 			initData(){
+				
+				this.getCopyUserByFlowKey();
+				
 				api.viewRuntimeTaskInfo({
 					processDefinitionId: this.taskInfo['processDefinitionId'],
 					processInstanceId: this.taskInfo['processInstanceId'],
@@ -97,6 +118,17 @@
 						return item.type !== this.SysFlowTaskOperationType.CO_SIGN && item.type !== this
 							.SysFlowTaskOperationType.REVOKE;
 					})
+				});
+			},
+			getCopyUserByFlowKey() {
+				api.getCopyUserByFlowKey({
+					entryKey: this.taskInfo['entryKey'],
+					flowKey:this.taskInfo['flowKey'],
+					projectId: this.$store.getters.project['parentid'] || 2
+				}).then((res) => {
+					let data=res.data||{};
+					this.userOptions=data.copyUserInfo||[];
+					this.$forceUpdate();
 				});
 			},
 			agreeTask() {
@@ -210,7 +242,9 @@
 					return;
 				}
 				api.submitUserTask({
-					copyData: {},
+					copyData: {
+						user:this.auditUser.join(',')
+					},
 					flowTaskCommentDto: this.formData,
 					masterData: {},
 					processInstanceId: this.taskInfo.processInstanceId,
