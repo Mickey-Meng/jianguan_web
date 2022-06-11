@@ -424,6 +424,18 @@ export const asyncRoutes = [{
 				partMap: false,
 				noMap: true
 			}
+		}, {
+			path: "/liuchengrenyuanpeizhi",
+			name: "liuchengrenyuanpeizhi",
+			component: () => import("@/views/quality/newPage/liuchengpeizhi"),
+			meta: {
+				title: "流程配置temp",
+				code: "liuchengrenyuanpeizhi",
+				icon: "circle",
+				allMap: false,
+				partMap: false,
+				noMap: true
+			}
 		}]
 	},
 	{
