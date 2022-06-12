@@ -67,6 +67,13 @@ export const getUserByGroupId = (groupid, code, name = undefined) => {
     method: "get"
   });
 };
+//根据组织id获取用户
+export const getUserByRoleId = (roleid, code, name = undefined) => {
+  return request({
+    url: `/STSfmzj/userauth/getUsersByRole?roleCode=${code}`,
+    method: "get"
+  });
+};
 //获取组织信息
 export const getOrgInfo = () => {
   return request({

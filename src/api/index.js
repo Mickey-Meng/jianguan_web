@@ -234,6 +234,7 @@ const api = {
 	listRemindingTask: '/ZhuJiApi/admin/flow/flowMessage/listRemindingTask', //抄送列表
 	getFlowAndTaskInfo: '/ZhuJiApi/admin/flow/flowStaticPage/getFlowAndTaskInfo', //根据流程idH获取三个key 用于查看审批信息
   getFlowType:'/ZhuJiApi/web/api/v1/flowType/page',//分页查询流程类型数据
+  addOrUpdateFlowAuditEntry:'/ZhuJiApi/web/api/v1/flowAuditEntry/addOrUpdate',//新增或者更新流程节点审核人员数据
   getFlowTypeDetail:'/ZhuJiApi/web/api/v1/flowType/getAuditInfoByTypeId', //通过id获取一条流程类型数据
 	flowAuditEntry: "/ZhuJiApi/web/api/v1/flowAuditEntry/getAuditInfoByFlowKey",
 	getCopyUserByFlowKey: "/ZhuJiApi/web/api/v1/flowAuditEntry/getCopyUserByFlowKey",
