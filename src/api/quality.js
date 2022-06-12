@@ -686,6 +686,16 @@ export const getFlowType = (data) => {
 	});
 };
 /**
+ * addOrUpdateFlowAuditEntry
+ */
+export const addOrUpdateFlowAuditEntry = (data) => {
+	return request({
+		url: api.addOrUpdateFlowAuditEntry,
+		method: "post",
+		data: data
+	});
+};
+/**
  * getFlowTypeDetail
  */
 export const getFlowTypeDetail = (params) => {
