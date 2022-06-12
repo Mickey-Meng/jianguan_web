@@ -233,6 +233,8 @@ const api = {
 	listFlowTaskComment: '/ZhuJiApi/admin/flow/flowOperation/listFlowTaskComment', //获取当前流程任务的审批列表
 	listRemindingTask: '/ZhuJiApi/admin/flow/flowMessage/listRemindingTask', //抄送列表
 	getFlowAndTaskInfo: '/ZhuJiApi/admin/flow/flowStaticPage/getFlowAndTaskInfo', //根据流程idH获取三个key 用于查看审批信息
+  getFlowType:'/ZhuJiApi/web/api/v1/flowType/page',//分页查询流程类型数据
+  getFlowTypeDetail:'/ZhuJiApi/web/api/v1/flowType/getAuditInfoByTypeId', //通过id获取一条流程类型数据
 	flowAuditEntry: "/ZhuJiApi/web/api/v1/flowAuditEntry/getAuditInfoByFlowKey",
 	getCopyUserByFlowKey: "/ZhuJiApi/web/api/v1/flowAuditEntry/getCopyUserByFlowKey",
 	//省市区

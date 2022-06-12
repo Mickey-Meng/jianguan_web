@@ -676,6 +676,26 @@ export const viewTaskUserInfo = (params) => {
 	});
 };
 /**
+ * getFlowType
+ */
+export const getFlowType = (data) => {
+	return request({
+		url: api.getFlowType,
+		method: "post",
+		data: data
+	});
+};
+/**
+ * getFlowTypeDetail
+ */
+export const getFlowTypeDetail = (params) => {
+	return request({
+		url: api.getFlowTypeDetail,
+		method: "get",
+		params: params
+	});
+};
+/**
  * 查询地市
  */
 export const getCity = params => {
