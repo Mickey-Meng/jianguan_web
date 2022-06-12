@@ -243,10 +243,15 @@
 					}).catch(e => {});
 					return;
 				}
-				api.submitUserTask({
-					copyData: {
+				
+				let coptdata={};
+				if(this.auditUser.length){
+					coptdata={
 						user:this.auditUser.join(',')
-					},
+					}
+				}
+				api.submitUserTask({
+					copyData: coptdata,
 					flowTaskCommentDto: this.formData,
 					masterData: {},
 					processInstanceId: this.taskInfo.processInstanceId,
