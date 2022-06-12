@@ -157,9 +157,7 @@
 					cancelButtonText: '取消',
 					type: 'warning'
 				}).then(() => {
-					api.deleteSupervisionPatrol({
-						id: row['id']
-					}).then((res) => {
+					api.deleteSupervisionPatrol(row['id']).then((res) => {
 						if (this.tableData.length == 1) {
 							this.queryData.pageNum = this.queryData.pageNum> 1 ? this.queryData.pageNum - 1 : 1
 						}

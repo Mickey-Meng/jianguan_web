@@ -16,13 +16,13 @@
 			</div>
 			<div class="input-box">
 				<div class="input-value">
-					<el-date-picker v-model="queryData.createStartTime" type="date" placeholder="创建开始时间">
+					<el-date-picker format="yyyy-MM-dd" v-model="queryData.createStartTime" type="date" placeholder="创建开始时间">
 					</el-date-picker>
 				</div>
 			</div>
 			<div class="input-box">
 				<div class="input-value">
-					<el-date-picker v-model="queryData.createEndTime" type="date" placeholder="创建结束时间">
+					<el-date-picker format="yyyy-MM-dd" v-model="queryData.createEndTime" type="date" placeholder="创建结束时间">
 					</el-date-picker>
 				</div>
 			</div>
@@ -151,9 +151,7 @@
 					cancelButtonText: '取消',
 					type: 'warning'
 				}).then(() => {
-					api.deleteSupervisionNotice({
-						id: row['id']
-					}).then((res) => {
+					api.deleteSupervisionNotice(row['id']).then((res) => {
 						if (this.tableData.length == 1) {
 							this.queryData.pageNum = this.queryData.pageNum> 1 ? this.queryData.pageNum - 1 : 1
 						}

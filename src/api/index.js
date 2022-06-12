@@ -348,7 +348,7 @@ const api = {
 	getSupervisionSideDeatil: "/ZhuJiApi/web/api/v1/supervisionSide/detail/id",
 	deleteSupervisionSide: "/ZhuJiApi/web/api/v1/supervisionSide/id",
 	getSupervisionSideList: "/ZhuJiApi/web/api/v1/supervisionSide/page",
-	getSupervisionSideEnums: "/ZhuJiApi/web/api/v1/supervisionSide/equipment/enums",
+	getSupervisionSideEnums: "/ZhuJiApi/web/api/v1/supervisionSide/sideProject/enums",
 	
 	//监理巡视
 	addOrUpdateSupervisionPatrol: "/ZhuJiApi/web/api/v1/supervisionPatrol/addOrUpdate",

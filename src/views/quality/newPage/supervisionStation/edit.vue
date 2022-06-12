@@ -105,7 +105,7 @@
 										<div class="block-item-value">
 											<el-form-item prop="sideProjectId">
 												<el-select v-model="formData.sideProjectId" placeholder="请选择">
-													<el-option v-for="item in partOptions" :key="item.value"
+													<el-option v-for="item in sideOptions" :key="item.value"
 														:label="item.label" :value="item.value">
 													</el-option>
 												</el-select>
@@ -279,7 +279,7 @@
 					"scenePhotoAttachment": [],
 					"sideDate": formatDate(new Date()),
 					"sideInfo": "",
-					"sideProjectId": 0,
+					"sideProjectId": null,
 					"sideWorkCondition": "",
 					"video": []
 				},
@@ -352,7 +352,7 @@
 			getSupervisionSideEnums() {
 				api.getSupervisionSideEnums().then((res) => {
 					let options = res.data || [];
-					this.sideOptions = convertOptions(options, 'desc', 'desc');
+					this.sideOptions = convertOptions(options, 'desc', 'code');
 				});
 			},
 			changeVisible(obj, value) {
@@ -378,7 +378,7 @@
 						"scenePhotoAttachment": [],
 						"sideDate": formatDate(new Date()),
 						"sideInfo": "",
-						"sideProjectId": 0,
+						"sideProjectId": null,
 						"sideWorkCondition": "",
 						"video": []
 					}
@@ -409,7 +409,7 @@
 								"scenePhotoAttachment": [],
 								"sideDate": formatDate(new Date()),
 								"sideInfo": "",
-								"sideProjectId": 0,
+								"sideProjectId": null,
 								"sideWorkCondition": "",
 								"video": []
 							}

@@ -70,7 +70,7 @@
 						}
 						if (!item.userNameStr) item.userNameStr = [];
 						for (let j = 0; j < item.userInfo.length; j++) {
-							item.userNameStr[j] = item.userInfo.name;
+							item.userNameStr[j] = item.userInfo[j].name;
 						}
 						this.$forceUpdate();
 					}

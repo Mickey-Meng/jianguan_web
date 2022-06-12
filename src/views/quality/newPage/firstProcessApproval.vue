@@ -21,13 +21,13 @@
 			</div>
 			<div class="input-box">
 				<div class="input-value">
-					<el-date-picker v-model="queryData.buildDateStart" type="date" placeholder="计划开工结束日期">
+					<el-date-picker format="yyyy-MM-dd" v-model="queryData.buildDateStart" type="date" placeholder="计划开工结束日期">
 					</el-date-picker>
 				</div>
 			</div>
 			<div class="input-box">
 				<div class="input-value">
-					<el-date-picker v-model="queryData.buildDateEnd" type="date" placeholder="开工开始日期">
+					<el-date-picker format="yyyy-MM-dd" v-model="queryData.buildDateEnd" type="date" placeholder="开工开始日期">
 					</el-date-picker>
 				</div>
 			</div>
@@ -164,9 +164,7 @@
 					cancelButtonText: '取消',
 					type: 'warning'
 				}).then(() => {
-					api.deleteFirstAccept({
-						id: row['id']
-					}).then((res) => {
+					api.deleteFirstAccept(row['id']).then((res) => {
 						if (this.tableData.length == 1) {
 							this.queryData.pageNum = this.queryData.pageNum> 1 ? this.queryData.pageNum - 1 : 1
 						}

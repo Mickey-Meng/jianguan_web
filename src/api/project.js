@@ -81,11 +81,4 @@ export const getProjectUserTree = params => {
 		params
 	});
 };
-export const getUserByRoleId = params => {
-	return request({
-		url: api.getUserByRoleId,
-		method: "post",
-		data: {},
-		params
-	});
-};
+

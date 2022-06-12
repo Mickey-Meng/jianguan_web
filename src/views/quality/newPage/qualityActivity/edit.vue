@@ -13,7 +13,7 @@
 							<el-form :model="formData" ref="ruleForm" :rules="rules" label-width="80px">
 								<div class="form-title">
 									<div class="title-big-bar"></div>
-									<strong>项目开工申请</strong>
+									<strong>质量活动</strong>
 									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify"
 										@checkDraft="checkDraft" ref="drafthandle"></drafthandle>
 								</div>
@@ -172,7 +172,7 @@
 				attachTable: [], //其他附件
 				flowNodesUsersData: [],
 				auditUser: {},
-				flowKey: 'xiangmukaigongshenqing'
+				flowKey: 'zhilianghuodong'
 			};
 		},
 		created() {},

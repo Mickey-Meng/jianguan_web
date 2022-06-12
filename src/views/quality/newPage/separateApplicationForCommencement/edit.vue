@@ -409,16 +409,16 @@
 				dialogFormVisible: false,
 				
 				buildUserOptions:[{
-					label:'陈忠',
-					value:'13341480113'
+					label:'洪涛',
+					value:'148'
 				}],
 				checkUserOptions:[{
-					label:'陈忠',
-					value:'13341480113'
+					label:'洪涛',
+					value:'148'
 				}],
 				liveUserOptions:[{
-					label:'陈忠',
-					value:'13341480113'
+					label:'洪涛',
+					value:'148'
 				}],
 				
 				rules: {
@@ -520,12 +520,20 @@
 		},
 		mounted() {
 			this.getProjectInfoById();
+			this.getUserOptions();
 		},
 		watch: {
 
 		},
 		methods: {
-			
+			getUserOptions(){
+				// api.getUserByRoleId({
+				// 	projectid:(this.$store.getters.project['parentid']||2),
+				// 	roleid :70
+				// }).then(res=>{
+				// 	debugger
+				// })
+			},
 			changeVisible(obj, value) {
 				this.dialogFormVisible = value;
 				obj = obj || {};
@@ -584,9 +592,7 @@
 				});
 			},
 			getDetail(id) {
-				api.getSubitemOpenDeatil({
-					id: id
-				}).then((res) => {
+				api.getSubitemOpenDeatil(id).then((res) => {
 					let data = res['data'] || {};
 					this.formData = data;
 				});
