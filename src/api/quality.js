@@ -474,13 +474,7 @@ export const getProjectUserTree = params => {
 		params
 	});
 };
-export const getUserByRoleId = data => {
-	return request({
-		url: api.getUserByRoleId,
-		method: "post",
-		data
-	});
-};
+
 /**
  * 上传文件
  */

@@ -16,17 +16,23 @@
 			</div>
 			<div class="input-box">
 				<div class="input-value">
-					<el-date-picker format="yyyy-MM-dd" v-model="queryData.createStartTime" type="date" placeholder="创建开始时间">
-					</el-date-picker>
+					<!-- <el-form-item> -->
+						<el-date-picker value-format="yyyy-MM-dd" v-model="queryData.createStartTime" type="date"
+							placeholder="创建开始时间">
+						</el-date-picker>
+					<!-- </el-form-item> -->
 				</div>
 			</div>
 			<div class="input-box">
 				<div class="input-value">
-					<el-date-picker format="yyyy-MM-dd" v-model="queryData.createEndTime" type="date" placeholder="创建结束时间">
-					</el-date-picker>
+					<!-- <el-form-item> -->
+						<el-date-picker value-format="yyyy-MM-dd" v-model="queryData.createEndTime" type="date"
+							placeholder="创建结束时间">
+						</el-date-picker>
+					<!-- </el-form-item> -->
 				</div>
 			</div>
-			
+
 			<el-button type="primary" @click="query">搜索</el-button>
 			<div v-if="!isDraft" class="right-btns">
 				<div class="operate-btns" v-show="operateBtnsVisible">
@@ -52,12 +58,12 @@
 					</el-table-column>
 					<el-table-column fixed="right" width="120" align="center" label="操作">
 						<template slot-scope="{ row, $index }">
-							<el-button v-if="!isDraft"  type="text" size="mini" @click="modify(row)">修改</el-button>
-							<el-button v-if="!isDraft"  type="text" size="mini" @click="viewDetail(row)">详情</el-button>
-							
+							<el-button v-if="!isDraft" type="text" size="mini" @click="modify(row)">修改</el-button>
+							<el-button v-if="!isDraft" type="text" size="mini" @click="viewDetail(row)">详情</el-button>
+
 							<el-button v-if="isDraft" type="text" size="mini" @click="checkDetail(row)">选择</el-button>
-							
-							<el-button  type="text" size="mini" @click="deleteRow(row)">删除</el-button>
+
+							<el-button type="text" size="mini" @click="deleteRow(row)">删除</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -80,13 +86,15 @@
 	} from "@/utils/format.js";
 	import edit from './supervisionNotice/edit';
 	import detail from './supervisionNotice/detail';
-	import { mapGetters } from 'vuex'
+	import {
+		mapGetters
+	} from 'vuex'
 
 	export default {
-		props:{
-			isDraft:{
-				type:Boolean,
-				default:false
+		props: {
+			isDraft: {
+				type: Boolean,
+				default: false
 			}
 		},
 		components: {
@@ -103,12 +111,12 @@
 					createStartTime: null,
 					createEndTime: null,
 					title: '',
-					
+
 					draftFlag: 1,
 					pageNum: 1,
 					totalPage: 1,
 					pageSize: 10,
-					projectId:this.$store.getters.project['parentid']
+					projectId: this.$store.getters.project['parentid']
 				},
 				currentPattern: 0, //0查看，1新增，2修改
 				editRow: null,
@@ -124,7 +132,7 @@
 		},
 		methods: {
 			query() {
-				this.queryData.draftFlag=this.isDraft?0:1;
+				this.queryData.draftFlag = this.isDraft ? 0 : 1;
 				api.getSupervisionNoticeList(this.queryData).then((res) => {
 					this.allData = res.data || {};
 					this.tableData = this.allData.list;
@@ -135,11 +143,11 @@
 			},
 			addNew() {
 				// this.editRow = null;
-				this.$refs.edit.changeVisible(null,true);
+				this.$refs.edit.changeVisible(null, true);
 			},
 			modify(row) {
 				// this.editRow = row;
-				this.$refs.edit.changeVisible(row,true);
+				this.$refs.edit.changeVisible(row, true);
 			},
 			viewDetail(row) {
 				this.detailRow = row;
@@ -153,7 +161,8 @@
 				}).then(() => {
 					api.deleteSupervisionNotice(row['id']).then((res) => {
 						if (this.tableData.length == 1) {
-							this.queryData.pageNum = this.queryData.pageNum> 1 ? this.queryData.pageNum - 1 : 1
+							this.queryData.pageNum = this.queryData.pageNum > 1 ? this.queryData.pageNum -
+								1 : 1
 						}
 						this.query();
 						this.$message({
@@ -169,12 +178,12 @@
 				});
 			},
 			handleCurrentChange(page) {
-				this.queryData.pageNum=page
+				this.queryData.pageNum = page
 				this.query()
 			},
-			checkDetail(row){
+			checkDetail(row) {
 				this.$emit("hideDraft");
-				this.$emit("getDetail",row['id']);
+				this.$emit("getDetail", row['id']);
 			}
 		},
 	};

@@ -387,6 +387,7 @@
 
 <script>
 	import * as api from "@/api/quality";
+	import * as userapi from "@/api/user";
 	import {
 		getUserInfo
 	} from "@/api/user";
@@ -527,10 +528,7 @@
 		},
 		methods: {
 			getUserOptions(){
-				// api.getUserByRoleId({
-				// 	projectid:(this.$store.getters.project['parentid']||2),
-				// 	roleid :70
-				// }).then(res=>{
+				// userapi.getUserByRoleId(70,'zjfzr').then(res=>{
 				// 	debugger
 				// })
 			},
