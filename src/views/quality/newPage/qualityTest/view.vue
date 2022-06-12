@@ -63,32 +63,45 @@
 						<div class="title-bar"></div><strong>检测信息</strong>
 					</div>
 					<div class="block-table">
-						<el-table :data="examineTable" style="width: 100%" border class="have_scrolling">
+						<el-table :data="examineTable" style="width: 100%" border
+							class="have_scrolling">
 							<el-table-column type="index" width="50" align="center" label="序号">
 							</el-table-column>
-							<el-table-column prop="name" align="center" label="材料名称" show-overflow-tooltip>
+							<el-table-column prop="name" align="center" label="材料名称"
+								show-overflow-tooltip>
 							</el-table-column>
-							<el-table-column prop="addressStr" width="160px" align="center" label="材料来源">
+							<el-table-column prop="addressStr" width="160px" align="center"
+								label="材料来源">
 							</el-table-column>
-							<el-table-column prop="specification" width="120px" align="center" label="材料规格">
+							<el-table-column prop="specification" width="120px" align="center"
+								label="材料规格">
 							</el-table-column>
-							<el-table-column prop="projectPart" width="120px" align="center" label="工程部位">
+							<el-table-column prop="projectPart" width="120px" align="center"
+								label="工程部位">
 							</el-table-column>
-							<el-table-column prop="num" width="120px" align="center" label="材料数量(吨)">
+							<el-table-column prop="num" width="120px" align="center"
+								label="材料数量(吨)">
 							</el-table-column>
-							<el-table-column prop="takeAddress" width="120px" align="center" label="取样地点">
+							<el-table-column prop="takeAddress" width="120px" align="center"
+								label="取样地点">
 							</el-table-column>
-							<el-table-column prop="testDate" width="120px" align="center" label="试验日期">
+							<el-table-column prop="testDate" width="120px" align="center"
+								label="试验日期">
 							</el-table-column>
-							<el-table-column prop="testNum" width="120px" align="center" label="实验数量">
+							<el-table-column prop="testNum" width="120px" align="center"
+								label="实验数量">
 							</el-table-column>
-							<el-table-column prop="qualifiedNum" width="120px" align="center" label="合格数量">
+							<el-table-column prop="qualifiedNum" width="120px" align="center"
+								label="合格数量">
 							</el-table-column>
-							<el-table-column prop="qualifiedRate" width="120px" align="center" label="总合格率(%)">
+							<el-table-column prop="qualifiedRate" width="120px" align="center"
+								label="总合格率(%)">
 							</el-table-column>
-							<el-table-column prop="detectionResult" width="120px" align="center" label="检测结果">
+							<el-table-column prop="detectionResult" width="120px" align="center"
+								label="检测结果">
 							</el-table-column>
-							<el-table-column prop="reportCode" width="120px" align="center" label="报告编号">
+							<el-table-column prop="reportCode" width="120px" align="center"
+								label="报告编号">
 							</el-table-column>
 						</el-table>
 					</div>
@@ -111,7 +124,9 @@
 						<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 							文件，且不超过 200M</span>
 					</div>
+					
 					<attachlist :editAble="false" ref="attachlist" :attachTable="factoryTable"></attachlist>
+					
 					
 				</div>
 				<div class="form-block">
@@ -143,7 +158,6 @@
 		getQueryVariable
 	} from "@/utils/format.js";
 	import attachlist from "../../../common/attachlist"
-	
 	export default {
 		data() {
 			return {
@@ -156,25 +170,18 @@
 					supervisionSection: '监理办'
 				},
 				formData: { //表单参数
-					buildSection: 1,
+					buildSection: '',
 					deletedFlag: 1,
 					detectionInfo: [],
 					detectionReport: [],
+					factoryInfo: [],
+					otherAttachment: [],
 					draftFlag: 1,
-					fillDate: new Date(),
-					id: 1,
+					fillDate: formatDate(new Date()),
 					inspectionCode: '',
-					projectId: 1,
+					projectId: this.$store.getters.project['parentid'],
 					remark: '',
-					createTime: null,
-					createUserId: null,
-					updateTime: null,
-					updateUserId: null
-				},
-				examineTable: [], //检测信息
-				reportTable: [], //试验检测报告
-				factoryTable: [], //出厂信息
-				attachTable: [], //其他附件
+				}
 			};
 		},
 		created() {},
@@ -195,10 +202,6 @@
 				}).then((res) => {
 					let data = res['data'] || {};
 					this.formData = data;
-					this.examineTable = data.detectionInfo || [];
-					this.reportTable = data.detectionReport || [];
-					this.factoryTable = data.factoryInfo || [];
-					this.attachTable = data.otherAttachment || [];
 				});
 			},
 		},

@@ -34,6 +34,26 @@ export const constantRoutes = [{
 		name: "handlerFlowTask",
 		component: () => import("@/views/task/handlerFlowTask/index"),
 		children: [{
+				path: "/qualityActivity_detail",
+				name: "qualityActivity_detail",
+				code: "zhilianghuodong",
+				component: () => import("@/views/quality/newPage/qualityActivity/view")
+			},{
+				path: "/supervisionNotice_detail",
+				name: "supervisionNotice_detail",
+				code: "jianlitongzhi",
+				component: () => import("@/views/quality/newPage/supervisionNotice/view")
+			},{
+				path: "/supervisionStation_detail",
+				name: "supervisionStation_detail",
+				code: "jianlipangzhan",
+				component: () => import("@/views/quality/newPage/supervisionStation/view")
+			},{
+				path: "/supervisionPatrol_detail",
+				name: "supervisionPatrol_detail",
+				code: "jianlixunshi",
+				component: () => import("@/views/quality/newPage/supervisionPatrol/view")
+			},{
 				path: "/firstProcessApproval_detail",
 				name: "firstProcessApproval_detail",
 				code: "shoujianrenke",

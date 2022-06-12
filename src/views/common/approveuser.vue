@@ -40,7 +40,8 @@
 		data() {
 			return {
 				formData: {},
-				flowNodesUsersData: []
+				flowNodesUsersData: [],
+				
 			};
 		},
 		created() {},

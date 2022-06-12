@@ -14,145 +14,141 @@
 								
 								<div class="form-block">
 									<div class="form-block-title">
+										<div class="title-bar"></div><strong>发起位置</strong>
+										<locationmap></locationmap>
+									</div>
+									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
 									</div>
 									<div class="block-line">
 										<div class="block-item">
-											<div class="block-item-label">申请开工日期<i class="require-icon"></i></div>
+											<div class="block-item-label">施工标段<i class="require-icon"></i></div>
 											<div class="block-item-value">
-												{{formData.openDate}}
+												{{formData.buildSection}}
 											</div>
 										</div>
 										<div class="block-item">
-											<div class="block-item-label">计划完工日期<i class="require-icon"></i></div>
+											<div class="block-item-label">施工单位</div>
 											<div class="block-item-value">
-												{{formData.endDate}}
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">共计划日历天:{{intervalPlan}}</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">合同规定工期起<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												{{formData.contractOpenDate}}
-											</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">合同规定工期止<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												{{formData.contractEndDate}}
+												{{baseInfo.buildCompany}}
 											</div>
 										</div>
 									</div>
 									<div class="block-line">
 										<div class="block-item">
-											<div class="block-item-label">历时天数:{{intervalContract}}</div>
+											<div class="block-item-label">监理标段</div>
+											<div class="block-item-value">
+												{{baseInfo.supervisionSection}}
+											</div>
+										</div>
+										<div class="block-item">
+											<div class="block-item-label">监理单位</div>
+											<div class="block-item-value">
+												{{baseInfo.supervisionUnit}}
+											</div>
+										</div>
+									</div>
+									<div class="block-line">
+										<!-- <div class="block-item">
+											<div class="block-item-label">创建人</div>
+											<div class="block-item-value">
+												{{baseInfo.supervisionUnit}}
+											</div>
+										</div> -->
+										<div class="block-line">
+											<div class="block-item">
+												<div class="block-item-label">旁站时间</div>
+												<div class="block-item-value">
+													{{formData.sideDate}}
+									
+												</div>
+											</div>
+										</div>
+									
+									</div>
+								</div>
+								<div class="form-block">
+									<div class="form-block-title">
+										<div class="title-bar"></div><strong>旁站信息</strong>
+									</div>
+									<div class="block-line">
+										<div class="block-item-label">工程部位</div>
+										<div class="block-item-value">
+											{{formData.projectPartId}}
+										</div>
+									</div>
+									<div class="block-line">
+										<div class="block-item-label">旁站监理项目<i class="require-icon"></i></div>
+										<div class="block-item-value">
+											{{formData.sideProjectId}}
+										</div>
+									</div>
+									<div class="block-line">
+										<div class="block-item">
+											<div class="block-item-label">工程部位描述</div>
+											<div class="block-item-value">
+												{{formData.projectPartDesc}}
+											</div>
+										</div>
+										<div class="block-item">
+											<div class="block-item-label">异常情况<i class="require-icon"></i></div>
+											<div class="block-item-value">
+												{{formData.exceptionCondition}}
+											</div>
 										</div>
 									</div>
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
-										<div class="title-bar"></div><strong>施工组织设计审批情况</strong>
+										<div class="title-bar"></div><strong>旁站信息记录</strong>
+									</div>
+								
+									<div class="block-line">
+										<div class="block-item">
+											<div class="block-item-label">旁站工作情况</div>
+											<div class="block-item-value">
+												{{formData.sideWorkCondition}}
+											</div>
+										</div>
 									</div>
 									<div class="block-line">
-										<div class="block-item-label">申报说明<i class="require-icon"></i></div>
-										<div class="block-item-value">
-											{{formData.buildApplyExplain}}
+										<div class="block-item">
+											<div class="block-item-label">发现的问题及处理结果</div>
+											<div class="block-item-value">
+												{{formData.problemDealCondition}}
+											</div>
 										</div>
 									</div>
 								</div>
+								
 								<div class="form-block">
 									<div class="form-block-title">
-										<div class="title-bar"></div><strong>工程划分审核情况</strong>
+										<div class="title-bar"></div><strong>旁站现场照片</strong>
+										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
+											文件，且不超过 200M</span>
 									</div>
-									<div class="block-line">
-										<div class="block-item-label">申报说明<i class="require-icon"></i></div>
-										<div class="block-item-value">
-											{{formData.projectApplyExplain}}
-										</div>
-									</div>
+									<attachlist :editAble="false" ref="attachlist"
+										:attachTable="formData.scenePhotoAttachment">
+									</attachlist>
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
-										<div class="title-bar"></div><strong>技术、质量、安全、环保保证体系建立情况（含相关人员证书）</strong>
+										<div class="title-bar"></div><strong>实测实量照片</strong>
+										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
+											文件，且不超过 200M</span>
 									</div>
-									<div class="block-line">
-										<div class="block-item-label">申报说明<i class="require-icon"></i></div>
-										<div class="block-item-value">
-											{{formData.techApplyExplain}}
-										</div>
-									</div>
+									<attachlist :editAble="false" ref="attachlist"
+										:attachTable="formData.actualCheckAttachment">
+									</attachlist>
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
-										<div class="title-bar"></div><strong>试验检测工作准备情况</strong>
+										<div class="title-bar"></div><strong>视频上传</strong>
+										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
+											文件，且不超过 200M</span>
 									</div>
-									<div class="block-line">
-										<div class="block-item-label">申报说明<i class="require-icon"></i></div>
-										<div class="block-item-value">
-											{{formData.checkApplyExplain}}
-										</div>
-									</div>
-								</div>
-								<div class="form-block">
-									<div class="form-block-title">
-										<div class="title-bar"></div><strong>设计交底情况</strong>
-									</div>
-									<div class="block-line">
-										<div class="block-item-label">申报说明<i class="require-icon"></i></div>
-										<div class="block-item-value">
-											{{formData.designApplyExplain}}
-										</div>
-									</div>
-								</div>
-								<div class="form-block">
-									<div class="form-block-title">
-										<div class="title-bar"></div><strong>原始基准点、地面线复测情况</strong>
-									</div>
-									<div class="block-line">
-										<div class="block-item-label">申报说明<i class="require-icon"></i></div>
-										<div class="block-item-value">
-											{{formData.againApplyExplain}}
-										</div>
-									</div>
-								</div>
-								<div class="form-block">
-									<div class="form-block-title">
-										<div class="title-bar"></div><strong>开工预付款担保及保险情况</strong>
-									</div>
-									<div class="block-line">
-										<div class="block-item-label">申报说明<i class="require-icon"></i></div>
-										<div class="block-item-value">
-											{{formData.insuranceApplyExplain}}
-										</div>
-									</div>
-								</div>
-								<div class="form-block">
-									<div class="form-block-title">
-										<div class="title-bar"></div><strong>合同段施工安全风险评估情况</strong>
-									</div>
-									<div class="block-line">
-										<div class="block-item-label">申报说明<i class="require-icon"></i></div>
-										<div class="block-item-value">
-											{{formData.securityApplyExplain}}
-										</div>
-									</div>
-								</div>
-								<div class="form-block">
-									<div class="form-block-title">
-										<div class="title-bar"></div><strong>其他有关情况说明</strong>
-									</div>
-									<div class="block-line">
-										<div class="block-item-label">申报说明<i class="require-icon"></i></div>
-										<div class="block-item-value">
-											{{formData.otherApplyExplain}}
-										</div>
-									</div>
+									<attachlist :editAble="false" ref="attachlist" :attachTable="formData.video">
+									</attachlist>
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
@@ -160,7 +156,8 @@
 										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 											文件，且不超过 200M</span>
 									</div>
-									<attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>
+									<attachlist :editAble="false" ref="attachlist" :attachTable="formData.attachment">
+									</attachlist>
 								</div>
 							</el-form>
 							<taskhandle :taskInfo="taskInfo"></taskhandle>
@@ -191,7 +188,7 @@
 		getDaysBetween
 	} from "@/utils/format.js";
 	import tasklog from "../../../common/tasklog.vue"
-	
+	import locationmap from "../../../common/locationmap.vue"
 	import taskhandle from '../../../common/taskhandle'
 	import attachlist from "../../../common/attachlist"
 
@@ -210,25 +207,25 @@
 					supervisionSection: '监理办'
 				},
 				formData: { //表单参数
-					deletedFlag: 1,
-					attachment: [],
-					draftFlag: 1,
-					againApplyExplain: '',
-					buildApplyExplain: '',
-					checkApplyExplain: '',
-					designApplyExplain: '',
-					insuranceApplyExplain: '',
-					otherApplyExplain: '',
-					projectApplyExplain: '',
-					securityApplyExplain: '',
-					techApplyExplain: '',
-					contractEndDate: formatDate(new Date()),
-					contractOpenDate: formatDate(new Date()),
-					endDate: formatDate(new Date()),
-					openDate: formatDate(new Date()),
-					projectId: this.$store.getters.project['parentid'],
+					"actualCheckAttachment": [],
+					"address": {},
+					"attachment": [],
+					"auditUser": {},
+					"buildSection": 0,
+					"deletedFlag": 1,
+					"draftFlag": 1,
+					"exceptionCondition": "",
+					"problemDealCondition": "",
+					"projectId": this.$store.getters.project['parentid'],
+					"projectPartDesc": "",
+					"projectPartId": 0,
+					"scenePhotoAttachment": [],
+					"sideDate": formatDate(new Date()),
+					"sideInfo": "",
+					"sideProjectId": 0,
+					"sideWorkCondition": "",
+					"video": []
 				},
-				attachTable: [], //其他附件
 				taskInfo:{}
 			};
 		},
@@ -236,15 +233,11 @@
 		components: {
 			tasklog,
 			taskhandle,
-			attachlist
+			attachlist,
+			locationmap
 		},
 		computed: {
-			intervalPlan: function() {
-				return getDaysBetween(this.formData.openDate, this.formData.endDate)
-			},
-			intervalContract: function() {
-				return getDaysBetween(this.formData.contractOpenDate, this.formData.contractEndDate)
-			}
+			
 		},
 		watch:{
 			detailRow(obj){
@@ -274,10 +267,9 @@
 				this.dialogFormVisible=value;
 			},
 			getDetail(id){
-				api.getProjectOpenDeatil(id).then((res) => {
+				api.getSupervisionSideDeatil(id).then((res) => {
 					let data=res['data']||{};
 					this.formData=data;
-					this.attachTable=data.otherAttachment||[];
 				});
 			},
 		},

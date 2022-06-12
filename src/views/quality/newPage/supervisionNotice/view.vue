@@ -4,61 +4,53 @@
 		<div class="form-content">
 			<el-form ref="form" label-width="80px">
 				<div class="form-block">
-					<div class="form-block-title">
-						<div class="title-bar"></div><strong>基本信息</strong>
-					</div>
 					<div class="block-line">
 						<div class="block-item">
-							<div class="block-item-label">施工标段<i class="require-icon"></i></div>
+							<div class="block-item-label">项目名称</div>
 							<div class="block-item-value">
-								{{formData.buildSection}}
+								{{baseInfo.buildSectionName}}
 							</div>
 						</div>
 						<div class="block-item">
-							<div class="block-item-label">合同号</div>
+							<div class="block-item-label">编号</div>
 							<div class="block-item-value">
-								{{baseInfo.contractCode}}
+								{{formData.code}}
 							</div>
 						</div>
 					</div>
+					
 					<div class="block-line">
 						<div class="block-item">
-							<div class="block-item-label">施工单位</div>
+							<div class="block-item-label">主送<i class="require-icon"></i></div>
 							<div class="block-item-value">
-								{{baseInfo.buildCompany}}
-							</div>
-						</div>
-						<div class="block-item">
-							<div class="block-item-label">监理单位</div>
-							<div class="block-item-value">
-								{{baseInfo.supervisionUnit}}
+								{{formData.mainSent}}
 							</div>
 						</div>
 					</div>
 					<div class="block-line">
 						<div class="block-item">
-							<div class="block-item-label">监理标段</div>
-							<div class="block-item-value">
-								{{baseInfo.supervisionSection}}
-							</div>
-						</div>
-						<div class="block-item">
-							<div class="block-item-label">简报名称<i class="require-icon"></i></div>
+							<div class="block-item-label">标题<i class="require-icon"></i></div>
 							<div class="block-item-value">
 								{{formData.title}}
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="form-block">
-					<div class="form-block-title">
-						<div class="title-bar"></div><strong>附件上传</strong>
-						<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
-							文件，且不超过 200M</span>
+					<div class="block-line">
+						<div class="block-item">
+							<div class="block-item-label">抄送</div>
+							<div class="block-item-value">
+								{{formData.copy}}
+							</div>
+						</div>
 					</div>
-					<attachlist :editAble="false" ref="attachlist" :attachTable="formData.reportAttachment">
-					</attachlist>
-				
+					<div class="block-line">
+						<div class="block-item">
+							<div class="block-item-label">通知内容<i class="require-icon"></i></div>
+							<div class="block-item-value">
+								{{formData.content}}
+							</div>
+						</div>
+					</div>
 				</div>
 			</el-form>
 		</div>
@@ -87,13 +79,15 @@
 					supervisionSection: '监理办'
 				},
 				formData: { //表单参数
-					buildSection:'',
-					deletedFlag: 1,
-					attachment: [],
-					draftFlag: 1,
-					title: '',
-					reportAttachment:[],
-					projectId: this.$store.getters.project['parentid'],
+					"auditUser": {},
+					"code": "",
+					"content": "",
+					"copy": "",
+					"deletedFlag": 1,
+					"draftFlag": 1,
+					"mainSent": "",
+					"projectId": this.$store.getters.project['parentid'],
+					"title": ""
 				},
 				taskInfo:{}
 			};
@@ -103,7 +97,6 @@
 			attachlist
 		},
 		computed: {
-			
 		},
 		watch: {
 			
@@ -113,7 +106,7 @@
 		},
 		methods: {
 			getDetail(id) {
-				api.getQualityReportDeatil(id).then((res) => {
+				api.getSupervisionNoticeDeatil(id).then((res) => {
 					let data = res['data'] || {};
 					this.formData = data;
 				});

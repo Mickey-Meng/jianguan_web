@@ -13,60 +13,42 @@
 							<el-form :model="formData" ref="ruleForm" :rules="rules" label-width="80px">
 								<div class="form-title">
 									<div class="title-big-bar"></div>
-									<strong>质量简报</strong>
+									<strong>监理通知</strong>
 									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify"
 										@checkDraft="checkDraft" ref="drafthandle"></drafthandle>
 								</div>
 
 								<div class="form-block">
-									<div class="form-block-title">
-										<div class="title-bar"></div><strong>基本信息</strong>
-									</div>
 									<div class="block-line">
 										<div class="block-item">
-											<div class="block-item-label">施工标段<i class="require-icon"></i></div>
+											<div class="block-item-label">项目名称</div>
 											<div class="block-item-value">
-												<el-form-item prop="buildSection">
-													<el-select
-													@change="changeChild"
-													    v-model="formData.buildSection" placeholder="请选择">
-														<el-option v-for="item in childOptions" :key="item.value" :label="item.label"
-															:value="item.value">
-														</el-option>
-													</el-select>
+												{{baseInfo.buildSectionName}}
+											</div>
+										</div>
+										<div class="block-item">
+											<div class="block-item-label">编号</div>
+											<div class="block-item-value">
+												<el-form-item prop="code">
+													<el-input v-model="formData.code"></el-input>
 												</el-form-item>
 											</div>
 										</div>
+									</div>
+
+									<div class="block-line">
 										<div class="block-item">
-											<div class="block-item-label">合同号</div>
+											<div class="block-item-label">主送<i class="require-icon"></i></div>
 											<div class="block-item-value">
-												{{baseInfo.contractCode}}
+												<el-form-item prop="mainSent">
+													<el-input v-model="formData.mainSent"></el-input>
+												</el-form-item>
 											</div>
 										</div>
 									</div>
 									<div class="block-line">
 										<div class="block-item">
-											<div class="block-item-label">施工单位</div>
-											<div class="block-item-value">
-												{{baseInfo.buildCompany}}
-											</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">监理单位</div>
-											<div class="block-item-value">
-												{{baseInfo.supervisionUnit}}
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">监理标段</div>
-											<div class="block-item-value">
-												{{baseInfo.supervisionSection}}
-											</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">简报名称<i class="require-icon"></i></div>
+											<div class="block-item-label">标题<i class="require-icon"></i></div>
 											<div class="block-item-value">
 												<el-form-item prop="title">
 													<el-input v-model="formData.title"></el-input>
@@ -74,23 +56,31 @@
 											</div>
 										</div>
 									</div>
-									
-								</div>
-								
-
-								<div class="form-block">
-									<div class="form-block-title">
-										<div class="title-bar"></div><strong>附件上传</strong>
-										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
-											文件，且不超过 200M</span>
+									<div class="block-line">
+										<div class="block-item">
+											<div class="block-item-label">抄送</div>
+											<div class="block-item-value">
+												<el-form-item prop="copy">
+													<el-input v-model="formData.copy"></el-input>
+												</el-form-item>
+											</div>
+										</div>
 									</div>
-									<attachlist :editAble="true" ref="attachlist" :attachTable="formData.reportAttachment">
-									</attachlist>
-
+									<div class="block-line">
+										<div class="block-item">
+											<div class="block-item-label">通知内容<i class="require-icon"></i></div>
+											<div class="block-item-value">
+												<el-form-item prop="content">
+													<el-input v-model="formData.content" type="textarea" :rows="4"
+														placeholder="请输入"></el-input>
+												</el-form-item>
+											</div>
+										</div>
+									</div>
 								</div>
-
-								<approveuser :auditUser="auditUser"  :flowKey="flowKey">
+								<approveuser :auditUser="auditUser" :flowKey="flowKey">
 								</approveuser>
+
 								<div class="form-block">
 									<el-button class="submit-btn" size="small" type="primary" @click="addOrModify()">提交
 									</el-button>
@@ -141,8 +131,9 @@
 				draftVisible: false,
 				addOrModifyFlag: true,
 				dialogFormVisible: false,
-				childOptions:[],
 				dialogTitle: '项目全生命周期数字管理平台',
+				// intervalPlan: '',
+				// intervalContract: '',
 				baseInfo: {
 					buildSection: 1,
 					buildSectionName: '',
@@ -152,24 +143,35 @@
 					supervisionSection: ''
 				},
 				formData: { //表单参数
-					buildSection:'',
-					deletedFlag: 1,
-					attachment: [],
-					draftFlag: 1,
-					title: '',
-					reportAttachment:[],
-					projectId: this.$store.getters.project['parentid'],
+					"auditUser": {},
+					"code": "",
+					"content": "",
+					"copy": "",
+					"deletedFlag": 1,
+					"draftFlag": 1,
+					"mainSent": "",
+					"projectId": this.$store.getters.project['parentid'],
+					"title": ""
 				},
 				rules: {
+					mainSent: [{
+						required: true,
+						message: '必须项',
+						trigger: 'blur'
+					}],
 					title: [{
 						required: true,
 						message: '必须项',
 						trigger: 'blur'
 					}],
-					
+					content: [{
+						required: true,
+						message: '必须项',
+						trigger: 'blur'
+					}]
 				},
 				auditUser: {},
-				flowKey:'xiangmukaigongshenqing'
+				flowKey: 'jianlitongzhi'
 			};
 		},
 		created() {},
@@ -178,33 +180,18 @@
 			attachlist,
 			drafthandle,
 			approveuser,
-			qualityPresentation: () => import("../qualityPresentation.vue")
+			supervisionNotice: () => import("../supervisionNotice.vue")
 		},
 		computed: {
-			
 		},
 		watch: {
 
 		},
 		mounted() {
-			this.getChildProject();
+
 		},
 		methods: {
-			getChildProject(){
-				api.getChildProject({
-					projectid:this.$store.getters.project['parentid']
-				}).then((res) => {
-					let options = res.data || [];
-					this.childOptions = convertOptions(options, 'name', 'id');
-				});
-			},
-			changeChild(){
-				api.getCompanyByProjectId({
-					projectid:this.formData.buildSection
-				}).then((res) => {
-					this.baseInfo=res;
-				});
-			},
+
 			changeVisible(obj, value) {
 				this.dialogFormVisible = value;
 				obj = obj || {};
@@ -213,19 +200,21 @@
 					this.getDetail(obj['id']);
 				} else {
 					this.formData = {
-						buildSection:'',
-						deletedFlag: 1,
-						attachment: [],
-						draftFlag: 1,
-						title: '',
-						reportAttachment:[],
-						projectId: this.$store.getters.project['parentid'],
+						"auditUser": {},
+						"code": "",
+						"content": "",
+						"copy": "",
+						"deletedFlag": 1,
+						"draftFlag": 1,
+						"mainSent": "",
+						"projectId": this.$store.getters.project['parentid'],
+						"title": ""
 					}
 				}
 			},
 
 			getDetail(id) {
-				api.getQualityReportDeatil(id).then((res) => {
+				api.getSupervisionNoticeDeatil(id).then((res) => {
 					let data = res['data'] || {};
 					this.formData = data;
 				});
@@ -233,14 +222,16 @@
 			addOrModify(isdraft) {
 				if (isdraft) {
 					if (diffCompare([this.formData], [{
-								buildSection:'',
-								deletedFlag: 1,
-								attachment: [],
-								draftFlag: 1,
-								title: '',
-								reportAttachment:[],
-								projectId: this.$store.getters.project['parentid'],
-							}
+								"auditUser": {},
+								"code": "",
+								"content": "",
+								"copy": "",
+								"deletedFlag": 1,
+								"draftFlag": 1,
+								"mainSent": "",
+								"projectId": this.$store.getters.project['parentid'],
+								"title": ""
+							},
 							
 						])) {
 						this.$message({
@@ -251,7 +242,7 @@
 					}
 					this.formData.draftFlag = isdraft ? 0 : 1;
 					this.formData.auditUser = this.auditUser;
-					api.addOrUpdateQualityReport(this.formData).then((res) => {
+					api.addOrUpdateSupervisionNotice(this.formData).then((res) => {
 						if (res.data) {
 							this.$message({
 								type: 'success',
@@ -265,9 +256,10 @@
 				} else {
 					this.$refs['ruleForm'].validate((valid) => {
 						if (valid) {
+							this.formData.otherAttachment = this.attachTable;
 							this.formData.auditUser = this.auditUser;
 							this.formData.draftFlag = 1;
-							api.addOrUpdateQualityReport(this.formData).then((res) => {
+							api.addOrUpdateSupervisionNotice(this.formData).then((res) => {
 								if (res.data) {
 									this.$message({
 										type: 'success',

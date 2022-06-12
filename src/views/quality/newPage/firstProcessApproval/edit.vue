@@ -13,7 +13,7 @@
 							<el-form :model="formData" ref="ruleForm" :rules="rules" label-width="80px">
 								<div class="form-title">
 									<div class="title-big-bar"></div>
-									<strong>项目开工申请</strong>
+									<strong>分项开工申请</strong>
 									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify"
 										@checkDraft="checkDraft" ref="drafthandle"></drafthandle>
 								</div>
@@ -64,7 +64,7 @@
 											<div class="block-item-label">分部分项<i class="require-icon"></i></div>
 											<div class="block-item-value">
 												<el-form-item prop="subProject">
-													<el-select @change="changeChild" v-model="formData.subProject"
+													<el-select v-model="formData.subProject"
 														placeholder="请选择">
 														<el-option v-for="item in partOptions" :key="item.value"
 															:label="item.label" :value="item.value">
@@ -190,7 +190,7 @@
 										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 											文件，且不超过 200M</span>
 									</div>
-									<attachlist :editAble="true" ref="attachlist" :attachTable="buildTechAttachment">
+									<attachlist :editAble="true" ref="attachlist" :attachTable="formData.buildTechAttachment">
 									</attachlist>
 								</div>
 								<div class="form-block">
@@ -200,7 +200,7 @@
 											文件，且不超过 200M</span>
 									</div>
 									
-									<attachlist :editAble="true" ref="attachlist" :attachTable="measureAttachment">
+									<attachlist :editAble="true" ref="attachlist" :attachTable="formData.measureAttachment">
 									</attachlist>
 								</div>
 								<div class="form-block">
@@ -209,7 +209,7 @@
 										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 											文件，且不超过 200M</span>
 									</div>
-									<attachlist :editAble="true" ref="attachlist" :attachTable="materialAttachment">
+									<attachlist :editAble="true" ref="attachlist" :attachTable="formData.materialAttachment">
 									</attachlist>
 								</div>
 								<div class="form-block">
@@ -218,7 +218,7 @@
 										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 											文件，且不超过 200M</span>
 									</div>
-									<attachlist :editAble="true" ref="attachlist" :attachTable="mechanicalAttachment">
+									<attachlist :editAble="true" ref="attachlist" :attachTable="formData.mechanicalAttachment">
 									</attachlist>
 								</div>
 								<div class="form-block">
@@ -227,7 +227,7 @@
 										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 											文件，且不超过 200M</span>
 									</div>
-									<attachlist :editAble="true" ref="attachlist" :attachTable="testAttachment">
+									<attachlist :editAble="true" ref="attachlist" :attachTable="formData.testAttachment">
 									</attachlist>
 								</div>
 								<div class="form-block">
@@ -236,7 +236,7 @@
 										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 											文件，且不超过 200M</span>
 									</div>
-									<attachlist :editAble="true" ref="attachlist" :attachTable="openAttachment">
+									<attachlist :editAble="true" ref="attachlist" :attachTable="formData.openAttachment">
 									</attachlist>
 								</div>
 								<div class="form-block-title">
@@ -248,7 +248,7 @@
 										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 											文件，且不超过 200M</span>
 									</div>
-									<attachlist :editAble="true" ref="attachlist" :attachTable="qualityAttachment">
+									<attachlist :editAble="true" ref="attachlist" :attachTable="formData.qualityAttachment">
 									</attachlist>
 								</div>
 								<div class="form-block-title">
@@ -260,7 +260,7 @@
 										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 											文件，且不超过 200M</span>
 									</div>
-									<attachlist :editAble="true" ref="attachlist" :attachTable="imageVideo">
+									<attachlist :editAble="true" ref="attachlist" :attachTable="formData.imageVideo">
 									</attachlist>
 								</div>
 								<div class="form-block-title">
@@ -272,7 +272,7 @@
 										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 											文件，且不超过 200M</span>
 									</div>
-									<attachlist :editAble="true" ref="attachlist" :attachTable="firstProjectVideo">
+									<attachlist :editAble="true" ref="attachlist" :attachTable="formData.firstProjectVideo">
 									</attachlist>
 									<div class="block-line">
 										<div class="block-item">
@@ -453,7 +453,7 @@
 			attachlist,
 			drafthandle,
 			approveuser,
-			projectCommencementApplication: () => import("../projectCommencementApplication.vue")
+			firstProcessApproval: () => import("../firstProcessApproval.vue")
 		},
 		computed: {},
 		watch: {
@@ -469,6 +469,13 @@
 				}).then((res) => {
 					let options = res.data || [];
 					this.childOptions = convertOptions(options, 'name', 'id');
+				});
+			},
+			changeChild(){
+				api.getCompanyByProjectId({
+					projectid:this.formData.buildSection
+				}).then((res) => {
+					this.baseInfo=res;
 				});
 			},
 			changeVisible(obj, value) {
@@ -512,10 +519,6 @@
 				api.getFirstAcceptDeatil(id).then((res) => {
 					let data = res['data'] || {};
 					this.formData = data;
-					this.examineTable = data.detectionInfo || [];
-					this.reportTable = data.detectionReport || [];
-					this.factoryTable = data.factoryInfo || [];
-					this.attachTable = data.otherAttachment || [];
 				});
 			},
 			addOrModify(isdraft) {
@@ -553,7 +556,6 @@
 						});
 						return;
 					}
-					this.formData.otherAttachment = this.attachTable;
 					this.formData.draftFlag = isdraft ? 0 : 1;
 					this.formData.auditUser = this.auditUser;
 					api.addOrUpdateFirstAccept(this.formData).then((res) => {
@@ -570,7 +572,6 @@
 				} else {
 					this.$refs['ruleForm'].validate((valid) => {
 						if (valid) {
-							this.formData.otherAttachment = this.attachTable;
 							this.formData.auditUser = this.auditUser;
 							this.formData.draftFlag = 1;
 							api.addOrUpdateFirstAccept(this.formData).then((res) => {
