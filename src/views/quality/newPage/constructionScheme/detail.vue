@@ -338,16 +338,16 @@
 					this.replyAttachTable=data.replyAttachment||[];
 					this.attachTable=data.attachment||[];
 				});
-				api.getFlowAndTaskInfo({businessKey: id}).then((res) => {
-					console.log(res.data);
-					let data=res['data'];
-					this.taskInfo={
-						processDefinitionId: data['processDefinitionId'],
-						processInstanceId: data['processInstanceId'],
-						taskId: data['taskId']
-					}
-					this.updateTaskLog();
-				});
+				// api.getFlowAndTaskInfo({businessKey: id}).then((res) => {
+				// 	console.log(res.data);
+				// 	let data=res['data'];
+				// 	this.taskInfo={
+				// 		processDefinitionId: data['processDefinitionId'],
+				// 		processInstanceId: data['processInstanceId'],
+				// 		taskId: data['taskId']
+				// 	}
+				// 	this.updateTaskLog();
+				// });
 			},
 			updateTaskLog(){
 				setTimeout(()=>{

@@ -2,7 +2,7 @@
 	<div>
 		<div class="block-line" v-if="editAble">
 			<el-upload class="upload-demo" action="" :limit="1" :show-file-list="false" ref="upload"
-				accept=".jpg,.jpeg,.png,gif,JPG,JPEG,PNG,GIF,.map4,.xlsx,.xls,.pdf,.doc,.docx"
+				:accept="accept"
 				:http-request="importFile">
 				<el-button size="small" type="primary">点击上传</el-button>
 			</el-upload>
@@ -44,12 +44,13 @@
 	} from "@/utils/format.js";
 	
 	export default {
-		props: ['attachTable','editAble'],
+		props: ['attachTable','editAble','acceptList'],
 		data() {
 			return {
 				viewFileType: '',
 				viewFileUrl: '',
-				viewFileVisible: false
+				viewFileVisible: false,
+				accept:this.acceptList||'.jpg,.jpeg,.png,gif,JPG,JPEG,PNG,GIF,.map4,.xlsx,.xls,.pdf,.doc,.docx'
 			}
 		},
 		computed: {
