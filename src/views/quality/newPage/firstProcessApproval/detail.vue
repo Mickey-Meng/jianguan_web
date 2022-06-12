@@ -14,153 +14,233 @@
 								
 								<div class="form-block">
 									<div class="form-block-title">
-										<div class="title-bar"></div><strong>项目开工申请信息</strong>
+										<div class="title-bar"></div><strong>基本信息</strong>
 									</div>
 									<div class="block-line">
 										<div class="block-item">
-											<div class="block-item-label">申请开工日期<i class="require-icon"></i></div>
+											<div class="block-item-label">施工标段<i class="require-icon"></i></div>
 											<div class="block-item-value">
-												{{formData.openDate}}
+												{{formData.buildSection}}
 											</div>
 										</div>
 										<div class="block-item">
-											<div class="block-item-label">计划完工日期<i class="require-icon"></i></div>
+											<div class="block-item-label">施工单位</div>
 											<div class="block-item-value">
-												{{formData.endDate}}
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">共计划日历天:{{intervalPlan}}</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">合同规定工期起<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												{{formData.contractOpenDate}}
-											</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">合同规定工期止<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												{{formData.contractEndDate}}
+												{{baseInfo.buildCompany}}
 											</div>
 										</div>
 									</div>
 									<div class="block-line">
 										<div class="block-item">
-											<div class="block-item-label">历时天数:{{intervalContract}}</div>
+											<div class="block-item-label">首件工程名称<i class="require-icon"></i></div>
+											<div class="block-item-value">
+												{{formData.firstProjectName}}
+											</div>
 										</div>
-									</div>
-								</div>
-								<div class="form-block">
-									<div class="form-block-title">
-										<div class="title-bar"></div><strong>施工组织设计审批情况</strong>
+										<div class="block-item">
+											<div class="block-item-label">合同号</div>
+											<div class="block-item-value">
+												{{baseInfo.contractCode}}
+											</div>
+										</div>
 									</div>
 									<div class="block-line">
-										<div class="block-item-label">申报说明<i class="require-icon"></i></div>
-										<div class="block-item-value">
-											{{formData.buildApplyExplain}}
+										<div class="block-item">
+											<div class="block-item-label">分部分项<i class="require-icon"></i></div>
+											<div class="block-item-value">
+												{{formData.subProject}}
+											</div>
 										</div>
-									</div>
-								</div>
-								<div class="form-block">
-									<div class="form-block-title">
-										<div class="title-bar"></div><strong>工程划分审核情况</strong>
 									</div>
 									<div class="block-line">
-										<div class="block-item-label">申报说明<i class="require-icon"></i></div>
-										<div class="block-item-value">
-											{{formData.projectApplyExplain}}
+										<div class="block-item">
+											<div class="block-item-label">单位工程</div>
+											<div class="block-item-value">
+												{{baseInfo.contractCode}}
+											</div>
 										</div>
-									</div>
-								</div>
-								<div class="form-block">
-									<div class="form-block-title">
-										<div class="title-bar"></div><strong>技术、质量、安全、环保保证体系建立情况（含相关人员证书）</strong>
+										<div class="block-item">
+											<div class="block-item-label">分部工程</div>
+											<div class="block-item-value">
+												{{baseInfo.contractCode}}
+											</div>
+										</div>
 									</div>
 									<div class="block-line">
-										<div class="block-item-label">申报说明<i class="require-icon"></i></div>
-										<div class="block-item-value">
-											{{formData.techApplyExplain}}
+										<div class="block-item">
+											<div class="block-item-label">分项工程</div>
+											<div class="block-item-value">
+												{{baseInfo.contractCode}}
+											</div>
 										</div>
-									</div>
-								</div>
-								<div class="form-block">
-									<div class="form-block-title">
-										<div class="title-bar"></div><strong>试验检测工作准备情况</strong>
+										<div class="block-item">
+											<div class="block-item-label">具体分项<i class="require-icon"></i></div>
+											<div class="block-item-value">
+												{{formData.subProjectDetail}}
+											</div>
+										</div>
 									</div>
 									<div class="block-line">
-										<div class="block-item-label">申报说明<i class="require-icon"></i></div>
-										<div class="block-item-value">
-											{{formData.checkApplyExplain}}
+										<div class="block-item">
+											<div class="block-item-label">实施日期<i class="require-icon"></i></div>
+											<div class="block-item-value">
+												{{formData.buildDate}}
+											</div>
 										</div>
-									</div>
-								</div>
-								<div class="form-block">
-									<div class="form-block-title">
-										<div class="title-bar"></div><strong>设计交底情况</strong>
 									</div>
 									<div class="block-line">
-										<div class="block-item-label">申报说明<i class="require-icon"></i></div>
-										<div class="block-item-value">
-											{{formData.designApplyExplain}}
+										<div class="block-item">
+											<div class="block-item-label">施工过程简述<i class="require-icon"></i></div>
+											<div class="block-item-value">
+												{{formData.buildProcessExplain}}
+											</div>
 										</div>
-									</div>
-								</div>
-								<div class="form-block">
-									<div class="form-block-title">
-										<div class="title-bar"></div><strong>原始基准点、地面线复测情况</strong>
 									</div>
 									<div class="block-line">
-										<div class="block-item-label">申报说明<i class="require-icon"></i></div>
-										<div class="block-item-value">
-											{{formData.againApplyExplain}}
+										<div class="block-item">
+											<div class="block-item-label">监理工作情况<i class="require-icon"></i></div>
+											<div class="block-item-value">
+												{{formData.supervisionWorkExplain}}
+											</div>
 										</div>
-									</div>
-								</div>
-								<div class="form-block">
-									<div class="form-block-title">
-										<div class="title-bar"></div><strong>开工预付款担保及保险情况</strong>
 									</div>
 									<div class="block-line">
-										<div class="block-item-label">申报说明<i class="require-icon"></i></div>
-										<div class="block-item-value">
-											{{formData.insuranceApplyExplain}}
+										<div class="block-item">
+											<div class="block-item-label">主要数据记录<i class="require-icon"></i></div>
+											<div class="block-item-value">
+												{{formData.mainDataExplain}}
+											</div>
 										</div>
-									</div>
-								</div>
-								<div class="form-block">
-									<div class="form-block-title">
-										<div class="title-bar"></div><strong>合同段施工安全风险评估情况</strong>
 									</div>
 									<div class="block-line">
-										<div class="block-item-label">申报说明<i class="require-icon"></i></div>
-										<div class="block-item-value">
-											{{formData.securityApplyExplain}}
+										<div class="block-item">
+											<div class="block-item-label">发现的问题及处理情况<i class="require-icon"></i></div>
+											<div class="block-item-value">
+												{{formData.problemDealExplain}}
+											</div>
 										</div>
 									</div>
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
-										<div class="title-bar"></div><strong>其他有关情况说明</strong>
+										<div class="title-bar"></div><strong>质量检验及评定</strong>
 									</div>
 									<div class="block-line">
-										<div class="block-item-label">申报说明<i class="require-icon"></i></div>
-										<div class="block-item-value">
-											{{formData.otherApplyExplain}}
+										<div class="block-item">
+											<div class="block-item-label">检验结果描述<i class="require-icon"></i></div>
+											<div class="block-item-value">
+												{{formData.checkResultExplain}}
+											</div>
+										</div>
+										<div class="block-item">
+											<div class="block-item-label">外观质量描述<i class="require-icon"></i></div>
+											<div class="block-item-value">
+												{{formData.faceQuelityExplain}}
+											</div>
 										</div>
 									</div>
 								</div>
+								<div class="form-block-title">
+									<div class="title-bar"></div><strong>开工申请</strong>
+								</div>
 								<div class="form-block">
 									<div class="form-block-title">
-										<div class="title-bar"></div><strong>附件上传</strong>
+										<div class="title-bar"></div><strong>施工技术、工艺方案说明和图表<i class="require-icon"></i></strong>
 										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 											文件，且不超过 200M</span>
 									</div>
-									<attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>
+									<attachlist :editAble="false" ref="attachlist" :attachTable="formData.buildTechAttachment">
+									</attachlist>
+								</div>
+								<div class="form-block">
+									<div class="form-block-title">
+										<div class="title-bar"></div><strong>测量放样资料<i class="require-icon"></i></strong>
+										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
+											文件，且不超过 200M</span>
+									</div>
+									
+									<attachlist :editAble="false" ref="attachlist" :attachTable="formData.measureAttachment">
+									</attachlist>
+								</div>
+								<div class="form-block">
+									<div class="form-block-title">
+										<div class="title-bar"></div><strong>材料出厂保证书、材料检测试验报告<i class="require-icon"></i></strong>
+										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
+											文件，且不超过 200M</span>
+									</div>
+									<attachlist :editAble="false" ref="attachlist" :attachTable="formData.materialAttachment">
+									</attachlist>
+								</div>
+								<div class="form-block">
+									<div class="form-block-title">
+										<div class="title-bar"></div><strong>机械的主要技术标准及最大生产能力<i class="require-icon"></i></strong>
+										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
+											文件，且不超过 200M</span>
+									</div>
+									<attachlist :editAble="false" ref="attachlist" :attachTable="formData.mechanicalAttachment">
+									</attachlist>
+								</div>
+								<div class="form-block">
+									<div class="form-block-title">
+										<div class="title-bar"></div><strong>批准的标准试验报告<i class="require-icon"></i></strong>
+										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
+											文件，且不超过 200M</span>
+									</div>
+									<attachlist :editAble="false" ref="attachlist" :attachTable="formData.testAttachment">
+									</attachlist>
+								</div>
+								<div class="form-block">
+									<div class="form-block-title">
+										<div class="title-bar"></div><strong>开工申请<i class="require-icon"></i></strong>
+										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
+											文件，且不超过 200M</span>
+									</div>
+									<attachlist :editAble="false" ref="attachlist" :attachTable="formData.openAttachment">
+									</attachlist>
+								</div>
+								<div class="form-block-title">
+									<div class="title-bar"></div><strong>质量保证资料<i class="require-icon"></i></strong>
+								</div>
+								<div class="form-block">
+									<div class="form-block-title">
+										<div class="title-bar"></div><strong>文件</strong>
+										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
+											文件，且不超过 200M</span>
+									</div>
+									<attachlist :editAble="false" ref="attachlist" :attachTable="formData.qualityAttachment">
+									</attachlist>
+								</div>
+								<div class="form-block-title">
+									<div class="title-bar"></div><strong>影像资料</strong>
+								</div>
+								<div class="form-block">
+									<div class="form-block-title">
+										<div class="title-bar"></div><strong>文件</strong>
+										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
+											文件，且不超过 200M</span>
+									</div>
+									<attachlist :editAble="false" ref="attachlist" :attachTable="formData.imageVideo">
+									</attachlist>
+								</div>
+								<div class="form-block-title">
+									<div class="title-bar"></div><strong>首件工程总结</strong>
+								</div>
+								<div class="form-block">
+									<div class="form-block-title">
+										<div class="title-bar"></div><strong>文件<i class="require-icon"></i></strong>
+										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
+											文件，且不超过 200M</span>
+									</div>
+									<attachlist :editAble="false" ref="attachlist" :attachTable="formData.firstProjectVideo">
+									</attachlist>
+									<div class="block-line">
+										<div class="block-item">
+											<div class="block-item-label">首件工程通过情况</div>
+											<div class="block-item-value">
+												{{formData.firstPassExplain}}
+											</div>
+										</div>
+									</div>
 								</div>
 							</el-form>
 							<taskhandle :taskInfo="taskInfo"></taskhandle>
@@ -210,25 +290,31 @@
 					supervisionSection: '监理办'
 				},
 				formData: { //表单参数
+					buildDate: formatDate(new Date()),
+					buildProcessExplain: "",
+					buildSection: '',
+					buildTechAttachment: [],
+					checkResultExplain: "",
 					deletedFlag: 1,
-					attachment: [],
 					draftFlag: 1,
-					againApplyExplain: '',
-					buildApplyExplain: '',
-					checkApplyExplain: '',
-					designApplyExplain: '',
-					insuranceApplyExplain: '',
-					otherApplyExplain: '',
-					projectApplyExplain: '',
-					securityApplyExplain: '',
-					techApplyExplain: '',
-					contractEndDate: formatDate(new Date()),
-					contractOpenDate: formatDate(new Date()),
-					endDate: formatDate(new Date()),
-					openDate: formatDate(new Date()),
+					faceQuelityExplain: "",
+					firstPassExplain: "",
+					firstProjectName: "",
+					firstProjectVideo: [],
+					imageVideo: [],
+					mainDataExplain: "",
+					materialAttachment: [],
+					measureAttachment: [],
+					mechanicalAttachment: [],
+					openAttachment: [],
+					problemDealExplain: "",
 					projectId: this.$store.getters.project['parentid'],
+					qualityAttachment: [],
+					subProject: 0,
+					subProjectDetail: "",
+					supervisionWorkExplain: "",
+					testAttachment: []
 				},
-				attachTable: [], //其他附件
 				taskInfo:{}
 			};
 		},
@@ -239,12 +325,7 @@
 			attachlist
 		},
 		computed: {
-			intervalPlan: function() {
-				return getDaysBetween(this.formData.openDate, this.formData.endDate)
-			},
-			intervalContract: function() {
-				return getDaysBetween(this.formData.contractOpenDate, this.formData.contractEndDate)
-			}
+			
 		},
 		watch:{
 			detailRow(obj){
@@ -274,7 +355,7 @@
 				this.dialogFormVisible=value;
 			},
 			getDetail(id){
-				api.getProjectOpenDeatil(id).then((res) => {
+				api.getFirstAcceptDeatil(id).then((res) => {
 					let data=res['data']||{};
 					this.formData=data;
 					this.attachTable=data.otherAttachment||[];

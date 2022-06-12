@@ -16,7 +16,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="block-line">
+				<div class="block-line" v-if="copyUserVisible">
 					<div class="block-item">
 						<div class="block-item-label">抄送</div>
 						<div class="block-item-value">
@@ -71,7 +71,8 @@
 				operationList: [],
 				
 				userOptions:[],
-				auditUser:[]
+				auditUser:[],
+				copyUserVisible:false
 			};
 		},
 		created() {},
@@ -128,6 +129,7 @@
 				}).then((res) => {
 					let data=res.data||{};
 					this.userOptions=data.copyUserInfo||[];
+					this.copyUserVisible=this.userOptions.length?true:false;
 					this.$forceUpdate();
 				});
 			},

@@ -343,6 +343,31 @@ const api = {
 	getQualityReportDeatil: "/ZhuJiApi/web/api/v1/qualityReport/detail/id",
 	deleteQualityReport: "/ZhuJiApi/web/api/v1/qualityReport/id",
 	getQualityReportList: "/ZhuJiApi/web/api/v1/qualityReport/page",
+	
+	//监理旁站
+	addOrUpdateSupervisionSide: "/ZhuJiApi/web/api/v1/supervisionSide/addOrUpdate",
+	getSupervisionSideDeatil: "/ZhuJiApi/web/api/v1/supervisionSide/detail/id",
+	deleteSupervisionSide: "/ZhuJiApi/web/api/v1/supervisionSide/id",
+	getSupervisionSideList: "/ZhuJiApi/web/api/v1/supervisionSide/page",
+	getSupervisionSideEnums: "/ZhuJiApi/web/api/v1/supervisionSide/equipment/enums",
+	
+	//监理巡视
+	addOrUpdateSupervisionPatrol: "/ZhuJiApi/web/api/v1/supervisionPatrol/addOrUpdate",
+	getSupervisionPatrolDeatil: "/ZhuJiApi/web/api/v1/supervisionPatrol/detail/id",
+	deleteSupervisionPatrol: "/ZhuJiApi/web/api/v1/supervisionPatrol/id",
+	getSupervisionPatrolList: "/ZhuJiApi/web/api/v1/supervisionPatrol/page",
+	
+	//监理通知
+	addOrUpdateSupervisionNotice: "/ZhuJiApi/web/api/v1/supervisionNotice/addOrUpdate",
+	getSupervisionNoticeDeatil: "/ZhuJiApi/web/api/v1/supervisionNotice/detail/id",
+	deleteSupervisionNotice: "/ZhuJiApi/web/api/v1/supervisionNotice/id",
+	getSupervisionNoticeList: "/ZhuJiApi/web/api/v1/supervisionNotice/page",
+	
+	//质量活动
+	addOrUpdateQualityActivity: "/ZhuJiApi/web/api/v1/qualityActivity/addOrUpdate",
+	getQualityActivityDeatil: "/ZhuJiApi/web/api/v1/qualityActivity/detail/id",
+	deleteQualityActivity: "/ZhuJiApi/web/api/v1/qualityActivity/id",
+	getQualityActivityList: "/ZhuJiApi/web/api/v1/qualityActivity/page",
 };
 
 export default api;

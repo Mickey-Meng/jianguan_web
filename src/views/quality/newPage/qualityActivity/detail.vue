@@ -37,24 +37,20 @@
 												{{baseInfo.buildCompany}}
 											</div>
 										</div>
+									</div>
+									<div class="block-line">
 										<div class="block-item">
-											<div class="block-item-label">监理单位</div>
+											<div class="block-item-label">活动内容概述</div>
 											<div class="block-item-value">
-												{{baseInfo.supervisionUnit}}
+												{{formData.activityInfo}}
 											</div>
 										</div>
 									</div>
 									<div class="block-line">
 										<div class="block-item">
-											<div class="block-item-label">监理标段</div>
+											<div class="block-item-label">备注<i class="require-icon"></i></div>
 											<div class="block-item-value">
-												{{baseInfo.supervisionSection}}
-											</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">简报名称<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												{{formData.title}}
+												{{formData.remark}}
 											</div>
 										</div>
 									</div>
@@ -65,9 +61,8 @@
 										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 											文件，且不超过 200M</span>
 									</div>
-									<attachlist :editAble="false" ref="attachlist" :attachTable="formData.reportAttachment">
+									<attachlist :editAble="false" ref="attachlist" :attachTable="formData.attachment">
 									</attachlist>
-								
 								</div>
 							</el-form>
 							<taskhandle :taskInfo="taskInfo"></taskhandle>
@@ -117,13 +112,14 @@
 					supervisionSection: '监理办'
 				},
 				formData: { //表单参数
-					buildSection:'',
-					deletedFlag: 1,
-					attachment: [],
-					draftFlag: 1,
-					title: '',
-					reportAttachment:[],
-					projectId: this.$store.getters.project['parentid'],
+					"activityInfo": "",
+					"attachment": [],
+					"auditUser": {},
+					"buildSection": 0,
+					"deletedFlag": 1,
+					"draftFlag": 1,
+					"projectId": this.$store.getters.project['parentid'],
+					"remark": ""
 				},
 				taskInfo:{}
 			};
@@ -135,7 +131,6 @@
 			attachlist
 		},
 		computed: {
-			
 		},
 		watch:{
 			detailRow(obj){
@@ -145,7 +140,15 @@
 			}
 		},
 		mounted() {
-			
+			// setTimeout(()=>{
+			// 	var params = getQueryVariable();
+			// 	if (params['processDefinitionId']) {
+			// 		this.dialogFormVisible=true;
+			// 		params['id'] = params['businessKey'];
+			// 		this.taskInfo=params;
+			// 		this.getDetail(params['businessKey']);
+			// 	}
+			// },500)
 		},
 		methods: {
 			closeDialog(){
@@ -157,7 +160,7 @@
 				this.dialogFormVisible=value;
 			},
 			getDetail(id){
-				api.getQualityReportDeatil(id).then((res) => {
+				api.getQualityActivityDeatil(id).then((res) => {
 					let data=res['data']||{};
 					this.formData=data;
 				});

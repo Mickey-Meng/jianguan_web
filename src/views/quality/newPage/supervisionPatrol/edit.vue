@@ -13,12 +13,16 @@
 							<el-form :model="formData" ref="ruleForm" :rules="rules" label-width="80px">
 								<div class="form-title">
 									<div class="title-big-bar"></div>
-									<strong>质量简报</strong>
+									<strong>监理巡视</strong>
 									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify"
 										@checkDraft="checkDraft" ref="drafthandle"></drafthandle>
 								</div>
 
 								<div class="form-block">
+									<div class="form-block-title">
+										<div class="title-bar"></div><strong>发起位置</strong>
+										<locationmap></locationmap>
+									</div>
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
 									</div>
@@ -27,34 +31,19 @@
 											<div class="block-item-label">施工标段<i class="require-icon"></i></div>
 											<div class="block-item-value">
 												<el-form-item prop="buildSection">
-													<el-select
-													@change="changeChild"
-													    v-model="formData.buildSection" placeholder="请选择">
-														<el-option v-for="item in childOptions" :key="item.value" :label="item.label"
-															:value="item.value">
+													<el-select @change="changeChild" v-model="formData.buildSection"
+														placeholder="请选择">
+														<el-option v-for="item in childOptions" :key="item.value"
+															:label="item.label" :value="item.value">
 														</el-option>
 													</el-select>
 												</el-form-item>
 											</div>
 										</div>
 										<div class="block-item">
-											<div class="block-item-label">合同号</div>
-											<div class="block-item-value">
-												{{baseInfo.contractCode}}
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
 											<div class="block-item-label">施工单位</div>
 											<div class="block-item-value">
 												{{baseInfo.buildCompany}}
-											</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">监理单位</div>
-											<div class="block-item-value">
-												{{baseInfo.supervisionUnit}}
 											</div>
 										</div>
 									</div>
@@ -66,31 +55,104 @@
 											</div>
 										</div>
 										<div class="block-item">
-											<div class="block-item-label">简报名称<i class="require-icon"></i></div>
+											<div class="block-item-label">监理单位</div>
 											<div class="block-item-value">
-												<el-form-item prop="title">
-													<el-input v-model="formData.title"></el-input>
+												{{baseInfo.supervisionUnit}}
+											</div>
+										</div>
+									</div>
+									<div class="block-line">
+										<div class="block-line">
+											<div class="block-item">
+												<div class="block-item-label">发起时间</div>
+												<div class="block-item-value">
+													<el-form-item prop="startDate">
+														<el-date-picker format="yyyy-MM-dd" v-model="formData.startDate"
+															type="date" placeholder="请选择">
+														</el-date-picker>
+													</el-form-item>
+
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</div>
+								<div class="form-block">
+									<div class="form-block-title">
+										<div class="title-bar"></div><strong>巡视信息</strong>
+									</div>
+									<div class="block-line">
+										<div class="block-item-label">巡视地点<i class="require-icon"></i></div>
+										<div class="block-item-value">
+											<el-form-item prop="patrolPlace">
+												<el-input v-model="formData.patrolPlace"></el-input>
+											</el-form-item>
+										</div>
+									</div>
+									<div class="block-line">
+										<div class="block-item-label">主要施工情况<i class="require-icon"></i></div>
+										<div class="block-item-value">
+											<el-form-item prop="buildCondition">
+												<el-input v-model="formData.buildCondition"></el-input>
+											</el-form-item>
+										</div>
+									</div>
+									<div class="block-line">
+										<div class="block-item">
+											<div class="block-item-label">质量、安全、环保情况<i class="require-icon"></i></div>
+											<div class="block-item-value">
+												<el-form-item prop="qualityCondition">
+													<el-input v-model="formData.qualityCondition"></el-input>
+												</el-form-item>
+											</div>
+										</div>
+										<div class="block-item">
+											<div class="block-item-label">发现的问题及处理意见<i class="require-icon"></i></div>
+											<div class="block-item-value">
+												<el-form-item prop="problemDealCondition">
+													<el-input v-model="formData.problemDealCondition"></el-input>
 												</el-form-item>
 											</div>
 										</div>
 									</div>
-									
 								</div>
-								
+
 
 								<div class="form-block">
 									<div class="form-block-title">
-										<div class="title-bar"></div><strong>附件上传</strong>
+										<div class="title-bar"></div><strong>巡视现场照片</strong>
 										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 											文件，且不超过 200M</span>
 									</div>
-									<attachlist :editAble="true" ref="attachlist" :attachTable="formData.reportAttachment">
+									<attachlist :editAble="true" ref="attachlist"
+										:attachTable="formData.patrolPhotoAttachment">
 									</attachlist>
-
+								</div>
+								<div class="form-block">
+									<div class="form-block-title">
+										<div class="title-bar"></div><strong>视频</strong>
+										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
+											文件，且不超过 200M</span>
+									</div>
+									<attachlist :editAble="true" ref="attachlist" :attachTable="formData.video">
+									</attachlist>
+								</div>
+								<div class="form-block">
+									<div class="block-line">
+										<div class="block-item">
+											<div class="block-item-label">其他附件</div>
+											<div class="block-item-value">
+												<el-input v-model="formData.otherAttachmentInfo" type="textarea"
+													:rows="4" placeholder="请输入"></el-input>
+											</div>
+										</div>
+									</div>
 								</div>
 
-								<approveuser :auditUser="auditUser"  :flowKey="flowKey">
+								<approveuser :auditUser="auditUser" :flowKey="flowKey">
 								</approveuser>
+
 								<div class="form-block">
 									<el-button class="submit-btn" size="small" type="primary" @click="addOrModify()">提交
 									</el-button>
@@ -134,6 +196,7 @@
 	import upload from "../../../common/upload.vue"
 	import attachlist from "../../../common/attachlist.vue"
 	import drafthandle from "../../../common/drafthandle.vue"
+	import locationmap from "../../../common/locationmap.vue"
 	import approveuser from "../../../common/approveuser.vue"
 	export default {
 		data() {
@@ -141,8 +204,8 @@
 				draftVisible: false,
 				addOrModifyFlag: true,
 				dialogFormVisible: false,
-				childOptions:[],
 				dialogTitle: '项目全生命周期数字管理平台',
+				childOptions:[],
 				baseInfo: {
 					buildSection: 1,
 					buildSectionName: '',
@@ -152,24 +215,50 @@
 					supervisionSection: ''
 				},
 				formData: { //表单参数
-					buildSection:'',
-					deletedFlag: 1,
-					attachment: [],
-					draftFlag: 1,
-					title: '',
-					reportAttachment:[],
-					projectId: this.$store.getters.project['parentid'],
+					"address": "",
+					"auditUser": {},
+					"buildCondition": "",
+					"buildSection": 0,
+					"deletedFlag": 1,
+					"draftFlag": 1,
+					"otherAttachmentInfo": "",
+					"patrolPhotoAttachment": [],
+					"patrolPlace": "",
+					"problemDealCondition": "",
+					"projectId": this.$store.getters.project['parentid'],
+					"qualityCondition": "",
+					"startDate": formatDate(new Date()),
+					"video": [],
 				},
 				rules: {
-					title: [{
+					buildSection: [{
 						required: true,
 						message: '必须项',
 						trigger: 'blur'
 					}],
-					
+					patrolPlace: [{
+						required: true,
+						message: '必须项',
+						trigger: 'blur'
+					}],
+					buildCondition: [{
+						required: true,
+						message: '必须项',
+						trigger: 'blur'
+					}],
+					qualityCondition: [{
+						required: true,
+						message: '必须项',
+						trigger: 'blur'
+					}],
+					problemDealCondition: [{
+						required: true,
+						message: '必须项',
+						trigger: 'blur'
+					}]
 				},
 				auditUser: {},
-				flowKey:'xiangmukaigongshenqing'
+				flowKey: 'jianlixunshi'
 			};
 		},
 		created() {},
@@ -178,31 +267,32 @@
 			attachlist,
 			drafthandle,
 			approveuser,
-			qualityPresentation: () => import("../qualityPresentation.vue")
+			locationmap,
+			supervisionPatrol: () => import("../supervisionPatrol.vue")
 		},
 		computed: {
-			
+
 		},
 		watch: {
 
 		},
 		mounted() {
-			this.getChildProject();
+			this.getChildProject()
 		},
 		methods: {
-			getChildProject(){
+			getChildProject() {
 				api.getChildProject({
-					projectid:this.$store.getters.project['parentid']
+					projectid: this.$store.getters.project['parentid']
 				}).then((res) => {
 					let options = res.data || [];
 					this.childOptions = convertOptions(options, 'name', 'id');
 				});
 			},
-			changeChild(){
+			changeChild() {
 				api.getCompanyByProjectId({
-					projectid:this.formData.buildSection
+					projectid: this.formData.buildSection
 				}).then((res) => {
-					this.baseInfo=res;
+					this.baseInfo = res;
 				});
 			},
 			changeVisible(obj, value) {
@@ -213,19 +303,26 @@
 					this.getDetail(obj['id']);
 				} else {
 					this.formData = {
-						buildSection:'',
-						deletedFlag: 1,
-						attachment: [],
-						draftFlag: 1,
-						title: '',
-						reportAttachment:[],
-						projectId: this.$store.getters.project['parentid'],
+						"address": "",
+						"auditUser": {},
+						"buildCondition": "",
+						"buildSection": 0,
+						"deletedFlag": 1,
+						"draftFlag": 1,
+						"otherAttachmentInfo": "",
+						"patrolPhotoAttachment": [],
+						"patrolPlace": "",
+						"problemDealCondition": "",
+						"projectId": this.$store.getters.project['parentid'],
+						"qualityCondition": "",
+						"startDate": formatDate(new Date()),
+						"video": [],
 					}
 				}
 			},
 
 			getDetail(id) {
-				api.getQualityReportDeatil(id).then((res) => {
+				api.getSupervisionPatrolDeatil(id).then((res) => {
 					let data = res['data'] || {};
 					this.formData = data;
 				});
@@ -233,16 +330,21 @@
 			addOrModify(isdraft) {
 				if (isdraft) {
 					if (diffCompare([this.formData], [{
-								buildSection:'',
-								deletedFlag: 1,
-								attachment: [],
-								draftFlag: 1,
-								title: '',
-								reportAttachment:[],
-								projectId: this.$store.getters.project['parentid'],
-							}
-							
-						])) {
+							"address": "",
+							"auditUser": {},
+							"buildCondition": "",
+							"buildSection": 0,
+							"deletedFlag": 1,
+							"draftFlag": 1,
+							"otherAttachmentInfo": "",
+							"patrolPhotoAttachment": [],
+							"patrolPlace": "",
+							"problemDealCondition": "",
+							"projectId": this.$store.getters.project['parentid'],
+							"qualityCondition": "",
+							"startDate": formatDate(new Date()),
+							"video": [],
+						}], ['startDate'])) {
 						this.$message({
 							type: 'warning',
 							message: '不能提交空白!'
@@ -251,7 +353,7 @@
 					}
 					this.formData.draftFlag = isdraft ? 0 : 1;
 					this.formData.auditUser = this.auditUser;
-					api.addOrUpdateQualityReport(this.formData).then((res) => {
+					api.addOrUpdateSupervisionPatrol(this.formData).then((res) => {
 						if (res.data) {
 							this.$message({
 								type: 'success',
@@ -267,7 +369,7 @@
 						if (valid) {
 							this.formData.auditUser = this.auditUser;
 							this.formData.draftFlag = 1;
-							api.addOrUpdateQualityReport(this.formData).then((res) => {
+							api.addOrUpdateSupervisionPatrol(this.formData).then((res) => {
 								if (res.data) {
 									this.$message({
 										type: 'success',

@@ -1189,3 +1189,157 @@ export const getQualityReportList = data => {
 		data: data
 	});
 };
+
+
+
+export const addOrUpdateSupervisionSide = data => {
+	return request({
+		url: api.addOrUpdateSupervisionSide,
+		method: "post",
+		data: data
+	});
+};
+
+export const getSupervisionSideDeatil = id => {
+	return request({
+		url: api.getSupervisionSideDeatil,
+		method: "get",
+		params: {
+			id
+		}
+	});
+};
+
+export const deleteSupervisionSide = id => {
+	return request({
+		url: api.deleteSupervisionSide,
+		method: "get",
+		params: {
+			id
+		}
+	});
+};
+
+export const getSupervisionSideList = data => {
+	return request({
+		url: api.getSupervisionSideList,
+		method: "post",
+		data: data
+	});
+};
+export const getSupervisionSideEnums = () => {
+	return request({
+		url: api.getSupervisionSideEnums,
+		method: "get",
+		params: {}
+	});
+}
+export const addOrUpdateSupervisionPatrol = data => {
+	return request({
+		url: api.addOrUpdateSupervisionPatrol,
+		method: "post",
+		data: data
+	});
+};
+
+export const getSupervisionPatrolDeatil = id => {
+	return request({
+		url: api.getSupervisionPatrolDeatil,
+		method: "get",
+		params: {
+			id
+		}
+	});
+};
+
+export const deleteSupervisionPatrol = id => {
+	return request({
+		url: api.deleteSupervisionPatrol,
+		method: "get",
+		params: {
+			id
+		}
+	});
+};
+
+export const getSupervisionPatrolList = data => {
+	return request({
+		url: api.getSupervisionPatrolList,
+		method: "post",
+		data: data
+	});
+};
+
+
+export const addOrUpdateSupervisionNotice = data => {
+	return request({
+		url: api.addOrUpdateSupervisionNotice,
+		method: "post",
+		data: data
+	});
+};
+
+export const getSupervisionNoticeDeatil = id => {
+	return request({
+		url: api.getSupervisionNoticeDeatil,
+		method: "get",
+		params: {
+			id
+		}
+	});
+};
+
+export const deleteSupervisionNotice = id => {
+	return request({
+		url: api.deleteSupervisionNotice,
+		method: "get",
+		params: {
+			id
+		}
+	});
+};
+
+export const getSupervisionNoticeList = data => {
+	return request({
+		url: api.getSupervisionNoticeList,
+		method: "post",
+		data: data
+	});
+};
+
+
+export const addOrUpdateQualityActivity = data => {
+	return request({
+		url: api.addOrUpdateQualityActivity,
+		method: "post",
+		data: data
+	});
+};
+
+export const getQualityActivityDeatil = id => {
+	return request({
+		url: api.getQualityActivityDeatil,
+		method: "get",
+		params: {
+			id
+		}
+	});
+};
+
+export const deleteQualityActivity = id => {
+	return request({
+		url: api.deleteQualityActivity,
+		method: "get",
+		params: {
+			id
+		}
+	});
+};
+
+export const getQualityActivityList = data => {
+	return request({
+		url: api.getQualityActivityList,
+		method: "post",
+		data: data
+	});
+};

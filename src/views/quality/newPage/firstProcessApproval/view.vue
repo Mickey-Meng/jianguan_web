@@ -5,7 +5,7 @@
 			<el-form ref="form" label-width="80px">
 				<div class="form-block">
 					<div class="form-block-title">
-						<div class="title-bar"></div><strong>项目开工申请信息</strong>
+						<div class="title-bar"></div><strong>基本信息</strong>
 					</div>
 					<div class="block-line">
 						<div class="block-item">
@@ -179,34 +179,32 @@
 					supervisionUnit: '浙江交科公路水运工程监理有限公司',
 					supervisionSection: '监理办'
 				},
-				baseInfo: {
-					buildSection: '',
-					buildSectionName: '235国道杭州至诸暨公路萧山河上至诸暨安华段改建工程',
-					contractCode: '235SJSG01',
-					buildCompany: '中交上海航道局有限公司、中国交通建设股份有限公司、浙江诸安建设集团有限公司、浙江省交通规划设计研究院有限公司',
-					supervisionUnit: '浙江交科公路水运工程监理有限公司',
-					supervisionSection: '监理办'
-				},
 				formData: { //表单参数
+					buildDate: formatDate(new Date()),
+					buildProcessExplain: "",
+					buildSection: '',
+					buildTechAttachment: [],
+					checkResultExplain: "",
 					deletedFlag: 1,
-					attachment: [],
 					draftFlag: 1,
-					againApplyExplain: '',
-					buildApplyExplain: '',
-					checkApplyExplain: '',
-					designApplyExplain: '',
-					insuranceApplyExplain: '',
-					otherApplyExplain: '',
-					projectApplyExplain: '',
-					securityApplyExplain: '',
-					techApplyExplain: '',
-					contractEndDate: formatDate(new Date()),
-					contractOpenDate: formatDate(new Date()),
-					endDate: formatDate(new Date()),
-					openDate: formatDate(new Date()),
+					faceQuelityExplain: "",
+					firstPassExplain: "",
+					firstProjectName: "",
+					firstProjectVideo: [],
+					imageVideo: [],
+					mainDataExplain: "",
+					materialAttachment: [],
+					measureAttachment: [],
+					mechanicalAttachment: [],
+					openAttachment: [],
+					problemDealExplain: "",
 					projectId: this.$store.getters.project['parentid'],
+					qualityAttachment: [],
+					subProject: 0,
+					subProjectDetail: "",
+					supervisionWorkExplain: "",
+					testAttachment: []
 				},
-				attachTable: [], //其他附件
 				taskInfo:{}
 			};
 		},
@@ -215,12 +213,7 @@
 			attachlist
 		},
 		computed: {
-			intervalPlan: function() {
-				return getDaysBetween(this.formData.openDate, this.formData.endDate)
-			},
-			intervalContract: function() {
-				return getDaysBetween(this.formData.contractOpenDate, this.formData.contractEndDate)
-			}
+			
 		},
 		watch: {
 			
@@ -230,10 +223,9 @@
 		},
 		methods: {
 			getDetail(id) {
-				api.getProjectOpenDeatil(id).then((res) => {
+				api.getFirstAcceptDeatil(id).then((res) => {
 					let data = res['data'] || {};
 					this.formData = data;
-					this.attachTable = data.otherAttachment || [];
 				});
 			},
 		},
