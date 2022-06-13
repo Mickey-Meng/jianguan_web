@@ -73,6 +73,7 @@
 	import * as api from "@/api/quality";
 	import { mapGetters } from 'vuex'
   import {constantRoutes} from "@/router/router";
+  import {setToken} from "@/utils/auth";
 	export default {
 		data() {
 			return {
@@ -123,11 +124,12 @@
         let router = this.detailRouters.find(e => e.code.indexOf(key) !== -1);
         let hiddenEdit = ["sgdwhtrybs", "jldwhtrybs", "qzdwhtrybs", "sgdwrybg", "jldwrybg", "qzdwrybg", "sgdwryqj", "jldwryqj", "qzdwryqj"];
         if (router) {
+          setToken("taskType", 3);
           this.$router.push({
             path: router.path,
             query: {
               taskId: row.taskId,
-			  taskKey:row.taskKey,
+              taskKey: row.taskKey,
               businessKey: row.businessKey,
               processDefinitionKey: row.processDefinitionKey,
               processInstanceId: row.processInstanceId,
