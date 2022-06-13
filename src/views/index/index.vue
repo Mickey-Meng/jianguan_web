@@ -42,9 +42,12 @@
       <div class="project_lists">
         <div id="album">
           <div class="img_box" v-for="(item, index) in listData" :key="index">
-            <div class="img_box_wrapper" @click.stop="seeProject(item)">
-              <img :src="item.img" alt="" />
+            <div class="img_box_wrapper" @mouseover="mouseOver(item)">
+              <img :src="item.img" alt=""/>
               <label class="pro_name">{{ item.name }}</label>
+              <ul class="section_lists">
+                <li v-for="section in item.child" v-show="currentProjectId === item.id"  @click.stop="seeProject(section)">{{ section.name }}</li>
+              </ul>
             </div>
           </div>
           <p></p>
@@ -82,6 +85,7 @@ import img4 from "@/assets/projectImg/图层7.png";
 import img5 from "@/assets/projectImg/图层4.png";
 import img6 from "@/assets/projectImg/图层5.png";
 import img7 from "@/assets/projectImg/图层6.png";
+import {getProjectAndSection} from "@/api/newProject";
 import {getAllProject} from "@/api/project";
 export default {
   name: "",
@@ -90,6 +94,7 @@ export default {
       logo: logo,
       allView: allView,
       box: box,
+      currentProjectId: null,
       lists: [
         // {
         //   name: "G235改建",
@@ -140,7 +145,7 @@ export default {
     document.onselectstart = function () {
       return false;
     };
-    getAllProject().then(res => {
+    getProjectAndSection().then(res => {
       let data = res.data;
       data.forEach(item => {
         item.img = img1;
@@ -152,6 +157,18 @@ export default {
         this.initEffects();
       });
     });
+    // getAllProject().then(res => {
+    //   let data = res.data;
+    //   data.forEach(item => {
+    //     item.img = img1;
+    //   });
+    //   let arr = data.concat(this.lists);
+    //   this.lists = arr;
+    //   this.initData();
+    //   this.$nextTick(() => {
+    //     this.initEffects();
+    //   });
+    // });
   },
   methods: {
     ...mapMutations("project", ["SET_PROJECT"]),
@@ -262,6 +279,11 @@ export default {
         }
       }
     },
+    mouseOver(item) {
+      if (item.id) {
+        this.currentProjectId = item.id;
+      }
+    },
     exitSys() {
       window.localStorage.clear();
       this.$router.push("/login");
@@ -288,6 +310,8 @@ export default {
   background: url("../../assets/image/mainbg.png") no-repeat;
   background-size: 100%;
   position: relative;
+  overflow: hidden;
+
   .exit {
     position: fixed;
     top: 12px;
@@ -296,6 +320,7 @@ export default {
     cursor: pointer;
     color: #FFFFFF;
   }
+
   > img {
     position: fixed;
     left: 0;
@@ -394,6 +419,7 @@ export default {
             width: 100%;
             height: 100%;
           }
+
           .pro_name {
             width: 120px;
             text-align: center;
@@ -403,6 +429,18 @@ export default {
             bottom: 20px;
             z-index: 100;
             color: #FFFFFF;
+          }
+
+          .section_lists {
+            width: 100%;
+            color: #FFFFFF;
+            position: absolute;
+            top: 250px;
+            li{
+              padding: 5px 0;
+              text-align: center;
+              cursor: pointer;
+            }
           }
         }
       }

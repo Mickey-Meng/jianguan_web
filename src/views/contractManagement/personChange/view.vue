@@ -191,6 +191,7 @@
   import {mapGetters} from "vuex";
   import {getPersonChangeByProcessId} from "@/api/staffApproval";
   import {downLoadFile} from "@/utils/download";
+  import {getToken} from "@/utils/auth";
 
   export default {
     props: [],
@@ -212,15 +213,19 @@
     },
     methods: {
       getDetail(id) {
+        let type = getToken("taskType");
         let obj = {
           projectid: this.project.id,
-          businessKey: id
+          businessKey: id,
+          type
         };
         getPersonChangeByProcessId(obj).then((res) => {
           if (res) {
-            let obj = res.data[0];
-            this.form = Object.assign({}, obj);
-            this.fileData = obj.files;
+            // let obj = res.data[0];
+            // this.form = Object.assign({}, obj);
+            // this.fileData = obj.files;
+            this.form = res.data.ZjPersonChange;
+            this.fileData = res.data.ZjPersonChangeFile;
           }
         });
       },

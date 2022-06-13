@@ -119,65 +119,69 @@
 </template>
 
 <script>
-import * as api from "@/api/quality";
-import { disposeUrl, validPicurl } from "@/utils/validate";
+  import * as api from "@/api/quality";
+  import {disposeUrl, validPicurl} from "@/utils/validate";
+  import {mapGetters} from "vuex";
 
-export default {
-  name: "",
-  data() {
-    return {
-      dialogVisible: false,
-      tableData: [],
-      rowData: {},
-      index: null,
-      form: {
-        result: 1,
-        eventid: null,
-        reason: "",
-      },
-      status: [
-        {
-          name: "通过",
-          id: 1,
+  export default {
+    name: "",
+    data() {
+      return {
+        dialogVisible: false,
+        tableData: [],
+        rowData: {},
+        index: null,
+        form: {
+          result: 1,
+          eventid: null,
+          reason: ""
         },
-        {
+        status: [
+          {
+            name: "通过",
+            id: 1
+          },
+          {
           name: "驳回",
           id: 2,
-        },
-      ],
-      rules: {
-        result: [
-          { required: true, message: "请选择审核状态", trigger: "blur" },
+          },
         ],
-        reason: [
-          { required: true, message: "请输入不通过原因", trigger: "blur" },
-        ],
-      },
-    };
-  },
-  created() {
-    this.initData();
-  },
-  methods: {
-    initData() {
-      api.getFinishQualityEvent().then((res) => {
-        if (res.data && res.data.length > 0) {
-          res.data.forEach((item) => {
-            item.uploadurl = validPicurl(item.uploadurl);
-            item.modifyurl = validPicurl(item.modifyurl);
-          });
-          this.tableData = res.data;
+        rules: {
+          result: [
+            {required: true, message: "请选择审核状态", trigger: "blur"}
+          ],
+          reason: [
+            {required: true, message: "请输入不通过原因", trigger: "blur"}
+          ]
         }
-      });
-    },
-    showDialog(row, index) {
-      this.rowData = row;
-      this.index = index;
-      this.form = {
-        result: 1,
-        eventid: null,
-        reason: "",
       };
+    },
+    created() {
+      this.initData();
+    },
+    computed: {
+      ...mapGetters(["project"])
+    },
+    methods: {
+      initData() {
+        api.getFinishQualityEvent(this.project.id).then((res) => {
+          if (res.data && res.data.length > 0) {
+            res.data.forEach((item) => {
+              item.uploadurl = validPicurl(item.uploadurl);
+              item.modifyurl = validPicurl(item.modifyurl);
+            });
+            this.tableData = res.data;
+          }
+        });
+      },
+      showDialog(row, index) {
+        this.rowData = row;
+        this.index = index;
+        this.form = {
+          result: 1,
+          eventid: null,
+          reason: ""
+        };
       this.dialogVisible = true;
     },
     submitData() {

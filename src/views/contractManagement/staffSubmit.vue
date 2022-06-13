@@ -433,7 +433,7 @@
             <el-aside
               style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);"
             >
-              <tasklog v-show="!isCreate"></tasklog>
+              <tasklog v-show="!isCreate" :taskInfo="taskInfo" ref="tasklog"></tasklog>
             </el-aside>
           </el-container>
 
@@ -468,6 +468,7 @@
     data() {
       return {
         form: {},//表单
+        taskInfo: {},
         tableData: [],//填报的数据
         listData: [],//报审数据
         userOptions: [],
@@ -695,13 +696,25 @@
         if (data && data.length > 0) {
           this.tableData = data.map(item => {
             if (item.peoplePic) {
-              item.peoplePic = '/ZhuJiRoad/mong/preview?fileid=' + item.peoplePic;
+              item.peoplePic = "/ZhuJiRoad/mong/preview?fileid=" + item.peoplePic;
             }
             return item;
           });
         }
         this.isCreate = false;
+        let {maps} = row;
+        let {processDefinitionId, processInstanceId, taskId} = maps;
+        if (processDefinitionId && processInstanceId && taskId) {
+          this.taskInfo = {
+            processDefinitionId, processInstanceId, taskId
+          };
+        } else {
+          this.taskInfo = {};
+        }
         this.dialogFormVisible = true;
+        this.$nextTick(() => {
+          this.$refs["tasklog"].initData();
+        });
       }
     },
     filters: {

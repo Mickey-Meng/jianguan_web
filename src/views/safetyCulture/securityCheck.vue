@@ -355,7 +355,6 @@
           obj.uploadid = this.userInfo.ID;
           obj.safefirstname = big.name;
           obj.safesecondname = small.name;
-          //大写ID是标段ID 小写是单位工程ID
           obj.projectId = this.project.id;
           api.submitSafeData(obj).then((res) => {
             this.safeForm = {

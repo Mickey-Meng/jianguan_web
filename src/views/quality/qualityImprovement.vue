@@ -229,16 +229,16 @@ export default {
     this.initData();
   },
   computed: {
-    ...mapGetters(["userInfo", "uploadUrl"]),
+    ...mapGetters(["userInfo", "uploadUrl", "project"])
   },
   methods: {
     initData() {
       this.header.token = getToken("zj_token");
-      api.getWorkLists().then((res) => {
-        let { role, data } = res.data;
+      api.getWorkLists(this.project.id).then((res) => {
+        let {role, data} = res.data;
         if (data && data.length > 0) {
           let arr = data.map((item) => {
-            let { zjQualityEvent, isOverdue, overdueTime } = item;
+            let {zjQualityEvent, isOverdue, overdueTime} = item;
             let obj = Object.assign({}, zjQualityEvent);
             obj.isOverdue = isOverdue;
             obj.isOverdueText = isOverdue ? "逾期" : "未逾期";

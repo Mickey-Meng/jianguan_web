@@ -240,6 +240,7 @@
 <script>
   import {mapGetters} from "vuex";
   import {getStaffByProcessIdAndProjectId} from "@/api/staffApproval";
+  import {getToken} from "@/utils/auth";
 
   export default {
     data() {
@@ -250,7 +251,7 @@
 
         },
         tableData: [],//报审的数据
-        userOptions: []
+        userOptions: [],
       };
     },
     created() {
@@ -266,9 +267,11 @@
     },
     methods: {
       getDetail(id) {
+        let type = getToken('taskType');
         let obj = {
           projectid: this.project.id,
-          businessKey: id
+          businessKey: id,
+          type
         };
         getStaffByProcessIdAndProjectId(obj).then((res) => {
           if (res) {
@@ -277,7 +280,7 @@
             if (data && data.length > 0) {
               this.tableData = data.map(item => {
                 if (item.peoplePic) {
-                  item.peoplePic = '/ZhuJiRoad/mong/preview?fileid=' + item.peoplePic;
+                  item.peoplePic = "/ZhuJiRoad/mong/preview?fileid=" + item.peoplePic;
                 }
                 return item;
               });
@@ -285,7 +288,7 @@
           }
         });
       }
-    }
+    },
   };
 </script>
 

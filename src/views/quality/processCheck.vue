@@ -106,9 +106,9 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="项目" prop="projectid">
+        <el-form-item label="单位工程" prop="singleProjectId">
           <el-select
-            v-model="form.projectid"
+            v-model="form.singleProjectId"
             clearable
             placeholder="请选择项目"
           >
@@ -277,25 +277,27 @@
 </template>
 
 <script>
-import * as api from "@/api/quality";
-import { getToken } from "@/utils/auth";
-import { mapGetters } from "vuex";
-import { disposeUrl } from "@/utils/validate";
-import {
-  getWorkArea,
-  getAreaByAuthority,
-  getCheckerByAreaId,
-} from "@/api/workArea";
+  import * as api from "@/api/quality";
+  import {getToken} from "@/utils/auth";
+  import {mapGetters} from "vuex";
+  import {disposeUrl} from "@/utils/validate";
+  import {
+    getWorkArea,
+    getAreaByAuthority,
+    getCheckerByAreaId
+  } from "@/api/workArea";
 
-export default {
-  name: "",
-  data() {
-    return {
-      value: "",
-      header: { token: "" }, // 文件上传带token
-      inputValue: "",
-      currentView: "check", //record，delay
-      functionary: [], //工区负责人
+  import {getAreaBySectionId, getConstructionWorkersBySectionId} from "@/api/newProject";
+
+  export default {
+    name: "",
+    data() {
+      return {
+        value: "",
+        header: {token: ""}, // 文件上传带token
+        inputValue: "",
+        currentView: "check", //record，delay
+        functionary: [], //工区负责人
       fileList: [], //上传的文件
       bigQualityData: [], //安全大类数据
       smallQualityData: [], //安全小类数据
@@ -319,7 +321,7 @@ export default {
         modifyid: [
           { required: true, message: "请选择工区负责人", trigger: "blur" },
         ],
-        projectid: [{ required: true, message: "请选择项目", trigger: "blur" }],
+        singleProjectId: [{ required: true, message: "请选择项目", trigger: "blur" }],
       },
       recordsData: [],
       delayForm: {}, //延期表单
@@ -332,7 +334,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["userInfo", "uploadUrl"]),
+    ...mapGetters(["userInfo", "uploadUrl", "project"])
   },
   created() {
     this.initData();
@@ -352,27 +354,28 @@ export default {
       api.getQualityBigSmallData().then((res) => {
         this.bigQualityData = res.data || [];
       });
-      getAreaByAuthority().then((res) => {
+      //根据标段ID查询工区数据
+      getAreaBySectionId(this.project.id).then((res) => {
         this.areaData = res.data || [];
       });
     },
     changeArea(val) {
       this.projectData = [];
       this.functionary = [];
-      this.$set(this.form, "projectid", null);
+      this.$set(this.form, "singleProjectId", null);
       this.$set(this.form, "modifyid", null);
       getWorkArea(val).then((res) => {
         //获取工区下的项目
         this.projectData = res.data || [];
       });
       //获取工区下的施工
-      getCheckerByAreaId(val).then((res) => {
+      getConstructionWorkersBySectionId(this.project.id, val).then(res => {
         this.functionary = res.data;
       });
     },
     getDelayData() {
       //获取延期申请数据
-      api.getDelayEvent().then((res) => {
+      api.getDelayEvent(this.project.id).then((res) => {
         this.delayData = res.data;
       });
     },
@@ -414,9 +417,9 @@ export default {
           obj.uploadname = this.userInfo.name;
           obj.modifyname = user.name;
           obj.uploadid = this.userInfo.ID;
-          // obj.gongquid = user.gongquid;
           obj.qualityfirstname = big.name;
           obj.qualitysecondname = small.name;
+          obj.projectId = this.project.id;
           api.addQuality(obj).then((res) => {
             this.form = {
               modifydate: 3,

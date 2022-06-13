@@ -205,7 +205,7 @@
         <el-aside
           style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);"
         >
-                    <tasklog v-show="!isCreate"></tasklog>
+                    <tasklog v-show="!isCreate" :taskInfo="taskInfo" ref="tasklog"></tasklog>
         </el-aside>
       </el-container>
 
@@ -229,6 +229,7 @@
     data() {
       return {
         form: {},
+        taskInfo: {},
         tableData: [],//请假数据
         userOptions: [],//选择用户
         handoffPerson: [],//工作交接可选人
@@ -379,7 +380,20 @@
       seeDetail(row) {
         this.isCreate = false;
         this.form = Object.assign({}, row);
+        let {processDefinitionId, processInstanceId, taskId} = row;
+        if (processDefinitionId && processInstanceId && taskId) {
+          this.taskInfo = {
+            processDefinitionId, processInstanceId, taskId
+          };
+
+        } else {
+          this.taskInfo = {};
+        }
+
         this.dialogFormVisible = true;
+        this.$nextTick(() => {
+          this.$refs["tasklog"].initData();
+        });
       },
       //判断时间是不是同一天
       judgeFn(time, time1) {

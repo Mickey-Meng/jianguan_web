@@ -109,6 +109,7 @@
 <script>
   import {mapGetters} from "vuex";
   import {getLeaveByProcessId} from "@/api/staffApproval";
+  import {getToken} from "@/utils/auth";
 
   export default {
     props: [],
@@ -128,14 +129,15 @@
     },
     methods: {
       getDetail(id) {
+        let type = getToken('taskType');
         let obj = {
           projectId: this.project.id,
-          businessKey: id
+          businessKey: id,
+          type
         };
         getLeaveByProcessId(obj).then((res) => {
           if (res) {
-            let obj = res.data[0];
-            this.form = Object.assign({}, obj);
+            this.form = res.data.ZjPersonLeave;
           }
         });
       }

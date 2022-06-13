@@ -41,7 +41,11 @@
           <el-table-column prop="changePostName" label="变更岗位"></el-table-column>
           <el-table-column prop="beforePerson" label="变更前人员"></el-table-column>
           <el-table-column prop="afterPerson" label="变更后人员"></el-table-column>
-          <el-table-column prop="subDate" label="录入日期"></el-table-column>
+          <el-table-column prop="subDate" label="录入日期">
+            <template slot-scope="{row}">
+              {{ row.subDate | formatTime }}
+            </template>
+          </el-table-column>
           <!--          <el-table-column prop="uploadname" label="负责人"></el-table-column>-->
           <!--          <el-table-column prop="uploadname" label="状态"></el-table-column>-->
           <el-table-column label="操作">
@@ -305,7 +309,7 @@
         </el-aside>
         <el-aside
           style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
-          <tasklog v-if="!isCreate"></tasklog>
+          <tasklog v-if="!isCreate" :taskInfo="taskInfo" ref="tasklog"></tasklog>
         </el-aside>
       </el-container>
 
@@ -326,6 +330,7 @@
   import {submitUserTask} from "@/api/quality";
   import {downLoadFile} from "@/utils/download";
   import {getUserRoleAndCode} from "@/api/newProject";
+  import {formatDate} from "@/utils/date";
 
   export default {
     data() {
@@ -336,6 +341,7 @@
           projectName: "",
           projectId: ""
         },
+        taskInfo: {},
         dialogTitle: "项目全生命周期数字管理平台",
         dialogFormVisible: false,
         queryData: {
@@ -470,7 +476,7 @@
           fileId: data.fileId,
           uploadPerson: this.name,
           uploadPersonId: this.userInfo.ID,
-          uploadTime: data.uploadTime
+          uploadTime: formatDate(data.uploadTime)
         };
         this.fileData.push(obj);
       },
@@ -563,7 +569,19 @@
         this.form = Object.assign({}, row);
         this.fileData = row.files;
         this.isCreate = false;
+        let {processDefinitionId, processInstanceId, taskId} = row;
+        if (processDefinitionId && processInstanceId && taskId) {
+          this.taskInfo = {
+            processDefinitionId, processInstanceId, taskId
+          };
+
+        } else {
+          this.taskInfo = {};
+        }
         this.dialogFormVisible = true;
+        this.$nextTick(() => {
+          this.$refs["tasklog"].initData();
+        });
       },
       //下载文件
       downLoadEvent() {
@@ -573,6 +591,11 @@
           });
 
         }
+      }
+    },
+    filters: {
+      formatTime(val) {
+        return formatDate(val);
       }
     }
   };

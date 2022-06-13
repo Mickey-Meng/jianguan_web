@@ -219,10 +219,10 @@ export const getQualityPrincipal = () => {
  */
 export const addQuality = data => {
 	return request({
-		url: api.addQuality,
-		method: "post",
-		data
-	});
+    url: api.addQuality,
+    method: "post",
+    data
+  });
 };
 /**
  * @des:施工方获取质量检查事件
@@ -231,11 +231,14 @@ export const addQuality = data => {
  * @param {*}
  * @return {*}
  */
-export const getWorkLists = () => {
-	return request({
-		url: api.getWorkList,
-		method: "get"
-	});
+export const getWorkLists = (projectId) => {
+  return request({
+    url: api.getWorkList,
+    method: "get",
+    params: {
+      projectId
+    }
+  });
 };
 /**
  * @des:施工方填报质量整改
@@ -245,11 +248,11 @@ export const getWorkLists = () => {
  * @return {*}
  */
 export const submitFinishEvent = data => {
-	return request({
-		url: api.submitFinishEvent,
-		method: "post",
-		data
-	});
+  return request({
+    url: api.submitFinishEvent,
+    method: "post",
+    data
+  });
 };
 /**
  * @des:施工方对质量事件延期处理
@@ -259,11 +262,11 @@ export const submitFinishEvent = data => {
  * @return {*}
  */
 export const submitDealEvent = data => {
-	return request({
-		url: api.submitDealEvent,
-		method: "post",
-		data
-	});
+  return request({
+    url: api.submitDealEvent,
+    method: "post",
+    data
+  });
 };
 /**
  * @des:监理查询延期申请事件
@@ -272,11 +275,12 @@ export const submitDealEvent = data => {
  * @param {*}
  * @return {*}
  */
-export const getDelayEvent = () => {
-	return request({
-		url: api.getDelayEvent,
-		method: "get"
-	});
+export const getDelayEvent = (projectId) => {
+  return request({
+    url: api.getDelayEvent,
+    method: "get",
+    params: {projectId}
+  });
 };
 /**
  * @des:监理方处理延期申请
@@ -286,7 +290,7 @@ export const getDelayEvent = () => {
  * @return {*}
  */
 export const disposeDelay = data => {
-	return request({
+  return request({
 		url: api.disposeDelay,
 		method: "post",
 		data
@@ -303,8 +307,8 @@ export const disposeFinishQualityEvent = data => {
 	return request({
 		url: api.disposeFinishQualityEvent,
 		method: "post",
-		data
-	});
+    data
+  });
 };
 /**
  * @des:监理方获取已整改待确认事件
@@ -313,11 +317,12 @@ export const disposeFinishQualityEvent = data => {
  * @param {*}
  * @return {*}
  */
-export const getFinishQualityEvent = () => {
-	return request({
-		url: api.getFinishQualityEvent,
-		method: "get"
-	});
+export const getFinishQualityEvent = (projectId) => {
+  return request({
+    url: api.getFinishQualityEvent,
+    method: "get",
+    params: {projectId}
+  });
 };
 /**
  * @des:获取监理已审核确认质量事件
@@ -579,7 +584,7 @@ export const listHistoricProcessInstance = data => {
 	});
 };
 /**
- * 
+ *
  */
 export const rejectRuntimeTask = data => {
 	return request({
@@ -730,8 +735,8 @@ export const addOrUpdateQualityDetection = data => {
 };
 /**
  * 获取流程对应节点的人员范围flowAuditEntry/detail/id
- * @param {*} data 
- * @returns 
+ * @param {*} data
+ * @returns
  */
 export const getFlowAuditEntry = data => {
 	return request({
