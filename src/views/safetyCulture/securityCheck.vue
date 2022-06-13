@@ -302,9 +302,6 @@
         api.getBigSmallSafeData().then((res) => {
           this.bigSafeData = res.data;
         });
-        // api.getcheck().then((res) => {
-        //   this.functionary = res.data;
-        // });
         //根据标段ID查询工区数据
         getAreaBySectionId(this.project.id).then((res) => {
           this.areaData = res.data || [];
