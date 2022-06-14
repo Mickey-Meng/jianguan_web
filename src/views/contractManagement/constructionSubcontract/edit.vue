@@ -43,7 +43,7 @@
 										<div class="block-item">
 											<div class="block-item-label">合同编号<i class="require-icon"></i></div>
 											<div class="block-item-value">
-												<el-form-item prop="inspectionCode">
+												<el-form-item prop="contractCode">
 													<el-input v-model="formData.contractCode"></el-input>
 												</el-form-item>
 											</div>
@@ -111,7 +111,7 @@
 												<template slot-scope="{ row, $index }">
 													<el-button type="text" size="mini">预览</el-button>
 													<el-button type="text" size="mini"
-														@click="deleteExamine(row, $index)">删除</el-button>
+														@click="deleteContract(row, $index)">删除</el-button>
 												</template>
 											</el-table-column>
 										</el-table>
