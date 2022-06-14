@@ -145,12 +145,12 @@
 				return list;
 			},
 			addNew() {
-				this.editRow=null;
-				this.$refs.edit.changeVisible(true);
+				// this.editRow=null;
+				this.$refs.edit.changeVisible(null, true);
 			},
 			modify(row) {
-				this.editRow=row;
-				this.$refs.edit.changeVisible(true);
+				// this.editRow=row;
+				this.$refs.edit.changeVisible(null, true);
 			},
 			viewDetail(row) {
 				this.detailRow=row;
