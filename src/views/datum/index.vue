@@ -20,15 +20,15 @@
         <!-- <el-table-column label="预览"></el-table-column> -->
         <el-table-column label="操作">
           <template slot-scope="{ row, $index }">
-            <el-button size="mini" type="primary" @click="showEdit(row)"
+            <el-button size="mini" type="primary" class="primary_mini" @click="showEdit(row)"
               >编辑</el-button
             >
-            <el-button size="mini" type="primary" @click="downFile(row)"
+            <el-button size="mini" class="primary_mini" type="primary" @click="downFile(row)"
               >下载</el-button
             >
             <el-button
               size="mini"
-              type="primary"
+              type="danger"
               @click="handleDelete(row, $index)"
               >删除</el-button
             >
@@ -68,25 +68,26 @@
       </el-form>
       <div slot="footer">
         <el-button size="mini" @click="dialogVisible = false">取消</el-button>
-        <el-button size="mini" type="primary" @click="addFile">确定</el-button>
+        <el-button size="mini" type="primary"  class="primary_mini"  @click="addFile">确定</el-button>
       </div>
     </el-dialog>
   </el-container>
 </template>
 
 <script>
-import { uploadF, getFile, deleteFile, updateFileInfo } from "@/api/file";
-import { downLoadFile } from "@/utils/download";
-// const docx = require("docx-preview");
-// window.JSZip = require("jszip");
-export default {
-  name: "",
-  data() {
-    return {
-      dialogVisible: false,
-      isCreate: false,
-      showPreview: true,
-      tableData: [],
+  import {uploadF, getFile, deleteFile, updateFileInfo} from "@/api/file";
+  import {downLoadFile} from "@/utils/download";
+  import {mapGetters} from "vuex";
+  // const docx = require("docx-preview");
+  // window.JSZip = require("jszip");
+  export default {
+    name: "",
+    data() {
+      return {
+        dialogVisible: false,
+        isCreate: false,
+        showPreview: true,
+        tableData: [],
       form: {
         fileurl: "",
         uploadname: "",
@@ -107,27 +108,31 @@ export default {
   created() {
     this.initData();
   },
-  mounted() {
-    // this.$axios({
-    //   method: "get",
-    //   responseType: "blob", // 设置响应文件格式
-    //   url: "/ZhuJiRoad/mong/preview?fileid=620da6edfe834755c49cf7b2",
-    // }).then((res) => {
-    //   // console.log(new Blob(res.data));
-    //   // docx.renderAsync(new Blob(res.data), this.$refs.file); // 渲染到页面预览
-    // });
-  },
-  computed: {},
-  methods: {
-    showDialog() {
-      this.isCreate = true;
-      this.dialogVisible = true;
-      this.form = {
-        fileurl: "",
-        uploadname: "",
-        uploadtype: "",
-        uploadusername: "",
-        type: 1,
+
+    mounted() {
+      // this.$axios({
+      //   method: "get",
+      //   responseType: "blob", // 设置响应文件格式
+      //   url: "/ZhuJiRoad/mong/preview?fileid=620da6edfe834755c49cf7b2",
+      // }).then((res) => {
+      //   // console.log(new Blob(res.data));
+      //   // docx.renderAsync(new Blob(res.data), this.$refs.file); // 渲染到页面预览
+      // });
+    },
+    computed: {
+      ...mapGetters(["project"])
+    },
+    methods: {
+      showDialog() {
+        this.isCreate = true;
+        this.dialogVisible = true;
+        this.form = {
+          fileurl: "",
+          uploadname: "",
+          uploadtype: "",
+          uploadusername: "",
+          type: 1,
+          projectId: this.project.id
       };
     },
     showEdit(row) {
@@ -136,7 +141,7 @@ export default {
       this.dialogVisible = true;
     },
     initData() {
-      getFile(1).then((res) => {
+      getFile(1,this.project.id).then((res) => {
         this.tableData = res.data;
       });
     },

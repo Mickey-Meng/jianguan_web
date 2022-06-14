@@ -19,6 +19,7 @@
         v-model="typeKey"
         v-if="currentView === 'paper'"
         @change="selectChange"
+        style="width: 200px"
       >
         <el-option
           v-for="item in typeArr"
@@ -58,15 +59,15 @@
         <el-table-column prop="uploadtime" label="上传时间"> </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="{ row, $index }">
-            <el-button size="mini" type="primary" @click="showEditPaper(row)"
+            <el-button size="mini" type="primary"  class="primary_mini"  @click="showEditPaper(row)"
               >编辑</el-button
             >
-            <el-button size="mini" type="primary" @click="downFile(row)"
+            <el-button size="mini" type="primary"  class="primary_mini"  @click="downFile(row)"
               >下载</el-button
             >
             <el-button
               size="mini"
-              type="primary"
+              type="danger"
               @click="handleDelete(row, $index)"
               >删除</el-button
             >
@@ -105,15 +106,15 @@
         <el-table-column prop="opiontion" label="审查意见"> </el-table-column>
         <el-table-column label="操作" width="220px">
           <template slot-scope="{ row, $index }">
-            <el-button size="mini" type="primary" @click="showEdit(row)"
+            <el-button size="mini" type="primary"  class="primary_mini"  @click="showEdit(row)"
               >编辑</el-button
             >
-            <el-button size="mini" type="primary" @click="downFile(row)"
+            <el-button size="mini" type="primary"  class="primary_mini"  @click="downFile(row)"
               >下载</el-button
             >
             <el-button
               size="mini"
-              type="primary"
+              type="danger"
               @click="handleDelete(row, $index)"
               >删除</el-button
             >
@@ -156,7 +157,7 @@
       </el-form>
       <div slot="footer">
         <el-button size="mini" @click="dialogVisible = false">取消</el-button>
-        <el-button size="mini" type="primary" @click="addFile">确定</el-button>
+        <el-button size="mini" type="primary"  class="primary_mini"  @click="addFile">确定</el-button>
       </div>
     </el-dialog>
     <el-dialog
@@ -223,7 +224,7 @@
         <el-button size="mini" @click="modelDialogVisible = false"
           >取消</el-button
         >
-        <el-button size="mini" type="primary" @click="addModelFile"
+        <el-button size="mini" type="primary"  class="primary_mini"  @click="addModelFile"
           >确定</el-button
         >
       </div>
@@ -234,6 +235,7 @@
 <script>
 import { uploadF, getFile, deleteFile, updateFileInfo } from "@/api/file";
 import { downLoadFile } from "@/utils/download";
+import {mapGetters} from "vuex";
 export default {
   name: "",
   data() {
@@ -284,7 +286,7 @@ export default {
           { required: true, message: "请输入标段名称", trigger: "blur" },
         ],
         fileurl: [
-          { required: true, message: "请上传图纸文件", trigger: "blur" },
+          { required: true, message: "请上传文件", trigger: "blur" },
         ],
       },
     };
@@ -292,9 +294,12 @@ export default {
   created() {
     this.init();
   },
+  computed: {
+    ...mapGetters(["project"])
+  },
   methods: {
     init() {
-      getFile(this.typeKey).then((res) => {
+      getFile(this.typeKey,this.project.id).then((res) => {
         this.tableData = res.data;
       });
     },
@@ -310,7 +315,7 @@ export default {
         if (val === "paper") {
           this.init();
         } else {
-          getFile(7).then((res) => {
+          getFile(7,this.project.id).then((res) => {
             this.tableData = res.data;
           });
         }
@@ -355,6 +360,7 @@ export default {
         opiontion: "",
         callunit: "",
         calladdr: "",
+        projectId: this.project.id
       };
       this.dialogVisible = true;
       this.diaTitle =
@@ -387,6 +393,7 @@ export default {
         opiontion: "",
         callunit: "",
         calladdr: "",
+        projectId: this.project.id
       };
       this.modelDialogVisible = true;
     },
@@ -449,7 +456,7 @@ export default {
                 type: "success",
                 customClass: "message_override",
               });
-              getFile(7).then((res) => {
+              getFile(7,this.project.id).then((res) => {
                 this.tableData = res.data;
               });
             });
@@ -468,7 +475,7 @@ export default {
                 type: "success",
                 customClass: "message_override",
               });
-              getFile(7).then((res) => {
+              getFile(7,this.project.id).then((res) => {
                 this.tableData = res.data;
               });
             });

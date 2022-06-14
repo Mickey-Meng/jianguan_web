@@ -36,13 +36,13 @@
       ></el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="{ row, $index }">
-          <el-button type="text" size="small" @click="editInfo(row)">
+          <el-button type="primary" size="small" class="primary_mini" @click="editInfo(row)">
             编辑
           </el-button>
-          <el-button type="text" size="small" @click="downLoadFile(row)">
+          <el-button type="primary" size="small" class="primary_mini" @click="downLoadFile(row)">
             下载
           </el-button>
-          <el-button type="text" size="small" @click="handleDelete(row, $index)"
+          <el-button type="danger" size="small" @click="handleDelete(row, $index)"
             >删除</el-button
           >
         </template></el-table-column
@@ -111,16 +111,16 @@ export default {
 .wrapper {
   height: 100%;
   //padding: 5px;
-  ::v-deep .el-button {
-    width: 75px;
-    height: 28px;
-    line-height: 28px;
-    padding: 0;
-    color: #fff;
-    background-image: url(../../../assets/image/导出.png);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    text-align: center;
-  }
+  //::v-deep .el-button {
+  //  width: 75px;
+  //  height: 28px;
+  //  line-height: 28px;
+  //  padding: 0;
+  //  color: #fff;
+  //  background-image: url(../../../assets/image/导出.png);
+  //  background-size: 100% 100%;
+  //  background-repeat: no-repeat;
+  //  text-align: center;
+  //}
 }
 </style>

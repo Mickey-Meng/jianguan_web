@@ -24,7 +24,7 @@
     <div class="main">
       <el-tree
         ref="tree"
-        :data="nodes"
+        :data="treeInfo[currentKey]"
         accordion
         class="tree-box"
         highlight-current
@@ -49,96 +49,99 @@
 </template>
 
 <script>
-const Cesium = window.Cesium;
-let hlm, layer, em, am;
-import { getBridgeTree } from "@/api/tree";
-import Bus from "@/assets/eventBus";
-import { xyToLonlat } from "@/utils/site";
-import { getWorkArea } from "@/api/workArea";
+  const Cesium = window.Cesium;
+  let hlm, layer, em, am;
+  import {getBridgeTree} from "@/api/tree";
+  import Bus from "@/assets/eventBus";
+  import {xyToLonlat} from "@/utils/site";
+  import {getWorkArea} from "@/api/workArea";
+  import {mapGetters} from "vuex";
 
-export default {
-  name: "",
-  data() {
-    return {
-      currentHlm: null,
-      lists: [
-        {
-          name: "桥梁",
-          key: "QL",
+  export default {
+    name: "",
+    data() {
+      return {
+        currentHlm: null,
+        lists: [
+          {
+            name: "桥梁",
+            key: "QL"
+          },
+          {
+            name: "道路",
+            key: "LM"
+          },
+          {
+            name: "隧道",
+            key: "SD"
+          },
+          {
+            name: "其他",
+            key: "QT"
+          }
+        ],
+        defaultProps: {
+          children: "child",
+          label: "name"
         },
-        {
-          name: "道路",
-          key: "LM",
+        treeInfo: {
+          SD: [],
+          QL: [],
+          DL: [],
+          QT: []
         },
-        {
-          name: "隧道",
-          key: "SD",
-        },
-        {
-          name: "其他",
-          key: "QT",
-        },
-      ],
-      defaultProps: {
-        children: "child",
-        label: "name",
-      },
-      nodes: [],
-      treeData: [],
-      qlTree: [],
-      dlTree: [],
-      sdTree: [],
-      otTree: [],
-      projects: [],
-      projectId: "",
-      currentKey: "QL",
-      visualData: [], //形象进度数据
-      currentVisualObj: {},
-    };
-  },
-  created() {
-    this.initData("QL");
-    Bus.$on("mapSucceed", () => {
-      em = window.zeh.earth.createEntityManager();
-      Bus.$off("mapSucceed");
-    });
-    Bus.$on("clearEffect", () => {
-      if (this.currentHlm) {
-        this.stopEffect(this.currentHlm);
-      }
-      this.currentHlm = null;
-      this.currentVisualObj = {};
-    });
-    Bus.$on("getVisualData", (data) => {
-      this.visualData = data;
-    });
-  },
-  methods: {
-    changeData(val) {
-      this.currentKey = val;
-      if (val === "QL" || val === "SD" || val === "LM") {
-        this.initData(val);
-      } else {
-        this.nodes = [];
-      }
+        projects: [],
+        projectId: "",
+        currentKey: "QL",
+        visualData: [], //形象进度数据
+        currentVisualObj: {}
+      };
     },
-    initData(key) {
-      getBridgeTree(key).then((res) => {
-        const arr = [];
-        arr.push(res.data);
-        this.nodes = arr;
-        this.treeData = arr;
+    computed: {
+      ...mapGetters(["project"])
+    },
+    created() {
+      this.initData("QL");
+      Bus.$on("mapSucceed", () => {
+        em = window.zeh.earth.createEntityManager();
+        Bus.$off("mapSucceed");
+      });
+      Bus.$on("clearEffect", () => {
+        if (this.currentHlm) {
+          this.stopEffect(this.currentHlm);
+        }
+        this.currentHlm = null;
+        this.currentVisualObj = {};
+      });
+      Bus.$on("getVisualData", (data) => {
+        this.visualData = data;
       });
     },
-    nodeClick(node, data) {
-      if (node.conponetcode) {
-        Bus.$emit("getProcessById", node);
-        Bus.$emit("getComponentProgress", node.id);
-        Bus.$emit("toolClearEffect");
-      }
-      let route = this.$route;
-      if (node.mouldid && node.x && node.y) {
-        const x = parseFloat(node.x);
+    methods: {
+      changeData(val) {
+        this.currentKey = val;
+        if (val === "QL" || val === "SD" || val === "LM") {
+          this.initData(val);
+        }
+      },
+      initData(key) {
+        if (this.treeInfo[key] && this.treeInfo[key].length === 0) {
+          getBridgeTree(key, this.project.id).then((res) => {
+            const arr = [];
+            arr.push(res.data);
+            this.treeInfo[key] = arr;
+          });
+        }
+      },
+      nodeClick(node, data) {
+        if (node.conponetcode) {
+          Bus.$emit("getProcessById", node);
+          Bus.$emit("getComponentProgress", node.id);
+          Bus.$emit("toolClearEffect");
+        }
+        let route = this.$route;
+        if (node.mouldid && node.x && node.y) {
+          const x = parseFloat(node.x);
         const y = parseFloat(node.y);
         const z = parseFloat(node.z) || 65;
         let mouldid = node.mouldid.replace(/^\s+|\s+$/g, "");

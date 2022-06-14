@@ -42,12 +42,12 @@
       <div class="project_lists">
         <div id="album">
           <div class="img_box" v-for="(item, index) in listData" :key="index">
-            <div class="img_box_wrapper" @mouseover="mouseOver(item)">
+            <div class="img_box_wrapper" @mouseover="mouseOver(item)" @click.stop="seeProject(item)">
               <img :src="item.img" alt=""/>
               <label class="pro_name">{{ item.name }}</label>
-              <ul class="section_lists">
-                <li v-for="section in item.child" v-show="currentProjectId === item.id"  @click.stop="seeProject(section)">{{ section.name }}</li>
-              </ul>
+<!--              <ul class="section_lists">-->
+<!--                <li v-for="section in item.child" v-show="currentProjectId === item.id"  @click.stop="seeProject(section)">{{ section.name }}</li>-->
+<!--              </ul>-->
             </div>
           </div>
           <p></p>
@@ -145,19 +145,7 @@ export default {
     document.onselectstart = function () {
       return false;
     };
-    getProjectAndSection().then(res => {
-      let data = res.data;
-      data.forEach(item => {
-        item.img = img1;
-      });
-      let arr = data.concat(this.lists);
-      this.lists = arr;
-      this.initData();
-      this.$nextTick(() => {
-        this.initEffects();
-      });
-    });
-    // getAllProject().then(res => {
+    // getProjectAndSection().then(res => {
     //   let data = res.data;
     //   data.forEach(item => {
     //     item.img = img1;
@@ -169,6 +157,18 @@ export default {
     //     this.initEffects();
     //   });
     // });
+    getAllProject().then(res => {
+      let data = res.data;
+      data.forEach(item => {
+        item.img = img1;
+      });
+      let arr = data.concat(this.lists);
+      this.lists = arr;
+      this.initData();
+      this.$nextTick(() => {
+        this.initEffects();
+      });
+    });
   },
   methods: {
     ...mapMutations("project", ["SET_PROJECT"]),
@@ -280,9 +280,9 @@ export default {
       }
     },
     mouseOver(item) {
-      if (item.id) {
-        this.currentProjectId = item.id;
-      }
+      // if (item.id) {
+      //   this.currentProjectId = item.id;
+      // }
     },
     exitSys() {
       window.localStorage.clear();

@@ -2,7 +2,7 @@
   <el-container class="container-box">
     <el-header>
       <el-button type="primary" @click="showDialog">添加变更</el-button>
-      <el-select v-model="typeKey" @change="selectChange">
+      <el-select v-model="typeKey" @change="selectChange" style="width: 200px;margin-left: 10px">
         <el-option
           v-for="item in typeArr"
           :key="item.key"
@@ -23,15 +23,15 @@
 
         <el-table-column label="操作">
           <template slot-scope="{ row, $index }">
-            <el-button size="mini" type="primary" @click="showEdit(row)"
+            <el-button size="mini" type="primary"  class="primary_mini"  @click="showEdit(row)"
               >编辑</el-button
             >
-            <el-button size="mini" type="primary" @click="downFile(row)"
+            <el-button size="mini" type="primary"  class="primary_mini"  @click="downFile(row)"
               >下载</el-button
             >
             <el-button
               size="mini"
-              type="primary"
+              type="danger"
               @click="handleDelete(row, $index)"
               >删除</el-button
             >
@@ -80,7 +80,7 @@
       </el-form>
       <div slot="footer">
         <el-button size="mini" @click="dialogVisible = false">取消</el-button>
-        <el-button size="mini" type="primary" @click="addFile">确定</el-button>
+        <el-button size="mini" type="primary"  class="primary_mini"  @click="addFile">确定</el-button>
       </div>
     </el-dialog>
   </el-container>
@@ -88,7 +88,8 @@
 
 <script>
 import { uploadF, getFile, deleteFile, updateFileInfo } from "@/api/file";
-import { downLoadFile } from "@/utils/download";
+import {downLoadFile} from "@/utils/download";
+import {mapGetters} from "vuex";
 export default {
   name: "",
   data() {
@@ -118,24 +119,27 @@ export default {
       },
       rules: {
         uploadname: [
-          { required: true, message: "请输入合同名称", trigger: "blur" },
+          { required: true, message: "请输入文件名称", trigger: "blur" },
         ],
         changereason: [
           { required: true, message: "请输入变更事由", trigger: "blur" },
         ],
         fileurl: [
-          { required: true, message: "请上传合同文件", trigger: "blur" },
-        ],
+          {required: true, message: "请上传变更文件", trigger: "blur"}
+        ]
       },
-      tableData: [],
+      tableData: []
     };
   },
   created() {
     this.init();
   },
+  computed: {
+    ...mapGetters(["project"])
+  },
   methods: {
     init() {
-      getFile(this.typeKey).then((res) => {
+      getFile(this.typeKey,this.project.id).then((res) => {
         this.tableData = res.data;
       });
     },
@@ -166,6 +170,7 @@ export default {
         uploadusername: "",
         changereason: "",
         type: this.typeKey,
+        projectId: this.project.id
       };
     },
     showEdit(row) {
@@ -244,4 +249,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  .container-box{
+    .el-header{
+      display: flex;
+      align-items: center;
+
+    }
+  }
 </style>

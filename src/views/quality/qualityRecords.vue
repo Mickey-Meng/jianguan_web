@@ -298,60 +298,66 @@
 </template>
 
 <script>
-import { validPicurl } from "@/utils/validate";
-import * as api from "@/api/quality";
-import { getProjectTypeData } from "@/api/progress";
-import { getWorkArea } from "@/api/workArea";
-import { getToken } from "@/utils/auth";
-import eventDetail from "@/components/detail/eventDetail";
-import { downLoadFile } from "@/utils/download";
-import { addAnyDays } from "@/utils/date";
-export default {
-  name: "",
-  data() {
-    return {
-      tableData: [],
-      typeKey: "",
-      typeArr: [],
-      area: [],
-      areaId: null,
-      groupId: null,
-      photoLists: [],
-      drawer: false,
-      detalRow: {},
-    };
-  },
-  created() {
-    this.groupId = getToken("groupId");
-    this.initData();
-  },
-  components: { eventDetail },
-  methods: {
-    initData() {
-      getProjectTypeData().then((res) => {
-        let obj = {
-          projectname: "所有工程",
+  import {validPicurl} from "@/utils/validate";
+  import * as api from "@/api/quality";
+  import {getProjectTypeData} from "@/api/progress";
+  import {getWorkArea} from "@/api/workArea";
+  import {getToken} from "@/utils/auth";
+  import eventDetail from "@/components/detail/eventDetail";
+  import {downLoadFile} from "@/utils/download";
+  import {addAnyDays} from "@/utils/date";
+  import {getAreaBySectionId} from "@/api/newProject";
+  import {mapGetters} from "vuex";
+
+  export default {
+    name: "",
+    data() {
+      return {
+        tableData: [],
+        typeKey: "",
+        typeArr: [],
+        area: [],
+        areaId: null,
+        groupId: null,
+        photoLists: [],
+        drawer: false,
+        detalRow: {}
+      };
+    },
+    computed: {
+      ...mapGetters(["project"])
+    },
+    created() {
+      this.groupId = getToken("groupId");
+      this.initData();
+    },
+    components: {eventDetail},
+    methods: {
+      initData() {
+        getProjectTypeData().then((res) => {
+          let obj = {
+            projectname: "所有工程",
           groupid: "all",
         };
         let data = res.data || [];
         data.unshift(obj);
         this.typeArr = data;
         this.typeKey = "all";
-        getWorkArea().then((res1) => {
-          let aobj = {
-            name: "所有工区",
-            id: 9527,
-          };
-          let areaD = res1.data;
-          areaD.unshift(aobj);
-          this.area = areaD;
-          api.getAllQualityEvents().then((res3) => {
-            if (res3.data) {
-              let data = res3.data;
+          getAreaBySectionId(this.project.id).then((res1) => {
+            let aobj = {
+              name: "所有工区",
+              id: 9527
+            };
+            let areaD = res1.data;
+            areaD.unshift(aobj);
+            this.area = areaD;
+            api.getAllQualityEvents(this.project.id).then((res3) => {
+              if (res3.data) {
+                let data = res3.data;
               data.forEach((item) => {
-                let gq = this.area.find((e) => e.id === item.gongquid);
+                let gq = this.area.find((e) => e.sort === item.gongquid);
                 let pro = this.typeArr.find(
-                  (e) => e.groupid === item.projectid
+                  (e) => e.groupid === item.singleProjectId
                 );
                 item.modifyurl = validPicurl(item.modifyurl);
                 item.uploadurl = validPicurl(item.uploadurl);
@@ -377,12 +383,12 @@ export default {
     },
     changeValue(value) {
       if (value === "all") {
-        api.getAllQualityEvents().then((res) => {
+        api.getAllQualityEvents(this.project.id).then((res) => {
           if (res.data) {
             let data = res.data;
             data.forEach((item) => {
-              let gq = this.area.find((e) => e.id === item.gongquid);
-              let pro = this.typeArr.find((e) => e.groupid === item.projectid);
+              let gq = this.area.find((e) => e.sort === item.gongquid);
+              let pro = this.typeArr.find((e) => e.groupid === item.singleProjectId);
               item.modifyurl = validPicurl(item.modifyurl);
               item.uploadurl = validPicurl(item.uploadurl);
               item.gq = gq?.name;
@@ -392,12 +398,12 @@ export default {
           }
         });
       } else {
-        api.getAllQualityEvents(value).then((res) => {
+        api.getAllQualityEvents(this.project.id, value).then((res) => {
           if (res.data) {
             let data = res.data;
             data.forEach((item) => {
-              let gq = this.area.find((e) => e.id === item.gongquid);
-              let pro = this.typeArr.find((e) => e.groupid === item.projectid);
+              let gq = this.area.find((e) => e.sort === item.gongquid);
+              let pro = this.typeArr.find((e) => e.groupid === item.singleProjectId);
               item.modifyurl = validPicurl(item.modifyurl);
               item.uploadurl = validPicurl(item.uploadurl);
               item.gq = gq?.name;

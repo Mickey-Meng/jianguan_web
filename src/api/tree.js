@@ -9,12 +9,13 @@
 import api from "./index";
 import request from "@/utils/request";
 
-export const getBridgeTree = type => {
+export const getBridgeTree = (type, projectId) => {
   return request({
     url: api.bridgeTree,
     method: "get",
     params: {
-      type: type
+      type,
+      projectId
     }
   });
 };

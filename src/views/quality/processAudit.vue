@@ -448,7 +448,7 @@ export default {
     this.recodeUrl = this.getUrl;
   },
   computed: {
-    ...mapGetters(["userInfo", "getUrl"]),
+    ...mapGetters(["userInfo", "getUrl","project"]),
   },
   methods: {
     changeView(val) {
@@ -462,7 +462,7 @@ export default {
       }
     },
     initData() {
-      api.getAgency().then((res) => {
+      api.getAgency(this.project.id).then((res) => {
         this.tableData = res.data;
       });
     },

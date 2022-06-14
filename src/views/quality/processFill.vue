@@ -476,7 +476,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["userInfo", "getUrl"]),
+    ...mapGetters(["userInfo", "getUrl", "project"])
   },
   created() {
     this.header.token = getToken("zj_token");
@@ -510,7 +510,7 @@ export default {
         this.submitDataInfo = res.data.data;
       });
       let code = this.componentInfo.conponetcode.substring(0, 4);
-      api.getPersonByComponentId(code).then((res) => {
+      api.getPersonByComponentId(code,this.project.id).then((res) => {
         this.supervisor = res.data;
       });
     },
@@ -639,6 +639,7 @@ export default {
             obj.projectcode = component.projectcode;
             obj.produceidname = this.processData.name;
             obj.updateusername = this.userInfo.name;
+            obj.projectId = this.project.id;
             if (this.fileListPdf && this.fileListPdf.length > 0) {
               let str = this.fileListPdf[0].response.data;
               obj.remark = str;
@@ -667,6 +668,7 @@ export default {
             }
             obj.accrecodeurl = disposeUrl(this.fileList);
             obj.recodeid = this.processData.recordid;
+            obj.projectId = this.project.id;
             updateProgress(obj).then((res) => {
               this.getCheackDataById();
               this.recordForm = {};

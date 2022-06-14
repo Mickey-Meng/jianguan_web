@@ -34,7 +34,7 @@
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="{ row, $index }">
-            <el-button type="primary" size="small" @click="downLoadFile(row)">
+            <el-button type="primary" size="small" class="primary_mini" @click="downLoadFile(row)">
               下载
             </el-button>
             <el-button
@@ -89,7 +89,7 @@
       </el-form>
       <div slot="footer">
         <el-button size="mini" @click="dialogVisible = false">取消</el-button>
-        <el-button size="mini" type="primary" @click="addFile">确定</el-button>
+        <el-button size="mini" type="primary" class="primary_mini" @click="addFile">确定</el-button>
       </div>
     </el-dialog>
     <el-dialog
@@ -168,7 +168,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["userInfo", "uploadUrl"]),
+    ...mapGetters(["userInfo", "uploadUrl", "project"])
   },
   created() {
     this.groupId = getToken("groupId");
@@ -176,7 +176,7 @@ export default {
   },
   methods: {
     initData() {
-      getFile(17).then((res) => {
+      getFile(17,this.project.id).then((res) => {
         this.tableData = res.data;
       });
     },
@@ -196,6 +196,7 @@ export default {
         callunit: "",
         calladdr: "",
         calltime: "",
+        projectId: this.project.id
       };
       this.dialogVisible = true;
     },

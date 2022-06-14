@@ -349,7 +349,7 @@
         this.typeKey = "all";
           getAreaBySectionId(this.project.id).then((res1) => {
             this.area = res1.data;
-            getAllSafeEvents().then((res3) => {
+            getAllSafeEvents(this.project.id).then((res3) => {
               if (res3.data) {
                 let data = res3.data;
                 data.forEach((item) => {
@@ -386,7 +386,7 @@
             let data = res.data;
             data.forEach((item) => {
               let gq = this.area.find((e) => e.sort === item.gongquid);
-              let pro = this.typeArr.find((e) => e.groupid === item.projectid);
+              let pro = this.typeArr.find((e) => e.groupid === item.singleProjectId);
               item.modifyurl = validPicurl(item.modifyurl);
               item.uploadurl = validPicurl(item.uploadurl);
               item.gq = gq?.name;
@@ -401,7 +401,7 @@
             let data = res.data;
             data.forEach((item) => {
               let gq = this.area.find((e) => e.sort === item.gongquid);
-              let pro = this.typeArr.find((e) => e.groupid === item.projectid);
+              let pro = this.typeArr.find((e) => e.groupid === item.singleProjectId);
               item.modifyurl = validPicurl(item.modifyurl);
               item.uploadurl = validPicurl(item.uploadurl);
               item.gq = gq?.name;

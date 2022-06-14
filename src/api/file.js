@@ -58,9 +58,9 @@ export const updateFileInfo = data =>{
  * @param {*}
  * @return {*}
  */
-export const getFile = id => {
+export const getFile = (id,projectId) => {
   return request({
-    url: '/ZhuJiRoad/mong/getStoreFileType?type=' + id,
+    url: '/ZhuJiRoad/mong/getStoreFileType?type=' + id + `&projectId=${projectId}`,
     method: 'get'
   })
 }

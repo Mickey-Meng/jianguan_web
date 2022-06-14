@@ -119,6 +119,7 @@ import policyfile from "./informationComponent/policyfile.vue";
 import processfile from "./informationComponent/processfile.vue";
 import reportfile from "./informationComponent/reportfile.vue";
 import { uploadF, getFile, deleteFile, updateFileInfo } from "@/api/file";
+import {mapGetters} from "vuex";
 
 export default {
   name: "",
@@ -177,14 +178,16 @@ export default {
       },
     };
   },
-  computed: {},
+  computed: {
+    ...mapGetters(["project"])
+  },
   mounted() {},
   created() {
     this.init();
   },
   methods: {
     init() {
-      getFile(this.type).then((res) => {
+      getFile(this.type,this.project.id).then((res) => {
         this.tableData = res.data;
       });
     },
@@ -219,6 +222,7 @@ export default {
         callunit: "",
         calladdr: "",
         calltime: "",
+        projectId: this.project.id
       };
       this.isCreate = true;
       this.dialogVisible = true;

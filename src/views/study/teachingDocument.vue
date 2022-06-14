@@ -18,9 +18,9 @@
         <el-table-column prop="uploadname" label="标题"> </el-table-column>
         <el-table-column prop="uploadtype" label="文件类型"> </el-table-column>
         <el-table-column prop="uploadtime" label="上传时间"> </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="180">
           <template slot-scope="{ row, $index }">
-            <el-button type="primary" size="small" @click="downLoadFile(row)">
+            <el-button type="primary" size="small" @click="downLoadFile(row)"  class="primary_mini" >
               下载
             </el-button>
             <el-button
@@ -65,7 +65,7 @@
       </el-form>
       <div slot="footer">
         <el-button size="mini" @click="dialogVisible = false">取消</el-button>
-        <el-button size="mini" type="primary" @click="addFile">确定</el-button>
+        <el-button size="mini" type="primary" class="primary_mini"  @click="addFile">确定</el-button>
       </div>
     </el-dialog>
   </el-container>
@@ -74,6 +74,7 @@
 <script>
 import { uploadF, getFile, deleteFile, updateFileInfo } from "@/api/file";
 import { downLoadFile } from "@/utils/download";
+import {mapGetters} from "vuex";
 export default {
   name: "",
   data() {
@@ -107,9 +108,12 @@ export default {
   created() {
     this.init();
   },
+  computed: {
+    ...mapGetters(["project"])
+  },
   methods: {
     init() {
-      getFile(16).then((res) => {
+      getFile(16,this.project.id).then((res) => {
         this.tableData = res.data;
       });
     },
@@ -129,6 +133,7 @@ export default {
         callunit: "",
         calladdr: "",
         calltime: "",
+        projectId: this.project.id
       };
       this.dialogVisible = true;
     },

@@ -30,8 +30,8 @@
           <el-select v-model="areaId" @change="changeArea">
             <el-option
               v-for="item in area"
-              :key="item.id"
-              :value="item.id"
+              :key="item.sort"
+              :value="item.sort"
               :label="item.name"
             ></el-option>
           </el-select>
@@ -325,14 +325,16 @@ import { getComponentType } from "@/api/data";
 import {
   getProjectTypeData,
   getProgressTableData,
-  deleteProduceInfo,
+  deleteProduceInfo
 } from "@/api/progress";
-import { formatDate } from "@/utils/date";
-import { getWorkArea } from "@/api/workArea";
-import { mapGetters } from "vuex";
-import { validPicurl } from "@/utils/validate";
-import { getToken } from "@/utils/auth";
-import { downLoadFile } from "@/utils/download";
+import {formatDate} from "@/utils/date";
+import {getWorkArea} from "@/api/workArea";
+import {mapGetters} from "vuex";
+import {validPicurl} from "@/utils/validate";
+import {getToken} from "@/utils/auth";
+import {downLoadFile} from "@/utils/download";
+import {getAreaBySectionId} from "@/api/newProject";
+
 export default {
   name: "",
   data() {
@@ -348,8 +350,9 @@ export default {
         endtime: "",
         gongquid: "",
         list: [],
+        projectId: null,
         sttime: "",
-        type: "ZJ",
+        type: "ZJ"
       },
       dialogVisible: false,
       recode: {}, //工序pdf记录
@@ -409,10 +412,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["userInfo", "getUrl"]),
+    ...mapGetters(["userInfo", "getUrl", "project"])
   },
   created() {
     this.groupId = getToken("groupId");
+    this.postData.projectId = this.project.id;
     this.initData();
     this.recodeUrl = this.getUrl;
   },
@@ -452,6 +456,9 @@ export default {
             //在数据加载完，重新渲染表格
             this.$refs["tableBox"].doLayout();
           });
+        } else {
+          this.tableData = [];
+          this.rowdata = {};
         }
       });
     },
@@ -474,23 +481,32 @@ export default {
       getProjectTypeData().then((res) => {
         let obj = {
           projectname: "所有工程",
-          projectid: "all",
+          projectid: "all"
         };
         let data = res.data || [];
         data.unshift(obj);
         this.typeArr = data;
         this.allProjectArr = data;
       });
-      getWorkArea().then((res) => {
+      getAreaBySectionId(this.project.id).then((res) => {
+        console.log(res);
         let aobj = {
           name: "所有工区",
-          id: 95270,
+          sort: 95270
         };
         let areaD = res.data;
         areaD.unshift(aobj);
-        this.area = areaD;
+        this.area = areaD || [];
         this.areaId = 95270;
+
       });
+      // getWorkArea().then((res) => {
+
+      //   let areaD = res.data;
+      //   areaD.unshift(aobj);
+      //   this.area = areaD;
+      //   t
+      // });
     },
     changeArea(val) {
       this.typeKey = "";

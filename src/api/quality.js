@@ -99,12 +99,13 @@ export const getCheckData = id => {
  * @returns {}
  * @date 2021/7/15
  */
-export const getPersonByComponentId = id => {
+export const getPersonByComponentId = (id,projectId) => {
 	return request({
 		url: api.checker,
 		method: "get",
 		params: {
-			group: id || undefined
+			group: id || undefined,
+      projectId
 		}
 	});
 };
@@ -143,10 +144,11 @@ export const addRecord = data => {
  * @returns {}
  * @date 2021/7/19
  */
-export const getAgency = () => {
+export const getAgency = (projectId) => {
 	return request({
 		url: api.getAgency,
-		method: "get"
+		method: "get",
+    params:{projectId}
 	});
 };
 
@@ -344,12 +346,13 @@ export const getCompleteEvents = () => {
  * @param {*}
  * @return {*}
  */
-export const getAllQualityEvents = projectid => {
+export const getAllQualityEvents = (projectId,singleProjectId) => {
 	return request({
 		url: api.getAllQualityEvents,
 		method: "get",
 		params: {
-			projectid: projectid || undefined
+      projectId: projectId || undefined,
+      singleProjectId: singleProjectId || undefined,
 		}
 	});
 };
