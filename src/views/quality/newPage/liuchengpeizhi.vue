@@ -1,9 +1,9 @@
 <!--
- * @Descripttion:质量检测
+ * @Descripttion:流程配置
  * @version:
  * @Author: WangHarry
  * @Date: 2022-05-09 14:10:50
- * @LastEditors: yangtao
+ * @LastEditors: 周海
  * @LastEditTime: 2022-05-11 14:10:57
 -->
 <template>
