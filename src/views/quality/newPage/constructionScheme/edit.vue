@@ -403,7 +403,7 @@
 					this.attachTable=data.attachment||[];
 				});
 			},
-			addOrModify() {
+			addOrModify(isdraft) {
 				if (isdraft) {
 					if (diffCompare([this.formData, this.attachTable], [{
 								buildPlanName: '', // 专项施工方案名称
