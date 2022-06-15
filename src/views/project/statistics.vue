@@ -148,8 +148,9 @@ import {
   getFinishConponent,
   getComponentType,
   getCountConponent,
-  getCountIncresConponent,
+  getCountIncresConponent
 } from "@/api/data";
+import {mapGetters} from "vuex";
 // import echarts from "echarts";
 
 export default {
@@ -587,25 +588,29 @@ export default {
               },
             ],
             pointer: {
-              show: false,
+              show: false
             },
-            animationDuration: 4000,
+            animationDuration: 4000
           },
         ],
       },
     };
   },
-  created() {},
+  created() {
+  },
+  computed: {
+    ...mapGetters(["project"])
+  },
   mounted() {
     //获取各类工程的构件类型
-    getComponentType().then((res) => {
+    getComponentType(this.project.id).then((res) => {
       const QL = res.data["桥梁工程"] || [];
       const SD = res.data["隧道工程"] || [];
       let LM = res.data["道路工程"] || [];
       let other = res.data["其它工程"] || [];
       const type = {
         type: "all",
-        name: "所有类型",
+        name: "所有类型"
       };
       QL.unshift(type);
       SD.unshift(type);
@@ -623,8 +628,10 @@ export default {
   },
   methods: {
     initData() {
-      getFinishConponent(this.leftQuery).then((res) => {
-        const { act, plan } = res.data;
+      let obj = Object.assign({}, this.leftQuery);
+      obj.projectId = this.project.id;
+      getFinishConponent(obj).then((res) => {
+        const {act, plan} = res.data;
         const finishNum = act.finish;
         const allCount = act.count;
         let aRate = Math.floor((finishNum / allCount) * 10000) / 100;
@@ -632,7 +639,7 @@ export default {
         this.activeOption.title[0].text = finishNum;
         this.activeOption.series[0].axisLine.lineStyle.color = [
           [finishNum / allCount, "#0090E1"],
-          ["1", "rgba(240, 242, 248, 1)"],
+          ["1", "rgba(240, 242, 248, 1)"]
         ];
         let acAllText = "";
         if (allCount > 10000) {
@@ -702,6 +709,7 @@ export default {
         projectCode: this.leftQuery.type,
         type: this.currentType,
         conponentType: this.bridgeComponentType,
+        projectId: this.project.id
       };
       getCountConponent(obj).then((res) => {
         if (res.data.length > 0) {

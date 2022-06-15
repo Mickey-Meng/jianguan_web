@@ -166,7 +166,8 @@
 <script>
 import { getCurrentDate } from "@/utils/date";
 import { getNowMonth } from "@/utils/date";
-import { getSafePerday, getDaySafeEvents } from "@/api/safe";
+import {getSafePerday, getDaySafeEvents} from "@/api/safe";
+import {mapGetters} from "vuex";
 export default {
   data() {
     return {
@@ -175,7 +176,7 @@ export default {
       dayLength: null,
       currentMonth: [],
       tableData: [],
-      detailData: [],
+      detailData: []
     };
   },
   created() {
@@ -183,7 +184,9 @@ export default {
     this.getCurrentDate();
   },
   components: {},
-  computed: {},
+  computed: {
+    ...mapGetters(["project"])
+  },
   methods: {
     initData() {
       // this.currentDay = getCurrentDate();
@@ -235,7 +238,7 @@ export default {
       };
     },
     getData() {
-      getSafePerday(this.month).then((res) => {
+      getSafePerday(this.month,this.project.id).then((res) => {
         let data = res.data;
         this.tableData = data;
       });

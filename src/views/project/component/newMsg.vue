@@ -30,42 +30,46 @@
 </template>
 
 <script>
-import { getTenNews } from "@/api/news";
-import { validPicurl } from "@/utils/validate";
+  import {getTenNews} from "@/api/news";
+  import {validPicurl} from "@/utils/validate";
+  import {mapGetters} from "vuex";
 
-export default {
-  name: "",
-  data() {
-    return {
-      newsIndex: 1,
-      currentId: null,
-      newLists: [],
-      timer: null
-    };
-  },
-  created() {
-    this.initData();
-  },
-  methods: {
-    initData() {
-      getTenNews().then((res) => {
-        if (res.data && res.data.length > 0) {
-          res.data.forEach((element) => {
-            element.img = validPicurl(element.pic)[0];
-          });
-          this.newLists = res.data;
-          this.currentId = res.data[0].id;
-          this.autoPlay();
-        }
-      });
+  export default {
+    name: "",
+    data() {
+      return {
+        newsIndex: 1,
+        currentId: null,
+        newLists: [],
+        timer: null
+      };
     },
-    autoPlay() {
-      this.timer = setInterval(() => {
-        let data = this.newLists;
-        let index = data.findIndex(e => e.id === this.currentId);
-        let obj = data[index];
-        data.splice(index, 1);
-        data.push(obj);
+    created() {
+      this.initData();
+    },
+    computed: {
+      ...mapGetters(["project"])
+    },
+    methods: {
+      initData() {
+        getTenNews(this.project.id).then((res) => {
+          if (res.data && res.data.length > 0) {
+            res.data.forEach((element) => {
+              element.img = validPicurl(element.pic)[0];
+            });
+            this.newLists = res.data;
+            this.currentId = res.data[0].id;
+            this.autoPlay();
+          }
+        });
+      },
+      autoPlay() {
+        this.timer = setInterval(() => {
+          let data = this.newLists;
+          let index = data.findIndex(e => e.id === this.currentId);
+          let obj = data[index];
+          data.splice(index, 1);
+          data.push(obj);
         this.newLists = data;
         this.currentId = data[0].id;
       }, 5000);

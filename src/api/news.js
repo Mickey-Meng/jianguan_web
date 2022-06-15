@@ -16,12 +16,13 @@ import request from "@/utils/request";
  * @returns {}
  * @date 2021/7/22
  */
-export const getNews = (type = 1) => {
+export const getNews = (type = 1, projectId) => {
   return request({
     url: api.getNews,
     method: "get",
     params: {
-      type
+      type,
+      projectId
     }
   });
 };
@@ -44,9 +45,10 @@ export const deleteNews = ({ id }) => {
   });
 };
 
-export const getTenNews = () => {
+export const getTenNews = (projectId) => {
   return request({
     url: api.getTenNews,
-    method: "get"
+    method: "get",
+    params:{projectId}
   });
 };

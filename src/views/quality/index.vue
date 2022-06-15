@@ -463,7 +463,7 @@ export default {
       });
     },
     initData() {
-      getComponentType().then((res) => {
+      getComponentType(this.project.id).then((res) => {
         let data = res.data;
         let tree = [];
         for (let i in data) {

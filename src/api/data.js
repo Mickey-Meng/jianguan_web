@@ -26,10 +26,11 @@ export const getEngCompany = () => {
  * @date 2021/7/22
  */
 
-export const getMiddleData = () => {
+export const getMiddleData = (projectId) => {
   return request({
     url: api.getMiddleData,
-    method: "get"
+    method: "get",
+    params: {projectId}
   });
 };
 
@@ -101,10 +102,11 @@ export const getCountIncresConponent = data => {
  * @returns {}
  * @date 2021/7/27
  */
-export const getComponentType = () => {
+export const getComponentType = (projectId) => {
   return request({
     url: api.componentType,
-    method: "get"
+    method: "get",
+    params: {projectId}
   });
 };
 /**
@@ -129,31 +131,34 @@ export const projectSelect = () => {
  * @returns {}
  * @date 2021/8/6
  */
-export const getHomeChart = id => {
+export const getHomeChart = (id,projectId) => {
   return request({
     url: api.getHomeChart,
     method: "get",
     params: {
-      projectcode: id
+      projectcode: id,
+      projectId
     }
   });
 };
 
-export const getHomeBottomChart = (type) => {
+export const getHomeBottomChart = (type,projectId) => {
   return request({
     url: api.getHomeBottomChart,
     method: "get",
     params: {
-      type
+      type,
+      projectId
     }
   });
 };
-export const getSafeChart = (type = 1) => {
+export const getSafeChart = (type = 1, projectId) => {
   return request({
     url: api.getSafeChart,
     method: "get",
     params: {
-      count: type
+      count: type,
+      projectId
     }
   });
 };

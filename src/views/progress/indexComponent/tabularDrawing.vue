@@ -77,6 +77,7 @@
 import { getComponentType } from "@/api/data";
 import { getProgressTableData } from "@/api/progress";
 import Bus from "@/assets/eventBus";
+import {mapGetters} from "vuex";
 
 export default {
   name: "",
@@ -95,21 +96,26 @@ export default {
         endtime: "",
         projectid: null,
         sttime: "",
+        projectId: null
       },
       tableData: [],
       currtPage: 1,
-      pageSize: 10,
+      pageSize: 10
     };
+  },
+  computed: {
+    ...mapGetters(["project"])
   },
   created() {
     this.initData();
+    this.sendObj.projectId = this.project.id;
     Bus.$on("search", () => {
       this.initTable();
     });
   },
   methods: {
     initData() {
-      getComponentType().then((res) => {
+      getComponentType(this.project.id).then((res) => {
         let data = res.data;
         let tree = [];
         for (let i in data) {
@@ -117,7 +123,7 @@ export default {
           let obj = {
             name: i,
             type: "folder",
-            children: child,
+            children: child
           };
           tree.push(obj);
         }

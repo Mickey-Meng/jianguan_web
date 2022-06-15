@@ -74,7 +74,7 @@ export default {
               id: `video_line${item.id}`, // 视频容器ID
               accessToken: token,
               url: item.url,
-              width: 350,
+              width: 300,
               height: 225,
               autoplay: false,
               template: "standard", //

@@ -27,7 +27,8 @@
 <script>
 import echarts from "echarts";
 import { getHomeChart, getHomeBottomChart } from "@/api/data";
-import { merge } from "lodash";
+import {merge} from "lodash";
+import {mapGetters} from "vuex";
 export default {
   props: {
     currentAreaInfo: {
@@ -136,12 +137,15 @@ export default {
       },
     };
   },
-  created() {},
+  created() {
+  },
   mounted() {
     this.initData();
   },
   components: {},
-  computed: {},
+  computed: {
+    ...mapGetters(["project"])
+  },
   methods: {
     bindEvents() {
       let that = this;
@@ -346,7 +350,7 @@ export default {
       }
     },
     initBottomChart(id) {
-      getHomeChart(id).then((res) => {
+      getHomeChart(id,this.project.id).then((res) => {
         let x = [];
         let count = [];
         let finishCount = [];

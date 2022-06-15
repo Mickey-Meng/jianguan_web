@@ -56,6 +56,7 @@
 <script>
 import { merge } from "lodash";
 import { getSafeChart } from "@/api/data";
+import {mapGetters} from "vuex";
 export default {
   props: {
     title: {
@@ -74,13 +75,15 @@ export default {
     this.initData(1);
   },
   components: {},
-  computed: {},
+  computed: {
+    ...mapGetters(["project"])
+  },
   methods: {
     changeSelect(val) {
       this.initData(val);
     },
     initData(type) {
-      getSafeChart(type).then((res) => {
+      getSafeChart(type,this.project.id).then((res) => {
         let option = {
           title: [
             {

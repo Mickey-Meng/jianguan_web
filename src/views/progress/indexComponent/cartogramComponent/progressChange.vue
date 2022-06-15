@@ -28,7 +28,8 @@
 
 <script>
 import echarts from "echarts";
-import { getAreaProgress } from "@/api/progress";
+import {getAreaProgress} from "@/api/progress";
+import {mapGetters} from "vuex";
 export default {
   data() {
     return {
@@ -166,22 +167,25 @@ export default {
             },
           },
         ],
-        series: [],
+        series: []
       },
     };
   },
-  created() {},
+  created() {
+  },
   mounted() {
     this.initData();
   },
   components: {},
-  computed: {},
+  computed: {
+    ...mapGetters(["project"])
+  },
   methods: {
     changeType() {
       this.initData();
     },
     initData() {
-      getAreaProgress(this.type).then((res) => {
+      getAreaProgress(this.type,this.project.id).then((res) => {
         let data = res.data;
         let x = [];
         let series = [];

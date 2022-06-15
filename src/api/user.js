@@ -113,3 +113,15 @@ export const getDic = (key) => {
     method: "get"
   });
 };
+
+/**
+ * @Description: 根据标段ID查询用到的所有角色
+ * @author 王海林
+ * @date
+ */
+export const getRolesByProject = (id) =>{
+  return request({
+    url: `/ZhuJiRoad/projects/getRolesByProject?projectId=${id}`,
+    method: "post"
+  });
+}

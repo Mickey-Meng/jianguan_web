@@ -250,12 +250,13 @@ export const getPerSafeData = time => {
  * @returns {}
  * @date 2021/7/26
  */
-export const getSafeEventsStatistic = (type = 1) => {
+export const getSafeEventsStatistic = (type = 1, projectId) => {
   return request({
     url: api.getSafeEventsStatistic,
     method: "get",
     params: {
-      count: type
+      count: type,
+      projectId
     }
   });
 };
@@ -266,12 +267,13 @@ export const getSafeEventsStatistic = (type = 1) => {
  * @returns {}
  * @date 2021/7/26
  */
-export const getSafePerday = date => {
+export const getSafePerday = (date, projectId) => {
   return request({
     url: api.getSafePerday,
     method: "get",
     params: {
-      date
+      date,
+      projectId
     }
   });
 };

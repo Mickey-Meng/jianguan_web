@@ -363,12 +363,13 @@ export const getAllQualityEvents = (projectId,singleProjectId) => {
  * @param {*}
  * @return {*}
  */
-export const getQualityEventsStatistic = (type = 1) => {
+export const getQualityEventsStatistic = (type = 1,projectId) => {
 	return request({
 		url: api.getQualityEventsStatistic,
 		method: "get",
 		params: {
-			count: type
+			count: type,
+      projectId
 		}
 	});
 };
@@ -379,12 +380,13 @@ export const getQualityEventsStatistic = (type = 1) => {
  * @param {*}
  * @return {*}
  */
-export const getQualityChart = (type = 1) => {
+export const getQualityChart = (type = 1,projectId) => {
 	return request({
 		url: api.getQualityChart,
 		method: "get",
 		params: {
-			count: type
+			count: type,
+      projectId
 		}
 	});
 };
@@ -395,12 +397,13 @@ export const getQualityChart = (type = 1) => {
  * @param {*}
  * @return {*}
  */
-export const getAllQualityGetPerday = date => {
+export const getAllQualityGetPerday = (date,projectId) => {
 	return request({
 		url: api.getAllQualityGetPerday,
 		method: "get",
 		params: {
-			date
+			date,
+      projectId
 		}
 	});
 };
