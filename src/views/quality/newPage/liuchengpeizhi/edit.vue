@@ -67,8 +67,8 @@
 				<div class="input-box" style="max-width:300px; float:left;">
 					<div class="input-value">
 						<el-select v-model="selectedrole" placeholder="请选择角色" filterable @change="roleChangeEvt">
-							<el-option v-for="item in roleData" :key="item.ID" :label="item.NAME"
-								:value="item.CODE">
+							<el-option v-for="item in roleData" :key="item.id" :label="item.name"
+								:value="item.code">
 							</el-option>
 						</el-select>
 					</div>
@@ -76,8 +76,8 @@
 
 				<div style="max-width:300px; float:left;">
 					<el-select v-model="selecteduser" placeholder="请选择人员" multiple>
-						<el-option v-for="item in userOptionsData" :key="item.ID" :label="item.NAME"
-							:value="item.NAME + '_' + item.USERNAME + '_' + item.ID">
+						<el-option v-for="item in userOptionsData" :key="item.id" :label="item.name"
+							:value="item.name + '_' + item.username + '_' + item.id">
 						</el-option>
 					</el-select>
 				</div>
@@ -139,31 +139,31 @@
 		},
 		methods: {
 			getRoles() {
-				getRoles().then(res => {
+				getRoles(this.$store.getters.project['id'] || 3).then(res => {
 				// 	console.log(res.data.getMe)
-					const data = res.data.getMe;
-					for (let i = 0; i < data.length; i++) {
-						const item = data[i];
-						if (item.ROLELEVEL == 1) {
-							data.splice(i, 1);
-							i--;
-						}
-					}
+					const data = res.data;
+					// for (let i = 0; i < data.length; i++) {
+					// 	const item = data[i];
+					// 	if (item.rolelevel == 1) {
+					// 		data.splice(i, 1);
+					// 		i--;
+					// 	}
+					// }
 					this.roleData = data;
 				})
 			},
 			roleChangeEvt(ID) {
 				for (let i = 0; i < this.roleData.length; i++) {
 					const item = this.roleData[i];
-					if (item.CODE === ID) {
-						let {ID, CODE} = item;
-						getUserByRoleId(ID, CODE).then(res => {
-							if (res.data && res.data[0]) {
-								this.userOptionsData = res.data[0].children[0].children;
+					if (item.code === ID) {
+						let {id} = item;
+						getUserByRoleId(this.$store.getters.project['id'] || 3, id).then(res => {
+							if (res.data) {
+								this.userOptionsData = res.data;
 							} else {
 								this.userOptionsData = [];
 							}
-							console.log(res.data[0].children[0].children)
+							console.log(res.data)
 						})
 					}
 				}

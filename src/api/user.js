@@ -43,10 +43,10 @@ export function getUserInfo(id) {
     method: "get"
   });
 }
-export const getRoles = () => {
+export const getRoles = (id) => {
   return request({
-    url: `/STSfmzj/userauth/selectRole`,
-    method: "get"
+    url: `/ZhuJiRoad/projects/getRolesByProject?projectId=${id}`,
+    method: "post"
   });
 }
 export const getMap = (ID, GROUPID, roles) => {
@@ -67,11 +67,11 @@ export const getUserByGroupId = (groupid, code, name = undefined) => {
     method: "get"
   });
 };
-//根据组织id获取用户
-export const getUserByRoleId = (roleid, code, name = undefined) => {
+//根据角色id获取用户
+export const getUserByRoleId = (projectId, id) => {
   return request({
-    url: `/STSfmzj/userauth/getUsersByRole?roleCode=${code}`,
-    method: "get"
+    url: `/ZhuJiRoad/person/getUserByRole?roleid=${id}&projectId=${projectId}`,
+    method: "post"
   });
 };
 //获取组织信息
