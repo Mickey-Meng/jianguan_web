@@ -58,6 +58,7 @@
 
 <script>
   import {getSafeChart} from "@/api/data";
+  import {mapGetters} from "vuex";
   import echarts from "echarts";
 
   export default {
@@ -144,12 +145,15 @@
     },
     mounted() {
     },
+    computed: {
+      ...mapGetters(["project"])
+    },
     methods: {
       changeSelect() {
         this.init();
       },
       init() {
-        getSafeChart(this.radio).then(res => {
+        getSafeChart(this.radio,this.project.id).then(res => {
           let data = res.data.total.filter(e => e.gongquname);
           this.lists = data;
           this.enentData = res.data.overdueList;

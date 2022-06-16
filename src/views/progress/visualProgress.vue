@@ -24,39 +24,45 @@
 </template>
 
 <script>
-import { getConponentStatus, getQiaoData } from "@/api/progress";
-let zeh;
-let layer, hlm;
-import Bus from "@/assets/eventBus";
-export default {
-  name: "",
-  data() {
-    return {
-      roadKey: "",
-      currentView: "roadWork",
-      typeArr: [],
+  import {getConponentStatus, getQiaoData} from "@/api/progress";
+  import {mapGetters} from "vuex";
+
+  let zeh;
+  let layer, hlm;
+  import Bus from "@/assets/eventBus";
+
+  export default {
+    name: "",
+    data() {
+      return {
+        roadKey: "",
+        currentView: "roadWork",
+        typeArr: [],
       allId: [],
       planId: [],
-      finishId: [],
-      workId: [],
-      postponeId: [],
-      layer: null,
-    };
-  },
-  created() {
-    zeh = window.zeh;
-    this.initData();
-  },
-  methods: {
-    initData() {
-      getConponentStatus().then((result) => {
-        //0是未开个，2是已完成,1施工，3是延期了
-        let arr = [];
-        Bus.$emit("getVisualData", result.data);
-        result.data.forEach((item) => {
-          let { layername, mouldid } = item;
-          if (layername && mouldid) {
-            if (arr.length > 0) {
+        finishId: [],
+        workId: [],
+        postponeId: [],
+        layer: null
+      };
+    },
+    created() {
+      zeh = window.zeh;
+      this.initData();
+    },
+    computed: {
+      ...mapGetters(["project"])
+    },
+    methods: {
+      initData() {
+        getConponentStatus(this.project.id).then((result) => {
+          //0是未开个，2是已完成,1施工，3是延期了
+          let arr = [];
+          Bus.$emit("getVisualData", result.data);
+          result.data.forEach((item) => {
+            let {layername, mouldid} = item;
+            if (layername && mouldid) {
+              if (arr.length > 0) {
               let obj = arr.find((e) => e.layername === layername);
               if (obj) {
                 obj.children.push(item);

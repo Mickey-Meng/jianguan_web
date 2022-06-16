@@ -15,10 +15,11 @@ import request from "@/utils/request";
 /**
  * 获取构件完成状态
  */
-export const getConponentStatus = () => {
+export const getConponentStatus = (projectId) => {
   return request({
     url: api.getConponentStatus,
-    method: "get"
+    method: "get",
+    params: {projectId}
   });
 };
 
@@ -74,12 +75,13 @@ export const getConponmentTime = id => {
  * @return {*}
  */
 
-export const getAreaProgress = (type) => {
+export const getAreaProgress = (type,projectId) => {
   return request({
     url: api.getAreaProgress,
     method: "get",
     params: {
-      type
+      type,
+      projectId
     }
   });
 };

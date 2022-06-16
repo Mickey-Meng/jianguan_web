@@ -55,7 +55,8 @@
 <script>
 import echarts from "echarts";
 import * as api from "@/api/data";
-import { merge } from "lodash";
+import {merge} from "lodash";
+import {mapGetters} from "vuex";
 export default {
   data() {
     return {
@@ -115,15 +116,18 @@ export default {
       }
     };
   },
-  created() {},
+  created() {
+  },
   mounted() {
     this.initData();
   },
   components: {},
-  computed: {},
+  computed: {
+    ...mapGetters(["project"])
+  },
   methods: {
     initData() {
-      api.getMiddleData().then((res) => {
+      api.getMiddleData(this.project.id).then((res) => {
         const {QL, SD, DL} = res.data;
         let allCount = 0,
           allFinish = 0;

@@ -438,23 +438,23 @@
   top: 50%; /*偏移*/
   transform: translateY(-50%);
   box-sizing: border-box;
-  border: 1px solid #0e7dc3;
-  box-shadow: 0px 0px 12px #0e7dc3 inset;
+  //border: 1px solid #0e7dc3;
+  //box-shadow: 0px 0px 12px #0e7dc3 inset;
   border-radius: 12px;
-  background-color: #071b52;
-  opacity: 0.9;
-  color: #ffffff;
+  background-color: #FFFFFF;
+  color: #4B5973;;
   //dialog头部样式
   .el-dialog__header {
     border-radius: 12px 12px 0 0;
     padding: 10px 0px 10px 10px;
-    background-color: #0f88d2;
+    background-color: #FFFFFF;
     font-weight: bold;
+    border-bottom: 1px solid #E8E8E8;
 
     .el-dialog__title {
       line-height: 0;
       font-size: 14px !important;
-      color: #ffffff !important;
+      color: #000000 !important;
       font-family: MicrosoftYaHei;
     }
 

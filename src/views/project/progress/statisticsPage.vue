@@ -68,6 +68,7 @@
 import weeklyAndMonthly from "@/views/project/component/weeklyAndMonthly";
 import statisticsChart from "@/views/project/progress/statisticsChart";
 import {getHomeBottomChart} from "@/api/data";
+import {mapGetters} from "vuex";
 
 export default {
   data() {
@@ -111,10 +112,12 @@ export default {
     this.init();
   },
   components: {weeklyAndMonthly, statisticsChart},
-  computed: {},
+  computed: {
+    ...mapGetters(["project"])
+  },
   methods: {
     init() {
-      getHomeBottomChart(this.currentView).then(res => {
+      getHomeBottomChart(this.currentView,this.project.id).then(res => {
         let data = res.data || [];
         this.currentAreaInfo = null;
         if (data && data.length > 0) {

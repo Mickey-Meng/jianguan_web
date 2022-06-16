@@ -158,7 +158,8 @@
 <script>
 import { getCurrentDate } from "@/utils/date";
 import { getNowMonth } from "@/utils/date";
-import { getAllQualityGetPerday, getQualityEventsGetDay } from "@/api/quality";
+import {getAllQualityGetPerday, getQualityEventsGetDay} from "@/api/quality";
+import {mapGetters} from "vuex";
 export default {
   data() {
     return {
@@ -167,7 +168,7 @@ export default {
       dayLength: null,
       currentMonth: [],
       tableData: [],
-      detailData: [],
+      detailData: []
     };
   },
   created() {
@@ -175,7 +176,9 @@ export default {
     this.getCurrentDate();
   },
   components: {},
-  computed: {},
+  computed: {
+    ...mapGetters(["project"])
+  },
   methods: {
     initData() {
       // this.currentDay = getCurrentDate();
@@ -227,7 +230,7 @@ export default {
       };
     },
     getData() {
-      getAllQualityGetPerday(this.month).then((res) => {
+      getAllQualityGetPerday(this.month,this.project.id).then((res) => {
         let data = res.data;
         this.tableData = data;
       });

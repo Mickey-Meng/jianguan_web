@@ -31,7 +31,8 @@
 </template>
 
 <script>
-import { getSafeEventsStatistic } from "@/api/safe";
+import {getSafeEventsStatistic} from "@/api/safe";
+import {mapGetters} from "vuex";
 export default {
   data() {
     return {
@@ -97,22 +98,25 @@ export default {
             },
           },
         },
-        series: [],
+        series: []
       },
     };
   },
-  created() {},
+  created() {
+  },
   mounted() {
     this.initData(1);
   },
   components: {},
-  computed: {},
+  computed: {
+    ...mapGetters(["project"])
+  },
   methods: {
     changeSelect(val) {
       this.initData(val);
     },
     initData(type) {
-      getSafeEventsStatistic(type).then((res) => {
+      getSafeEventsStatistic(type,this.project.id).then((res) => {
         if (res.data && res.data.length > 0) {
           let safeType = [];
           let x = [];

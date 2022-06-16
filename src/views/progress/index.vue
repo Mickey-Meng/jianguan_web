@@ -216,17 +216,23 @@ export default {
     ul {
       display: flex;
       align-items: center;
+      margin-left: 20px;
 
       li {
-        height: 50px;
-        padding: 15px 40px;
-        border: 1px solid rgb(51, 133, 255);
+        //height: 50px;
+        padding: 15px 30px;
+        //border: 1px solid rgb(51, 133, 255);
+        background-color: rgba(128, 142, 169, .16);
         cursor: pointer;
-        color: #ffffff;
+        color: #4B5973;
+        font-family: PingFang SC;
+        border-radius: 6px;
+        margin-right: 20px;
       }
 
       .active {
-        background-color: rgb(51, 133, 255);
+        background: #1E6EEB;
+        color: #FFFFFF;
       }
     }
   }

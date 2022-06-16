@@ -121,6 +121,7 @@
       title="修改密码"
       :visible.sync="DialogVisible"
       :append-to-body="true"
+      custom-class="dialog-panel"
       destroy-on-close
       :close-on-click-modal="false"
     >
@@ -175,6 +176,7 @@
   import admin from "@/assets/image/admin.png";
   import system from "@/views/system/index.vue";
   import {mapGetters} from "vuex";
+  import {getRolesByProject} from "@/api/user";
 
   export default {
     props: [],

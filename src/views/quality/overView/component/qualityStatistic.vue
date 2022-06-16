@@ -56,7 +56,8 @@
 <script>
 import echarts from "echarts";
 import { merge } from "lodash";
-import { getQualityChart } from "@/api/quality";
+import {getQualityChart} from "@/api/quality";
+import {mapGetters} from "vuex";
 export default {
   props: {
     title: {
@@ -66,21 +67,24 @@ export default {
   data() {
     return {
       radio: "1",
-      chartsData: [],
+      chartsData: []
     };
   },
-  created() {},
+  created() {
+  },
   mounted() {
     this.initData(1);
   },
   components: {},
-  computed: {},
+  computed: {
+    ...mapGetters(["project"])
+  },
   methods: {
     changeSelect(val) {
       this.initData(val);
     },
     initData(type) {
-      getQualityChart(type).then((res) => {
+      getQualityChart(type, this.project.id).then((res) => {
         let option = {
           title: [
             {

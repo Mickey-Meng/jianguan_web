@@ -116,7 +116,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["userInfo", "uploadUrl"]),
+    ...mapGetters(["userInfo", "uploadUrl", "project"])
   },
   created() {
     this.initData();
@@ -131,7 +131,7 @@ export default {
       } else {
         type = 3;
       }
-      getNews(type).then((res) => {
+      getNews(type,this.project.id).then((res) => {
         let data = res.data;
         if (data && data.length > 0) {
           data.forEach((item) => {
@@ -149,6 +149,10 @@ export default {
       }
     },
     showDialog() {
+      this.form = {
+        projectId: this.project.id
+      };
+      this.fileList = [];
       this.dialogVisible = true;
     },
     submitNew() {

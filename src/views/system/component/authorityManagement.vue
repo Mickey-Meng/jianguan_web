@@ -23,54 +23,89 @@
         >
         </el-tree>
       </div>
-      <div class="user_table">
-        <div class="search">
-          <el-input placeholder="请输入姓名或者岗位" v-model="name">
-            <el-button
-              slot="append"
-              icon="el-icon-search"
-              @click="searchUser"
-            ></el-button>
-          </el-input>
+      <div class="right_content">
+        <div class="header">
+          <div class="search_b">
+            <el-input placeholder="请输入姓名或者岗位" v-model="name">
+              <el-button
+                slot="append"
+                icon="el-icon-search"
+                @click="searchUser"
+              ></el-button>
+            </el-input>
+          </div>
+          <div class="search_b" style="margin-left: 10px">
+            <el-select v-model="sectionId" placeholder="请选择" style="width: 100%" @change="changeSection">
+              <el-option
+                v-for="item in allSections"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id">
+              </el-option>
+            </el-select>
+          </div>
         </div>
-        <div class="t_b">
-          <el-table
-            :data="userData"
-            style="width: 100%"
-            height="100%"
-            class="have_scrolling"
-            ref="multipleTableUser"
-            @selection-change="handUserSelectionChange"
-          >
-            <el-table-column type="selection" width="55"> </el-table-column>
-            <el-table-column prop="NAME" label="姓名" align="center">
-            </el-table-column>
-            <el-table-column prop="NEWPOST" label="岗位" align="center">
-            </el-table-column>
-            <el-table-column label="操作" align="center">
-              <template slot-scope="{ row }">
-                <el-button type="primary" size="mini" @click="seeAuthority(row)"
-                  >查看权限</el-button
-                >
-              </template>
-            </el-table-column>
-          </el-table>
+        <div class="table_b_w">
+          <div class="u_table">
+            <el-table
+              :data="userData"
+              style="width: 100%"
+              height="100%"
+              class="have_scrolling"
+              ref="multipleTableUser"
+              @selection-change="handUserSelectionChange"
+            >
+              <el-table-column type="selection" width="55"></el-table-column>
+              <el-table-column prop="NAME" label="姓名" align="center">
+              </el-table-column>
+              <el-table-column prop="NEWPOST" label="岗位" align="center">
+              </el-table-column>
+              <el-table-column label="操作" align="center">
+                <template slot-scope="{ row }">
+                  <el-button type="primary" size="mini" @click="seeAuthority(row)"
+                  >查看权限
+                  </el-button
+                  >
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
+          <div class="u_table" style="margin-left: 10px">
+            <el-table
+              :data="areaData"
+              style="width: 100%"
+              height="100%"
+              class="have_scrolling"
+              ref="multipleTableArea"
+              @selection-change="handAreaSelectionChange"
+            >
+              <el-table-column type="selection" width="55"></el-table-column>
+              <el-table-column prop="name" label="工区" align="center">
+              </el-table-column>
+            </el-table>
+          </div>
         </div>
       </div>
-      <div class="area_table">
-        <el-table
-          :data="areaData"
-          style="width: 100%"
-          height="100%"
-          class="have_scrolling"
-          ref="multipleTableArea"
-          @selection-change="handAreaSelectionChange"
-        >
-          <el-table-column type="selection" width="55"> </el-table-column>
-          <el-table-column prop="name" label="工区" align="center">
-          </el-table-column>
-        </el-table>
-      </div>
+      <!--      <div class="user_table">-->
+      <!--        <div class="search" style="margin-bottom: 5px">-->
+
+      <!--        </div>-->
+      <!--        <div class="t_b"  style="height: 90%">-->
+
+      <!--        </div>-->
+      <!--      </div>-->
+      <!--      <div class="user_table">-->
+      <!--        <div class="search" style="margin-bottom: 5px">-->
+      <!--          <div>-->
+
+      <!--          </div>-->
+
+      <!--        </div>-->
+      <!--        <div class="t_b" style="height: 90%">-->
+
+      <!--        </div>-->
+
+      <!--      </div>-->
     </el-main>
     <el-footer
       ><el-button type="primary" @click="submit">提交</el-button></el-footer
@@ -81,7 +116,8 @@
 <script>
   import {getWorkAreaByProjectId} from "@/api/workArea";
   import {getGroupInfo, getUserByGroupId, bindUserToGroup, getOrgInfo} from "@/api/user";
-  import {mapGetters} from 'vuex'
+  import {mapGetters} from "vuex";
+  import {getAllProject} from "@/api/project";
 
   export default {
     data() {
@@ -96,7 +132,9 @@
           children: "children",
           label: "NAME"
         },
-        name: ""
+        name: "",
+        allSections: [],
+        sectionId: null
       };
     },
     created() {
@@ -110,9 +148,14 @@
       initData() {
         getWorkAreaByProjectId(this.project.id).then((res) => {
           this.areaData = res.data;
+          this.sectionId = this.project.id;
+        });
+        getAllProject().then(res => {
+          this.allSections = res.data;
         });
         getOrgInfo().then(res => {
           let data = res.data.getMe;
+
           function getTree(ary, pid = -1) {
             if (!pid) {
               // 如果没有父id（第一次递归的时候）将所有父级查询出来
@@ -131,7 +174,13 @@
           }
 
           let tre = getTree(data);
-          this.tree = tre
+          this.tree = tre;
+        });
+      },
+      changeSection(val) {
+        this.$refs.multipleTableArea.clearSelection();
+        getWorkAreaByProjectId(val).then((res) => {
+          this.areaData = res.data;
         });
       },
 
@@ -222,25 +271,43 @@
         this.userData = this.allUserData;
       }
     },
-  },
-};
+    },
+  };
 </script>
 <style lang='scss' scoped>
 .el-main {
   height: 100%;
   display: flex;
   justify-content: space-around;
-  > div {
+
+  .organizational_tree {
     width: 32%;
-    border: 1px solid floralwhite;
+    margin-right: 10px;
   }
-  .user_table {
-    .search {
-      height: 40px;
+
+  .right_content {
+    width: calc(68% - 10px) !important;
+
+    .header {
+      width: 100%;
+      height: 45px;
+      display: flex;
+
+      .search_b {
+        width: 50%;
+      }
     }
-    .t_b {
-      margin-top: 5px;
-      height: calc(100% - 45px);
+
+    .table_b_w {
+      width: 100%;
+      margin-top: 10px;
+      //height: calc(100% - 55px);
+      height: 660px;
+      display: flex;
+
+      .u_table {
+        width: 50%;
+      }
     }
   }
 }
