@@ -597,6 +597,27 @@ export const rejectRuntimeTask = data => {
 	});
 };
 /**
+ * 获取流程列表
+ */
+export const getFlowEntryList = data => {
+	return request({
+		url: api.getFlowEntryList,
+		method: "post",
+		data: data
+	});
+};
+/**
+ * 获取流程分类
+ */
+export const getFlowCategoryListDict = data => {
+	return request({
+		url: api.getFlowCategoryListDict,
+		method: "get",
+		params: {}
+	});
+};
+
+/**
  * 查询省份
  */
 export const getProvince = () => {
@@ -676,6 +697,14 @@ export const viewTaskUserInfo = (params) => {
 		params: params
 	});
 };
+
+export const getRolesByProject = (data) => {
+    return request({
+      url: api.getRolesByProject,
+      method: "post",
+    //   data: data
+    });
+  };
 /**
  * getFlowType
  */
