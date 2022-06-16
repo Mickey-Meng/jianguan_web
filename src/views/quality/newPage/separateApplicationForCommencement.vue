@@ -36,21 +36,21 @@
 					</el-table-column>
 					<el-table-column prop="projectName" align="center" label="标段" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="buildUnits" align="center" label="材料名称" show-overflow-tooltip>
+					<el-table-column prop="buildUnits" align="center" label="施工单位" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="openDate" align="center" label="填报日期" show-overflow-tooltip>
+					<el-table-column prop="openDate" align="center" label="建议开工日期" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="endDate" align="center" label="材料规格" show-overflow-tooltip>
+					<el-table-column prop="endDate" align="center" label="计划完工日期" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="place" align="center" label="工程部位" show-overflow-tooltip>
+					<el-table-column prop="place" align="center" label="地点或桩号" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="liveUserName" align="center" label="检测结果" show-overflow-tooltip>
+					<el-table-column prop="liveUserName" align="center" label="现场负责人" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="buildUserName" align="center" label="材料规格" show-overflow-tooltip>
+					<el-table-column prop="buildUserName" align="center" label="施工员" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="checkUserName" align="center" label="工程部位" show-overflow-tooltip>
+					<el-table-column prop="checkUserName" align="center" label="质检员" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="statusStr" align="center" label="检测结果">
+					<el-table-column prop="statusStr" align="center" label="状态">
 					</el-table-column>
 					<el-table-column fixed="right" width="120" align="center" label="操作">
 						<template slot-scope="{ row, $index }">
