@@ -467,6 +467,18 @@ export const asyncRoutes = [{
 				noMap: true
 			}
 		}, {
+			path: "/liuchengsheji",
+			name: "liuchengsheji",
+			component: () => import("@/views/workFlow/flowEntry/formFlowEntry"),
+			meta: {
+				title: "流程设计temp",
+				code: "liuchengsheji",
+				icon: "circle",
+				allMap: false,
+				partMap: false,
+				noMap: true
+			}
+		}, {
 			path: "/copytask",
 			name: "copytask",
 			component: () => import("@/views/task/copytask"),
