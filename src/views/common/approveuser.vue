@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-show="flowNodesUsersData.length>0">
 		<!-- <el-form ref="ruleform" label-width="80px" :rules="rules" v-model="formData"> -->
 			<div class="form-title">
 				<div class="title-big-bar"></div><strong>审批信息</strong>
