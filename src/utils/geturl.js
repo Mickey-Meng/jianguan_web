@@ -15,14 +15,14 @@ import store from "../store";
     );
   } else {
     //新生产
-    // store.commit(
-    //   "settings/SET_URL",
-    //   "https://system.zlskkj.com:59030/ZhuJiRoad/mong/preview?fileid="
-    // );
-    //老生产
     store.commit(
       "settings/SET_URL",
-      "http://101.200.223.171:8085/ZhuJiRoad/mong/preview?fileid="
+      "https://system.zlskkj.com:59031/ZhuJiRoad/mong/preview?fileid="
     );
+    //老生产
+    // store.commit(
+    //   "settings/SET_URL",
+    //   "http://101.200.223.171:8085/ZhuJiRoad/mong/preview?fileid="
+    // );
   }
 })();

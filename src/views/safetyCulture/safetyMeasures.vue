@@ -147,7 +147,7 @@
         size="small"
         label-position="right"
         label-width="120px"
-        class="form-panel"
+        class="bim-form-panel"
         :model="delayForm"
         :rules="delayRules"
       >

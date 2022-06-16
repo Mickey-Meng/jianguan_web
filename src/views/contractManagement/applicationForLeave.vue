@@ -43,14 +43,15 @@
     <el-main>
       <div class="container">
         <el-table :data="tableData" style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
-          <el-table-column prop="leaverPersonName" label="请假人"></el-table-column>
-          <el-table-column prop="leaverType" label="请假类型"></el-table-column>
-          <el-table-column prop="startTime" label="开始时间"></el-table-column>
-          <el-table-column prop="endTime" label="结束时间"></el-table-column>
-          <el-table-column prop="leaveDay" label="请假天数"></el-table-column>
-          <el-table-column prop="handoffPerson" label="工作交接人"></el-table-column>
-          <el-table-column prop="leaveReason" label="请假原因"></el-table-column>
-          <el-table-column prop="remark" label="备注"></el-table-column>
+          <el-table-column prop="leaverPersonName" label="请假人" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="leaverType" label="请假类型" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="startTime" label="开始时间" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="endTime" label="结束时间" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="leaveDay" label="请假天数" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="handoffPerson" label="工作交接人" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="leaveReason" label="请假原因" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="subDate" label="申请时间" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="remark" label="备注" show-overflow-tooltip></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="{row,$index}">
               <el-button type="text" size="mini" @click="seeDetail(row)">详情</el-button>
@@ -138,7 +139,7 @@
                     <div class="block-item-label">工作交接人</div>
                     <div class="block-item-value">
                       <el-form-item prop="projectChargeUser" v-if="isCreate">
-                        <el-select v-model="form.handoffPersonId" placeholder="请选择">
+                        <el-select v-model="form.handoffPersonId" filterable placeholder="请选择">
                           <el-option v-for="item in handoffPerson" :key="item.id"
                                      :label="item.name" :value="item.id">
                           </el-option>
@@ -245,15 +246,15 @@
         },
         flowTypes: [
           {
-            key: "shigongjihe",//施工单位合同人员报审
+            key: "shigongjihe",//施工单位人员请假
             flowKey: "sgdwryqj"
           },
           {
-            key: "jianlijihe",//监理单位合同人员报审
+            key: "jianlijihe",//监理单位人员请假
             flowKey: "jldwryqj"
           },
           {
-            key: "quanzijihe",//监理单位合同人员报审
+            key: "quanzijihe",//全咨单位人员请假
             flowKey: "qzdwryqj"
           }
         ],
@@ -284,7 +285,7 @@
           this.eventType = res.data.qjlx;
         });
         getOrgUser({projectid: this.project.id}).then(res => {
-          this.handoffPerson = res.data.filter(e => e.roleid === this.roleId && e.id !== this.userInfo.ID);
+          this.handoffPerson = res.data.filter(e =>e.id !== this.userInfo.ID);
         });
         //获取用户角色
         getUserRoleAndCode(this.project.id).then(res => {
@@ -365,7 +366,7 @@
           processInstanceId: row.data,
           slaveData: {},
           taskId: "",
-          taskVariableData: {}
+          taskletiableData: {}
         };
         submitUserTask(obj).then(res1 => {
           this.$message({
@@ -400,13 +401,143 @@
         return new Date(time).toDateString() === new Date(time1).toDateString();
       },
       changeTime(time) {
-        // if (time.length > 0) {
-        // let start = time[0];
-        // let end = time[1];
-        // console.log(this.judgeFn(start, end));
-        // let timestamp1 = new Date(start)
-        // }
-        // console.log(time);
+        if (time && time.length > 0) {
+          let start = time[0];
+          let end = time[1];
+          let num = this.getLeaveTime(start, end);
+          this.form.leaveDay = num;
+        } else {
+          this.form.leaveDay = null;
+        }
+      },
+      getLeaveTime(startDate, endDate) {
+        // 校验参数
+        if (!startDate || !endDate) {
+          return "";
+        }
+        let startYearMonthDayStr = startDate.split(" ")[0];
+        let endYearMonthDayStr = endDate.split(" ")[0];
+        // 解析字符串
+        let startYear = startDate.match(/(\d{4})-\d{2}-\d{2}/)[1];
+        let startMonth = startDate.match(/\d{4}-(\d{2})-\d{2}/)[1];
+        let startDay = startDate.match(/\d{4}-\d{2}-(\d{2})/)[1];
+        let startHour = startDate.match(/(\d{1,2}):\d{1,2}/)[1];
+        let startMinutes = startDate.match(/\d{1,2}:(\d{1,2})/)[1];
+        let startTime = new Date();
+        startTime.setFullYear(startYear);
+        startTime.setMonth(startMonth - 1);
+        startTime.setDate(startDay);
+        startTime.setHours(startHour);
+        startTime.setMinutes(startMinutes);
+        startTime.setSeconds(0);
+        startTime.setMilliseconds(0);
+        let endYear = endDate.match(/(\d{4})-\d{2}-\d{2}/)[1];
+        let endMonth = endDate.match(/\d{4}-(\d{2})-\d{2}/)[1];
+        let endDay = endDate.match(/\d{4}-\d{2}-(\d{2})/)[1];
+        let endHour = endDate.match(/(\d{1,2}):\d{1,2}/)[1];
+        let endMinutes = endDate.match(/\d{1,2}:(\d{1,2})/)[1];
+        let endTime = new Date();
+        endTime.setFullYear(endYear);
+        endTime.setMonth(endMonth - 1);
+        endTime.setDate(endDay);
+        endTime.setHours(endHour);
+        endTime.setMinutes(endMinutes);
+        endTime.setSeconds(0);
+        endTime.setMilliseconds(0);
+
+        // 12点到5点半的毫秒数
+        let from1200To530 = 5 * 60 * 60 * 1000 + 30 * 60 * 1000;
+        // 8点半到12点的毫秒数
+        let from830To12 = 30 * 60 * 1000 + 3 * 60 * 60 * 1000;
+
+        // 开始判断
+        // 判断开始时间，请假时长
+        // 开始时间的8点半时间对象
+        let startTime830 = new Date(startTime.valueOf());
+        startTime830.setHours(8);
+        startTime830.setMinutes(30);
+        // 开始时间的12点时间对象
+        let startTime12 = new Date(startTime.valueOf());
+        startTime12.setHours(12);
+        startTime12.setMinutes(0);
+        // 开始时间的下午5点半时间对象
+        let startTime530 = new Date(startTime.valueOf());
+        startTime530.setHours(17);
+        startTime530.setMinutes(30);
+
+        // 结束时间的8点半时间对象
+        let endTime830 = new Date(endTime.valueOf());
+        endTime830.setHours(8);
+        endTime830.setMinutes(30);
+        // 结束时间的12点时间对象
+        let endTime12 = new Date(endTime.valueOf());
+        endTime12.setHours(12);
+        endTime12.setMinutes(0);
+        // 结束时间的下午5点半时间对象
+        let endTime530 = new Date(endTime.valueOf());
+        endTime530.setHours(17);
+        endTime530.setMinutes(30);
+
+
+        // 开始时间的23:59:59
+        let startTime235959 = new Date(startTime.valueOf());
+        startTime235959.setHours(23);
+        startTime235959.setMinutes(59);
+        startTime235959.setMinutes(59);
+
+        // 结束时间的23:59:59
+        let endTime235959 = new Date(endTime.valueOf());
+        endTime235959.setHours(23);
+        endTime235959.setMinutes(59);
+        endTime235959.setMinutes(59);
+        let distanceDayNum = (endTime235959 - startTime235959) / 1000 / 60 / 60 / 24 - 1;
+        let startDayNum = 0;
+        // 判断同一天的情况
+        if (startYearMonthDayStr == endYearMonthDayStr) {
+          // 0.5天的情况
+          // 结束时间小于中午12点大于8:30
+          if (endTime.getTime() <= startTime12.getTime() && endTime.getTime() > startTime830.getTime()) {
+            return 0.5;
+          }
+
+          // 开始时间大于中午12点小于17:30
+          if (startTime.getTime() > startTime12.getTime() && startTime.getTime() <= startTime530.getTime()) {
+            return 0.5;
+          }
+
+          // 一天的情况
+          // 早8:30-下午5:30
+          if (startTime.getTime() <= startTime830.getTime() && endTime.getTime() >= startTime530.getTime()) {
+            return 1;
+          }
+          // 早上 8:30-12:00 中的某一个时刻  到 下午 12:00-17:30 中的某一个时刻
+          if (startTime.getTime() < startTime12.getTime() && endTime.getTime() > startTime12.getTime()) {
+            return 1;
+          }
+        }
+
+        // 跨天的情况
+        if (startYearMonthDayStr != endYearMonthDayStr) {
+          // 开始为半天的情况,结束为半天的情况
+          if (startTime.getTime() >= startTime12.getTime() && endTime.getTime() <= endTime12.getTime()) {
+            return 0.5 + 0.5 + distanceDayNum;
+          }
+          // 开始为半天，结束为一天的情况
+          if (startTime.getTime() >= startTime12.getTime() && endTime.getTime() > endTime12.getTime()) {
+            return 0.5 + 1 + distanceDayNum;
+          }
+
+          // 开始为一天，结束为半天的情况
+          if (startTime.getTime() < startTime12.getTime() && endTime.getTime() <= endTime12.getTime()) {
+            return 1 + 0.5 + distanceDayNum;
+          }
+
+          // 开始为一天，结束为一天的情况
+          if (startTime.getTime() < startTime12.getTime() && endTime.getTime() > endTime12.getTime()) {
+            return 1 + 1 + distanceDayNum;
+          }
+        }
+        return "";
       },
       handleSizeChange() {
       },

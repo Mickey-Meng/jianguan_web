@@ -14,24 +14,28 @@
 import area from "@/assets/site/area";
 import { getWorkPoint } from "@/api/system";
 import eventBus from "@/assets/eventBus";
+import {mapGetters} from "vuex";
 let em;
 let Cesium = window.Cesium;
 export default {
   name: "",
   data() {
     return {
-      markerId: [],
+      markerId: []
     };
   },
   created() {
     this.init();
   },
+  computed: {
+    ...mapGetters(["project"])
+  },
   methods: {
     init() {
       let zeh = window.zeh;
-      em = zeh.earth.createMarkerManager({ clusterType: "dilute" });
+      em = zeh.earth.createMarkerManager({clusterType: "dilute"});
       em.beginCluster();
-      getWorkPoint().then((res) => {
+      getWorkPoint(this.project.id).then((res) => {
         let data = res.data;
         if (data && data.length > 0) {
           data.forEach((item) => {

@@ -145,7 +145,7 @@
   import {mapGetters} from "vuex";
   import {diff, getCurrentDate} from "@/utils/date";
 
-  import {getRoles} from "@/api/user";
+  import {getServiceRoles} from "@/api/user";
   import {addClockTime, updateClockTime, getClockTime, deleteClockTime, deleteFence} from "@/api/staffApproval";
 
   export default {
@@ -195,7 +195,7 @@
         };
       },
       initData() {
-        getRoles().then(res => {
+        getServiceRoles().then(res => {
           function getTree(ary, pid = -1) {
             if (!pid) {
               // 如果没有父id（第一次递归的时候）将所有父级查询出来

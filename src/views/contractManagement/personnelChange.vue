@@ -359,7 +359,7 @@
         projectInfo: {},
         flowTypes: [
           {
-            key: "shigongjihe",//施工单位合同人员报审
+            key: "shigongjihe",//施工单位人员变更
             flowKey: "sgdwrybg"
           },
           {
