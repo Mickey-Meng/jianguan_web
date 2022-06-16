@@ -27,7 +27,7 @@
 											<div class="block-item-label">申请开工日期<i class="require-icon"></i></div>
 											<div class="block-item-value">
 												<el-form-item prop="openDate">
-													<el-date-picker format="yyyy-MM-dd" v-model="formData.openDate"
+													<el-date-picker value-format="yyyy-MM-dd" v-model="formData.openDate"
 														type="date" placeholder="请选择">
 													</el-date-picker>
 												</el-form-item>
@@ -37,7 +37,7 @@
 											<div class="block-item-label">计划完工日期<i class="require-icon"></i></div>
 											<div class="block-item-value">
 												<el-form-item prop="endDate">
-													<el-date-picker format="yyyy-MM-dd" v-model="formData.endDate"
+													<el-date-picker value-format="yyyy-MM-dd" v-model="formData.endDate"
 														type="date" placeholder="请选择">
 													</el-date-picker>
 												</el-form-item>
@@ -54,7 +54,7 @@
 											<div class="block-item-label">合同规定工期起<i class="require-icon"></i></div>
 											<div class="block-item-value">
 												<el-form-item prop="contractOpenDate">
-													<el-date-picker format="yyyy-MM-dd"
+													<el-date-picker value-format="yyyy-MM-dd"
 														v-model="formData.contractOpenDate" type="date"
 														placeholder="请选择">
 													</el-date-picker>
@@ -65,7 +65,7 @@
 											<div class="block-item-label">合同规定工期止<i class="require-icon"></i></div>
 											<div class="block-item-value">
 												<el-form-item prop="contractEndDate">
-													<el-date-picker format="yyyy-MM-dd"
+													<el-date-picker value-format="yyyy-MM-dd"
 														v-model="formData.contractEndDate" type="date"
 														placeholder="请选择">
 													</el-date-picker>
@@ -481,6 +481,7 @@
 							this.formData.otherAttachment = this.attachTable;
 							this.formData.auditUser = this.auditUser;
 							this.formData.draftFlag = 1;
+							// this.formData.openDate = "2022-06-16";
 							api.addOrUpdateProjectOpenExit(this.formData).then((res) => {
 								if (res.data) {
 									this.$message({
