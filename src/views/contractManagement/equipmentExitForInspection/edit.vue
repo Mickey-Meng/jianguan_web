@@ -168,7 +168,7 @@
 							<div class="block-item-label">拟退场日期<i class="require-icon"></i></div>
 							<div class="block-item-value">
 								<el-form-item prop="exitDate">
-									<el-date-picker format="yyyy-MM-dd" v-model="equipmentInfo.exitDate" type="date"
+									<el-date-picker value-format="yyyy-MM-dd" v-model="equipmentInfo.exitDate" type="date"
 										placeholder="请选择">
 									</el-date-picker>
 								</el-form-item>

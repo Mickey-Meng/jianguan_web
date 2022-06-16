@@ -478,7 +478,7 @@ export default {
         this.treeData = tree;
       });
       this.init();
-      getProjectTypeData().then((res) => {
+      getProjectTypeData(this.project.id).then((res) => {
         let obj = {
           projectname: "所有工程",
           projectid: "all"

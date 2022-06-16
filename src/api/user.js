@@ -43,6 +43,12 @@ export function getUserInfo(id) {
     method: "get"
   });
 }
+export const getServiceRoles = () =>{
+  return request({
+    url: `/STSfmzj/userauth/selectRole`,
+    method: "get"
+  });
+}
 export const getRoles = (id) => {
   return request({
     url: `/ZhuJiRoad/projects/getRolesByProject?projectId=${id}`,

@@ -21,13 +21,13 @@
 			</div>
 			<div class="input-box">
 				<div class="input-value">
-					<el-date-picker format="yyyy-MM-dd" v-model="queryData.buildDateStart" type="date" placeholder="计划开工结束日期">
+					<el-date-picker value-format="yyyy-MM-dd" v-model="queryData.buildDateStart" type="date" placeholder="计划开工结束日期">
 					</el-date-picker>
 				</div>
 			</div>
 			<div class="input-box">
 				<div class="input-value">
-					<el-date-picker format="yyyy-MM-dd" v-model="queryData.buildDateEnd" type="date" placeholder="开工开始日期">
+					<el-date-picker value-format="yyyy-MM-dd" v-model="queryData.buildDateEnd" type="date" placeholder="开工开始日期">
 					</el-date-picker>
 				</div>
 			</div>

@@ -67,7 +67,7 @@
 												<div class="block-item-label">发起时间</div>
 												<div class="block-item-value">
 													<el-form-item prop="startDate">
-														<el-date-picker format="yyyy-MM-dd" v-model="formData.startDate"
+														<el-date-picker value-format="yyyy-MM-dd" v-model="formData.startDate"
 															type="date" placeholder="请选择">
 														</el-date-picker>
 													</el-form-item>

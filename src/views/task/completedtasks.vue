@@ -128,7 +128,7 @@
           this.$router.push({
             path: router.path,
             query: {
-              taskId: row.taskId,
+              taskId: row.executionId,
               taskKey: row.taskKey,
               businessKey: row.businessKey,
               processDefinitionKey: row.processDefinitionKey,

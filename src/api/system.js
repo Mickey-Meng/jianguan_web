@@ -9,11 +9,12 @@
 import api from "./index";
 import request from "@/utils/request";
 
-export const getWorkPoint = () => {
+export const getWorkPoint = (projectId) => {
   return request({
     url: api.getWorkPoint,
     method: "post",
     data: {},
+    params: {projectId}
   });
 };
 export const addWorkPoint = (data) => {

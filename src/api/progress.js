@@ -92,10 +92,11 @@ export const getAreaProgress = (type,projectId) => {
  * @param {*}
  * @return {*}
  */
-export const getProjectTypeData = () => {
+export const getProjectTypeData = (projectId) => {
   return request({
     url: api.getProjectTypeData,
-    method: "get"
+    method: "get",
+    params:{projectId}
   });
 };
 /**

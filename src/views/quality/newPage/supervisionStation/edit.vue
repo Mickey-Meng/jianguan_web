@@ -73,7 +73,7 @@
 												<div class="block-item-label">旁站时间</div>
 												<div class="block-item-value">
 													<el-form-item prop="sideDate">
-														<el-date-picker format="yyyy-MM-dd" v-model="formData.sideDate"
+														<el-date-picker value-format="yyyy-MM-dd" v-model="formData.sideDate"
 															type="date" placeholder="请选择">
 														</el-date-picker>
 													</el-form-item>

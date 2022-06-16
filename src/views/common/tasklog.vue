@@ -14,7 +14,7 @@
 						</el-table-column>
 						<el-table-column prop="taskName" align="center" label="流程环节">
 						</el-table-column>
-						<el-table-column prop="createUsernameStr" align="center" label="执行人">
+						<el-table-column prop="createUsername" align="center" label="执行人">
 						</el-table-column>
 						<el-table-column prop="approvalType" align="center" label="操作">
 						</el-table-column>
@@ -88,12 +88,12 @@
 					for (let i = 0; i < res.data.length; i++) {
 						const item = res.data[i];
 						item.comment = item.comment === undefined ? "发起" : item.comment; // 默认显示为发起
-						getUserInfo(item.createUserId).then(res1 => {
-							item.createUsernameStr = res1.data.userInfo.NAME;
-							_data.push(JSON.parse(JSON.stringify(item)));
+						// getUserInfo(item.createUserId).then(res1 => {
+						// 	item.createUsernameStr = res1.data.userInfo.NAME;
+						// 	_data.push(JSON.parse(JSON.stringify(item)));
 							
-							this.logData=_data||[]; // 强制刷新
-						})
+						// 	this.logData=_data||[]; // 强制刷新
+						// })
 					}
 					this.logData=res['data']||[];
 				});

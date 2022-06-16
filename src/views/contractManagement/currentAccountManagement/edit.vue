@@ -75,7 +75,7 @@
 											<div class="block-item-label">支付日期<i class="require-icon"></i></div>
 											<div class="block-item-value">
 												<el-form-item prop="payDate">
-													<el-date-picker format="yyyy-MM-dd" v-model="formData.payDate"
+													<el-date-picker value-format="yyyy-MM-dd" v-model="formData.payDate"
 														type="date" placeholder="请选择">
 													</el-date-picker>
 												</el-form-item>
