@@ -79,7 +79,7 @@
 											<div class="block-item-label">填报日期<i class="require-icon"></i></div>
 											<div class="block-item-value">
 												<el-form-item prop="fillDate">
-													<el-date-picker format="yyyy-MM-dd" v-model="formData.fillDate"
+													<el-date-picker value-format="yyyy-MM-dd" v-model="formData.fillDate"
 														type="date" placeholder="请选择">
 													</el-date-picker>
 												</el-form-item>
@@ -264,7 +264,7 @@
 						<div class="block-item">
 							<div class="block-item-label">试验日期</div>
 							<div class="block-item-value">
-								<el-date-picker format="yyyy-MM-dd" v-model="examineInfo.testDate" type="date"
+								<el-date-picker value-format="yyyy-MM-dd" v-model="examineInfo.testDate" type="date"
 									placeholder="请选择">
 								</el-date-picker>
 							</div>

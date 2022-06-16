@@ -109,7 +109,7 @@
 											<div class="block-item-label">实施日期<i class="require-icon"></i></div>
 											<div class="block-item-value">
 												<el-form-item prop="buildDate">
-													<el-date-picker format="yyyy-MM-dd" v-model="formData.buildDate"
+													<el-date-picker value-format="yyyy-MM-dd" v-model="formData.buildDate"
 														type="date" placeholder="请选择">
 													</el-date-picker>
 												</el-form-item>

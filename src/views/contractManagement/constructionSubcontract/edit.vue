@@ -198,7 +198,7 @@
 							<div class="block-item-label">拟分包施工日期</div>
 							<div class="block-item-value">
 								<el-form-item prop="buildDate">
-									<el-date-picker format="yyyy-MM-dd" v-model="contractInfo.buildDate" type="date"
+									<el-date-picker value-format="yyyy-MM-dd" v-model="contractInfo.buildDate" type="date"
 										placeholder="请选择">
 									</el-date-picker>
 								</el-form-item>
