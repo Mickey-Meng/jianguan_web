@@ -377,9 +377,9 @@
 			</el-container>
 		</el-dialog>
 		<el-dialog width="80%" class="little-container" :visible.sync="draftVisible">
-			<concealedWorksManagement @hideDraft="hideDraft" @getDetail="getDetail" :isDraft="draftVisible"
+			<separateApplicationForCommencement @hideDraft="hideDraft" @getDetail="getDetail" :isDraft="draftVisible"
 				v-if="draftVisible">
-			</concealedWorksManagement>
+			</separateApplicationForCommencement>
 		</el-dialog>
 
 	</div>

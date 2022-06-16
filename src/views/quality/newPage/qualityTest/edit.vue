@@ -27,11 +27,10 @@
 											<div class="block-item-label">施工标段<i class="require-icon"></i></div>
 											<div class="block-item-value">
 												<el-form-item prop="buildSection">
-													<el-select
-													@change="changeChild"
-													    v-model="formData.buildSection" placeholder="请选择">
-														<el-option v-for="item in childOptions" :key="item.value" :label="item.label"
-															:value="item.value">
+													<el-select @change="changeChild" v-model="formData.buildSection"
+														placeholder="请选择">
+														<el-option v-for="item in childOptions" :key="item.value"
+															:label="item.label" :value="item.value">
 														</el-option>
 													</el-select>
 												</el-form-item>
@@ -129,14 +128,19 @@
 											</el-table-column>
 											<el-table-column prop="detectionResult" width="120px" align="center"
 												label="检测结果">
+												<template slot-scope="scope">
+													<template v-if="scope.row.detectionResult==0">合格</template>
+													<template v-else-if="scope.row.detectionResult==1">不合格</template>
+												</template>
 											</el-table-column>
 											<el-table-column prop="reportCode" width="120px" align="center"
 												label="报告编号">
 											</el-table-column>
 											<el-table-column fixed="right" width="120" align="center" label="操作">
 												<template slot-scope="{ row, $index }">
-													<el-button type="text" size="mini">预览</el-button>
-													<el-button type="text" size="mini" @click="deleteExamine(row, $index)">删除</el-button>
+													<!-- <el-button type="text" size="mini">预览</el-button> -->
+													<el-button type="text" size="mini"
+														@click="deleteExamine(row, $index)">删除</el-button>
 												</template>
 											</el-table-column>
 										</el-table>
@@ -151,9 +155,10 @@
 										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 											文件，且不超过 200M</span>
 									</div>
-									<attachlist :editAble="true" ref="attachlist" :attachTable="reportTable"></attachlist>
-									
-									
+									<attachlist :editAble="true" ref="attachlist" :attachTable="reportTable">
+									</attachlist>
+
+
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
@@ -161,8 +166,9 @@
 										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 											文件，且不超过 200M</span>
 									</div>
-									<attachlist :editAble="true" ref="attachlist" :attachTable="factoryTable"></attachlist>
-									
+									<attachlist :editAble="true" ref="attachlist" :attachTable="factoryTable">
+									</attachlist>
+
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
@@ -170,9 +176,10 @@
 										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 											文件，且不超过 200M</span>
 									</div>
-									<attachlist :editAble="true" ref="attachlist" :attachTable="attachTable"></attachlist>
-									
-									
+									<attachlist :editAble="true" ref="attachlist" :attachTable="attachTable">
+									</attachlist>
+
+
 									<div class="block-line">
 										<div class="block-item">
 											<div class="block-item-label">备注</div>
@@ -183,8 +190,8 @@
 										</div>
 									</div>
 								</div>
-								
-								<approveuser :auditUser="auditUser"  :flowKey="flowKey">
+
+								<approveuser :auditUser="auditUser" :flowKey="flowKey">
 								</approveuser>
 								<div class="form-block">
 									<el-button class="submit-btn" size="small" type="primary" @click="addOrModify()">提交
@@ -355,8 +362,7 @@
 			</el-dialog>
 		</el-dialog>
 		<el-dialog width="80%" class="little-container" :visible.sync="draftVisible">
-			<qualityTest @hideDraft="hideDraft" @getDetail="getDetail" :isDraft="draftVisible"
-				v-if="draftVisible">
+			<qualityTest @hideDraft="hideDraft" @getDetail="getDetail" :isDraft="draftVisible" v-if="draftVisible">
 			</qualityTest>
 		</el-dialog>
 	</div>
@@ -364,7 +370,9 @@
 
 <script>
 	import * as api from "@/api/quality";
-	import { getUserInfo } from "@/api/user";
+	import {
+		getUserInfo
+	} from "@/api/user";
 	import {
 		convertOptions,
 		formatDate,
@@ -382,7 +390,7 @@
 				draftVisible: false,
 				addOrModifyFlag: true,
 				dialogFormVisible: false,
-				childOptions:[],
+				childOptions: [],
 				examineResultOptions1: [{
 					label: '合格',
 					value: 0
@@ -445,10 +453,10 @@
 						trigger: 'blur'
 					}],
 					num: [{
-							required: true,
-							message: '请填写材料数量',
-							trigger: 'blur'
-						},{
+						required: true,
+						message: '请填写材料数量',
+						trigger: 'blur'
+					}, {
 						type: 'number',
 						message: '材料数量必须为数字'
 					}],
@@ -518,7 +526,7 @@
 				},
 				flowNodesUsersData: [],
 				auditUser: {},
-				flowKey:'zhiliangjiance'
+				flowKey: 'zhiliangjiance'
 			};
 		},
 		created() {},
@@ -530,10 +538,10 @@
 			qualityTest: () => import("../qualityTest.vue")
 		},
 		computed: {
-			
+
 		},
 		watch: {
-			
+
 		},
 		mounted() {
 			this.getChildProject();
@@ -541,8 +549,8 @@
 			this.getProvince();
 		},
 		methods: {
-			
-			changeVisible(obj,value) {
+
+			changeVisible(obj, value) {
 				this.dialogFormVisible = value;
 				obj = obj || {};
 				this.addOrModifyFlag = obj['id'] ? false : true;
@@ -563,25 +571,25 @@
 						projectId: this.$store.getters.project['parentid'],
 						remark: '',
 					}
-					this.examineTable=[];
-					this.reportTable=[];
-					this.factoryTable=[];
-					this.attachTable=[];
+					this.examineTable = [];
+					this.reportTable = [];
+					this.factoryTable = [];
+					this.attachTable = [];
 				}
 			},
-			getChildProject(){
+			getChildProject() {
 				api.getChildProject({
-					projectid:this.$store.getters.project['parentid']
+					projectid: this.$store.getters.project['parentid']
 				}).then((res) => {
 					let options = res.data || [];
 					this.childOptions = convertOptions(options, 'name', 'id');
 				});
 			},
-			changeChild(){
+			changeChild() {
 				api.getCompanyByProjectId({
-					projectid:this.formData.buildSection
+					projectid: this.formData.buildSection
 				}).then((res) => {
-					this.baseInfo=res;
+					this.baseInfo = res;
 				});
 			},
 			getMaterialEnums() {
@@ -656,15 +664,17 @@
 				}).then((res) => {
 					let data = res['data'] || {};
 					this.formData = data;
-					this.examineTable=data.detectionInfo||[];
-					this.reportTable=data.detectionReport||[];
-					this.factoryTable=data.factoryInfo||[];
-					this.attachTable=data.otherAttachment||[];
+					this.examineTable = data.detectionInfo || [];
+					this.reportTable = data.detectionReport || [];
+					this.factoryTable = data.factoryInfo || [];
+					this.attachTable = data.otherAttachment || [];
 				});
 			},
 			addOrModify(isdraft) {
 				if (isdraft) {
-					if (diffCompare([this.formData, this.examineTable,this.reportTable,this.factoryTable,this.attachTable], [{
+					if (diffCompare([this.formData, this.examineTable, this.reportTable, this.factoryTable, this
+							.attachTable
+						], [{
 								buildSection: '',
 								deletedFlag: 1,
 								detectionInfo: [],
@@ -677,8 +687,11 @@
 								projectId: this.$store.getters.project['parentid'],
 								remark: '',
 							},
-							[],[],[],[]
-						],['fillDate'])) {
+							[],
+							[],
+							[],
+							[]
+						], ['fillDate'])) {
 						this.$message({
 							type: 'warning',
 							message: '不能提交空白!'
@@ -701,8 +714,8 @@
 							this.$emit("query");
 						}
 					});
-					
-				}else{
+
+				} else {
 					this.$refs['ruleForm'].validate((valid) => {
 						if (valid) {
 							this.formData.detectionInfo = this.examineTable;
@@ -710,7 +723,7 @@
 							this.formData.factoryInfo = this.factoryTable;
 							this.formData.otherAttachment = this.attachTable;
 							this.formData.auditUser = this.auditUser;
-							this.formData.draftFlag=1;
+							this.formData.draftFlag = 1;
 							api.addOrUpdateQualityDetection(this.formData).then((res) => {
 								if (res.data) {
 									this.$message({
@@ -722,10 +735,10 @@
 								}
 							});
 						}
-					
+
 					})
 				}
-				
+
 			},
 			changeArea() {
 				this.countyOptions = [];
@@ -744,15 +757,15 @@
 					.addressItem.district;
 				this.areaVisible = false;
 			},
-			deleteExamine(row, index){
+			deleteExamine(row, index) {
 				this.$confirm('确认是否删除?', '提示', {
 					confirmButtonText: '确定',
 					cancelButtonText: '取消',
 					type: 'warning'
 				}).then(() => {
-					this.examineTable.splice(index,1);
+					this.examineTable.splice(index, 1);
 				});
-				
+
 			},
 			hideDraft() {
 				this.draftVisible = false;
