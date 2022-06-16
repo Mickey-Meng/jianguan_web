@@ -37,7 +37,7 @@
 					</el-table-column>
 					<el-table-column prop="taskName" align="center" label="当前任务" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="processInstanceInitiator" align="center" label="任务发起人" show-overflow-tooltip>
+					<el-table-column prop="processInstanceInitiatorName" align="center" label="任务发起人" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="processInstanceStartTime" align="center" label="任务发起时间" show-overflow-tooltip>
 					</el-table-column>

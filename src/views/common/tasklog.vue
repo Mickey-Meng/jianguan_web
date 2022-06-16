@@ -14,7 +14,7 @@
 						</el-table-column>
 						<el-table-column prop="taskName" align="center" label="流程环节">
 						</el-table-column>
-						<el-table-column prop="createUsername" align="center" label="执行人">
+						<el-table-column prop="createName" align="center" label="执行人">
 						</el-table-column>
 						<el-table-column prop="approvalType" align="center" label="操作">
 						</el-table-column>
