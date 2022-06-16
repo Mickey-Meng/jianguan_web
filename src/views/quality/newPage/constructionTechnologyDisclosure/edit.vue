@@ -77,9 +77,9 @@
 									<attachlist :editAble="true" ref="attachlist" :attachTable="attachTable"></attachlist>
 								</div>
 
-								<div class="form-title">
+								<!-- <div class="form-title">
 									<div class="title-big-bar"></div><strong>审批信息</strong>
-								</div>
+								</div> -->
 
 								<!-- <div class="form-block">
 									<div class="form-block-title">

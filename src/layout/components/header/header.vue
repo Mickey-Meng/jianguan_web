@@ -16,14 +16,16 @@
       </div>
       <div class="right-menu">
         <el-dropdown class="msg_dropdown">
-          <div>
-            <svg-icon icon-class="message" class="msg_icon"/>
+          <div class="total_value_box">
+
+            <!--            <div class="total_value">{{msg.total}}</div>-->
             <el-badge
               :value="msg.total"
               :max="99"
               type="primary"
-              class="item"
+              class="item total_item"
             >
+              <svg-icon icon-class="message" class="msg_icon"/>
             </el-badge>
           </div>
           <el-dropdown-menu slot="dropdown">
@@ -210,12 +212,13 @@
     created() {
       if (process.env.NODE_ENV === "development") {
         this.websockLink =
-          "ws://192.168.2.147:8720/imserver/" + getToken("zj_token");
+          "ws://192.168.2.128:8720/imserver/" + getToken("zj_token");
       } else {
         this.websockLink =
-          "wss://system.zlskkj.com:59030/ZhuJiRoad/imserver/" +
+          "wss://system.zlskkj.com:59031/ZhuJiRoad/imserver/" +
           getToken("zj_token");
       }
+      this.initMsg();
       this.initWebSocket();
       setInterval(() => {
         this.nowTime = getNowDatehs();
@@ -501,6 +504,15 @@
       // border-bottom: 1px solid #1E374B;
       .msg_dropdown {
         width: 60px;
+        //position: relative;
+        height: 50px;
+
+        .total_item {
+          ::v-deep .el-badge__content.is-fixed {
+            top: 5px;
+            right: 5px;
+          }
+        }
       }
 
       .avatar-container {

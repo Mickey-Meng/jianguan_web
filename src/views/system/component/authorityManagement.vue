@@ -148,10 +148,11 @@
       initData() {
         getWorkAreaByProjectId(this.project.id).then((res) => {
           this.areaData = res.data;
-          this.sectionId = this.project.id;
         });
         getAllProject().then(res => {
           this.allSections = res.data;
+          this.sectionId = this.project.id;
+
         });
         getOrgInfo().then(res => {
           let data = res.data.getMe;

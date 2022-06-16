@@ -112,6 +112,8 @@
 		createProjectInfo,
 		getQueryVariable
 	} from "@/utils/format.js";
+	import attachlist from "../../common/attachlist"
+	
 	export default {
 		props: ['detailRow'],
 		data() {
@@ -138,7 +140,9 @@
 			};
 		},
 		created() {},
-		components: {},
+		components: {
+			attachlist
+		},
 		computed: {},
 		mounted() {
 			this.getProjectInfoById();

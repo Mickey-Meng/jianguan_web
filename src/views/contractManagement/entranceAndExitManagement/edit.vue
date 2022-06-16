@@ -160,7 +160,7 @@
 											</el-table-column>
 											<el-table-column fixed="right" width="120" align="center" label="操作">
 												<template slot-scope="{ row, $index }">
-													<el-button type="text" size="mini">预览</el-button>
+													<!-- <el-button type="text" size="mini">预览</el-button> -->
 													<el-button type="text" size="mini"
 														@click="deleteInOutUser(row, $index)">删除</el-button>
 												</template>

@@ -334,7 +334,7 @@
     components: {eventDetail},
     methods: {
       initData() {
-        getProjectTypeData().then((res) => {
+        getProjectTypeData(this.project.id).then((res) => {
           let obj = {
             projectname: "所有工程",
           groupid: "all",

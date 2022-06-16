@@ -52,7 +52,7 @@
 					</el-table-column>
 					<el-table-column prop="title" align="center" label="工程部位" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="createTime" align="center" label="旁站项目" show-overflow-tooltip>
+					<el-table-column prop="projectId" align="center" label="旁站项目" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="statusStr" align="center" label="状态">
 					</el-table-column>

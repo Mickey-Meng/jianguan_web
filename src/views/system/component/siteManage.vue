@@ -11,7 +11,17 @@
     <el-header
       ><el-button type="primary" @click="openDialog"
         >新增工点</el-button
-      ></el-header
+      >
+
+      <el-select v-model="sectionId" placeholder="请选择" filterable style="width:220px;margin-left: 20px" @change="changeSection">
+        <el-option
+          v-for="item in allSections"
+          :key="item.id"
+          :label="item.name"
+          :value="item.id">
+        </el-option>
+      </el-select>
+    </el-header
     >
     <el-main>
       <div class="info_item" v-for="(item, index) in lists" :key="index">
@@ -90,7 +100,7 @@
             </el-form-item>
           </el-form>
           <div class="update_btn">
-            <el-button size="mini" type="primary" @click="updateInfo(item)"
+            <el-button size="mini" type="primary" @click="updateInfo(item)" class="primary_mini"
               >更新</el-button
             >
             <el-button size="mini" type="danger" @click="deleteInfo(item)"
@@ -112,9 +122,28 @@
         ref="form"
         size="small"
         label-position="right"
-        label-width="80px"
+        label-width="100px"
         :rules="rules"
       >
+        <el-form-item label="请选择项目" prop="type">
+          <el-select
+            v-model="form.projectId"
+            filterable
+            placeholder="请选择类型"
+            class="site_select"
+            @change="projectChange"
+          >
+            <el-option
+              v-for="item in allSections"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+
+
         <el-form-item label="工点名称" prop="groupid">
           <el-select
             v-model="form.groupid"
@@ -123,7 +152,7 @@
             class="site_select"
           >
             <el-option
-              v-for="item in projects"
+              v-for="item in formProjects"
               :key="item.groupid"
               :label="item.projectname"
               :value="item.groupid"
@@ -180,177 +209,206 @@
       </el-form>
       <div slot="footer">
         <el-button size="mini" @click="dialogVisible = false">取消</el-button>
-        <el-button size="mini" type="primary" @click="addInfo">确定</el-button>
+        <el-button size="mini" type="primary" class="primary_mini" @click="addInfo">确定</el-button>
       </div>
     </el-dialog>
   </el-container>
 </template>
 
 <script>
-import * as api from "@/api/system";
-import { getProjectTypeData } from "@/api/progress";
-export default {
-  data() {
-    return {
-      dialogVisible: false,
-      form: {
-        desginnum: "",
-        finishnum: "",
-        groupid: "",
-        groupname: "",
-        longlatitude: "",
-        process: "",
-        projectcode: "",
-        projectname: "",
-        remark: "",
-        altitude: "",
-        type: 1,
-      },
-      rules: {
-        groupid: [{ required: true, message: "请选择工点", trigger: "change" }],
-        type: [
-          { required: true, message: "请选择工点类型", trigger: "change" },
-        ],
-        process: [
-          { required: true, message: "请选择正在施工的工序", trigger: "blur" },
-        ],
-        // desginnum: [
-        //   { required: true, message: "请输入设计数量", trigger: "blur" },
-        // ],
-        // finishnum: [
-        //   { required: true, message: "请输入完成数量", trigger: "blur" },
-        // ],
-        longlatitude: [
-          { required: true, message: "请输入经纬度", trigger: "blur" },
-        ],
-      },
-      lists: [],
-      types: [
-        {
-          name: "桥",
-          key: 1,
+  import * as api from "@/api/system";
+  import {getProjectTypeData} from "@/api/progress";
+  import {mapGetters} from "vuex";
+  import {getWorkAreaByProjectId} from "@/api/workArea";
+  import {getAllProject} from "@/api/project";
+
+  export default {
+    data() {
+      return {
+        dialogVisible: false,
+        form: {
+          desginnum: "",
+          finishnum: "",
+          groupid: "",
+          groupname: "",
+          longlatitude: "",
+          process: "",
+          projectcode: "",
+          projectname: "",
+          remark: "",
+          altitude: "",
+          type: 1,
+          projectId: null
         },
-        {
-          name: "路",
-          key: 2,
+        rules: {
+          groupid: [{required: true, message: "请选择工点", trigger: "change"}],
+          type: [
+            {required: true, message: "请选择工点类型", trigger: "change"}
+          ],
+          projectId: [
+            {required: true, message: "请选择项目", trigger: "blur"}
+          ],
+          process: [
+            {required: true, message: "请选择正在施工的工序", trigger: "blur"}
+          ],
+          // desginnum: [
+          //   { required: true, message: "请输入设计数量", trigger: "blur" },
+          // ],
+          // finishnum: [
+          //   { required: true, message: "请输入完成数量", trigger: "blur" },
+          // ],
+          longlatitude: [
+            {required: true, message: "请输入经纬度", trigger: "blur"}
+          ]
         },
-        {
-          name: "隧",
-          key: 3,
-        },
-      ],
-      projects: [],
-    };
-  },
-  created() {
-    this.init();
-  },
-  components: {},
-  computed: {},
-  methods: {
-    async init() {
-      getProjectTypeData().then((res) => {
-        api.getWorkPoint().then((res1) => {
-          this.projects = res.data;
-          this.lists = res1.data;
-          console.log(this.lists);
-        });
-      });
-    },
-    openDialog() {
-      this.form = {
-        desginnum: "",
-        finishnum: "",
-        groupid: "",
-        groupname: "",
-        longlatitude: "",
-        process: "",
-        projectcode: "",
-        projectname: "",
-        remark: "",
-        altitude: "",
-        type: 1,
+        lists: [],
+        types: [
+          {
+            name: "桥",
+            key: 1
+          },
+          {
+            name: "路",
+            key: 2
+          },
+          {
+            name: "隧",
+            key: 3
+          }
+        ],
+        projects: [],
+        formProjects: [],
+        allSections: [],
+        sectionId: []
       };
-      this.dialogVisible = true;
     },
-    addInfo() {
-      this.$refs["form"].validate((valid) => {
-        if (valid) {
-          let obj = Object.assign({}, this.form);
-          let p = this.projects.find((e) => e.groupid === obj.groupid);
-          obj.projectcode = p?.projectid;
-          obj.projectname = p?.projectname;
-          api.addWorkPoint(obj).then((res) => {
-            this.dialogVisible = false;
-            this.init();
-            this.$message({
-              message: "添加成功",
-              type: "success",
-              customClass: "message_override",
-            });
-          });
-        } else {
-          return false;
-        }
-      });
+    created() {
+      this.init(this.project.id);
+      this.getProjects();
     },
-    deleteInfo(item) {
-      this.$confirm("删除信息？", "删除", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
-        .then(() => {
-          api.deleteWorkPoint(item.id).then((res) => {
-            this.init();
-            this.$message({
-              message: "删除成功",
-              type: "success",
-              customClass: "message_override",
-            });
-          });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消",
+    components: {},
+    computed: {
+      ...mapGetters(["project"])
+    },
+    methods: {
+      async init(id) {
+        getProjectTypeData(id).then((res) => {
+          api.getWorkPoint(id).then((res1) => {
+            this.projects = res.data;
+            this.lists = res1.data;
           });
         });
-    },
-    updateInfo(item) {
-      let key = "form" + item.id;
-      let vuecomponent = this.$refs[key];
-      let info = null;
-      if (vuecomponent.constructor === Array) {
-        info = vuecomponent[0];
-      } else if (vuecomponent.constructor === Object) {
-        info = vuecomponent;
-      }
-      info.validate((valid) => {
-        if (valid) {
-          let obj = Object.assign({}, item);
-          let p = this.projects.find((e) => e.groupid === obj.groupid);
-          obj.projectcode = p?.projectid;
-          obj.projectname = p?.projectname;
-          api.updateWorkPoint(obj).then((res) => {
-            this.init();
+      },
+      getProjects() {
+        getAllProject().then(res => {
+          this.allSections = res.data;
+          this.sectionId = this.project.id;
+        });
+      },
+      changeSection(){},
+      openDialog() {
+        this.form = {
+          desginnum: "",
+          finishnum: "",
+          groupid: "",
+          groupname: "",
+          longlatitude: "",
+          process: "",
+          projectcode: "",
+          projectname: "",
+          remark: "",
+          altitude: "",
+          type: 1
+        };
+        this.dialogVisible = true;
+      },
+      projectChange(val) {
+        this.form.groupid = "";
+        getProjectTypeData(val).then((res) => {
+          this.formProjects = res.data || [];
+        });
+      },
+      addInfo() {
+        this.$refs["form"].validate((valid) => {
+          if (valid) {
+            let obj = Object.assign({}, this.form);
+            let p = this.projects.find((e) => e.groupid === obj.groupid);
+            obj.projectcode = p?.projectid;
+            obj.projectname = p?.projectname;
+            api.addWorkPoint(obj).then((res) => {
+              this.dialogVisible = false;
+              this.init(this.sectionId);
+              this.$message({
+                message: "添加成功",
+                type: "success",
+                customClass: "message_override"
+              });
+            });
+          } else {
+            return false;
+          }
+        });
+      },
+      deleteInfo(item) {
+        this.$confirm("删除信息？", "删除", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+          .then(() => {
+            api.deleteWorkPoint(item.id).then((res) => {
+              this.init(this.sectionId);
+              this.$message({
+                message: "删除成功",
+                type: "success",
+                customClass: "message_override"
+              });
+            });
+          })
+          .catch(() => {
             this.$message({
-              message: "更新成功",
-              type: "success",
-              customClass: "message_override",
+              type: "info",
+              message: "已取消"
             });
           });
-        } else {
-          return false;
+      },
+      updateInfo(item) {
+        let key = "form" + item.id;
+        let vuecomponent = this.$refs[key];
+        let info = null;
+        if (vuecomponent.constructor === Array) {
+          info = vuecomponent[0];
+        } else if (vuecomponent.constructor === Object) {
+          info = vuecomponent;
         }
-      });
-    },
-  },
+        info.validate((valid) => {
+          if (valid) {
+            let obj = Object.assign({}, item);
+            let p = this.projects.find((e) => e.groupid === obj.groupid);
+            obj.projectcode = p?.projectid;
+            obj.projectname = p?.projectname;
+            api.updateWorkPoint(obj).then((res) => {
+              this.init(this.sectionId);
+              this.$message({
+                message: "更新成功",
+                type: "success",
+                customClass: "message_override"
+              });
+            });
+          } else {
+            return false;
+          }
+        });
+      }
+    }
 };
 </script>
 <style lang='scss' scoped>
 .el-container {
   height: 100%;
+  .el-header{
+    justify-content: unset !important;
+  }
   .el-main {
     margin-top: 10px;
     flex-wrap: wrap;

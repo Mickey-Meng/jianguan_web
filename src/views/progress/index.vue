@@ -84,6 +84,7 @@ import tabularDrawing from "@/views/progress/indexComponent/tabularDrawing";
 import cartogram from "@/views/progress/indexComponent/cartogram";
 import { getProjectTypeData, getProgressTableData } from "@/api/progress";
 import Bus from "@/assets/eventBus";
+import {mapGetters} from "vuex";
 
 export default {
   name: "",
@@ -131,6 +132,9 @@ export default {
   created() {
     this.initData();
   },
+  computed: {
+    ...mapGetters(["project"])
+  },
   methods: {
     changeView(val) {
       if (this.currentView != val) {
@@ -138,7 +142,7 @@ export default {
       }
     },
     initData() {
-      getProjectTypeData().then((res) => {
+      getProjectTypeData(this.project.id).then((res) => {
         let obj = {
           projectname: "所有工程",
           projectid: "all",

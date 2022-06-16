@@ -108,6 +108,10 @@
 											</el-table-column>
 											<el-table-column prop="detectionResult" width="120px" align="center"
 												label="检测结果">
+												<template slot-scope="scope">
+													<template v-if="scope.row.detectionResult==0">合格</template>
+													<template v-else-if="scope.row.detectionResult==1">不合格</template>
+												</template>
 											</el-table-column>
 											<el-table-column prop="reportCode" width="120px" align="center"
 												label="报告编号">
@@ -255,9 +259,9 @@
 		},
 		methods: {
 			closeDialog(){
-				if(this.taskInfo['processDefinitionId']){
-					this.$router.go(-1);
-				}
+				// if(this.taskInfo['processDefinitionId']){
+				// 	this.$router.go(-1);
+				// }
 			},
 			changeVisible(value){
 				this.dialogFormVisible=value;
