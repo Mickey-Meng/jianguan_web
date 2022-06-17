@@ -80,22 +80,9 @@
 									<attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>
 								</div>
 		
-								<div class="form-title">
+								<!-- <div class="form-title">
 									<div class="title-big-bar"></div><strong>审批信息</strong>
-								</div>
-								<div class="form-block">
-									<div class="form-block-title">
-										<div class="title-bar"></div><strong>待审批人</strong>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">监理<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												{{formData.qualityCheckUser}}
-											</div>
-										</div>
-									</div>
-								</div>
+								</div> -->
 							</el-form>
 							<taskhandle :taskInfo="taskInfo"></taskhandle>
 						</div>

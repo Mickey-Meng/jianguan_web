@@ -73,7 +73,7 @@
 					<attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>
 				</div>
 
-				<div class="form-title">
+				<!-- <div class="form-title">
 					<div class="title-big-bar"></div><strong>审批信息</strong>
 				</div>
 				<div class="form-block">
@@ -88,7 +88,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 			</el-form>
 		</div>
 	</div>
