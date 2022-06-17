@@ -27,6 +27,7 @@
     "ezuikit-js": "^0.2.4",
     "gantt-schedule-timeline-calendar": "^3.7.1",
     "js-cookie": "2.2.0",
+    "json-bigint": "^1.0.0",
     "jszip": "^3.7.1",
     "layui-layer": "^1.0.9",
     "lodash": "^4.17.21",
