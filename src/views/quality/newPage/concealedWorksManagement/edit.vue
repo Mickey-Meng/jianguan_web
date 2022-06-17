@@ -208,7 +208,7 @@
 					hiddenProject: '',
 					// id: null,
 					projectCode: '',
-					projectId: this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 					subProject: '',
 					unit: ''
 				},
@@ -253,7 +253,7 @@
 						draftFlag: 1,
 						hiddenProject: '',
 						projectCode: '',
-						projectId: this.$store.getters.project['parentid'],
+						buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 						subProject: '',
 						unit: ''
 					}
@@ -262,7 +262,7 @@
 			},
 			getProjectInfoById() {
 				api.getProjectInfoById({
-					projectid: this.$store.getters.project['parentid']
+					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
 				}).then((res) => {
 					let data = res['data'] || {};
 					this.baseInfo['buildSectionName'] = data['project'] ? data['project']['name'] : '';
@@ -290,7 +290,7 @@
 								draftFlag: 1,
 								hiddenProject: '',
 								projectCode: '',
-								projectId: this.$store.getters.project['parentid'],
+								buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 								subProject: '',
 								unit: ''
 							},

@@ -93,7 +93,7 @@
 					draftFlag: 1,
 					title: '',
 					reportAttachment:[],
-					projectId: this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 				},
 				taskInfo:{}
 			};

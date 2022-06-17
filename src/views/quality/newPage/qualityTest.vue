@@ -146,7 +146,7 @@
 					pageNum: 1,
 					totalPage: 1,
 					pageSize: 10,
-					projectId:this.$store.getters.project['parentid']
+					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
 				},
 				currentPattern: 0, //0查看，1新增，2修改
 				editRow: null,

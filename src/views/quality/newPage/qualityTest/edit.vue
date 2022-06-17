@@ -422,7 +422,7 @@
 					fillDate: formatDate(new Date()),
 					// id: 222,
 					inspectionCode: '',
-					projectId: this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 					remark: '',
 					// createTime: null,
 					// createUserId: null,
@@ -568,7 +568,7 @@
 						fillDate: formatDate(new Date()),
 						// id: 222,
 						inspectionCode: '',
-						projectId: this.$store.getters.project['parentid'],
+						buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 						remark: '',
 					}
 					this.examineTable = [];
@@ -579,7 +579,7 @@
 			},
 			getChildProject() {
 				api.getChildProject({
-					projectid: this.$store.getters.project['parentid']
+					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
 				}).then((res) => {
 					let options = res.data || [];
 					this.childOptions = convertOptions(options, 'name', 'id');
@@ -684,7 +684,7 @@
 								draftFlag: 1,
 								fillDate: formatDate(new Date()),
 								inspectionCode: '',
-								projectId: this.$store.getters.project['parentid'],
+								buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 								remark: '',
 							},
 							[],

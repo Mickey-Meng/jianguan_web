@@ -293,7 +293,7 @@
 					endDate: formatDate(new Date()),
 					openDate: formatDate(new Date()),
 
-					projectId: this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 				},
 				rules: {
 					againApplyExplain: [{
@@ -416,7 +416,7 @@
 						contractOpenDate: formatDate(new Date()),
 						endDate: formatDate(new Date()),
 						openDate: formatDate(new Date()),
-						projectId: this.$store.getters.project['parentid'],
+						buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 					}
 					this.attachTable = [];
 				}
@@ -451,7 +451,7 @@
 								contractOpenDate: formatDate(new Date()),
 								endDate: formatDate(new Date()),
 								openDate: formatDate(new Date()),
-								projectId: this.$store.getters.project['parentid'],
+								buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 							},
 							[]
 						], ['contractEndDate','contractOpenDate','endDate','openDate'])) {

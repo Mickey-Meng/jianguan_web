@@ -214,7 +214,7 @@
 					pageNum: 1,
 					totalPage:1,
 					pageSize: 10,
-					projectId: this.$store.getters.project['parentid'], // 项目id
+					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'], // 项目id
 				},
 				userInfo: {},
 				formData: {
@@ -225,7 +225,7 @@
 					userName: '',	// 编制人名称
 					projectName: '',// 项目名称
 					regimeContent: '', // 制度内容
-					projectId: this.$store.getters.project['parentid'], // 项目id
+					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'], // 项目id
 				    attachment: [ // 附件
 					]
 				},

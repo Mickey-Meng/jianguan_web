@@ -163,7 +163,7 @@ import { FlowEntryController, FlowOperationController } from '@/api/flowControll
 				dialogFormVisible: false,
 				queryData: { //查询参数
 					flowName: '',
-					projectId:this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 
           pageParam: {pageNum: 1, pageSize: 10, totalPage: 1}
 				},

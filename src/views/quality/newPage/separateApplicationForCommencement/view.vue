@@ -354,7 +354,7 @@
 					
 					deletedFlag: 1,
 					draftFlag: 1,
-					projectId: this.$store.getters.project['parentid']
+					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
 				},
 				examineTable: [], //检测信息
 				reportTable: [], //试验检测报告
@@ -376,7 +376,7 @@
 		methods: {
 			getProjectInfoById() {
 				api.getProjectInfoById({
-					projectid: this.$store.getters.project['parentid']
+					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
 				}).then((res) => {
 					let data = res['data'] || {};
 					this.baseInfo['buildSectionName'] = data['project'] ? data['project']['name'] : '';

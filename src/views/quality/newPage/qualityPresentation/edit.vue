@@ -158,7 +158,7 @@
 					draftFlag: 1,
 					title: '',
 					reportAttachment:[],
-					projectId: this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 				},
 				rules: {
 					title: [{
@@ -192,7 +192,7 @@
 		methods: {
 			getChildProject(){
 				api.getChildProject({
-					projectid:this.$store.getters.project['parentid']
+					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
 				}).then((res) => {
 					let options = res.data || [];
 					this.childOptions = convertOptions(options, 'name', 'id');
@@ -219,7 +219,7 @@
 						draftFlag: 1,
 						title: '',
 						reportAttachment:[],
-						projectId: this.$store.getters.project['parentid'],
+						buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 					}
 				}
 			},
@@ -239,7 +239,7 @@
 								draftFlag: 1,
 								title: '',
 								reportAttachment:[],
-								projectId: this.$store.getters.project['parentid'],
+								buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 							}
 							
 						])) {
