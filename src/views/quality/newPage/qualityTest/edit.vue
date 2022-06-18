@@ -579,7 +579,7 @@
 			},
 			getChildProject() {
 				api.getChildProject({
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
+					projectid: this.$store.getters.project['parentid']
 				}).then((res) => {
 					let options = res.data || [];
 					this.childOptions = convertOptions(options, 'name', 'id');
