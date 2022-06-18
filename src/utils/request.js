@@ -7,6 +7,7 @@
  * @LastEditTime: 2022-03-15 11:53:09
  */
 import axios from 'axios'
+const JSONbig = require('@/utils/json-bigint');
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
@@ -16,7 +17,17 @@ const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   // baseURL:'http://192.168.2.32:8080',
   // withCredentials: true, // send cookies when cross-domain requests
-  timeout: 500000 // request timeout
+  timeout: 500000, // request timeout
+  transformResponse: [
+    function (data) {
+      if (typeof data === 'string') {
+        const JSONbigString = new JSONbig({storeAsString: true});
+        return JSONbigString.parse(data);
+      } else {
+        return data;
+      }
+    }
+  ]
 })
 
 // request interceptor

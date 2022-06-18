@@ -226,7 +226,7 @@
 					contractOpenDate: formatDate(new Date()),
 					endDate: formatDate(new Date()),
 					openDate: formatDate(new Date()),
-					projectId: this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 				},
 				attachTable: [], //其他附件
 				taskInfo:{}

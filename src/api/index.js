@@ -21,6 +21,8 @@ const api = {
 
 	//----------------------根据项目id获取数据、修改------------------------
 	getWorkAreaByProjectId: "/ZhuJiRoad/projects/getGongQu", //根据项目id获取下面的工区
+	getRolesByProject: "/ZhuJiRoad/projects/getRolesByProject?projectId=3",
+	
 	/*
 	 * 数据中心首页接口
 	 * */
@@ -221,16 +223,16 @@ const api = {
 	downloadFile: "/ZhuJiRoad/mong/download", //下载文件
 	previewFile: "/ZhuJiRoad/mong/preview", //预览文件
 	//任务
-	listHandleTask: '/ZhuJiApi/admin/flow/flowOperation/listRuntimeTask', //待办
-	listHistoricTask: '/ZhuJiApi/admin/flow/flowOperation/listHistoricTask', //已办
-	listHistoricProcessInstance: '/ZhuJiApi/admin/flow/flowOperation/listHistoricProcessInstance', //历史任务
+	listHandleTask: '/ZhuJiApi/flow/flowOperation/listRuntimeTask', //待办
+	listHistoricTask: '/ZhuJiApi/flow/flowOperation/listHistoricTask', //已办
+	listHistoricProcessInstance: '/ZhuJiApi/flow/flowOperation/listHistoricProcessInstance', //历史任务
 	submitUserTask: '/ZhuJiApi/admin/flow/flowStaticPage/submitUserTask',
 	rejectRuntimeTask: '/ZhuJiApi/admin/flow/flowOperation/rejectRuntimeTask', //驳回
 	viewTaskUserInfo: '/ZhuJiApi/admin/flow/flowOperation/viewTaskUserInfo', //审批人
 	viewRuntimeTaskInfo: '/ZhuJiApi/admin/flow/flowOperation/viewRuntimeTaskInfo', //查询流程按钮
 	viewHighlightFlowData: '/ZhuJiApi/admin/flow/flowOperation/viewHighlightFlowData', //高亮流程图
 	viewProcessBpmn: '/ZhuJiApi/admin/flow/flowOperation/viewProcessBpmn', //获取流程图bpmn
-	listFlowTaskComment: '/ZhuJiApi/admin/flow/flowOperation/listFlowTaskComment', //获取当前流程任务的审批列表
+	listFlowTaskComment: '/ZhuJiApi/flow/flowOperation/listFlowTaskComment', //获取当前流程任务的审批列表
 	listRemindingTask: '/ZhuJiApi/admin/flow/flowMessage/listRemindingTask', //抄送列表
 	getFlowAndTaskInfo: '/ZhuJiApi/admin/flow/flowStaticPage/getFlowAndTaskInfo', //根据流程idH获取三个key 用于查看审批信息
   getFlowType:'/ZhuJiApi/web/api/v1/flowType/page',//分页查询流程类型数据
@@ -238,6 +240,9 @@ const api = {
   getFlowTypeDetail:'/ZhuJiApi/web/api/v1/flowType/getAuditInfoByTypeId', //通过id获取一条流程类型数据
 	flowAuditEntry: "/ZhuJiApi/web/api/v1/flowAuditEntry/getAuditInfoByFlowKey",
 	getCopyUserByFlowKey: "/ZhuJiApi/web/api/v1/flowAuditEntry/getCopyUserByFlowKey",
+	// 流程配置
+	getFlowEntryList: "/ZhuJiApi/admin/flow/flowEntry/list", // 获取所有流程列表
+	getFlowCategoryListDict: "/ZhuJiApi/admin/flow/flowCategory/listDict", // 获取流程分类
 	//省市区
 	getDistrict: '/ZhuJiApi/web/api/v1/proviceCityArea/getDistrict', //区县
 	getCity: '/ZhuJiApi/web/api/v1/proviceCityArea/getCity', //地市

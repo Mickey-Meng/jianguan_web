@@ -242,14 +242,14 @@
 					pageNum: 1,
 					totalPage:1,
 					pageSize: 10,
-					projectId:this.$store.getters.project['parentid']
+					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
 				},
 				userInfo: {},
 				formData: {
 					id: '',
 					title: '测试', // 标题
 					publishDate: '2022-05-06', // 发布时间
-					projectId: this.$store.getters.project['parentid'], // 项目id
+					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'], // 项目id
 					userName: '',	// 登记人
 					groupName: '',	// 登记部门
 					projectName: '',// 项目名称 

@@ -53,7 +53,6 @@
       <el-table
         :data="minData.filter((e) => e.type === 2)"
         height="100%"
-        class="bim-table"
         style="width: 100%"
         @row-click="rowClick"
       >
@@ -301,7 +300,7 @@ export default {
     left: 10px;
     top: 50px;
     pointer-events: auto;
-    background-color: rgba(38, 38, 38, 0.5) !important;
+    //background-color: #EAF0F9 !important;
   }
   .video {
     width: 350px;
@@ -354,6 +353,7 @@ export default {
     position: absolute;
     bottom: 10px;
     right: 100px;
+    color: #FFFFFF;
     li {
       height: 30px;
       margin: 10px 0;
@@ -370,7 +370,7 @@ export default {
   .container_m {
     height: 100%;
     transition: transform 1s;
-    background-color: #0f0d22;
+    background-color: #EAF0F9;
     pointer-events: auto;
     .top {
       height: 65%;

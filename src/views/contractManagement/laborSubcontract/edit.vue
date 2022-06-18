@@ -341,7 +341,7 @@ import approveuser from "../../common/approveuser.vue"
 					contractUser: '',
 					deletedFlag: 1,
 					draftFlag: 1,
-					projectId: this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 					startDate:formatDate(new Date())
 				},
 				attachTable: [], //附件
@@ -390,7 +390,7 @@ import approveuser from "../../common/approveuser.vue"
 						contractUser: '',
 						deletedFlag: 1,
 						draftFlag: 1,
-						projectId: this.$store.getters.project['parentid'],
+						buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 						startDate:formatDate(new Date())
 					}
 					this.attachTable = [];
@@ -420,7 +420,7 @@ import approveuser from "../../common/approveuser.vue"
 						contractUser: '',
 						deletedFlag: 1,
 						draftFlag: 1,
-						projectId: this.$store.getters.project['parentid'],
+						buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 						startDate:formatDate(new Date())
 					}
 					this.examineTable = [];
@@ -453,7 +453,7 @@ import approveuser from "../../common/approveuser.vue"
 								contractUser: '',
 								deletedFlag: 1,
 								draftFlag: 1,
-								projectId: this.$store.getters.project['parentid'],
+								buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 								startDate:formatDate(new Date())
 							},
 							[],

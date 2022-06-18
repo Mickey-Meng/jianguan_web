@@ -16,7 +16,6 @@
           :data="minData.filter((e) => e.type === 2)"
           height="100%"
           border
-          class="bim-table"
           style="width: 100%"
         >
           <el-table-column
@@ -138,7 +137,8 @@ export default {
     .header {
       height: 40px;
       line-height: 40px;
-      background-color: #1e374b;
+      background-color: #FFFFFF;
+      text-indent: 2em;
       position: relative;
       i {
         position: absolute;

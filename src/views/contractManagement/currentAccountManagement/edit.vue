@@ -207,7 +207,7 @@ import approveuser from "../../common/approveuser.vue"
 					deletedFlag: 1,
 					draftFlag: 1,
 					payUnit: '',
-					projectId: this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 					payDate: formatDate(new Date()),
 					status: 0
 				},
@@ -249,7 +249,7 @@ import approveuser from "../../common/approveuser.vue"
 						deletedFlag: 1,
 						draftFlag: 1,
 						payUnit: '',
-						projectId: this.$store.getters.project['parentid'],
+						buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 						payDate: formatDate(new Date())
 					}
 					this.attachTable = [];
@@ -264,7 +264,7 @@ import approveuser from "../../common/approveuser.vue"
 			},
 			getChildProject() {
 				proapi.getChildProject({
-					projectid: this.$store.getters.project['parentid']
+					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
 				}).then((res) => {
 					let options = res.data || [];
 					this.childOptions = convertOptions(options, 'name', 'id');
@@ -282,7 +282,7 @@ import approveuser from "../../common/approveuser.vue"
 								deletedFlag: 1,
 								draftFlag: 1,
 								payUnit: '',
-								projectId: this.$store.getters.project['parentid'],
+								buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 								payDate: formatDate(new Date())
 							},
 							[]

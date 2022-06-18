@@ -186,7 +186,7 @@
 						fillDate: formatDate(new Date()),
 						// id: 222,
 						inspectionCode: '',
-						projectId: this.$store.getters.project['parentid'],
+						buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 						remark: '',
 					}
 					this.examineTable=[];
@@ -239,7 +239,7 @@
 			getDetail(id) {
 				api.getFlowTypeDetail({
 					id: id,
-					projectId:this.$store.getters.project['parentid']
+					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
 				}).then((res) => {
 					let data = res['data'] || {};
 					const auditUser = {};

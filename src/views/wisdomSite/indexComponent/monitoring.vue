@@ -79,7 +79,7 @@
           :data="raiseData"
           height="100%"
           key="raiseDust"
-          class="bim-table"
+          class="small_scrolling"
           style="width: 100%"
           v-if="currentKey === 'statistics' && mnitoringType === 'raiseDust'"
           :header-cell-style="cellStyle"
@@ -206,8 +206,8 @@
           :data="raiseData"
           height="100%"
           key="noise"
-          class="bim-table"
           style="width: 100%"
+          class="small_scrolling"
           v-if="currentKey === 'statistics' && mnitoringType === 'noise'"
           :header-cell-style="cellNoise"
         >
@@ -247,7 +247,7 @@
           :data="tableData"
           height="100%"
           key="monitoring"
-          class="bim-table"
+          class="small_scrolling"
           style="width: 100%"
           v-if="currentKey === 'monitoring'"
         >
@@ -300,7 +300,7 @@
           height="100%"
           border
           key="record"
-          class="bim-table"
+          class="small_scrolling"
           style="width: 100%"
           v-if="currentKey === 'record'"
         >
@@ -365,7 +365,6 @@
           :data="minData.filter((e) => e.type === 1)"
           height="100%"
           border
-          class="bim-table"
           style="width: 100%"
         >
           <el-table-column
@@ -460,12 +459,12 @@ export default {
           axisLabel: {
             show: true,
             textStyle: {
-              color: "#fff",
+              color: "#000",
             },
           },
           axisLine: {
             lineStyle: {
-              color: "#fff",
+              color: "#000",
               width: 1, //这里是为了突出显示加上的
             },
           },
@@ -476,12 +475,12 @@ export default {
           axisLabel: {
             formatter: "{value}",
             textStyle: {
-              color: "#fff",
+              color: "#000",
             },
           },
           axisLine: {
             lineStyle: {
-              color: "#fff",
+              color: "#000",
               width: 1, //这里是为了突出显示加上的
             },
           },
@@ -520,12 +519,12 @@ export default {
           axisLabel: {
             show: true,
             textStyle: {
-              color: "#fff",
+              color: "#000",
             },
           },
           axisLine: {
             lineStyle: {
-              color: "#fff",
+              color: "#000",
               width: 1, //这里是为了突出显示加上的
             },
           },
@@ -536,12 +535,12 @@ export default {
           axisLabel: {
             formatter: "{value}",
             textStyle: {
-              color: "#fff",
+              color: "#000",
             },
           },
           axisLine: {
             lineStyle: {
-              color: "#fff",
+              color: "#000",
               width: 1, //这里是为了突出显示加上的
             },
           },
@@ -580,12 +579,12 @@ export default {
           axisLabel: {
             show: true,
             textStyle: {
-              color: "#fff",
+              color: "#000",
             },
           },
           axisLine: {
             lineStyle: {
-              color: "#fff",
+              color: "#000",
               width: 1, //这里是为了突出显示加上的
             },
           },
@@ -596,12 +595,12 @@ export default {
           axisLabel: {
             formatter: "{value}",
             textStyle: {
-              color: "#fff",
+              color: "#000",
             },
           },
           axisLine: {
             lineStyle: {
-              color: "#fff",
+              color: "#000",
               width: 1, //这里是为了突出显示加上的
             },
           },
@@ -819,12 +818,17 @@ export default {
       justify-content: space-between;
       .header-left {
         .el-button {
-          border: 1px solid rgb(40, 157, 233);
-          background-color: rgb(6, 12, 38);
-          color: #ffffff;
+          //border: 1px solid rgb(40, 157, 233);
+          //background-color: rgb(6, 12, 38);
+          //color: #ffffff;
+          background-color: rgba(128, 142, 169, .16);
+          color: #4B5973;
+          border-radius: 6px;
         }
         .active {
-          background-color: rgb(40, 157, 233);
+          background: #1E6EEB;
+          border-radius: 6px;
+          color: #FFFFFF;
         }
       }
       .header-right {
@@ -849,11 +853,16 @@ export default {
             height: 30px;
             line-height: 30px;
             padding: 0 20px;
-            border: 1px solid rgb(40, 157, 233);
+            color: #4B5973;
             cursor: pointer;
+            background-color: rgba(128, 142, 169, .16);
+            border-radius: 6px;
+            margin-left: 10px;
           }
           .current-mon {
-            background-color: rgb(40, 157, 233);
+            background: #1E6EEB;
+            border-radius: 6px;
+            color: #FFFFFF;
           }
         }
         .trend-box {
@@ -912,10 +921,11 @@ export default {
     .header {
       height: 40px;
       line-height: 40px;
-      background-color: #1e374b;
+      background-color: #FFFFFF;
+      text-indent: 2em;
     }
     .main {
-      height: calc(100% - 100px);
+      height: calc(100% - 60px);
       margin-bottom: 5px;
     }
     .footer {

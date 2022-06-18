@@ -59,7 +59,7 @@
 			getFlowAuditEntry() {
 				api.getFlowAuditEntry({
 					flowKey: this.flowKey,
-					projectId: this.$store.getters.project['parentid'] || 2
+					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'] || 2
 				}).then((res) => {
 					for (let i = 0; i < res.data.length; i++) {
 						const item = res.data[i];

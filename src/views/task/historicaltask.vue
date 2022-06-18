@@ -48,7 +48,7 @@
 					</el-table-column>
 					<el-table-column prop="processDefinitionKey" align="center" label="流程标识" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="startUserId" align="center" label="任务发起人" show-overflow-tooltip>
+					<el-table-column prop="startUserName" align="center" label="任务发起人" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="startTime" align="center" label="任务发起时间" show-overflow-tooltip>
 					</el-table-column>

@@ -49,7 +49,7 @@
 					</el-table-column>
 					<el-table-column prop="approvalType" align="center" label="执行操作" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="startUser" align="center" label="任务发起人" show-overflow-tooltip>
+					<el-table-column prop="startUserName" align="center" label="任务发起人" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="createTime" align="center" label="任务发起时间" show-overflow-tooltip>
 					</el-table-column>

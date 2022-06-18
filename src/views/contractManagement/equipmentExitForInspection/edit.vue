@@ -280,7 +280,7 @@ import approveuser from "../../common/approveuser.vue"
 					deletedFlag: 1,
 					draftFlag: 1,
 					projectCode: '',
-					projectId: this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 					supervisionBan: ''
 				},
 				attachTable: [], //附件
@@ -325,7 +325,7 @@ import approveuser from "../../common/approveuser.vue"
 						deletedFlag: 1,
 						draftFlag: 1,
 						projectCode: '',
-						projectId: this.$store.getters.project['parentid'],
+						buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 						supervisionBan: ''
 					}
 					this.attachTable=[];
@@ -334,7 +334,7 @@ import approveuser from "../../common/approveuser.vue"
 			},
 			getProjectInfoById() {
 				proapi.getProjectInfoById({
-					projectid: this.$store.getters.project['parentid']
+					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
 				}).then((res) => {
 					let data = res['data'] || {};
 					this.baseInfo['buildSectionName'] = data['project'] ? data['project']['name'] : '';
@@ -360,7 +360,7 @@ import approveuser from "../../common/approveuser.vue"
 								deletedFlag: 1,
 								draftFlag: 1,
 								projectCode: '',
-								projectId: this.$store.getters.project['parentid'],
+								buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 								supervisionBan: ''
 							},
 							[],

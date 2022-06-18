@@ -125,7 +125,7 @@
 				api.getCopyUserByFlowKey({
 					entryKey: this.taskInfo['entryKey'],
 					flowKey:this.taskInfo['flowKey'],
-					projectId: this.$store.getters.project['parentid'] || 2
+					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'] || 2
 				}).then((res) => {
 					let data=res.data||{};
 					this.userOptions=data.copyUserInfo||[];

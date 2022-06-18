@@ -295,6 +295,7 @@ export default {
   border: none;
   width: 220px !important;
   background-color: transparent;
+  color: #FFFFFF;
 }
 ::v-deep .compass {
   top: unset;

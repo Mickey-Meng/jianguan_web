@@ -316,7 +316,7 @@
 					projectBuildUser: 1,
 					projectChargeUser: 1,
 					projectCode: '',
-					projectId: this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 					qualityCheckUser: 1,
 					subProject: '',
 					supervisorEngineerUser: 1,
@@ -369,7 +369,7 @@
 						projectBuildUser: 1,
 						projectChargeUser: 1,
 						projectCode: '',
-						projectId: this.$store.getters.project['parentid'],
+						buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 						qualityCheckUser: 1,
 						subProject: '',
 						supervisorEngineerUser: 1,
@@ -384,7 +384,7 @@
 			},
 			getProjectInfoById(){
 				api.getProjectInfoById({
-					projectid:this.$store.getters.project['parentid']
+					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
 				}).then((res) => {
 					let data = res['data'] || {};
 					this.baseInfo['buildSectionName']=data['project']?data['project']['name']:'';
@@ -421,7 +421,7 @@
 								projectBuildUser: 1,
 								projectChargeUser: 1,
 								projectCode: '',
-								projectId: this.$store.getters.project['parentid'],
+								buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 								qualityCheckUser: 1,
 								subProject: '',
 								supervisorEngineerUser: 1,

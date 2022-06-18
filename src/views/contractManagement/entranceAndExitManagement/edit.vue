@@ -505,7 +505,7 @@ import approveuser from "../../common/approveuser.vue"
 					explaination: '',
 					deletedFlag: 1,
 					draftFlag: 1,
-					projectId: this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 					laborContractId: null,
 					num: null,
 					type: 0
@@ -565,7 +565,7 @@ import approveuser from "../../common/approveuser.vue"
 						explaination: '',
 						deletedFlag: 1,
 						draftFlag: 1,
-						projectId: this.$store.getters.project['parentid'],
+						buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 						laborContractId: null,
 						num: null,
 						type: 0
@@ -578,7 +578,7 @@ import approveuser from "../../common/approveuser.vue"
 			},
 			getChildProject() {
 				proapi.getChildProject({
-					projectid: this.$store.getters.project['parentid']
+					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
 				}).then((res) => {
 					let options = res.data || [];
 					this.childOptions = convertOptions(options, 'name', 'id');
@@ -613,7 +613,7 @@ import approveuser from "../../common/approveuser.vue"
 								explaination: '',
 								deletedFlag: 1,
 								draftFlag: 1,
-								projectId: this.$store.getters.project['parentid'],
+								buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 								laborContractId: null,
 								num: null,
 								type: 0

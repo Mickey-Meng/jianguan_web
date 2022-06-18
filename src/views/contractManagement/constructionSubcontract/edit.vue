@@ -306,7 +306,7 @@
 					contractUser: '',
 					deletedFlag: 1,
 					draftFlag: 1,
-					projectId: this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 					projectName: '',
 				},
 				attachTable: [], //附件
@@ -361,7 +361,7 @@
 						contractUser: '',
 						deletedFlag: 1,
 						draftFlag: 1,
-						projectId: this.$store.getters.project['parentid'],
+						buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 						projectName: '',
 					}
 					this.examineTable = [];
@@ -394,7 +394,7 @@
 								contractUser: '',
 								deletedFlag: 1,
 								draftFlag: 1,
-								projectId: this.$store.getters.project['parentid'],
+								buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 								projectName: '',
 							},
 							[],
@@ -467,7 +467,7 @@
 			},
 			getProjectInfoById() {
 				proapi.getProjectInfoById({
-					projectid: this.$store.getters.project['parentid']
+					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
 				}).then((res) => {
 					let data = res['data'] || {};
 					this.baseInfo['buildSectionName'] = data['project'] ? data['project']['name'] : '';
