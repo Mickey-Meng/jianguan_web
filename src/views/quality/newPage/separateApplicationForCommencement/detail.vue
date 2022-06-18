@@ -329,7 +329,8 @@
 		convertOptions,
 		getQueryVariable,
 		formatDate,
-		getDaysBetween
+		getDaysBetween,
+		createProjectInfo
 	} from "@/utils/format.js";
 	import tasklog from "../../../common/tasklog.vue"
 	

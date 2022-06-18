@@ -304,7 +304,8 @@
 	import * as api from "@/api/quality";
 	import {
 		convertOptions,
-		getQueryVariable
+		getQueryVariable,
+		createProjectInfo
 	} from "@/utils/format.js";
 	import attachlist from "../../../common/attachlist"
 	

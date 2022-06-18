@@ -528,9 +528,37 @@
 		},
 		methods: {
 			getUserOptions(){
-				// userapi.getUserByRoleId(70,'zjfzr').then(res=>{
-				// 	debugger
-				// })
+				this.buildUserOptions=[];
+				this.checkUserOptions=[];
+				this.liveUserOptions=[];
+				
+				userapi.getUserByRoleId(this.$store.getters.project['id'],70).then(res=>{
+					let data=res.data||[];
+					data.forEach(item=>{
+						this.buildUserOptions.push({
+							label:item['name'],
+							value:item['username']
+						})
+					})
+				})
+				userapi.getUserByRoleId(this.$store.getters.project['id'],99).then(res=>{
+					let data=res.data||[];
+					data.forEach(item=>{
+						this.checkUserOptions.push({
+							label:item['name'],
+							value:item['username']
+						})
+					})
+				})
+				userapi.getUserByRoleId(this.$store.getters.project['id'],99).then(res=>{
+					let data=res.data||[];
+					data.forEach(item=>{
+						this.liveUserOptions.push({
+							label:item['name'],
+							value:item['username']
+						})
+					})
+				})
 			},
 			changeVisible(obj, value) {
 				this.dialogFormVisible = value;
