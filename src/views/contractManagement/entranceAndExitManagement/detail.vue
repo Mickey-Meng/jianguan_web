@@ -16,31 +16,12 @@
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
 									</div>
+									<projectinfo></projectinfo>
 									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">项目名称<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												{{baseInfo.projectName}}
-											</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">施工标段标段<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												{{formData.buildSection}}
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">施工单位<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												{{baseInfo.buildCompany}}
-											</div>
-										</div>
 										<div class="block-item">
 											<div class="block-item-label">报审类型<i class="require-icon"></i></div>
 											<div class="block-item-value">
-												{{formData.type}}
+												{{formData.type==0?'进场':'退场'}}
 											</div>
 										</div>
 									</div>
@@ -164,6 +145,8 @@
 	import tasklog from "../../common/tasklog.vue"
 	import taskhandle from '../../common/taskhandle'
 	import attachlist from "../../common/attachlist"
+	import projectinfo from "../../common/projectinfo.vue"
+	
 	import {
 		formatMonth,
 		formatDate,
@@ -188,12 +171,12 @@
 				},
 				formData: { //表单参数
 					enterExitUsers: [],
-					buildSection: '4',
 					deletedFlag: 1,
 					explaination: '',
 					deletedFlag: 1,
 					draftFlag: 1,
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid'],
 					laborContractId: null,
 					num: null,
 					type: 0
@@ -207,7 +190,8 @@
 		components: {
 			tasklog,
 			taskhandle,
-			attachlist
+			attachlist,
+			projectinfo
 		},
 		computed: {},
 		watch:{

@@ -17,15 +17,9 @@
 									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify"
 										@checkDraft="checkDraft" ref="drafthandle"></drafthandle>
 								</div>
-
+								<projectinfo></projectinfo>
 								<div class="form-block">
 									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">项目名称</div>
-											<div class="block-item-value">
-												{{baseInfo.buildSectionName}}
-											</div>
-										</div>
 										<div class="block-item">
 											<div class="block-item-label">编号</div>
 											<div class="block-item-value">
@@ -125,6 +119,7 @@
 	import attachlist from "../../../common/attachlist.vue"
 	import drafthandle from "../../../common/drafthandle.vue"
 	import approveuser from "../../../common/approveuser.vue"
+	import projectinfo from "../../../common/projectinfo.vue"
 	export default {
 		data() {
 			return {
@@ -150,7 +145,8 @@
 					"deletedFlag": 1,
 					"draftFlag": 1,
 					"mainSent": "",
-					"projectId": this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid'],
 					"title": ""
 				},
 				rules: {
@@ -180,6 +176,7 @@
 			attachlist,
 			drafthandle,
 			approveuser,
+			projectinfo,
 			supervisionNotice: () => import("../supervisionNotice.vue")
 		},
 		computed: {
@@ -207,7 +204,8 @@
 						"deletedFlag": 1,
 						"draftFlag": 1,
 						"mainSent": "",
-						"projectId": this.$store.getters.project['parentid'],
+						buildSection: this.$store.getters.project.id,
+						projectId:this.$store.getters.project['parentid'],
 						"title": ""
 					}
 				}
@@ -229,7 +227,8 @@
 								"deletedFlag": 1,
 								"draftFlag": 1,
 								"mainSent": "",
-								"projectId": this.$store.getters.project['parentid'],
+								buildSection: this.$store.getters.project.id,
+								projectId:this.$store.getters.project['parentid'],
 								"title": ""
 							},
 							

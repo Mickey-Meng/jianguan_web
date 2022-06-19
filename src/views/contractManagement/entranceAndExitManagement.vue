@@ -14,7 +14,7 @@
 					<el-header>
 						<div class="input-box">
 							<div class="input-value">
-								<el-input v-model="queryData.buildSectionName" placeholder="标段名称"></el-input>
+								<el-input v-model="queryData.buildSectionName" placeholder="标段"></el-input>
 							</div>
 						</div>
 						<el-button type="primary" @click="query">搜索</el-button>
@@ -185,7 +185,8 @@
 					draftFlag:1,
 					totalPage: 1,
 					pageSize: 10,
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid']
 				},
 				queryData_1: { //查询参数
 					buildSectionName: '',
@@ -195,7 +196,8 @@
 					pageNum: 1,
 					totalPage: 1,
 					pageSize: 10,
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid']
 				},
 				editRow: null,
 				detailRow: null

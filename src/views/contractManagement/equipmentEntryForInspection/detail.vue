@@ -16,34 +16,8 @@
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
 									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">项目名称</div>
-											<div class="block-item-value">
-												{{baseInfo.buildSectionName}}
-											</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">合同号</div>
-											<div class="block-item-value">
-												{{baseInfo.contractCode}}
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">施工单位</div>
-											<div class="block-item-value">
-												{{baseInfo.buildCompany}}
-											</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">监理单位</div>
-											<div class="block-item-value">
-												{{baseInfo.supervisionUnit}}
-											</div>
-										</div>
-									</div>
+									<projectinfo></projectinfo>
+									
 									<div class="block-line">
 								
 										<div class="block-item">
@@ -127,6 +101,8 @@
 	import tasklog from "../../common/tasklog.vue"
 	import taskhandle from '../../common/taskhandle'
 	import attachlist from "../../common/attachlist"
+	import projectinfo from "../../common/projectinfo.vue"
+	
 	import {
 		formatMonth,
 		formatDate,
@@ -155,7 +131,8 @@
 					deletedFlag: 1,
 					draftFlag: 1,
 					projectCode: '',
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid'],
 					supervisionBan: ''
 				},
 				attachTable: [], //附件
@@ -167,7 +144,8 @@
 		components: {
 			tasklog,
 			taskhandle,
-			attachlist
+			attachlist,
+			projectinfo
 		},
 		computed: {},
 		watch:{
@@ -182,9 +160,9 @@
 		},
 		methods: {
 			closeDialog(){
-				if(this.taskInfo['processDefinitionId']){
-					this.$router.go(-1);
-				}
+				// if(this.taskInfo['processDefinitionId']){
+				// 	this.$router.go(-1);
+				// }
 			},
 			getProjectInfoById() {
 				proapi.getProjectInfoById({

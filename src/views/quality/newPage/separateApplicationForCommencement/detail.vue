@@ -1,6 +1,7 @@
 <template>
 	<div>
-		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible" :fullscreen="true">
+		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible"
+			:fullscreen="true">
 			<template slot="title">
 				{{dialogTitle}}
 				<div class="logo-icon"></div>
@@ -15,41 +16,8 @@
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
 									</div>
+									<projectinfo></projectinfo>
 									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">项目名称</div>
-											<div class="block-item-value">
-												{{baseInfo.buildSectionName}}
-											</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">合同号</div>
-											<div class="block-item-value">
-												{{baseInfo.contractCode}}
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">施工单位</div>
-											<div class="block-item-value">
-												{{baseInfo.buildCompany}}
-											</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">监理标段</div>
-											<div class="block-item-value">
-												{{baseInfo.supervisionUnit}}
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">监理单位</div>
-											<div class="block-item-value">
-												{{baseInfo.supervisionSection}}
-											</div>
-										</div>
 										<div class="block-item">
 											<div class="block-item-label">工程编号</div>
 											<div class="block-item-value">
@@ -88,13 +56,13 @@
 										<div class="block-item">
 											<div class="block-item-label">现场负责人<i class="require-icon"></i></div>
 											<div class="block-item-value">
-												{{formData.liveUser}}
+												{{formData.liveUserName}}
 											</div>
 										</div>
 										<div class="block-item">
 											<div class="block-item-label">施工员<i class="require-icon"></i></div>
 											<div class="block-item-value">
-												{{formData.buildUser}}
+												{{formData.buildUserName}}
 											</div>
 										</div>
 									</div>
@@ -102,7 +70,7 @@
 										<div class="block-item">
 											<div class="block-item-label">质检员<i class="require-icon"></i></div>
 											<div class="block-item-value">
-												{{formData.checkUser}}
+												{{formData.checkUserName}}
 											</div>
 										</div>
 									</div>
@@ -113,7 +81,7 @@
 												{{formData.buildPrepareExplain}}
 											</div>
 										</div>
-								
+
 									</div>
 								</div>
 								<div class="form-block">
@@ -122,7 +90,8 @@
 										<span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
 											xisx xis pdf文件，且不超过100m</span>
 									</div>
-									<attachlist :editAble="false" ref="attachlist" :attachTable="formData.experimentAttachment">
+									<attachlist :editAble="false" ref="attachlist"
+										:attachTable="formData.experimentAttachment">
 									</attachlist>
 									<div class="block-line">
 										<div class="block-item">
@@ -139,7 +108,8 @@
 										<span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
 											xisx xis pdf文件，且不超过100m</span>
 									</div>
-									<attachlist :editAble="false" ref="attachlist" :attachTable="formData.buildAttachment">
+									<attachlist :editAble="false" ref="attachlist"
+										:attachTable="formData.buildAttachment">
 									</attachlist>
 									<div class="block-line">
 										<div class="block-item">
@@ -156,7 +126,8 @@
 										<span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
 											xisx xis pdf文件，且不超过100m</span>
 									</div>
-									<attachlist :editAble="false" ref="attachlist" :attachTable="formData.processAttachment">
+									<attachlist :editAble="false" ref="attachlist"
+										:attachTable="formData.processAttachment">
 									</attachlist>
 									<div class="block-line">
 										<div class="block-item">
@@ -173,7 +144,8 @@
 										<span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
 											xisx xis pdf文件，且不超过100m</span>
 									</div>
-									<attachlist :editAble="false" ref="attachlist" :attachTable="formData.materialAttachment">
+									<attachlist :editAble="false" ref="attachlist"
+										:attachTable="formData.materialAttachment">
 									</attachlist>
 									<div class="block-line">
 										<div class="block-item">
@@ -190,7 +162,8 @@
 										<span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
 											xisx xis pdf文件，且不超过100m</span>
 									</div>
-									<attachlist :editAble="false" ref="attachlist" :attachTable="formData.equipmentAttachment">
+									<attachlist :editAble="false" ref="attachlist"
+										:attachTable="formData.equipmentAttachment">
 									</attachlist>
 									<div class="block-line">
 										<div class="block-item">
@@ -203,11 +176,13 @@
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
-										<div class="title-bar"></div><strong>到场技术、质量、安全、环保管理人员及主要操人员、特种作业人员情况及证件复印件</strong>
+										<div class="title-bar"></div>
+										<strong>到场技术、质量、安全、环保管理人员及主要操人员、特种作业人员情况及证件复印件</strong>
 										<span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
 											xisx xis pdf文件，且不超过100m</span>
 									</div>
-									<attachlist :editAble="false" ref="attachlist" :attachTable="formData.techAttachment">
+									<attachlist :editAble="false" ref="attachlist"
+										:attachTable="formData.techAttachment">
 									</attachlist>
 									<div class="block-line">
 										<div class="block-item">
@@ -224,7 +199,8 @@
 										<span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
 											xisx xis pdf文件，且不超过100m</span>
 									</div>
-									<attachlist :editAble="false" ref="attachlist" :attachTable="formData.buildPlanAttachment">
+									<attachlist :editAble="false" ref="attachlist"
+										:attachTable="formData.buildPlanAttachment">
 									</attachlist>
 									<div class="block-line">
 										<div class="block-item">
@@ -241,7 +217,8 @@
 										<span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
 											xisx xis pdf文件，且不超过100m</span>
 									</div>
-									<attachlist :editAble="false" ref="attachlist" :attachTable="formData.securityAttachment">
+									<attachlist :editAble="false" ref="attachlist"
+										:attachTable="formData.securityAttachment">
 									</attachlist>
 									<div class="block-line">
 										<div class="block-item">
@@ -258,7 +235,8 @@
 										<span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
 											xisx xis pdf文件，且不超过100m</span>
 									</div>
-									<attachlist :editAble="false" ref="attachlist" :attachTable="formData.riskAttachment">
+									<attachlist :editAble="false" ref="attachlist"
+										:attachTable="formData.riskAttachment">
 									</attachlist>
 									<div class="block-line">
 										<div class="block-item">
@@ -275,7 +253,8 @@
 										<span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
 											xisx xis pdf文件，且不超过100m</span>
 									</div>
-									<attachlist :editAble="false" ref="attachlist" :attachTable="formData.environmentAttachment">
+									<attachlist :editAble="false" ref="attachlist"
+										:attachTable="formData.environmentAttachment">
 									</attachlist>
 									<div class="block-line">
 										<div class="block-item">
@@ -292,7 +271,8 @@
 										<span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
 											xisx xis pdf文件，且不超过100m</span>
 									</div>
-									<attachlist :editAble="false" ref="attachlist" :attachTable="formData.bottomAttachment">
+									<attachlist :editAble="false" ref="attachlist"
+										:attachTable="formData.bottomAttachment">
 									</attachlist>
 									<div class="block-line">
 										<div class="block-item">
@@ -319,30 +299,46 @@
 				</el-aside>
 			</el-container>
 		</el-dialog>
-		
+
 	</div>
 </template>
 
 <script>
 	import * as api from "@/api/quality";
+	import * as userapi from "@/api/user";
+	
 	import {
 		convertOptions,
 		getQueryVariable,
 		formatDate,
 		getDaysBetween,
-		createProjectInfo
+		createProjectInfo,
+		getOptionsLabel
 	} from "@/utils/format.js";
 	import tasklog from "../../../common/tasklog.vue"
-	
+
 	import taskhandle from '../../../common/taskhandle'
 	import attachlist from "../../../common/attachlist"
+	import projectinfo from "../../../common/projectinfo.vue"
 
 	export default {
-		props:['detailRow'],
+		props: ['detailRow'],
 		data() {
 			return {
 				dialogFormVisible: false,
 				dialogTitle: '项目全生命周期数字管理平台',
+				buildUserOptions:[{
+					label:'洪涛',
+					value:'148'
+				}],
+				checkUserOptions:[{
+					label:'洪涛',
+					value:'148'
+				}],
+				liveUserOptions:[{
+					label:'洪涛',
+					value:'148'
+				}],
 				baseInfo: {
 					buildSection: '',
 					buildSectionName: '235国道杭州至诸暨公路萧山河上至诸暨安华段改建工程',
@@ -359,7 +355,6 @@
 					buildPlanAttachment: [],
 					buildPlanExplain: '',
 					buildPrepareExplain: '',
-					buildSection: '',
 					buildUser: '',
 					checkUser: '',
 					endDate: formatDate(new Date()),
@@ -383,31 +378,32 @@
 					securityExplain: '',
 					techAttachment: [],
 					techExplain: '',
-					
 					deletedFlag: 1,
 					draftFlag: 1,
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
+					buildSection: this.$store.getters.project.id,
+					projectId: this.$store.getters.project['parentid']
 				},
-				taskInfo:{}
+				taskInfo: {}
 			};
 		},
 		created() {},
 		components: {
 			tasklog,
 			taskhandle,
-			attachlist
+			attachlist,
+			projectinfo
 		},
-		computed: {
-		},
-		watch:{
-			detailRow(obj){
-				if(obj['id']){
+		computed: {},
+		watch: {
+			detailRow(obj) {
+				if (obj['id']) {
 					this.getDetail(obj['id']);
 				}
 			}
 		},
 		mounted() {
 			this.getProjectInfoById();
+			this.getUserOptions();
 			// setTimeout(()=>{
 			// 	var params = getQueryVariable();
 			// 	if (params['processDefinitionId']) {
@@ -419,8 +415,41 @@
 			// },500)
 		},
 		methods: {
-			closeDialog(){
-				if(this.taskInfo['processDefinitionId']){
+			getUserOptions(){
+				this.buildUserOptions=[];
+				this.checkUserOptions=[];
+				this.liveUserOptions=[];
+				
+				userapi.getUserByRoleId(this.$store.getters.project['id'],70).then(res=>{
+					let data=res.data||[];
+					data.forEach(item=>{
+						this.buildUserOptions.push({
+							label:item['name'],
+							value:item['id']
+						})
+					})
+				})
+				userapi.getUserByRoleId(this.$store.getters.project['id'],99).then(res=>{
+					let data=res.data||[];
+					data.forEach(item=>{
+						this.checkUserOptions.push({
+							label:item['name'],
+							value:item['id']
+						})
+					})
+				})
+				userapi.getUserByRoleId(this.$store.getters.project['id'],99).then(res=>{
+					let data=res.data||[];
+					data.forEach(item=>{
+						this.liveUserOptions.push({
+							label:item['name'],
+							value:item['id']
+						})
+					})
+				})
+			},
+			closeDialog() {
+				if (this.taskInfo['processDefinitionId']) {
 					this.$router.go(-1);
 				}
 			},
@@ -436,14 +465,34 @@
 					this.baseInfo['supervisionUnit'] = info['supervisionUnit'];
 				});
 			},
-			changeVisible(value){
-				this.dialogFormVisible=value;
+			changeVisible(value) {
+				this.dialogFormVisible = value;
 			},
-			getDetail(id){
+			getDetail(id) {
 				api.getSubitemOpenDeatil(id).then((res) => {
-					let data=res['data']||{};
-					this.formData=data;
+					let data = res['data'] || {};
+					this.formData = data;
+					this.formData.buildUserName=getOptionsLabel(this.buildUserOptions,this.formData.buildUser)
+					this.formData.liveUserName=getOptionsLabel(this.liveUserOptions,this.formData.liveUser)
+					this.formData.checkUserName=getOptionsLabel(this.checkUserOptions,this.formData.checkUser)
 				});
+				api.getFlowAndTaskInfo({
+					businessKey: id
+				}).then((res) => {
+					console.log(res.data);
+					let data = res['data'];
+					this.taskInfo = {
+						processDefinitionId: data['processDefinitionId'],
+						processInstanceId: data['processInstanceId'],
+						taskId: data['taskId']
+					}
+					this.updateTaskLog();
+				});
+			},
+			updateTaskLog() {
+				setTimeout(() => {
+					this.$refs['tasklog'].initData();
+				}, 100)
 			},
 		},
 	};

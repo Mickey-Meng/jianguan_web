@@ -69,6 +69,7 @@
 							this.auditUser[item.entryUserVariable] = item.userName[0];
 						}
 						if (!item.userNameStr) item.userNameStr = [];
+						item.userInfo=item.userInfo||[]
 						for (let j = 0; j < item.userInfo.length; j++) {
 							item.userNameStr[j] = item.userInfo[j].name;
 						}

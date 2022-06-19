@@ -9,11 +9,7 @@
 <template>
 	<el-container class="container-box">
 		<el-header>
-			<div class="input-box">
-				<div class="input-value">
-					<el-input placeholder="施工标段名称" v-model="queryData.buildSectionName"></el-input>
-				</div>
-			</div>
+			
 			<div class="input-box">
 				<div class="input-value">
 					<el-input placeholder="简报名称" v-model="queryData.title"></el-input>
@@ -35,7 +31,9 @@
 					class="have_scrolling">
 					<el-table-column type="index" width="50" align="center" label="序号">
 					</el-table-column>
-					<el-table-column prop="buildSectionName" align="center" label="施工标段名称" show-overflow-tooltip>
+					<el-table-column prop="projectName" align="center" label="项目名称" show-overflow-tooltip>
+					</el-table-column>
+					<el-table-column prop="buildSectionName" align="center" label="标段" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="title" align="center" label="简报名称" show-overflow-tooltip>
 					</el-table-column>
@@ -99,7 +97,8 @@
 					pageNum: 1,
 					totalPage: 1,
 					pageSize: 10,
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid']
 				},
 				currentPattern: 0, //0查看，1新增，2修改
 				editRow: null,

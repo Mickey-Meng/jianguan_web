@@ -1,6 +1,7 @@
 <template>
 	<div>
-		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible" :fullscreen="true">
+		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible"
+			:fullscreen="true">
 			<template slot="title">
 				{{dialogTitle}}
 				<div class="logo-icon"></div>
@@ -11,33 +12,12 @@
 					<div class="form-bg">
 						<div class="form-content">
 							<el-form ref="form" label-width="80px">
-								
+
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
 									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">施工标段<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												{{formData.buildSection}}
-											</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">合同号</div>
-											<div class="block-item-value">
-												{{baseInfo.contractCode}}
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">施工单位</div>
-											<div class="block-item-value">
-												{{baseInfo.buildCompany}}
-											</div>
-										</div>
-									</div>
+									<projectinfo></projectinfo>
 									<div class="block-line">
 										<div class="block-item">
 											<div class="block-item-label">活动内容概述</div>
@@ -80,7 +60,7 @@
 				</el-aside>
 			</el-container>
 		</el-dialog>
-		
+
 	</div>
 </template>
 
@@ -93,12 +73,13 @@
 		getDaysBetween
 	} from "@/utils/format.js";
 	import tasklog from "../../../common/tasklog.vue"
-	
+
 	import taskhandle from '../../../common/taskhandle'
 	import attachlist from "../../../common/attachlist"
+	import projectinfo from "../../../common/projectinfo.vue"
 
 	export default {
-		props:['detailRow'],
+		props: ['detailRow'],
 		data() {
 			return {
 				dialogFormVisible: false,
@@ -118,23 +99,24 @@
 					"buildSection": 0,
 					"deletedFlag": 1,
 					"draftFlag": 1,
-					"projectId": this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,
+					projectId: this.$store.getters.project['parentid'],
 					"remark": ""
 				},
-				taskInfo:{}
+				taskInfo: {}
 			};
 		},
 		created() {},
 		components: {
 			tasklog,
 			taskhandle,
-			attachlist
+			attachlist,
+			projectinfo
 		},
-		computed: {
-		},
-		watch:{
-			detailRow(obj){
-				if(obj['id']){
+		computed: {},
+		watch: {
+			detailRow(obj) {
+				if (obj['id']) {
 					this.getDetail(obj['id']);
 				}
 			}
@@ -151,19 +133,36 @@
 			// },500)
 		},
 		methods: {
-			closeDialog(){
-				if(this.taskInfo['processDefinitionId']){
-					this.$router.go(-1);
-				}
+			closeDialog() {
+				// if (this.taskInfo['processDefinitionId']) {
+				// 	this.$router.go(-1);
+				// }
 			},
-			changeVisible(value){
-				this.dialogFormVisible=value;
+			changeVisible(value) {
+				this.dialogFormVisible = value;
 			},
-			getDetail(id){
+			getDetail(id) {
 				api.getQualityActivityDeatil(id).then((res) => {
-					let data=res['data']||{};
-					this.formData=data;
+					let data = res['data'] || {};
+					this.formData = data;
 				});
+				api.getFlowAndTaskInfo({
+					businessKey: id
+				}).then((res) => {
+					console.log(res.data);
+					let data = res['data'];
+					this.taskInfo = {
+						processDefinitionId: data['processDefinitionId'],
+						processInstanceId: data['processInstanceId'],
+						taskId: data['taskId']
+					}
+					this.updateTaskLog();
+				});
+			},
+			updateTaskLog() {
+				setTimeout(() => {
+					this.$refs['tasklog'].initData();
+				}, 100)
 			},
 		},
 	};

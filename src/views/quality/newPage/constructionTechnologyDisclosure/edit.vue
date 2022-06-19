@@ -23,31 +23,12 @@
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
 									</div>
+									<projectinfo></projectinfo>
 									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">施工标段</div>
-											<div class="block-item-value">
-												{{baseInfo.buildSectionName}}
-											</div>
-										</div>
 										<div class="block-item">
 											<div class="block-item-label">登记时间</div>
 											<div class="block-item-value">
 												{{formData.checkDate}}
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">工程名称</div>
-											<div class="block-item-value">
-												{{baseInfo.buildSectionName}}
-											</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">施工单位</div>
-											<div class="block-item-value">
-												{{baseInfo.buildCompany}}
 											</div>
 										</div>
 									</div>
@@ -183,6 +164,8 @@
 	import attachlist from "../../../common/attachlist.vue"
 	import drafthandle from "../../../common/drafthandle.vue"
 	import approveuser from "../../../common/approveuser.vue"
+	import projectinfo from "../../../common/projectinfo.vue"
+	
 	export default {
 		data() {
 			return {
@@ -237,21 +220,19 @@
 					supervisionUnit: '',
 				},
 				formData: { //表单参数
-					buildSection: 1, // 施工标段id
 					buildTechBottom: '', // 施工交底概述
 					checkDate: formatDate(new Date()), // 登记时间
 					remark: '', // 备注
-
 					attachment: [],
 					buildCheckselfResult: '',
 					deletedFlag: 1,
 					draftFlag: 1,
 					BuildTechBottom: '',
-					// id: null,
 					projectBuildUser: 1,
 					projectChargeUser: 1,
 					projectCode: '',
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid'],
 					qualityCheckUser: 1,
 					subProject: '',
 					supervisorEngineerUser: 1,
@@ -269,6 +250,7 @@
 			attachlist,
 			drafthandle,
 			approveuser,
+			projectinfo,
 			constructionTechnologyDisclosure: () => import("../constructionTechnologyDisclosure.vue")
 		
 		},
@@ -288,21 +270,19 @@
 					this.getDetail(obj['id']);
 				} else {
 					this.formData = {
-						buildSection: 1, // 施工标段id
 						buildTechBottom: '', // 施工交底概述
 						checkDate: formatDate(new Date()), // 登记时间
 						remark: '', // 备注
-
 						attachment: [],
 						buildCheckselfResult: '',
 						deletedFlag: 1,
 						draftFlag: 1,
 						BuildTechBottom: '',
-						// id: null,
 						projectBuildUser: 1,
 						projectChargeUser: 1,
 						projectCode: '',
-						buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
+						buildSection: this.$store.getters.project.id,
+						projectId:this.$store.getters.project['parentid'],
 						qualityCheckUser: 1,
 						subProject: '',
 						supervisorEngineerUser: 1,
@@ -340,21 +320,19 @@
 				debugger
 				if (isdraft) {
 					if (diffCompare([this.formData, this.attachTable], [{
-								buildSection: 1, // 施工标段id
 								buildTechBottom: '', // 施工交底概述
 								checkDate: formatDate(new Date()), // 登记时间
 								remark: '', // 备注
-
 								attachment: [],
 								buildCheckselfResult: '',
 								deletedFlag: 1,
 								draftFlag: 1,
 								BuildTechBottom: '',
-								// id: null,
 								projectBuildUser: 1,
 								projectChargeUser: 1,
 								projectCode: '',
-								buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
+								buildSection: this.$store.getters.project.id,
+								projectId:this.$store.getters.project['parentid'],
 								qualityCheckUser: 1,
 								subProject: '',
 								supervisorEngineerUser: 1,

@@ -7,28 +7,7 @@
 					<div class="form-block-title">
 						<div class="title-bar"></div><strong>基本信息</strong>
 					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">施工标段<i class="require-icon"></i></div>
-							<div class="block-item-value">
-								{{formData.buildSection}}
-							</div>
-						</div>
-						<div class="block-item">
-							<div class="block-item-label">合同号</div>
-							<div class="block-item-value">
-								{{baseInfo.contractCode}}
-							</div>
-						</div>
-					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">施工单位</div>
-							<div class="block-item-value">
-								{{baseInfo.buildCompany}}
-							</div>
-						</div>
-					</div>
+					<projectinfo></projectinfo>
 					<div class="block-line">
 						<div class="block-item">
 							<div class="block-item-label">活动内容概述</div>
@@ -69,6 +48,7 @@
 		getDaysBetween
 	} from "@/utils/format.js";
 	import attachlist from "../../../common/attachlist"
+	import projectinfo from "../../../common/projectinfo.vue"
 	
 	export default {
 		data() {
@@ -88,7 +68,8 @@
 					"buildSection": 0,
 					"deletedFlag": 1,
 					"draftFlag": 1,
-					"projectId": this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid'],
 					"remark": ""
 				},
 				taskInfo:{}
@@ -96,7 +77,8 @@
 		},
 		created() {},
 		components: {
-			attachlist
+			attachlist,
+			projectinfo
 		},
 		computed: {
 		},

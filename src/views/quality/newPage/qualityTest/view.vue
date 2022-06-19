@@ -7,41 +7,8 @@
 					<div class="form-block-title">
 						<div class="title-bar"></div><strong>基本信息</strong>
 					</div>
+					<projectinfo></projectinfo>
 					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">施工标段</div>
-							<div class="block-item-value">
-								{{baseInfo.buildSectionName}}
-							</div>
-						</div>
-						<div class="block-item">
-							<div class="block-item-label">合同号</div>
-							<div class="block-item-value">
-								{{baseInfo.contractCode}}
-							</div>
-						</div>
-					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">施工单位</div>
-							<div class="block-item-value">
-								{{baseInfo.buildCompany}}
-							</div>
-						</div>
-						<div class="block-item">
-							<div class="block-item-label">监理单位</div>
-							<div class="block-item-value">
-								{{baseInfo.supervisionUnit}}
-							</div>
-						</div>
-					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">监理标段</div>
-							<div class="block-item-value">
-								{{baseInfo.supervisionSection}}
-							</div>
-						</div>
 						<div class="block-item">
 							<div class="block-item-label">报验单号</div>
 							<div class="block-item-value">
@@ -159,9 +126,11 @@
 	import * as api from "@/api/quality";
 	import {
 		convertOptions,
-		getQueryVariable
+		getQueryVariable,
+		formatDate 
 	} from "@/utils/format.js";
 	import attachlist from "../../../common/attachlist"
+	import projectinfo from "../../../common/projectinfo.vue"
 	export default {
 		data() {
 			return {
@@ -174,7 +143,6 @@
 					supervisionSection: '监理办'
 				},
 				formData: { //表单参数
-					buildSection: '',
 					deletedFlag: 1,
 					detectionInfo: [],
 					detectionReport: [],
@@ -183,14 +151,20 @@
 					draftFlag: 1,
 					fillDate: formatDate(new Date()),
 					inspectionCode: '',
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid'],
 					remark: '',
-				}
+				},
+				examineTable: [], //检测信息
+				reportTable: [], //试验检测报告
+				factoryTable: [], //出厂信息
+				attachTable: [], //其他附件
 			};
 		},
 		created() {},
 		components: {
-			attachlist
+			attachlist,
+			projectinfo
 		},
 		computed: {},
 		watch: {
@@ -206,6 +180,16 @@
 				}).then((res) => {
 					let data = res['data'] || {};
 					this.formData = data;
+					data.detectionInfo=data.detectionInfo||[]
+					
+					for (let i = 0; i < data.detectionInfo.length; i++) {
+						const item = data.detectionInfo[i];
+						item.addressStr = item.address.provice + item.address.city
+					}
+					this.examineTable=data.detectionInfo||[];
+					this.reportTable=data.detectionReport||[];
+					this.factoryTable=data.factoryInfo||[];
+					this.attachTable=data.otherAttachment||[];
 				});
 			},
 		},

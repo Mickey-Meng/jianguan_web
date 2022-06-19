@@ -11,11 +11,6 @@
 		<el-header>
 			<div class="input-box">
 				<div class="input-value">
-					<el-input placeholder="施工标段" v-model="queryData.buildSection"></el-input>
-				</div>
-			</div>
-			<div class="input-box">
-				<div class="input-value">
 					<el-input placeholder="巡视地点" v-model="queryData.patrolPlace"></el-input>
 				</div>
 			</div>
@@ -107,14 +102,14 @@
 				queryData: { //查询参数
 					startDateStart: null,
 					startDateEnd: null,
-					buildSection: '',
 					patrolPlace: '',
 					
 					draftFlag: 1,
 					pageNum: 1,
 					totalPage: 1,
 					pageSize: 10,
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid']
 				},
 				currentPattern: 0, //0查看，1新增，2修改
 				editRow: null,

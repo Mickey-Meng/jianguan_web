@@ -11,7 +11,7 @@
 		<el-header>
 			<div class="input-box">
 				<div class="input-value">
-					<el-input v-model="queryData.buildSectionName" placeholder="施工标段"></el-input>
+					<el-input v-model="queryData.buildSectionName" placeholder="标段"></el-input>
 				</div>
 			</div>
 			<div class="input-box">

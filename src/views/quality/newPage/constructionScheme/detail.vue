@@ -20,34 +20,7 @@
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
 									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">项目名称</div>
-											<div class="block-item-value">
-												{{baseInfo.buildSectionName}}
-											</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">施工单位</div>
-											<div class="block-item-value">
-												{{baseInfo.buildCompany}}
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">合同号</div>
-											<div class="block-item-value">
-												{{baseInfo.contractCode}}
-											</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">监理单位</div>
-											<div class="block-item-value">
-												{{baseInfo.supervisionUnit}}
-											</div>
-										</div>
-									</div>
+									<projectinfo></projectinfo>
 									<div class="block-line">
 		
 										<div class="block-item">
@@ -192,6 +165,7 @@
 	import tasklog from "../../../common/tasklog.vue"
 	import taskhandle from '../../../common/taskhandle'
 	import attachlist from "../../../common/attachlist.vue"
+	import projectinfo from "../../../common/projectinfo.vue"
 	
 	export default {
 		props:['detailRow'],
@@ -212,25 +186,22 @@
 				formData: { //表单参数
 					buildPlanName: '', // 专项施工方案名称
 					attachmentList: '', // 附件清单
-					buildPlanAttachTable: [], // 专项施工方案附件
-					expertMeetingAttachTable: [], // 专家论证会议纪要附件
-					replyAttachTable: [], // 整改回复附件
-					
-					attachment:[],
-					buildCheckselfResult:'',
-					deletedFlag:1,
-					draftFlag:1,
-					hiddenProject:'',
-					id:null,
-					projectBuildUser:1,
-					projectChargeUser:1,
-					projectCode:'',
-					projectId:1,
-					qualityCheckUser:1,
-					subProject:'',
-					supervisorEngineerUser:1,
-					supervisorUser:1,
-					unit:''
+					expertArgument:0,
+					attachment: [],
+					buildCheckselfResult: '',
+					deletedFlag: 1,
+					draftFlag: 1,
+					hiddenProject: '',
+					projectBuildUser: 1,
+					projectChargeUser: 1,
+					projectCode: '',
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid'],
+					qualityCheckUser: 1,
+					subProject: '',
+					supervisorEngineerUser: 1,
+					supervisorUser: 1,
+					unit: ''
 				},
 				attachTable: [], //附件
 				buildPlanAttachTable: [], // 专项施工方案附件
@@ -243,7 +214,8 @@
 		components: {
 			tasklog,
 			taskhandle,
-			attachlist
+			attachlist,
+			projectinfo
 		},
 		computed: {},
 		mounted() {
@@ -266,9 +238,9 @@
 		},
 		methods: {
 			closeDialog(){
-				if(this.taskInfo['processDefinitionId']){
-					this.$router.go(-1);
-				}
+				// if(this.taskInfo['processDefinitionId']){
+				// 	this.$router.go(-1);
+				// }
 			},
 			changeVisible(value){
 				this.dialogFormVisible=value;
@@ -282,16 +254,16 @@
 					this.replyAttachTable=data.replyAttachment||[];
 					this.attachTable=data.attachment||[];
 				});
-				// api.getFlowAndTaskInfo({businessKey: id}).then((res) => {
-				// 	console.log(res.data);
-				// 	let data=res['data'];
-				// 	this.taskInfo={
-				// 		processDefinitionId: data['processDefinitionId'],
-				// 		processInstanceId: data['processInstanceId'],
-				// 		taskId: data['taskId']
-				// 	}
-				// 	this.updateTaskLog();
-				// });
+				api.getFlowAndTaskInfo({businessKey: id}).then((res) => {
+					console.log(res.data);
+					let data=res['data'];
+					this.taskInfo={
+						processDefinitionId: data['processDefinitionId'],
+						processInstanceId: data['processInstanceId'],
+						taskId: data['taskId']
+					}
+					this.updateTaskLog();
+				});
 			},
 			updateTaskLog(){
 				setTimeout(()=>{

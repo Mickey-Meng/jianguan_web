@@ -255,6 +255,7 @@
 	import attachlist from "../../../common/attachlist.vue"
 	import drafthandle from "../../../common/drafthandle.vue"
 	import approveuser from "../../../common/approveuser.vue"
+	import projectinfo from "../../../common/projectinfo.vue"
 	export default {
 		data() {
 			return {
@@ -273,11 +274,9 @@
 					supervisionSection: ''
 				},
 				formData: { //表单参数
-
 					deletedFlag: 1,
 					attachment: [],
 					draftFlag: 1,
-
 					againApplyExplain: '',
 					buildApplyExplain: '',
 					checkApplyExplain: '',
@@ -287,13 +286,12 @@
 					projectApplyExplain: '',
 					securityApplyExplain: '',
 					techApplyExplain: '',
-
 					contractEndDate: formatDate(new Date()),
 					contractOpenDate: formatDate(new Date()),
 					endDate: formatDate(new Date()),
 					openDate: formatDate(new Date()),
-
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid'],
 				},
 				rules: {
 					againApplyExplain: [{
@@ -374,6 +372,7 @@
 			attachlist,
 			drafthandle,
 			approveuser,
+			projectinfo,
 			projectCommencementApplication: () => import("../projectCommencementApplication.vue")
 		},
 		computed: {
@@ -416,7 +415,8 @@
 						contractOpenDate: formatDate(new Date()),
 						endDate: formatDate(new Date()),
 						openDate: formatDate(new Date()),
-						buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
+						buildSection: this.$store.getters.project.id,
+						projectId:this.$store.getters.project['parentid'],
 					}
 					this.attachTable = [];
 				}
@@ -451,7 +451,8 @@
 								contractOpenDate: formatDate(new Date()),
 								endDate: formatDate(new Date()),
 								openDate: formatDate(new Date()),
-								buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
+								buildSection: this.$store.getters.project.id,
+								projectId:this.$store.getters.project['parentid'],
 							},
 							[]
 						], ['contractEndDate','contractOpenDate','endDate','openDate'])) {

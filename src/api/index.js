@@ -373,6 +373,12 @@ const api = {
 	getQualityActivityDeatil: "/ZhuJiApi/web/api/v1/qualityActivity/detail/id",
 	deleteQualityActivity: "/ZhuJiApi/web/api/v1/qualityActivity/id",
 	getQualityActivityList: "/ZhuJiApi/web/api/v1/qualityActivity/page",
+	
+	//监理指令
+	addOrUpdateSupervisionOrder: "/ZhuJiApi/web/api/v1/supervisionOrder/addOrUpdate",
+	getSupervisionOrderDeatil: "/ZhuJiApi/web/api/v1/supervisionOrder/detail/id",
+	deleteSupervisionOrder: "/ZhuJiApi/web/api/v1/supervisionOrder/id",
+	getSupervisionOrderList: "/ZhuJiApi/web/api/v1/supervisionOrder/page",
 };
 
 export default api;

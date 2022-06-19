@@ -22,27 +22,7 @@
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
 									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">施工标段<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												<el-form-item prop="buildSection">
-													<el-select @change="changeChild" v-model="formData.buildSection"
-														placeholder="请选择">
-														<el-option v-for="item in childOptions" :key="item.value"
-															:label="item.label" :value="item.value">
-														</el-option>
-													</el-select>
-												</el-form-item>
-											</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">施工单位</div>
-											<div class="block-item-value">
-												{{baseInfo.buildCompany}}
-											</div>
-										</div>
-									</div>
+									<projectinfo></projectinfo>
 									<div class="block-line">
 										<div class="block-item">
 											<div class="block-item-label">首件工程名称<i class="require-icon"></i></div>
@@ -50,12 +30,6 @@
 												<el-form-item prop="firstProjectName">
 													<el-input v-model="formData.firstProjectName"></el-input>
 												</el-form-item>
-											</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">合同号</div>
-											<div class="block-item-value">
-												{{baseInfo.contractCode}}
 											</div>
 										</div>
 									</div>
@@ -333,6 +307,8 @@
 	import attachlist from "../../../common/attachlist.vue"
 	import drafthandle from "../../../common/drafthandle.vue"
 	import approveuser from "../../../common/approveuser.vue"
+	import projectinfo from "../../../common/projectinfo.vue"
+	
 	export default {
 		data() {
 			return {
@@ -353,7 +329,6 @@
 				formData: { //表单参数
 					buildDate: formatDate(new Date()),
 					buildProcessExplain: "",
-					buildSection: '',
 					buildTechAttachment: [],
 					checkResultExplain: "",
 					deletedFlag: 1,
@@ -369,7 +344,8 @@
 					mechanicalAttachment: [],
 					openAttachment: [],
 					problemDealExplain: "",
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid'],
 					qualityAttachment: [],
 					subProject: 0,
 					subProjectDetail: "",
@@ -453,6 +429,7 @@
 			attachlist,
 			drafthandle,
 			approveuser,
+			projectinfo,
 			firstProcessApproval: () => import("../firstProcessApproval.vue")
 		},
 		computed: {},
@@ -488,7 +465,6 @@
 					this.formData = {
 						buildDate: formatDate(new Date()),
 						buildProcessExplain: "",
-						buildSection: '',
 						buildTechAttachment: [],
 						checkResultExplain: "",
 						deletedFlag: 1,
@@ -504,7 +480,8 @@
 						mechanicalAttachment: [],
 						openAttachment: [],
 						problemDealExplain: "",
-						buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
+						buildSection: this.$store.getters.project.id,
+						projectId:this.$store.getters.project['parentid'],
 						qualityAttachment: [],
 						subProject: 0,
 						subProjectDetail: "",
@@ -526,7 +503,6 @@
 					if (diffCompare([this.formData], [{
 								buildDate: formatDate(new Date()),
 								buildProcessExplain: "",
-								buildSection: '',
 								buildTechAttachment: [],
 								checkResultExplain: "",
 								deletedFlag: 1,
@@ -542,7 +518,8 @@
 								mechanicalAttachment: [],
 								openAttachment: [],
 								problemDealExplain: "",
-								buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
+								buildSection: this.$store.getters.project.id,
+								projectId:this.$store.getters.project['parentid'],
 								qualityAttachment: [],
 								subProject: 0,
 								subProjectDetail: "",

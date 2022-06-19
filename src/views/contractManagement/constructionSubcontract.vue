@@ -11,7 +11,7 @@
 		<el-header>
 			<div class="input-box">
 				<div class="input-value">
-					<el-input v-model="queryData.buildSectionName" placeholder="施工标段"></el-input>
+					<el-input v-model="queryData.buildSectionName" placeholder="标段"></el-input>
 				</div>
 			</div>
 			<div class="input-box">
@@ -69,6 +69,7 @@
 	import * as api from "@/api/contract.js";
 	import edit from './constructionSubcontract/edit';
 	import detail from './constructionSubcontract/detail';
+	
 
 	export default {
 		props:{
@@ -92,7 +93,8 @@
 					pageNum: 1,
 					totalPage: 1,
 					pageSize: 10,
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid']
 				},
 				editRow: null,
 				detailRow: null

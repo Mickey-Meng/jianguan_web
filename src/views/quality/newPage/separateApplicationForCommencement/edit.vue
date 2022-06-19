@@ -22,41 +22,8 @@
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
 									</div>
+									<projectinfo></projectinfo>
 									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">项目名称</div>
-											<div class="block-item-value">
-												{{baseInfo.buildSectionName}}
-											</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">合同号</div>
-											<div class="block-item-value">
-												{{baseInfo.contractCode}}
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">施工单位</div>
-											<div class="block-item-value">
-												{{baseInfo.buildCompany}}
-											</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">监理标段</div>
-											<div class="block-item-value">
-												{{baseInfo.supervisionUnit}}
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">监理单位</div>
-											<div class="block-item-value">
-												{{baseInfo.supervisionSection}}
-											</div>
-										</div>
 										<div class="block-item">
 											<div class="block-item-label">工程编号</div>
 											<div class="block-item-value">
@@ -401,6 +368,7 @@
 	import attachlist from "../../../common/attachlist.vue"
 	import drafthandle from "../../../common/drafthandle.vue"
 	import approveuser from "../../../common/approveuser.vue"
+	import projectinfo from "../../../common/projectinfo.vue"
 	export default {
 		data() {
 			return {
@@ -475,7 +443,6 @@
 					buildPlanAttachment: [],
 					buildPlanExplain: '',
 					buildPrepareExplain: '',
-					buildSection: '',
 					buildUser: '',
 					checkUser: '',
 					endDate: formatDate(new Date()),
@@ -499,10 +466,10 @@
 					securityExplain: '',
 					techAttachment: [],
 					techExplain: '',
-
 					deletedFlag: 1,
 					draftFlag: 1,
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid']
 				},
 				auditUser: {},
 				flowKey:'fenxiangkaigongshenqing'
@@ -514,6 +481,7 @@
 			attachlist,
 			drafthandle,
 			approveuser,
+			projectinfo,
 			separateApplicationForCommencement: () => import("../separateApplicationForCommencement.vue")
 		},
 		computed: {
@@ -537,7 +505,7 @@
 					data.forEach(item=>{
 						this.buildUserOptions.push({
 							label:item['name'],
-							value:item['username']
+							value:item['id']
 						})
 					})
 				})
@@ -546,7 +514,7 @@
 					data.forEach(item=>{
 						this.checkUserOptions.push({
 							label:item['name'],
-							value:item['username']
+							value:item['id']
 						})
 					})
 				})
@@ -555,7 +523,7 @@
 					data.forEach(item=>{
 						this.liveUserOptions.push({
 							label:item['name'],
-							value:item['username']
+							value:item['id']
 						})
 					})
 				})
@@ -575,7 +543,6 @@
 						buildPlanAttachment: [],
 						buildPlanExplain: '',
 						buildPrepareExplain: '',
-						buildSection: '',
 						buildUser: '',
 						checkUser: '',
 						endDate: formatDate(new Date()),
@@ -601,7 +568,8 @@
 						techExplain: '',
 						deletedFlag: 1,
 						draftFlag: 1,
-						buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
+						buildSection: this.$store.getters.project.id,
+						projectId:this.$store.getters.project['parentid']
 					}
 				}
 			},
@@ -633,7 +601,6 @@
 								buildPlanAttachment: [],
 								buildPlanExplain: '',
 								buildPrepareExplain: '',
-								buildSection: '',
 								buildUser: '',
 								checkUser: '',
 								endDate: formatDate(new Date()),
@@ -659,7 +626,8 @@
 								techExplain: '',
 								deletedFlag: 1,
 								draftFlag: 1,
-								buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
+								buildSection: this.$store.getters.project.id,
+								projectId:this.$store.getters.project['parentid']
 							}
 						],['endDate','openDate'])) {
 						this.$message({

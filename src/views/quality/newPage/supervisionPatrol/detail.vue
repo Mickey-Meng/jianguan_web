@@ -14,39 +14,13 @@
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>发起位置</strong>
-										<locationmap></locationmap>
+										
 									</div>
+									<locationmap></locationmap>
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
 									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">施工标段<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												{{formData.buildSection}}
-											</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">施工单位</div>
-											<div class="block-item-value">
-												{{baseInfo.buildCompany}}
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">监理标段</div>
-											<div class="block-item-value">
-												{{baseInfo.supervisionSection}}
-											</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">监理单位</div>
-											<div class="block-item-value">
-												{{baseInfo.supervisionUnit}}
-											</div>
-										</div>
-									</div>
+									<projectinfo></projectinfo>
 									<div class="block-line">
 										<div class="block-line">
 											<div class="block-item">
@@ -154,6 +128,7 @@
 	import locationmap from "../../../common/locationmap.vue"
 	import taskhandle from '../../../common/taskhandle'
 	import attachlist from "../../../common/attachlist"
+	import projectinfo from "../../../common/projectinfo.vue"
 
 	export default {
 		props:['detailRow'],
@@ -170,17 +145,17 @@
 					supervisionSection: '监理办'
 				},
 				formData: { //表单参数
-					"address": "",
+					"address": {},
 					"auditUser": {},
 					"buildCondition": "",
-					"buildSection": 0,
 					"deletedFlag": 1,
 					"draftFlag": 1,
 					"otherAttachmentInfo": "",
 					"patrolPhotoAttachment": [],
 					"patrolPlace": "",
 					"problemDealCondition": "",
-					"projectId": this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid'],
 					"qualityCondition": "",
 					"startDate": formatDate(new Date()),
 					"video": [],
@@ -193,7 +168,8 @@
 			tasklog,
 			taskhandle,
 			attachlist,
-			locationmap
+			locationmap,
+			projectinfo
 		},
 		computed: {
 			
@@ -230,6 +206,20 @@
 					let data=res['data']||{};
 					this.formData=data;
 				});
+				api.getFlowAndTaskInfo({businessKey: id}).then((res) => {
+					let data=res['data'];
+					this.taskInfo={
+						processDefinitionId: data['processDefinitionId'],
+						processInstanceId: data['processInstanceId'],
+						taskId: data['taskId']
+					}
+					this.updateTaskLog();
+				});
+			},
+			updateTaskLog(){
+				setTimeout(()=>{
+					this.$refs['tasklog'].initData();
+				},100)
 			},
 		},
 	};

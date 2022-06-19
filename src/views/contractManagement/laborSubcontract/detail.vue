@@ -16,27 +16,8 @@
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
 									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">项目名称</div>
-											<div class="block-item-value">
-												{{baseInfo.projectName}}
-											</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">施工标段标段</div>
-											<div class="block-item-value">
-												{{baseInfo.buildSectionName}}
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">合同号</div>
-											<div class="block-item-value">
-												{{baseInfo.contractCode}}
-											</div>
-										</div>
+									<projectinfo></projectinfo>
+									<!-- <div class="block-line">
 										<div class="block-item">
 											<div class="block-item-label">发起人</div>
 											<div class="block-item-value">
@@ -44,7 +25,7 @@
 								
 											</div>
 										</div>
-									</div>
+									</div> -->
 									<div class="block-line">
 										<div class="block-item">
 											<div class="block-item-label">发起日期</div>
@@ -150,6 +131,8 @@
 	import tasklog from "../../common/tasklog.vue"
 	import taskhandle from '../../common/taskhandle'
 	import attachlist from "../../common/attachlist"
+	import projectinfo from "../../common/projectinfo.vue"
+	
 	import {
 		formatMonth,
 		formatDate,
@@ -174,13 +157,13 @@
 				},
 				formData: { //表单参数
 					attachment: [],
-					buildSection: '4',
 					contractCode: '',
 					information: [],
 					contractUser: '',
 					deletedFlag: 1,
 					draftFlag: 1,
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid'],
 					startDate:formatDate(new Date())
 				},
 				attachTable: [], //附件
@@ -192,7 +175,8 @@
 		components: {
 			tasklog,
 			taskhandle,
-			attachlist
+			attachlist,
+			projectinfo
 		},
 		computed: {},
 		watch:{

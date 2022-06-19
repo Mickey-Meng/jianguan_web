@@ -7,41 +7,8 @@
 					<div class="form-block-title">
 						<div class="title-bar"></div><strong>基本信息</strong>
 					</div>
+					<projectinfo></projectinfo>
 					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">项目名称</div>
-							<div class="block-item-value">
-								{{baseInfo.buildSectionName}}
-							</div>
-						</div>
-						<div class="block-item">
-							<div class="block-item-label">合同号</div>
-							<div class="block-item-value">
-								{{baseInfo.contractCode}}
-							</div>
-						</div>
-					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">施工单位</div>
-							<div class="block-item-value">
-								{{baseInfo.buildCompany}}
-							</div>
-						</div>
-						<div class="block-item">
-							<div class="block-item-label">监理标段</div>
-							<div class="block-item-value">
-								{{baseInfo.supervisionUnit}}
-							</div>
-						</div>
-					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">监理单位</div>
-							<div class="block-item-value">
-								{{baseInfo.supervisionSection}}
-							</div>
-						</div>
 						<div class="block-item">
 							<div class="block-item-label">工程编号</div>
 							<div class="block-item-value">
@@ -308,6 +275,7 @@
 		createProjectInfo
 	} from "@/utils/format.js";
 	import attachlist from "../../../common/attachlist"
+	import projectinfo from "../../../common/projectinfo.vue"
 	
 	export default {
 		data() {
@@ -328,7 +296,6 @@
 					buildPlanAttachment: [],
 					buildPlanExplain: '',
 					buildPrepareExplain: '',
-					buildSection: '',
 					buildUser: '',
 					checkUser: '',
 					endDate: formatDate(new Date()),
@@ -352,10 +319,10 @@
 					securityExplain: '',
 					techAttachment: [],
 					techExplain: '',
-					
 					deletedFlag: 1,
 					draftFlag: 1,
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid']
 				},
 				examineTable: [], //检测信息
 				reportTable: [], //试验检测报告
@@ -365,7 +332,8 @@
 		},
 		created() {},
 		components: {
-			attachlist
+			attachlist,
+			projectinfo
 		},
 		computed: {},
 		watch: {

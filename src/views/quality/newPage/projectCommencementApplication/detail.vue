@@ -194,6 +194,7 @@
 	
 	import taskhandle from '../../../common/taskhandle'
 	import attachlist from "../../../common/attachlist"
+	import projectinfo from "../../../common/projectinfo.vue"
 
 	export default {
 		props:['detailRow'],
@@ -226,7 +227,8 @@
 					contractOpenDate: formatDate(new Date()),
 					endDate: formatDate(new Date()),
 					openDate: formatDate(new Date()),
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid'],
 				},
 				attachTable: [], //其他附件
 				taskInfo:{}
@@ -236,7 +238,8 @@
 		components: {
 			tasklog,
 			taskhandle,
-			attachlist
+			attachlist,
+			projectinfo
 		},
 		computed: {
 			intervalPlan: function() {
@@ -279,6 +282,21 @@
 					this.formData=data;
 					this.attachTable=data.otherAttachment||[];
 				});
+				api.getFlowAndTaskInfo({businessKey: id}).then((res) => {
+					console.log(res.data);
+					let data=res['data'];
+					this.taskInfo={
+						processDefinitionId: data['processDefinitionId'],
+						processInstanceId: data['processInstanceId'],
+						taskId: data['taskId']
+					}
+					this.updateTaskLog();
+				});
+			},
+			updateTaskLog(){
+				setTimeout(()=>{
+					this.$refs['tasklog'].initData();
+				},100)
 			},
 		},
 	};

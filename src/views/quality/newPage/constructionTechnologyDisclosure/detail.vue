@@ -20,31 +20,12 @@
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
 									</div>
+									<projectinfo></projectinfo>
 									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">施工标段</div>
-											<div class="block-item-value">
-												{{baseInfo.buildSectionName}}
-											</div>
-										</div>
 										<div class="block-item">
 											<div class="block-item-label">登记时间</div>
 											<div class="block-item-value">
 												{{formData.checkDate}}
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">工程名称</div>
-											<div class="block-item-value">
-												{{baseInfo.buildSectionName}}
-											</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">施工单位</div>
-											<div class="block-item-value">
-												{{baseInfo.buildCompany}}
 											</div>
 										</div>
 									</div>
@@ -107,12 +88,13 @@
 	import {
 		convertOptions,
 		createProjectInfo,
-		getQueryVariable
+		getQueryVariable,
+		formatDate
 	} from "@/utils/format.js";
 	import tasklog from "../../../common/tasklog.vue"
 	import taskhandle from '../../../common/taskhandle'
 	import attachlist from "../../../common/attachlist.vue"
-	
+	import projectinfo from "../../../common/projectinfo.vue"
 	export default {
 		props:['detailRow'],
 		data() {
@@ -130,25 +112,24 @@
 					supervisionUnit: '浙江交科公路水运工程监理有限公司',
 				},
 				formData: { //表单参数
-					buildSection: 1, // 施工标段id
 					buildTechBottom: '', // 施工交底概述
-					checkDate: '', // 登记时间
+					checkDate: formatDate(new Date()), // 登记时间
 					remark: '', // 备注
-
-					attachment:[],
-					buildCheckselfResult:'',
-					deletedFlag:1,
-					draftFlag:1,
-					id:null,
-					projectBuildUser:1,
-					projectChargeUser:1,
-					projectCode:'',
-					projectId:1,
-					qualityCheckUser:1,
-					subProject:'',
-					supervisorEngineerUser:1,
-					supervisorUser:1,
-					unit:''
+					attachment: [],
+					buildCheckselfResult: '',
+					deletedFlag: 1,
+					draftFlag: 1,
+					BuildTechBottom: '',
+					projectBuildUser: 1,
+					projectChargeUser: 1,
+					projectCode: '',
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid'],
+					qualityCheckUser: 1,
+					subProject: '',
+					supervisorEngineerUser: 1,
+					supervisorUser: 1,
+					unit: ''
 				},
 				attachTable: [], //附件
 				taskInfo:{}
@@ -158,7 +139,8 @@
 		components: {
 			tasklog,
 			taskhandle,
-			attachlist
+			attachlist,
+			projectinfo
 		},
 		computed: {},
 		mounted() {

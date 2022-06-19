@@ -55,7 +55,7 @@
 					class="have_scrolling">
 					<el-table-column type="index" width="50" align="center" label="序号">
 					</el-table-column>
-					<el-table-column prop="buildSectionName" align="center" label="施工标段" show-overflow-tooltip>
+					<el-table-column prop="buildSectionName" align="center" label="标段" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="buildUnits" align="center" label="施工单位" show-overflow-tooltip>
 					</el-table-column>
@@ -65,11 +65,11 @@
 					</el-table-column>
 					<el-table-column prop="checkDate" align="center" label="登记时间" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="supervisorSection" align="center" label="状态描述">
+					<el-table-column prop="statusStr" align="center" label="状态描述">
 					</el-table-column>
 					<el-table-column fixed="right" width="120" align="center" label="操作">
 						<template slot-scope="{ row, $index }">
-							<!-- <el-button v-if="!isDraft" type="text" size="mini" @click="modify(row)">修改</el-button> -->
+							<el-button v-if="!isDraft" type="text" size="mini" @click="modify(row)">修改</el-button>
 							<el-button v-if="!isDraft" type="text" size="mini" @click="viewDetail(row)">详情</el-button>
 
 							<el-button v-if="isDraft" type="text" size="mini" @click="checkDetail(row)">选择</el-button>
@@ -122,7 +122,8 @@
 					pageNum: 1,
 					totalPage: 1,
 					pageSize: 10,
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid']
 				},
 				editRow:null,
 				detailRow:null
@@ -156,13 +157,7 @@
 			formateTableData(list) {
 				list = list || [];
 				list.forEach(item => {
-					item['projectName'] = '235国道杭州至诸暨公路萧山河上至诸暨安华段改建工程';
-					item['buildUnit'] = '中交上海航道局有限公司、中国交通建设股份有限公司、浙江诸安建设集团有限公司、浙江省交通规划设计研究院有限公司';
-					item['contractCode'] = '235SJSG01';
-					item['supervisorUnit'] = '浙江交科公路水运工程监理有限公司';
-					item['buildSectionId'] = '';
-					item['supervisorSection'] = '';
-					item['statusStr'] = '';
+					item['buildUnits'] = item['buildUnits']?item['buildUnits'].join('、'):'';
 				})
 				return list;
 			},
@@ -172,7 +167,7 @@
 			},
 			modify(row) {
 				// this.editRow=row;
-				this.$refs.edit.changeVisible(null, true);
+				this.$refs.edit.changeVisible(row, true);
 			},
 			viewDetail(row) {
 				this.detailRow=row;

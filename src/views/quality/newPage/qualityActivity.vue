@@ -11,7 +11,7 @@
 		<el-header>
 			<div class="input-box">
 				<div class="input-value">
-					<el-input placeholder="施工标段名称" v-model="queryData.buildSectionName"></el-input>
+					<el-input placeholder="标段" v-model="queryData.buildSectionName"></el-input>
 				</div>
 			</div>
 			<div class="input-box">
@@ -118,7 +118,8 @@
 					pageNum: 1,
 					totalPage: 1,
 					pageSize: 10,
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid']
 				},
 				currentPattern: 0, //0查看，1新增，2修改
 				editRow: null,
@@ -137,11 +138,18 @@
 				this.queryData.draftFlag=this.isDraft?0:1;
 				api.getQualityActivityList(this.queryData).then((res) => {
 					this.allData = res.data || {};
-					this.tableData = this.allData.list;
+					this.tableData = this.formateTableData(res.data.list);
 					this.queryData.pageNum = res.data.pageNum;
 					this.queryData.totalPage = res.data.total;
 					this.queryData.pageSize = res.data.pageSize;
 				});
+			},
+			formateTableData(list) {
+				list = list || [];
+				list.forEach(item => {
+					item['buildUnits'] = item['buildUnits']?item['buildUnits'].join('、'):''
+				})
+				return list;
 			},
 			addNew() {
 				// this.editRow = null;

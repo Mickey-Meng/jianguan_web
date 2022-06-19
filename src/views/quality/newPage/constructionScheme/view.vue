@@ -12,34 +12,7 @@
 					<div class="form-block-title">
 						<div class="title-bar"></div><strong>基本信息</strong>
 					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">项目名称</div>
-							<div class="block-item-value">
-								{{baseInfo.buildSectionName}}
-							</div>
-						</div>
-						<div class="block-item">
-							<div class="block-item-label">施工单位</div>
-							<div class="block-item-value">
-								{{baseInfo.buildCompany}}
-							</div>
-						</div>
-					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">合同号</div>
-							<div class="block-item-value">
-								{{baseInfo.contractCode}}
-							</div>
-						</div>
-						<div class="block-item">
-							<div class="block-item-label">监理单位</div>
-							<div class="block-item-value">
-								{{baseInfo.supervisionUnit}}
-							</div>
-						</div>
-					</div>
+					<projectinfo></projectinfo>
 					<div class="block-line">
 
 						<div class="block-item">
@@ -168,6 +141,8 @@
 		getQueryVariable
 	} from "@/utils/format.js";
 	import attachlist from "../../../common/attachlist.vue"
+	import projectinfo from "../../../common/projectinfo.vue"
+	
 	export default {
 		props: ['detailRow'],
 		data() {
@@ -181,16 +156,19 @@
 					supervisionUnit: '浙江交科公路水运工程监理有限公司',
 				},
 				formData: { //表单参数
+					buildPlanName: '', // 专项施工方案名称
+					attachmentList: '', // 附件清单
+					expertArgument:0,
 					attachment: [],
 					buildCheckselfResult: '',
 					deletedFlag: 1,
 					draftFlag: 1,
 					hiddenProject: '',
-					id: null,
 					projectBuildUser: 1,
 					projectChargeUser: 1,
 					projectCode: '',
-					projectId: 1,
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid'],
 					qualityCheckUser: 1,
 					subProject: '',
 					supervisorEngineerUser: 1,
@@ -205,7 +183,8 @@
 		},
 		created() {},
 		components: {
-			attachlist
+			attachlist,
+			projectinfo
 		},
 		computed: {},
 		mounted() {

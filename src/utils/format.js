@@ -174,6 +174,20 @@ const getDaysBetween = function(startDate, enDate) {
 	return parseInt((eDate - sDate) / (1 * 24 * 60 * 60 * 1000))
 }
 
+/**
+ * @param {Object} options
+ * @param {Object} value
+ */
+const getOptionsLabel=function(options,value){
+	options=options||[];
+	let label='';
+	options.forEach(item=>{
+		if(item['value']==value){
+			label=item['label']
+		}
+	})
+	return label;
+}
 export {
 	handleNull,
 	handleListNull,
@@ -184,5 +198,6 @@ export {
 	getQueryVariable,
 	createProjectInfo,
 	diffCompare,
-	getDaysBetween
+	getDaysBetween,
+	getOptionsLabel
 }

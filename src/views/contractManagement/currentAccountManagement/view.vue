@@ -8,13 +8,9 @@
 					<div class="form-block-title">
 						<div class="title-bar"></div><strong>基本信息</strong>
 					</div>
+					<projectinfo></projectinfo>
 					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">施工标段<i class="require-icon"></i></div>
-							<div class="block-item-value">
-								{{formData.buildSection}}
-							</div>
-						</div>
+						
 						<div class="block-item">
 							<div class="block-item-label">账单编号<i class="require-icon"></i></div>
 							<div class="block-item-value">
@@ -75,6 +71,7 @@
 		convertOptions
 	} from "@/utils/format.js";
 	import attachlist from "../../common/attachlist.vue"
+	import projectinfo from "../../common/projectinfo.vue"
 	
 	export default {
 		data() {
@@ -92,23 +89,24 @@
 				},
 				formData: { //表单参数
 					attachment: [],
-					buildSection: '4',
 					billCode: '',
 					explain: '',
-					gatherUnit:'',
-					payAmount:null,
+					gatherUnit: '',
+					payAmount: null,
 					deletedFlag: 1,
 					draftFlag: 1,
-					payUnit:'',
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
-					payDate:formatDate(new Date())
+					payUnit: '',
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid'],
+					payDate: formatDate(new Date())
 				},
 				attachTable: []
 			};
 		},
 		created() {},
 		components: {
-			attachlist
+			attachlist,
+			projectinfo
 		},
 		computed: {},
 		watch: {

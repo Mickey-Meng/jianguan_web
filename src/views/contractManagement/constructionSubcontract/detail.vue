@@ -16,21 +16,7 @@
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
 									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">项目名称</div>
-											<div class="block-item-value">
-								
-												{{formData.projectName}}
-											</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">标段</div>
-											<div class="block-item-value">
-												{{baseInfo.buildSectionName}}
-											</div>
-										</div>
-									</div>
+									<projectinfo></projectinfo>
 									<div class="block-line">
 										<div class="block-item">
 											<div class="block-item-label">合同编号</div>
@@ -121,6 +107,7 @@
 	import tasklog from "../../common/tasklog.vue"
 	import taskhandle from '../../common/taskhandle'
 	import attachlist from "../../common/attachlist"
+	import projectinfo from "../../common/projectinfo.vue"
 
 	export default {
 		props:['detailRow'],
@@ -144,8 +131,8 @@
 					contractUser: '',
 					deletedFlag: 1,
 					draftFlag: 1,
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
-
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid'],
 					projectName: '',
 				},
 				attachTable: [], //附件
@@ -157,7 +144,8 @@
 		components: {
 			tasklog,
 			taskhandle,
-			attachlist
+			attachlist,
+			projectinfo
 		},
 		computed: {},
 		watch:{
@@ -172,9 +160,9 @@
 		},
 		methods: {
 			closeDialog(){
-				if(this.taskInfo['processDefinitionId']){
-					this.$router.go(-1);
-				}
+				// if(this.taskInfo['processDefinitionId']){
+				// 	this.$router.go(-1);
+				// }
 			},
 			changeVisible(value){
 				this.dialogFormVisible=value;
@@ -186,16 +174,16 @@
 					this.attachTable = data.attachment || [];
 					this.contractTable = data.contractInfo || [];
 				});
-				// api.getFlowAndTaskInfo({businessKey: id}).then((res) => {
-				// 	console.log(res.data);
-				// 	let data=res['data'];
-				// 	this.taskInfo={
-				// 		processDefinitionId: data['processDefinitionId'],
-				// 		processInstanceId: data['processInstanceId'],
-				// 		taskId: data['taskId']
-				// 	}
-				// 	this.updateTaskLog();
-				// });
+				api.getFlowAndTaskInfo({businessKey: id}).then((res) => {
+					console.log(res.data);
+					let data=res['data'];
+					this.taskInfo={
+						processDefinitionId: data['processDefinitionId'],
+						processInstanceId: data['processInstanceId'],
+						taskId: data['taskId']
+					}
+					this.updateTaskLog();
+				});
 			},
 			updateTaskLog(){
 				setTimeout(()=>{

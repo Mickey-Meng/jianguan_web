@@ -45,14 +45,14 @@
 					</el-table-column>
 					<el-table-column prop="buildUnits" align="center" label="施工单位" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="contractCode" align="center" label="合同段" show-overflow-tooltip>
-					</el-table-column>
+					<!-- <el-table-column prop="contractCode" align="center" label="合同段" show-overflow-tooltip>
+					</el-table-column> -->
 					<el-table-column prop="supervisionBan" align="center" label="监理办" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="supervisorUnits" align="center" label="监理单位">
 					</el-table-column>
-					<el-table-column prop="contractCode" align="center" label="合同号">
-					</el-table-column>
+					<!-- <el-table-column prop="contractCode" align="center" label="合同号">
+					</el-table-column> -->
 					<el-table-column prop="statusStr" align="center" label="状态描述">
 					</el-table-column>
 					<el-table-column fixed="right" width="120" align="center" label="操作">
@@ -102,7 +102,8 @@
 					pageNum: 1,
 					totalPage: 1,
 					pageSize: 10,
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid']
 				},
 				editRow:null,
 				detailRow:null

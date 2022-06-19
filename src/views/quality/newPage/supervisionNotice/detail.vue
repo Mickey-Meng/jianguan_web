@@ -1,6 +1,7 @@
 <template>
 	<div>
-		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible" :fullscreen="true">
+		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible"
+			:fullscreen="true">
 			<template slot="title">
 				{{dialogTitle}}
 				<div class="logo-icon"></div>
@@ -11,15 +12,14 @@
 					<div class="form-bg">
 						<div class="form-content">
 							<el-form ref="form" label-width="80px">
-								
+
 								<div class="form-block">
+									<div class="form-title">
+										<div class="title-big-bar"></div>
+										<strong>监理通知</strong>
+									</div>
+									<projectinfo></projectinfo>
 									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">项目名称</div>
-											<div class="block-item-value">
-												{{baseInfo.buildSectionName}}
-											</div>
-										</div>
 										<div class="block-item">
 											<div class="block-item-label">编号</div>
 											<div class="block-item-value">
@@ -27,7 +27,7 @@
 											</div>
 										</div>
 									</div>
-									
+
 									<div class="block-line">
 										<div class="block-item">
 											<div class="block-item-label">主送<i class="require-icon"></i></div>
@@ -77,7 +77,7 @@
 				</el-aside>
 			</el-container>
 		</el-dialog>
-		
+
 	</div>
 </template>
 
@@ -90,12 +90,13 @@
 		getDaysBetween
 	} from "@/utils/format.js";
 	import tasklog from "../../../common/tasklog.vue"
-	
+
 	import taskhandle from '../../../common/taskhandle'
 	import attachlist from "../../../common/attachlist"
+	import projectinfo from "../../../common/projectinfo.vue"
 
 	export default {
-		props:['detailRow'],
+		props: ['detailRow'],
 		data() {
 			return {
 				dialogFormVisible: false,
@@ -116,24 +117,26 @@
 					"deletedFlag": 1,
 					"draftFlag": 1,
 					"mainSent": "",
-					"projectId": this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid'],
 					"title": ""
 				},
-				taskInfo:{}
+				taskInfo: {}
 			};
 		},
 		created() {},
 		components: {
 			tasklog,
 			taskhandle,
-			attachlist
+			attachlist,
+			projectinfo
 		},
 		computed: {
-			
+
 		},
-		watch:{
-			detailRow(obj){
-				if(obj['id']){
+		watch: {
+			detailRow(obj) {
+				if (obj['id']) {
 					this.getDetail(obj['id']);
 				}
 			}
@@ -150,19 +153,35 @@
 			// },500)
 		},
 		methods: {
-			closeDialog(){
-				if(this.taskInfo['processDefinitionId']){
-					this.$router.go(-1);
-				}
+			closeDialog() {
+				// if (this.taskInfo['processDefinitionId']) {
+				// 	this.$router.go(-1);
+				// }
 			},
-			changeVisible(value){
-				this.dialogFormVisible=value;
+			changeVisible(value) {
+				this.dialogFormVisible = value;
 			},
-			getDetail(id){
+			getDetail(id) {
 				api.getSupervisionNoticeDeatil(id).then((res) => {
-					let data=res['data']||{};
-					this.formData=data;
+					let data = res['data'] || {};
+					this.formData = data;
 				});
+				api.getFlowAndTaskInfo({
+					businessKey: id
+				}).then((res) => {
+					let data = res['data'];
+					this.taskInfo = {
+						processDefinitionId: data['processDefinitionId'],
+						processInstanceId: data['processInstanceId'],
+						taskId: data['taskId']
+					}
+					this.updateTaskLog();
+				});
+			},
+			updateTaskLog() {
+				setTimeout(() => {
+					this.$refs['tasklog'].initData();
+				}, 100)
 			},
 		},
 	};

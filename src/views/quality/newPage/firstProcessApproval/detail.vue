@@ -16,31 +16,12 @@
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
 									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">施工标段<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												{{formData.buildSection}}
-											</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">施工单位</div>
-											<div class="block-item-value">
-												{{baseInfo.buildCompany}}
-											</div>
-										</div>
-									</div>
+									<projectinfo></projectinfo>
 									<div class="block-line">
 										<div class="block-item">
 											<div class="block-item-label">首件工程名称<i class="require-icon"></i></div>
 											<div class="block-item-value">
 												{{formData.firstProjectName}}
-											</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">合同号</div>
-											<div class="block-item-value">
-												{{baseInfo.contractCode}}
 											</div>
 										</div>
 									</div>
@@ -274,6 +255,7 @@
 	
 	import taskhandle from '../../../common/taskhandle'
 	import attachlist from "../../../common/attachlist"
+	import projectinfo from "../../../common/projectinfo.vue"
 
 	export default {
 		props:['detailRow'],
@@ -292,7 +274,6 @@
 				formData: { //表单参数
 					buildDate: formatDate(new Date()),
 					buildProcessExplain: "",
-					buildSection: '',
 					buildTechAttachment: [],
 					checkResultExplain: "",
 					deletedFlag: 1,
@@ -308,7 +289,8 @@
 					mechanicalAttachment: [],
 					openAttachment: [],
 					problemDealExplain: "",
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid'],
 					qualityAttachment: [],
 					subProject: 0,
 					subProjectDetail: "",
@@ -322,7 +304,8 @@
 		components: {
 			tasklog,
 			taskhandle,
-			attachlist
+			attachlist,
+			projectinfo
 		},
 		computed: {
 			
@@ -360,6 +343,21 @@
 					this.formData=data;
 					this.attachTable=data.otherAttachment||[];
 				});
+				api.getFlowAndTaskInfo({businessKey: id}).then((res) => {
+					console.log(res.data);
+					let data=res['data'];
+					this.taskInfo={
+						processDefinitionId: data['processDefinitionId'],
+						processInstanceId: data['processInstanceId'],
+						taskId: data['taskId']
+					}
+					this.updateTaskLog();
+				});
+			},
+			updateTaskLog(){
+				setTimeout(()=>{
+					this.$refs['tasklog'].initData();
+				},100)
 			},
 		},
 	};

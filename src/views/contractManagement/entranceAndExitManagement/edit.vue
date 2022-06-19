@@ -22,34 +22,9 @@
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
 									</div>
+									<projectinfo></projectinfo>
 									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">项目名称</div>
-											<div class="block-item-value">
-												{{baseInfo.projectName}}
-											</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">施工标段<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												<el-form-item prop="buildSection">
-													<el-select @change="changeChild" v-model="formData.buildSection"
-														placeholder="请选择">
-														<el-option v-for="item in childOptions" :key="item.value"
-															:label="item.label" :value="item.value">
-														</el-option>
-													</el-select>
-												</el-form-item>
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">施工单位</div>
-											<div class="block-item-value">
-												{{baseInfo.buildCompany}}
-											</div>
-										</div>
+
 										<div class="block-item">
 											<div class="block-item-label">报审类型<i class="require-icon"></i></div>
 											<div class="block-item-value">
@@ -168,8 +143,8 @@
 										</el-table>
 									</div>
 								</div>
-								
-								<approveuser :auditUser="auditUser"  :flowKey="flowKey">
+
+								<approveuser :auditUser="auditUser" :flowKey="flowKey">
 								</approveuser>
 								<div class="form-block">
 									<el-button @click="addOrModify()" class="submit-btn" size="small" type="primary">提交
@@ -356,7 +331,9 @@
 
 <script>
 	import * as api from "@/api/contract.js";
-	import { getUserInfo } from "@/api/user";
+	import {
+		getUserInfo
+	} from "@/api/user";
 	import * as proapi from "@/api/project.js";
 	import {
 		formatMonth,
@@ -367,7 +344,8 @@
 	} from "@/utils/format.js";
 	import upload from "../../common/upload.vue"
 	import drafthandle from "../../common/drafthandle.vue"
-import approveuser from "../../common/approveuser.vue"
+	import approveuser from "../../common/approveuser.vue"
+	import projectinfo from "../../common/projectinfo.vue"
 	export default {
 		props: ['editRow'],
 		data() {
@@ -433,7 +411,7 @@ import approveuser from "../../common/approveuser.vue"
 						trigger: 'blur'
 					}, {
 						validator: (rule, value, callback) => {
-							var reg =/^1[3-9]\d{9}$/
+							var reg = /^1[3-9]\d{9}$/
 							let valid = reg.test(value)
 							if (valid) {
 								callback()
@@ -447,9 +425,9 @@ import approveuser from "../../common/approveuser.vue"
 						required: false,
 						message: '必选项',
 						trigger: 'blur'
-					},{
+					}, {
 						validator: (rule, value, callback) => {
-							var reg =/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
+							var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
 							let valid = reg.test(value)
 							if (valid) {
 								callback()
@@ -500,12 +478,12 @@ import approveuser from "../../common/approveuser.vue"
 				},
 				formData: { //表单参数
 					enterExitUsers: [],
-					buildSection: '4',
 					deletedFlag: 1,
 					explaination: '',
 					deletedFlag: 1,
 					draftFlag: 1,
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid'],
 					laborContractId: null,
 					num: null,
 					type: 0
@@ -531,7 +509,7 @@ import approveuser from "../../common/approveuser.vue"
 					workType: ''
 				},
 				auditUser: {},
-				flowKey:'jintuichangguanli'
+				flowKey: 'jintuichangguanli'
 			};
 		},
 		created() {},
@@ -539,7 +517,8 @@ import approveuser from "../../common/approveuser.vue"
 			upload,
 			drafthandle,
 			approveuser,
-			entranceAndExitManagement:() => import("../entranceAndExitManagement.vue")
+			projectinfo,
+			entranceAndExitManagement: () => import("../entranceAndExitManagement.vue")
 		},
 		computed: {},
 		mounted() {
@@ -547,11 +526,11 @@ import approveuser from "../../common/approveuser.vue"
 			this.getChildProject();
 		},
 		watch: {
-			
+
 		},
 		methods: {
-			
-			changeVisible(obj,value) {
+
+			changeVisible(obj, value) {
 				this.dialogFormVisible = value;
 				obj = obj || {};
 				this.addOrModifyFlag = obj['id'] ? false : true;
@@ -560,12 +539,12 @@ import approveuser from "../../common/approveuser.vue"
 				} else {
 					this.formData = {
 						enterExitUsers: [],
-						buildSection: '4',
 						deletedFlag: 1,
 						explaination: '',
 						deletedFlag: 1,
 						draftFlag: 1,
-						buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
+						buildSection: this.$store.getters.project.id,
+						projectId:this.$store.getters.project['parentid'],
 						laborContractId: null,
 						num: null,
 						type: 0
@@ -605,15 +584,15 @@ import approveuser from "../../common/approveuser.vue"
 			// 	});
 			// },
 			addOrModify(isdraft) {
-				if(isdraft){
+				if (isdraft) {
 					if (diffCompare([this.formData, this.inOutUserTable], [{
 								enterExitUsers: [],
-								buildSection: '4',
 								deletedFlag: 1,
 								explaination: '',
 								deletedFlag: 1,
 								draftFlag: 1,
-								buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
+								buildSection: this.$store.getters.project.id,
+								projectId:this.$store.getters.project['parentid'],
 								laborContractId: null,
 								num: null,
 								type: 0
@@ -626,7 +605,7 @@ import approveuser from "../../common/approveuser.vue"
 						});
 						return;
 					}
-					
+
 					if (this.inOutUserTable.length != this.formData.num) {
 						this.$message({
 							type: 'error',
@@ -647,7 +626,7 @@ import approveuser from "../../common/approveuser.vue"
 							this.$emit("query");
 						}
 					});
-				}else{
+				} else {
 					if (this.inOutUserTable.length != this.formData.num) {
 						this.$message({
 							type: 'error',
@@ -659,7 +638,7 @@ import approveuser from "../../common/approveuser.vue"
 						if (valid) {
 							this.formData.enterExitUsers = this.inOutUserTable;
 							this.formData.auditUser = this.auditUser;
-							this.formData.draftFlag=1;
+							this.formData.draftFlag = 1;
 							api.addOrUpdateEnterExit(this.formData).then((res) => {
 								if (res.data) {
 									this.$message({
@@ -671,10 +650,10 @@ import approveuser from "../../common/approveuser.vue"
 								}
 							});
 						}
-					
+
 					})
 				}
-				
+
 			},
 			addInOutUser() {
 				this.inoutUserVisible = true;

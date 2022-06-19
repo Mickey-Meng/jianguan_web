@@ -167,6 +167,7 @@
 		getDaysBetween
 	} from "@/utils/format.js";
 	import attachlist from "../../../common/attachlist"
+	import projectinfo from "../../../common/projectinfo.vue"
 	
 	export default {
 		data() {
@@ -204,7 +205,8 @@
 					contractOpenDate: formatDate(new Date()),
 					endDate: formatDate(new Date()),
 					openDate: formatDate(new Date()),
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid'],
 				},
 				attachTable: [], //其他附件
 				taskInfo:{}
@@ -212,7 +214,8 @@
 		},
 		created() {},
 		components: {
-			attachlist
+			attachlist,
+			projectinfo
 		},
 		computed: {
 			intervalPlan: function() {

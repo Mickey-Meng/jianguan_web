@@ -1376,3 +1376,41 @@ export const getQualityActivityList = data => {
 		data: data
 	});
 };
+
+
+
+export const addOrUpdateSupervisionOrder = data => {
+	return request({
+		url: api.addOrUpdateSupervisionOrder,
+		method: "post",
+		data: data
+	});
+};
+
+export const getSupervisionOrderDeatil = id => {
+	return request({
+		url: api.getSupervisionOrderDeatil,
+		method: "get",
+		params: {
+			id
+		}
+	});
+};
+
+export const deleteSupervisionOrder = id => {
+	return request({
+		url: api.deleteSupervisionOrder,
+		method: "get",
+		params: {
+			id
+		}
+	});
+};
+
+export const getSupervisionOrderList = data => {
+	return request({
+		url: api.getSupervisionOrderList,
+		method: "post",
+		data: data
+	});
+};

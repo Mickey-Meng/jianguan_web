@@ -12,34 +12,7 @@
 					<div class="form-block-title">
 						<div class="title-bar"></div><strong>基本信息</strong>
 					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">项目名称</div>
-							<div class="block-item-value">
-								{{baseInfo.buildSectionName}}
-							</div>
-						</div>
-						<div class="block-item">
-							<div class="block-item-label">合同号</div>
-							<div class="block-item-value">
-								{{baseInfo.contractCode}}
-							</div>
-						</div>
-					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">施工单位</div>
-							<div class="block-item-value">
-								{{baseInfo.buildCompany}}
-							</div>
-						</div>
-						<div class="block-item">
-							<div class="block-item-label">监理单位</div>
-							<div class="block-item-value">
-								{{baseInfo.supervisionUnit}}
-							</div>
-						</div>
-					</div>
+					<projectinfo></projectinfo>
 					<div class="block-line">
 				
 						<div class="block-item">
@@ -109,6 +82,8 @@
 		createProjectInfo,
 		getQueryVariable
 	} from "@/utils/format.js";
+	import projectinfo from "../../common/projectinfo.vue"
+	
 	export default {
 		props: ['detailRow'],
 		data() {
@@ -127,7 +102,8 @@
 					deletedFlag: 1,
 					draftFlag: 1,
 					projectCode: '',
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid'],
 					supervisionBan: ''
 				},
 				attachTable: [], //附件
@@ -135,7 +111,9 @@
 			};
 		},
 		created() {},
-		components: {},
+		components: {
+			projectinfo
+		},
 		computed: {},
 		mounted() {
 			this.getProjectInfoById();

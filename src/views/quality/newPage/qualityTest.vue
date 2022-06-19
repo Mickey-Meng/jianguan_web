@@ -11,11 +11,6 @@
 		<el-header>
 			<div class="input-box">
 				<div class="input-value">
-					<el-input v-model="queryData.buildSection" placeholder="标段"></el-input>
-				</div>
-			</div>
-			<div class="input-box">
-				<div class="input-value">
 					<el-input v-model="queryData.name" placeholder="材料名称"></el-input>
 				</div>
 			</div>
@@ -62,7 +57,7 @@
 					class="have_scrolling">
 					<el-table-column type="index" width="50" align="center" label="序号">
 					</el-table-column>
-					<el-table-column prop="buildSection" align="center" label="标段" show-overflow-tooltip>
+					<el-table-column prop="buildSectionName" align="center" label="标段" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="materialsName" align="center" label="材料名称" show-overflow-tooltip>
 					</el-table-column>
@@ -136,7 +131,6 @@
 				operateBtnsVisible: true,
 				dialogFormVisible: false,
 				queryData: { //查询参数
-					buildSection: null,
 					createEndTime: null,
 					createStartTime: null,
 					detectionResult: null,
@@ -146,7 +140,8 @@
 					pageNum: 1,
 					totalPage: 1,
 					pageSize: 10,
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid']
 				},
 				currentPattern: 0, //0查看，1新增，2修改
 				editRow: null,

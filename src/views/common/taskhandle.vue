@@ -1,5 +1,5 @@
 <template>
-	<div class="handle-bg">
+	<div class="handle-bg" v-if="hasHandle">
 		<el-form ref="ruleform" label-width="80px" :rules="rules" :model="formData">
 			<div class="form-block">
 				<div class="form-block-title">
@@ -21,11 +21,8 @@
 						<div class="block-item-label">抄送</div>
 						<div class="block-item-value">
 							<el-form-item prop="qualityCheckUser">
-								<el-select placeholder="请选择" 
-									multiple
-									v-model="auditUser">
-									<el-option v-for="(item, index) in userOptions"
-										:key="index" :label="item.name"
+								<el-select placeholder="请选择" multiple v-model="auditUser">
+									<el-option v-for="(item, index) in userOptions" :key="index" :label="item.name"
 										:value="item.username">
 									</el-option>
 								</el-select>
@@ -69,10 +66,11 @@
 					}]
 				},
 				operationList: [],
-				
-				userOptions:[],
-				auditUser:[],
-				copyUserVisible:false
+
+				userOptions: [],
+				auditUser: [],
+				copyUserVisible: false,
+				hasHandle:true
 			};
 		},
 		created() {},
@@ -103,18 +101,23 @@
 			},
 		},
 		mounted() {
-			
+
 		},
 		methods: {
-			initData(){
-				
+			initData() {
+
 				this.getCopyUserByFlowKey();
-				
+
 				api.viewRuntimeTaskInfo({
 					processDefinitionId: this.taskInfo['processDefinitionId'],
 					processInstanceId: this.taskInfo['processInstanceId'],
 					taskId: this.taskInfo['taskId']
 				}).then((res) => {
+					if(!res){
+						this.hasHandle=false
+					}
+					res = res || {}
+					res.data = res.data || {}
 					this.operationList = (res.data.operationList || []).filter(item => {
 						return item.type !== this.SysFlowTaskOperationType.CO_SIGN && item.type !== this
 							.SysFlowTaskOperationType.REVOKE;
@@ -124,12 +127,13 @@
 			getCopyUserByFlowKey() {
 				api.getCopyUserByFlowKey({
 					entryKey: this.taskInfo['entryKey'],
-					flowKey:this.taskInfo['flowKey'],
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'] || 2
+					flowKey: this.taskInfo['flowKey'],
+					buildSection: this.$store.getters.project.id,
+					projectId: this.$store.getters.project['parentid'] || 2
 				}).then((res) => {
-					let data=res.data||{};
-					this.userOptions=data.copyUserInfo||[];
-					this.copyUserVisible=this.userOptions.length?true:false;
+					let data = res.data || {};
+					this.userOptions = data.copyUserInfo || [];
+					this.copyUserVisible = this.userOptions.length ? true : false;
 					this.$forceUpdate();
 				});
 			},
@@ -199,8 +203,8 @@
 			 * @param {Object} operation 流程操作
 			 */
 			handlerOperation(operation) {
-				
-				this.formData.approvalType=operation.type;
+
+				this.formData.approvalType = operation.type;
 				// 加签操作
 				// if (operation.type === this.SysFlowTaskOperationType.CO_SIGN) {
 				// 	this.submitConsign((res || {}).assignee).then(res => {
@@ -243,11 +247,11 @@
 					}).catch(e => {});
 					return;
 				}
-				
-				let coptdata={};
-				if(this.auditUser.length){
-					coptdata={
-						user:this.auditUser.join(',')
+
+				let coptdata = {};
+				if (this.auditUser.length) {
+					coptdata = {
+						user: this.auditUser.join(',')
 					}
 				}
 				api.submitUserTask({

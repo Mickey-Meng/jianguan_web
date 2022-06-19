@@ -6,39 +6,13 @@
 				<div class="form-block">
 					<div class="form-block-title">
 						<div class="title-bar"></div><strong>发起位置</strong>
-						<locationmap></locationmap>
+						
 					</div>
+					<locationmap></locationmap>
 					<div class="form-block-title">
 						<div class="title-bar"></div><strong>基本信息</strong>
 					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">施工标段<i class="require-icon"></i></div>
-							<div class="block-item-value">
-								{{formData.buildSection}}
-							</div>
-						</div>
-						<div class="block-item">
-							<div class="block-item-label">施工单位</div>
-							<div class="block-item-value">
-								{{baseInfo.buildCompany}}
-							</div>
-						</div>
-					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">监理标段</div>
-							<div class="block-item-value">
-								{{baseInfo.supervisionSection}}
-							</div>
-						</div>
-						<div class="block-item">
-							<div class="block-item-label">监理单位</div>
-							<div class="block-item-value">
-								{{baseInfo.supervisionUnit}}
-							</div>
-						</div>
-					</div>
+					<projectinfo></projectinfo>
 					<div class="block-line">
 						<!-- <div class="block-item">
 							<div class="block-item-label">创建人</div>
@@ -71,7 +45,7 @@
 					<div class="block-line">
 						<div class="block-item-label">旁站监理项目<i class="require-icon"></i></div>
 						<div class="block-item-value">
-							{{formData.sideProjectId}}
+							{{formData.sideProjectStr}}
 						</div>
 					</div>
 					<div class="block-line">
@@ -161,13 +135,15 @@
 		convertOptions,
 		getQueryVariable,
 		formatDate,
-		getDaysBetween
+		getDaysBetween,
+		getOptionsLabel
 	} from "@/utils/format.js";
 	import attachlist from "../../../common/attachlist"
 	
 	export default {
 		data() {
 			return {
+				sideOptions:[],
 				baseInfo: {
 					buildSection: 1,
 					buildSectionName: '235国道杭州至诸暨公路萧山河上至诸暨安华段改建工程',
@@ -181,18 +157,18 @@
 					"address": {},
 					"attachment": [],
 					"auditUser": {},
-					"buildSection": 0,
 					"deletedFlag": 1,
 					"draftFlag": 1,
 					"exceptionCondition": "",
 					"problemDealCondition": "",
-					"projectId": this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid'],
 					"projectPartDesc": "",
 					"projectPartId": 0,
 					"scenePhotoAttachment": [],
 					"sideDate": formatDate(new Date()),
 					"sideInfo": "",
-					"sideProjectId": 0,
+					"sideProjectId": null,
 					"sideWorkCondition": "",
 					"video": []
 				},
@@ -210,13 +186,20 @@
 			
 		},
 		mounted() {
-			
+			this.getSupervisionSideEnums();
 		},
 		methods: {
+			getSupervisionSideEnums() {
+				api.getSupervisionSideEnums().then((res) => {
+					let options = res.data || [];
+					this.sideOptions = convertOptions(options, 'desc', 'code');
+				});
+			},
 			getDetail(id) {
 				api.getSupervisionSideDeatil(id).then((res) => {
 					let data = res['data'] || {};
 					this.formData = data;
+					this.formData.sideProjectStr=getOptionsLabel(this.sideOptions,this.formData.sideProjectId)
 				});
 			},
 		},

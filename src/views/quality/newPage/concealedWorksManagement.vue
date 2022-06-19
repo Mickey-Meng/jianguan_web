@@ -41,15 +41,15 @@
 					</el-table-column>
 					<el-table-column prop="projectName" align="center" label="项目名称" show-overflow-tooltip>
 					</el-table-column>
+					<el-table-column prop="buildSectionName" align="center" label="标段" show-overflow-tooltip>
+					</el-table-column>
 					<el-table-column prop="buildUnit" align="center" label="施工单位" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="contractCode" align="center" label="合同号" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="supervisorUnit" align="center" label="监理单位" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="buildSectionId" align="center" label="施工标段" show-overflow-tooltip>
-					</el-table-column>
-					<el-table-column prop="supervisorSection" align="center" label="监理标段">
+					<el-table-column prop="projectCode" align="center" label="工程编号" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="statusStr" align="center" label="状态描述">
 					</el-table-column>
@@ -128,13 +128,8 @@
 			formateTableData(list) {
 				list = list || [];
 				list.forEach(item => {
-					item['projectName'] = '235国道杭州至诸暨公路萧山河上至诸暨安华段改建工程';
-					item['buildUnit'] = '中交上海航道局有限公司、中国交通建设股份有限公司、浙江诸安建设集团有限公司、浙江省交通规划设计研究院有限公司';
-					item['contractCode'] = '235SJSG01';
-					item['supervisorUnit'] = '浙江交科公路水运工程监理有限公司';
-					item['buildSectionId'] = '';
-					item['supervisorSection'] = '';
-					item['statusStr'] = '';
+					item['buildUnit'] = item['buildUnit']?item['buildUnit'].join('、'):''
+					item['supervisorUnit'] = item['supervisorUnit']?item['supervisorUnit'].join('、'):''
 				})
 				return list;
 			},

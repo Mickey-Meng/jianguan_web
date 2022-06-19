@@ -21,46 +21,12 @@
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>发起位置</strong>
-										<locationmap></locationmap>
 									</div>
+									<locationmap></locationmap>
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
 									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">施工标段<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												<el-form-item prop="buildSection">
-													<el-select @change="changeChild" v-model="formData.buildSection"
-														placeholder="请选择">
-														<el-option v-for="item in childOptions" :key="item.value"
-															:label="item.label" :value="item.value">
-														</el-option>
-													</el-select>
-												</el-form-item>
-											</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">施工单位</div>
-											<div class="block-item-value">
-												{{baseInfo.buildCompany}}
-											</div>
-										</div>
-									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">监理标段</div>
-											<div class="block-item-value">
-												{{baseInfo.supervisionSection}}
-											</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">监理单位</div>
-											<div class="block-item-value">
-												{{baseInfo.supervisionUnit}}
-											</div>
-										</div>
-									</div>
+									<projectinfo></projectinfo>
 									<div class="block-line">
 										<div class="block-line">
 											<div class="block-item">
@@ -198,6 +164,8 @@
 	import drafthandle from "../../../common/drafthandle.vue"
 	import locationmap from "../../../common/locationmap.vue"
 	import approveuser from "../../../common/approveuser.vue"
+	import projectinfo from "../../../common/projectinfo.vue"
+	
 	export default {
 		data() {
 			return {
@@ -215,17 +183,17 @@
 					supervisionSection: ''
 				},
 				formData: { //表单参数
-					"address": "",
+					"address": {},
 					"auditUser": {},
 					"buildCondition": "",
-					"buildSection": 0,
 					"deletedFlag": 1,
 					"draftFlag": 1,
 					"otherAttachmentInfo": "",
 					"patrolPhotoAttachment": [],
 					"patrolPlace": "",
 					"problemDealCondition": "",
-					"projectId": this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid'],
 					"qualityCondition": "",
 					"startDate": formatDate(new Date()),
 					"video": [],
@@ -268,6 +236,7 @@
 			drafthandle,
 			approveuser,
 			locationmap,
+			projectinfo,
 			supervisionPatrol: () => import("../supervisionPatrol.vue")
 		},
 		computed: {
@@ -303,17 +272,17 @@
 					this.getDetail(obj['id']);
 				} else {
 					this.formData = {
-						"address": "",
+						"address": {},
 						"auditUser": {},
 						"buildCondition": "",
-						"buildSection": 0,
 						"deletedFlag": 1,
 						"draftFlag": 1,
 						"otherAttachmentInfo": "",
 						"patrolPhotoAttachment": [],
 						"patrolPlace": "",
 						"problemDealCondition": "",
-						"projectId": this.$store.getters.project['parentid'],
+						buildSection: this.$store.getters.project.id,
+						projectId:this.$store.getters.project['parentid'],
 						"qualityCondition": "",
 						"startDate": formatDate(new Date()),
 						"video": [],
@@ -330,17 +299,17 @@
 			addOrModify(isdraft) {
 				if (isdraft) {
 					if (diffCompare([this.formData], [{
-							"address": "",
+							"address": {},
 							"auditUser": {},
 							"buildCondition": "",
-							"buildSection": 0,
 							"deletedFlag": 1,
 							"draftFlag": 1,
 							"otherAttachmentInfo": "",
 							"patrolPhotoAttachment": [],
 							"patrolPlace": "",
 							"problemDealCondition": "",
-							"projectId": this.$store.getters.project['parentid'],
+							buildSection: this.$store.getters.project.id,
+							projectId:this.$store.getters.project['parentid'],
 							"qualityCondition": "",
 							"startDate": formatDate(new Date()),
 							"video": [],

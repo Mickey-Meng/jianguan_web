@@ -16,13 +16,8 @@
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
 									</div>
+									<projectinfo></projectinfo>
 									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">施工标段<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												{{formData.buildSection}}
-											</div>
-										</div>
 										<div class="block-item">
 											<div class="block-item-label">账单编号<i class="require-icon"></i></div>
 											<div class="block-item-value">
@@ -94,6 +89,8 @@
 	import tasklog from "../../common/tasklog.vue"
 	import taskhandle from '../../common/taskhandle'
 	import attachlist from "../../common/attachlist"
+	import projectinfo from "../../common/projectinfo.vue"
+	
 	import {
 		formatMonth,
 		formatDate,
@@ -118,16 +115,16 @@
 				},
 				formData: { //表单参数
 					attachment: [],
-					buildSection: '4',
 					billCode: '',
 					explain: '',
-					gatherUnit:'',
-					payAmount:null,
+					gatherUnit: '',
+					payAmount: null,
 					deletedFlag: 1,
 					draftFlag: 1,
-					payUnit:'',
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
-					payDate:formatDate(new Date())
+					payUnit: '',
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid'],
+					payDate: formatDate(new Date())
 				},
 				attachTable: [], //附件
 				taskInfo:{}
@@ -137,7 +134,8 @@
 		components: {
 			tasklog,
 			taskhandle,
-			attachlist
+			attachlist,
+			projectinfo
 		},
 		computed: {},
 		watch:{
@@ -152,9 +150,9 @@
 		},
 		methods: {
 			closeDialog(){
-				if(this.taskInfo['processDefinitionId']){
-					this.$router.go(-1);
-				}
+				// if(this.taskInfo['processDefinitionId']){
+				// 	this.$router.go(-1);
+				// }
 			},
 			changeVisible(value){
 				this.dialogFormVisible=value;

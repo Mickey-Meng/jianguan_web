@@ -34,6 +34,11 @@ export const constantRoutes = [{
 		name: "handlerFlowTask",
 		component: () => import("@/views/task/handlerFlowTask/index"),
 		children: [{
+				path: "/supervisionOfInstruction_detail",
+				name: "supervisionOfInstruction_detail",
+				code: "jianlizhiling",
+				component: () => import("@/views/quality/newPage/supervisionOfInstruction/view")
+			},{
 				path: "/qualityActivity_detail",
 				name: "qualityActivity_detail",
 				code: "zhilianghuodong",

@@ -8,21 +8,7 @@
 					<div class="form-block-title">
 						<div class="title-bar"></div><strong>基本信息</strong>
 					</div>
-					<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">项目名称</div>
-							<div class="block-item-value">
-				
-								{{formData.projectName}}
-							</div>
-						</div>
-						<div class="block-item">
-							<div class="block-item-label">标段</div>
-							<div class="block-item-value">
-								{{baseInfo.buildSectionName}}
-							</div>
-						</div>
-					</div>
+					<projectinfo></projectinfo>
 					<div class="block-line">
 						<div class="block-item">
 							<div class="block-item-label">合同编号</div>
@@ -97,6 +83,8 @@
 <script>
 	import * as api from "@/api/contract";
 	import attachlist from "../../common/attachlist"
+	import projectinfo from "../../common/projectinfo.vue"
+	
 	export default {
 		data() {
 			return {
@@ -118,7 +106,8 @@
 					contractUser: '',
 					deletedFlag: 1,
 					draftFlag: 1,
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid'],
 					projectName: '',
 				},
 				attachTable: [], //附件
@@ -127,7 +116,8 @@
 		},
 		created() {},
 		components: {
-			attachlist
+			attachlist,
+			projectinfo
 		},
 		computed: {},
 		watch: {

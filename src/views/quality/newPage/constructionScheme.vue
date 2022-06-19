@@ -11,18 +11,18 @@
 		<el-header>
 			<div class="input-box">
 				<div class="input-value">
-					<el-input v-model="queryData.projectCode" placeholder="专项施工方案名称"></el-input>
+					<el-input v-model="queryData.buildPlanName" placeholder="专项施工方案名称"></el-input>
 				</div>
 
 			</div>
 			<div class="input-box">
 				<div class="input-value">
-					<el-input v-model="queryData.subProject" placeholder="施工标段"></el-input>
+					<el-input v-model="queryData.buildSectionName" placeholder="施工标段"></el-input>
 				</div>
 			</div>
 			<div class="input-box">
 				<div class="input-value">
-					<el-input v-model="queryData.subProject" placeholder="监理标段"></el-input>
+					<el-input v-model="queryData.supervisionSectionName" placeholder="监理标段"></el-input>
 				</div>
 			</div>
 			<el-button type="primary">搜索</el-button>
@@ -44,25 +44,19 @@
 					class="have_scrolling">
 					<el-table-column type="index" width="50" align="center" label="序号">
 					</el-table-column>
-					<el-table-column prop="projectCode" align="center" label="工程编号" show-overflow-tooltip>
-					</el-table-column>
 					<el-table-column prop="projectName" align="center" label="项目名称" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="supervisionSectionName" align="center" label="监理标段" show-overflow-tooltip>
+					<el-table-column prop="projectCode" align="center" label="工程编号" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="buildSectionName" align="center" label="施工标段" show-overflow-tooltip>
-					</el-table-column>
-					<el-table-column prop="contractCode" align="center" label="合同号" show-overflow-tooltip>
+					<el-table-column prop="buildSectionName" align="center" label="标段" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="buildPlanName" align="center" label="专项施工方案名称" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="buildSectionId" align="center" label="合同段" show-overflow-tooltip>
-					</el-table-column>
-					<el-table-column prop="supervisorSection" align="center" label="状态描述">
+					<el-table-column prop="statusStr" align="center" label="状态描述">
 					</el-table-column>
 					<el-table-column fixed="right" width="120" align="center" label="操作">
 						<template slot-scope="{ row, $index }">
-							<!-- <el-button type="text" size="mini" @click="modify(row)">修改</el-button> -->
+							<el-button type="text" size="mini" @click="modify(row)">修改</el-button>
 							<el-button v-if="!isDraft" type="text" size="mini" @click="viewDetail(row)">详情</el-button>
 
 							<el-button v-if="isDraft" type="text" size="mini" @click="checkDetail(row)">选择</el-button>
@@ -100,12 +94,14 @@
 				dialogTitle: '智慧建设通用版-【绍兴市】235国道杭州',
 				dialogFormVisible: false,
 				queryData: {
-					projectCode: '',
-					subProject: '',
+					buildPlanName: '',
+					buildSectionName:'',
+					supervisionSectionName: '',
 					pageNum: 1,
 					totalPage: 1,
 					pageSize: 10,
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid']
 				},
 				editRow:null,
 				detailRow:null
@@ -134,13 +130,7 @@
 			formateTableData(list) {
 				list = list || [];
 				list.forEach(item => {
-					item['projectName'] = '235国道杭州至诸暨公路萧山河上至诸暨安华段改建工程';
-					item['buildUnit'] = '中交上海航道局有限公司、中国交通建设股份有限公司、浙江诸安建设集团有限公司、浙江省交通规划设计研究院有限公司';
-					item['contractCode'] = '235SJSG01';
-					item['supervisorUnit'] = '浙江交科公路水运工程监理有限公司';
-					item['buildSectionId'] = '';
-					item['supervisorSection'] = '';
-					item['statusStr'] = '';
+					
 				})
 				return list;
 			},

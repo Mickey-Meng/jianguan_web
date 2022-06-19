@@ -21,19 +21,8 @@
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
 									</div>
+									<projectinfo></projectinfo>
 									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">施工标段<i class="require-icon"></i></div>
-											<div class="block-item-value">
-												<el-form-item prop="buildSection">
-													<el-select v-model="formData.buildSection" placeholder="请选择">
-														<el-option v-for="item in childOptions" :key="item.value"
-															:label="item.label" :value="item.value">
-														</el-option>
-													</el-select>
-												</el-form-item>
-											</div>
-										</div>
 										<div class="block-item">
 											<div class="block-item-label">账单编号<i class="require-icon"></i></div>
 											<div class="block-item-value">
@@ -141,6 +130,8 @@
 	import attachlist from "../../common/attachlist.vue"
 	import drafthandle from "../../common/drafthandle.vue"
 import approveuser from "../../common/approveuser.vue"
+import projectinfo from "../../common/projectinfo.vue"
+
 	export default {
 		props: ['editRow'],
 		data() {
@@ -199,7 +190,6 @@ import approveuser from "../../common/approveuser.vue"
 				},
 				formData: { //表单参数
 					attachment: [],
-					buildSection: '4',
 					billCode: '',
 					explain: '',
 					gatherUnit: '',
@@ -207,9 +197,9 @@ import approveuser from "../../common/approveuser.vue"
 					deletedFlag: 1,
 					draftFlag: 1,
 					payUnit: '',
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
-					payDate: formatDate(new Date()),
-					status: 0
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid'],
+					payDate: formatDate(new Date())
 				},
 				attachTable: [], //附件,
 				flowNodesUsersData: [],
@@ -222,6 +212,7 @@ import approveuser from "../../common/approveuser.vue"
 			attachlist,
 			drafthandle,
 			approveuser,
+			projectinfo,
 			currentAccountManagement: () => import("../currentAccountManagement.vue")
 		},
 		computed: {},
@@ -241,7 +232,6 @@ import approveuser from "../../common/approveuser.vue"
 				} else {
 					this.formData = {
 						attachment: [],
-						buildSection: '4',
 						billCode: '',
 						explain: '',
 						gatherUnit: '',
@@ -249,7 +239,8 @@ import approveuser from "../../common/approveuser.vue"
 						deletedFlag: 1,
 						draftFlag: 1,
 						payUnit: '',
-						buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
+						buildSection: this.$store.getters.project.id,
+						projectId:this.$store.getters.project['parentid'],
 						payDate: formatDate(new Date())
 					}
 					this.attachTable = [];
@@ -274,7 +265,6 @@ import approveuser from "../../common/approveuser.vue"
 				if (isdraft) {
 					if (diffCompare([this.formData, this.attachTable], [{
 								attachment: [],
-								buildSection: '4',
 								billCode: '',
 								explain: '',
 								gatherUnit: '',
@@ -282,7 +272,8 @@ import approveuser from "../../common/approveuser.vue"
 								deletedFlag: 1,
 								draftFlag: 1,
 								payUnit: '',
-								buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
+								buildSection: this.$store.getters.project.id,
+								projectId:this.$store.getters.project['parentid'],
 								payDate: formatDate(new Date())
 							},
 							[]

@@ -59,9 +59,9 @@
 						</template>
 					</el-table-column>
 				</el-table>
-				<el-pagination @current-change="handleCurrentChange"
-					:current-page="queryData.pageParam.pageNum" :page-size="queryData.pageParam.pageSize"
-					layout="total, prev, pager, next, jumper" :total="queryData.pageParam.totalPage">
+				<el-pagination @current-change="handleCurrentChange" :current-page="queryData.pageParam.pageNum"
+					:page-size="queryData.pageParam.pageSize" layout="total, prev, pager, next, jumper"
+					:total="queryData.pageParam.totalPage">
 				</el-pagination>
 			</div>
 		</el-main>
@@ -70,9 +70,15 @@
 
 <script>
 	import * as api from "@/api/quality";
-	import { mapGetters } from 'vuex'
-  import {constantRoutes} from "@/router/router";
-  import {setToken} from "@/utils/auth";
+	import {
+		mapGetters
+	} from 'vuex'
+	import {
+		constantRoutes
+	} from "@/router/router";
+	import {
+		setToken
+	} from "@/utils/auth";
 	export default {
 		data() {
 			return {
@@ -82,20 +88,20 @@
 					// beginDate:'2021-05-15',
 					// endDate:'2022-05-15',
 					// taskHandleStatus:3,
-					pageParam:{
+					pageParam: {
 						pageNum: 1,
 						totalPage: 1,
 						pageSize: 10
 					},
 				},
-				routes:null,
-        detailRouters: []
+				routes: null,
+				detailRouters: []
 			};
 		},
 		created() {
 			this.routes = this.menus;
-      let detailRouter = constantRoutes.find(e => e.name === "handlerFlowTask");
-      this.detailRouters = detailRouter?.children;
+			let detailRouter = constantRoutes.find(e => e.name === "handlerFlowTask");
+			this.detailRouters = detailRouter?.children;
 		},
 		components: {},
 		computed: {
@@ -105,43 +111,45 @@
 			this.query();
 		},
 		methods: {
-			query(){
+			query() {
 				api.listHistoricTask(this.queryData).then((res) => {
 					this.allData = res.data || {};
-					this.tableData = this.allData.list||[];
+					this.tableData = this.allData.list || [];
 					this.queryData.pageParam.pageNum = res.data.pageNum;
 					this.queryData.pageParam.totalPage = res.data.total;
 					this.queryData.pageParam.pageSize = res.data.pageSize;
 				});
 			},
 			handleCurrentChange(page) {
-				this.queryData.pageNum=page
+				this.queryData.pageParam.pageNum = page
 				this.query()
 			},
-			gotoHandle(row){
-				row['formKey']=(typeof row['formKey'])=='string'?JSON.parse(row['formKey']):row['formKey'];
-        let key = row["formKey"]["routerName"];
-        let router = this.detailRouters.find(e => e.code.indexOf(key) !== -1);
-        let hiddenEdit = ["sgdwhtrybs", "jldwhtrybs", "qzdwhtrybs", "sgdwrybg", "jldwrybg", "qzdwrybg", "sgdwryqj", "jldwryqj", "qzdwryqj"];
-        if (router) {
-          setToken("taskType", 2);
-          this.$router.push({
-            path: router.path,
-            query: {
-              taskId: row.executionId,
-              taskKey: row.taskKey,
-              businessKey: row.businessKey,
-              processDefinitionKey: row.processDefinitionKey,
-              processInstanceId: row.processInstanceId,
-              processDefinitionId: row.processDefinitionId,
-              taskName: row.taskName,
-              flowEntryName: row.processDefinitionName,
-              processInstanceInitiator: row.processInstanceInitiator,
-              isHiddenEdit: hiddenEdit.includes(key),
-              flowKey: hiddenEdit.includes(key) ? key : ""
-            }
-          });
-        }
+			gotoHandle(row) {
+				row['formKey'] = (typeof row['formKey']) == 'string' ? JSON.parse(row['formKey']) : row['formKey'];
+				let key = row["formKey"]["routerName"];
+				let router = this.detailRouters.find(e => e.code.indexOf(key) !== -1);
+				let hiddenEdit = ["sgdwhtrybs", "jldwhtrybs", "qzdwhtrybs", "sgdwrybg", "jldwrybg", "qzdwrybg", "sgdwryqj",
+					"jldwryqj", "qzdwryqj"
+				];
+				if (router) {
+					setToken("taskType", 2);
+					this.$router.push({
+						path: router.path,
+						query: {
+							taskId: row.executionId,
+							taskKey: row.taskKey,
+							businessKey: row.businessKey,
+							processDefinitionKey: row.processDefinitionKey,
+							processInstanceId: row.processInstanceId,
+							processDefinitionId: row.processDefinitionId,
+							taskName: row.taskName,
+							flowEntryName: row.processDefinitionName,
+							processInstanceInitiator: row.processInstanceInitiator,
+							isHiddenEdit: hiddenEdit.includes(key),
+							flowKey: hiddenEdit.includes(key) ? key : ""
+						}
+					});
+				}
 				// this.routes.forEach(parent=>{
 				// 	parent['children'].forEach(child=>{
 				// 		if(child['meta']['code']==row['formKey']['routerName']){
@@ -168,4 +176,3 @@
 <style scoped lang="scss">
 	@import "../../assets/css/table.scss"
 </style>
-

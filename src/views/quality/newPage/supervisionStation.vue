@@ -47,10 +47,10 @@
 					class="have_scrolling">
 					<el-table-column type="index" width="50" align="center" label="序号">
 					</el-table-column>
-					<el-table-column prop="buildSection" align="center" label="施工标段" show-overflow-tooltip>
+					<el-table-column prop="projectName" align="center" label="项目名称" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="projectPartName" align="center" label="工程部位" show-overflow-tooltip>
-					</el-table-column>
+					<!-- <el-table-column prop="projectPartName" align="center" label="工程部位" show-overflow-tooltip>
+					</el-table-column> -->
 					<el-table-column prop="sideProjectName" align="center" label="旁站项目" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="createName" align="center" label="旁站人">
@@ -118,7 +118,8 @@
 					pageNum: 1,
 					totalPage: 1,
 					pageSize: 10,
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid']
 				},
 				currentPattern: 0, //0查看，1新增，2修改
 				editRow: null,
