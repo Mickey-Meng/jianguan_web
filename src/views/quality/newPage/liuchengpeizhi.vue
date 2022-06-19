@@ -33,7 +33,8 @@
 					</el-table-column>
 					<el-table-column fixed="right" width="120" align="center" label="操作">
 						<template slot-scope="{ row, $index }">
-							<el-button v-if="!isDraft"  type="text" size="mini" @click="modify(row)">配置</el-button>
+							<el-button v-if="!isDraft"  type="text" size="mini" @click="addFlowEntryByFlowKey(row)" :disabled="row.count>0">生成节点</el-button>
+							<el-button v-if="!isDraft"  type="text" size="mini" @click="modify(row)" :disabled="row.count==0">配置</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -115,6 +116,28 @@
 			},
 			modify(row) {
 				this.$refs.edit.changeVisible(row, true);
+			},
+			addFlowEntryByFlowKey(row) {
+				this.$confirm("确认生成流程节点?", "提示", {
+					confirmButtonText: "确定",
+					cancelButtonText: "取消",
+					type: "warning"
+				}).then(() => {
+					let params = {
+						flowKey: row.flowKey,
+						typeId: row.id,
+						buildSection: this.$store.getters.project.id,
+						projectId:this.$store.getters.project['parentid']
+					}
+					api.addFlowEntryByFlowKey(params).then((res) => {
+						this.$message({
+							message: "节点生成成功",
+							type: "success",
+							customClass: "message_override",
+						});
+						this.query()
+					});
+				});
 			},
 			handleCurrentChange(page) {
 				this.queryData.pageNum=page

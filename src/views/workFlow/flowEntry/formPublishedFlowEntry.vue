@@ -123,6 +123,10 @@ export default {
         }
         return FlowEntryController.updateMainVersion(params);
       }).then(res => {
+        let params = {
+          flowKey: this.flowEntry.processDefinitionKey
+        }
+        FlowEntryController.removeByFlowKey(params);
         this.refreshFormFlowEntry();
       }).catch(e => {});
     },

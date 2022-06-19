@@ -711,12 +711,21 @@ export const getRolesByProject = (data) => {
 /**
  * getFlowType
  */
-export const getFlowType = (data) => {
+ export const getFlowType = (data) => {
 	return request({
 		url: api.getFlowType,
 		method: "post",
 		data: data
 	});
+};/**
+* addFlowEntryByFlowKey
+*/
+export const addFlowEntryByFlowKey = (params) => {
+   return request({
+	   url: api.addFlowEntryByFlowKey,
+	   method: "get",
+	   params: params
+   });
 };
 /**
  * addOrUpdateFlowAuditEntry
