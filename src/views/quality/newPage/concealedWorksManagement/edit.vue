@@ -262,7 +262,7 @@
 			},
 			getProjectInfoById() {
 				api.getProjectInfoById({
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
+					projectid: this.$store.getters.project['parentid']
 				}).then((res) => {
 					let data = res['data'] || {};
 					this.baseInfo['buildSectionName'] = data['project'] ? data['project']['name'] : '';
