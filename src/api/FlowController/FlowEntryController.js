@@ -72,6 +72,16 @@ export default class FlowEntryController {
     });
   }
 
+  // 通过flowKey删除流程节点审核人员
+  static removeByFlowKey (params) {
+    // return sender.doUrl('/admin/flow/flowEntry/updateMainVersion', 'post', params, axiosOption, httpOption);
+    return request({
+      url: "/ZhuJiApi/web/api/v1/flowAuditEntry/removeByFlowKey",
+      method: "get",
+      params: params
+    });
+  }
+
   static suspendFlowEntryPublish (data) {
     // return sender.doUrl('/admin/flow/flowEntry/suspendFlowEntryPublish', 'post', params, axiosOption, httpOption);
     return request({

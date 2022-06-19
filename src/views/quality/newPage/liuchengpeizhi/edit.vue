@@ -246,9 +246,12 @@
 					const auditCopyUser = {};
 					for (let i = 0; i < res.data.length; i++) {
 						const item = res.data[i];
+						if (!item.userInfo) item.userInfo = [];
+						if (!item.copyUserInfo) item.copyUserInfo = [];
+
+						if (!auditUser[item.entryUserVariable]) auditUser[item.entryUserVariable] = [];
 						for (let j = 0; j < item.userInfo.length; j++) {
 							const element = item.userInfo[j];
-							if (!auditUser[item.entryUserVariable]) auditUser[item.entryUserVariable] = [];
 							auditUser[item.entryUserVariable].push(element.username);
 						}
 
@@ -259,7 +262,7 @@
 								auditCopyUser[item.entryUserVariable].push(element.username)
 							}
 						}
-						this.nodeUser[item.entryUserVariable] = item.userInfo;
+						this.nodeUser[item.entryUserVariable] = item.userInfo || [];
 						this.nodeCopyUser[item.entryUserVariable] = item.copyUserInfo || [];
 					}
 					this.auditUser = auditUser;
