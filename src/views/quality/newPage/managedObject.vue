@@ -73,21 +73,19 @@
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
 									</div>
+									<projectinfo></projectinfo>
 									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">项目名称</div>
-											<div class="block-item-value">235国道杭州至诸暨公路萧山河上至诸暨安华段改建工程</div>
-										</div>
 										<div class="block-item">
 											<div class="block-item-label">登记部门<i class="require-icon"></i></div>
 											<div class="block-item-value">{{formData.groupName}}</div>
 										</div>
-									</div>
-									<div class="block-line">
 										<div class="block-item">
 											<div class="block-item-label">登记人<i class="require-icon"></i></div>
 											<div class="block-item-value">{{formData.userName}}</div>
 										</div>
+									</div>
+									<div class="block-line">
+										
 										<div class="block-item">
 											<div class="block-item-label">发布时间</div>
                       						<div class="block-item-value">
@@ -124,77 +122,7 @@
 						</div>
 					</div>
 				</el-main>
-				<el-aside width="8px" class="close-wrapper">
-					<div class="close-wrap">
-						<i class="el-icon-caret-right"></i>
-					</div>
-				</el-aside>
-				<el-aside
-					style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
-					<div class="log-btns">
-						<el-button class="print-btn" size="medium" type="primary">打印预览</el-button>
-						<el-button class="print-select-btn" size="medium" type="primary" icon="el-icon-arrow-down">
-						</el-button>
-						
-						<el-button size="medium" @click="previewMode = false">变更</el-button>
-						<el-button type="danger" size="medium" @click="deleteManagementObject(formData.id)">删除</el-button>
-					</div>
-					<div class="log-content">
-						<el-tabs v-model="activeName" type="card">
-							<el-tab-pane label="表单提交记录" name="first">
-								<el-collapse>
-									<el-collapse-item name="1">
-										<template slot="title">
-											<span class="process-index">1</span>
-											 吕冬敏({{formData.createTime}}) 
-										</template>
-										<div class="log-line">
-											<div class="log-line-label">项目名称：</div>
-											<div class="log-line-value">235国道杭州至诸暨公路萧山河上至诸暨安华段改建工程</div>
-										</div>
-										<div class="log-line">
-											<div class="log-line-label">登记部门：</div>
-											<div class="log-line-value">
-												235国道项目部</div>
-										</div>
-										<div class="log-line">
-											<div class="log-line-label">登记人：</div>
-											<div class="log-line-value">吕冬敏</div>
-										</div>
-										<div class="log-line">
-											<div class="log-line-label">发布时间：</div>
-											<div class="log-line-value">{{formData.publishDate}}</div>
-										</div>
-										<div class="log-line">
-											<div class="log-line-label">标题：</div>
-											<div class="log-line-value">{{formData.title}}</div>
-										</div>
-										<div class="log-line">
-											<div class="log-line-label">上传</div>
-										</div>
-										<el-table :data="attachment" style="width: 100%" border
-											class="have_scrolling">
-											<el-table-column type="fileName" align="center" label="附件" show-overflow-tooltip>
-											</el-table-column>
-											<el-table-column prop="uploadTime" width="160px" align="center"
-												label="上传日期">
-											</el-table-column>
-											<el-table-column prop="creatorName" width="120px" align="center"
-												label="上传人">
-											</el-table-column>
-											<el-table-column fixed="right" width="80" align="center" label="操作">
-												<template slot-scope="{ row, $index }">
-													<el-button type="text" size="mini" @click="downLoadFile(row.fileUrl)">下载</el-button>
-													<el-button type="text" size="mini" @click="viewImg(row)">预览</el-button>
-												</template>
-											</el-table-column>
-										</el-table>
-									</el-collapse-item>
-								</el-collapse>
-							</el-tab-pane>
-						</el-tabs>
-					</div>
-				</el-aside>
+				
 			</el-container>
 		</el-dialog>
 	</el-container>
@@ -224,6 +152,7 @@
 	import * as api from "@/api/quality";
 	import store from "@/store/index";
 	import attachlist from "../../common/attachlist.vue"
+	import projectinfo from "../../common/projectinfo.vue"
 	import { getUserInfo } from "@/api/user";
 	export default {
 		data() {
@@ -242,14 +171,16 @@
 					pageNum: 1,
 					totalPage:1,
 					pageSize: 10,
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid']
 				},
 				userInfo: {},
 				formData: {
 					id: '',
 					title: '测试', // 标题
 					publishDate: '2022-05-06', // 发布时间
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'], // 项目id
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['parentid'], // 项目id
 					userName: '',	// 登记人
 					groupName: '',	// 登记部门
 					projectName: '',// 项目名称 
@@ -266,7 +197,8 @@
 		},
 		created() {},
 		components: {
-			attachlist
+			attachlist,
+			projectinfo
 		},
 		computed: {},
 		mounted() {

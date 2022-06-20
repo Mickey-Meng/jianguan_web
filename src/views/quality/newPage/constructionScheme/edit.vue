@@ -365,11 +365,14 @@
 				});
 			},
 			getDetail(id) {
-				api.getHiddenProjectDetail({
+				api.getBuildPlanDetail({
 					id: id
 				}).then((res) => {
 					let data = res['data'] || {};
 					this.formData = data;
+					this.buildPlanAttachTable=data.buildPlanAttachment||[];
+					this.expertMeetingAttachTable=data.expertMeetingAttachment||[];
+					this.replyAttachTable=data.replyAttachment||[];
 					this.attachTable=data.attachment||[];
 				});
 			},

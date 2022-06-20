@@ -115,59 +115,7 @@
 						</div>
 					</div>
 				</el-main>
-				<el-aside width="8px" class="close-wrapper">
-					<div class="close-wrap">
-						<i class="el-icon-caret-right"></i>
-					</div>
-				</el-aside>
-				<el-aside
-					style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
-					<div class="log-btns">
-						<el-button class="print-btn" size="medium" type="primary">打印预览</el-button>
-						<el-button class="print-select-btn" size="medium" type="primary" icon="el-icon-arrow-down">
-						</el-button>
-
-						<el-button size="medium" @click="changeManageRegime">变更</el-button>
-						<el-button type="danger" size="medium" @click="deleteManageRegime(formData.id)">删除</el-button>
-					</div>
-					<div class="log-content">
-						<el-tabs v-model="activeName" type="card">
-							<el-tab-pane label="表单提交记录" name="first">
-								<el-collapse>
-									<el-collapse-item name="1">
-										<template slot="title">
-											<span class="process-index">1</span>
-											 吕冬敏({{formData.updateTime}}) 
-										</template>
-										<div class="log-line">
-											<div class="log-line-label">编制单位：</div>
-											<div class="log-line-value">235国道项目部</div>
-										</div>
-										<div class="log-line">
-											<div class="log-line-label">编制人：</div>
-											<div class="log-line-value">
-												吕冬敏</div>
-										</div>
-										<div class="log-line">
-											<div class="log-line-label">编制日期：</div>
-											<div class="log-line-value">{{formData.compileDate}}</div>
-										</div>
-										<div class="log-line">
-											<div class="log-line-label">上传</div>
-										</div>
-										
-										<attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>
-                              
-										<div class="log-line">
-											<div class="log-line-label">制度内容：</div>
-											<div class="log-line-value">{{formData.regimeContent}}</div>
-										</div>
-									</el-collapse-item>
-								</el-collapse>
-							</el-tab-pane>
-						</el-tabs>
-					</div>
-				</el-aside>
+				
 			</el-container>
 		</el-dialog>
 	</el-container>
@@ -234,6 +182,7 @@
 				viewImgVisible: false,
 				viewImgType: 'img',
 				viewImgUrl: '',
+				previewMode:false
 			};
 		},
 		created() {},

@@ -140,7 +140,7 @@
 			},
 			modify(row) {
 				// this.editRow=row;
-				this.$refs.edit.changeVisible(null, true);
+				this.$refs.edit.changeVisible(row, true);
 			},
 			viewDetail(row) {
 				this.detailRow=row;
