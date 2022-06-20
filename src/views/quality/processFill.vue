@@ -161,7 +161,6 @@
               v-model="recordForm.checkid"
               clearable
               placeholder="请选择监理人员"
-              popper-class="select-panel"
               filterable=""
             >
               <el-option
