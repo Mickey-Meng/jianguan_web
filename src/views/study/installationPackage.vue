@@ -291,7 +291,7 @@ export default {
       this.$nextTick(() => {
         var qrcode = new QRCode(this.$refs.qrCodeUrl, {
           text:
-            "https://system.zlskkj.com:59030/ZhuJiRoad/mong/download?fileid=" +
+            "https://system.zlskkj.com:59031/ZhuJiRoad/mong/download?fileid=" +
             row.fileurl, // 需要转换为二维码的内容
           width: 100,
           height: 100,

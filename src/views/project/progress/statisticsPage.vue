@@ -83,7 +83,7 @@ export default {
         },
         {
           name: "道路",
-          key: "DL"
+          key: "LM"
         },
         {
           name: "隧道",
