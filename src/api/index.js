@@ -234,6 +234,7 @@ const api = {
 	viewProcessBpmn: '/ZhuJiApi/admin/flow/flowOperation/viewProcessBpmn', //获取流程图bpmn
 	listFlowTaskComment: '/ZhuJiApi/flow/flowOperation/listFlowTaskComment', //获取当前流程任务的审批列表
 	listRemindingTask: '/ZhuJiApi/admin/flow/flowMessage/listRemindingTask', //抄送列表
+	listCopyMessage: '/ZhuJiApi/admin/flow/flowMessage/listCopyMessage', //抄送列表
 	getFlowAndTaskInfo: '/ZhuJiApi/admin/flow/flowStaticPage/getFlowAndTaskInfo', //根据流程idH获取三个key 用于查看审批信息
 	getFlowType:'/ZhuJiApi/web/api/v1/flowType/page',//分页查询流程类型数据
 	addFlowEntryByFlowKey:'/ZhuJiApi/web/api/v1/flowAuditEntry/addFlowEntryByFlowKey',//新增流程节点信息

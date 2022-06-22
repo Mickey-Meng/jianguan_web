@@ -45,11 +45,11 @@
 					</el-table-column>
 					<el-table-column prop="processDefinitionKey" align="center" label="流程标识" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="name" align="center" label="任务名称" show-overflow-tooltip>
+					<el-table-column prop="taskName" align="center" label="任务名称" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="approvalType" align="center" label="执行操作" show-overflow-tooltip>
-					</el-table-column>
-					<el-table-column prop="startUser" align="center" label="任务发起人" show-overflow-tooltip>
+					<!-- <el-table-column prop="approvalType" align="center" label="执行操作" show-overflow-tooltip>
+					</el-table-column> -->
+					<el-table-column prop="createUsername" align="center" label="任务发起人" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="createTime" align="center" label="任务发起时间" show-overflow-tooltip>
 					</el-table-column>
@@ -85,11 +85,13 @@
 					// beginDate:'2021-05-15',
 					// endDate:'2022-05-15',
 					// taskHandleStatus:3,
+					orderParam: [{fieldName: "createTime", asc: 1}],
 					pageParam: {
 						pageNum: 1,
 						totalPage: 1,
 						pageSize: 10
 					},
+					read: false
 				},
 				routes: null,
 				detailRouters: []
@@ -109,9 +111,9 @@
 		},
 		methods: {
 			query() {
-				api.listRemindingTask(this.queryData).then((res) => {
+				api.listCopyMessage(this.queryData).then((res) => {
 					this.allData = res.data || {};
-					this.tableData = this.allData.list || [];
+					this.tableData = this.allData.dataList || [];
 					this.queryData.pageParam.pageNum = res.data.pageNum;
 					this.queryData.pageParam.totalPage = res.data.total;
 					this.queryData.pageParam.pageSize = res.data.pageSize;
@@ -122,8 +124,8 @@
 				this.query()
 			},
 			gotoHandle(row) {
-				row['formKey'] = (typeof row['formKey']) == 'string' ? JSON.parse(row['formKey']) : row['formKey'];
-				let key = row["formKey"]["routerName"];
+				// row['formKey'] = (typeof row['formKey']) == 'string' ? JSON.parse(row['formKey']) : row['formKey'];
+				let key = row["processDefinitionKey"];
 				let router = this.detailRouters.find(e => e.code.indexOf(key) !== -1);
 				let hiddenEdit = ["sgdwhtrybs", "jldwhtrybs", "qzdwhtrybs", "sgdwrybg", "jldwrybg", "qzdwrybg", "sgdwryqj",
 					"jldwryqj", "qzdwryqj"

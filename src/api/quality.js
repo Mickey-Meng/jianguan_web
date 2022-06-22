@@ -561,9 +561,9 @@ export const listHandleTask = data => {
 /**
  * 抄送列表
  */
-export const listRemindingTask = data => {
+export const listCopyMessage = data => {
 	return request({
-		url: api.listRemindingTask,
+		url: api.listCopyMessage,
 		method: "post",
 		data: data
 	});
