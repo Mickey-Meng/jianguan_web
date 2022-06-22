@@ -106,10 +106,10 @@
 						<i class="el-icon-caret-right"></i>
 					</div>
 				</el-aside>
-				<el-aside
+				<!-- <el-aside
 					style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
 					<tasklog :taskInfo="taskInfo" ref="tasklog"></tasklog>
-				</el-aside>
+				</el-aside> -->
 			</el-container>
 		</el-dialog>
 		
@@ -206,21 +206,21 @@
 					let data=res['data']||{};
 					this.formData=data;
 				});
-				api.getFlowAndTaskInfo({businessKey: id}).then((res) => {
-					let data=res['data'];
-					this.taskInfo={
-						processDefinitionId: data['processDefinitionId'],
-						processInstanceId: data['processInstanceId'],
-						taskId: data['taskId']
-					}
-					this.updateTaskLog();
-				});
+				// api.getFlowAndTaskInfo({businessKey: id}).then((res) => {
+				// 	let data=res['data'];
+				// 	this.taskInfo={
+				// 		processDefinitionId: data['processDefinitionId'],
+				// 		processInstanceId: data['processInstanceId'],
+				// 		taskId: data['taskId']
+				// 	}
+				// 	this.updateTaskLog();
+				// });
 			},
-			updateTaskLog(){
-				setTimeout(()=>{
-					this.$refs['tasklog'].initData();
-				},100)
-			},
+			// updateTaskLog(){
+			// 	setTimeout(()=>{
+			// 		this.$refs['tasklog'].initData();
+			// 	},100)
+			// },
 		},
 	};
 </script>
