@@ -4,8 +4,8 @@
       <el-header>
         <el-row type="flex" justify="space-between">
           <el-col class="title header" :span="8">
-            <i class="el-icon-orange" />
-            <span>橙单流程设计</span>
+            <!-- <i class="el-icon-orange" /> -->
+            <span>流程设计</span>
           </el-col>
           <el-col :span="8">
             <el-steps :active="activeStep" finish-status="success" simple style="margin-top: 7px;">
