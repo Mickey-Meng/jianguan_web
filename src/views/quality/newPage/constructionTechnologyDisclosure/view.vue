@@ -26,13 +26,13 @@
 						<div class="block-item">
 							<div class="block-item-label">施工技术交底概述</div>
 							<div class="block-item-value">
-								{{formData.projectCode}}
+								{{formData.buildTechBottom}}
 							</div>
 						</div>
 						<div class="block-item">
 							<div class="block-item-label">备注</div>
 							<div class="block-item-value">
-								{{formData.projectCode}}
+								{{formData.remark}}
 							</div>
 						</div>
 					</div>
