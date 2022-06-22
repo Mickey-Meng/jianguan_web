@@ -19,8 +19,8 @@
 									:multiple="userOptions['isSign']?true:false"
 									v-model="auditUser[userOptions.entryUserVariable]"
 									@change="flowUserChange($event, userOptions.entryUserVariable)">
-									<el-option v-for="(item, idx) in userOptions.userName" :key="item"
-										:label="userOptions.userNameStr[idx]" :value="item">
+									<el-option v-for="(item, idx) in userOptions.userInfo" :key="item.id"
+										:label="item.name" :value="item.username">
 									</el-option>
 								</el-select>
 							</el-form-item>
@@ -64,16 +64,10 @@
 					for (let i = 0; i < res.data.length; i++) {
 						const item = res.data[i];
 						if (res.data[i]['isSign']) {
-							this.auditUser[item.entryUserVariable] = item.userName;
+							this.auditUser[item.entryUserVariable] = item.userInfo.map(v=>v.username);
 						} else {
-							this.auditUser[item.entryUserVariable] = item.userName[0];
+							this.auditUser[item.entryUserVariable] = item.userInfo[0]['username'];
 						}
-						if (!item.userNameStr) item.userNameStr = [];
-						item.userInfo=item.userInfo||[]
-						for (let j = 0; j < item.userInfo.length; j++) {
-							item.userNameStr[j] = item.userInfo[j].name;
-						}
-						this.$forceUpdate();
 					}
 					this.flowNodesUsersData = res.data;
 				});
