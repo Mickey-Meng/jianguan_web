@@ -1326,88 +1326,88 @@ export const asyncRoutes = [{
 				component: () => import("@/views/contractManagement/staffSubmit"),
 				meta: {
 					title: "人员报审",
-					code: "hetongrenyuanbaoshen",
-					icon: "circle",
-					allMap: false,
-					partMap: false,
-					noMap: true
-				}
-			},
-			// {
-			// 	path: "/personnelAudit",
-			// 	name: "personnelAudit",
-			// 	component: () => import("@/views/contractManagement/personnelAudit"),
-			// 	meta: {
-			// 		title: "人员审核",
-			// 		code: "renyuanshenhe",
-			// 		icon: "circle",
-			// 		allMap: false,
-			// 		partMap: false,
-			// 		noMap: true
-			// 	}
-			// },
-			// {
-			// 	path: "/personnelReportForExaminationRecords",
-			// 	name: "personnelReportForExaminationRecords",
-			// 	component: () => import("@/views/contractManagement/personnelReportForExaminationRecords"),
-			// 	meta: {
-			// 		title: "人员报审记录",
-			// 		code: "renyuanbaoshenjilu",
-			// 		icon: "circle",
-			// 		allMap: false,
-			// 		partMap: false,
-			// 		noMap: true
-			// 	}
-			// },
-			{
-				path: "/personnelChange",
-				name: "personnelChange",
-				component: () => import("@/views/contractManagement/personnelChange"),
-				meta: {
-					title: "人员变更",
-					code: "renyuanbiangeng",
-					icon: "circle",
-					allMap: false,
-					partMap: false,
-					noMap: true
-				}
-			},
-			// {
-			// 	path: "/personnelChangeAudit",
-			// 	name: "personnelChangeAudit",
-			// 	component: () => import("@/views/contractManagement/personnelChangeAudit"),
-			// 	meta: {
-			// 		title: "人员变更审核",
-			// 		code: "renyuanbiangengshenhe",
-			// 		icon: "circle",
-			// 		allMap: false,
-			// 		partMap: false,
-			// 		noMap: true
-			// 	}
-			// },
-			// {
-			// 	path: "/personnelChangeRecord",
-			// 	name: "personnelChangeRecord",
-			// 	component: () => import("@/views/contractManagement/personnelChangeRecord"),
-			// 	meta: {
-			// 		title: "人员变更记录",
-			// 		code: "renyuanbiangengjilu",
-			// 		icon: "circle",
-			// 		allMap: false,
-			// 		partMap: false,
-			// 		noMap: true
-			// 	}
-			// },
-			{
-				path: "/applicationForLeave",
-				name: "applicationForLeave",
-				component: () => import("@/views/contractManagement/applicationForLeave"),
-				meta: {
-					title: "请假申请",
-					code: "qingjiashenqing",
-					icon: "circle",
-					allMap: false,
-					partMap: false,
+          code: "hetongrenyuanbaoshen",
+          icon: "circle",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+    },
+      // {
+      // 	path: "/personnelAudit",
+      // 	name: "personnelAudit",
+      // 	component: () => import("@/views/contractManagement/personnelAudit"),
+      // 	meta: {
+      // 		title: "人员审核",
+      // 		code: "renyuanshenhe",
+      // 		icon: "circle",
+      // 		allMap: false,
+      // 		partMap: false,
+      // 		noMap: true
+      // 	}
+      // },
+      {
+        path: "/personnelReportForExaminationRecords",
+        name: "personnelReportForExaminationRecords",
+        component: () => import("@/views/contractManagement/personnelReportForExaminationRecords"),
+        meta: {
+          title: "人员报审记录",
+          code: "renyuanbaoshenjilu",
+          icon: "circle",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/personnelChange",
+        name: "personnelChange",
+        component: () => import("@/views/contractManagement/personnelChange"),
+        meta: {
+          title: "人员变更",
+          code: "renyuanbiangeng",
+          icon: "circle",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      // {
+      // 	path: "/personnelChangeAudit",
+      // 	name: "personnelChangeAudit",
+      // 	component: () => import("@/views/contractManagement/personnelChangeAudit"),
+      // 	meta: {
+      // 		title: "人员变更审核",
+      // 		code: "renyuanbiangengshenhe",
+      // 		icon: "circle",
+      // 		allMap: false,
+      // 		partMap: false,
+      // 		noMap: true
+      // 	}
+      // },
+      {
+        path: "/personnelChangeRecord",
+        name: "personnelChangeRecord",
+        component: () => import("@/views/contractManagement/personnelChangeRecord"),
+        meta: {
+          title: "人员变更记录",
+          code: "renyuanbiangengjilu",
+          icon: "circle",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      {
+        path: "/applicationForLeave",
+        name: "applicationForLeave",
+        component: () => import("@/views/contractManagement/applicationForLeave"),
+        meta: {
+          title: "请假申请",
+          code: "qingjiashenqing",
+          icon: "circle",
+          allMap: false,
+          partMap: false,
 					noMap: true
 				}
 			},
