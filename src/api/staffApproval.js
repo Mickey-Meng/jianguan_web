@@ -41,7 +41,16 @@ export const getStaffByProcessIdAndProjectId = (params) => {
     params
   });
 };
-
+export const getStaffRecordsById = (projectId) => {
+  return request({
+    url: api.getStaffRecordsById,
+    method: "post",
+    data: {},
+    params: {
+      projectId
+    }
+  });
+};
 
 ///-------------------人员变更----------------------
 export const addPersonChange = (data) => {
@@ -67,6 +76,16 @@ export const getPersonChangeByProcessId = (params) => {
     method: "post",
     data: {},
     params
+  });
+};
+export const getPersonChangeRecords = (projectId) => {
+  return request({
+    url: api.getPersonChangeRecords,
+    method: "post",
+    data: {},
+    params: {
+      projectId
+    }
   });
 };
 //------------------请假申请----------------
@@ -95,6 +114,18 @@ export const getLeaveByProcessId = (params) => {
     params
   });
 };
+export const getLeaveRecordsById = (projectId) => {
+  return request({
+    url: api.getLeaveRecordsById,
+    method: "post",
+    data: {},
+    params: {
+      projectId
+    }
+  });
+};
+
+
 //--------------------------电子围栏-------------------
 export const addFence = (data) => {
   return request({

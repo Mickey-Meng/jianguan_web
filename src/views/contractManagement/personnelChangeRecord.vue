@@ -23,26 +23,30 @@
       <el-button type="primary">搜索</el-button>
 
       <div class="right-btns">
-        <!-- <el-button type="primary" size="small"
-          :icon="operateBtnsVisible?'el-icon-d-arrow-right':'el-icon-d-arrow-left'"
-          @click="operateBtnsVisible=!operateBtnsVisible"></el-button> -->
         <div class="operate-btns">
           <el-button size="small">导出</el-button>
-          <el-button size="small">批量操作</el-button>
+<!--          <el-button size="small">批量操作</el-button>-->
         </div>
       </div>
     </el-header>
     <el-main>
       <div class="container">
         <el-table :data="tableDta" style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
-          <el-table-column prop="uploadname" label="标段"></el-table-column>
-          <el-table-column prop="uploadname" label="人员变更类型"></el-table-column>
-          <el-table-column prop="uploadname" label="变更岗位"></el-table-column>
-          <el-table-column prop="uploadname" label="变更前人员"></el-table-column>
-          <el-table-column prop="uploadname" label="变更后人员"></el-table-column>
-          <el-table-column prop="uploadname" label="录入日期"></el-table-column>
-          <el-table-column prop="uploadname" label="负责人"></el-table-column>
-          <el-table-column prop="uploadname" label="操作"></el-table-column>
+          <el-table-column prop="projectChildName" label="标段"></el-table-column>
+          <el-table-column prop="changeTypeName" label="人员变更类型"></el-table-column>
+          <el-table-column prop="changePostName" label="变更岗位"></el-table-column>
+          <el-table-column prop="beforePerson" label="变更前人员"></el-table-column>
+          <el-table-column prop="afterPerson" label="变更后人员"></el-table-column>
+          <el-table-column prop="subDate" label="录入日期">
+            <template slot-scope="{row}">
+              {{ row.subDate | formatTime }}
+            </template>
+          </el-table-column>
+          <el-table-column label="操作">
+            <template slot-scope="{row,$index}">
+              <el-button type="text" size="mini" @click="seeDetail(row)">详情</el-button>
+            </template>
+          </el-table-column>
         </el-table>
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
                        :current-page="queryData.pageNum" :page-size="queryData.pageSize"
@@ -61,7 +65,7 @@
             <el-form ref="form" :model="form" label-width="80px">
               <div class="form-title">
                 <div class="title-big-bar"></div>
-                <strong>人员变更记录</strong>
+                <strong>人员变更</strong>
               </div>
               <div class="form-block">
                 <div class="form-block-title">
@@ -72,13 +76,13 @@
                   <div class="block-item">
                     <div class="block-item-label">标段</div>
                     <div class="block-item-value">
-                      <el-input readonly></el-input>
+                      <el-input readonly v-model="form.projectChildName"></el-input>
                     </div>
                   </div>
                   <div class="block-item">
                     <div class="block-item-label">填报人</div>
                     <div class="block-item-value">
-                      <el-input readonly></el-input>
+                      <el-input readonly v-model="form.recorder"></el-input>
                     </div>
                   </div>
                 </div>
@@ -86,14 +90,7 @@
                   <div class="block-item">
                     <div class="block-item-label">填报日期</div>
                     <div class="block-item-value">
-                      <el-date-picker
-                        v-model="form.time"
-                        type="datetime"
-                        :clearable="false"
-                        placeholder="选择日期时间"
-                        value-format="yyyy-MM-dd HH:mm:ss"
-                      >
-                      </el-date-picker>
+                      {{ form.subDate }}
                     </div>
                   </div>
                 </div>
@@ -108,7 +105,7 @@
                     <div class="block-item-label">项目</div>
                     <div class="block-item-value">
                       <el-form-item prop="qualityCheckUser">
-                        <el-input readonly></el-input>
+                        <el-input readonly v-model="form.projectName"></el-input>
                       </el-form-item>
                     </div>
                   </div>
@@ -116,7 +113,7 @@
                     <div class="block-item-label">标段</div>
                     <div class="block-item-value">
                       <el-form-item prop="qualityCheckUser">
-                        <el-input readonly></el-input>
+                        <el-input readonly v-model="form.projectChildName"></el-input>
                       </el-form-item>
                     </div>
                   </div>
@@ -126,28 +123,7 @@
                     <div class="block-item-label">人员变更类型</div>
                     <div class="block-item-value">
                       <el-form-item prop="qualityCheckUser">
-                        <el-select placeholder="请选择">
-                        </el-select>
-                      </el-form-item>
-                    </div>
-                  </div>
-                  <div class="block-item">
-                    <div class="block-item-label">建设单位</div>
-                    <div class="block-item-value">
-                      <el-form-item prop="qualityCheckUser">
-                        <el-select placeholder="请选择">
-                        </el-select>
-                      </el-form-item>
-                    </div>
-                  </div>
-                </div>
-                <div class="block-line">
-                  <div class="block-item">
-                    <div class="block-item-label">变更单位</div>
-                    <div class="block-item-value">
-                      <el-form-item prop="qualityCheckUser">
-                        <el-select placeholder="请选择">
-                        </el-select>
+                        {{ form.changeTypeName }}
                       </el-form-item>
                     </div>
                   </div>
@@ -155,19 +131,18 @@
                     <div class="block-item-label">变更岗位</div>
                     <div class="block-item-value">
                       <el-form-item prop="qualityCheckUser">
-                        <el-select placeholder="请选择">
-                        </el-select>
+                        {{ form.changePostName }}
                       </el-form-item>
                     </div>
                   </div>
                 </div>
+
                 <div class="block-line">
                   <div class="block-item">
                     <div class="block-item-label">变更前人员</div>
                     <div class="block-item-value">
                       <el-form-item prop="qualityCheckUser">
-                        <el-select placeholder="请选择">
-                        </el-select>
+                        {{ form.beforePerson }}
                       </el-form-item>
                     </div>
                   </div>
@@ -175,7 +150,7 @@
                     <div class="block-item-label">变更前(执业)资格证书号</div>
                     <div class="block-item-value">
                       <el-form-item prop="qualityCheckUser">
-                        <el-input readonly></el-input>
+                        <el-input v-model="form.beforeCode"></el-input>
                       </el-form-item>
                     </div>
                   </div>
@@ -185,8 +160,7 @@
                     <div class="block-item-label">变更后人员</div>
                     <div class="block-item-value">
                       <el-form-item prop="qualityCheckUser">
-                        <el-select placeholder="请选择">
-                        </el-select>
+                        {{ form.afterPerson }}
                       </el-form-item>
                     </div>
                   </div>
@@ -194,54 +168,76 @@
                     <div class="block-item-label">变更后(执业)资格证书号</div>
                     <div class="block-item-value">
                       <el-form-item prop="qualityCheckUser">
-                        <el-input readonly></el-input>
+                        <el-input v-model="form.afterCode"></el-input>
                       </el-form-item>
                     </div>
                   </div>
                 </div>
-
-
+                <div class="block-line">
+                  <div class="block-item">
+                    <div class="block-item-label">变更单位</div>
+                    <div class="block-item-value">
+                      <el-form-item prop="qualityCheckUser">
+                        <el-input readonly v-model="form.changeUnitName"></el-input>
+                      </el-form-item>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div class="form-block">
                 <div class="form-block-title">
                   <div class="title-bar"></div>
                   <strong>附件</strong>
+                  <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
+											xisx xis pdf文件，且不超过100m</span>
                 </div>
-                <div class="block-line">
-                  <el-button size="small" type="primary">下载全部</el-button>
+                <div class="block-line" style="height: 35px;">
+                  <div class="block-table-btns">
+                    <el-button size="small" type="primary" @click="downloadFileEvent">下载全部</el-button>
+                  </div>
                 </div>
                 <div class="block-table">
                   <el-table :data="fileData" border style="width: 100%;">-->
-                    <el-table-column prop="uploadname" label="附件"></el-table-column>
-                    <el-table-column prop="uploadname" label="上传日期"></el-table-column>
-                    <el-table-column prop="uploadname" label="上传人"></el-table-column>
-                    <el-table-column prop="uploadname" label="操作"></el-table-column>
+                    <el-table-column prop="fileName" label="附件"></el-table-column>
+                    <el-table-column prop="uploadTime" label="上传日期"></el-table-column>
+                    <el-table-column prop="uploadPerson" label="上传人"></el-table-column>
                   </el-table>
                 </div>
-              </div>
-              <div class="form-block">
-                <div class="form-block-title">
-                  <div class="title-bar"></div>
-                  <strong>待处理人</strong>
-                </div>
                 <div class="block-line">
-                  <div class="block-item">
-                    <div class="block-item-label">负责人<i class="require-icon"></i></div>
-                    <div class="block-item-value">
-                      <el-form-item prop="qualityCheckUser">
-
-                      </el-form-item>
-                    </div>
-                  </div>
-                  <div class="block-item">
-                    <div class="block-item-label">项目部<i class="require-icon"></i></div>
-                    <div class="block-item-value">
-                      <el-form-item prop="qualityCheckUser">
-
-                      </el-form-item>
-                    </div>
-                  </div>
+                  <p>
+                    <span style="font-family: FangSong, FangSong_GB2312; font-size: 14px;">
+                      <em>应附：替换人与被替换人的简历表、职称证书、学历证书、身份证复印件、工作简历、业绩、社保、资格证书等相关材料。 </em>
+                    </span>
+                  </p>
                 </div>
+              </div>
+              <!--          <div class="form-block">-->
+              <!--            <div class="form-block-title">-->
+              <!--              <div class="title-bar"></div>-->
+              <!--              <strong>待处理人</strong>-->
+              <!--            </div>-->
+              <!--            <div class="block-line">-->
+              <!--              <div class="block-item">-->
+              <!--                <div class="block-item-label">负责人<i class="require-icon"></i></div>-->
+              <!--                <div class="block-item-value">-->
+              <!--                  <el-form-item prop="qualityCheckUser">-->
+
+              <!--                  </el-form-item>-->
+              <!--                </div>-->
+              <!--              </div>-->
+              <!--              <div class="block-item">-->
+              <!--                <div class="block-item-label">项目部<i class="require-icon"></i></div>-->
+              <!--                <div class="block-item-value">-->
+              <!--                  <el-form-item prop="qualityCheckUser">-->
+
+              <!--                  </el-form-item>-->
+              <!--                </div>-->
+              <!--              </div>-->
+              <!--            </div>-->
+              <!--          </div>-->
+              <div class="form-block">
+                <!--            <el-button class="submit-btn" size="small" type="primary" @click="submitInfo">提交-->
+                <!--            </el-button>-->
               </div>
             </el-form>
           </div>
@@ -253,7 +249,7 @@
         </el-aside>
         <el-aside
           style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
-          <!--              <tasklog></tasklog>-->
+          <tasklog :taskInfo="taskInfo" ref="tasklog"></tasklog>
         </el-aside>
       </el-container>
 
@@ -262,13 +258,20 @@
 </template>
 
 <script>
+  import {getPersonChangeRecords} from "@/api/staffApproval";
+  import {mapGetters} from "vuex";
+  import {formatDate} from "@/utils/date";
+  import tasklog from "@/views/common/tasklog";
+  import {downLoadFile} from "@/utils/download";
+
   export default {
     data() {
       return {
         tableDta: [],
         fileData: [],//上传的附件
         form: {},
-        dialogFormVisible: true,
+        taskInfo: {},
+        dialogFormVisible: false,
         dialogTitle: "项目全生命周期数字管理平台",
         queryData: {
           projectCode: "",
@@ -280,13 +283,51 @@
       };
     },
     created() {
+      this.init();
     },
-    components: {},
-    computed: {},
+    components: {tasklog},
+    computed: {
+      ...mapGetters(["project"])
+    },
     methods: {
+      init() {
+        getPersonChangeRecords(this.project.id).then(res => {
+          this.tableDta = res.data;
+        });
+      },
+      seeDetail(row) {
+        this.form = Object.assign({}, row);
+        this.fileData = row.files;
+        this.isCreate = false;
+        let {processDefinitionId, processInstanceId, taskId} = row;
+        if (processDefinitionId && processInstanceId && taskId) {
+          this.taskInfo = {
+            processDefinitionId, processInstanceId, taskId
+          };
+
+        } else {
+          this.taskInfo = {};
+        }
+        this.dialogFormVisible = true;
+        this.$nextTick(() => {
+          this.$refs["tasklog"].initData();
+        });
+      },
       handleSizeChange() {
       },
       handleCurrentChange() {
+      },
+      downloadFileEvent() {
+        if (this.fileData && this.fileData.length > 0) {
+          this.fileData.forEach(item => {
+            downLoadFile(item.fileId);
+          });
+        }
+      }
+    },
+    filters: {
+      formatTime(val) {
+        return formatDate(val);
       }
     }
   };

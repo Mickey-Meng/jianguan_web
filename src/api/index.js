@@ -22,7 +22,7 @@ const api = {
 	//----------------------根据项目id获取数据、修改------------------------
 	getWorkAreaByProjectId: "/ZhuJiRoad/projects/getGongQu", //根据项目id获取下面的工区
 	getRolesByProject: "/ZhuJiRoad/projects/getRolesByProject?projectId=3",
-	
+
 	/*
 	 * 数据中心首页接口
 	 * */
@@ -136,126 +136,129 @@ const api = {
 	getcheck: "/ZhuJiRoad/safe/getcheck", //获取安全事件工区负责人数据  ----弃用----------
 	submitDealWithSafeEvent: "/ZhuJiRoad/safe/submitDealWithSafeEvent", //施工方对安全数据进行整改上报
 	submitDelaySafeEvent: "/ZhuJiRoad/safe/submitDelaySafeEvent", //施工方申请事件延期处理
-	submitSafeData: "/ZhuJiRoad/safe/uploadData", //监理方提交安全检查事件
-	getAllSafeEvents: "/ZhuJiRoad/safe/getAllStatusSafeEvent",
-	getSafeEventsStatistic: "/ZhuJiRoad/safe/group", //安全总览右上角事件统计接口
-	deleteSafeEvent: "/ZhuJiRoad/safe/deleteEvent", //删除安全事件
+  submitSafeData: "/ZhuJiRoad/safe/uploadData", //监理方提交安全检查事件
+  getAllSafeEvents: "/ZhuJiRoad/safe/getAllStatusSafeEvent",
+  getSafeEventsStatistic: "/ZhuJiRoad/safe/group", //安全总览右上角事件统计接口
+  deleteSafeEvent: "/ZhuJiRoad/safe/deleteEvent", //删除安全事件
 
 
-	// 获取每月安全事件数据--表格左侧的工区每日状态
-	getPerMonthSafeData: "/ZhuJiRoad/count/getPerMonthSafeData",
-	// 获取某一天的安全事件
-	getDayData: "/ZhuJiRoad/count/getDayData",
-	// 安全事件分类汇总
-	getByFirstType: "/ZhuJiRoad/count/getByFirstType",
-	// 获取周月履职情况
-	getPerSafeData: "/ZhuJiRoad/count/getPerSafeData",
-	getSafePerday: "/ZhuJiRoad/safe/getPerday", //获取安全总览巡更一览数据
-	getDaySafeEvents: "/ZhuJiRoad/safe/getDay", //安全总览获取某天的安全事件
-	/*
-	 * 智慧工地
-	 * */
-	environmentVideo: "/ZhuJiRoad/progress/getYcData",
-	// 每日环境趋势变化图
-	getDayTrend: "/ZhuJiRoad/count/getDayTrend",
-	// 获取每月环境统计数据
-	getEnvPerMonth: "/ZhuJiRoad/count/getEnvPerMonth",
-	// 每日环境趋势变化图
-	getExceedData: "/ZhuJiRoad/count/getExceedData",
-	//-----------------------系统管理 工点管理-------------
-	getWorkPoint: "/ZhuJiRoad/digitalTwin/getData", //获取工点
-	addWorkPoint: "/ZhuJiRoad/digitalTwin/addData", //新增工点
-	deleteWorkPoint: "/ZhuJiRoad/digitalTwin/delData", //删除工点
-	updateWorkPoint: "/ZhuJiRoad/digitalTwin/updateData", //更新工点
-	//------------------------系统管理、岗位管理 --------------------------弃用
-	getAllPost: "/ZhuJiRoad/person/getPosts", //查询岗位信息
-	addPost: "/ZhuJiRoad/person/addPost", //新增岗位
-	deletePost: "/ZhuJiRoad/person/deletePost", //删除岗位
-	updatePost: "/ZhuJiRoad/person/updatePost", //修改岗位
-	personnelBindingPost: "/ZhuJiRoad/person/addUserPost", //人员绑定岗位
-	//-----------------------系统管理、组织管理 ------------------------ 弃用
-	addOrganization: "/ZhuJiRoad/person/addDepartment", //新增组织
-	updateOrganization: "/ZhuJiRoad/person/updateDepartment", //更新组织
-	deleteOrganization: "/ZhuJiRoad/person/deleteDepartment", //删除组织
-	getOrganization: "/ZhuJiRoad/person/getDepartments", //获取组织,
-	bindingUsersToOrganizations: "/ZhuJiRoad/person/addUserGroup", //组织绑定用户
-	getUserBindOrganizations: "/ZhuJiRoad/person/getPersonRole", //获取用户组织关联关系
-	getAllOrganization: "/ZhuJiRoad/person/getUserByGroup", //获取组织，一维数组
-	getRoleInfoByUserId: "/ZhuJiRoad/projects/getUsersByUserid", //根据用ID和项目想ID查询角色信息
-	//-------------------人员报审模块开始 ---------------------------
-	getOrgUser: "/ZhuJiRoad/projects/getUsersByUserid", //获取用户对应组织下的所有用户信息
-	getUsersRoles: "/ZhuJiRoad/projects/getAllRoles", //获取用户和角色的数据
-	addStaffApproval: "/ZhuJiRoad/person/subContract", //上传报审信息,
-	getStaffApprovalBase: "/ZhuJiRoad/person/getContracts", //获取报审的基本信息
-	getStaffByProcessIdAndProjectId: "/ZhuJiRoad/person/getContractByProcessId", //根据项目id和工单ID查询报审的信息
-	//----------------人员变更 -----------------
-	addPersonChange: "/ZhuJiRoad/person/subPersonChange", //提交人员变更
-	getPersonChange: "/ZhuJiRoad/person/getPersonChange", //获取人员变更信息
-	getPersonChangeByProcessId: "/ZhuJiRoad/person/getChangeByProcessId", //根据项目id和工单ID查询变更信息
-	//-------------------- 请假申请------------------
-	submitLeave: "/ZhuJiRoad/person/subLeave", //提交请假申请
-	getLeave: "/ZhuJiRoad/person/getLeaveData", //获取请假数据
-	getLeaveByProcessId: "/ZhuJiRoad/person/getLeaveByProcessId",
-	//-------------电子围栏--------------
-	addFence: "/ZhuJiRoad/fence/addFence", //新增电子围栏
-	deleteFence: "/ZhuJiRoad/fence/delFence", //删除电子围栏
-	getFence: "/ZhuJiRoad/fence/getFence", //获取电子围栏
-	updateFence: "/ZhuJiRoad/fence/updateFence", //更新电子围栏
-	//-------------打卡时间制定-------------------
-	addClockTime: "/ZhuJiRoad/fence/addClock",
-	getClockTime: "/ZhuJiRoad/fence/getClock",
-	updateClockTime: "/ZhuJiRoad/fence/updateClock",
-	deleteClockTime: "/ZhuJiRoad/fence/delClock",
+  // 获取每月安全事件数据--表格左侧的工区每日状态
+  getPerMonthSafeData: "/ZhuJiRoad/count/getPerMonthSafeData",
+  // 获取某一天的安全事件
+  getDayData: "/ZhuJiRoad/count/getDayData",
+  // 安全事件分类汇总
+  getByFirstType: "/ZhuJiRoad/count/getByFirstType",
+  // 获取周月履职情况
+  getPerSafeData: "/ZhuJiRoad/count/getPerSafeData",
+  getSafePerday: "/ZhuJiRoad/safe/getPerday", //获取安全总览巡更一览数据
+  getDaySafeEvents: "/ZhuJiRoad/safe/getDay", //安全总览获取某天的安全事件
+  /*
+   * 智慧工地
+   * */
+  environmentVideo: "/ZhuJiRoad/progress/getYcData",
+  // 每日环境趋势变化图
+  getDayTrend: "/ZhuJiRoad/count/getDayTrend",
+  // 获取每月环境统计数据
+  getEnvPerMonth: "/ZhuJiRoad/count/getEnvPerMonth",
+  // 每日环境趋势变化图
+  getExceedData: "/ZhuJiRoad/count/getExceedData",
+  //-----------------------系统管理 工点管理-------------
+  getWorkPoint: "/ZhuJiRoad/digitalTwin/getData", //获取工点
+  addWorkPoint: "/ZhuJiRoad/digitalTwin/addData", //新增工点
+  deleteWorkPoint: "/ZhuJiRoad/digitalTwin/delData", //删除工点
+  updateWorkPoint: "/ZhuJiRoad/digitalTwin/updateData", //更新工点
+  //------------------------系统管理、岗位管理 --------------------------弃用
+  getAllPost: "/ZhuJiRoad/person/getPosts", //查询岗位信息
+  addPost: "/ZhuJiRoad/person/addPost", //新增岗位
+  deletePost: "/ZhuJiRoad/person/deletePost", //删除岗位
+  updatePost: "/ZhuJiRoad/person/updatePost", //修改岗位
+  personnelBindingPost: "/ZhuJiRoad/person/addUserPost", //人员绑定岗位
+  //-----------------------系统管理、组织管理 ------------------------ 弃用
+  addOrganization: "/ZhuJiRoad/person/addDepartment", //新增组织
+  updateOrganization: "/ZhuJiRoad/person/updateDepartment", //更新组织
+  deleteOrganization: "/ZhuJiRoad/person/deleteDepartment", //删除组织
+  getOrganization: "/ZhuJiRoad/person/getDepartments", //获取组织,
+  bindingUsersToOrganizations: "/ZhuJiRoad/person/addUserGroup", //组织绑定用户
+  getUserBindOrganizations: "/ZhuJiRoad/person/getPersonRole", //获取用户组织关联关系
+  getAllOrganization: "/ZhuJiRoad/person/getUserByGroup", //获取组织，一维数组
+  getRoleInfoByUserId: "/ZhuJiRoad/projects/getUsersByUserid", //根据用ID和项目想ID查询角色信息
+  //-------------------人员报审模块开始 ---------------------------
+  getOrgUser: "/ZhuJiRoad/projects/getUsersByUserid", //获取用户对应组织下的所有用户信息
+  getUsersRoles: "/ZhuJiRoad/projects/getAllRoles", //获取用户和角色的数据
+  addStaffApproval: "/ZhuJiRoad/person/subContract", //上传报审信息,
+  getStaffApprovalBase: "/ZhuJiRoad/person/getContracts", //获取报审的基本信息
+  getStaffByProcessIdAndProjectId: "/ZhuJiRoad/person/getContractByProcessId", //根据项目id和工单ID查询报审的信息
+  getStaffRecordsById: "/ZhuJiRoad/person/getContractStandingBook",//人员报审台账
+  //----------------人员变更 -----------------
+  addPersonChange: "/ZhuJiRoad/person/subPersonChange", //提交人员变更
+  getPersonChange: "/ZhuJiRoad/person/getPersonChange", //获取人员变更信息
+  getPersonChangeByProcessId: "/ZhuJiRoad/person/getChangeByProcessId", //根据项目id和工单ID查询变更信息
+  getPersonChangeRecords: "/ZhuJiRoad/person/getChangeStandingBook",//人员变更记录
+  //-------------------- 请假申请------------------
+  submitLeave: "/ZhuJiRoad/person/subLeave", //提交请假申请
+  getLeave: "/ZhuJiRoad/person/getLeaveData", //获取请假数据
+  getLeaveByProcessId: "/ZhuJiRoad/person/getLeaveByProcessId",
+  getLeaveRecordsById: "/ZhuJiRoad/person/getLeaveStandingBook",//获取请假台账
+  //-------------电子围栏--------------
+  addFence: "/ZhuJiRoad/fence/addFence", //新增电子围栏
+  deleteFence: "/ZhuJiRoad/fence/delFence", //删除电子围栏
+  getFence: "/ZhuJiRoad/fence/getFence", //获取电子围栏
+  updateFence: "/ZhuJiRoad/fence/updateFence", //更新电子围栏
+  //-------------打卡时间制定-------------------
+  addClockTime: "/ZhuJiRoad/fence/addClock",
+  getClockTime: "/ZhuJiRoad/fence/getClock",
+  updateClockTime: "/ZhuJiRoad/fence/updateClock",
+  deleteClockTime: "/ZhuJiRoad/fence/delClock",
 
 
-	//-----------------------流程引擎新增接口 ------------------------
-	//项目相关
-	getChildProject: "/ZhuJiRoad/projects/getChildProject", //通过项目id获取项目子级的标段信息
-	getCompanyByProjectId: "/ZhuJiRoad/projects/getCompanyByProjectId", //通过项目下的标段id获取项目的单位信息
-	getInfoByProjectId: "/ZhuJiRoad/projects/getInfoByProjectId", //通过项目id查询组织信息和用户信息
-	getProjectInfoById: "/ZhuJiRoad/projects/getProjectInfoById", //通过项目id查询项目详细信息（项目名、施工单位、监理单位、合同号等）
-	getProjectRoleTree: "/ZhuJiRoad/projects/getProjectRoleTree", //获取项目下面的组织角色树
-	getProjectUserTree: "/ZhuJiRoad/projects/getProjectUserTree", //获取项目下面的组织用户树
-	getUserByRoleId: "/ZhuJiRoad/projects/getUserByRoleId", //通过角色id获取用户信息
-	//上传文件接口
-	uploadFile: "/ZhuJiRoad/mong/newUpload",
-	getFileInfo: "/ZhuJiRoad/mong/findFile",
-	downloadFile: "/ZhuJiRoad/mong/download", //下载文件
-	previewFile: "/ZhuJiRoad/mong/preview", //预览文件
-	//任务
-	listHandleTask: '/ZhuJiApi/flow/flowOperation/listRuntimeTask', //待办
-	listHistoricTask: '/ZhuJiApi/flow/flowOperation/listHistoricTask', //已办
-	listHistoricProcessInstance: '/ZhuJiApi/flow/flowOperation/listHistoricProcessInstance', //历史任务
-	submitUserTask: '/ZhuJiApi/admin/flow/flowStaticPage/submitUserTask',
-	rejectRuntimeTask: '/ZhuJiApi/admin/flow/flowOperation/rejectRuntimeTask', //驳回
-	viewTaskUserInfo: '/ZhuJiApi/admin/flow/flowOperation/viewTaskUserInfo', //审批人
-	viewRuntimeTaskInfo: '/ZhuJiApi/admin/flow/flowOperation/viewRuntimeTaskInfo', //查询流程按钮
-	viewHighlightFlowData: '/ZhuJiApi/admin/flow/flowOperation/viewHighlightFlowData', //高亮流程图
-	viewProcessBpmn: '/ZhuJiApi/admin/flow/flowOperation/viewProcessBpmn', //获取流程图bpmn
-	listFlowTaskComment: '/ZhuJiApi/flow/flowOperation/listFlowTaskComment', //获取当前流程任务的审批列表
-	listRemindingTask: '/ZhuJiApi/admin/flow/flowMessage/listRemindingTask', //抄送列表
-	listCopyMessage: '/ZhuJiApi/admin/flow/flowMessage/listCopyMessage', //抄送列表
-	getFlowAndTaskInfo: '/ZhuJiApi/admin/flow/flowStaticPage/getFlowAndTaskInfo', //根据流程idH获取三个key 用于查看审批信息
-	getFlowType:'/ZhuJiApi/web/api/v1/flowType/page',//分页查询流程类型数据
-	addFlowEntryByFlowKey:'/ZhuJiApi/web/api/v1/flowAuditEntry/addFlowEntryByFlowKey',//新增流程节点信息
-  addOrUpdateFlowAuditEntry:'/ZhuJiApi/web/api/v1/flowAuditEntry/addOrUpdate',//新增或者更新流程节点审核人员数据
-  getFlowTypeDetail:'/ZhuJiApi/web/api/v1/flowType/getAuditInfoByTypeId', //通过id获取一条流程类型数据
-	flowAuditEntry: "/ZhuJiApi/web/api/v1/flowAuditEntry/getAuditInfoByFlowKey",
-	getCopyUserByFlowKey: "/ZhuJiApi/web/api/v1/flowAuditEntry/getCopyUserByFlowKey",
-	// 流程配置
-	getFlowEntryList: "/ZhuJiApi/admin/flow/flowEntry/list", // 获取所有流程列表
-	getFlowCategoryListDict: "/ZhuJiApi/admin/flow/flowCategory/listDict", // 获取流程分类
-	//省市区
-	getDistrict: '/ZhuJiApi/web/api/v1/proviceCityArea/getDistrict', //区县
-	getCity: '/ZhuJiApi/web/api/v1/proviceCityArea/getCity', //地市
-	getProvince: '/ZhuJiApi/web/api/v1/proviceCityArea/getProvince', //省
-	//隐蔽工程
-	getHiddenProjectList: "/ZhuJiApi/web/api/v1/hiddenProjectAccept/page",
-	getHiddenProjectDetail: "/ZhuJiApi/web/api/v1/hiddenProjectAccept/detail/id",
-	addOrUpdateHiddenProject: "/ZhuJiApi/web/api/v1/hiddenProjectAccept/addOrUpdate",
-	deleteHiddenProject: "/ZhuJiApi/web/api/v1/hiddenProjectAccept/id",
-	exportHiddenProject: "/ZhuJiApi/web/api/v1/hiddenProjectAccept/export",
-	//质量检测
+  //-----------------------流程引擎新增接口 ------------------------
+  //项目相关
+  getChildProject: "/ZhuJiRoad/projects/getChildProject", //通过项目id获取项目子级的标段信息
+  getCompanyByProjectId: "/ZhuJiRoad/projects/getCompanyByProjectId", //通过项目下的标段id获取项目的单位信息
+  getInfoByProjectId: "/ZhuJiRoad/projects/getInfoByProjectId", //通过项目id查询组织信息和用户信息
+  getProjectInfoById: "/ZhuJiRoad/projects/getProjectInfoById", //通过项目id查询项目详细信息（项目名、施工单位、监理单位、合同号等）
+  getProjectRoleTree: "/ZhuJiRoad/projects/getProjectRoleTree", //获取项目下面的组织角色树
+  getProjectUserTree: "/ZhuJiRoad/projects/getProjectUserTree", //获取项目下面的组织用户树
+  getUserByRoleId: "/ZhuJiRoad/projects/getUserByRoleId", //通过角色id获取用户信息
+  //上传文件接口
+  uploadFile: "/ZhuJiRoad/mong/newUpload",
+  getFileInfo: "/ZhuJiRoad/mong/findFile",
+  downloadFile: "/ZhuJiRoad/mong/download", //下载文件
+  previewFile: "/ZhuJiRoad/mong/preview", //预览文件
+  //任务
+  listHandleTask: "/ZhuJiApi/flow/flowOperation/listRuntimeTask", //待办
+  listHistoricTask: "/ZhuJiApi/flow/flowOperation/listHistoricTask", //已办
+  listHistoricProcessInstance: "/ZhuJiApi/flow/flowOperation/listHistoricProcessInstance", //历史任务
+  submitUserTask: "/ZhuJiApi/admin/flow/flowStaticPage/submitUserTask",
+  rejectRuntimeTask: "/ZhuJiApi/admin/flow/flowOperation/rejectRuntimeTask", //驳回
+  viewTaskUserInfo: "/ZhuJiApi/admin/flow/flowOperation/viewTaskUserInfo", //审批人
+  viewRuntimeTaskInfo: "/ZhuJiApi/admin/flow/flowOperation/viewRuntimeTaskInfo", //查询流程按钮
+  viewHighlightFlowData: "/ZhuJiApi/admin/flow/flowOperation/viewHighlightFlowData", //高亮流程图
+  viewProcessBpmn: "/ZhuJiApi/admin/flow/flowOperation/viewProcessBpmn", //获取流程图bpmn
+  listFlowTaskComment: "/ZhuJiApi/flow/flowOperation/listFlowTaskComment", //获取当前流程任务的审批列表
+  listRemindingTask: "/ZhuJiApi/admin/flow/flowMessage/listRemindingTask", //抄送列表
+  listCopyMessage: "/ZhuJiApi/admin/flow/flowMessage/listCopyMessage", //抄送列表
+  getFlowAndTaskInfo: "/ZhuJiApi/admin/flow/flowStaticPage/getFlowAndTaskInfo", //根据流程idH获取三个key 用于查看审批信息
+  getFlowType: "/ZhuJiApi/web/api/v1/flowType/page",//分页查询流程类型数据
+  addFlowEntryByFlowKey: "/ZhuJiApi/web/api/v1/flowAuditEntry/addFlowEntryByFlowKey",//新增流程节点信息
+  addOrUpdateFlowAuditEntry: "/ZhuJiApi/web/api/v1/flowAuditEntry/addOrUpdate",//新增或者更新流程节点审核人员数据
+  getFlowTypeDetail: "/ZhuJiApi/web/api/v1/flowType/getAuditInfoByTypeId", //通过id获取一条流程类型数据
+  flowAuditEntry: "/ZhuJiApi/web/api/v1/flowAuditEntry/getAuditInfoByFlowKey",
+  getCopyUserByFlowKey: "/ZhuJiApi/web/api/v1/flowAuditEntry/getCopyUserByFlowKey",
+  // 流程配置
+  getFlowEntryList: "/ZhuJiApi/admin/flow/flowEntry/list", // 获取所有流程列表
+  getFlowCategoryListDict: "/ZhuJiApi/admin/flow/flowCategory/listDict", // 获取流程分类
+  //省市区
+  getDistrict: "/ZhuJiApi/web/api/v1/proviceCityArea/getDistrict", //区县
+  getCity: "/ZhuJiApi/web/api/v1/proviceCityArea/getCity", //地市
+  getProvince: "/ZhuJiApi/web/api/v1/proviceCityArea/getProvince", //省
+  //隐蔽工程
+  getHiddenProjectList: "/ZhuJiApi/web/api/v1/hiddenProjectAccept/page",
+  getHiddenProjectDetail: "/ZhuJiApi/web/api/v1/hiddenProjectAccept/detail/id",
+  addOrUpdateHiddenProject: "/ZhuJiApi/web/api/v1/hiddenProjectAccept/addOrUpdate",
+  deleteHiddenProject: "/ZhuJiApi/web/api/v1/hiddenProjectAccept/id",
+  exportHiddenProject: "/ZhuJiApi/web/api/v1/hiddenProjectAccept/export",
+  //质量检测
 
 	addOrUpdateQualityDetection: "/ZhuJiApi/web/api/v1/qualityDetection/addOrUpdate",
 	getQualityDetectionDetail: "/ZhuJiApi/web/api/v1/qualityDetection/detail/id",
@@ -335,52 +338,52 @@ const api = {
 	deleteProjectOpen: "/ZhuJiApi/web/api/v1/projectOpen/id",
 	getProjectOpenList: "/ZhuJiApi/web/api/v1/projectOpen/page",
 	//分项开工申请
-	addOrUpdateSubitemOpen: "/ZhuJiApi/web/api/v1/subitemOpen/addOrUpdate",
-	getSubitemOpenDeatil: "/ZhuJiApi/web/api/v1/subitemOpen/detail/id",
-	deleteSubitemOpen: "/ZhuJiApi/web/api/v1/subitemOpen/id",
-	getSubitemOpenList: "/ZhuJiApi/web/api/v1/subitemOpen/page",
+  addOrUpdateSubitemOpen: "/ZhuJiApi/web/api/v1/subitemOpen/addOrUpdate",
+  getSubitemOpenDeatil: "/ZhuJiApi/web/api/v1/subitemOpen/detail/id",
+  deleteSubitemOpen: "/ZhuJiApi/web/api/v1/subitemOpen/id",
+  getSubitemOpenList: "/ZhuJiApi/web/api/v1/subitemOpen/page",
 
-	//首件认可
-	addOrUpdateFirstAccept: "/ZhuJiApi/web/api/v1/firstAccept/addOrUpdate",
-	getFirstAcceptDeatil: "/ZhuJiApi/web/api/v1/firstAccept/detail/id",
-	deleteFirstAccept: "/ZhuJiApi/web/api/v1/firstAccept/id",
-	getFirstAcceptList: "/ZhuJiApi/web/api/v1/firstAccept/page",
-	//质量简报
-	addOrUpdateQualityReport: "/ZhuJiApi/web/api/v1/qualityReport/addOrUpdate",
-	getQualityReportDeatil: "/ZhuJiApi/web/api/v1/qualityReport/detail/id",
-	deleteQualityReport: "/ZhuJiApi/web/api/v1/qualityReport/id",
-	getQualityReportList: "/ZhuJiApi/web/api/v1/qualityReport/page",
+  //首件认可
+  addOrUpdateFirstAccept: "/ZhuJiApi/web/api/v1/firstAccept/addOrUpdate",
+  getFirstAcceptDeatil: "/ZhuJiApi/web/api/v1/firstAccept/detail/id",
+  deleteFirstAccept: "/ZhuJiApi/web/api/v1/firstAccept/id",
+  getFirstAcceptList: "/ZhuJiApi/web/api/v1/firstAccept/page",
+  //质量简报
+  addOrUpdateQualityReport: "/ZhuJiApi/web/api/v1/qualityReport/addOrUpdate",
+  getQualityReportDeatil: "/ZhuJiApi/web/api/v1/qualityReport/detail/id",
+  deleteQualityReport: "/ZhuJiApi/web/api/v1/qualityReport/id",
+  getQualityReportList: "/ZhuJiApi/web/api/v1/qualityReport/page",
 
-	//监理旁站
-	addOrUpdateSupervisionSide: "/ZhuJiApi/web/api/v1/supervisionSide/addOrUpdate",
-	getSupervisionSideDeatil: "/ZhuJiApi/web/api/v1/supervisionSide/detail/id",
-	deleteSupervisionSide: "/ZhuJiApi/web/api/v1/supervisionSide/id",
-	getSupervisionSideList: "/ZhuJiApi/web/api/v1/supervisionSide/page",
-	getSupervisionSideEnums: "/ZhuJiApi/web/api/v1/supervisionSide/sideProject/enums",
+  //监理旁站
+  addOrUpdateSupervisionSide: "/ZhuJiApi/web/api/v1/supervisionSide/addOrUpdate",
+  getSupervisionSideDeatil: "/ZhuJiApi/web/api/v1/supervisionSide/detail/id",
+  deleteSupervisionSide: "/ZhuJiApi/web/api/v1/supervisionSide/id",
+  getSupervisionSideList: "/ZhuJiApi/web/api/v1/supervisionSide/page",
+  getSupervisionSideEnums: "/ZhuJiApi/web/api/v1/supervisionSide/sideProject/enums",
 
-	//监理巡视
-	addOrUpdateSupervisionPatrol: "/ZhuJiApi/web/api/v1/supervisionPatrol/addOrUpdate",
-	getSupervisionPatrolDeatil: "/ZhuJiApi/web/api/v1/supervisionPatrol/detail/id",
-	deleteSupervisionPatrol: "/ZhuJiApi/web/api/v1/supervisionPatrol/id",
-	getSupervisionPatrolList: "/ZhuJiApi/web/api/v1/supervisionPatrol/page",
+  //监理巡视
+  addOrUpdateSupervisionPatrol: "/ZhuJiApi/web/api/v1/supervisionPatrol/addOrUpdate",
+  getSupervisionPatrolDeatil: "/ZhuJiApi/web/api/v1/supervisionPatrol/detail/id",
+  deleteSupervisionPatrol: "/ZhuJiApi/web/api/v1/supervisionPatrol/id",
+  getSupervisionPatrolList: "/ZhuJiApi/web/api/v1/supervisionPatrol/page",
 
-	//监理通知
-	addOrUpdateSupervisionNotice: "/ZhuJiApi/web/api/v1/supervisionNotice/addOrUpdate",
-	getSupervisionNoticeDeatil: "/ZhuJiApi/web/api/v1/supervisionNotice/detail/id",
-	deleteSupervisionNotice: "/ZhuJiApi/web/api/v1/supervisionNotice/id",
-	getSupervisionNoticeList: "/ZhuJiApi/web/api/v1/supervisionNotice/page",
+  //监理通知
+  addOrUpdateSupervisionNotice: "/ZhuJiApi/web/api/v1/supervisionNotice/addOrUpdate",
+  getSupervisionNoticeDeatil: "/ZhuJiApi/web/api/v1/supervisionNotice/detail/id",
+  deleteSupervisionNotice: "/ZhuJiApi/web/api/v1/supervisionNotice/id",
+  getSupervisionNoticeList: "/ZhuJiApi/web/api/v1/supervisionNotice/page",
 
-	//质量活动
-	addOrUpdateQualityActivity: "/ZhuJiApi/web/api/v1/qualityActivity/addOrUpdate",
-	getQualityActivityDeatil: "/ZhuJiApi/web/api/v1/qualityActivity/detail/id",
-	deleteQualityActivity: "/ZhuJiApi/web/api/v1/qualityActivity/id",
-	getQualityActivityList: "/ZhuJiApi/web/api/v1/qualityActivity/page",
-	
-	//监理指令
-	addOrUpdateSupervisionOrder: "/ZhuJiApi/web/api/v1/supervisionOrder/addOrUpdate",
-	getSupervisionOrderDeatil: "/ZhuJiApi/web/api/v1/supervisionOrder/detail/id",
-	deleteSupervisionOrder: "/ZhuJiApi/web/api/v1/supervisionOrder/id",
-	getSupervisionOrderList: "/ZhuJiApi/web/api/v1/supervisionOrder/page",
+  //质量活动
+  addOrUpdateQualityActivity: "/ZhuJiApi/web/api/v1/qualityActivity/addOrUpdate",
+  getQualityActivityDeatil: "/ZhuJiApi/web/api/v1/qualityActivity/detail/id",
+  deleteQualityActivity: "/ZhuJiApi/web/api/v1/qualityActivity/id",
+  getQualityActivityList: "/ZhuJiApi/web/api/v1/qualityActivity/page",
+
+  //监理指令
+  addOrUpdateSupervisionOrder: "/ZhuJiApi/web/api/v1/supervisionOrder/addOrUpdate",
+  getSupervisionOrderDeatil: "/ZhuJiApi/web/api/v1/supervisionOrder/detail/id",
+  deleteSupervisionOrder: "/ZhuJiApi/web/api/v1/supervisionOrder/id",
+  getSupervisionOrderList: "/ZhuJiApi/web/api/v1/supervisionOrder/page"
 };
 
 export default api;
