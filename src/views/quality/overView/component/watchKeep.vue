@@ -12,7 +12,7 @@
       <div class="new_ui_header">
         <div class="left">
           <div class="header_line"></div>
-          <div class="header_text">安全检查一览</div>
+          <div class="header_text">质量检查一览</div>
         </div>
         <div class="right">
           <div class="legend">
