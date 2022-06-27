@@ -15,7 +15,7 @@
 							<el-form-item :rules="[{required: true,
                                 message: '必选',
                                 trigger: 'blur'}]">
-								<el-select placeholder="请选择" :disabled="userOptions['isSign']?true:false"
+								<el-select placeholder="请选择" :disabled="userOptions['isSign']?true:false || userOptions.sort === 1"
 									:multiple="userOptions['isSign']?true:false"
 									v-model="auditUser[userOptions.entryUserVariable]"
 									@change="flowUserChange($event, userOptions.entryUserVariable)">
@@ -63,10 +63,11 @@
 				}).then((res) => {
 					for (let i = 0; i < res.data.length; i++) {
 						const item = res.data[i];
+						item.userInfo = item.userInfo || [];
 						if (res.data[i]['isSign']) {
 							this.auditUser[item.entryUserVariable] = item.userInfo.map(v=>v.username);
 						} else {
-							this.auditUser[item.entryUserVariable] = item.userInfo[0]['username'];
+							this.auditUser[item.entryUserVariable] = item.userInfo.length > 0 ? item.userInfo[0]['username'] : [];
 						}
 					}
 					this.flowNodesUsersData = res.data;
