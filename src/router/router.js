@@ -1351,7 +1351,7 @@ export const asyncRoutes = [{
         name: "personnelReportForExaminationRecords",
         component: () => import("@/views/contractManagement/personnelReportForExaminationRecords"),
         meta: {
-          title: "人员报审记录",
+          title: "人员台账",
           code: "renyuanbaoshenjilu",
           icon: "circle",
           allMap: false,

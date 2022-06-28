@@ -23,9 +23,6 @@
       <el-button type="primary">搜索</el-button>
 
       <div class="right-btns">
-        <!-- <el-button type="primary" size="small"
-          :icon="operateBtnsVisible?'el-icon-d-arrow-right':'el-icon-d-arrow-left'"
-          @click="operateBtnsVisible=!operateBtnsVisible"></el-button> -->
         <div class="operate-btns">
           <el-button size="small" @click="openDialog">新增填报</el-button>
           <el-button size="small">导出</el-button>
