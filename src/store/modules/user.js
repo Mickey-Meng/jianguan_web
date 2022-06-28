@@ -116,6 +116,7 @@ const actions = {
               commit("SET_RIGHTS", rights);
               commit("SET_GROUPID", res2.data.userInfo.GROUPID);
               setToken("GROUPID", res2.data.userInfo.GROUPID);
+              setToken("name", res2.data.userInfo.USERNAME);
               store.dispatch("user/getUserRights").then(res3 => {
                 resolve(res);
               });

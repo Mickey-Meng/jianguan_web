@@ -9,13 +9,13 @@
 					<div class="title-bar"></div><strong>待审批人</strong>
 				</div>
 				<div class="block-line" v-for="userOptions in flowNodesUsersData">
-					<div class="block-item">
+					<div class="block-item" v-if="userOptions.sort != 1">
 						<div class="block-item-label">{{userOptions.entryName}}<i class="require-icon"></i></div>
 						<div class="block-item-value">
 							<el-form-item :rules="[{required: true,
                                 message: '必选',
                                 trigger: 'blur'}]">
-								<el-select placeholder="请选择" :disabled="userOptions['isSign']?true:false || userOptions.sort === 1"
+								<el-select placeholder="请选择" :disabled="userOptions['isSign']?true:false"
 									:multiple="userOptions['isSign']?true:false"
 									v-model="auditUser[userOptions.entryUserVariable]"
 									@change="flowUserChange($event, userOptions.entryUserVariable)">
@@ -35,6 +35,7 @@
 <script>
 	import '@/staticDict/flowStaticDict.js';
 	import * as api from "@/api/quality";
+	import {getToken} from "@/utils/auth";
 	export default {
 		props: ['auditUser', 'flowKey'],
 		data() {
@@ -70,6 +71,7 @@
 							this.auditUser[item.entryUserVariable] = item.userInfo.length > 0 ? item.userInfo[0]['username'] : [];
 						}
 					}
+					this.auditUser.startUserName = getToken("name");
 					this.flowNodesUsersData = res.data;
 				});
 			},
