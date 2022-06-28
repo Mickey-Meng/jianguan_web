@@ -70,7 +70,8 @@
 				userOptions: [],
 				auditUser: [],
 				copyUserVisible: false,
-				hasHandle:true
+				hasHandle:true,
+				readOnly: false
 			};
 		},
 		created() {},
@@ -122,6 +123,15 @@
 						return item.type !== this.SysFlowTaskOperationType.CO_SIGN && item.type !== this
 							.SysFlowTaskOperationType.REVOKE;
 					})
+					let readOnly = false;
+					if (res.data.propertyList && res.data.propertyList.length > 0) {
+						for (let i = 0; i < res.data.propertyList.length; i++) {
+							const item = res.data.propertyList[i];
+							if (item.name == "readOnly") readOnly = item.val;
+						}
+					}
+					this.updateReadOnly(readOnly || false)
+					this.readOnly = readOnly || false;
 				});
 			},
 			getCopyUserByFlowKey() {
@@ -266,10 +276,17 @@
 					this.handlerClose();
 					this.$message.success('提交成功！');
 				}).catch(e => {});
+				if (this.readOnly) this.addOrModify();
 			},
 			handlerClose() {
 				this.$router.go(-1);
-			}
+			},
+			updateReadOnly(e) {
+				this.$emit("updateReadOnly", e);
+			},
+			addOrModify(e) {
+				this.$emit("addOrModify", e);
+			},
 		}
 	}
 </script>

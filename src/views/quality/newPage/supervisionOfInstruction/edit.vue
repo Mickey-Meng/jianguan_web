@@ -138,7 +138,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="form-block">
+								<!-- <div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>指令回复</strong>
 									</div>
@@ -184,7 +184,7 @@
 
 									</div>
 
-								</div>
+								</div> -->
 								<approveuser :auditUser="auditUser" :flowKey="flowKey">
 								</approveuser>
 
