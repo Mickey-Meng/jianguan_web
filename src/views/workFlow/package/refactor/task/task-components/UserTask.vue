@@ -412,7 +412,7 @@ export default {
     id: {
       immediate: true,
       handler(newValue) {
-        if (this.roleList == null) {
+        if (false && this.roleList == null) {
           this.loadSysRoleList().then(res => {
             let httpCall = [
               this.loadDeptWidgetDropdownList(),

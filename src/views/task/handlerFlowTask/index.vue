@@ -20,10 +20,10 @@
 									<el-button size="medium" type="primary">复制填充</el-button>
 								</div>
 							</div>
-							<router-view ref="routerview" :detailRow="detailRow"></router-view>
+							<router-view ref="routerview" :detailRow="detailRow" :readOnly="readOnly"></router-view>
 						</div>
 					</div>
-					<taskhandle v-if="isHandleVisible" :taskInfo="taskInfo" ref="taskhandle"></taskhandle>
+					<taskhandle v-if="isHandleVisible" :taskInfo="taskInfo" @updateReadOnly="updateReadOnly" @addOrModify="addOrModify" ref="taskhandle"></taskhandle>
 				</el-main>
 				<el-aside width="8px" class="close-wrapper">
 					<div class="close-wrap">
@@ -58,6 +58,7 @@
 				isUnEdit:false,
 				isHandleVisible:false,
 				isInfoVisible:false,
+				readOnly: false,
 			}
 		},
 		components: {
@@ -116,6 +117,12 @@
 			},
 			closeDialog(){
 				this.$router.go(-1);
+			},
+			updateReadOnly(e){
+				this.readOnly = e;
+			},
+			addOrModify() {
+				this.$refs['routerview'].addOrModify();
 			}
 		}
 	}

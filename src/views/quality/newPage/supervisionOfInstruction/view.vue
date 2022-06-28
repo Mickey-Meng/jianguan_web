@@ -2,13 +2,13 @@
 	<div>
 
 		<div class="form-content">
-			<el-form ref="form" label-width="80px">
+			<el-form :model="formData" ref="ruleForm" :rules="rules" label-width="80px">
 				<div class="form-block">
-					<div class="form-block-title">
+					<!-- <div class="form-block-title">
 						<div class="title-bar"></div><strong>地理位置</strong>
 				
 					</div>
-					<locationmap></locationmap>
+					<locationmap></locationmap> -->
 					<div class="form-block-title">
 						<div class="title-bar"></div><strong>基本信息</strong>
 					</div>
@@ -110,40 +110,51 @@
 					<div class="block-line">
 						<div class="block-item">
 							<div class="block-item-label">指令回复编号<i class="require-icon"></i></div>
-							<div class="block-item-value">
+							<div class="block-item-value" v-if="!readOnly">
 								{{formData.replyCode}}
+							</div>
+							<div class="block-item-value" v-if="readOnly">
+								<el-form-item prop="replyCode">
+									<el-input v-model="formData.replyCode"></el-input>
+								</el-form-item>
 							</div>
 						</div>
 					</div>
 					<div class="block-line">
 						<div class="block-item">
 							<div class="block-item-label">回复内容<i class="require-icon"></i></div>
-							<div class="block-item-value">
+							<div class="block-item-value" v-if="!readOnly">
 								{{formData.replyContent}}
+							</div>
+							<div class="block-item-value" v-if="readOnly">
+								<el-form-item prop="replyContent">
+									<el-input v-model="formData.replyContent" type="textarea" :rows="4"
+										placeholder="请输入"></el-input>
+								</el-form-item>
 							</div>
 						</div>
 					</div>
-					<div class="form-block">
-						<div class="form-block-title">
-							<div class="title-bar"></div><strong>整改照片</strong>
-							<span style="font-size: 12px;margin-left: 40px;">支持上传 jpg/jpeg png 文件，且不超过
-								100M</span>
-						</div>
-						<attachlist :editAble="false" :attachTable="formData.replyPhotoAttachment">
-						</attachlist>
 				
+				</div>
+				<div class="form-block">
+					<div class="form-block-title">
+						<div class="title-bar"></div><strong>整改照片</strong>
+						<span style="font-size: 12px;margin-left: 40px;">支持上传 jpg/jpeg png 文件，且不超过
+							100M</span>
 					</div>
-					<div class="form-block">
-						<div class="form-block-title">
-							<div class="title-bar"></div><strong>其他附件</strong>
-							<span style="font-size: 12px;margin-left: 40px;">支持上传 jpg/jpeg png mp4 docx
-								doc xlsx xls pdf 文件，且不超过 100M</span>
-						</div>
-						<attachlist :editAble="false" :attachTable="formData.replyOtherAttachment">
-						</attachlist>
-				
+					<attachlist :editAble="readOnly" :attachTable="formData.replyPhotoAttachment">
+					</attachlist>
+			
+				</div>
+				<div class="form-block">
+					<div class="form-block-title">
+						<div class="title-bar"></div><strong>其他附件</strong>
+						<span style="font-size: 12px;margin-left: 40px;">支持上传 jpg/jpeg png mp4 docx
+							doc xlsx xls pdf 文件，且不超过 100M</span>
 					</div>
-				
+					<attachlist :editAble="readOnly" :attachTable="formData.replyOtherAttachment">
+					</attachlist>
+			
 				</div>
 			</el-form>
 		</div>
@@ -189,8 +200,26 @@
 					"reviewSupervision": "",
 					"seriousLevel": 0
 				},
+				rules: {
+					replyCode: [{
+						required: true,
+						message: '必须项',
+						trigger: 'blur'
+					}],
+					replyContent: [{
+						required: true,
+						message: '必须项',
+						trigger: 'blur'
+					}]
+				},
 				taskInfo:{}
 			};
+		},
+		props: {
+			readOnly: {
+				type: Boolean,
+				default: false
+			}
 		},
 		created() {},
 		components: {
@@ -212,6 +241,25 @@
 					let data = res['data'] || {};
 					this.formData = data;
 				});
+			},
+			addOrModify() {
+				this.$refs['ruleForm'].validate((valid) => {
+					if (valid) {
+						this.formData.auditUser = this.auditUser;
+						this.formData.draftFlag = 1;
+						api.addOrUpdateSupervisionOrder(this.formData).then((res) => {
+							if (res.data) {
+								this.$message({
+									type: 'success',
+									message: '提交成功!'
+								});
+								// this.dialogFormVisible = false;
+								// this.$emit("query");
+							}
+						});
+					}
+
+				})
 			},
 		},
 	};

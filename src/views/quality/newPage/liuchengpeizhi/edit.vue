@@ -25,25 +25,25 @@
 															<div class="block-item-label">审批人</div>
 															<div class="block-item-value">
 																<el-select multiple 
-																	v-model="auditUser[item.entryUserVariable]" placeholder="请选择">
-																	<el-option v-for="user in nodeUser[item.entryUserVariable]" :key="user.id" :label="user.name"
+																	v-model="auditUser[item.entryKey]" placeholder="请选择">
+																	<el-option v-for="user in nodeUser[item.entryKey]" :key="user.id" :label="user.name"
 																		:value="user.username">
 																	</el-option>
 																</el-select>
 															</div>
-															<el-button size="small" @click="selectPerson(item.entryUserVariable, 'userId')" type="primary">修改</el-button>
+															<el-button size="small" @click="selectPerson(item.entryKey, 'userId')" type="primary">修改</el-button>
 														</div>
 														<div class="block-item">
 															<div class="block-item-label">抄送人</div>
 															<div class="block-item-value">
 																<el-select multiple 
-																	v-model="auditCopyUser[item.entryUserVariable]" placeholder="请选择">
-																	<el-option v-for="user in nodeCopyUser[item.entryUserVariable]" :key="user.id" :label="user.name"
+																	v-model="auditCopyUser[item.entryKey]" placeholder="请选择">
+																	<el-option v-for="user in nodeCopyUser[item.entryKey]" :key="user.id" :label="user.name"
 																		:value="user.username">
 																	</el-option>
 																</el-select>
 															</div>
-															<el-button size="small" @click="selectPerson(item.entryUserVariable, 'copyUser')" type="primary">修改</el-button>
+															<el-button size="small" @click="selectPerson(item.entryKey, 'copyUser')" type="primary">修改</el-button>
 														</div>
 													</div>
 												</div>
@@ -249,21 +249,21 @@
 						if (!item.userInfo) item.userInfo = [];
 						if (!item.copyUserInfo) item.copyUserInfo = [];
 
-						if (!auditUser[item.entryUserVariable]) auditUser[item.entryUserVariable] = [];
+						if (!auditUser[item.entryKey]) auditUser[item.entryKey] = [];
 						for (let j = 0; j < item.userInfo.length; j++) {
 							const element = item.userInfo[j];
-							auditUser[item.entryUserVariable].push(element.username);
+							auditUser[item.entryKey].push(element.username);
 						}
 
-						if (!auditCopyUser[item.entryUserVariable]) auditCopyUser[item.entryUserVariable] = [];
+						if (!auditCopyUser[item.entryKey]) auditCopyUser[item.entryKey] = [];
 						if (item.copyUserInfo) {
 							for (let j = 0; j < item.copyUserInfo.length; j++) {
 								const element = item.copyUserInfo[j];
-								auditCopyUser[item.entryUserVariable].push(element.username)
+								auditCopyUser[item.entryKey].push(element.username)
 							}
 						}
-						this.nodeUser[item.entryUserVariable] = item.userInfo || [];
-						this.nodeCopyUser[item.entryUserVariable] = item.copyUserInfo || [];
+						this.nodeUser[item.entryKey] = item.userInfo || [];
+						this.nodeCopyUser[item.entryKey] = item.copyUserInfo || [];
 					}
 					this.auditUser = auditUser;
 					this.auditCopyUser = auditCopyUser;
@@ -275,19 +275,19 @@
 					const item = this.nodeData[i];
 					
 					const id = item.id;
-					const entryUserVariable = item.entryUserVariable;
+					const entryKey = item.entryKey;
 
 					const userMaps = {}
-					for (let j = 0; j < this.nodeUser[entryUserVariable].length; j++) {
-						const user = this.nodeUser[entryUserVariable][j];
+					for (let j = 0; j < this.nodeUser[entryKey].length; j++) {
+						const user = this.nodeUser[entryKey][j];
 						userMaps[user.username] = user;
 					}
-					for (let j = 0; j < this.nodeCopyUser[entryUserVariable].length; j++) {
-						const user = this.nodeCopyUser[entryUserVariable][j];
+					for (let j = 0; j < this.nodeCopyUser[entryKey].length; j++) {
+						const user = this.nodeCopyUser[entryKey][j];
 						userMaps[user.username] = user;
 					}
 
-					const userName = this.auditUser[entryUserVariable];
+					const userName = this.auditUser[entryKey];
 
 					const userId = [];
 					for (let j = 0; j < userName.length; j++) {
@@ -295,7 +295,7 @@
 						userId.push(userMaps[name]["id"]);
 					}
 
-					const copyUserName = this.auditCopyUser[entryUserVariable];
+					const copyUserName = this.auditCopyUser[entryKey];
 
 					const copyUser = [];
 					if (copyUserName) {
