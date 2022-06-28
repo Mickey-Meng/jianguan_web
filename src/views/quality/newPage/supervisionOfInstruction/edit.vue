@@ -13,17 +13,17 @@
 							<el-form :model="formData" ref="ruleForm" :rules="rules" label-width="80px">
 								<div class="form-title">
 									<div class="title-big-bar"></div>
-									<strong>监理通知</strong>
+									<strong>监理指令</strong>
 									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify"
 										@checkDraft="checkDraft" ref="drafthandle"></drafthandle>
 								</div>
 
 								<div class="form-block">
-									<div class="form-block-title">
+									<!-- <div class="form-block-title">
 										<div class="title-bar"></div><strong>地理位置</strong>
 
 									</div>
-									<locationmap></locationmap>
+									<locationmap></locationmap> -->
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
 									</div>
