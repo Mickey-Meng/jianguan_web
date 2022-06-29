@@ -93,7 +93,7 @@
 									</div>
 								</div>
 
-								<approveuser :auditUser="auditUser"  :flowKey="flowKey">
+								<approveuser :auditUser="auditUser" :copyData="copyData"  :flowKey="flowKey">
 								</approveuser>
 								<div class="form-block">
 									<el-button @click="addOrModify()" class="submit-btn" size="small" type="primary">提交
@@ -204,6 +204,7 @@ import projectinfo from "../../common/projectinfo.vue"
 				attachTable: [], //附件,
 				flowNodesUsersData: [],
 				auditUser: {},
+				copyData: {},
 				flowKey:'wanglaikuanguanli'
 			};
 		},
@@ -287,6 +288,7 @@ import projectinfo from "../../common/projectinfo.vue"
 					this.formData.attachment = this.attachTable;
 					this.formData.draftFlag = isdraft ? 0 : 1;
 					this.formData.auditUser = this.auditUser;
+					this.formData.copyData.user = this.copyData.join(',');
 					api.addOrUpdateComeGoMoney(this.formData).then((res) => {
 						if (res.data) {
 							this.$message({
@@ -302,6 +304,9 @@ import projectinfo from "../../common/projectinfo.vue"
 						if (valid) {
 							this.formData.attachment = this.attachTable;
 							this.formData.auditUser = this.auditUser;
+							console.log(this.copyData);
+							this.copyData.user = this.copyData.user.join(",");
+							this.formData.copyData = this.copyData;
 							this.formData.draftFlag=1;
 							api.addOrUpdateComeGoMoney(this.formData).then((res) => {
 								if (res.data) {

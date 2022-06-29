@@ -26,6 +26,23 @@
 							</el-form-item>
 						</div>
 					</div>
+					<div class="block-item" v-if="userOptions.sort == 1 && userOptions.copyUserInfo">
+						<div class="block-item-label">抄送<i class="require-icon"></i></div>
+						<div class="block-item-value">
+							<el-form-item :rules="[{required: true,
+                                message: '必选',
+                                trigger: 'blur'}]">
+								<el-select placeholder="请选择" 
+									:multiple="true"
+									v-model="copyUserTemp"
+									@change="flowCopyUserChange($event, 'user')">
+									<el-option v-for="(item, idx) in userOptions.copyUserInfo" :key="item.id"
+										:label="item.name" :value="item.username">
+									</el-option>
+								</el-select>
+							</el-form-item>
+						</div>
+					</div>
 				</div>
 			</div>
 		<!-- </el-form> -->
@@ -37,12 +54,12 @@
 	import * as api from "@/api/quality";
 	import {getToken} from "@/utils/auth";
 	export default {
-		props: ['auditUser', 'flowKey'],
+		props: ['auditUser', 'flowKey', 'copyData'],
 		data() {
 			return {
 				formData: {},
 				flowNodesUsersData: [],
-				
+               
 			};
 		},
 		created() {},
@@ -56,6 +73,9 @@
 			flowUserChange(data, data1) {
 				this.auditUser[data1] = data;
 				this.$forceUpdate();
+			},
+			flowCopyUserChange(data, data1) {
+				this.copyData[data1] = data;
 			},
 			getFlowAuditEntry() {
 				api.getFlowAuditEntry({
