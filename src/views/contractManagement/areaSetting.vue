@@ -11,11 +11,11 @@
     <el-header>
       <div class="input-box">
         <div class="input-value">
-          <el-input v-model="queryData.projectCode" placeholder="请输入打卡方案"></el-input>
+<!--          <el-input v-model="queryData.projectCode" placeholder="请输入打卡方案"></el-input>-->
         </div>
 
       </div>
-      <el-button type="primary">搜索</el-button>
+<!--      <el-button type="primary">搜索</el-button>-->
 
 
       <div class="right-btns">
