@@ -26,9 +26,9 @@
 					class="have_scrolling">
 					<el-table-column type="index" width="50" align="center" label="序号">
 					</el-table-column>
-					<el-table-column prop="pro" align="center" label="编制单位" show-overflow-tooltip>
+					<el-table-column prop="projectName" align="center" label="编制单位" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="qualityfirstname" align="center" label="编制人" show-overflow-tooltip>
+					<el-table-column prop="compileUserName" align="center" label="编制人" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="compileDate" align="center" label="编制时间" show-overflow-tooltip>
 					</el-table-column>
