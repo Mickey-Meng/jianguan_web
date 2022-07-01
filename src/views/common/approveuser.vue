@@ -34,7 +34,7 @@
                                 trigger: 'blur'}]">
 								<el-select placeholder="请选择" 
 									:multiple="true"
-									v-model="copyUserTemp"
+									v-model="copyData['user']" 
 									@change="flowCopyUserChange($event, 'user')">
 									<el-option v-for="(item, idx) in userOptions.copyUserInfo" :key="item.id"
 										:label="item.name" :value="item.username">
