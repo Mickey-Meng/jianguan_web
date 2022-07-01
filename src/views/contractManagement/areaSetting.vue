@@ -32,7 +32,7 @@
       <div class="container">
         <el-table :data="tableData" style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
           <el-table-column prop="title" label="标题"></el-table-column>
-          <el-table-column prop="clockGroupName" label="工区"></el-table-column>
+          <el-table-column prop="clockAddrName" label="打卡点名称"></el-table-column>
           <el-table-column prop="coordinate" label="坐标" show-overflow-tooltip></el-table-column>
           <el-table-column prop="describe" label="描述"></el-table-column>
           <el-table-column label="操作">
@@ -74,23 +74,14 @@
                     <div class="block-item-value">
                       <el-form-item prop="title">
                         <el-input v-model="form.title"></el-input>
-
                       </el-form-item>
                     </div>
                   </div>
                   <div class="block-item">
-                    <div class="block-item-label">工区<i class="require-icon"></i></div>
+                    <div class="block-item-label">打卡点名称<i class="require-icon"></i></div>
                     <div class="block-item-value">
-                      <el-form-item prop="clockGroupId">
-                        <el-select v-model="form.clockGroupId" placeholder="请选择">
-                          <el-option
-                            v-for="item in areaData"
-                            :key="item.id"
-                            :label="item.name"
-                            :value="item.id"
-                            :disabled="disabledAreaId.includes(item.id)">
-                          </el-option>
-                        </el-select>
+                      <el-form-item prop="clockAddrName">
+                        <el-input v-model="form.clockAddrName"></el-input>
                       </el-form-item>
                     </div>
                   </div>
@@ -120,7 +111,9 @@
               </div>
               <div class="form-block">
                 <div id="map">
-                  <mapView @clearStr="clearStr" @setStr="setStr" :siteStr="siteStr" v-if="dialogFormVisible"></mapView>
+                  <mapView @clearStr="clearStr" @setStr="setStr" :siteStr="siteStr" :centerPointer="centerPointer"
+                           :name="clockName"
+                           v-if="dialogFormVisible"></mapView>
                 </div>
               </div>
               <div class="form-block">
@@ -171,9 +164,11 @@
         dialogTitle: "项目全生命周期数字管理平台",
         isCreate: false,
         siteStr: "",
+        centerPointer: "",
+        clockName: "",
         rules: {
-          clockGroupId: [
-            {required: true, message: "请请选择工区", trigger: "blur"}
+          clockAddrName: [
+            {required: true, message: "请输入打卡点名称", trigger: "blur"}
           ],
           coordinate: [
             {required: true, message: "请绘制范围", trigger: "blur"}
@@ -185,7 +180,6 @@
       };
     },
     created() {
-      this.init();
       this.initForm();
       this.initTableData();
     },
@@ -196,27 +190,16 @@
     methods: {
       initForm() {
         this.form = {
-          clockGroupId: null,//打卡工区id
-          clockGroupName: "",//打卡工区
+          centerPoint: null,//
+          clockAddrName: "",//打卡点名称
           coordinate: "",//坐标
           describe: "",//描述
           projectId: this.project.id,
           title: ""
         };
       },
-      init() {
-        getChildProject({projectid: this.project.id}).then(res => {
-          this.areaData = res.data;
-        });
-      },
       initTableData() {
         getFence(this.project.id).then(res => {
-          this.disabledAreaId = [];
-          if (res.data && res.data.length > 0) {
-            this.disabledAreaId = res.data.map(e => {
-              return e.clockGroupId;
-            });
-          }
           this.tableData = res.data || [];
         });
       },
@@ -225,6 +208,7 @@
         this.isCreate = true;
         this.dialogFormVisible = true;
         this.siteStr = "";
+        this.centerPointer = "";
       },
       clearStr() {
         this.form.coordinate = "";
@@ -236,8 +220,18 @@
         this.$refs['form'].validate((valid) => {
           if (valid) {
             let obj = Object.assign({}, this.form);
-            let area = this.areaData.find(e => e.id === obj.clockGroupId);
-            obj.clockGroupName = area.name;
+            let info = JSON.parse(JSON.stringify(obj));
+            let sites = JSON.parse(info.coordinate);
+            let points = sites.map(item => {
+              return turf.point(item.reverse());
+            });
+            let features = turf.featureCollection(points);
+            let center = turf.center(features);
+            if (center) {
+              let point = center.geometry.coordinates.reverse();
+              obj.centerPoint = JSON.stringify(point);
+
+            }
             if (this.isCreate) {
               addFence(obj).then(res => {
                 this.$message({
@@ -283,7 +277,10 @@
       },
       modify(row) {
         this.form = Object.assign({}, row);
+        console.log(row);
         this.siteStr = row.coordinate;
+        this.centerPointer = row.centerPoint;
+        this.clockName = row.clockAddrName;
         this.dialogFormVisible = true;
         this.isCreate = false;
       },

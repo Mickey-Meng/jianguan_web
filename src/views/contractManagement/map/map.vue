@@ -24,10 +24,10 @@
 <script>
   let map;
   let L = window.L;
-  let featureGroup, marker;
+  let featureGroup;
   let workDraw = null;
   export default {
-    props: ["siteStr"],
+    props: ["siteStr", "centerPointer", "name"],
     watch: {},
     data() {
       return {};
@@ -62,6 +62,7 @@
             map = i;
             that.initDrawer();
             that.addLine();
+            that.addMarker();
           }
         });
 
@@ -97,7 +98,7 @@
       },
       startDraw() {
         this.$emit("clearStr");
-        marker && marker.remove();
+        featureGroup && featureGroup.remove();
         workDraw && workDraw.clearDraw();
         workDraw.startDraw("polygon", {
           style: {
@@ -115,7 +116,7 @@
       },
       clearFeature() {
         this.$emit("clearStr");
-        marker && marker.remove();
+        featureGroup && featureGroup.remove();
         workDraw && workDraw.clearDraw();
         workDraw && workDraw.stopDraw();
       },
@@ -132,19 +133,47 @@
       addLine() {
         featureGroup && featureGroup.remove();
         featureGroup = L.featureGroup().addTo(map);
-        marker && marker.remove();
         if (this.siteStr) {
           let str = JSON.parse(this.siteStr);
-          marker= L.polyline(str, {
+          let marker = L.polyline(str, {
             weight: 2,
-            dashArray: '5,10',
-            color: 'black',
-            opacity: 0.8,
+            dashArray: "5,10",
+            color: "black",
+            opacity: 0.8
           });
           map.fitBounds(marker.getBounds());
           featureGroup.addLayer(marker);
 
         }
+      },
+      addMarker() {
+        if (this.centerPointer) {
+          let point = JSON.parse(this.centerPointer);
+          let image = require("@/assets/marker/定位.png");
+          let marker = L.marker(point, {
+            icon: L.icon({
+              iconUrl: image,
+              iconSize: [30, 30],
+              iconAnchor: [15, 15],
+              tooltipAnchor: [0, -15]
+            })
+          });
+          let len = this.name.replace(/[\u0391-\uFFE5]/g, "aa").length;
+          let fontsize = 14;
+          let width = len * fontsize / 2;
+          let marker1 = L.marker(point, {
+            icon: L.divIcon({
+              iconSize: [width, fontsize],
+              iconAnchor: [width / 2, -fontsize/1.2],
+              className: "leaflet-text-marker",
+              html: this.name
+            })
+          });
+          featureGroup.addLayer(marker);
+          featureGroup.addLayer(marker1);
+
+        }
+
       }
     },
     components: {},
