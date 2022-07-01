@@ -277,7 +277,6 @@
       },
       modify(row) {
         this.form = Object.assign({}, row);
-        console.log(row);
         this.siteStr = row.coordinate;
         this.centerPointer = row.centerPoint;
         this.clockName = row.clockAddrName;

@@ -138,7 +138,7 @@
           let marker = L.polyline(str, {
             weight: 2,
             dashArray: "5,10",
-            color: "black",
+            color: "#448BFB",
             opacity: 0.8
           });
           map.fitBounds(marker.getBounds());
