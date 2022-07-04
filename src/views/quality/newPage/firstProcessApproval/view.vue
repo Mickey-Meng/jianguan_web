@@ -20,7 +20,7 @@
 						<div class="block-item">
 							<div class="block-item-label">分部分项<i class="require-icon"></i></div>
 							<div class="block-item-value">
-								{{formData.subProject}}
+								{{formData.subProjectStr}}
 							</div>
 						</div>
 					</div>
@@ -28,13 +28,13 @@
 						<div class="block-item">
 							<div class="block-item-label">单位工程</div>
 							<div class="block-item-value">
-								{{baseInfo.contractCode}}
+								{{baseInfo.unitProject}}
 							</div>
 						</div>
 						<div class="block-item">
 							<div class="block-item-label">分部工程</div>
 							<div class="block-item-value">
-								{{baseInfo.contractCode}}
+								{{baseInfo.parcelProject}}
 							</div>
 						</div>
 					</div>
@@ -42,7 +42,7 @@
 						<div class="block-item">
 							<div class="block-item-label">分项工程</div>
 							<div class="block-item-value">
-								{{baseInfo.contractCode}}
+								{{baseInfo.subitemProject}}
 							</div>
 						</div>
 						<div class="block-item">
@@ -225,10 +225,17 @@
 		convertOptions,
 		getQueryVariable,
 		formatDate,
-		getDaysBetween
+		getDaysBetween,
+		getChidlren
 	} from "@/utils/format.js";
 	import attachlist from "../../../common/attachlist"
 	import projectinfo from "../../../common/projectinfo.vue"
+	
+	import {
+		getBridgeTree
+	} from "@/api/tree";
+	
+	import simpleData from '../../../common/simdata.js'
 	
 	export default {
 		data() {
@@ -262,12 +269,14 @@
 					buildSection: this.$store.getters.project.id,
 					projectId:this.$store.getters.project['parentid'],
 					qualityAttachment: [],
-					subProject: 0,
+					subProject: null,
+					subProjectStr:'',
 					subProjectDetail: "",
 					supervisionWorkExplain: "",
 					testAttachment: []
 				},
-				taskInfo:{}
+				taskInfo:{},
+				treeData:null
 			};
 		},
 		created() {},
@@ -285,10 +294,26 @@
 			
 		},
 		methods: {
+			initData(){
+				this.treeData = [simpleData.data];
+				// getBridgeTree('QL', null).then((res) => {
+				//   const arr = [];
+				//   arr.push(res.data);
+				//   this.treeInfo = arr;
+				// });
+			},
 			getDetail(id) {
 				api.getFirstAcceptDeatil(id).then((res) => {
 					let data = res['data'] || {};
 					this.formData = data;
+					let treename=getChidlren(this.treeData,this.formData.subProject,[]);
+					this.formData.subProjectStr=(treename?treename:[]).join('/');
+					
+					if(treename.length>5){
+						this.baseInfo.unitProject=treename[2]
+						this.baseInfo.parcelProject=treename[3]
+						this.baseInfo.subitemProject=treename[5]
+					}
 				});
 			},
 		},

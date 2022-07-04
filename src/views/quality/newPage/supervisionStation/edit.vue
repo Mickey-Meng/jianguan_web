@@ -59,11 +59,14 @@
 										<div class="block-item-label">工程部位</div>
 										<div class="block-item-value">
 											<el-form-item prop="projectPartId">
-												<el-select v-model="formData.projectPartId" placeholder="请选择">
+												<el-input readonly @focus="checkPartPro" v-model="formData.projectPartStr"></el-input>
+												
+												
+												<!-- <el-select v-model="formData.projectPartId" placeholder="请选择">
 													<el-option v-for="item in partOptions" :key="item.value"
 														:label="item.label" :value="item.value">
 													</el-option>
-												</el-select>
+												</el-select> -->
 											</el-form-item>
 										</div>
 									</div>
@@ -191,6 +194,11 @@
 			<qualityTest @hideDraft="hideDraft" @getDetail="getDetail" :isDraft="draftVisible" v-if="draftVisible">
 			</qualityTest>
 		</el-dialog>
+		
+		<el-dialog title="选择工程部位" width="50%" class="little-container" :visible.sync="partVisible">
+			<partproject @callback="checkPartProCallback">
+			</partproject>
+		</el-dialog>
 	</div>
 </template>
 
@@ -204,8 +212,15 @@
 		formatDate,
 		formatDateTime,
 		getDaysBetween,
-		diffCompare
+		diffCompare,
+		getChidlren
 	} from "@/utils/format.js";
+	
+	import {
+		getBridgeTree
+	} from "@/api/tree";
+	
+	import simpleData from '../../../common/simdata.js'
 
 	import upload from "../../../common/upload.vue"
 	import attachlist from "../../../common/attachlist.vue"
@@ -213,6 +228,7 @@
 	import locationmap from "../../../common/locationmap.vue"
 	import approveuser from "../../../common/approveuser.vue"
 	import projectinfo from "../../../common/projectinfo.vue"
+	import partproject from "../../../common/partproject.vue"
 	export default {
 		data() {
 			return {
@@ -239,7 +255,8 @@
 					buildSection: this.$store.getters.project.id,
 					projectId:this.$store.getters.project['parentid'],
 					"projectPartDesc": "",
-					"projectPartId": 0,
+					"projectPartId": null,
+					"projectPartStr":'',
 					"scenePhotoAttachment": [],
 					"sideDate": formatDate(new Date()),
 					"sideInfo": "",
@@ -275,7 +292,9 @@
 					}]
 				},
 				auditUser: {},
-				flowKey: 'jianlipangzhan'
+				flowKey: 'jianlipangzhan',
+				partVisible:false,
+				treeData:null
 			};
 		},
 		created() {},
@@ -286,6 +305,7 @@
 			approveuser,
 			locationmap,
 			projectinfo,
+			partproject,
 			supervisionStation: () => import("../supervisionStation.vue")
 		},
 		computed: {
@@ -295,10 +315,34 @@
 
 		},
 		mounted() {
+			this.initData();
 			this.getChildProject();
 			this.getSupervisionSideEnums();
 		},
 		methods: {
+			initData(){
+				this.treeData = [simpleData.data];
+				// getBridgeTree('QL', null).then((res) => {
+				//   const arr = [];
+				//   arr.push(res.data);
+				//   this.treeInfo = arr;
+				// });
+			},
+			checkPartPro(){
+				this.partVisible=true;
+			},
+			checkPartProCallback(node,data,treename){
+				if(!data.isLeaf){
+					this.$message({
+						type: 'warning',
+						message: '请选择到最后一级!'
+					});
+					return;
+				}
+				this.formData.projectPartId=node.id;
+				this.formData.projectPartStr=treename.join('/');
+				this.partVisible=false
+			},
 			getChildProject() {
 				api.getChildProject({
 					projectid: this.$store.getters.project['parentid']
@@ -339,7 +383,8 @@
 						buildSection: this.$store.getters.project.id,
 						projectId:this.$store.getters.project['parentid'],
 						"projectPartDesc": "",
-						"projectPartId": 0,
+						"projectPartId": null,
+						"projectPartStr":'',
 						"scenePhotoAttachment": [],
 						"sideDate": formatDate(new Date()),
 						"sideInfo": "",
@@ -354,6 +399,9 @@
 				api.getSupervisionSideDeatil(id).then((res) => {
 					let data = res['data'] || {};
 					this.formData = data;
+					
+					let treename=getChidlren(this.treeData,this.formData.projectPartId,[]);
+					this.formData.projectPartStr=(treename?treename:[]).join('/');
 				});
 			},
 			addOrModify(isdraft) {
@@ -370,7 +418,8 @@
 								buildSection: this.$store.getters.project.id,
 								projectId:this.$store.getters.project['parentid'],
 								"projectPartDesc": "",
-								"projectPartId": 0,
+								"projectPartId": null,
+								"projectPartStr":'',
 								"scenePhotoAttachment": [],
 								"sideDate": formatDate(new Date()),
 								"sideInfo": "",

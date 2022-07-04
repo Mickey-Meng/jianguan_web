@@ -136,9 +136,16 @@
 		getQueryVariable,
 		formatDate,
 		getDaysBetween,
-		getOptionsLabel
+		getOptionsLabel,
+		getChidlren
 	} from "@/utils/format.js";
 	import attachlist from "../../../common/attachlist"
+	
+	import {
+		getBridgeTree
+	} from "@/api/tree";
+	
+	import simpleData from '../../../common/simdata.js'
 	
 	export default {
 		data() {
@@ -164,7 +171,8 @@
 					buildSection: this.$store.getters.project.id,
 					projectId:this.$store.getters.project['parentid'],
 					"projectPartDesc": "",
-					"projectPartId": 0,
+					"projectPartId": null,
+					"projectPartStr":'',
 					"scenePhotoAttachment": [],
 					"sideDate": formatDate(new Date()),
 					"sideInfo": "",
@@ -172,7 +180,8 @@
 					"sideWorkCondition": "",
 					"video": []
 				},
-				taskInfo:{}
+				taskInfo:{},
+				treeData:null
 			};
 		},
 		created() {},
@@ -186,9 +195,18 @@
 			
 		},
 		mounted() {
+			this.initData();
 			this.getSupervisionSideEnums();
 		},
 		methods: {
+			initData(){
+				this.treeData = [simpleData.data];
+				// getBridgeTree('QL', null).then((res) => {
+				//   const arr = [];
+				//   arr.push(res.data);
+				//   this.treeInfo = arr;
+				// });
+			},
 			getSupervisionSideEnums() {
 				api.getSupervisionSideEnums().then((res) => {
 					let options = res.data || [];
@@ -200,6 +218,9 @@
 					let data = res['data'] || {};
 					this.formData = data;
 					this.formData.sideProjectStr=getOptionsLabel(this.sideOptions,this.formData.sideProjectId)
+					
+					let treename=getChidlren(this.treeData,this.formData.projectPartId,[]);
+					this.formData.projectPartStr=(treename?treename:[]).join('/');
 				});
 			},
 		},

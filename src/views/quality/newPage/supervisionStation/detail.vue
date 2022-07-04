@@ -159,13 +159,20 @@
 		getQueryVariable,
 		formatDate,
 		getDaysBetween,
-		getOptionsLabel
+		getOptionsLabel,
+		getChidlren
 	} from "@/utils/format.js";
 	import tasklog from "../../../common/tasklog.vue"
 	import locationmap from "../../../common/locationmap.vue"
 	import taskhandle from '../../../common/taskhandle'
 	import attachlist from "../../../common/attachlist"
 	import projectinfo from "../../../common/projectinfo.vue"
+	
+	import {
+		getBridgeTree
+	} from "@/api/tree";
+	
+	import simpleData from '../../../common/simdata.js'
 
 	export default {
 		props:['detailRow'],
@@ -194,7 +201,8 @@
 					buildSection: this.$store.getters.project.id,
 					projectId:this.$store.getters.project['parentid'],
 					"projectPartDesc": "",
-					"projectPartId": 0,
+					"projectPartId": null,
+					"projectPartStr":'',
 					"scenePhotoAttachment": [],
 					"sideDate": formatDate(new Date()),
 					"sideInfo": "",
@@ -202,7 +210,8 @@
 					"sideWorkCondition": "",
 					"video": []
 				},
-				taskInfo:{}
+				taskInfo:{},
+				treeData:null
 			};
 		},
 		created() {},
@@ -224,6 +233,7 @@
 			}
 		},
 		mounted() {
+			this.initData();
 			this.getSupervisionSideEnums();
 			// setTimeout(()=>{
 			// 	var params = getQueryVariable();
@@ -236,6 +246,14 @@
 			// },500)
 		},
 		methods: {
+			initData(){
+				this.treeData = [simpleData.data];
+				// getBridgeTree('QL', null).then((res) => {
+				//   const arr = [];
+				//   arr.push(res.data);
+				//   this.treeInfo = arr;
+				// });
+			},
 			getSupervisionSideEnums() {
 				api.getSupervisionSideEnums().then((res) => {
 					let options = res.data || [];
@@ -255,6 +273,9 @@
 					let data=res['data']||{};
 					this.formData=data;
 					this.formData.sideProjectStr=getOptionsLabel(this.sideOptions,this.formData.sideProjectId)
+					
+					let treename=getChidlren(this.treeData,this.formData.projectPartId,[]);
+					this.formData.projectPartStr=(treename?treename:[]).join('/');
 				});
 			},
 		},

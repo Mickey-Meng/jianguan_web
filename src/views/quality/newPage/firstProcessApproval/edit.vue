@@ -38,12 +38,17 @@
 											<div class="block-item-label">分部分项<i class="require-icon"></i></div>
 											<div class="block-item-value">
 												<el-form-item prop="subProject">
-													<el-select v-model="formData.subProject"
+													
+													<el-input readonly @focus="checkPartPro" v-model="formData.subProjectStr"></el-input>
+													
+													<!-- <el-button @click="checkPartPro">选择分部分项</el-button> -->
+													
+													<!-- <el-select v-model="formData.subProject"
 														placeholder="请选择">
 														<el-option v-for="item in partOptions" :key="item.value"
 															:label="item.label" :value="item.value">
 														</el-option>
-													</el-select>
+													</el-select> -->
 												</el-form-item>
 											</div>
 										</div>
@@ -52,13 +57,13 @@
 										<div class="block-item">
 											<div class="block-item-label">单位工程</div>
 											<div class="block-item-value">
-												{{baseInfo.contractCode}}
+												{{baseInfo.unitProject}}
 											</div>
 										</div>
 										<div class="block-item">
 											<div class="block-item-label">分部工程</div>
 											<div class="block-item-value">
-												{{baseInfo.contractCode}}
+												{{baseInfo.parcelProject}}
 											</div>
 										</div>
 									</div>
@@ -66,7 +71,7 @@
 										<div class="block-item">
 											<div class="block-item-label">分项工程</div>
 											<div class="block-item-value">
-												{{baseInfo.contractCode}}
+												{{baseInfo.subitemProject}}
 											</div>
 										</div>
 										<div class="block-item">
@@ -287,11 +292,17 @@
 			<qualityTest @hideDraft="hideDraft" @getDetail="getDetail" :isDraft="draftVisible" v-if="draftVisible">
 			</qualityTest>
 		</el-dialog>
+		
+		<el-dialog title="选择分部分项工程" width="50%" class="little-container" :visible.sync="partVisible">
+			<partproject @callback="checkPartProCallback">
+			</partproject>
+		</el-dialog>
 	</div>
 </template>
 
 <script>
 	import * as api from "@/api/quality";
+	
 	import {
 		getUserInfo
 	} from "@/api/user";
@@ -300,14 +311,23 @@
 		formatDate,
 		formatDateTime,
 		getDaysBetween,
-		diffCompare
+		diffCompare,
+		getChidlren
 	} from "@/utils/format.js";
-
+	
 	import upload from "../../../common/upload.vue"
 	import attachlist from "../../../common/attachlist.vue"
 	import drafthandle from "../../../common/drafthandle.vue"
 	import approveuser from "../../../common/approveuser.vue"
 	import projectinfo from "../../../common/projectinfo.vue"
+	
+	import partproject from "../../../common/partproject.vue"
+	
+	import {
+		getBridgeTree
+	} from "@/api/tree";
+	
+	import simpleData from '../../../common/simdata.js'
 	
 	export default {
 		data() {
@@ -347,7 +367,8 @@
 					buildSection: this.$store.getters.project.id,
 					projectId:this.$store.getters.project['parentid'],
 					qualityAttachment: [],
-					subProject: 0,
+					subProject: null,
+					subProjectStr:'',
 					subProjectDetail: "",
 					supervisionWorkExplain: "",
 					testAttachment: []
@@ -420,7 +441,9 @@
 					}]
 				},
 				auditUser: {},
-				flowKey:'shoujianrenke'
+				flowKey:'shoujianrenke',
+				partVisible:false,
+				treeData:null
 			};
 		},
 		created() {},
@@ -430,6 +453,7 @@
 			drafthandle,
 			approveuser,
 			projectinfo,
+			partproject,
 			firstProcessApproval: () => import("../firstProcessApproval.vue")
 		},
 		computed: {},
@@ -440,6 +464,32 @@
 			this.getChildProject()
 		},
 		methods: {
+			initData(){
+				this.treeData = [simpleData.data];
+				// getBridgeTree('QL', null).then((res) => {
+				//   const arr = [];
+				//   arr.push(res.data);
+				//   this.treeInfo = arr;
+				// });
+			},
+			checkPartPro(){
+				this.partVisible=true;
+			},
+			checkPartProCallback(node,data,treename){
+				if(!data.isLeaf){
+					this.$message({
+						type: 'warning',
+						message: '请选择到最后一级!'
+					});
+					return;
+				}
+				this.formData.subProject=node.id;
+				this.formData.subProjectStr=treename.join('/');
+				this.baseInfo.unitProject=treename[2]
+				this.baseInfo.parcelProject=treename[3]
+				this.baseInfo.subitemProject=treename[5]
+				this.partVisible=false
+			},
 			getChildProject() {
 				api.getChildProject({
 					projectid: this.$store.getters.project['parentid']
@@ -483,7 +533,8 @@
 						buildSection: this.$store.getters.project.id,
 						projectId:this.$store.getters.project['parentid'],
 						qualityAttachment: [],
-						subProject: 0,
+						subProject: null,
+						subProjectStr:'',
 						subProjectDetail: "",
 						supervisionWorkExplain: "",
 						testAttachment: []
@@ -496,6 +547,15 @@
 				api.getFirstAcceptDeatil(id).then((res) => {
 					let data = res['data'] || {};
 					this.formData = data;
+					
+					let treename=getChidlren(this.treeData,this.formData.subProject,[]);
+					this.formData.subProjectStr=(treename?treename:[]).join('/');
+					
+					if(treename.length>5){
+						this.baseInfo.unitProject=treename[2]
+						this.baseInfo.parcelProject=treename[3]
+						this.baseInfo.subitemProject=treename[5]
+					}
 				});
 			},
 			addOrModify(isdraft) {
@@ -521,7 +581,8 @@
 								buildSection: this.$store.getters.project.id,
 								projectId:this.$store.getters.project['parentid'],
 								qualityAttachment: [],
-								subProject: 0,
+								subProject: null,
+								subProjectStr:'',
 								subProjectDetail: "",
 								supervisionWorkExplain: "",
 								testAttachment: []

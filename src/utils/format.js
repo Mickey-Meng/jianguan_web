@@ -188,6 +188,32 @@ const getOptionsLabel=function(options,value){
 	})
 	return label;
 }
+
+
+
+/**
+ * 根据id从tree中查询节点
+ * tree：树结构；value： 对应节点；path：每次保存相应路径的字符串
+ */
+const getChidlren =function (tree,value,path) {
+  if (!path) {
+    path = []
+  }
+  for (var i = 0; i < tree.length; i++) {
+    var tempPath = [...path]
+    tempPath.push(tree[i].name)
+    if (tree[i].id === value) {
+      return tempPath
+    }
+    if (tree[i].child) {
+      const reuslt = getChidlren(tree[i].child, value, tempPath)
+      if (reuslt) {
+        return reuslt
+      }
+    }
+  }
+}
+
 export {
 	handleNull,
 	handleListNull,
@@ -199,5 +225,6 @@ export {
 	createProjectInfo,
 	diffCompare,
 	getDaysBetween,
-	getOptionsLabel
+	getOptionsLabel,
+	getChidlren
 }
