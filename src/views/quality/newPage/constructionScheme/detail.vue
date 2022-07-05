@@ -39,7 +39,7 @@
 										<div class="block-item">
 											<div class="block-item-label">专项施工方案名称</div>
 											<div class="block-item-value">
-												{{formData.buildPlanName}}12
+												{{formData.buildPlanName}}
 											</div>
 										</div>
 										<div class="block-item">

@@ -65,10 +65,9 @@
             </template>
           </el-table-column>
         </el-table>
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                       :current-page="queryData.pageNum" :page-size="queryData.pageSize"
-                       layout="total, sizes, prev, pager, next, jumper"
-                       :total="queryData.totalPage">
+        <el-pagination @current-change="handleCurrentChange" :current-page="queryData.pageNum"
+        	:page-size="queryData.pageSize" layout="total, prev, pager, next, jumper"
+        	:total="queryData.totalPage">
         </el-pagination>
       </div>
 
@@ -259,34 +258,11 @@
         console.log(this.form);
         this.dialogFormVisible = true;
 
-        // let data = row.personSubs;
-        // if (data && data.length > 0) {
-        //   this.listsData = data.map(item => {
-        //     if (item.peoplePic) {
-        //       item.peoplePic = "/ZhuJiRoad/mong/preview?fileid=" + item.peoplePic;
-        //     }
-        //     return item;
-        //   });
-        // }
-        // this.isCreate = false;
-        // let {maps} = row;
-        // let {processDefinitionId, processInstanceId, taskId} = maps;
-        // if (processDefinitionId && processInstanceId && taskId) {
-        //   this.taskInfo = {
-        //     processDefinitionId, processInstanceId, taskId
-        //   };
-        // } else {
-        //   this.taskInfo = {};
-        // }
-        // this.dialogFormVisible = true;
-        // this.$nextTick(() => {
-        //   this.$refs["tasklog"].initData();
-        // });
       },
-      handleSizeChange() {
+      handleCurrentChange(page) {
+      	this.queryData.pageNum=page
+      	this.query()
       },
-      handleCurrentChange() {
-      }
     },
     components: {tasklog},
     beforeDestroy() {
