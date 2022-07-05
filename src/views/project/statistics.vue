@@ -9,7 +9,7 @@
             :key="item.value"
             :value="item.value"
             :label="item.label"
-            :disabled="item.value === 'LM' || item.value === 'other'"
+            :disabled="item.value === 'other'"
           />
         </el-select>
       </div>
@@ -757,6 +757,7 @@ export default {
     engTypeChange() {
       this.bridgeComponentType = "all";
       this.initData();
+      this.initBottomData();
     },
   },
 };

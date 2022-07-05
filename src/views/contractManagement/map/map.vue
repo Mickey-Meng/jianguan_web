@@ -26,6 +26,7 @@
   let L = window.L;
   let featureGroup;
   let workDraw = null;
+  let key = ["49ea1deec0ffd88ef13a3f69987e9a63"];
   export default {
     props: ["siteStr", "centerPointer", "name"],
     watch: {},
@@ -42,6 +43,7 @@
         let that = this;
         L.zlskmap.createMap({
           id: "l_map",
+          crs: "EPSG:4326",
           data: {
             zoom: 14,
             center: {
@@ -49,17 +51,16 @@
               y: 29.706018768457866
             },
             basemaps: [
-              {
-                "pid": 10,
-                "name": "高德地图",
-                "type": "www_gaode",
-                "layer": "vec",
-                "icon": "bingmap.png"
-              }
             ]
           },
           success: function (i) {
             map = i;
+            L.zlskmap.layer.createLayer({
+              type: "www_tdt",
+              layer: "vec",
+              key: key,
+              crs: "EPSG4326",
+            }).addTo(map);
             that.initDrawer();
             that.addLine();
             that.addMarker();
