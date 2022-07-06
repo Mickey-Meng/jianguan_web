@@ -53,9 +53,14 @@
 
           </el-table-column>
           <el-table-column prop="projectName" label="标段"></el-table-column>
-          <el-table-column label="打卡时间">
+          <el-table-column label="上班打卡时间">
             <template slot-scope="{row}">
-              {{ row.clockTime | disposeTime }}
+              {{ row.clockStartTime | disposeTime }}
+            </template>
+          </el-table-column>
+          <el-table-column label="下班打卡时间">
+            <template slot-scope="{row}">
+              {{ row.clockEndTime | disposeTime }}
             </template>
           </el-table-column>
           <el-table-column prop="fenceAddrName" label="打卡点名称" show-overflow-tooltip></el-table-column>
@@ -105,7 +110,6 @@
     methods: {
       init() {
         getAllClockRecords(this.project.id).then(res => {
-          console.log(res, "打卡记录");
           this.tableData = res.data;
         });
       },
@@ -120,7 +124,12 @@
     },
     filters: {
       disposeTime: function (val) {
-        return formatDate(val);
+        if (val) {
+          return formatDate(val);
+        } else {
+          return "";
+        }
+
       }
     }
   };
