@@ -121,7 +121,7 @@
 												<template slot-scope="{ row, $index }">
 													<el-button type="text" size="mini">预览</el-button>
 													<el-button type="text" size="mini"
-														@click="deleteExamine(row, $index)">删除</el-button>
+														@click="deleteContract(row, $index)">删除</el-button>
 												</template>
 											</el-table-column>
 										</el-table>
@@ -453,7 +453,7 @@ import projectinfo from "../../common/projectinfo.vue"
 					this.formData.contractInfo = this.contractTable;
 					this.formData.draftFlag = isdraft ? 0 : 1;
 					this.formData.auditUser = this.auditUser;
-					api.addOrUpdateContractBuild(this.formData).then((res) => {
+					api.addOrUpdateContractLabor(this.formData).then((res) => {
 						if (res.data) {
 							this.$message({
 								type: 'success',
@@ -507,6 +507,15 @@ import projectinfo from "../../common/projectinfo.vue"
 					this.contractTable.splice(index, 1);
 				});
 
+			},
+			deleteExamine(row, index){
+				this.$confirm('确认是否删除?', '提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+				}).then(() => {
+					this.contractTable.splice(index, 1);
+				});
 			},
 			hideDraft() {
 				this.draftVisible = false;

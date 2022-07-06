@@ -45,7 +45,8 @@ module.exports = {
 				}
 			},
 			"/zlsk_js_api": {
-				target: "http://101.200.223.171:8085",
+				target: 'https://system.zlskkj.com:59031',
+				// target: "http://101.200.223.171:8085",
 				// target: "http://192.168.2.163:9010",
 				changeOrigin: true,
 				secure: true,

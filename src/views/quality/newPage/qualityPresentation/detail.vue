@@ -117,9 +117,9 @@
 		},
 		methods: {
 			closeDialog(){
-				if(this.taskInfo['processDefinitionId']){
-					this.$router.go(-1);
-				}
+				// if(this.taskInfo['processDefinitionId']){
+				// 	this.$router.go(-1);
+				// }
 			},
 			changeVisible(value){
 				this.dialogFormVisible=value;

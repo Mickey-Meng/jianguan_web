@@ -138,8 +138,6 @@
 		},
 		methods: {
 			query() {
-				console.log(this.queryData.draftFlag)
-				debugger
 				this.queryData.draftFlag=this.isDraft?0:1;
 				api.getFirstAcceptList(this.queryData).then((res) => {
 					this.allData = res.data || {};

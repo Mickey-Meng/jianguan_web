@@ -25,7 +25,7 @@
 					<el-input v-model="queryData.supervisionSectionName" placeholder="监理标段"></el-input>
 				</div>
 			</div>
-			<el-button type="primary">搜索</el-button>
+			<el-button @click="query" type="primary">搜索</el-button>
 
 			<div v-if="!isDraft" class="right-btns">
 				<!-- <el-button type="primary" size="small"
@@ -64,8 +64,8 @@
 						</template>
 					</el-table-column>
 				</el-table>
-				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-					:current-page="queryData.pageNum" :page-size="queryData.pageSize" layout="total, sizes, prev, pager, next, jumper"
+				<el-pagination @current-change="handleCurrentChange" :current-page="queryData.pageNum"
+					:page-size="queryData.pageSize" layout="total, prev, pager, next, jumper"
 					:total="queryData.totalPage">
 				</el-pagination>
 			</div>
@@ -122,9 +122,9 @@
 				api.getBuildPlanList(this.queryData).then((res) => {
 					this.allData = res.data || {};
 					this.tableData = this.formateTableData(res.data.list);
-					this.queryData.pageNum=res.data.pageNum;
-					this.queryData.totalPage=res.data.total;
-					this.queryData.pageSize=res.data.pageSize;
+					this.queryData.pageNum = res.data.pageNum;
+					this.queryData.totalPage = res.data.total;
+					this.queryData.pageSize = res.data.pageSize;
 				});
 			},
 			formateTableData(list) {
@@ -166,11 +166,9 @@
 					});
 				});
 			},
-			handleSizeChange(val) {
-				console.log(`每页 ${val} 条`);
-			},
-			handleCurrentChange(val) {
-				console.log(`当前页: ${val}`);
+			handleCurrentChange(page) {
+				this.queryData.pageNum=page
+				this.query()
 			},
 			checkDetail(row){
 				this.$emit("hideDraft");
