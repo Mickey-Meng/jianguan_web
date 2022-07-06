@@ -277,6 +277,21 @@
 					let treename=getChidlren(this.treeData,this.formData.projectPartId,[]);
 					this.formData.projectPartStr=(treename?treename:[]).join('/');
 				});
+				api.getFlowAndTaskInfo({businessKey: id}).then((res) => {
+					console.log(res.data);
+					let data=res['data'];
+					this.taskInfo={
+						processDefinitionId: data['processDefinitionId'],
+						processInstanceId: data['processInstanceId'],
+						taskId: data['taskId']
+					}
+					this.updateTaskLog();
+				});
+			},
+			updateTaskLog(){
+				setTimeout(()=>{
+					this.$refs['tasklog'].initData();
+				},100)
 			},
 		},
 	};
