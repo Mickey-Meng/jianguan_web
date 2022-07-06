@@ -35,26 +35,36 @@
           @click="operateBtnsVisible=!operateBtnsVisible"></el-button> -->
         <div class="operate-btns">
           <!--          <el-button size="small" @click="openDialog">新增请假</el-button>-->
-          <el-button size="small">导出</el-button>
+          <!--          <el-button size="small">导出</el-button>-->
           <!--          <el-button size="small">批量操作</el-button>-->
         </div>
       </div>
     </el-header>
     <el-main>
       <div class="container">
-        <el-table :data="listData" style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
-          <el-table-column prop="uploadname" label="打卡人"></el-table-column>
-          <el-table-column prop="uploadname" label="图片"></el-table-column>
-          <el-table-column prop="uploadname" label="标段"></el-table-column>
-          <el-table-column prop="uploadname" label="打卡时间"></el-table-column>
-          <el-table-column prop="uploadname" label="打卡次数"></el-table-column>
-          <el-table-column prop="uploadname" label="打卡位置"></el-table-column>
-          <el-table-column prop="uploadname" label="备注"></el-table-column>
+        <el-table :data="tableData.slice((queryData.pageNum-1)*queryData.pageSize,queryData.pageNum*queryData.pageSize)"
+                  style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
+          <el-table-column prop="attendancePersonName" label="打卡人"></el-table-column>
+          <el-table-column label="图片" width="120">
+            <template slot-scope="{row}">
+              <img-viewer :imgList="[lookUrl+row.clockPic]"></img-viewer>
+            </template>
+
+
+          </el-table-column>
+          <el-table-column prop="projectName" label="标段"></el-table-column>
+          <el-table-column label="打卡时间">
+            <template slot-scope="{row}">
+              {{ row.clockTime | disposeTime }}
+            </template>
+          </el-table-column>
+          <el-table-column prop="fenceAddrName" label="打卡点名称" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="clockAddr" label="打卡位置" show-overflow-tooltip></el-table-column>
         </el-table>
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
                        :current-page="queryData.pageNum" :page-size="queryData.pageSize"
                        layout="total, sizes, prev, pager, next, jumper"
-                       :total="queryData.totalPage">
+                       :total="tableData.length">
         </el-pagination>
       </div>
     </el-main>
@@ -64,8 +74,9 @@
 </template>
 
 <script>
-  import {getNowDate} from "@/utils/date";
+  import {getNowDate, formatDate} from "@/utils/date";
   import {mapGetters} from "vuex";
+  import {getAllClockRecords} from "@/api/staffApproval";
 
   export default {
     name: "",
@@ -74,10 +85,6 @@
         form: {},
         projectName: "",
         tableData: [],
-        listData: [],
-        userOptions: [],
-        dialogFormVisible: false,
-        dialogPersonVisible: false,//控制选择人的弹框
         queryData: {
           projectCode: "",
           subProject: "",
@@ -90,31 +97,30 @@
     },
     created() {
       this.projectName = this.project.name;
-      this.form = {
-        recorder: this.name,
-        recordId: this.userInfo.ID,
-        subDate: getNowDate(),//填报时间
-        projectId: this.project.id,
-        isContract: "1"
-      };
+      this.init();
     },
     computed: {
-      ...mapGetters(["userInfo", "name", "project"])
+      ...mapGetters(["userInfo", "name", "project", "lookUrl"])
     },
     methods: {
-      addRow() {
-        let obj = Object.assign({}, this.tableRowData);
-        this.tableData.push(obj);
+      init() {
+        getAllClockRecords(this.project.id).then(res => {
+          console.log(res, "打卡记录");
+          this.tableData = res.data;
+        });
       },
-      openDialog() {
-        // this.dialogFormVisible = true;
+
+
+      handleSizeChange(val) {
+        this.queryData.pageSize = val;
       },
-      deleteInfo(index) {
-        this.tableData.splice(index, 1);
-      },
-      handleSizeChange() {
-      },
-      handleCurrentChange() {
+      handleCurrentChange(val) {
+        this.queryData.pageNum = val;
+      }
+    },
+    filters: {
+      disposeTime: function (val) {
+        return formatDate(val);
       }
     }
   };

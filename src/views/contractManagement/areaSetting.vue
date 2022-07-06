@@ -11,17 +11,9 @@
     <el-header>
       <div class="input-box">
         <div class="input-value">
-<!--          <el-input v-model="queryData.projectCode" placeholder="请输入打卡方案"></el-input>-->
         </div>
-
       </div>
-<!--      <el-button type="primary">搜索</el-button>-->
-
-
       <div class="right-btns">
-        <!-- <el-button type="primary" size="small"
-          :icon="operateBtnsVisible?'el-icon-d-arrow-right':'el-icon-d-arrow-left'"
-          @click="operateBtnsVisible=!operateBtnsVisible"></el-button> -->
         <div class="operate-btns">
           <el-button size="small" @click="openDialog">新建电子围栏</el-button>
           <el-button size="small" @click="openTimeDialog">打卡时间制定</el-button>
@@ -30,7 +22,8 @@
     </el-header>
     <el-main>
       <div class="container">
-        <el-table :data="tableData" style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
+        <el-table :data="tableData.slice((queryData.pageNum-1)*queryData.pageSize,queryData.pageNum*queryData.pageSize)"
+                  style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
           <el-table-column prop="title" label="标题"></el-table-column>
           <el-table-column prop="clockAddrName" label="打卡点名称"></el-table-column>
           <el-table-column prop="coordinate" label="坐标" show-overflow-tooltip></el-table-column>
@@ -38,7 +31,6 @@
           <el-table-column label="操作">
             <template slot-scope="{ row, $index }">
               <el-button type="text" size="mini" @click="modify(row)">修改</el-button>
-              <!--              <el-button type="text" size="mini" @click="viewDetail(row)">详情</el-button>-->
               <el-button type="text" size="mini" @click="deleteRow(row)">删除</el-button>
             </template>
           </el-table-column>
@@ -46,7 +38,7 @@
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
                        :current-page="queryData.pageNum" :page-size="queryData.pageSize"
                        layout="total, sizes, prev, pager, next, jumper"
-                       :total="queryData.totalPage">
+                       :total="tableData.length">
         </el-pagination>
       </div>
     </el-main>
@@ -290,9 +282,11 @@
         this.$refs.clickTime.initData();
         this.$refs.clickTime.initClockTime();
       },
-      handleSizeChange() {
+      handleSizeChange(val) {
+        this.queryData.pageSize = val;
       },
-      handleCurrentChange() {
+      handleCurrentChange(val) {
+        this.queryData.pageNum = val;
       }
     }
   };

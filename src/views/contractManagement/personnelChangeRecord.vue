@@ -17,21 +17,22 @@
       </div>
       <div class="input-box">
         <div class="input-value">
-          <el-input v-model="queryData.subProject" placeholder="请输入负责人"></el-input>
+          <el-input v-model="queryData.subProject" placeholder="请输入变更前人员"></el-input>
         </div>
       </div>
       <el-button type="primary">搜索</el-button>
 
       <div class="right-btns">
         <div class="operate-btns">
-          <el-button size="small">导出</el-button>
-<!--          <el-button size="small">批量操作</el-button>-->
+          <!--          <el-button size="small">导出</el-button>-->
+          <!--          <el-button size="small">批量操作</el-button>-->
         </div>
       </div>
     </el-header>
     <el-main>
       <div class="container">
-        <el-table :data="tableDta" style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
+        <el-table :data="tableDta.slice((queryData.pageNum-1)*queryData.pageSize,queryData.pageNum*queryData.pageSize)"
+                  style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
           <el-table-column prop="projectChildName" label="标段"></el-table-column>
           <el-table-column prop="changeTypeName" label="人员变更类型"></el-table-column>
           <el-table-column prop="changePostName" label="变更岗位"></el-table-column>
@@ -51,7 +52,7 @@
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
                        :current-page="queryData.pageNum" :page-size="queryData.pageSize"
                        layout="total, sizes, prev, pager, next, jumper"
-                       :total="queryData.totalPage">
+                       :total="tableDta.length">
         </el-pagination>
       </div>
     </el-main>
@@ -236,8 +237,6 @@
               <!--            </div>-->
               <!--          </div>-->
               <div class="form-block">
-                <!--            <el-button class="submit-btn" size="small" type="primary" @click="submitInfo">提交-->
-                <!--            </el-button>-->
               </div>
             </el-form>
           </div>
@@ -313,9 +312,11 @@
           this.$refs["tasklog"].initData();
         });
       },
-      handleSizeChange() {
+      handleSizeChange(val) {
+        this.queryData.pageSize = val;
       },
-      handleCurrentChange() {
+      handleCurrentChange(val) {
+        this.queryData.pageNum = val;
       },
       downloadFileEvent() {
         if (this.fileData && this.fileData.length > 0) {

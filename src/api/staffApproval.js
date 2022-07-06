@@ -198,3 +198,28 @@ export const deleteClockTime = (pid, id) => {
     }
   });
 };
+//-------------------------------打卡记录-----------------------
+export const getAllClockRecords = (id, startTime = undefined, endTime = undefined) => {
+  return request({
+    url: api.getAllClockRecords,
+    method: "post",
+    data: {},
+    params: {
+      projectId: id,
+      startTime,
+      endTime
+    }
+  });
+};
+export const getMyClockRecords = (id, startTime = undefined, endTime = undefined) => {
+  return request({
+    url: api.getMyClockRecords,
+    method: "post",
+    data: {},
+    params: {
+      projectId: id,
+      startTime,
+      endTime
+    }
+  });
+};

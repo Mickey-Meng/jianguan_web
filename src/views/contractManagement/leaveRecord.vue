@@ -35,14 +35,15 @@
           @click="operateBtnsVisible=!operateBtnsVisible"></el-button> -->
         <div class="operate-btns">
 <!--          <el-button size="small" @click="openDialog">新增请假</el-button>-->
-          <el-button size="small">导出</el-button>
+          <!--          <el-button size="small">导出</el-button>-->
           <!--          <el-button size="small">批量操作</el-button>-->
         </div>
       </div>
     </el-header>
     <el-main>
       <div class="container">
-        <el-table :data="tableData" style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
+        <el-table :data="tableData.slice((queryData.pageNum-1)*queryData.pageSize,queryData.pageNum*queryData.pageSize)"
+                  style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
           <el-table-column prop="leaverPersonName" label="请假人"></el-table-column>
           <el-table-column prop="leaverType" label="请假类型"></el-table-column>
           <el-table-column prop="startTime" label="开始时间"></el-table-column>
@@ -66,7 +67,7 @@
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
                        :current-page="queryData.pageNum" :page-size="queryData.pageSize"
                        layout="total, sizes, prev, pager, next, jumper"
-                       :total="queryData.totalPage">
+                       :total="tableData.length">
         </el-pagination>
       </div>
     </el-main>
@@ -237,9 +238,11 @@
       openDialog() {
         // this.dialogFormVisible = true;
       },
-      handleSizeChange() {
+      handleSizeChange(val) {
+        this.queryData.pageSize = val;
       },
-      handleCurrentChange() {
+      handleCurrentChange(val) {
+        this.queryData.pageNum = val;
       }
     }
   };

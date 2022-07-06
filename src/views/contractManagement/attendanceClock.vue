@@ -9,26 +9,42 @@
 <template>
   <div class="clock_wrapper">
     <el-calendar v-model="value">
+      <template slot-scope="{date,data}" slot="dateCell"></template>
     </el-calendar>
   </div>
 </template>
 
 <script>
-export default {
-   data () {
+  import {getCurrentMonth, getCurrentDate} from "@/utils/date";
+  import {getMyClockRecords} from "@/api/staffApproval";
+  import {mapGetters} from "vuex";
+
+  export default {
+    data() {
       return {
         value: ""
       };
-   },
-   created() {},
-   components: {},
-   computed: {},
-   methods: {}
-}
+    },
+    created() {
+      // console.log(getCurrentMonth(getCurrentDate()));
+    },
+    components: {},
+    computed: {
+      ...mapGetters(["project"])
+    },
+    methods: {
+      init() {
+      }
+    }
+  };
 </script>
 <style lang='scss' scoped>
   .clock_wrapper {
     height: 100%;
+
+    .el-calendar {
+      height: 97%;
+    }
   }
 
 </style>

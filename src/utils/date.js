@@ -295,8 +295,8 @@ export const getNextMonth = function(date) {
  * @returns {}
  * @date 2021/7/22
  */
-export const getCurrentWeek = () => {
-  const start_time = dayjs()
+export const getCurrentWeek = (date) => {
+  const start_time = dayjs(date)
     .startOf("week")
     .format("YYYY-MM-DD HH:mm:ss");
   const end_time = dayjs()

@@ -25,14 +25,15 @@
       <div class="right-btns">
         <div class="operate-btns">
           <el-button size="small" @click="openDialog">新增填报</el-button>
-          <el-button size="small">导出</el-button>
-          <el-button size="small">批量操作</el-button>
+<!--          <el-button size="small">导出</el-button>-->
+<!--          <el-button size="small">批量操作</el-button>-->
         </div>
       </div>
     </el-header>
     <el-main>
       <div class="container">
-        <el-table :data="listData" style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
+        <el-table :data="listData.slice((queryData.pageNum-1)*queryData.pageSize,queryData.pageNum*queryData.pageSize)"
+                  style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
           <el-table-column prop="projectName" label="标段"></el-table-column>
           <el-table-column prop="recorder" label="记录人"></el-table-column>
           <el-table-column prop="uploadname" label="填报时间">
@@ -439,7 +440,7 @@
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
                        :current-page="queryData.pageNum" :page-size="queryData.pageSize"
                        layout="total, sizes, prev, pager, next, jumper"
-                       :total="queryData.totalPage">
+                       :total="listData.length">
         </el-pagination>
       </div>
     </el-main>
@@ -493,7 +494,6 @@
           projectCode: "",
           subProject: "",
           pageNum: 1,
-          totalPage: 1,
           pageSize: 10
         },
         tableRowData: {
@@ -560,9 +560,11 @@
         this.disabledArr.splice(a, 1);
         this.tableData.splice(index, 1);
       },
-      handleSizeChange() {
+      handleSizeChange(val) {
+        this.queryData.pageSize = val;
       },
-      handleCurrentChange() {
+      handleCurrentChange(val) {
+        this.queryData.pageNum = val;
       },
       //暂存当前行数据
       currentRowData(row, index) {

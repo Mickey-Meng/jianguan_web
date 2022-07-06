@@ -17,7 +17,7 @@
       </div>
       <div class="input-box">
         <div class="input-value">
-          <el-input v-model="queryData.subProject" placeholder="请输入记录人"></el-input>
+          <el-input v-model="queryData.subProject" placeholder="请输入姓名"></el-input>
         </div>
       </div>
       <el-button type="primary">搜索</el-button>
@@ -28,14 +28,16 @@
           @click="operateBtnsVisible=!operateBtnsVisible"></el-button> -->
         <div class="operate-btns">
           <!--        <el-button size="small" @click="openDialog">新增填报</el-button>-->
-          <el-button size="small">导出</el-button>
-          <el-button size="small">批量操作</el-button>
+          <!--          <el-button size="small">导出</el-button>-->
+          <!--          <el-button size="small">批量操作</el-button>-->
         </div>
       </div>
     </el-header>
     <el-main>
       <div class="container">
-        <el-table border :data="tableData" style="width: 100%" height="calc(100% - 48px)" class="have_scrolling">
+        <el-table border
+                  :data="tableData.slice((queryData.pageNum-1)*queryData.pageSize,queryData.pageNum*queryData.pageSize)"
+                  style="width: 100%" height="calc(100% - 48px)" class="have_scrolling">
           <el-table-column prop="name" label="姓名"></el-table-column>
           <el-table-column label="性别">
             <template slot-scope="{row}">
@@ -68,7 +70,7 @@
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
                        :current-page="queryData.pageNum" :page-size="queryData.pageSize"
                        layout="total, sizes, prev, pager, next, jumper"
-                       :total="queryData.totalPage">
+                       :total="tableData.length">
         </el-pagination>
       </div>
 
@@ -256,9 +258,7 @@
       },
       seeDetail(row) {
         this.form = Object.assign({}, row);
-        console.log(this.form);
         this.dialogFormVisible = true;
-
         // let data = row.personSubs;
         // if (data && data.length > 0) {
         //   this.listsData = data.map(item => {
@@ -283,9 +283,11 @@
         //   this.$refs["tasklog"].initData();
         // });
       },
-      handleSizeChange() {
+      handleSizeChange(val) {
+        this.queryData.pageSize = val;
       },
       handleCurrentChange() {
+        this.queryData.pageNum = val;
       }
     },
     components: {tasklog},

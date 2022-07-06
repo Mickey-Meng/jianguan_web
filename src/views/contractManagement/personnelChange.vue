@@ -17,7 +17,7 @@
       </div>
       <div class="input-box">
         <div class="input-value">
-          <el-input v-model="queryData.subProject" placeholder="请输入记录人"></el-input>
+          <el-input v-model="queryData.subProject" placeholder="请输入变更前人员"></el-input>
         </div>
       </div>
       <el-button type="primary">搜索</el-button>
@@ -28,14 +28,14 @@
           @click="operateBtnsVisible=!operateBtnsVisible"></el-button> -->
         <div class="operate-btns">
           <el-button size="small" @click="openDialog">新增变更</el-button>
-          <el-button size="small">导出</el-button>
-          <el-button size="small">批量操作</el-button>
+<!--          <el-button size="small">导出</el-button>-->
+<!--          <el-button size="small">批量操作</el-button>-->
         </div>
       </div>
     </el-header>
     <el-main>
       <div class="container">
-        <el-table :data="tableDta" style="width: 100%" height="calc(100% - 48px)" class="have_scrolling" border>
+        <el-table :data="tableDta.slice((queryData.pageNum-1)*queryData.pageSize,queryData.pageNum*queryData.pageSize)" style="width: 100%" height="calc(100% - 48px)" class="have_scrolling" border>
           <el-table-column prop="projectChildName" label="标段"></el-table-column>
           <el-table-column prop="changeTypeName" label="人员变更类型"></el-table-column>
           <el-table-column prop="changePostName" label="变更岗位"></el-table-column>
@@ -46,8 +46,6 @@
               {{ row.subDate | formatTime }}
             </template>
           </el-table-column>
-          <!--          <el-table-column prop="uploadname" label="负责人"></el-table-column>-->
-          <!--          <el-table-column prop="uploadname" label="状态"></el-table-column>-->
           <el-table-column label="操作">
             <template slot-scope="{row,$index}">
               <el-button type="text" size="mini" @click="seeDetail(row)">详情</el-button>
@@ -58,7 +56,7 @@
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
                        :current-page="queryData.pageNum" :page-size="queryData.pageSize"
                        layout="total, sizes, prev, pager, next, jumper"
-                       :total="queryData.totalPage">
+                       :total="tableDta.length">
         </el-pagination>
       </div>
     </el-main>

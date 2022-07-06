@@ -209,6 +209,9 @@ const api = {
   getClockTime: "/ZhuJiRoad/fence/getClock",
   updateClockTime: "/ZhuJiRoad/fence/updateClock",
   deleteClockTime: "/ZhuJiRoad/fence/delClock",
+  //------------打卡记录 --------------
+  getAllClockRecords: "/ZhuJiRoad/person/getClockIn",//获取所有打卡记录
+  getMyClockRecords: "/ZhuJiRoad/person/getSelfClockIn",//获取个人打卡记录
 
 
   //-----------------------流程引擎新增接口 ------------------------
