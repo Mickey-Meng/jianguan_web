@@ -63,8 +63,10 @@
               {{ row.clockEndTime | disposeTime }}
             </template>
           </el-table-column>
-          <el-table-column prop="fenceAddrName" label="打卡点名称" show-overflow-tooltip></el-table-column>
-          <el-table-column prop="clockAddr" label="打卡位置" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="fenceAddrName" label="上班打卡点" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="clockAddr" label="上班打卡位置" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="fenceAddrName" label="下班打卡点" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="clockEndAddr" label="下班打卡位置" show-overflow-tooltip></el-table-column>
         </el-table>
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
                        :current-page="queryData.pageNum" :page-size="queryData.pageSize"
