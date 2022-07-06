@@ -77,7 +77,7 @@
 											</el-table-column>
 											<el-table-column fixed="right" width="120" align="center" label="操作">
 												<template slot-scope="{ row, $index }">
-													<el-button type="text" size="mini">预览</el-button>
+													<!-- <el-button type="text" size="mini">预览</el-button> -->
 													<el-button type="text" size="mini"
 														@click="deleteEquipment(row, $index)">删除</el-button>
 												</template>
@@ -277,7 +277,7 @@ import projectinfo from "../../common/projectinfo.vue"
 					projectCode: '',
 					buildSection: this.$store.getters.project.id,
 					projectId:this.$store.getters.project['parentid'],
-					supervisionBan: ''
+					supervisionBan: '监理办'
 				},
 				attachTable: [], //附件
 				equipmentTable: [],
@@ -327,7 +327,7 @@ import projectinfo from "../../common/projectinfo.vue"
 						projectCode: '',
 						buildSection: this.$store.getters.project.id,
 						projectId:this.$store.getters.project['parentid'],
-						supervisionBan: ''
+						supervisionBan: '监理办'
 					}
 					this.attachTable=[];
 					this.equipmentTable=[];
