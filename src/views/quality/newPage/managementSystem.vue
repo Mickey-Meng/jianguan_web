@@ -80,8 +80,13 @@
 									</div>
 									<div class="block-line">
 										<div class="block-item">
-											<div class="block-item-label">编制人：</div>
-											<div class="block-item-value">{{formData.userName}}</div>
+											
+											<div class="block-item-label">编制人：<i class="require-icon"></i></div>
+											<div class="block-item-value">
+												<el-form-item prop="userName">
+													<el-input v-model="formData.userName"></el-input>
+												</el-form-item>
+											</div>
 										</div>
 										<div class="block-item">
 											<div class="block-item-label">编制日期<i class="require-icon"></i></div>
