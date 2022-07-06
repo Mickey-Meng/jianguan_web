@@ -32,8 +32,8 @@
 					</el-table-column>
 					<el-table-column prop="publishDate" align="center" label="发布时间" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="uploadname" align="center" label="登记部门" show-overflow-tooltip>
-					</el-table-column>
+					<!-- <el-table-column prop="uploadname" align="center" label="登记部门" show-overflow-tooltip>
+					</el-table-column> -->
 					<el-table-column fixed="right" width="120" align="center" label="操作">
 						<template slot-scope="{ row, $index }">
 							<el-button type="text" @click="viewDetail(row)">详情</el-button>
