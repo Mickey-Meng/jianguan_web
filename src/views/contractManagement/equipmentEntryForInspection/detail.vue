@@ -45,6 +45,9 @@
 											class="have_scrolling">
 											<el-table-column type="index" width="50" align="center" label="序号">
 											</el-table-column>
+											<el-table-column prop="equipmentType" align="center" label="设备类型"
+												show-overflow-tooltip>
+											</el-table-column>
 											<el-table-column prop="equipmentName" width="180px" align="center"
 												label="设备名称">
 											</el-table-column>
@@ -53,14 +56,14 @@
 											</el-table-column>
 											<el-table-column prop="num" width="120px" align="center" label="数量">
 											</el-table-column>
-											<el-table-column prop="exitDate" width="120px" align="center" label="拟退场日期">
+											<el-table-column prop="enterDate" width="120px" align="center" label="进场日期">
+											</el-table-column>
+											<el-table-column prop="techCondition" width="120px" align="center"
+												label="技术状况">
+											</el-table-column>
+											<el-table-column prop="useWhere" width="120px" align="center" label="拟用何处">
 											</el-table-column>
 											<el-table-column prop="remark" width="120px" align="center" label="备注">
-											</el-table-column>
-											<el-table-column prop="exitReason" width="120px" align="center" label="退场原因">
-											</el-table-column>
-											<el-table-column prop="techStatus" width="120px" align="center"
-												label="技术状态">
 											</el-table-column>
 										</el-table>
 									</div>
