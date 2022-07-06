@@ -134,7 +134,7 @@
 			...mapGetters(["project"])
 		},
 		mounted() {
-			//this.query();
+			this.query();
 		},
 		methods: {
 			query() {
