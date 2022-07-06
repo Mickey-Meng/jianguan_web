@@ -28,7 +28,7 @@
 					</el-table-column>
 					<el-table-column prop="title" align="center" label="标题" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="qualityfirstname" align="center" label="登记人" show-overflow-tooltip>
+					<el-table-column prop="createName" align="center" label="登记人" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="publishDate" align="center" label="发布时间" show-overflow-tooltip>
 					</el-table-column>
