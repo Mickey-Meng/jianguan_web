@@ -213,7 +213,6 @@
     methods: {
       init() {
         getLeaveRecordsById(this.project.id).then(res => {
-          console.log(res);
           this.tableData = res.data;
         });
       },
