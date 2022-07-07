@@ -508,7 +508,8 @@ export default {
         this.tableData = res.data.check;
         this.submitDataInfo = res.data.data;
       });
-      let code = this.componentInfo.conponetcode.substring(0, 4);
+      // let code = this.componentInfo.conponetcode.substring(0, 4);
+      let code = this.componentInfo.conponetcode;
       api.getPersonByComponentId(code,this.project.id).then((res) => {
         this.supervisor = res.data;
       });

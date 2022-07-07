@@ -1,12 +1,12 @@
 <template>
   <div class="wrapper">
     <div class="content">
-      <div class="golbal_scrolling tree_wrapper_box">
+      <div class=" tree_wrapper_box">
         <el-tree
           ref="tree"
           :data="treeData"
           accordion
-          class="tree-box"
+          class="tree-box golbal_scrolling"
           highlight-current
           node-key="id"
           :default-expanded-keys="[2]"
@@ -491,7 +491,6 @@ export default {
         this.allProjectArr = data;
       });
       getAreaBySectionId(this.project.id).then((res) => {
-        console.log(res);
         let aobj = {
           name: "所有工区",
           sort: 95270
