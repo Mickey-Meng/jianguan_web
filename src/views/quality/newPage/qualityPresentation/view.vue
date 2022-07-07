@@ -2,7 +2,7 @@
 	<div>
 
 		<div class="form-content">
-			<el-form ref="form" label-width="80px">
+			<el-form :model="formData" ref="ruleForm" label-width="80px">
 				<div class="form-block">
 					<div class="form-block-title">
 						<div class="title-bar"></div><strong>基本信息</strong>
@@ -26,6 +26,22 @@
 					<attachlist :editAble="false" ref="attachlist" :attachTable="formData.reportAttachment">
 					</attachlist>
 				
+				</div>
+				
+				<div class="form-block">
+					<div class="form-block-title">
+						<div class="title-bar"></div><strong>整改内容</strong>
+					</div>
+				</div>
+				<div class="form-block">
+					<div class="form-block-title">
+						<div class="title-bar"></div><strong>整改内容</strong>
+						<span style="font-size: 12px;margin-left: 40px;">支持上传 jpg/jpeg png 文件，且不超过
+							100M</span>
+					</div>
+					<attachlist :editAble="readOnly" :attachTable="formData.replyPhotoAttachment">
+					</attachlist>
+			
 				</div>
 			</el-form>
 		</div>
@@ -60,11 +76,18 @@
 					draftFlag: 1,
 					title: '',
 					reportAttachment:[],
+					replyPhotoAttachment:[],
 					buildSection: this.$store.getters.project.id,
 					projectId:this.$store.getters.project['parentid'],
 				},
 				taskInfo:{}
 			};
+		},
+		props: {
+			readOnly: {
+				type: Boolean,
+				default: false
+			}
 		},
 		created() {},
 		components: {
@@ -85,6 +108,20 @@
 				api.getQualityReportDeatil(id).then((res) => {
 					let data = res['data'] || {};
 					this.formData = data;
+				});
+			},
+			addOrModify() {
+				// this.formData.auditUser = this.auditUser;
+				this.formData.draftFlag = 1;
+				api.addOrUpdateQualityReport(this.formData).then((res) => {
+					if (res.data) {
+						this.$message({
+							type: 'success',
+							message: '提交成功!'
+						});
+						// this.dialogFormVisible = false;
+						// this.$emit("query");
+					}
 				});
 			},
 		},

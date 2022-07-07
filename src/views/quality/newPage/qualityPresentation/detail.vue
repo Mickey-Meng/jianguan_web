@@ -36,6 +36,23 @@
 									</attachlist>
 								
 								</div>
+								
+				
+								<div class="form-block">
+									<div class="form-block-title">
+										<div class="title-bar"></div><strong>整改内容</strong>
+									</div>
+								</div>
+								<div class="form-block">
+									<div class="form-block-title">
+										<div class="title-bar"></div><strong>整改内容</strong>
+										<span style="font-size: 12px;margin-left: 40px;">支持上传 jpg/jpeg png 文件，且不超过
+											100M</span>
+									</div>
+									<attachlist :editAble="false" :attachTable="formData.replyPhotoAttachment">
+									</attachlist>
+							
+								</div>
 							</el-form>
 							<!-- <taskhandle :taskInfo="taskInfo"></taskhandle> -->
 						</div>
@@ -89,6 +106,7 @@
 					draftFlag: 1,
 					title: '',
 					reportAttachment:[],
+					replyPhotoAttachment:[],
 					buildSection: this.$store.getters.project.id,
 					projectId:this.$store.getters.project['parentid'],
 				},
