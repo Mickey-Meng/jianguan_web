@@ -250,7 +250,6 @@
               lists = lists.concat(personSubs);
             });
             this.tableData = lists;
-            console.log(lists, 99);
           } else {
             this.tableData = [];
           }

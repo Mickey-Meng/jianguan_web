@@ -352,7 +352,8 @@ export default {
         list: [],
         projectId: null,
         sttime: "",
-        type: "ZJ"
+        type: "ZJ",
+        projectType: "QL"
       },
       dialogVisible: false,
       recode: {}, //工序pdf记录
@@ -471,7 +472,8 @@ export default {
           let obj = {
             name: i,
             type: "folder",
-            children: child,
+            code: i === "桥梁工程" ? "QL" : i === "道路工程" ? "LM" : i === "隧道工程" ? "SD" : "other",
+            children: child
           };
           tree.push(obj);
         }
@@ -516,16 +518,14 @@ export default {
         this.typeArr = this.allProjectArr.filter((e) => e.parentid === val);
       }
     },
-    timeChange() {},
-    nodeClick(node) {
+    timeChange() {
+    },
+    nodeClick(node, b) {
       if (node.type !== "folder") {
         this.postData.type = node.type;
+        this.postData.projectType = b.parent.data.code;
         this.init();
       }
-      // else {
-      //   this.postData.type = "";
-      //   this.init();
-      // }
     },
     seeDetail(row, value) {
       this.rowdata = Object.assign({}, row);
