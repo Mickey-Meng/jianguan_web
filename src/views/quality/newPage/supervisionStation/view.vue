@@ -39,7 +39,7 @@
 					<div class="block-line">
 						<div class="block-item-label">工程部位</div>
 						<div class="block-item-value">
-							{{formData.projectPartId}}
+							{{formData.projectPartStr}}
 						</div>
 					</div>
 					<div class="block-line">
