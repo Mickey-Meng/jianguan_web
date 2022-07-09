@@ -282,9 +282,11 @@
         //   this.$refs["tasklog"].initData();
         // });
       },
-      handleSizeChange() {
+      handleSizeChange(val) {
+        this.queryData.pageSize = val;
       },
-      handleCurrentChange() {
+      handleCurrentChange(val) {
+        this.queryData.pageNum = val;
       }
     },
     components: {tasklog},
