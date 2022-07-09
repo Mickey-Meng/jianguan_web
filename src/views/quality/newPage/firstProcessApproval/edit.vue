@@ -289,8 +289,8 @@
 		</el-dialog>
 
 		<el-dialog width="80%" class="little-container" :visible.sync="draftVisible">
-			<qualityTest @hideDraft="hideDraft" @getDetail="getDetail" :isDraft="draftVisible" v-if="draftVisible">
-			</qualityTest>
+			<firstProcessApproval @hideDraft="hideDraft" @getDetail="getDetail" :isDraft="draftVisible" v-if="draftVisible">
+			</firstProcessApproval>
 		</el-dialog>
 		
 		<el-dialog title="选择分部分项工程" width="50%" class="little-container" :visible.sync="partVisible">
