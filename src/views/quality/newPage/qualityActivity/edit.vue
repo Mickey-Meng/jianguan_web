@@ -78,8 +78,8 @@
 		</el-dialog>
 
 		<el-dialog width="80%" class="little-container" :visible.sync="draftVisible">
-			<qualityTest @hideDraft="hideDraft" @getDetail="getDetail" :isDraft="draftVisible" v-if="draftVisible">
-			</qualityTest>
+			<qualityActivity @hideDraft="hideDraft" @getDetail="getDetail" :isDraft="draftVisible" v-if="draftVisible">
+			</qualityActivity>
 		</el-dialog>
 	</div>
 </template>
