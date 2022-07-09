@@ -424,7 +424,7 @@ import projectinfo from "../../common/projectinfo.vue"
 			addEquipmentTable() {
 				this.$refs['newform'].validate((valid) => {
 					if (valid) {
-						this.equipmentTable.push(this.equipmentInfo);
+						this.equipmentTable.push({...this.equipmentInfo});
 						this.equipmentVisible = false;
 					}
 				})

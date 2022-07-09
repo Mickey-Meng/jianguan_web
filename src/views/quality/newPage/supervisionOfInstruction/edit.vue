@@ -209,8 +209,8 @@
 		</el-dialog>
 
 		<el-dialog width="80%" class="little-container" :visible.sync="draftVisible">
-			<qualityTest @hideDraft="hideDraft" @getDetail="getDetail" :isDraft="draftVisible" v-if="draftVisible">
-			</qualityTest>
+			<supervisionOfInstruction @hideDraft="hideDraft" @getDetail="getDetail" :isDraft="draftVisible" v-if="draftVisible">
+			</supervisionOfInstruction>
 		</el-dialog>
 	</div>
 </template>

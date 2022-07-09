@@ -191,8 +191,8 @@
 		</el-dialog>
 
 		<el-dialog width="80%" class="little-container" :visible.sync="draftVisible">
-			<qualityTest @hideDraft="hideDraft" @getDetail="getDetail" :isDraft="draftVisible" v-if="draftVisible">
-			</qualityTest>
+			<supervisionStation @hideDraft="hideDraft" @getDetail="getDetail" :isDraft="draftVisible" v-if="draftVisible">
+			</supervisionStation>
 		</el-dialog>
 		
 		<el-dialog title="选择工程部位" width="50%" class="little-container" :visible.sync="partVisible">
