@@ -10,7 +10,7 @@
 					style="background-color: rgba(0,0 0,0.5);height: calc(100vh - 96px); overflow-y: scroll;padding: 0px;margin: 0;">
 					<div class="form-bg">
 						<div class="form-content">
-							<el-form ref="form" label-width="80px">
+							<el-form ref="form" label-width="200px">
 								
 								<div class="form-block">
 									<div class="form-block-title">
@@ -75,6 +75,205 @@
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>旁站信息记录</strong>
 									</div>
+									
+									<el-collapse v-model="sideInfoVisible">
+										<el-collapse-item title="嵌入表单" name="1">
+											<el-row
+												style="font-size: 18px;color: #606266;font-weight: 600;text-align: center;">
+												桩基首盘混凝土</el-row>
+											<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">施工过程详情
+											</el-row>
+											<el-row>
+												<el-form-item label="旁站时间">
+													{{sideInfo.a01}}
+												</el-form-item>
+											</el-row>
+											<el-row>
+												<el-col :span="8">
+													<el-form-item label="施工员在岗情况">
+														{{sideInfo.a02}}
+													</el-form-item>
+												</el-col>
+												<el-col :span="8">
+													<el-form-item label="质检员在岗情况">
+														{{sideInfo.a03}}
+													</el-form-item>
+												</el-col>
+												<el-col :span="8">
+													<el-form-item label="安全员在岗情况" prop="sideDate">
+														{{sideInfo.a04}}
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="施工作业人员满足施工需要情况" prop="sideDate">
+														{{sideInfo.a05}}
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="特殊作业人员持证上岗情况" prop="sideDate">
+														{{sideInfo.a06}}
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="施工机械满足施工需要情况" prop="sideDate">
+														{{sideInfo.a07}}
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="施工材料符合设计和规范要求" prop="sideDate">
+														{{sideInfo.a08}}
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="开始施工时间" prop="sideDate">
+														{{sideInfo.a09}}
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="结束施工时间" prop="sideDate">
+														{{sideInfo.a10}}
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-form-item label="施工工艺按审批施工方案实施" prop="sideDate">
+													{{sideInfo.a11}}
+												</el-form-item>
+											</el-row>
+											<el-row>
+												<el-form-item label="钢筋笼安放所采用的施工机械设备是否满足要求" prop="sideDate">
+													{{sideInfo.a12}}
+												</el-form-item>
+											</el-row>
+											<el-row>
+												<el-form-item label="钢筋笼吊装及安放工艺是否符合批准的施工方案" prop="sideDate">
+													{{sideInfo.a13}}
+												</el-form-item>
+											</el-row>
+											<el-row>
+												<el-col :span="8">
+													<el-form-item label="施工现场质量措施落实情况" prop="sideDate">
+														{{sideInfo.a14}}
+													</el-form-item>
+												</el-col>
+												<el-col :span="8">
+													<el-form-item label="安全措施落实情况" prop="sideDate">
+														{{sideInfo.a15}}
+													</el-form-item>
+												</el-col>
+												<el-col :span="8">
+													<el-form-item label="环保措施落实情况" prop="sideDate">
+														{{sideInfo.a16}}
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">主要数据记录
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="施工现场质量措施落实情况" prop="sideDate">
+														{{sideInfo.a17}}
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="桩位实测值" prop="sideDate">
+														{{sideInfo.a18}}
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="孔深设计值(m）" prop="sideDate">
+														{{sideInfo.a19}}
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="孔深实测值(m）" prop="sideDate">
+														{{sideInfo.a20}}
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="孔径设计值(mm)" prop="sideDate">
+														{{sideInfo.a21}}
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="孔径实测值(mm)" prop="sideDate">
+														{{sideInfo.a22}}
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="钻孔倾斜度设计值(mm)" prop="sideDate">
+														{{sideInfo.a23}}
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="倾斜度实测值(mm)" prop="sideDate">
+														{{sideInfo.a24}}
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="沉淀厚度设计值(mm)" prop="sideDate">
+														{{sideInfo.a25}}
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="沉淀厚度实测值(mm)" prop="sideDate">
+														{{sideInfo.a26}}
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="终孔后泥浆比重" prop="sideDate">
+														{{sideInfo.a27}}
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="砂率" prop="sideDate">
+														{{sideInfo.a28}}
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="一清后泥浆的比重" prop="sideDate">
+														{{sideInfo.a29}}
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="砂率" prop="sideDate">
+														{{sideInfo.a30}}
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="二清后泥浆的比重" prop="sideDate">
+														{{sideInfo.a31}}
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="砂率" prop="sideDate">
+														{{sideInfo.a32}}
+													</el-form-item>
+												</el-col>
+											</el-row>
+										</el-collapse-item>
+									</el-collapse>
+									
 								
 									<div class="block-line">
 										<div class="block-item">
@@ -189,6 +388,10 @@
 					supervisionUnit: '浙江交科公路水运工程监理有限公司',
 					supervisionSection: '监理办'
 				},
+				sideInfoVisible:'',
+				sideInfo: {
+				
+				},
 				formData: { //表单参数
 					"actualCheckAttachment": [],
 					"address": {},
@@ -269,9 +472,11 @@
 				this.dialogFormVisible=value;
 			},
 			getDetail(id){
+				this.sideInfoVisible=''
 				api.getSupervisionSideDeatil(id).then((res) => {
 					let data=res['data']||{};
 					this.formData=data;
+					this.sideInfo = data['sideInfo'] ? JSON.parse(data['sideInfo']) : {};
 					this.formData.sideProjectStr=getOptionsLabel(this.sideOptions,this.formData.sideProjectId)
 					
 					let treename=getChidlren(this.treeData,this.formData.projectPartId,[]);
@@ -298,5 +503,10 @@
 </script>
 
 <style scoped lang="scss">
+	.el-collapse-item {
+		.el-input {
+			width: calc(100% - 200px) !important;
+		}
+	}
 	@import "../../../../assets/css/dialog.scss"
 </style>

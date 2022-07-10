@@ -10,7 +10,7 @@
 					style="background-color: rgba(0,0 0,0.5);height: calc(100vh - 96px); overflow-y: scroll;padding: 0px;margin: 0;">
 					<div class="form-bg">
 						<div class="form-content">
-							<el-form :model="formData" ref="ruleForm" :rules="rules" label-width="80px">
+							<el-form :model="formData" ref="ruleForm" :rules="rules" label-width="200px">
 								<div class="form-title">
 									<div class="title-big-bar"></div>
 									<strong>监理旁站</strong>
@@ -21,7 +21,7 @@
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>发起位置</strong>
-										
+
 									</div>
 									<locationmap></locationmap>
 									<div class="form-block-title">
@@ -40,8 +40,8 @@
 												<div class="block-item-label">旁站时间</div>
 												<div class="block-item-value">
 													<el-form-item prop="sideDate">
-														<el-date-picker value-format="yyyy-MM-dd" v-model="formData.sideDate"
-															type="date" placeholder="请选择">
+														<el-date-picker value-format="yyyy-MM-dd"
+															v-model="formData.sideDate" type="date" placeholder="请选择">
 														</el-date-picker>
 													</el-form-item>
 
@@ -59,9 +59,10 @@
 										<div class="block-item-label">工程部位</div>
 										<div class="block-item-value">
 											<el-form-item prop="projectPartId">
-												<el-input readonly @focus="checkPartPro" v-model="formData.projectPartStr"></el-input>
-												
-												
+												<el-input readonly @focus="checkPartPro"
+													v-model="formData.projectPartStr"></el-input>
+
+
 												<!-- <el-select v-model="formData.projectPartId" placeholder="请选择">
 													<el-option v-for="item in partOptions" :key="item.value"
 														:label="item.label" :value="item.value">
@@ -105,6 +106,239 @@
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>旁站信息记录</strong>
 									</div>
+
+									<el-collapse v-model="sideInfoVisible">
+										<el-collapse-item title="嵌入表单" name="1">
+											<el-row
+												style="font-size: 18px;color: #606266;font-weight: 600;text-align: center;">
+												桩基首盘混凝土</el-row>
+											<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">施工过程详情
+											</el-row>
+											<el-row>
+												<el-form-item label="旁站时间">
+													<el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+														v-model="sideInfo.a01" type="datetime" placeholder="请选择">
+													</el-date-picker>
+												</el-form-item>
+											</el-row>
+											<el-row>
+												<el-col :span="8">
+													<el-form-item label="施工员在岗情况">
+														<el-radio v-model="sideInfo.a02" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a02" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+												<el-col :span="8">
+													<el-form-item label="质检员在岗情况">
+														<el-radio v-model="sideInfo.a03" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a03" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+												<el-col :span="8">
+													<el-form-item label="安全员在岗情况" prop="sideDate">
+														<el-radio v-model="sideInfo.a04" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a04" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="施工作业人员满足施工需要情况" prop="sideDate">
+														<el-radio v-model="sideInfo.a05" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a05" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="特殊作业人员持证上岗情况" prop="sideDate">
+														<el-radio v-model="sideInfo.a06" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a06" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="施工机械满足施工需要情况" prop="sideDate">
+														<el-radio v-model="sideInfo.a07" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a07" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="施工材料符合设计和规范要求" prop="sideDate">
+														<el-radio v-model="sideInfo.a08" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a08" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="开始施工时间" prop="sideDate">
+														<el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+															v-model="sideInfo.a09" type="datetime" placeholder="请选择">
+														</el-date-picker>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="结束施工时间" prop="sideDate">
+														<el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+															v-model="sideInfo.a10" type="datetime" placeholder="请选择">
+														</el-date-picker>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-form-item label="施工工艺按审批施工方案实施" prop="sideDate">
+													<el-radio v-model="sideInfo.a11" label="是">是</el-radio>
+													<el-radio v-model="sideInfo.a11" label="否">否</el-radio>
+												</el-form-item>
+											</el-row>
+											<el-row>
+												<el-form-item label="钢筋笼安放所采用的施工机械设备是否满足要求" prop="sideDate">
+													<el-radio v-model="sideInfo.a12" label="是">是</el-radio>
+													<el-radio v-model="sideInfo.a12" label="否">否</el-radio>
+												</el-form-item>
+											</el-row>
+											<el-row>
+												<el-form-item label="钢筋笼吊装及安放工艺是否符合批准的施工方案" prop="sideDate">
+													<el-radio v-model="sideInfo.a13" label="是">是</el-radio>
+													<el-radio v-model="sideInfo.a13" label="否">否</el-radio>
+												</el-form-item>
+											</el-row>
+											<el-row>
+												<el-col :span="8">
+													<el-form-item label="施工现场质量措施落实情况" prop="sideDate">
+														<el-radio v-model="sideInfo.a14" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a14" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+												<el-col :span="8">
+													<el-form-item label="安全措施落实情况" prop="sideDate">
+														<el-radio v-model="sideInfo.a15" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a15" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+												<el-col :span="8">
+													<el-form-item label="环保措施落实情况" prop="sideDate">
+														<el-radio v-model="sideInfo.a16" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a16" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">主要数据记录
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="施工现场质量措施落实情况" prop="sideDate">
+														<el-input v-model="sideInfo.a17" placeholder="请输入桩位设计值">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="桩位实测值" prop="sideDate">
+														<el-input v-model="sideInfo.a18"
+															placeholder="请输入桩位实测值，多个数据请用,隔开"></el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="孔深设计值(m）" prop="sideDate">
+														<el-input v-model="sideInfo.a19" placeholder="请输入孔深设计值">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="孔深实测值(m）" prop="sideDate">
+														<el-input v-model="sideInfo.a20"
+															placeholder="请输入孔深实测值，多个数据请用,隔开"></el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="孔径设计值(mm)" prop="sideDate">
+														<el-input v-model="sideInfo.a21" placeholder="请输入孔径设计值">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="孔径实测值(mm)" prop="sideDate">
+														<el-input v-model="sideInfo.a22"
+															placeholder="请输入孔径实测值，多个数据请用,隔开"></el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="钻孔倾斜度设计值(mm)" prop="sideDate">
+														<el-input v-model="sideInfo.a23" placeholder="请输入钻孔倾斜度设计值">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="倾斜度实测值(mm)" prop="sideDate">
+														<el-input v-model="sideInfo.a24"
+															placeholder="请输入倾斜度实测值，多个数据请用,隔开"></el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="沉淀厚度设计值(mm)" prop="sideDate">
+														<el-input v-model="sideInfo.a25" placeholder="请输入沉淀厚度设计值">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="沉淀厚度实测值(mm)" prop="sideDate">
+														<el-input v-model="sideInfo.a26"
+															placeholder="请输入沉淀厚度实测值，多个数据请用,隔开"></el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="终孔后泥浆比重" prop="sideDate">
+														<el-input v-model="sideInfo.a27" placeholder="请输入终孔后泥浆比重">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="砂率" prop="sideDate">
+														<el-input v-model="sideInfo.a28" placeholder="请输入砂率，多个数据请用,隔开">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="一清后泥浆的比重" prop="sideDate">
+														<el-input v-model="sideInfo.a29" placeholder="请输入一清后泥浆的比重">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="砂率" prop="sideDate">
+														<el-input v-model="sideInfo.a30" placeholder="请输入砂率，多个数据请用,隔开">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="二清后泥浆的比重" prop="sideDate">
+														<el-input v-model="sideInfo.a31" placeholder="请输入二清后泥浆的比重">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="砂率" prop="sideDate">
+														<el-input v-model="sideInfo.a32" placeholder="请输入砂率，多个数据请用,隔开">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+										</el-collapse-item>
+									</el-collapse>
 
 									<div class="block-line">
 										<div class="block-item">
@@ -191,10 +425,11 @@
 		</el-dialog>
 
 		<el-dialog width="80%" class="little-container" :visible.sync="draftVisible">
-			<supervisionStation @hideDraft="hideDraft" @getDetail="getDetail" :isDraft="draftVisible" v-if="draftVisible">
+			<supervisionStation @hideDraft="hideDraft" @getDetail="getDetail" :isDraft="draftVisible"
+				v-if="draftVisible">
 			</supervisionStation>
 		</el-dialog>
-		
+
 		<el-dialog title="选择工程部位" width="50%" class="little-container" :visible.sync="partVisible">
 			<partproject @callback="checkPartProCallback">
 			</partproject>
@@ -215,11 +450,11 @@
 		diffCompare,
 		getChidlren
 	} from "@/utils/format.js";
-	
+
 	import {
 		getBridgeTree
 	} from "@/api/tree";
-	
+
 	import simpleData from '../../../common/simdata.js'
 
 	import upload from "../../../common/upload.vue"
@@ -236,12 +471,16 @@
 				addOrModifyFlag: true,
 				dialogFormVisible: false,
 				dialogTitle: '项目全生命周期数字管理平台',
-				childOptions:[],
+				childOptions: [],
 				partOptions: [],
 				sideOptions: [],
 				baseInfo: {
-					userName:this.$store.getters.userInfo.name,
-					startDate:formatDate(new Date()),
+					userName: this.$store.getters.userInfo.name,
+					startDate: formatDate(new Date()),
+				},
+				sideInfoVisible:'',
+				sideInfo: {
+
 				},
 				formData: { //表单参数
 					"actualCheckAttachment": [],
@@ -253,10 +492,10 @@
 					"exceptionCondition": "",
 					"problemDealCondition": "",
 					buildSection: this.$store.getters.project.id,
-					projectId:this.$store.getters.project['parentid'],
+					projectId: this.$store.getters.project['parentid'],
 					"projectPartDesc": "",
 					"projectPartId": null,
-					"projectPartStr":'',
+					"projectPartStr": '',
 					"scenePhotoAttachment": [],
 					"sideDate": formatDate(new Date()),
 					"sideInfo": "",
@@ -293,8 +532,8 @@
 				},
 				auditUser: {},
 				flowKey: 'jianlipangzhan',
-				partVisible:false,
-				treeData:null
+				partVisible: false,
+				treeData: null
 			};
 		},
 		created() {},
@@ -320,7 +559,7 @@
 			this.getSupervisionSideEnums();
 		},
 		methods: {
-			initData(){
+			initData() {
 				this.treeData = [simpleData.data];
 				// getBridgeTree('QL', null).then((res) => {
 				//   const arr = [];
@@ -328,20 +567,20 @@
 				//   this.treeInfo = arr;
 				// });
 			},
-			checkPartPro(){
-				this.partVisible=true;
+			checkPartPro() {
+				this.partVisible = true;
 			},
-			checkPartProCallback(node,data,treename){
-				if(!data.isLeaf){
+			checkPartProCallback(node, data, treename) {
+				if (!data.isLeaf) {
 					this.$message({
 						type: 'warning',
 						message: '请选择到最后一级!'
 					});
 					return;
 				}
-				this.formData.projectPartId=node.id;
-				this.formData.projectPartStr=treename.join('/');
-				this.partVisible=false
+				this.formData.projectPartId = node.id;
+				this.formData.projectPartStr = treename.join('/');
+				this.partVisible = false
 			},
 			getChildProject() {
 				api.getChildProject({
@@ -367,10 +606,12 @@
 			changeVisible(obj, value) {
 				this.dialogFormVisible = value;
 				obj = obj || {};
+				this.sideInfoVisible=''
 				this.addOrModifyFlag = obj['id'] ? false : true;
 				if (obj['id']) {
 					this.getDetail(obj['id']);
 				} else {
+					this.sideInfo = {}
 					this.formData = {
 						"actualCheckAttachment": [],
 						"address": {},
@@ -381,10 +622,10 @@
 						"exceptionCondition": "",
 						"problemDealCondition": "",
 						buildSection: this.$store.getters.project.id,
-						projectId:this.$store.getters.project['parentid'],
+						projectId: this.$store.getters.project['parentid'],
 						"projectPartDesc": "",
 						"projectPartId": null,
-						"projectPartStr":'',
+						"projectPartStr": '',
 						"scenePhotoAttachment": [],
 						"sideDate": formatDate(new Date()),
 						"sideInfo": "",
@@ -399,41 +640,42 @@
 				api.getSupervisionSideDeatil(id).then((res) => {
 					let data = res['data'] || {};
 					this.formData = data;
-					
-					let treename=getChidlren(this.treeData,this.formData.projectPartId,[]);
-					this.formData.projectPartStr=(treename?treename:[]).join('/');
+					this.sideInfo = data['sideInfo'] ? JSON.parse(data['sideInfo']) : {};
+					let treename = getChidlren(this.treeData, this.formData.projectPartId, []);
+					this.formData.projectPartStr = (treename ? treename : []).join('/');
 				});
 			},
 			addOrModify(isdraft) {
 				if (isdraft) {
+					this.formData.sideInfo = JSON.stringify(this.sideInfo);
 					if (diffCompare([this.formData], [{
-								"actualCheckAttachment": [],
-								"address": {},
-								"attachment": [],
-								"auditUser": {},
-								"deletedFlag": 1,
-								"draftFlag": 1,
-								"exceptionCondition": "",
-								"problemDealCondition": "",
-								buildSection: this.$store.getters.project.id,
-								projectId:this.$store.getters.project['parentid'],
-								"projectPartDesc": "",
-								"projectPartId": null,
-								"projectPartStr":'',
-								"scenePhotoAttachment": [],
-								"sideDate": formatDate(new Date()),
-								"sideInfo": "",
-								"sideProjectId": null,
-								"sideWorkCondition": "",
-								"video": []
-							}
-						], ['sideDate'])) {
+							"actualCheckAttachment": [],
+							"address": {},
+							"attachment": [],
+							"auditUser": {},
+							"deletedFlag": 1,
+							"draftFlag": 1,
+							"exceptionCondition": "",
+							"problemDealCondition": "",
+							buildSection: this.$store.getters.project.id,
+							projectId: this.$store.getters.project['parentid'],
+							"projectPartDesc": "",
+							"projectPartId": null,
+							"projectPartStr": '',
+							"scenePhotoAttachment": [],
+							"sideDate": formatDate(new Date()),
+							"sideInfo": "",
+							"sideProjectId": null,
+							"sideWorkCondition": "",
+							"video": []
+						}], ['sideDate'])) {
 						this.$message({
 							type: 'warning',
 							message: '不能提交空白!'
 						});
 						return;
 					}
+
 					this.formData.draftFlag = isdraft ? 0 : 1;
 					this.formData.auditUser = this.auditUser;
 					api.addOrUpdateSupervisionSide(this.formData).then((res) => {
@@ -450,6 +692,7 @@
 				} else {
 					this.$refs['ruleForm'].validate((valid) => {
 						if (valid) {
+							this.formData.sideInfo = JSON.stringify(this.sideInfo);
 							this.formData.auditUser = this.auditUser;
 							this.formData.draftFlag = 1;
 							api.addOrUpdateSupervisionSide(this.formData).then((res) => {
@@ -478,5 +721,11 @@
 </script>
 
 <style scoped lang="scss">
+	.el-collapse-item {
+		.el-input {
+			width: calc(100% - 200px) !important
+		}
+	}
+
 	@import "../../../../assets/css/dialog.scss"
 </style>
