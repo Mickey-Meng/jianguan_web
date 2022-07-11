@@ -11,16 +11,33 @@
     <el-header>
       <div class="input-box">
         <div class="input-value">
-          <el-input v-model="queryData.projectCode" placeholder="请输入标段"></el-input>
+          <el-input v-model="queryData.subName" clearable placeholder="请输入姓名"></el-input>
         </div>
 
       </div>
-      <div class="input-box">
+      <div class="input-box" style="margin-left: 10px">
         <div class="input-value">
-          <el-input v-model="queryData.subProject" placeholder="请输入姓名"></el-input>
+          <el-date-picker
+            v-model="queryData.subDate"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="请选择进场时间">
+          </el-date-picker>
         </div>
       </div>
-      <el-button type="primary">搜索</el-button>
+      <div class="input-box" style="margin-left: 10px">
+        <div class="input-value">
+          <el-select v-model="queryData.selectValue" placeholder="请选择">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.name"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </div>
+      </div>
+      <el-button type="primary" style="margin-left: 10px" @click="queryClick">搜索</el-button>
 
       <div class="right-btns">
         <!-- <el-button type="primary" size="small"
@@ -61,9 +78,10 @@
             </template>
           </el-table-column>
           <el-table-column label="操作">
-            <template slot-scope="{row}">
+            <template slot-scope="{row,$index}">
               <el-button type="text" size="mini" @click="seeDetail(row)">详情</el-button>
-              <el-button type="text" size="mini" >退场</el-button>
+              <el-button type="text" size="mini">退场</el-button>
+              <el-button type="text" size="mini" v-if="roleId ===2" @click="deleteInfo(row,$index)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -198,7 +216,7 @@
 <script>
   import {getNowDate} from "@/utils/date";
   import {mapGetters} from "vuex";
-  import {getStaffRecordsById} from "@/api/staffApproval";
+  import {getStaffRecordsById, deleteStaffRecord} from "@/api/staffApproval";
   import tasklog from "@/views/common/tasklog";
 
   export default {
@@ -214,15 +232,36 @@
           isContract: true,
           autogestion: true
         },
+        options: [
+          {
+            name: "所有单位",
+            value: 10
+          },
+          {
+            name: "施工单位",
+            value: 1
+          },
+          {
+            name: "监理单位",
+            value: 2
+          },
+          {
+            name: "全咨单位",
+            value: 3
+          }
+        ],
         dialogTitle: "项目全生命周期数字管理平台",
         dialogFormVisible: false,
-        taskInfo:{},
+        taskInfo: {},
         queryData: {
           projectCode: "",
           subProject: "",
           pageNum: 1,
           totalPage: 1,
-          pageSize: 10
+          pageSize: 10,
+          subName: "",
+          subDate: null,
+          selectValue: 10
         }
       };
     },
@@ -230,26 +269,38 @@
       this.init();
     },
     computed: {
-      ...mapGetters(["project"])
+      ...mapGetters(["project", "roleId"])
     },
     mounted() {
     },
     methods: {
       init() {
-        getStaffRecordsById(this.project.id).then(res => {
+        let {selectValue, subDate, subName} = this.queryData;
+        let type = selectValue === 10 ? undefined : selectValue;
+        getStaffRecordsById(this.project.id, type).then(res => {
           let lists = [];
           let data = res?.data || [];
           if (data && data.length > 0) {
             data.forEach(item => {
+              console.log(item);
               let {person, personSubs} = item;
-              let {approvalTime} = person;
+              let {approvalTime, id} = person;
               personSubs.forEach(e => {
                 e.approvalTime = approvalTime;
                 e.newPeoplePic = "/ZhuJiRoad/mong/preview?fileid=" + e.peoplePic;
+                e.staffId = id;
               });
               lists = lists.concat(personSubs);
             });
-            this.tableData = lists;
+            if (!subDate && !subName) {
+              this.tableData = lists;
+            } else if (!subDate && subName) {
+              this.tableData = lists.filter(e => e.name.indexOf(subName) !== -1);
+            } else if (subDate && !subName) {
+              this.tableData = lists.filter(e => e.approvalTime && e.approvalTime?.indexOf(subDate) !== -1);
+            } else {
+              this.tableData = lists.filter(e => e.approvalTime?.indexOf(subDate) !== -1 && e.name.indexOf(subName) !== -1);
+            }
           } else {
             this.tableData = [];
           }
@@ -258,35 +309,29 @@
       seeDetail(row) {
         this.form = Object.assign({}, row);
         this.dialogFormVisible = true;
-        // let data = row.personSubs;
-        // if (data && data.length > 0) {
-        //   this.listsData = data.map(item => {
-        //     if (item.peoplePic) {
-        //       item.peoplePic = "/ZhuJiRoad/mong/preview?fileid=" + item.peoplePic;
-        //     }
-        //     return item;
-        //   });
-        // }
-        // this.isCreate = false;
-        // let {maps} = row;
-        // let {processDefinitionId, processInstanceId, taskId} = maps;
-        // if (processDefinitionId && processInstanceId && taskId) {
-        //   this.taskInfo = {
-        //     processDefinitionId, processInstanceId, taskId
-        //   };
-        // } else {
-        //   this.taskInfo = {};
-        // }
-        // this.dialogFormVisible = true;
-        // this.$nextTick(() => {
-        //   this.$refs["tasklog"].initData();
-        // });
       },
       handleSizeChange(val) {
         this.queryData.pageSize = val;
       },
       handleCurrentChange(val) {
         this.queryData.pageNum = val;
+      },
+      queryClick() {
+        this.init();
+      },
+      deleteInfo(row, index) {
+        this.$confirm("注意,多条人员数据属于一个报审记录,请慎重删除?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        }).then(() => {
+          deleteStaffRecord(row.staffId, this.project.id).then(() => {
+            this.init()
+            this.$message.success("删除成功");
+          });
+        }).catch(() => {
+          this.$message.info("取消删除");
+        });
       }
     },
     components: {tasklog},

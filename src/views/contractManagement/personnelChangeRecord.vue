@@ -11,16 +11,38 @@
     <el-header>
       <div class="input-box">
         <div class="input-value">
-          <el-input v-model="queryData.projectCode" placeholder="请输入标段"></el-input>
+          <el-input v-model="queryData.beforeName" clearable placeholder="请输入变更前人员"></el-input>
         </div>
 
       </div>
-      <div class="input-box">
+      <div class="input-box" style="margin-left: 10px">
         <div class="input-value">
-          <el-input v-model="queryData.subProject" placeholder="请输入变更前人员"></el-input>
+          <el-input v-model="queryData.afterName" clearable placeholder="请输入变更后人员"></el-input>
         </div>
       </div>
-      <el-button type="primary">搜索</el-button>
+      <div class="input-box" style="margin-left: 10px">
+        <div class="input-value">
+          <el-date-picker
+            v-model="queryData.subDate"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="请选择录入时间">
+          </el-date-picker>
+        </div>
+      </div>
+      <div class="input-box" style="margin-left: 10px">
+        <div class="input-value">
+          <el-select v-model="queryData.selectValue" placeholder="请选择">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.name"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </div>
+      </div>
+      <el-button type="primary" style="margin-left: 10px" @click="queryClick">搜索</el-button>
 
       <div class="right-btns">
         <div class="operate-btns">
@@ -272,12 +294,33 @@
         taskInfo: {},
         dialogFormVisible: false,
         dialogTitle: "项目全生命周期数字管理平台",
+        allData: [],
+        options: [
+          {
+            name: "所有单位",
+            value: 10
+          },
+          {
+            name: "施工单位",
+            value: 1
+          },
+          {
+            name: "监理单位",
+            value: 2
+          },
+          {
+            name: "全咨单位",
+            value: 3
+          }
+        ],
         queryData: {
-          projectCode: "",
-          subProject: "",
+          beforeName: "",
+          afterName: "",
+          subDate: null,
           pageNum: 1,
           totalPage: 1,
-          pageSize: 10
+          pageSize: 10,
+          selectValue: 10
         }
       };
     },
@@ -290,8 +333,22 @@
     },
     methods: {
       init() {
-        getPersonChangeRecords(this.project.id).then(res => {
-          this.tableDta = res.data;
+        let {selectValue, afterName, beforeName, subDate} = this.queryData;
+        let type = selectValue === 10 ? undefined : selectValue;
+        getPersonChangeRecords(this.project.id, type).then(res => {
+          let data = res.data;
+          if (!subDate && !afterName && !beforeName) {
+            this.tableDta = data;
+          } else if (!subDate && afterName && !beforeName) {
+            this.tableDta = data.filter(e => e.afterPerson.indexOf(afterName) !== -1);
+          } else if (!subDate && !afterName && beforeName) {
+            this.tableDta = data.filter(e => e.beforePerson.indexOf(beforeName) !== -1);
+          } else if (subDate && !afterName && !beforeName) {
+            this.tableDta = data.filter(e => e.subDate.indexOf(subDate) !== -1);
+          } else {
+            this.tableDta = data.filter(e => e.subDate.indexOf(subDate) !== -1 && e.beforePerson.indexOf(afterName) !== -1 && e.afterPerson.indexOf(afterName) !== -1);
+          }
+
         });
       },
       seeDetail(row) {
@@ -311,6 +368,9 @@
         this.$nextTick(() => {
           this.$refs["tasklog"].initData();
         });
+      },
+      queryClick() {
+        this.init();
       },
       handleSizeChange(val) {
         this.queryData.pageSize = val;

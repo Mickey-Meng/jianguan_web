@@ -11,14 +11,14 @@
     <el-header>
       <div class="input-box">
         <div class="input-value">
-          <el-input v-model="queryData.projectCode" placeholder="请输入请假人"></el-input>
+          <el-input v-model="queryData.leaveName" clearable placeholder="请输入请假人"></el-input>
         </div>
 
       </div>
-      <div class="input-box">
+      <div class="input-box" style="margin-left: 10px">
         <div class="input-value">
           <el-date-picker
-            v-model="queryData.subProject"
+            v-model="queryData.leaveTime"
             type="daterange"
             value-format="yyyy-MM-dd"
             range-separator="至"
@@ -27,14 +27,26 @@
           </el-date-picker>
         </div>
       </div>
-      <el-button type="primary">搜索</el-button>
+      <div class="input-box" style="margin-left: 10px">
+        <div class="input-value">
+          <el-select v-model="queryData.selectValue" placeholder="请选择">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.name"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </div>
+      </div>
+      <el-button type="primary" style="margin-left: 10px" @click="queryClick">搜索</el-button>
 
       <div class="right-btns">
         <!-- <el-button type="primary" size="small"
           :icon="operateBtnsVisible?'el-icon-d-arrow-right':'el-icon-d-arrow-left'"
           @click="operateBtnsVisible=!operateBtnsVisible"></el-button> -->
         <div class="operate-btns">
-<!--          <el-button size="small" @click="openDialog">新增请假</el-button>-->
+          <!--          <el-button size="small" @click="openDialog">新增请假</el-button>-->
           <!--          <el-button size="small">导出</el-button>-->
           <!--          <el-button size="small">批量操作</el-button>-->
         </div>
@@ -170,7 +182,7 @@
 </template>
 
 <script>
-  import {getNowDate} from "@/utils/date";
+  import {getNowDate, checkAuditTime} from "@/utils/date";
   import {mapGetters} from "vuex";
   import {getLeaveRecordsById} from "@/api/staffApproval";
   import tasklog from "@/views/common/tasklog";
@@ -185,12 +197,32 @@
         tableData: [],
         taskInfo: {},
         dialogFormVisible: false,
+        allData: [],
+        options: [
+          {
+            name: "所有单位",
+            value: 10
+          },
+          {
+            name: "施工单位",
+            value: 1
+          },
+          {
+            name: "监理单位",
+            value: 2
+          },
+          {
+            name: "全咨单位",
+            value: 3
+          }
+        ],
         queryData: {
-          projectCode: "",
-          subProject: "",
+          leaveName: "",
+          leaveTime: null,
           pageNum: 1,
           totalPage: 1,
-          pageSize: 10
+          pageSize: 10,
+          selectValue: 10
         },
         dialogTitle: "项目全生命周期数字管理平台"
       };
@@ -212,8 +244,23 @@
     components: {tasklog},
     methods: {
       init() {
-        getLeaveRecordsById(this.project.id).then(res => {
-          this.tableData = res.data;
+        let {selectValue, leaveName, leaveTime} = this.queryData;
+        let type = selectValue === 10 ? undefined : selectValue;
+        getLeaveRecordsById(this.project.id, type).then(res => {
+          let data = res.data;
+          if (!leaveName && !leaveTime) {
+            this.tableData = data;
+          } else if (leaveName && !leaveTime) {
+            this.tableData = data.filter(e => e.leaverPersonName.indexOf(leaveName) !== -1);
+          } else if (!leaveName && leaveTime && leaveTime.length > 0) {
+            let startTime = leaveTime[0];
+            let endTime = leaveTime[1];
+            this.tableData = data.filter(e => e.startTime && e.endTime && checkAuditTime(startTime, endTime, e.startTime, e.endTime));
+          } else {
+            let startTime = leaveTime[0];
+            let endTime = leaveTime[1];
+            this.tableData = data.filter(e => e => e.startTime && e.endTime && checkAuditTime(startTime, endTime, e.startTime, e.endTime) && e.leaverPersonName.indexOf(leaveName) !== -1);
+          }
         });
       },
       seeDetail(row) {
@@ -224,11 +271,9 @@
           this.taskInfo = {
             processDefinitionId, processInstanceId, taskId
           };
-
         } else {
           this.taskInfo = {};
         }
-
         this.dialogFormVisible = true;
         this.$nextTick(() => {
           this.$refs["tasklog"].initData();
@@ -242,6 +287,9 @@
       },
       handleCurrentChange(val) {
         this.queryData.pageNum = val;
+      },
+      queryClick() {
+        this.init();
       }
     }
   };

@@ -41,12 +41,24 @@ export const getStaffByProcessIdAndProjectId = (params) => {
     params
   });
 };
-export const getStaffRecordsById = (projectId) => {
+export const getStaffRecordsById = (projectId, roleType = undefined) => {
   return request({
     url: api.getStaffRecordsById,
     method: "post",
     data: {},
     params: {
+      projectId,
+      roleType
+    }
+  });
+};
+export const deleteStaffRecord = (id, projectId) => {
+  return request({
+    url: api.deleteStaffRecord,
+    method: "post",
+    data: {},
+    params: {
+      id,
       projectId
     }
   });
@@ -78,13 +90,14 @@ export const getPersonChangeByProcessId = (params) => {
     params
   });
 };
-export const getPersonChangeRecords = (projectId) => {
+export const getPersonChangeRecords = (projectId, roleType = undefined) => {
   return request({
     url: api.getPersonChangeRecords,
     method: "post",
     data: {},
     params: {
-      projectId
+      projectId,
+      roleType
     }
   });
 };
@@ -114,13 +127,14 @@ export const getLeaveByProcessId = (params) => {
     params
   });
 };
-export const getLeaveRecordsById = (projectId) => {
+export const getLeaveRecordsById = (projectId, roleType = undefined) => {
   return request({
     url: api.getLeaveRecordsById,
     method: "post",
     data: {},
     params: {
-      projectId
+      projectId,
+      roleType
     }
   });
 };

@@ -11,16 +11,26 @@
     <el-header>
       <div class="input-box">
         <div class="input-value">
-          <el-input v-model="queryData.projectCode" placeholder="请输入标段"></el-input>
+          <el-input v-model="queryData.beforeName" clearable placeholder="请输入变更前人员"></el-input>
         </div>
 
       </div>
-      <div class="input-box">
+      <div class="input-box"  style="margin-left: 10px">
         <div class="input-value">
-          <el-input v-model="queryData.subProject" placeholder="请输入变更前人员"></el-input>
+          <el-input v-model="queryData.afterName" clearable placeholder="请输入变更后人员"></el-input>
         </div>
       </div>
-      <el-button type="primary">搜索</el-button>
+      <div class="input-box" style="margin-left: 10px">
+        <div class="input-value">
+          <el-date-picker
+            v-model="queryData.subDate"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="请选择录入时间">
+          </el-date-picker>
+        </div>
+      </div>
+      <el-button type="primary" style="margin-left: 10px" @click="queryClick">搜索</el-button>
 
       <div class="right-btns">
         <!-- <el-button type="primary" size="small"
@@ -28,8 +38,8 @@
           @click="operateBtnsVisible=!operateBtnsVisible"></el-button> -->
         <div class="operate-btns">
           <el-button size="small" @click="openDialog">新增变更</el-button>
-<!--          <el-button size="small">导出</el-button>-->
-<!--          <el-button size="small">批量操作</el-button>-->
+          <!--          <el-button size="small">导出</el-button>-->
+          <!--          <el-button size="small">批量操作</el-button>-->
         </div>
       </div>
     </el-header>
@@ -343,8 +353,9 @@
         dialogTitle: "项目全生命周期数字管理平台",
         dialogFormVisible: false,
         queryData: {
-          projectCode: "",
-          subProject: "",
+          beforeName: "",
+          afterName: "",
+          subDate: null,
           pageNum: 1,
           totalPage: 1,
           pageSize: 10
@@ -355,6 +366,7 @@
         currentOrgUsers: [],//当前用户组织下的所有用户信息
         orgInfo: {},//当前用户的组织信息
         projectInfo: {},
+        allData: [],//暂存做搜索的数据
         flowTypes: [
           {
             key: "shigongjihe",//施工单位人员变更
@@ -407,6 +419,7 @@
       initData() {
         getPersonChange(this.project.id).then(res => {
           this.tableDta = res.data;
+          this.allData = res.data;
         });
       },
       init() {
@@ -561,6 +574,21 @@
           this.initData();
           this.dialogFormVisible = false;
         });
+      },
+      //sousuo
+      queryClick() {
+        let {afterName, beforeName, subDate} = this.queryData;
+        if (!subDate && !afterName && !beforeName) {
+          this.tableDta = this.allData;
+        } else if (!subDate && afterName && !beforeName) {
+          this.tableDta = this.allData.filter(e => e.afterPerson.indexOf(afterName) !== -1);
+        } else if (!subDate && !afterName && beforeName) {
+          this.tableDta = this.allData.filter(e => e.beforePerson.indexOf(beforeName) !== -1);
+        } else if (subDate && !afterName && !beforeName) {
+          this.tableDta = this.allData.filter(e => e.subDate.indexOf(subDate) !== -1);
+        } else {
+          this.tableDta = this.allData.filter(e => e.subDate.indexOf(subDate) !== -1 && e.beforePerson.indexOf(afterName) !== -1 && e.afterPerson.indexOf(afterName) !== -1);
+        }
       },
       //查看详情
       seeDetail(row) {

@@ -11,14 +11,14 @@
     <el-header>
       <div class="input-box">
         <div class="input-value">
-          <el-input v-model="queryData.projectCode" placeholder="请输入请假人"></el-input>
+          <el-input v-model="queryData.leaveName" clearable placeholder="请输入请假人"></el-input>
         </div>
 
       </div>
       <div class="input-box">
         <div class="input-value">
           <el-date-picker
-            v-model="queryData.subProject"
+            v-model="queryData.leaveTime"
             type="daterange"
             value-format="yyyy-MM-dd"
             range-separator="至"
@@ -239,9 +239,10 @@
         leaveTime: "",
         dialogFormVisible: false,
         queryData: {
-          projectCode: "",
+          leaveName: "",
           subProject: "",
           pageNum: 1,
+          leaveTime: null,
           totalPage: 1,
           pageSize: 10
         },

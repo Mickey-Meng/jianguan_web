@@ -11,16 +11,23 @@
     <el-header>
       <div class="input-box">
         <div class="input-value">
-          <el-input v-model="queryData.projectCode" placeholder="请输入标段"></el-input>
+          <el-input v-model="queryData.subName" clearable placeholder="请输入记录人"></el-input>
+
+          <!--          <el-input v-model="queryData.projectCode" placeholder="请输入标段"></el-input>-->
         </div>
 
       </div>
-      <div class="input-box">
+      <div class="input-box"  style="margin-left: 10px">
         <div class="input-value">
-          <el-input v-model="queryData.subProject" placeholder="请输入记录人"></el-input>
+          <el-date-picker
+            v-model="queryData.subDate"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="请选择填报时间">
+          </el-date-picker>
         </div>
       </div>
-      <el-button type="primary">搜索</el-button>
+      <el-button type="primary" style="margin-left: 10px" @click="queryClick">搜索</el-button>
 
       <div class="right-btns">
         <div class="operate-btns">
@@ -493,9 +500,12 @@
         queryData: {
           projectCode: "",
           subProject: "",
+          subName: "",
           pageNum: 1,
-          pageSize: 10
+          pageSize: 10,
+          subDate: null
         },
+        allData: [],
         tableRowData: {
           identityId: "",//身份证ID;
           identityTime: "",//身份证有效时间
@@ -566,6 +576,18 @@
       handleCurrentChange(val) {
         this.queryData.pageNum = val;
       },
+      queryClick() {
+        let {subDate, subName} = this.queryData;
+        if (!subDate && !subName) {
+          this.listData = this.allData;
+        } else if (!subDate && subName) {
+          this.listData = this.allData.filter(e => e.recorder.indexOf(subName )!== -1);
+        } else if (subDate && !subName) {
+          this.listData = this.allData.filter(e => e.uploadname.indexOf(subDate )!== -1);
+        } else {
+          this.listData = this.allData.filter(e => e.uploadname.indexOf(subDate )!== -1 && e.recorder.indexOf(subName) !== -1);
+        }
+      },
       //暂存当前行数据
       currentRowData(row, index) {
         this.currentRow = Object.assign({}, row);
@@ -596,6 +618,7 @@
         //获取报审的数据
         getStaffApprovalBase({projectid: this.project.id}).then(res => {
           let data = res?.data || [];
+          this.allData = data;
           if (data && data.length > 0) {
             this.listData = data.map(item => {
               let obj = Object.assign(item, item.person);

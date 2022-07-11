@@ -332,3 +332,17 @@ export const getCurrentMonth = (date) => {
 const compareDate = (d1, d2) => {
   return new Date(d1.replace(/\-/g, "/")) > new Date(d2.replace(/\-/g, "/"));
 };
+
+export const checkAuditTime = (beginTime, stopTime, startTime, endTime) => {
+  let beginTime1 = beginTime + " 00:00:00";
+  let stopTime1 = stopTime + " 23:59:59";
+  let time1 = new Date(beginTime1).getTime();
+  let time2 = new Date(stopTime1).getTime();
+  let time3 = new Date(startTime).getTime();
+  let time4 = new Date(endTime).getTime();
+  if ((time1 <= time3 && time3 <= time2) && (time1 <= time4 && time4 <= time2)) {
+    return true;
+  } else {
+    return false;
+  }
+};
