@@ -243,7 +243,7 @@ export default {
           this.detailData = res.data;
         });
       } else {
-        this.$message("未发生安全事件");
+        this.$message("未发生质量事件");
         this.detailData = [];
       }
     },
