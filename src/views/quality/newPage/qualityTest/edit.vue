@@ -604,7 +604,7 @@
 			addExamineTable() {
 				this.$refs['newform'].validate((valid) => {
 					if (valid) {
-						this.examineTable.push(this.examineInfo);
+						this.examineTable.push(JSON.parse(JSON.stringify(this.examineInfo)));
 						this.examineVisible = false;
 					}
 				})

@@ -291,16 +291,16 @@
 			
 		},
 		mounted() {
-			
+			this.treeData = [simpleData.data];
+			// getBridgeTree('QL', null).then((res) => {
+			//   const arr = [];
+			//   arr.push(res.data);
+			//   this.treeInfo = arr;
+			// });
 		},
 		methods: {
 			initData(){
-				this.treeData = [simpleData.data];
-				// getBridgeTree('QL', null).then((res) => {
-				//   const arr = [];
-				//   arr.push(res.data);
-				//   this.treeInfo = arr;
-				// });
+				
 			},
 			getDetail(id) {
 				api.getFirstAcceptDeatil(id).then((res) => {

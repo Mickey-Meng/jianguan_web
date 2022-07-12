@@ -493,7 +493,7 @@ import projectinfo from "../../common/projectinfo.vue"
 			addContractTable(){
 				this.$refs['newform'].validate((valid) => {
 					if (valid) {
-						this.contractTable.push(this.contractInfo);
+						this.contractTable.push(JSON.parse(JSON.stringify(this.contractInfo)));
 						this.contractVisible = false;
 					}
 				})

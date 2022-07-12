@@ -336,15 +336,17 @@
 			// 		this.getDetail(params['businessKey']);
 			// 	}
 			// },500)
+			
+			this.treeData = [simpleData.data];
+			// getBridgeTree('QL', null).then((res) => {
+			//   const arr = [];
+			//   arr.push(res.data);
+			//   this.treeInfo = arr;
+			// });
 		},
 		methods: {
 			initData(){
-				this.treeData = [simpleData.data];
-				// getBridgeTree('QL', null).then((res) => {
-				//   const arr = [];
-				//   arr.push(res.data);
-				//   this.treeInfo = arr;
-				// });
+				
 			},
 			closeDialog(){
 				// if(this.taskInfo['processDefinitionId']){
@@ -363,7 +365,7 @@
 					
 					let treename=getChidlren(this.treeData,this.formData.subProject,[]);
 					this.formData.subProjectStr=(treename?treename:[]).join('/');
-					
+
 					if(treename.length>5){
 						this.baseInfo.unitProject=treename[2]
 						this.baseInfo.parcelProject=treename[3]
