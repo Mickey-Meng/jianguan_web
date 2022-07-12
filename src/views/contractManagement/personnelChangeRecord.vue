@@ -61,13 +61,15 @@
           <el-table-column prop="beforePerson" label="变更前人员"></el-table-column>
           <el-table-column prop="afterPerson" label="变更后人员"></el-table-column>
           <el-table-column prop="subDate" label="录入日期">
-            <template slot-scope="{row}">
+            <template slot-scope="{row,$index}">
               {{ row.subDate | formatTime }}
             </template>
           </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="{row,$index}">
               <el-button type="text" size="mini" @click="seeDetail(row)">详情</el-button>
+              <el-button type="text" size="mini" v-if="roleId ===2" @click="deleteInfo(row,$index)">删除</el-button>
+
             </template>
           </el-table-column>
         </el-table>
@@ -279,7 +281,7 @@
 </template>
 
 <script>
-  import {getPersonChangeRecords} from "@/api/staffApproval";
+  import {getPersonChangeRecords, deleteChangeRecord, deleteStaffRecord} from "@/api/staffApproval";
   import {mapGetters} from "vuex";
   import {formatDate} from "@/utils/date";
   import tasklog from "@/views/common/tasklog";
@@ -329,7 +331,7 @@
     },
     components: {tasklog},
     computed: {
-      ...mapGetters(["project"])
+      ...mapGetters(["project", "roleId"])
     },
     methods: {
       init() {
@@ -371,6 +373,23 @@
       },
       queryClick() {
         this.init();
+      },
+      deleteInfo(row, index) {
+        this.$confirm("确定删除该变更信息?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        }).then(() => {
+          deleteChangeRecord(row.id, this.project.id).then(() => {
+            // this.init();
+            this.tableDta.splice(index, 1);
+            this.$message.success("删除成功");
+          }).catch(()=>{
+            this.$message.info("删除失败");
+          });
+        }).catch(() => {
+          this.$message.info("取消删除");
+        });
       },
       handleSizeChange(val) {
         this.queryData.pageSize = val;

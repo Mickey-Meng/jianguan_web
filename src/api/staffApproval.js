@@ -101,6 +101,17 @@ export const getPersonChangeRecords = (projectId, roleType = undefined) => {
     }
   });
 };
+export const deleteChangeRecord = (id, projectId) => {
+  return request({
+    url: api.deleteChangeRecord,
+    method: "post",
+    data: {},
+    params: {
+      id,
+      projectId
+    }
+  });
+};
 //------------------请假申请----------------
 export const submitLeave = (data) => {
   return request({
@@ -138,7 +149,17 @@ export const getLeaveRecordsById = (projectId, roleType = undefined) => {
     }
   });
 };
-
+export const deleteLeaveRecord = (id, projectId) => {
+  return request({
+    url: api.deleteLeaveRecord,
+    method: "post",
+    data: {},
+    params: {
+      projectId,
+      id
+    }
+  });
+};
 
 //--------------------------电子围栏-------------------
 export const addFence = (data) => {

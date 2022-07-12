@@ -65,13 +65,15 @@
           <el-table-column prop="remark" label="请假原因"></el-table-column>
           <!--          <el-table-column prop="uploadname" label="备注"></el-table-column>-->
           <el-table-column label="状态">
-            <template slot-scope="{row}">
+            <template slot-scope="{row,$index}">
               <span>{{ row.status === 2 ? "审核完成" : "审核中" }}</span>
             </template>
           </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="{row,$index}">
               <el-button type="text" size="mini" @click="seeDetail(row)">详情</el-button>
+              <el-button type="text" size="mini" v-if="roleId ===2" @click="deleteInfo(row,$index)">删除</el-button>
+
             </template>
           </el-table-column>
 
@@ -184,7 +186,7 @@
 <script>
   import {getNowDate, checkAuditTime} from "@/utils/date";
   import {mapGetters} from "vuex";
-  import {getLeaveRecordsById} from "@/api/staffApproval";
+  import {getLeaveRecordsById, deleteLeaveRecord, deleteChangeRecord} from "@/api/staffApproval";
   import tasklog from "@/views/common/tasklog";
 
 
@@ -239,7 +241,7 @@
       };
     },
     computed: {
-      ...mapGetters(["userInfo", "name", "project"])
+      ...mapGetters(["userInfo", "name", "project", "roleId"])
     },
     components: {tasklog},
     methods: {
@@ -281,6 +283,23 @@
       },
       openDialog() {
         // this.dialogFormVisible = true;
+      },
+      deleteInfo(row, index) {
+        console.log(this.tableData, index);
+        this.$confirm("确定删除该请假信息?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        }).then(() => {
+          deleteLeaveRecord(row.id, this.project.id).then(() => {
+            this.tableData.splice(index, 1);
+            this.$message.success("删除成功");
+          }).catch(()=>{
+            this.$message.info("删除失败");
+          });
+        }).catch(() => {
+          this.$message.info("取消删除");
+        });
       },
       handleSizeChange(val) {
         this.queryData.pageSize = val;

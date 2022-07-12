@@ -328,6 +328,8 @@
           deleteStaffRecord(row.staffId, this.project.id).then(() => {
             this.init()
             this.$message.success("删除成功");
+          }).catch(()=>{
+            this.$message.info("删除失败");
           });
         }).catch(() => {
           this.$message.info("取消删除");
