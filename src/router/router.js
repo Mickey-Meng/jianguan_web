@@ -1051,39 +1051,39 @@ export const asyncRoutes = [{
 			{
 				path: "/geologicalAnalysis",
 				name: "geologicalAnalysis",
-				component: () => import("@/views/wisdomSite/geologicalAnalysis"),
-				meta: {
-					title: "数字实验室",
-					code: "shuzishiyanshi",
-					icon: "circle",
-					allMap: false,
-					partMap: false,
-					noMap: true
-				}
-			},
-			{
-				path: "/constructionMonitoring",
-				name: "constructionMonitoring",
-				component: () => import("@/views/wisdomSite/constructionMonitoring"),
-				meta: {
-					title: "施工监测",
-					code: "shigongjiance",
-					icon: "circle",
-					allMap: false,
-					partMap: false,
-					noMap: true
-				}
-			}
-			// {
-			//   path: '/aiAnalysis',
-			//   name: 'aiAnalysis',
-			//   component: () => import('@/views/wisdomSite/aiAnalysis'),
-			//   meta: { title: 'AI分析', icon: '', allMap: false, partMap: false, noMap: true }
-			// },
-			// {
-			//   path: '/aiWarning',
-			//   name: 'aiWarning',
-			//   component: () => import('@/views/wisdomSite/aiWarning'),
+        component: () => import("@/views/wisdomSite/geologicalAnalysis"),
+        meta: {
+          title: "数字运管",
+          code: "shuzishiyanshi",
+          icon: "circle",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
+      // {
+      // 	path: "/constructionMonitoring",
+      // 	name: "constructionMonitoring",
+      // 	component: () => import("@/views/wisdomSite/constructionMonitoring"),
+      // 	meta: {
+      // 		title: "施工监测",
+      // 		code: "shigongjiance",
+      // 		icon: "circle",
+      // 		allMap: false,
+      // 		partMap: false,
+      // 		noMap: true
+      // 	}
+      // }
+      // {
+      //   path: '/aiAnalysis',
+      //   name: 'aiAnalysis',
+      //   component: () => import('@/views/wisdomSite/aiAnalysis'),
+      //   meta: { title: 'AI分析', icon: '', allMap: false, partMap: false, noMap: true }
+      // },
+      // {
+      //   path: '/aiWarning',
+      //   name: 'aiWarning',
+      //   component: () => import('@/views/wisdomSite/aiWarning'),
 			//   meta: { title: 'AI预警', icon: '', allMap: false, partMap: false, noMap: true }
 			// }
 		]
