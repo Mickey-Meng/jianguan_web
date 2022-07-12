@@ -282,7 +282,6 @@
           let data = res?.data || [];
           if (data && data.length > 0) {
             data.forEach(item => {
-              console.log(item);
               let {person, personSubs} = item;
               let {approvalTime, id} = person;
               personSubs.forEach(e => {
