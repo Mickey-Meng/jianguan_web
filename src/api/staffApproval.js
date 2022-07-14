@@ -234,7 +234,7 @@ export const deleteClockTime = (pid, id) => {
   });
 };
 //-------------------------------打卡记录-----------------------
-export const getAllClockRecords = (id, startTime = undefined, endTime = undefined) => {
+export const getAllClockRecords = (id, startTime = undefined, endTime = undefined, roleType = undefined) => {
   return request({
     url: api.getAllClockRecords,
     method: "post",
@@ -242,7 +242,8 @@ export const getAllClockRecords = (id, startTime = undefined, endTime = undefine
     params: {
       projectId: id,
       startTime,
-      endTime
+      endTime,
+      roleType
     }
   });
 };

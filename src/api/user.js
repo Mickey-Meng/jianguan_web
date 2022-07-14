@@ -125,9 +125,22 @@ export const getDic = (key) => {
  * @author 王海林
  * @date
  */
-export const getRolesByProject = (id) =>{
+export const getRolesByProject = (id) => {
   return request({
     url: `/ZhuJiRoad/projects/getRolesByProject?projectId=${id}`,
     method: "post"
   });
 }
+
+/**
+ * @Description: 查询每天在线情况
+ * @author 王海林
+ * @date
+ */
+
+export const getDayOnLineData = (date) => {
+  return request({
+    url: `ZhuJiRoad/user/getOnlineCount`,
+    method: "post"
+  });
+};

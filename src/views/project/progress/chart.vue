@@ -17,7 +17,7 @@
         <div class="chart_box">
           <v-chart :options="option" autoresize class="v-chart-box"/>
         </div>
-        <div class="text">总体投资进度</div>
+        <div class="text">总体进度</div>
       </div>
       <div class="right_process">
         <div class="item">

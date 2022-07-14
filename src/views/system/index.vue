@@ -46,6 +46,7 @@ import authorityManagement from "@/views/system/component/authorityManagement";
 import depManagementVue from "./component/depManagement.vue";
 import postManagement from "@/views/system/component/postManagement ";
 import orgUser from "@/views/system/component/orgUser";
+import inLineData from "@/views/system/component/inLineData";
 import Bus from "@/assets/eventBus";
 export default {
   data() {
@@ -62,6 +63,10 @@ export default {
           name: "工点管理",
           key: "siteManage"
         },
+        {
+          name: "上线数据",
+          key: "inLineData"
+        }
         // {
         //   name: "组织管理",
         //   key: "depManagementVue"
@@ -83,7 +88,7 @@ export default {
     authorityManagement,
     depManagementVue,
     postManagement,
-    orgUser
+    orgUser, inLineData
   },
   computed: {},
   methods: {

@@ -11,14 +11,14 @@
     <el-header>
       <div class="input-box">
         <div class="input-value">
-          <el-input v-model="queryData.projectCode" placeholder="请输入人员姓名"></el-input>
+          <el-input v-model="queryData.subName" clearable placeholder="请输入人员姓名"></el-input>
         </div>
 
       </div>
-      <div class="input-box">
+      <div class="input-box" style="margin-left: 10px">
         <div class="input-value">
           <el-date-picker
-            v-model="queryData.subProject"
+            v-model="queryData.subDate"
             type="daterange"
             value-format="yyyy-MM-dd"
             range-separator="至"
@@ -27,7 +27,19 @@
           </el-date-picker>
         </div>
       </div>
-      <el-button type="primary">搜索</el-button>
+      <div class="input-box" style="margin-left: 10px">
+        <div class="input-value">
+          <el-select v-model="queryData.selectValue" placeholder="请选择">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.name"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </div>
+      </div>
+      <el-button type="primary" style="margin-left: 10px" @click="init">搜索</el-button>
 
       <div class="right-btns">
         <!-- <el-button type="primary" size="small"
@@ -93,12 +105,31 @@
         projectName: "",
         tableData: [],
         queryData: {
-          projectCode: "",
-          subProject: "",
+          subName: "",
+          subDate: "",
           pageNum: 1,
           totalPage: 1,
-          pageSize: 10
+          pageSize: 10,
+          selectValue: 10
         },
+        options: [
+          {
+            name: "所有单位",
+            value: 10
+          },
+          {
+            name: "施工单位",
+            value: 1
+          },
+          {
+            name: "监理单位",
+            value: 2
+          },
+          {
+            name: "全咨单位",
+            value: 3
+          }
+        ],
         dialogTitle: "项目全生命周期数字管理平台"
       };
     },
@@ -111,8 +142,20 @@
     },
     methods: {
       init() {
-        getAllClockRecords(this.project.id).then(res => {
-          this.tableData = res.data;
+        let {subName, subDate, selectValue} = this.queryData;
+        let start, end;
+        let type = selectValue === 10 ? undefined : selectValue;
+        if (subDate && subDate.length > 0) {
+          start = subDate[0];
+          end = subDate[1];
+        }
+        getAllClockRecords(this.project.id, start, end, type).then(res => {
+          let data = res.data;
+          if (subName) {
+            this.tableData = data.filter(e => e.attendancePersonName.indexOf(subName) !== -1);
+          } else {
+            this.tableData = data;
+          }
         });
       },
 
