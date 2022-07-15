@@ -10,10 +10,10 @@
   <el-container class="container-box">
     <el-header>
       <el-button type="primary" @click="showDialog">上传安装包</el-button>
-      <div class="text">项目数字化管理</div>
+      <div class="text">诸暨建设集团项目管理</div>
       <svg-icon icon-class="erweima" class="return" @click="seeShuZi" />
-      <div class="text">项目数据中心</div>
-      <svg-icon icon-class="erweima" class="return" @click="seeShuJu" />
+<!--      <div class="text">项目数据中心</div>-->
+<!--      <svg-icon icon-class="erweima" class="return" @click="seeShuJu" />-->
     </el-header>
     <el-main>
       <el-table :data="tableData" style="width: 100%" border height="100%">
@@ -107,8 +107,14 @@
         v-if="showshuju"
         class="code"
       />
+<!--      <img-->
+<!--        src="../../assets/code/shuzihua.png"-->
+<!--        alt="数字化"-->
+<!--        v-if="showshuzi"-->
+<!--        class="code"-->
+<!--      />-->
       <img
-        src="../../assets/code/shuzihua.png"
+        src="../../assets/code/xinma.png"
         alt="数字化"
         v-if="showshuzi"
         class="code"
