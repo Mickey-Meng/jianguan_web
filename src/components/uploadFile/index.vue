@@ -46,6 +46,10 @@ export default {
       type: Boolean,
       default: () => false,
     },
+    limitFileSize:{
+      type: Number,
+      default: () => 20,
+    }
   },
   data() {
     return {
@@ -55,7 +59,7 @@ export default {
       fileList: this.attachment,
       suffixName: "DOC,DOCX,XLS,XLSX,PPT,PDF,TXT,JPG,JPEG,PNG,BMP,GIF",
       limitFileNum: 1,
-      limitFileSize: 20,
+      // limitFileSize: 20,
     };
   },
   created() {

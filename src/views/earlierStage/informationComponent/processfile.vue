@@ -42,7 +42,7 @@
           <el-button type="primary" size="small"  class="primary_mini" @click="downLoadFile(row)">
             下载
           </el-button>
-          <el-button type="danger" size="small" @click="handleDelete(row, $index)"
+          <el-button type="danger" size="small" @click="handleDelete(row, $index)" v-if="roleId ===2"
             >删除</el-button
           >
         </template></el-table-column
@@ -54,6 +54,8 @@
 <script>
 import { getFile, deleteFile } from "@/api/file";
 import { downLoadFile } from "@/utils/download";
+import {mapGetters} from "vuex";
+
 
 export default {
   name: "",
@@ -72,7 +74,9 @@ export default {
   created() {
     this.tableData = this.DataArr;
   },
-  computed: {},
+  computed: {
+    ...mapGetters(["roleId"])
+  },
   mounted() {},
   methods: {
     handleDelete(row, index) {

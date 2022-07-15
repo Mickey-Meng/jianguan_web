@@ -35,6 +35,7 @@
     "nprogress": "0.2.0",
     "path-to-regexp": "2.4.0",
     "qrcodejs2": "0.0.2",
+    "qs": "^6.11.0",
     "strip-pragma-loader": "^1.0.0",
     "three": "^0.135.0",
     "twtree": "^3.6.0",

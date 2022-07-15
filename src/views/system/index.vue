@@ -17,7 +17,7 @@
     custom-class="system_management"
   >
     <el-container class="system_wraper_container">
-      <el-header>
+      <el-header class="system_wraper_container_header">
         <label>管理中心</label>
         <i class="el-icon-close" @click="closeDrawer"></i>
       </el-header>
@@ -117,24 +117,37 @@ export default {
       height: 100%;
       color: #4a4a4a;
       padding: 10px 20px;
+
       .el-header {
         padding: 0 20px;
         background-color: #fff;
         display: flex;
         justify-content: space-between;
         align-items: center;
+      }
+
+      .system_wraper_container_header {
+        padding: 0 20px;
+        background-color: #fff;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
         label {
           font-size: 26px;
         }
+
         i {
           font-size: 30px;
           cursor: pointer;
         }
       }
+
       .el-main {
         display: flex;
         padding: 20px 0;
         justify-content: space-between;
+
         .left_menu {
           width: 15%;
           overflow: auto;

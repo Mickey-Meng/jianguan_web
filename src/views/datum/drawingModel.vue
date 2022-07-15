@@ -152,6 +152,7 @@
           <uploadFile
             ref="otherOrgAttachments"
             @changeValue="changeValue"
+            :limitFileSize="300"
           ></uploadFile>
         </el-form-item>
       </el-form>
@@ -217,6 +218,7 @@
           <uploadFile
             ref="otherOrgAttachments"
             @changeValue="changeValue"
+            :limitFileSize="300"
           ></uploadFile>
         </el-form-item>
       </el-form>

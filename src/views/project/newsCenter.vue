@@ -43,7 +43,6 @@
         size="small"
         label-position="right"
         label-width="120px"
-        class="form-panel"
         :model="form"
         :rules="rules"
       >

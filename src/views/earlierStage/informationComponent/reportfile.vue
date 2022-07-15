@@ -42,7 +42,7 @@
           <el-button size="small" type="primary"   class="primary_mini" @click="downLoadFile(row)">
             下载
           </el-button>
-          <el-button  size="small" type="danger" @click="handleDelete(row, $index)"
+          <el-button  size="small" type="danger" v-if="roleId ===2" @click="handleDelete(row, $index)"
             >删除</el-button
           >
         </template></el-table-column
@@ -52,37 +52,42 @@
 </template>
 
 <script>
-import { getFile, deleteFile } from "@/api/file";
-import { downLoadFile } from "@/utils/download";
+  import {getFile, deleteFile} from "@/api/file";
+  import {downLoadFile} from "@/utils/download";
+  import {mapGetters} from "vuex";
 
-export default {
-  name: "",
-  props: {
-    DataArr: {
-      type: Array,
-      default: () => [],
+
+  export default {
+    name: "",
+    props: {
+      DataArr: {
+        type: Array,
+        default: () => []
+      }
     },
-  },
-  components: {},
-  data() {
-    return {
-      tableData: [],
-    };
-  },
-  created() {
-    this.tableData = this.DataArr;
-  },
-  computed: {},
-  mounted() {},
-  methods: {
-    handleDelete(row, index) {
-      this.$confirm("是否删除该文件?", "删除文件", {
-        cancelButtonText: "取消",
-        confirmButtonText: "确定",
-        customClass: "ceshi",
-        type: "warning",
-      }).then(() => {
-        deleteFile(row.id).then((res) => {
+    components: {},
+    data() {
+      return {
+        tableData: []
+      };
+    },
+    created() {
+      this.tableData = this.DataArr;
+    },
+    computed: {
+      ...mapGetters(["roleId"])
+    },
+    mounted() {
+    },
+    methods: {
+      handleDelete(row, index) {
+        this.$confirm("是否删除该文件?", "删除文件", {
+          cancelButtonText: "取消",
+          confirmButtonText: "确定",
+          customClass: "ceshi",
+          type: "warning"
+        }).then(() => {
+          deleteFile(row.id).then((res) => {
           this.$message({
             message: "删除成功",
             type: "success",

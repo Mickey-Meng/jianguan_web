@@ -140,7 +140,7 @@ export const getRolesByProject = (id) => {
 
 export const getDayOnLineData = (date) => {
   return request({
-    url: `ZhuJiRoad/user/getOnlineCount`,
+    url: `/ZhuJiRoad/user/getOnlineCount?date=${date}`,
     method: "post"
   });
 };
