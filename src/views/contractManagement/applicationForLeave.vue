@@ -170,28 +170,7 @@
                   </div>
                 </div>
               </div>
-<!--              <div class="form-block">-->
-<!--                <div class="form-block-title">-->
-<!--                  <div class="title-bar"></div>-->
-<!--                  <strong>待处理人</strong>-->
-<!--                </div>-->
-<!--                <div class="block-line">-->
-<!--                  <div class="block-item">-->
-<!--                    <div class="block-item-label">施工经理-->
-<!--                      &lt;!&ndash;                      <i class="require-icon"></i>&ndash;&gt;-->
-<!--                    </div>-->
-<!--                    <div class="block-item-value">-->
-<!--                      <el-form-item prop="qualityCheckUser">-->
-<!--                        <el-select v-model="form.qualityCheckUser" placeholder="请选择">-->
-<!--                          <el-option v-for="item in userOptions" :key="item.value"-->
-<!--                                     :label="item.label" :value="item.value">-->
-<!--                          </el-option>-->
-<!--                        </el-select>-->
-<!--                      </el-form-item>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
+              <approveuser :auditUser="auditUser" :flowKey="flowKey"></approveuser>
               <div class="form-block" v-if="isCreate">
                 <el-button class="submit-btn" size="small" type="primary" @click="submitStaffInfo" v-if="isCreate">提交
                 </el-button>
@@ -225,6 +204,8 @@
   import {submitUserTask} from "@/api/quality";
   import {getUserRoleAndCode} from "@/api/newProject";
   import tasklog from "@/views/common/tasklog";
+  import approveuser from "@/views/common/approveuser.vue";
+
 
   export default {
     name: "",
@@ -269,7 +250,9 @@
           off: "18:00",//下班时间
           noonOn: "12:00",//午休开始时间
           noonOff: "14:00"//午休结束时间
-        }
+        },
+        auditUser: {},
+        flowKey: ""
       };
     },
     created() {
@@ -279,7 +262,7 @@
     computed: {
       ...mapGetters(["userInfo", "name", "project", "roleId"])
     },
-    components: {tasklog},
+    components: {tasklog, approveuser},
     methods: {
 
       init() {
@@ -287,7 +270,7 @@
           this.eventType = res.data.qjlx;
         });
         getOrgUser({projectid: this.project.id}).then(res => {
-          this.handoffPerson = res.data.filter(e =>e.id !== this.userInfo.ID);
+          this.handoffPerson = res.data.filter(e => e.id !== this.userInfo.ID);
         });
         //获取用户角色
         getUserRoleAndCode(this.project.id).then(res => {
@@ -318,12 +301,6 @@
         };
       },
       openDialog() {
-        this.dialogFormVisible = true;
-        this.isCreate = true;
-        this.initForm();
-        this.leaveTime = "";
-      },
-      submitStaffInfo() {
         if (!this.userRoleParentCode) {
           this.$message({
             type: "warning",
@@ -341,13 +318,20 @@
           });
           return false;
         }
+        this.flowKey = flowObj.flowKey;
+        this.dialogFormVisible = true;
+        this.isCreate = true;
+        this.initForm();
+        this.leaveTime = "";
+      },
+      submitStaffInfo() {
         let obj = Object.assign({}, this.form);
         if (this.leaveTime.length > 0) {
           obj.startTime = this.leaveTime[0];
           obj.endTime = this.leaveTime[1];
         }
         obj.subDate = getNowDate();
-        obj.processDefinitionKey = flowObj.flowKey;
+        obj.processDefinitionKey = this.flowKey;
         if (obj.handoffPersonId) {
           let info = this.handoffPerson.find(e => e.id === obj.handoffPersonId);
           obj.handoffPerson = info.name;

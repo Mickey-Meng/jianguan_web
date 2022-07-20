@@ -279,30 +279,9 @@
                   </p>
                 </div>
               </div>
-<!--              <div class="form-block">-->
-<!--                <div class="form-block-title">-->
-<!--                  <div class="title-bar"></div>-->
-<!--                  <strong>待处理人</strong>-->
-<!--                </div>-->
-<!--                <div class="block-line">-->
-<!--                  <div class="block-item">-->
-<!--                    <div class="block-item-label">负责人<i class="require-icon"></i></div>-->
-<!--                    <div class="block-item-value">-->
-<!--                      <el-form-item prop="qualityCheckUser">-->
+              <approveuser :auditUser="auditUser" :flowKey="flowKey"></approveuser>
 
-<!--                      </el-form-item>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                  <div class="block-item">-->
-<!--                    <div class="block-item-label">项目部<i class="require-icon"></i></div>-->
-<!--                    <div class="block-item-value">-->
-<!--                      <el-form-item prop="qualityCheckUser">-->
 
-<!--                      </el-form-item>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
               <div class="form-block">
                 <el-button class="submit-btn" size="small" type="primary" @click="submitInfo" v-if="isCreate">提交
                 </el-button>
@@ -339,6 +318,8 @@
   import {downLoadFile} from "@/utils/download";
   import {getUserRoleAndCode} from "@/api/newProject";
   import {formatDate} from "@/utils/date";
+  import approveuser from "@/views/common/approveuser.vue";
+
 
   export default {
     data() {
@@ -393,7 +374,9 @@
           afterPersonId: [
             {required: true, message: "请选择变更后人员", trigger: "blur"}
           ]
-        }
+        },
+        auditUser: {},
+        flowKey: ""
       };
     },
     created() {
@@ -401,12 +384,30 @@
       this.init();
       this.initData();
     },
-    components: {upload,tasklog},
+    components: {upload, tasklog, approveuser},
     computed: {
       ...mapGetters(["project", "name", "userInfo"])
     },
     methods: {
       openDialog() {
+        if (!this.userRoleParentCode) {
+          this.$message({
+            type: "warning",
+            message: "配置错误、无法获取审批流程，请联系管理员！",
+            customClass: "message_override"
+          });
+          return false;
+        }
+        let flowObj = this.flowTypes.find(e => e.key === this.userRoleParentCode);
+        if (!flowObj) {
+          this.$message({
+            type: "warning",
+            message: "配置错误、无法获取审批流程，请联系管理员！",
+            customClass: "message_override"
+          });
+          return false;
+        }
+        this.flowKey = flowObj.flowKey;
         this.dialogFormVisible = true;
         this.isCreate = true;
         this.initForm();
@@ -508,23 +509,7 @@
       },
       //提交事件
       submitInfo() {
-        if (!this.userRoleParentCode) {
-          this.$message({
-            type: "warning",
-            message: "配置错误、无法获取审批流程，请联系管理员！",
-            customClass: "message_override"
-          });
-          return false;
-        }
-        let flowObj = this.flowTypes.find(e => e.key === this.userRoleParentCode);
-        if (!flowObj) {
-          this.$message({
-            type: "warning",
-            message: "配置错误、无法获取审批流程，请联系管理员！",
-            customClass: "message_override"
-          });
-          return false;
-        }
+
         this.$refs["form"].validate((valid) => {
           if (valid) {
             let obj = Object.assign({}, this.form);
@@ -540,7 +525,7 @@
             if (this.fileData.length > 0) {
               obj.files = this.fileData;
             }
-            obj.processDefinitionKey = flowObj.flowKey;
+            obj.processDefinitionKey = this.flowKey;
             //提交
             addPersonChange(obj).then(res => {
               this.issueStep(res);

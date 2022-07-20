@@ -347,82 +347,7 @@
                       </el-table>
                     </div>
                   </div>
-                  <!--                  <div class="form-block">-->
-                  <!--                    <div class="form-block-title">-->
-                  <!--                      <div class="title-bar"></div>-->
-                  <!--                      <strong>待处理人</strong>-->
-                  <!--                    </div>-->
-                  <!--                    <div class="block-line">-->
-                  <!--                      <div class="block-item">-->
-                  <!--                        <div class="block-item-label">施工经理<i class="require-icon"></i></div>-->
-                  <!--                        <div class="block-item-value">-->
-                  <!--                          <el-form-item prop="qualityCheckUser">-->
-                  <!--                            <el-select v-model="form.qualityCheckUser" placeholder="请选择">-->
-                  <!--                              <el-option v-for="item in userOptions" :key="item.value"-->
-                  <!--                                         :label="item.label" :value="item.value">-->
-                  <!--                              </el-option>-->
-                  <!--                            </el-select>-->
-                  <!--                          </el-form-item>-->
-                  <!--                        </div>-->
-                  <!--                      </div>-->
-                  <!--                    </div>-->
-                  <!--                    <div class="block-line">-->
-                  <!--                      <div class="block-item">-->
-                  <!--                        <div class="block-item-label">合同专监<i class="require-icon"></i></div>-->
-                  <!--                        <div class="block-item-value">-->
-                  <!--                          <el-form-item prop="qualityCheckUser">-->
-                  <!--                            <el-select v-model="form.qualityCheckUser" placeholder="请选择">-->
-                  <!--                              <el-option v-for="item in userOptions" :key="item.value"-->
-                  <!--                                         :label="item.label" :value="item.value">-->
-                  <!--                              </el-option>-->
-                  <!--                            </el-select>-->
-                  <!--                          </el-form-item>-->
-                  <!--                        </div>-->
-                  <!--                      </div>-->
-                  <!--                    </div>-->
-                  <!--                    <div class="block-line">-->
-                  <!--                      <div class="block-item">-->
-                  <!--                        <div class="block-item-label">监理总监<i class="require-icon"></i></div>-->
-                  <!--                        <div class="block-item-value">-->
-                  <!--                          <el-form-item prop="qualityCheckUser">-->
-                  <!--                            <el-select v-model="form.qualityCheckUser" placeholder="请选择">-->
-                  <!--                              <el-option v-for="item in userOptions" :key="item.value"-->
-                  <!--                                         :label="item.label" :value="item.value">-->
-                  <!--                              </el-option>-->
-                  <!--                            </el-select>-->
-                  <!--                          </el-form-item>-->
-                  <!--                        </div>-->
-                  <!--                      </div>-->
-                  <!--                    </div>-->
-                  <!--                    <div class="block-line">-->
-                  <!--                      <div class="block-item">-->
-                  <!--                        <div class="block-item-label">全咨业主<i class="require-icon"></i></div>-->
-                  <!--                        <div class="block-item-value">-->
-                  <!--                          <el-form-item prop="qualityCheckUser">-->
-                  <!--                            <el-select v-model="form.qualityCheckUser" placeholder="请选择">-->
-                  <!--                              <el-option v-for="item in userOptions" :key="item.value"-->
-                  <!--                                         :label="item.label" :value="item.value">-->
-                  <!--                              </el-option>-->
-                  <!--                            </el-select>-->
-                  <!--                          </el-form-item>-->
-                  <!--                        </div>-->
-                  <!--                      </div>-->
-                  <!--                    </div>-->
-                  <!--                    <div class="block-line">-->
-                  <!--                      <div class="block-item">-->
-                  <!--                        <div class="block-item-label">建设单位业主<i class="require-icon"></i></div>-->
-                  <!--                        <div class="block-item-value">-->
-                  <!--                          <el-form-item prop="qualityCheckUser">-->
-                  <!--                            <el-select v-model="form.qualityCheckUser" placeholder="请选择">-->
-                  <!--                              <el-option v-for="item in userOptions" :key="item.value"-->
-                  <!--                                         :label="item.label" :value="item.value">-->
-                  <!--                              </el-option>-->
-                  <!--                            </el-select>-->
-                  <!--                          </el-form-item>-->
-                  <!--                        </div>-->
-                  <!--                      </div>-->
-                  <!--                    </div>-->
-                  <!--                  </div>-->
+                  <approveuser :auditUser="auditUser" :flowKey="flowKey"></approveuser>
                   <div class="form-block" v-if="isCreate">
                     <el-button class="submit-btn" size="small" type="primary" @click="submitStaffInfo">提交
                     </el-button>
@@ -467,6 +392,7 @@
   import {getOrgUser, addStaffApproval, getStaffApprovalBase} from "@/api/staffApproval";
   import tasklog from "@/views/common/tasklog";
   import {getUserRoleAndCode} from "@/api/newProject";
+  import approveuser from "@/views/common/approveuser.vue";
 
   export default {
     name: "",
@@ -528,7 +454,9 @@
         currentRowIndex: null,
         disabledArr: [],
         isShow: true,
-        isCreate: true
+        isCreate: true,
+        auditUser: {},
+        flowKey: ""
       };
     },
     created() {
@@ -539,7 +467,7 @@
     computed: {
       ...mapGetters(["userInfo", "name", "project", "roleId", "getUrl"])
     },
-    components: {uploadView, tasklog},
+    components: {uploadView, tasklog, approveuser},
     methods: {
       initForm() {
         this.form = {
@@ -558,6 +486,24 @@
       },
       //新增
       openDialog() {
+        if (!this.userRoleParentCode) {
+          this.$message({
+            type: "warning",
+            message: "配置错误、无法获取审批流程，请联系管理员！",
+            customClass: "message_override"
+          });
+          return false;
+        }
+        let flowObj = this.allFlowTypes.find(e => e.key === this.userRoleParentCode && e.isContract === this.form.isContract);
+        if (!flowObj) {
+          this.$message({
+            type: "warning",
+            message: "配置错误、无法获取审批流程，请联系管理员！",
+            customClass: "message_override"
+          });
+          return false;
+        }
+        this.flowKey = flowObj.flowKey;
         this.disabledArr = [];
         this.tableData = [];
         this.initForm();
@@ -646,23 +592,7 @@
       },
       //提交表单
       submitStaffInfo() {
-        if (!this.userRoleParentCode) {
-          this.$message({
-            type: "warning",
-            message: "配置错误、无法获取审批流程，请联系管理员！",
-            customClass: "message_override"
-          });
-          return false;
-        }
-        let flowObj = this.allFlowTypes.find(e => e.key === this.userRoleParentCode && e.isContract === this.form.isContract);
-        if (!flowObj) {
-          this.$message({
-            type: "warning",
-            message: "配置错误、无法获取审批流程，请联系管理员！",
-            customClass: "message_override"
-          });
-          return false;
-        }
+
         if (this.tableData.length === 0) {
           return false;
         }
@@ -681,7 +611,7 @@
         let dd = {
           person: form,
           personSubs: data,
-          processKey: flowObj.flowKey
+          processKey: this.flowKey
         };
         addStaffApproval(dd).then(res => {
           this.issueStep(res);
