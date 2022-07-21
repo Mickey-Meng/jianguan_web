@@ -280,7 +280,7 @@
 				api.getProjectOpenDeatil(id).then((res) => {
 					let data=res['data']||{};
 					this.formData=data;
-					this.attachTable=data.otherAttachment||[];
+					this.attachTable=data.attachment||[];
 				});
 				api.getFlowAndTaskInfo({businessKey: id}).then((res) => {
 					console.log(res.data);

@@ -429,7 +429,7 @@
 					this.examineTable = data.detectionInfo || [];
 					this.reportTable = data.detectionReport || [];
 					this.factoryTable = data.factoryInfo || [];
-					this.attachTable = data.otherAttachment || [];
+					this.attachTable = data.attachment || [];
 				});
 			},
 			addOrModify(isdraft) {
@@ -462,7 +462,7 @@
 						});
 						return;
 					}
-					this.formData.otherAttachment = this.attachTable;
+					this.formData.attachment = this.attachTable;
 					this.formData.draftFlag = isdraft ? 0 : 1;
 					this.formData.auditUser = this.auditUser;
 					api.addOrUpdateProjectOpenExit(this.formData).then((res) => {
@@ -479,7 +479,7 @@
 				} else {
 					this.$refs['ruleForm'].validate((valid) => {
 						if (valid) {
-							this.formData.otherAttachment = this.attachTable;
+							this.formData.attachment = this.attachTable;
 							this.formData.auditUser = this.auditUser;
 							this.formData.draftFlag = 1;
 							// this.formData.openDate = "2022-06-16";
