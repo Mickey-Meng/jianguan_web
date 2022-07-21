@@ -438,7 +438,7 @@
 						})
 					})
 				})
-				userapi.getUserByRoleId(this.$store.getters.project['id'],99).then(res=>{
+				userapi.getUserByRoleId(this.$store.getters.project['id'],70).then(res=>{
 					let data=res.data||[];
 					data.forEach(item=>{
 						this.liveUserOptions.push({
