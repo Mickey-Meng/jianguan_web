@@ -76,6 +76,7 @@
 	import {
 		constantRoutes
 	} from "@/router/router";
+  import {setToken} from "@/utils/auth";
 	export default {
 		data() {
 			return {
@@ -131,6 +132,7 @@
 					"jldwryqj", "qzdwryqj"
 				];
 				if (router) {
+          setToken("taskType", 4);
 					this.$router.push({
 						path: router.path,
 						query: {
