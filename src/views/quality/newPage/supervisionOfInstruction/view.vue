@@ -17,7 +17,7 @@
 						<div class="block-item">
 							<div class="block-item-label">发起人</div>
 							<div class="block-item-value">
-								{{formData.createUserId}}
+								{{formData.createUserName}}
 							</div>
 						</div>
 						<div class="block-item">
@@ -169,6 +169,7 @@
 		formatDate,
 		getDaysBetween
 	} from "@/utils/format.js";
+	import { getUserInfo } from "@/api/user";
 	import attachlist from "../../../common/attachlist"
 	import projectinfo from "../../../common/projectinfo.vue"
 	import locationmap from "../../../common/locationmap.vue"
@@ -239,7 +240,10 @@
 			getDetail(id) {
 				api.getSupervisionOrderDeatil(id).then((res) => {
 					let data = res['data'] || {};
-					this.formData = data;
+					getUserInfo(data.createUserId).then(res1 => {
+						data.createUserName = res1.data.userInfo.NAME;
+						this.formData = data;
+					})
 				});
 			},
 			addOrModify() {
