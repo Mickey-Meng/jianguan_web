@@ -618,8 +618,9 @@
 					this.formData = data;
 					this.examineTable = data.detectionInfo || [];
 					for (let i = 0; i < data.detectionInfo.length; i++) {
-						const item = data.detectionInfo[i];
-						item.addressStr = item.address.provice + item.address.city
+						let item = data.detectionInfo[i];
+						item.address=item.address||{};
+						item.addressStr = (item.address.provice ||'') + (item.address.city||'')
 					}
 					this.reportTable = data.detectionReport || [];
 					this.factoryTable = data.factoryInfo || [];
