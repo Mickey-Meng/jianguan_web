@@ -1,15 +1,15 @@
 <template>
   <div class="wrapper">
     <div class="header">
-      <el-select v-model="projectId">
-        <el-option
-          v-for="item in projects"
-          :key="item.key"
-          :value="item.key"
-          :label="item.name"
-        />
-      </el-select>
-      <el-button size="mini">导出数据</el-button>
+<!--      <el-select v-model="projectId">-->
+<!--        <el-option-->
+<!--          v-for="item in projects"-->
+<!--          :key="item.key"-->
+<!--          :value="item.key"-->
+<!--          :label="item.name"-->
+<!--        />-->
+<!--      </el-select>-->
+<!--      <el-button size="mini">导出数据</el-button>-->
     </div>
     <ul class="center">
       <li

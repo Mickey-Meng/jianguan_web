@@ -60,9 +60,9 @@ import {mapGetters} from "vuex";
 export default {
   data() {
     return {
-      qlNum: 0 + "%",
-      dlNum: 0 + "%",
-      sdNum: 0 + "%",
+      qlNum: 0.00 + "%",
+      dlNum: 0.00 + "%",
+      sdNum: 0.00 + "%",
       qlFinish: false,
       dlFinish: false,
       sdFinish: false,
@@ -139,7 +139,7 @@ export default {
           }
           allFinish += finish;
           allCount += count;
-          this.qlNum = Math.floor((finish / count) * 100) + "%";
+          this.qlNum = Math.floor((finish / count) * 10000)/100 + "%";
         }
         if (SD && SD) {
           let finish = SD.finish || 0;
@@ -149,7 +149,7 @@ export default {
           }
           allFinish += finish;
           allCount += count;
-          this.sdNum = Math.floor((finish / count) * 100) + "%";
+          this.sdNum = Math.floor((finish / count) * 10000)/100 + "%";
         }
         if (DL) {
           let finish = DL.finish || 0;
@@ -159,7 +159,7 @@ export default {
           }
           allFinish += finish;
           allCount += count;
-          this.dlNum = Math.floor((finish / count) * 100) + "%";
+          this.dlNum = Math.floor((finish / count) * 10000)/100 + "%";
         }
         let rate = Math.floor((allFinish / allCount) * 100);
         let nFinish = 100 - rate;
