@@ -68,7 +68,7 @@ export default {
       sdFinish: false,
       option: {
         title: {
-          text: "80%",
+          text: "",
           x: "center",
           y: "center",
           textStyle: {
