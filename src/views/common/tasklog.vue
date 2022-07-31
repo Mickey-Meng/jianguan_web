@@ -59,6 +59,7 @@
 				userData: [],
 				bpmnModeler: null,
 				xmlStr:'',
+				runVariables: {},
 				hasTaskUser:false,
 				processNodeInfo: {}
 			};
@@ -76,6 +77,12 @@
 					this.xmlStr=res['data'];
 					
 				});
+				api.getRunVariables({
+					processInstanceId:this.taskInfo['processInstanceId']
+				}).then((res) => {
+					this.runVariables=res['data'];
+					
+				})
 				api.viewHighlightFlowData({
 					processInstanceId:this.taskInfo['processInstanceId']
 				}).then((res) => {
@@ -137,6 +144,9 @@
 							const nodeList = elementRegistry.filter (
 							(item) => finishedTaskSet.indexOf(item.id) > -1 && unfinishedTaskSet.indexOf(item.id) < 0
 							);
+							const userTaskList = elementRegistry.filter(
+								(item) => item.type === 'bpmn:UserTask'
+								);
 							// 此时得到的userTaskList 便是流程图中所有的节点的集合
 							console.log(nodeList, elementRegistry);
 							// 步骤2 ：为节点添加颜色
@@ -147,6 +157,12 @@
 									stroke: 'green',
 									fill: 'rgb(197 255 197)'
 								});
+							});
+
+							userTaskList.forEach(item => {
+								let nodename = item.businessObject.$attrs['flowable:assignee'].replace('${','').replace('}','')
+								if (nodename == 'assignee') nodename += 'List'
+								modeling.updateLabel(item, item.businessObject.name + '\n' + this.runVariables[nodename]);
 							});
 							// this.setProcessStatus(this.processNodeInfo) // 未起作用，可能是css问题
 						} else {
