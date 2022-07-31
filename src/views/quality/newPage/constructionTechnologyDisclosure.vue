@@ -20,11 +20,11 @@
 					<el-input v-model="queryData.createName" placeholder="创建人"></el-input>
 				</div>
 			</div>
-			<div class="input-box">
+			<!-- <div class="input-box">
 				<div class="input-value">
 					<el-input v-model="queryData.subProject" placeholder="方案和工艺名称"></el-input>
 				</div>
-			</div>
+			</div> -->
 			<div class="input-box">
 				<div class="input-value">
 					<el-date-picker v-model="queryData.checkDate" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" @change="queryTimeFormat">
@@ -44,7 +44,7 @@
 					@click="operateBtnsVisible=!operateBtnsVisible"></el-button> -->
 				<div class="operate-btns" v-show="operateBtnsVisible">
 					<el-button size="small" @click="addNew">新增</el-button>
-					<el-button size="small">导出</el-button>
+					<el-button size="small" @click="exportData">导出</el-button>
 					<el-button size="small">批量操作</el-button>
 				</div>
 			</div>
@@ -77,8 +77,8 @@
 						</template>
 					</el-table-column>
 				</el-table>
-				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-					:current-page="queryData.pageNum" :page-size="queryData.pageSize" layout="total, sizes, prev, pager, next, jumper"
+				<el-pagination @current-change="handleCurrentChange" :current-page="queryData.pageNum"
+					:page-size="queryData.pageSize" layout="total, prev, pager, next, jumper"
 					:total="queryData.totalPage">
 				</el-pagination>
 			</div>
@@ -180,6 +180,9 @@
 					type: 'warning'
 				}).then(() => {
 					api.deleteBuildTechBottom({id:row['id']}).then((res) => {
+						if (this.tableData.length == 1) {
+							this.queryData.pageNum = this.queryData.pageNum> 1 ? this.queryData.pageNum - 1 : 1
+						}
 						this.query();
 						this.$message({
 							type: 'success',
@@ -193,15 +196,28 @@
 					});
 				});
 			},
-			handleSizeChange(val) {
-				console.log(`每页 ${val} 条`);
-			},
-			handleCurrentChange(val) {
-				console.log(`当前页: ${val}`);
+			handleCurrentChange(page) {
+				this.queryData.pageNum=page
+				this.query()
 			},
 			checkDetail(row){
 				this.$emit("hideDraft");
 				this.$emit("getDetail",row['id']);
+			},
+			exportData() {
+				this.queryData.draftFlag = 1;
+				api.exportBuildTechBottomList(this.queryData).then((res) => {
+					const reader = new FileReader();
+					reader.readAsDataURL(res);
+					reader.onload = (e) => {
+						const a = document.createElement('a');
+						a.download = `施工技术交底清单.xls`;
+						a.href = e.target.result;
+						document.body.appendChild(a);
+						a.click();
+						document.body.removeChild(a);
+					};
+				});
 			}
 		},
 	};

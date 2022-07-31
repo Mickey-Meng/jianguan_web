@@ -23,7 +23,7 @@
 			<div v-if="!isDraft" class="right-btns">
 				<div class="operate-btns" v-show="operateBtnsVisible">
 					<el-button size="small" @click="addNew">新增</el-button>
-					<el-button size="small">导出</el-button>
+					<el-button size="small" @click="exportData">导出</el-button>
 					<el-button size="small">批量操作</el-button>
 				</div>
 			</div>
@@ -175,6 +175,21 @@
 			checkDetail(row){
 				this.$emit("hideDraft");
 				this.$emit("getDetail",row['id']);
+			},
+			exportData() {
+				this.queryData.draftFlag = 1;
+				api.exportSubitemOpenList(this.queryData).then((res) => {
+					const reader = new FileReader();
+					reader.readAsDataURL(res);
+					reader.onload = (e) => {
+						const a = document.createElement('a');
+						a.download = `分项开工申请清单.xls`;
+						a.href = e.target.result;
+						document.body.appendChild(a);
+						a.click();
+						document.body.removeChild(a);
+					};
+				});
 			}
 		},
 	};

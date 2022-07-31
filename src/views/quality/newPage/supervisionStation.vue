@@ -11,7 +11,7 @@
 		<el-header>
 			<div class="input-box">
 				<div class="input-value">
-					<el-input placeholder="工程部位描述" v-model="queryData.projectPartDesc"></el-input>
+					<el-input placeholder="旁站项目" v-model="queryData.projectPartDesc"></el-input>
 				</div>
 			</div>
 			<div class="input-box">
@@ -36,7 +36,7 @@
 			<div v-if="!isDraft" class="right-btns">
 				<div class="operate-btns" v-show="operateBtnsVisible">
 					<el-button size="small" @click="addNew">新增</el-button>
-					<el-button size="small">导出</el-button>
+					<el-button size="small" @click="exportData">导出</el-button>
 					<el-button size="small">批量操作</el-button>
 				</div>
 			</div>
@@ -186,6 +186,21 @@
 			checkDetail(row){
 				this.$emit("hideDraft");
 				this.$emit("getDetail",row['id']);
+			},
+			exportData() {
+				this.queryData.draftFlag = 1;
+				api.exportSupervisionSideList(this.queryData).then((res) => {
+					const reader = new FileReader();
+					reader.readAsDataURL(res);
+					reader.onload = (e) => {
+						const a = document.createElement('a');
+						a.download = `监理旁站清单.xls`;
+						a.href = e.target.result;
+						document.body.appendChild(a);
+						a.click();
+						document.body.removeChild(a);
+					};
+				});
 			}
 		},
 	};

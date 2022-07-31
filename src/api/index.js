@@ -281,23 +281,28 @@ const api = {
 	getManagementObject: "/ZhuJiApi/web/api/v1/manageTarget/detail/id", // 通过id获取一条管理目标数据
 	deleteManagementObject: "/ZhuJiApi/web/api/v1/manageTarget/id", // 删除单个管理目标数据
 	getManagementObjectList: "/ZhuJiApi/web/api/v1/manageTarget/page", // 管理目标list
+	exportManagementObjectList: "/ZhuJiApi/web/api/v1/manageTarget/export",
 
 	addOrUpdateManageRegimeList: "/ZhuJiApi/web/api/v1/manageRegime/addOrUpdate", // 新增或更新管理制度数据
 	getManageRegime: "/ZhuJiApi/web/api/v1/manageRegime/detail/id", // 通过id获取一条管理制度数据
 	deleteManageRegime: "/ZhuJiApi/web/api/v1/manageRegime/id", // 删除单个管理制度数据
 	getManageRegimeList: "/ZhuJiApi/web/api/v1/manageRegime/page", // 管理制度list
-
+	exportManageRegimeList: "/ZhuJiApi/web/api/v1/manageRegime/export",
 
 	//施工技术交底
 	getBuildTechBottomList: "/ZhuJiApi/web/api/v1/buildTechBottom/page",
 	getBuildTechBottomDetail: "/ZhuJiApi/web/api/v1/buildTechBottom/detail/id",
 	addOrUpdateBuildTechBottom: "/ZhuJiApi/web/api/v1/buildTechBottom/addOrUpdate",
 	deleteBuildTechBottom: "/ZhuJiApi/web/api/v1/buildTechBottom/id",
+	exportBuildTechBottomList: "/ZhuJiApi/web/api/v1/buildTechBottom/export",
+	
+	
 	//施工方案
 	getBuildPlanList: "/ZhuJiApi/web/api/v1/buildPlan/page",
 	getBuildPlanDetail: "/ZhuJiApi/web/api/v1/buildPlan/detail/id",
 	addOrUpdateBuildPlan: "/ZhuJiApi/web/api/v1/buildPlan/addOrUpdate",
 	deleteBuildPlan: "/ZhuJiApi/web/api/v1/buildPlan/id",
+	exportBuildPlanList: "/ZhuJiApi/web/api/v1/buildPlan/export",
 	//-----------------------流程引擎新增接口 ZH ----------------------
 
 
@@ -306,6 +311,7 @@ const api = {
 	getContractLaborDeatil: "/ZhuJiApi/web/api/v1/laborContract/detail/id",
 	deleteContractLabor: "/ZhuJiApi/web/api/v1/laborContract/id",
 	getContractLaborList: "/ZhuJiApi/web/api/v1/laborContract/page",
+	exportContractLaborList: "/ZhuJiApi/web/api/v1/laborContract/export",
 
 	//施工专业分包合同
 	addOrUpdateContractBuild: "/ZhuJiApi/web/api/v1/buildContract/addOrUpdate",
@@ -313,18 +319,22 @@ const api = {
 	deleteContractBuild: "/ZhuJiApi/web/api/v1/buildContract/id",
 	getContractBuildList: "/ZhuJiApi/web/api/v1/buildContract/page",
 	getContractBuildEnums: "/ZhuJiApi/web/api/v1/buildContract/buildContractPart/enums",
+	exportContractBuildList: "/ZhuJiApi/web/api/v1/buildContract/export",
 
 	//往来款
 	addOrUpdateComeGoMoney: "/ZhuJiApi/web/api/v1/comeGoMoney/addOrUpdate",
 	getComeGoMoneyDeatil: "/ZhuJiApi/web/api/v1/comeGoMoney/detail/id",
 	deleteComeGoMoney: "/ZhuJiApi/web/api/v1/comeGoMoney/id",
 	getComeGoMoneyList: "/ZhuJiApi/web/api/v1/comeGoMoney/page",
+	exportComeGoMoneyList: "/ZhuJiApi/web/api/v1/comeGoMoney/export",
+	
 	//进退场
 	addOrUpdateEnterExit: "/ZhuJiApi/web/api/v1/enterExit/addOrUpdate",
 	getEnterExitDeatil: "/ZhuJiApi/web/api/v1/enterExit/detail/id",
 	deleteEnterExit: "/ZhuJiApi/web/api/v1/enterExit/id",
 	getEnterExitList: "/ZhuJiApi/web/api/v1/enterExit/page",
 	getEnterExitUserList: "/ZhuJiApi/web/api/v1/enterExitUser/page",
+	exportEnterExitUserList: "/ZhuJiApi/web/api/v1/enterExitUser/export",
 
 	//设备进场
 	addOrUpdateEquipmentEnter: "/ZhuJiApi/web/api/v1/equipmentEnter/addOrUpdate",
@@ -332,33 +342,42 @@ const api = {
 	deleteEquipmentEnter: "/ZhuJiApi/web/api/v1/equipmentEnter/id",
 	getEquipmentEnterList: "/ZhuJiApi/web/api/v1/equipmentEnter/page",
 	getEquipmentEnterEnums: "/ZhuJiApi/web/api/v1/equipmentEnter/equipment/enums",
+	exportEquipmentEnterList: "/ZhuJiApi/web/api/v1/equipmentEnter/export",
+	
 	//设备退场
 	addOrUpdateEquipmentExit: "/ZhuJiApi/web/api/v1/equipmentExit/addOrUpdate",
 	getEquipmentExitDeatil: "/ZhuJiApi/web/api/v1/equipmentExit/detail/id",
 	deleteEquipmentExit: "/ZhuJiApi/web/api/v1/equipmentExit/id",
 	getEquipmentExitList: "/ZhuJiApi/web/api/v1/equipmentExit/page",
+	exportEquipmentExitList: "/ZhuJiApi/web/api/v1/equipmentExit/export",
 
 	//项目开工申请
 	addOrUpdateProjectOpenExit: "/ZhuJiApi/web/api/v1/projectOpen/addOrUpdate",
 	getProjectOpenDeatil: "/ZhuJiApi/web/api/v1/projectOpen/detail/id",
 	deleteProjectOpen: "/ZhuJiApi/web/api/v1/projectOpen/id",
 	getProjectOpenList: "/ZhuJiApi/web/api/v1/projectOpen/page",
+	exportProjectOpenList: "/ZhuJiApi/web/api/v1/projectOpen/export",
+	
 	//分项开工申请
   addOrUpdateSubitemOpen: "/ZhuJiApi/web/api/v1/subitemOpen/addOrUpdate",
   getSubitemOpenDeatil: "/ZhuJiApi/web/api/v1/subitemOpen/detail/id",
   deleteSubitemOpen: "/ZhuJiApi/web/api/v1/subitemOpen/id",
   getSubitemOpenList: "/ZhuJiApi/web/api/v1/subitemOpen/page",
+    exportSubitemOpenList: "/ZhuJiApi/web/api/v1/subitemOpen/export",
 
   //首件认可
   addOrUpdateFirstAccept: "/ZhuJiApi/web/api/v1/firstAccept/addOrUpdate",
   getFirstAcceptDeatil: "/ZhuJiApi/web/api/v1/firstAccept/detail/id",
   deleteFirstAccept: "/ZhuJiApi/web/api/v1/firstAccept/id",
   getFirstAcceptList: "/ZhuJiApi/web/api/v1/firstAccept/page",
+  exportFirstAcceptList: "/ZhuJiApi/web/api/v1/firstAccept/export",
+  
   //质量简报
   addOrUpdateQualityReport: "/ZhuJiApi/web/api/v1/qualityReport/addOrUpdate",
   getQualityReportDeatil: "/ZhuJiApi/web/api/v1/qualityReport/detail/id",
   deleteQualityReport: "/ZhuJiApi/web/api/v1/qualityReport/id",
   getQualityReportList: "/ZhuJiApi/web/api/v1/qualityReport/page",
+  exportQualityReportList: "/ZhuJiApi/web/api/v1/qualityReport/export",
 
   //监理旁站
   addOrUpdateSupervisionSide: "/ZhuJiApi/web/api/v1/supervisionSide/addOrUpdate",
@@ -366,30 +385,35 @@ const api = {
   deleteSupervisionSide: "/ZhuJiApi/web/api/v1/supervisionSide/id",
   getSupervisionSideList: "/ZhuJiApi/web/api/v1/supervisionSide/page",
   getSupervisionSideEnums: "/ZhuJiApi/web/api/v1/supervisionSide/sideProject/enums",
+  exportSupervisionSideList: "/ZhuJiApi/web/api/v1/supervisionSide/export",
 
   //监理巡视
   addOrUpdateSupervisionPatrol: "/ZhuJiApi/web/api/v1/supervisionPatrol/addOrUpdate",
   getSupervisionPatrolDeatil: "/ZhuJiApi/web/api/v1/supervisionPatrol/detail/id",
   deleteSupervisionPatrol: "/ZhuJiApi/web/api/v1/supervisionPatrol/id",
   getSupervisionPatrolList: "/ZhuJiApi/web/api/v1/supervisionPatrol/page",
+  exportSupervisionPatrolList: "/ZhuJiApi/web/api/v1/supervisionPatrol/export",
 
   //监理通知
   addOrUpdateSupervisionNotice: "/ZhuJiApi/web/api/v1/supervisionNotice/addOrUpdate",
   getSupervisionNoticeDeatil: "/ZhuJiApi/web/api/v1/supervisionNotice/detail/id",
   deleteSupervisionNotice: "/ZhuJiApi/web/api/v1/supervisionNotice/id",
   getSupervisionNoticeList: "/ZhuJiApi/web/api/v1/supervisionNotice/page",
+  exportSupervisionNoticeList: "/ZhuJiApi/web/api/v1/supervisionNotice/export",
 
   //质量活动
   addOrUpdateQualityActivity: "/ZhuJiApi/web/api/v1/qualityActivity/addOrUpdate",
   getQualityActivityDeatil: "/ZhuJiApi/web/api/v1/qualityActivity/detail/id",
   deleteQualityActivity: "/ZhuJiApi/web/api/v1/qualityActivity/id",
   getQualityActivityList: "/ZhuJiApi/web/api/v1/qualityActivity/page",
+ exportQualityActivityList: "/ZhuJiApi/web/api/v1/qualityActivity/export",
 
   //监理指令
   addOrUpdateSupervisionOrder: "/ZhuJiApi/web/api/v1/supervisionOrder/addOrUpdate",
   getSupervisionOrderDeatil: "/ZhuJiApi/web/api/v1/supervisionOrder/detail/id",
   deleteSupervisionOrder: "/ZhuJiApi/web/api/v1/supervisionOrder/id",
-  getSupervisionOrderList: "/ZhuJiApi/web/api/v1/supervisionOrder/page"
+  getSupervisionOrderList: "/ZhuJiApi/web/api/v1/supervisionOrder/page",
+  exportSupervisionOrderList: "/ZhuJiApi/web/api/v1/supervisionOrder/export"
 };
 
 export default api;

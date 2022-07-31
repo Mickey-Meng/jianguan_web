@@ -40,7 +40,14 @@ export const getContractLaborList = data => {
 		data: data
 	});
 };
-
+export const exportContractLaborList = data => {
+	return request({
+		url: api.exportContractLaborList,
+		method: "post",
+		data: data,
+		"responseType": 'blob'
+	});
+};
 
 
 export const addOrUpdateContractBuild = data => {
@@ -76,6 +83,15 @@ export const getContractBuildList = data => {
 		url: api.getContractBuildList,
 		method: "post",
 		data: data
+	});
+};
+
+export const exportContractBuildList = data => {
+	return request({
+		url: api.exportContractBuildList,
+		method: "post",
+		data: data,
+		"responseType": 'blob'
 	});
 };
 
@@ -124,6 +140,14 @@ export const getComeGoMoneyList = data => {
 	});
 };
 
+export const exportComeGoMoneyList = data => {
+	return request({
+		url: api.exportComeGoMoneyList,
+		method: "post",
+		data: data,
+		"responseType": 'blob'
+	});
+};
 
 export const addOrUpdateEnterExit = data => {
 	return request({
@@ -169,6 +193,14 @@ export const getEnterExitUserList = data => {
 	});
 };
 
+export const exportEnterExitUserList = data => {
+	return request({
+		url: api.exportEnterExitUserList,
+		method: "post",
+		data: data,
+		"responseType": 'blob'
+	});
+};
 
 export const addOrUpdateEquipmentEnter = data => {
 	return request({
@@ -203,6 +235,14 @@ export const getEquipmentEnterList = data => {
 		url: api.getEquipmentEnterList,
 		method: "post",
 		data: data
+	});
+};
+export const exportEquipmentEnterList = data => {
+	return request({
+		url: api.exportEquipmentEnterList,
+		method: "post",
+		data: data,
+		"responseType": 'blob'
 	});
 };
 
@@ -250,7 +290,14 @@ export const getEquipmentExitList = data => {
 		data: data
 	});
 };
-
+export const exportEquipmentExitList = data => {
+	return request({
+		url: api.exportEquipmentExitList,
+		method: "post",
+		data: data,
+		"responseType": 'blob'
+	});
+};
 /**
  * 获取流程对应节点的人员范围flowAuditEntry/detail/id
  * @param {*} data 

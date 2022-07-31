@@ -96,7 +96,10 @@
 											<div class="block-item-label">异常情况<i class="require-icon"></i></div>
 											<div class="block-item-value">
 												<el-form-item prop="exceptionCondition">
-													<el-input v-model="formData.exceptionCondition"></el-input>
+													<el-radio v-model="formData.exceptionCondition" label="存在">存在
+													</el-radio>
+													<el-radio v-model="formData.exceptionCondition" label="不存在">不存在
+													</el-radio>
 												</el-form-item>
 											</div>
 										</div>
@@ -108,7 +111,363 @@
 									</div>
 
 									<el-collapse v-model="sideInfoVisible">
-										<el-collapse-item title="嵌入表单" name="1">
+										<el-collapse-item v-if="formData.sideProjectId==1" title="嵌入表单" name="1">
+											<el-row
+												style="font-size: 18px;color: #606266;font-weight: 600;text-align: center;">
+												沥青面层</el-row>
+											<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">施工过程详情
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="管理人员（人）">
+														<el-input v-model="sideInfo.a33" placeholder="请输入管理人员（人）">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="施工人员（人）">
+														<el-input v-model="sideInfo.a34" placeholder="请输入施工人员（人）">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="层位">
+														<el-input v-model="sideInfo.a35" placeholder="层位">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="机械设备">
+														<el-input v-model="sideInfo.a36" placeholder="请输入机械设备">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="自动找平方式">
+														<el-input v-model="sideInfo.a37" placeholder="请输入自动找平方式">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="摊铺长度(m)">
+														<el-input v-model="sideInfo.a38" placeholder="请输入摊铺长度(m)">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="管理人员（人）">
+														<el-input v-model="sideInfo.a39" placeholder="请输入管理人员（人）">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="使用混合料">
+														<el-input v-model="sideInfo.a40" placeholder="请输入使用混合料">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="摊铺开始时间">
+														<el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+															v-model="sideInfo.a41" type="datetime" placeholder="请选择">
+														</el-date-picker>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="摊铺结束时间">
+														<el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+															v-model="sideInfo.a42" type="datetime" placeholder="请选择">
+														</el-date-picker>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="4">
+													<el-form-item label="">
+														<el-checkbox v-model="sideInfo.a43">下承层清扫</el-checkbox>
+													</el-form-item>
+												</el-col>
+												<el-col :span="4">
+													<el-form-item label="">
+														<el-checkbox v-model="sideInfo.a44">粘层</el-checkbox>
+													</el-form-item>
+												</el-col>
+												<el-col :span="4">
+													<el-form-item label="">
+														<el-checkbox v-model="sideInfo.a45">设备正常</el-checkbox>
+													</el-form-item>
+												</el-col>
+												<el-col :span="4">
+													<el-form-item label="">
+														<el-checkbox v-model="sideInfo.a46">熨平板预热</el-checkbox>
+													</el-form-item>
+												</el-col>
+												<el-col :span="4">
+													<el-form-item label="">
+														<el-checkbox v-model="sideInfo.a47">工艺与方案一致</el-checkbox>
+													</el-form-item>
+												</el-col>
+												<el-col :span="4">
+													<el-form-item label="">
+														<el-checkbox v-model="sideInfo.a48">有离析</el-checkbox>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">主要数据记录
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="桩号">
+														<el-input v-model="sideInfo.a49" placeholder="请输入桩号">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="摊铺速度(km/h)">
+														<el-input v-model="sideInfo.a50" placeholder="请输入摊铺速度(km/h)">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="摊铺厚度(mm)">
+														<el-input v-model="sideInfo.a51" placeholder="请输入摊铺厚度(mm)">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="初压速度(km/h)">
+														<el-input v-model="sideInfo.a52" placeholder="请输入初压速度(km/h)">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="初压遍数(遍)">
+														<el-input v-model="sideInfo.a53" placeholder="请输入初压遍数(遍)">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="复压速度(km/h)">
+														<el-input v-model="sideInfo.a54" placeholder="请输入复压速度(km/h)">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="复压遍数(遍)">
+														<el-input v-model="sideInfo.a55" placeholder="请输入复压遍数(遍)">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+										</el-collapse-item>
+										<el-collapse-item v-if="formData.sideProjectId==2" title="嵌入表单" name="2">
+											<el-row
+												style="font-size: 18px;color: #606266;font-weight: 600;text-align: center;">
+												压浆</el-row>
+											<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">施工过程详情
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="管理人员（人）">
+														<el-input v-model="sideInfo.a56" placeholder="请输入管理人员（人）">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="施工人员（人）">
+														<el-input v-model="sideInfo.a57" placeholder="请输入施工人员（人）">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="设备型号">
+														<el-input v-model="sideInfo.a58" placeholder="请输入设备型号">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="孔道编码">
+														<el-input v-model="sideInfo.a59" placeholder="请输入孔道编码">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="压力表读数">
+														<el-input v-model="sideInfo.a60" placeholder="请输入压力表读数">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="是否堵孔">
+														<el-input v-model="sideInfo.a61" placeholder="请输入是否堵孔">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="开始时间">
+														<el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+															v-model="sideInfo.a62" type="datetime" placeholder="请选择">
+														</el-date-picker>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="结束时间">
+														<el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+															v-model="sideInfo.a63" type="datetime" placeholder="请选择">
+														</el-date-picker>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="稳压时间">
+														<el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+															v-model="sideInfo.a64" type="datetime" placeholder="请选择">
+														</el-date-picker>
+													</el-form-item>
+												</el-col>
+											</el-row>
+
+											<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">主要数据记录
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="压浆液水胶比">
+														<el-input v-model="sideInfo.a65" placeholder="请输入压浆液水胶比">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="压浆液水胶比">
+														<el-input v-model="sideInfo.a66" placeholder="请输入压浆液水胶比">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="压浆液水胶比">
+														<el-input v-model="sideInfo.a67" placeholder="请输入压浆液水胶比">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="制取强度试件">
+														<el-input v-model="sideInfo.a68" placeholder="请输入制取强度试件">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="制取强度试件">
+														<el-input v-model="sideInfo.a69" placeholder="请输入制取强度试件">
+														</el-input>
+													</el-form-item>
+												</el-col>
+
+											</el-row>
+
+										</el-collapse-item>
+										<el-collapse-item v-if="formData.sideProjectId==3" title="嵌入表单" name="3">
+											<el-row
+												style="font-size: 18px;color: #606266;font-weight: 600;text-align: center;">
+												张拉</el-row>
+											<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">施工过程详情
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="管理人员（人）">
+														<el-input v-model="sideInfo.a70" placeholder="请输入管理人员（人）">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="施工人员（人）">
+														<el-input v-model="sideInfo.a71" placeholder="请输入施工人员（人）">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="设备型号">
+														<el-input v-model="sideInfo.a72" placeholder="请输入设备型号">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="油表编号">
+														<el-input v-model="sideInfo.a73" placeholder="请输入油表编号">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="开始时间">
+														<el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+															v-model="sideInfo.a74" type="datetime" placeholder="请选择">
+														</el-date-picker>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="结束时间">
+														<el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+															v-model="sideInfo.a75" type="datetime" placeholder="请选择">
+														</el-date-picker>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="断束数量">
+														<el-input v-model="sideInfo.a76" placeholder="请输入断束数量">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="端头砼有无碎裂">
+														<el-input v-model="sideInfo.a77" placeholder="请输入端头砼有无碎裂">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="锚垫板有无变形">
+														<el-input v-model="sideInfo.a78" placeholder="请输入锚垫板有无变形">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+
+											<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">主要数据记录
+											</el-row>
+										</el-collapse-item>
+										<el-collapse-item v-if="formData.sideProjectId==4" title="嵌入表单" name="4">
 											<el-row
 												style="font-size: 18px;color: #606266;font-weight: 600;text-align: center;">
 												桩基首盘混凝土</el-row>
@@ -135,7 +494,7 @@
 													</el-form-item>
 												</el-col>
 												<el-col :span="8">
-													<el-form-item label="安全员在岗情况" prop="sideDate">
+													<el-form-item label="安全员在岗情况">
 														<el-radio v-model="sideInfo.a04" label="是">是</el-radio>
 														<el-radio v-model="sideInfo.a04" label="否">否</el-radio>
 													</el-form-item>
@@ -143,13 +502,13 @@
 											</el-row>
 											<el-row>
 												<el-col :span="12">
-													<el-form-item label="施工作业人员满足施工需要情况" prop="sideDate">
+													<el-form-item label="施工作业人员满足施工需要情况">
 														<el-radio v-model="sideInfo.a05" label="是">是</el-radio>
 														<el-radio v-model="sideInfo.a05" label="否">否</el-radio>
 													</el-form-item>
 												</el-col>
 												<el-col :span="12">
-													<el-form-item label="特殊作业人员持证上岗情况" prop="sideDate">
+													<el-form-item label="特殊作业人员持证上岗情况">
 														<el-radio v-model="sideInfo.a06" label="是">是</el-radio>
 														<el-radio v-model="sideInfo.a06" label="否">否</el-radio>
 													</el-form-item>
@@ -157,13 +516,13 @@
 											</el-row>
 											<el-row>
 												<el-col :span="12">
-													<el-form-item label="施工机械满足施工需要情况" prop="sideDate">
+													<el-form-item label="施工机械满足施工需要情况">
 														<el-radio v-model="sideInfo.a07" label="是">是</el-radio>
 														<el-radio v-model="sideInfo.a07" label="否">否</el-radio>
 													</el-form-item>
 												</el-col>
 												<el-col :span="12">
-													<el-form-item label="施工材料符合设计和规范要求" prop="sideDate">
+													<el-form-item label="施工材料符合设计和规范要求">
 														<el-radio v-model="sideInfo.a08" label="是">是</el-radio>
 														<el-radio v-model="sideInfo.a08" label="否">否</el-radio>
 													</el-form-item>
@@ -171,14 +530,14 @@
 											</el-row>
 											<el-row>
 												<el-col :span="12">
-													<el-form-item label="开始施工时间" prop="sideDate">
+													<el-form-item label="开始施工时间">
 														<el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
 															v-model="sideInfo.a09" type="datetime" placeholder="请选择">
 														</el-date-picker>
 													</el-form-item>
 												</el-col>
 												<el-col :span="12">
-													<el-form-item label="结束施工时间" prop="sideDate">
+													<el-form-item label="结束施工时间">
 														<el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
 															v-model="sideInfo.a10" type="datetime" placeholder="请选择">
 														</el-date-picker>
@@ -186,38 +545,38 @@
 												</el-col>
 											</el-row>
 											<el-row>
-												<el-form-item label="施工工艺按审批施工方案实施" prop="sideDate">
+												<el-form-item label="施工工艺按审批施工方案实施">
 													<el-radio v-model="sideInfo.a11" label="是">是</el-radio>
 													<el-radio v-model="sideInfo.a11" label="否">否</el-radio>
 												</el-form-item>
 											</el-row>
 											<el-row>
-												<el-form-item label="钢筋笼安放所采用的施工机械设备是否满足要求" prop="sideDate">
+												<el-form-item label="钢筋笼安放所采用的施工机械设备是否满足要求">
 													<el-radio v-model="sideInfo.a12" label="是">是</el-radio>
 													<el-radio v-model="sideInfo.a12" label="否">否</el-radio>
 												</el-form-item>
 											</el-row>
 											<el-row>
-												<el-form-item label="钢筋笼吊装及安放工艺是否符合批准的施工方案" prop="sideDate">
+												<el-form-item label="钢筋笼吊装及安放工艺是否符合批准的施工方案">
 													<el-radio v-model="sideInfo.a13" label="是">是</el-radio>
 													<el-radio v-model="sideInfo.a13" label="否">否</el-radio>
 												</el-form-item>
 											</el-row>
 											<el-row>
 												<el-col :span="8">
-													<el-form-item label="施工现场质量措施落实情况" prop="sideDate">
+													<el-form-item label="施工现场质量措施落实情况">
 														<el-radio v-model="sideInfo.a14" label="是">是</el-radio>
 														<el-radio v-model="sideInfo.a14" label="否">否</el-radio>
 													</el-form-item>
 												</el-col>
 												<el-col :span="8">
-													<el-form-item label="安全措施落实情况" prop="sideDate">
+													<el-form-item label="安全措施落实情况">
 														<el-radio v-model="sideInfo.a15" label="是">是</el-radio>
 														<el-radio v-model="sideInfo.a15" label="否">否</el-radio>
 													</el-form-item>
 												</el-col>
 												<el-col :span="8">
-													<el-form-item label="环保措施落实情况" prop="sideDate">
+													<el-form-item label="环保措施落实情况">
 														<el-radio v-model="sideInfo.a16" label="是">是</el-radio>
 														<el-radio v-model="sideInfo.a16" label="否">否</el-radio>
 													</el-form-item>
@@ -227,13 +586,13 @@
 											</el-row>
 											<el-row>
 												<el-col :span="12">
-													<el-form-item label="施工现场质量措施落实情况" prop="sideDate">
+													<el-form-item label="施工现场质量措施落实情况">
 														<el-input v-model="sideInfo.a17" placeholder="请输入桩位设计值">
 														</el-input>
 													</el-form-item>
 												</el-col>
 												<el-col :span="12">
-													<el-form-item label="桩位实测值" prop="sideDate">
+													<el-form-item label="桩位实测值">
 														<el-input v-model="sideInfo.a18"
 															placeholder="请输入桩位实测值，多个数据请用,隔开"></el-input>
 													</el-form-item>
@@ -241,13 +600,13 @@
 											</el-row>
 											<el-row>
 												<el-col :span="12">
-													<el-form-item label="孔深设计值(m）" prop="sideDate">
+													<el-form-item label="孔深设计值(m）">
 														<el-input v-model="sideInfo.a19" placeholder="请输入孔深设计值">
 														</el-input>
 													</el-form-item>
 												</el-col>
 												<el-col :span="12">
-													<el-form-item label="孔深实测值(m）" prop="sideDate">
+													<el-form-item label="孔深实测值(m）">
 														<el-input v-model="sideInfo.a20"
 															placeholder="请输入孔深实测值，多个数据请用,隔开"></el-input>
 													</el-form-item>
@@ -255,13 +614,13 @@
 											</el-row>
 											<el-row>
 												<el-col :span="12">
-													<el-form-item label="孔径设计值(mm)" prop="sideDate">
+													<el-form-item label="孔径设计值(mm)">
 														<el-input v-model="sideInfo.a21" placeholder="请输入孔径设计值">
 														</el-input>
 													</el-form-item>
 												</el-col>
 												<el-col :span="12">
-													<el-form-item label="孔径实测值(mm)" prop="sideDate">
+													<el-form-item label="孔径实测值(mm)">
 														<el-input v-model="sideInfo.a22"
 															placeholder="请输入孔径实测值，多个数据请用,隔开"></el-input>
 													</el-form-item>
@@ -269,13 +628,13 @@
 											</el-row>
 											<el-row>
 												<el-col :span="12">
-													<el-form-item label="钻孔倾斜度设计值(mm)" prop="sideDate">
+													<el-form-item label="钻孔倾斜度设计值(mm)">
 														<el-input v-model="sideInfo.a23" placeholder="请输入钻孔倾斜度设计值">
 														</el-input>
 													</el-form-item>
 												</el-col>
 												<el-col :span="12">
-													<el-form-item label="倾斜度实测值(mm)" prop="sideDate">
+													<el-form-item label="倾斜度实测值(mm)">
 														<el-input v-model="sideInfo.a24"
 															placeholder="请输入倾斜度实测值，多个数据请用,隔开"></el-input>
 													</el-form-item>
@@ -283,13 +642,13 @@
 											</el-row>
 											<el-row>
 												<el-col :span="12">
-													<el-form-item label="沉淀厚度设计值(mm)" prop="sideDate">
+													<el-form-item label="沉淀厚度设计值(mm)">
 														<el-input v-model="sideInfo.a25" placeholder="请输入沉淀厚度设计值">
 														</el-input>
 													</el-form-item>
 												</el-col>
 												<el-col :span="12">
-													<el-form-item label="沉淀厚度实测值(mm)" prop="sideDate">
+													<el-form-item label="沉淀厚度实测值(mm)">
 														<el-input v-model="sideInfo.a26"
 															placeholder="请输入沉淀厚度实测值，多个数据请用,隔开"></el-input>
 													</el-form-item>
@@ -297,13 +656,13 @@
 											</el-row>
 											<el-row>
 												<el-col :span="12">
-													<el-form-item label="终孔后泥浆比重" prop="sideDate">
+													<el-form-item label="终孔后泥浆比重">
 														<el-input v-model="sideInfo.a27" placeholder="请输入终孔后泥浆比重">
 														</el-input>
 													</el-form-item>
 												</el-col>
 												<el-col :span="12">
-													<el-form-item label="砂率" prop="sideDate">
+													<el-form-item label="砂率">
 														<el-input v-model="sideInfo.a28" placeholder="请输入砂率，多个数据请用,隔开">
 														</el-input>
 													</el-form-item>
@@ -311,13 +670,13 @@
 											</el-row>
 											<el-row>
 												<el-col :span="12">
-													<el-form-item label="一清后泥浆的比重" prop="sideDate">
+													<el-form-item label="一清后泥浆的比重">
 														<el-input v-model="sideInfo.a29" placeholder="请输入一清后泥浆的比重">
 														</el-input>
 													</el-form-item>
 												</el-col>
 												<el-col :span="12">
-													<el-form-item label="砂率" prop="sideDate">
+													<el-form-item label="砂率">
 														<el-input v-model="sideInfo.a30" placeholder="请输入砂率，多个数据请用,隔开">
 														</el-input>
 													</el-form-item>
@@ -325,20 +684,865 @@
 											</el-row>
 											<el-row>
 												<el-col :span="12">
-													<el-form-item label="二清后泥浆的比重" prop="sideDate">
+													<el-form-item label="二清后泥浆的比重">
 														<el-input v-model="sideInfo.a31" placeholder="请输入二清后泥浆的比重">
 														</el-input>
 													</el-form-item>
 												</el-col>
 												<el-col :span="12">
-													<el-form-item label="砂率" prop="sideDate">
+													<el-form-item label="砂率">
 														<el-input v-model="sideInfo.a32" placeholder="请输入砂率，多个数据请用,隔开">
 														</el-input>
 													</el-form-item>
 												</el-col>
 											</el-row>
 										</el-collapse-item>
+										<el-collapse-item v-if="formData.sideProjectId==5" title="嵌入表单" name="5">
+											<el-row
+												style="font-size: 18px;color: #606266;font-weight: 600;text-align: center;">
+												桩基钢筋笼安放</el-row>
+											<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">施工过程详情
+											</el-row>
+											<el-row>
+												<el-form-item label="施工准备完成时间">
+													<el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+														v-model="sideInfo.a79" type="datetime" placeholder="请选择">
+													</el-date-picker>
+												</el-form-item>
+											</el-row>
+											<el-row>
+												<el-col :span="8">
+													<el-form-item label="施工员在岗情况">
+														<el-radio v-model="sideInfo.a80" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a80" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+												<el-col :span="8">
+													<el-form-item label="质检员在岗情况">
+														<el-radio v-model="sideInfo.a81" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a81" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+												<el-col :span="8">
+													<el-form-item label="安全员在岗情况">
+														<el-radio v-model="sideInfo.a82" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a82" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="施工作业人员满足施工需要情况">
+														<el-radio v-model="sideInfo.a83" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a83" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="业人员持证上岗情况">
+														<el-radio v-model="sideInfo.a84" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a84" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="施工机械满足施工需要情况">
+														<el-radio v-model="sideInfo.a85" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a85" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="施工材料符合设计和规范要求">
+														<el-radio v-model="sideInfo.a86" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a86" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="开始施工时间">
+														<el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+															v-model="sideInfo.a87" type="datetime" placeholder="请选择">
+														</el-date-picker>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="结束施工时间">
+														<el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+															v-model="sideInfo.a88" type="datetime" placeholder="请选择">
+														</el-date-picker>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-form-item label="施工工艺按审批施工方案实施">
+													<el-radio v-model="sideInfo.a89" label="是">是</el-radio>
+													<el-radio v-model="sideInfo.a89" label="否">否</el-radio>
+												</el-form-item>
+											</el-row>
+											<el-row>
+												<el-form-item label="钢筋笼安放所采用的施工机械设备是否满足要求">
+													<el-radio v-model="sideInfo.a90" label="是">是</el-radio>
+													<el-radio v-model="sideInfo.a90" label="否">否</el-radio>
+												</el-form-item>
+											</el-row>
+											<el-row>
+												<el-form-item label="钢筋笼吊装及安放工艺是否符合批准的施工方案">
+													<el-radio v-model="sideInfo.a91" label="是">是</el-radio>
+													<el-radio v-model="sideInfo.a91" label="否">否</el-radio>
+												</el-form-item>
+											</el-row>
+											<el-row>
+												<el-col :span="8">
+													<el-form-item label="施工现场质量措施落实情况">
+														<el-radio v-model="sideInfo.a92" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a92" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+												<el-col :span="8">
+													<el-form-item label="安全措施落实情况">
+														<el-radio v-model="sideInfo.a93" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a93" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+												<el-col :span="8">
+													<el-form-item label="环保措施落实情况">
+														<el-radio v-model="sideInfo.a94" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a94" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">主要数据记录
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="钢筋笼主筋间距设计值(mm)">
+														<el-input v-model="sideInfo.a95"
+															placeholder="请输入钢筋笼主筋间距设计值(mm)">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="钢筋笼主筋间距设计值(mm)">
+														<el-input v-model="sideInfo.a96"
+															placeholder="请输入钢筋笼主筋间距设计值(mm)，多个数据请用,隔开"></el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="螺旋筋间距设计值(mm）">
+														<el-input v-model="sideInfo.a97" placeholder="请输入螺旋筋间距设计值(mm）">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="螺旋筋间距实测值(mm）">
+														<el-input v-model="sideInfo.a98"
+															placeholder="请输入螺旋筋间距实测值(mm），多个数据请用,隔开"></el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="钢筋笼长度(直径)设计值(mm)">
+														<el-input v-model="sideInfo.a99"
+															placeholder="请输入钢筋笼长度(直径)设计值(mm)">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="钢筋笼长度(直径)实测值(mm)">
+														<el-input v-model="sideInfo.a100"
+															placeholder="请输入钢筋笼长度(直径)实测值(mm)，多个数据请用,隔开"></el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="保护层厚度设计值(mm)">
+														<el-input v-model="sideInfo.a101" placeholder="请输入保护层厚度设计值(mm)">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="保护层厚度实测值(mm)">
+														<el-input v-model="sideInfo.a102"
+															placeholder="请输入保护层厚度实测值(mm)，多个数据请用,隔开"></el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="钢筋笼接头扭矩规定值(Nm)">
+														<el-input v-model="sideInfo.a103"
+															placeholder="请输入钢筋笼接头扭矩规定值(Nm)">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="钢筋笼接头扭矩实测值(Nm)">
+														<el-input v-model="sideInfo.a104"
+															placeholder="请输入钢筋笼接头扭矩实测值(Nm)，多个数据请用,隔开"></el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+
+										</el-collapse-item>
+										<el-collapse-item v-if="formData.sideProjectId==6" title="嵌入表单" name="6">
+											<el-row
+												style="font-size: 18px;color: #606266;font-weight: 600;text-align: center;">
+												砼浇筑</el-row>
+											<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">施工过程详情
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="管理人员（人）">
+														<el-input v-model="sideInfo.a105" placeholder="请输入管理人员（人）">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="施工人员（人）">
+														<el-input v-model="sideInfo.a106" placeholder="请输入施工人员（人）">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="砼供应方式">
+														<el-input v-model="sideInfo.a107" placeholder="请输入砼供应方式">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="机械设备">
+														<el-input v-model="sideInfo.a108" placeholder="请输入机械设备">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="砼振捣方式">
+														<el-input v-model="sideInfo.a109" placeholder="请输入砼振捣方式">
+														</el-input>
+													</el-form-item>
+												</el-col>
+
+											</el-row>
+
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="浇筑开始时间">
+														<el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+															v-model="sideInfo.a110" type="datetime" placeholder="请选择">
+														</el-date-picker>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="浇筑结束时间">
+														<el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+															v-model="sideInfo.a111" type="datetime" placeholder="请选择">
+														</el-date-picker>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="6">
+													<el-form-item label="检查项1">
+														<el-checkbox v-model="sideInfo.a112">模板清洁</el-checkbox>
+													</el-form-item>
+												</el-col>
+												<el-col :span="6">
+													<el-form-item label="检查项2">
+														<el-checkbox v-model="sideInfo.a113">设备正常</el-checkbox>
+													</el-form-item>
+												</el-col>
+												<el-col :span="6">
+													<el-form-item label="检查项3">
+														<el-checkbox v-model="sideInfo.a114">保护层垫块良好</el-checkbox>
+													</el-form-item>
+												</el-col>
+												<el-col :span="6">
+													<el-form-item label="检查项4">
+														<el-checkbox v-model="sideInfo.a115">工艺与方案一致</el-checkbox>
+													</el-form-item>
+												</el-col>
+												<el-col :span="6">
+													<el-form-item label="检查项5">
+														<el-checkbox v-model="sideInfo.a116">无涨模现象</el-checkbox>
+													</el-form-item>
+												</el-col>
+												<el-col :span="6">
+													<el-form-item label="检查项6">
+														<el-checkbox v-model="sideInfo.a117">预埋件位置正确</el-checkbox>
+													</el-form-item>
+												</el-col>
+												<el-col :span="6">
+													<el-form-item label="检查项7">
+														<el-checkbox v-model="sideInfo.a118">电器设备安全</el-checkbox>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">主要数据记录
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="坍落度(mm)">
+														<el-input v-model="sideInfo.a119" placeholder="请输入坍落度(mm)">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="砼强度等级(MPa)">
+														<el-input v-model="sideInfo.a120" placeholder="请输入砼强度等级(MPa)">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="砼设计方量(m³)">
+														<el-input v-model="sideInfo.a121" placeholder="请输入砼设计方量(m³)">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="砼实际方量(m³)">
+														<el-input v-model="sideInfo.a122" placeholder="请输入砼实际方量(m³)">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="制作抗压试件(组)">
+														<el-input v-model="sideInfo.a123" placeholder="请输入制作抗压试件(组)">
+														</el-input>
+													</el-form-item>
+												</el-col>
+
+											</el-row>
+
+										</el-collapse-item>
+										<el-collapse-item v-if="formData.sideProjectId==7" title="嵌入表单" name="7">
+											<el-row
+												style="font-size: 18px;color: #606266;font-weight: 600;text-align: center;">
+												湿喷桩</el-row>
+											<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">施工过程详情
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="管理人员（人）">
+														<el-input v-model="sideInfo.a124" placeholder="请输入管理人员（人）">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="施工人员（人）">
+														<el-input v-model="sideInfo.a125" placeholder="请输入施工人员（人）">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="钻机型号">
+														<el-input v-model="sideInfo.a126" placeholder="请输入钻机型号">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="施工工艺">
+														<el-input v-model="sideInfo.a127" placeholder="请输入施工工艺">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="桩号">
+														<el-input v-model="sideInfo.a128" placeholder="请输入桩号">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="设计桩长(m)">
+														<el-input v-model="sideInfo.a129" placeholder="请输入设计桩长(m)">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="下钻开始时间">
+														<el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+															v-model="sideInfo.a130" type="datetime" placeholder="请选择">
+														</el-date-picker>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="下钻结束时间">
+														<el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+															v-model="sideInfo.a131" type="datetime" placeholder="请选择">
+														</el-date-picker>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="复搅卡开始时间">
+														<el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+															v-model="sideInfo.a132" type="datetime" placeholder="请选择">
+														</el-date-picker>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="复搅卡结束时间">
+														<el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+															v-model="sideInfo.a133" type="datetime" placeholder="请选择">
+														</el-date-picker>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">主要数据记录
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="桩号">
+														<el-input v-model="sideInfo.a134" placeholder="请输入桩号">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="水泥浆稠度">
+														<el-input v-model="sideInfo.a135" placeholder="请输入水泥浆稠度">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="下钻速度(米/分)">
+														<el-input v-model="sideInfo.a136" placeholder="请输入下钻速度(米/分)">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="复搅速度(米/分)">
+														<el-input v-model="sideInfo.a137" placeholder="请输入复搅速度(米/分)">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="结束电流(A)">
+														<el-input v-model="sideInfo.a138" placeholder="请输入结束电流(A)">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="水泥用量(kg/延米)">
+														<el-input v-model="sideInfo.a139" placeholder="请输入水泥用量(kg/延米)">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="实际桩长(m)">
+														<el-input v-model="sideInfo.a140" placeholder="请输入实际桩长(m)">
+														</el-input>
+													</el-form-item>
+												</el-col>
+
+											</el-row>
+
+										</el-collapse-item>
+										<el-collapse-item v-if="formData.sideProjectId==8" title="嵌入表单" name="8">
+											<el-row
+												style="font-size: 18px;color: #606266;font-weight: 600;text-align: center;">
+												湿喷桩</el-row>
+											<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">施工过程详情
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="管理人员（人）">
+														<el-input v-model="sideInfo.a141" placeholder="请输入管理人员（人）">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="施工人员（人）">
+														<el-input v-model="sideInfo.a142" placeholder="请输入施工人员（人）">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="钻机类型">
+														<el-input v-model="sideInfo.a143" placeholder="请输入钻机类型">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="单节钢筋笼(m)">
+														<el-input v-model="sideInfo.a144" placeholder="请输入单节钢筋笼(m)">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="安装方式">
+														<el-input v-model="sideInfo.a145" placeholder="请输入安装方式">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="连接方式">
+														<el-input v-model="sideInfo.a146" placeholder="请输入连接方式">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="安装开始时间">
+														<el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+															v-model="sideInfo.a147" type="datetime" placeholder="请选择">
+														</el-date-picker>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="安装结束时间">
+														<el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+															v-model="sideInfo.a148" type="datetime" placeholder="请选择">
+														</el-date-picker>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="二次清孔开始时间">
+														<el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+															v-model="sideInfo.a149" type="datetime" placeholder="请选择">
+														</el-date-picker>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="二次清孔结束时间">
+														<el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+															v-model="sideInfo.a150" type="datetime" placeholder="请选择">
+														</el-date-picker>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">桩基浇筑
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="二次清孔泥浆比重">
+														<el-input v-model="sideInfo.a151" placeholder="请输入二次清孔泥浆比重">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="粘度(S)">
+														<el-input v-model="sideInfo.a152" placeholder="请输入粘度(S)">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="含沙率(%)">
+														<el-input v-model="sideInfo.a153" placeholder="请输入含沙率(%)">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="沉淀层厚度(cm)">
+														<el-input v-model="sideInfo.a154" placeholder="请输入沉淀层厚度(cm)">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="首封砼方量(m³)">
+														<el-input v-model="sideInfo.a155" placeholder="请输入首封砼方量(m³)">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="首封管深埋(m)">
+														<el-input v-model="sideInfo.a156" placeholder="请输入首封管深埋(m)">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="坍落度(mm)">
+														<el-input v-model="sideInfo.a157" placeholder="请输入坍落度(mm)">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="浇筑砼总方量(m³)">
+														<el-input v-model="sideInfo.a158" placeholder="请输入浇筑砼总方量(m³)">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="砼顶面高程(m)">
+														<el-input v-model="sideInfo.a159" placeholder="请输入砼顶面高程(m)">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="高于设计桩顶(m)">
+														<el-input v-model="sideInfo.a160" placeholder="请输入高于设计桩顶(m)">
+														</el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+
+										</el-collapse-item>
+										<el-collapse-item v-if="formData.sideProjectId==9" title="嵌入表单" name="9">
+											<el-row
+												style="font-size: 18px;color: #606266;font-weight: 600;text-align: center;">
+												水泥稳定碎石基层（底基层）</el-row>
+											<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">施工过程详情
+											</el-row>
+											<el-row>
+												<el-form-item label="施工准备完成时间">
+													<el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+														v-model="sideInfo.a161" type="datetime" placeholder="请选择">
+													</el-date-picker>
+												</el-form-item>
+											</el-row>
+											<el-row>
+												<el-col :span="8">
+													<el-form-item label="施工员在岗情况">
+														<el-radio v-model="sideInfo.a162" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a162" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+												<el-col :span="8">
+													<el-form-item label="质检员在岗情况">
+														<el-radio v-model="sideInfo.a163" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a163" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+												<el-col :span="8">
+													<el-form-item label="安全员在岗情况">
+														<el-radio v-model="sideInfo.a164" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a164" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="施工作业人员满足施工需要情况">
+														<el-radio v-model="sideInfo.a165" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a165" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="特殊作业人员持证上岗情况">
+														<el-radio v-model="sideInfo.a166" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a166" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="施工机械满足施工需要情况">
+														<el-radio v-model="sideInfo.a167" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a167" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="施工材料符合设计和规范要求">
+														<el-radio v-model="sideInfo.a168" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a168" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="开始施工时间">
+														<el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+															v-model="sideInfo.a169" type="datetime" placeholder="请选择">
+														</el-date-picker>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="结束施工时间">
+														<el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+															v-model="sideInfo.a170" type="datetime" placeholder="请选择">
+														</el-date-picker>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-form-item label="施工工艺">
+													<el-radio v-model="sideInfo.a171" label="是">是</el-radio>
+													<el-radio v-model="sideInfo.a171" label="否">否</el-radio>
+												</el-form-item>
+											</el-row>
+											
+											<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">主要数据记录
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="松铺厚度">
+														<el-input v-model="sideInfo.a172" placeholder="请输入松铺厚度">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="宽度">
+														<el-input v-model="sideInfo.a173"
+															placeholder="请输入宽度"></el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="平整度">
+														<el-input v-model="sideInfo.a174" placeholder="请输入平整度">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												
+											</el-row>
+											
+										</el-collapse-item>
+										<el-collapse-item v-if="formData.sideProjectId==10" title="嵌入表单" name="10">
+											<el-row
+												style="font-size: 18px;color: #606266;font-weight: 600;text-align: center;">
+												级配碎石基层（底基层）</el-row>
+											<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">施工过程详情
+											</el-row>
+											<el-row>
+												<el-form-item label="施工准备完成时间">
+													<el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+														v-model="sideInfo.a175" type="datetime" placeholder="请选择">
+													</el-date-picker>
+												</el-form-item>
+											</el-row>
+											<el-row>
+												<el-col :span="8">
+													<el-form-item label="施工员在岗情况">
+														<el-radio v-model="sideInfo.a176" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a176" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+												<el-col :span="8">
+													<el-form-item label="质检员在岗情况">
+														<el-radio v-model="sideInfo.a177" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a177" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+												<el-col :span="8">
+													<el-form-item label="安全员在岗情况">
+														<el-radio v-model="sideInfo.a178" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a178" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="施工作业人员满足施工需要情况">
+														<el-radio v-model="sideInfo.a179" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a179" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="特殊作业人员持证上岗情况">
+														<el-radio v-model="sideInfo.a180" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a180" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="施工机械满足施工需要情况">
+														<el-radio v-model="sideInfo.a181" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a181" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="施工材料符合设计和规范要求">
+														<el-radio v-model="sideInfo.a182" label="是">是</el-radio>
+														<el-radio v-model="sideInfo.a182" label="否">否</el-radio>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="开始施工时间">
+														<el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+															v-model="sideInfo.a183" type="datetime" placeholder="请选择">
+														</el-date-picker>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="结束施工时间">
+														<el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+															v-model="sideInfo.a184" type="datetime" placeholder="请选择">
+														</el-date-picker>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-form-item label="施工工艺">
+													<el-radio v-model="sideInfo.a185" label="是">是</el-radio>
+													<el-radio v-model="sideInfo.a185" label="否">否</el-radio>
+												</el-form-item>
+											</el-row>
+											
+											<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">主要数据记录
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="松铺厚度">
+														<el-input v-model="sideInfo.a186" placeholder="请输入松铺厚度">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="宽度">
+														<el-input v-model="sideInfo.a187"
+															placeholder="请输入宽度"></el-input>
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="平整度">
+														<el-input v-model="sideInfo.a188" placeholder="请输入平整度">
+														</el-input>
+													</el-form-item>
+												</el-col>
+												
+											</el-row>
+											
+										</el-collapse-item>
+										
 									</el-collapse>
+
 
 									<div class="block-line">
 										<div class="block-item">
@@ -478,7 +1682,7 @@
 					userName: this.$store.getters.userInfo.name,
 					startDate: formatDate(new Date()),
 				},
-				sideInfoVisible:'',
+				sideInfoVisible: '',
 				sideInfo: {
 
 				},
@@ -560,12 +1764,12 @@
 		},
 		methods: {
 			initData() {
-				this.treeData = [simpleData.data];
-				// getBridgeTree('QL', null).then((res) => {
-				//   const arr = [];
-				//   arr.push(res.data);
-				//   this.treeInfo = arr;
-				// });
+				// this.treeData = [simpleData.data];
+				getBridgeTree('QL', null).then((res) => {
+					const arr = [];
+					arr.push(res.data);
+					this.treeInfo = arr;
+				});
 			},
 			checkPartPro() {
 				this.partVisible = true;
@@ -606,7 +1810,7 @@
 			changeVisible(obj, value) {
 				this.dialogFormVisible = value;
 				obj = obj || {};
-				this.sideInfoVisible=''
+				this.sideInfoVisible = ''
 				this.addOrModifyFlag = obj['id'] ? false : true;
 				if (obj['id']) {
 					this.getDetail(obj['id']);

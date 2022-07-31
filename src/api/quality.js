@@ -914,6 +914,15 @@ export const getManagementObjectList = data => {
 		data: data
 	});
 };
+export const exportManagementObjectList = data => {
+	return request({
+		url: api.exportManagementObjectList,
+		method: "post",
+		data: data,
+		"responseType": 'blob'
+	});
+};
+
 /**
  * 新增或更新 管理目标 数据
  */
@@ -960,6 +969,14 @@ export const getManageRegimeList = data => {
 		url: api.getManageRegimeList,
 		method: "post",
 		data: data
+	});
+};
+export const exportManageRegimeList = data => {
+	return request({
+		url: api.exportManageRegimeList,
+		method: "post",
+		data: data,
+		"responseType": 'blob'
 	});
 };
 /**
@@ -1039,6 +1056,14 @@ export const getBuildTechBottomList = data => {
 		data: data
 	});
 };
+export const exportBuildTechBottomList = data => {
+	return request({
+		url: api.exportBuildTechBottomList,
+		method: "post",
+		data: data,
+		"responseType": 'blob'
+	});
+};
 
 /**
  * 新增或者更新施工方案记录数据
@@ -1078,6 +1103,14 @@ export const getBuildPlanList = data => {
 		url: api.getBuildPlanList,
 		method: "post",
 		data: data
+	});
+};
+export const exportBuildPlanList = data => {
+	return request({
+		url: api.exportBuildPlanList,
+		method: "post",
+		data: data,
+		"responseType": 'blob'
 	});
 };
 //-----------------------流程引擎新增接口 ZH ---------------------
@@ -1122,7 +1155,14 @@ export const getProjectOpenList = data => {
 		data: data
 	});
 };
-
+export const exportProjectOpenList = data => {
+	return request({
+		url: api.exportProjectOpenList,
+		method: "post",
+		data: data,
+		"responseType": 'blob'
+	});
+};
 export const addOrUpdateSubitemOpen = data => {
 	return request({
 		url: api.addOrUpdateSubitemOpen,
@@ -1158,7 +1198,14 @@ export const getSubitemOpenList = data => {
 		data: data
 	});
 };
-
+export const exportSubitemOpenList = data => {
+	return request({
+		url: api.exportSubitemOpenList,
+		method: "post",
+		data: data,
+		"responseType": 'blob'
+	});
+};
 
 export const addOrUpdateFirstAccept = data => {
 	return request({
@@ -1195,7 +1242,14 @@ export const getFirstAcceptList = data => {
 		data: data
 	});
 };
-
+export const exportFirstAcceptList = data => {
+	return request({
+		url: api.exportFirstAcceptList,
+		method: "post",
+		data: data,
+		"responseType": 'blob'
+	});
+};
 export const addOrUpdateQualityReport = data => {
 	return request({
 		url: api.addOrUpdateQualityReport,
@@ -1231,7 +1285,14 @@ export const getQualityReportList = data => {
 		data: data
 	});
 };
-
+export const exportQualityReportList = data => {
+	return request({
+		url: api.exportQualityReportList,
+		method: "post",
+		data: data,
+		"responseType": 'blob'
+	});
+};
 
 
 export const addOrUpdateSupervisionSide = data => {
@@ -1267,6 +1328,14 @@ export const getSupervisionSideList = data => {
 		url: api.getSupervisionSideList,
 		method: "post",
 		data: data
+	});
+};
+export const exportSupervisionSideList = data => {
+	return request({
+		url: api.exportSupervisionSideList,
+		method: "post",
+		data: data,
+		"responseType": 'blob'
 	});
 };
 export const getSupervisionSideEnums = () => {
@@ -1311,7 +1380,14 @@ export const getSupervisionPatrolList = data => {
 		data: data
 	});
 };
-
+export const exportSupervisionPatrolList = data => {
+	return request({
+		url: api.exportSupervisionPatrolList,
+		method: "post",
+		data: data,
+		"responseType": 'blob'
+	});
+};
 
 export const addOrUpdateSupervisionNotice = data => {
 	return request({
@@ -1348,7 +1424,14 @@ export const getSupervisionNoticeList = data => {
 		data: data
 	});
 };
-
+export const exportSupervisionNoticeList = data => {
+	return request({
+		url: api.exportSupervisionNoticeList,
+		method: "post",
+		data: data,
+		"responseType": 'blob'
+	});
+};
 
 export const addOrUpdateQualityActivity = data => {
 	return request({
@@ -1386,7 +1469,14 @@ export const getQualityActivityList = data => {
 	});
 };
 
-
+export const exportQualityActivityList = data => {
+	return request({
+		url: api.exportQualityActivityList,
+		method: "post",
+		data: data,
+		"responseType": 'blob'
+	});
+};
 
 export const addOrUpdateSupervisionOrder = data => {
 	return request({
@@ -1421,5 +1511,13 @@ export const getSupervisionOrderList = data => {
 		url: api.getSupervisionOrderList,
 		method: "post",
 		data: data
+	});
+};
+export const exportSupervisionOrderList = data => {
+	return request({
+		url: api.exportSupervisionOrderList,
+		method: "post",
+		data: data,
+		"responseType": 'blob'
 	});
 };

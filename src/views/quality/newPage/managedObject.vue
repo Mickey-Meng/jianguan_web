@@ -15,7 +15,7 @@
 					@click="operateBtnsVisible=!operateBtnsVisible"></el-button> -->
 				<div class="operate-btns" v-show="operateBtnsVisible">
 					<el-button size="small" @click="addNew">新增</el-button>
-					<el-button size="small">导出</el-button>
+					<el-button size="small" @click="exportData">导出</el-button>
 					<el-button size="small">批量操作</el-button>
 				</div>
 			</div>
@@ -41,9 +41,9 @@
 						</template>
 					</el-table-column>
 				</el-table>
-				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-					:current-page="currentPage" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper"
-					:total="totalPage">
+				<el-pagination @current-change="handleCurrentChange" :current-page="queryData.pageNum"
+					:page-size="queryData.pageSize" layout="total, prev, pager, next, jumper"
+					:total="queryData.totalPage">
 				</el-pagination>
 			</div>
 		</el-main>
@@ -246,6 +246,9 @@
 					type: 'warning'
 				}).then(() => {
 					api.deleteManagementObject(id).then((res) => {
+						if (this.tableData.length == 1) {
+							this.queryData.pageNum = this.queryData.pageNum> 1 ? this.queryData.pageNum - 1 : 1
+						}
 						this.query();
 						this.$message({
 							type: 'success',
@@ -281,17 +284,13 @@
 					}
 				});
 			},
-			handleSizeChange(val) {
-				console.log(`每页 ${val} 条`);
-			},
-			handleCurrentChange(val) {
-				console.log(`当前页: ${val}`);
+			handleCurrentChange(page) {
+				this.queryData.pageNum=page
+				this.query()
 			},
 			afterUpAttach(data){
-				debugger
 				api.getFileInfo({id: data['fileId']}).then((res) => {
 				  	if (res) {
-						debugger
 					}
 				});
 				this.attachment.push({
@@ -305,6 +304,21 @@
 					"id": ""
 				})
 			},
+			exportData() {
+				this.queryData.draftFlag = 1;
+				api.exportManagementObjectList(this.queryData).then((res) => {
+					const reader = new FileReader();
+					reader.readAsDataURL(res);
+					reader.onload = (e) => {
+						const a = document.createElement('a');
+						a.download = `管理目标清单.xls`;
+						a.href = e.target.result;
+						document.body.appendChild(a);
+						a.click();
+						document.body.removeChild(a);
+					};
+				});
+			}
 		},
 	};
 </script>
