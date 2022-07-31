@@ -691,6 +691,16 @@ export const getFlowAndTaskInfo = (params) => {
 	});
 };
 /**
+ * getRunVariables
+ */
+ export const getRunVariables = (params) => {
+	return request({
+		url: api.getRunVariables,
+		method: "get",
+		params: params
+	});
+};
+/**
  * viewTaskUserInfo
  */
 export const viewTaskUserInfo = (params) => {
