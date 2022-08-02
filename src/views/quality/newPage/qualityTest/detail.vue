@@ -255,7 +255,8 @@ import projectinfo from "../../../common/projectinfo.vue"
 					this.taskInfo={
 						processDefinitionId: data['processDefinitionId'],
 						processInstanceId: data['processInstanceId'],
-						taskId: data['taskId']
+						taskId: data['taskId'],
+						flowKey: 'zhiliangjiance'
 					}
 					this.updateTaskLog();
 				});

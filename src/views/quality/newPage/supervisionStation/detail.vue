@@ -146,7 +146,7 @@
 											<el-row>
 												<el-col :span="4">
 													<el-form-item label="">
-														<el-checkbox disabled disabled v-model="sideInfo.a43">下承层清扫</el-checkbox>
+														<el-checkbox disabled v-model="sideInfo.a43">下承层清扫</el-checkbox>
 													</el-form-item>
 												</el-col>
 												<el-col :span="4">
@@ -1516,7 +1516,8 @@
 					this.taskInfo={
 						processDefinitionId: data['processDefinitionId'],
 						processInstanceId: data['processInstanceId'],
-						taskId: data['taskId']
+						taskId: data['taskId'],
+						flowKey: 'jianlipangzhan',
 					}
 					this.updateTaskLog();
 				});

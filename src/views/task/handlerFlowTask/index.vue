@@ -107,7 +107,7 @@
 			},
 			updateTaskHandle(){
 				setTimeout(()=>{
-					this.$refs['taskhandle'].initData();
+					 this.$refs['taskhandle'] && this.$refs['taskhandle'].initData();
 				},100)
 			},
 			updateTaskLog(){

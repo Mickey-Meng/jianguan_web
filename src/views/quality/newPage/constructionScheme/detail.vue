@@ -260,7 +260,8 @@
 					this.taskInfo={
 						processDefinitionId: data['processDefinitionId'],
 						processInstanceId: data['processInstanceId'],
-						taskId: data['taskId']
+						taskId: data['taskId'],
+						flowKey:'shigongfangan'
 					}
 					this.updateTaskLog();
 				});

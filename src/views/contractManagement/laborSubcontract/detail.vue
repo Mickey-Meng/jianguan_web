@@ -217,7 +217,8 @@
 					this.taskInfo={
 						processDefinitionId: data['processDefinitionId'],
 						processInstanceId: data['processInstanceId'],
-						taskId: data['taskId']
+						taskId: data['taskId'],
+				  flowKey:'laowufenbaohetong'
 					}
 					this.updateTaskLog();
 				});
