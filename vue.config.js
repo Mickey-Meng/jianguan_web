@@ -26,8 +26,8 @@ module.exports = {
 		open: true,
 		proxy: {
 			"/STSfmzj": {
-				// target: 'https://system.zlskkj.com:59030',
-				target: "http://101.200.223.171:8085",
+				target: 'https://system.zlskkj.com:59031',
+				// target: "http://101.200.223.171:8085",
 				changeOrigin: true,
 				//               secure:true          //https需要开启此配置
 				//               ws: true,             //是否启用websockets
@@ -36,9 +36,9 @@ module.exports = {
 				}
 			},
 			"/ZhuJiRoad": {
-				target: 'http://101.200.223.171:8085',
-				// target: 'https://system.zlskkj.com:59030',
-				// target: "http://192.168.2.128:8720",
+				// target: 'http://101.200.223.171:8085',
+				target: 'https://system.zlskkj.com:59031',
+				// target: "http://192.168.2.149:8720",
 				changeOrigin: true,
 				pathRewrite: {
 					// "^/ZhuJiRoad": ""
@@ -56,7 +56,7 @@ module.exports = {
 				target: "http://101.200.223.171:80",
 				changeOrigin: true,
 				pathRewrite: {}
-			}
+			},
 		}
 	},
 	configureWebpack: {

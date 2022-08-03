@@ -109,45 +109,6 @@ export const earth = {
   }
   ],
   layers: [
-    // {
-    //   name: '三维模型',
-    //   type: 'FOLDER',
-    //   visible: false,
-    //   children: [{
-    //     name: '模型',
-    //     type: 'FOLDER',
-    //     visible: false,
-    //     children: [
-    //       {
-    //         name: '桥',
-    //         type: 'C3DTILES',
-    //         clampToGround: true,
-    //         url: 'http://101.200.223.171/mapData/zhujishi/model/tileset.json',
-    //         visible: true
-    //       },
-    //       {
-    //         name: '桩',
-    //         type: 'C3DTILES',
-    //         clampToGround: true,
-    //         url: 'http://101.200.223.171/mapData/zhujishi/model1/tileset.json',
-    //         visible: true
-    //       },
-    //       {
-    //         name: 'dom',
-    //         type: 'URL',
-    //         clampToGround: true,
-    //         url: 'http://101.200.223.171/mapData/zhujishi/DOM_18/{z}/{x}/{y}.png',
-    //         visible: true
-    //       },
-    //       {
-    //         name: '诸暨地形',
-    //         type: 'CESIUM_TERRAIN',
-    //         clampToGround: true,
-    //         url: 'http://101.200.223.171/mapData/zhujishi/DEM',
-    //         visible: true
-    //       }
-    //     ]
-    //   }]
-    // }
+
   ]
 }

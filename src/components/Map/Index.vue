@@ -85,11 +85,12 @@ export default {
       getToken("GROUPID"),
       getToken("explorerRoles")
     ).then((res) => {
-      earth.layers = res.data.getMe;
+      let obj = JSON.parse(JSON.stringify(earth))
+      obj.layers = res.data.getMe;
       zeh =
         window.zeh =
         earthCtx.zlskEarthHelper =
-          new ZlskEarthHelper("earth", earth);
+          new ZlskEarthHelper("earth", obj);
       em = zeh.earth.createMarkerManager({ clusterType: "dilute" });
       em.beginCluster();
       earthCtx.earth = earthCtx.zlskEarth = zeh.earth;

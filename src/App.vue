@@ -22,7 +22,7 @@ export default {
     };
   },
   mounted() {
-    let whiteRouter = ["/home", "/pandect"];
+    let whiteRouter = ["/home", "/pandect","/mapView"];
     if (whiteRouter.includes(this.$route.path)) {
     } else {
       let menus = getToken("routerMenus");

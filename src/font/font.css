@@ -10,3 +10,27 @@
   font-family: 'HuXiaoBo-NanShen';
   src: url('./HuXiaoBo-NanShen.OTF');
 }
+@font-face {
+  font-family: 'CKTKingKong';
+  src: url('./创客贴金刚体.otf');
+}
+@font-face {
+  font-family: 'DINPro-Bold';
+  src: url('./DINPro-Bold.ttf');
+}
+@font-face {
+  font-family: 'AlibabaPuHuiTiR';
+  src: url('./Alibaba-PuHuiTi-Regular.otf');
+}
+@font-face {
+  font-family: 'AlibabaPuHuiTiB';
+  src: url('./Alibaba-PuHuiTi-Bold.otf');
+}
+@font-face {
+  font-family: 'FX-LED';
+  src: url('./FX-LED.TTF');
+}
+@font-face {
+  font-family: 'Furore';
+  src: url('./Furore.otf');
+}

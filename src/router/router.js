@@ -19,6 +19,11 @@ export const constantRoutes = [{
 	//   component: () => import('@/views/screenWindow/index'),
 	//   hidden: true
 	// },
+  {
+    path: '/mapView',
+    component: () => import('@/views/screenWindow/mapView'),
+    hidden: true
+  },
 	{
 		path: "/home",
 		component: Home,
