@@ -46,7 +46,7 @@
           {
             name: "午夜蓝图",
             type: "gcj02",
-            url: "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}"
+            url: "https://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}"
           },
           {
             name: "诸暨白模",
