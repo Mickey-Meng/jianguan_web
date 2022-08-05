@@ -27,7 +27,7 @@
         obj.layers = [
           {
             name: "午夜蓝图",
-            type: "url",
+            type: "gcj02",
             url: "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}"
           },
           {
@@ -45,10 +45,11 @@
           "type": "lsex",
           "data": {
             "color": [7, 102, 184, 1],
+            // "color": [150,153,161, 1],
             "maxHeight": 300,
-            "fScanning": 1, //开启扫描
+            "fScanning": 0, //开启扫描
             "cycle1": 100,
-            "fGradient": 1,
+            "fGradient": 0,//渐变
             "cycle2": 120,
             "offset": 0.1,
             "intensity1": 2,

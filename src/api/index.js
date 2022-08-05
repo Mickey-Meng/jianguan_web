@@ -296,8 +296,8 @@ const api = {
 	addOrUpdateBuildTechBottom: "/ZhuJiApi/web/api/v1/buildTechBottom/addOrUpdate",
 	deleteBuildTechBottom: "/ZhuJiApi/web/api/v1/buildTechBottom/id",
 	exportBuildTechBottomList: "/ZhuJiApi/web/api/v1/buildTechBottom/export",
-	
-	
+
+
 	//施工方案
 	getBuildPlanList: "/ZhuJiApi/web/api/v1/buildPlan/page",
 	getBuildPlanDetail: "/ZhuJiApi/web/api/v1/buildPlan/detail/id",
@@ -328,7 +328,7 @@ const api = {
 	deleteComeGoMoney: "/ZhuJiApi/web/api/v1/comeGoMoney/id",
 	getComeGoMoneyList: "/ZhuJiApi/web/api/v1/comeGoMoney/page",
 	exportComeGoMoneyList: "/ZhuJiApi/web/api/v1/comeGoMoney/export",
-	
+
 	//进退场
 	addOrUpdateEnterExit: "/ZhuJiApi/web/api/v1/enterExit/addOrUpdate",
 	getEnterExitDeatil: "/ZhuJiApi/web/api/v1/enterExit/detail/id",
@@ -344,7 +344,7 @@ const api = {
 	getEquipmentEnterList: "/ZhuJiApi/web/api/v1/equipmentEnter/page",
 	getEquipmentEnterEnums: "/ZhuJiApi/web/api/v1/equipmentEnter/equipment/enums",
 	exportEquipmentEnterList: "/ZhuJiApi/web/api/v1/equipmentEnter/export",
-	
+
 	//设备退场
 	addOrUpdateEquipmentExit: "/ZhuJiApi/web/api/v1/equipmentExit/addOrUpdate",
 	getEquipmentExitDeatil: "/ZhuJiApi/web/api/v1/equipmentExit/detail/id",
@@ -358,7 +358,7 @@ const api = {
 	deleteProjectOpen: "/ZhuJiApi/web/api/v1/projectOpen/id",
 	getProjectOpenList: "/ZhuJiApi/web/api/v1/projectOpen/page",
 	exportProjectOpenList: "/ZhuJiApi/web/api/v1/projectOpen/export",
-	
+
 	//分项开工申请
   addOrUpdateSubitemOpen: "/ZhuJiApi/web/api/v1/subitemOpen/addOrUpdate",
   getSubitemOpenDeatil: "/ZhuJiApi/web/api/v1/subitemOpen/detail/id",
@@ -372,7 +372,7 @@ const api = {
   deleteFirstAccept: "/ZhuJiApi/web/api/v1/firstAccept/id",
   getFirstAcceptList: "/ZhuJiApi/web/api/v1/firstAccept/page",
   exportFirstAcceptList: "/ZhuJiApi/web/api/v1/firstAccept/export",
-  
+
   //质量简报
   addOrUpdateQualityReport: "/ZhuJiApi/web/api/v1/qualityReport/addOrUpdate",
   getQualityReportDeatil: "/ZhuJiApi/web/api/v1/qualityReport/detail/id",

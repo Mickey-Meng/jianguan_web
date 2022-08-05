@@ -29,19 +29,19 @@
           },
           legend:{
             top: "2%",
-            right:"5%",
-            data:['投资计划','投资完成'],
-            textStyle:{
-              fontSize:14,
-              color:'#fff',
-            },
+            right: "5%",
+            data: ["投资计划", "投资完成"],
+            textStyle: {
+              fontSize: 14,
+              color: "#fff"
+            }
           },
           grid: {
             containLabel: true,
             left: "10%",
-            top: "20%",
+            top: "21%",
             right: "10%",
-            bottom: "5%"
+            bottom: "4%"
           },
           xAxis: [{
             type: "category",

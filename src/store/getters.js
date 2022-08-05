@@ -18,6 +18,7 @@ const getters = {
   uploadUrl: state => state.project.uploadUrl,
   lookUrl: state => state.project.lookUrl,
   getUrl: state => state.settings.getUrl,
-  roleId: state => state.user.roleId
+  roleId: state => state.user.roleId,
+  isMine: state => state.project.isMine
 };
 export default getters;

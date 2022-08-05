@@ -64,6 +64,24 @@ export const deleteStaffRecord = (id, projectId) => {
   });
 };
 
+/**
+ * @Description: 管理员获取所有报审信息
+ * @author 王海林
+ * @date
+ */
+// export const adminGetAllStaffRecord = (projectId, roleType = undefined) => {
+//   return request({
+//     url: api.adminGetAllStaffRecord,
+//     method: "post",
+//     data: {},
+//     params: {
+//       projectId,
+//       roleType
+//     }
+//   });
+// };
+
+
 ///-------------------人员变更----------------------
 export const addPersonChange = (data) => {
   return request({

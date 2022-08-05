@@ -8,7 +8,10 @@
 -->
 <template>
   <div class="schedule_management">
-    <div class="header"></div>
+    <div class="header">
+      <img src="../../../../assets/mapView/进度管理.png" alt="">
+      <div class="important_point">项目重要节点</div>
+    </div>
     <div class="content">
       <div class="project_num">
         <div>
@@ -29,7 +32,7 @@
 </template>
 
 <script>
-  let nameList = ["235国道杭州至诸暨公路萧山河上至诸暨安华段改建工程", "诸暨市店口综合港区工程", "诸暨市枫桥镇虎山隧道建设工程", "诸暨店口湄池大桥改建工程"];
+  let nameList = ["诸暨店口湄池大桥改建工程", "诸暨市枫桥镇虎山隧道建设工程", "诸暨市店口综合港区工程", "235国道杭州至诸暨公路萧山河上至诸暨安华段改建工程"];
   let colorList = ["#D3B020", "#479C39", "#FF8A40", "#729AE0"];
   export default {
     props: [],
@@ -54,7 +57,7 @@
           },
           grid: {
             left: "1%",
-            top: "5%", // 设置条形图的边距
+            top: "10%", // 设置条形图的边距
             right: "15%",
             bottom: "5%"
           },
@@ -71,7 +74,7 @@
               },
               axisLabel: {
                 show: false
-              }
+              },
             }
           ],
           series: [
@@ -79,8 +82,7 @@
               // 内
               type: "bar",
               barWidth: 16,
-              barGap: "20%",
-              silent: true,
+              // silent: true,
               label: {
                 normal: {
                   formatter: (item) => {
@@ -109,6 +111,7 @@
               symbolRepeat: "fixed",
               symbolMargin: 1,
               symbol: "rect",
+
               symbolClip: false,
               symbolSize: [1, 17],
               symbolPosition: "start",
@@ -122,6 +125,7 @@
               // label
               type: "pictorialBar",
               symbolBoundingData: 100,
+
               itemStyle: {
                 normal: {
                   color: "none"
@@ -129,35 +133,29 @@
               },
               label: {
                 normal: {
-                  // formatter: (params) => {
-                  //   console.log(params);
-                  //   let text;
-                  //   // text = `{${colorList[params['dataIndex']]}|${((params['data'] * 100) / 100).toFixed(2)}%}`;
-                  //   let color = colorList[params["dataIndex"]];
-                  //   let data = ((params["data"] * 100) / 100).toFixed(2) + "%";
-                  //   text = `<span style="color: ${color}">${data}</span>`;
-                  //   console.log(text);
-                  //   return text;
-                  // },
-                  // rich: {
-                  //   green: {
-                  //     color: '#06CA70',
-                  //   },
-                  //   blue: {
-                  //     color: '#008AFF',
-                  //   },
-                  //   purple: {
-                  //     color: '#867DFF',
-                  //   },
-                  //   red: {
-                  //     color: '#FB6A66',
-                  //   },
-                  //   yellow: {
-                  //     color: '#FFC949',
-                  //   },
-                  // },
+                  formatter: (params) => {
+                    let emue = ["yellow", "red", "purple", "green", "blue"];
+                    return `{${emue[params["dataIndex"]]}|${((params["data"] * 100) / 100).toFixed(2)}%}`;
+                  },
+                  rich: {
+                    green: {
+                      color: "#729AE0"
+                    },
+                    blue: {
+                      color: "#008AFF"
+                    },
+                    purple: {
+                      color: "#FF8A40"
+                    },
+                    red: {
+                      color: "#479C39"
+                    },
+                    yellow: {
+                      color: "#FFC949"
+                    }
+                  },
                   // position: "right",
-                  position: ["0", "-15px"],
+                  position: ["100%", "-2px"],
                   offset: [0, -3],
                   // distance: 10, // 向右偏移位置
                   show: true
@@ -178,8 +176,6 @@
     methods: {
       init() {
         let valueLists = [31.3, 52, 4.2, 40];
-        let totalList = [];
-        // let totalBorderList = [];
         let category = nameList.map((item, index) => {
           return {
             value: valueLists[index],
@@ -188,26 +184,10 @@
             }
           };
         });
-        nameList.map((item, index) => {
-          totalList.push({
-            value: 100,
-            itemStyle: {
-              color: colorList[index]
-            }
-          });
-          // totalBorderList.push({
-          //   value: total,
-          //   itemStyle: {
-          //     borderColor: colorList[index],
-          //     color: 'transparent',
-          //   },
-          // });
-        });
         let datas = [];
         category.forEach((value) => {
           datas.push(value.value);
         });
-        console.log(this.option);
         this.option.series[0].data = category;
         this.option.series[2].data = datas;
 
@@ -229,13 +209,29 @@
       background: url("../../../../assets/mapView/面板头部背景.png") no-repeat;
       background-size: 100% 100%;
       margin-bottom: 10px;
+      display: flex;
+      padding-left: 56px;
+      align-items: center;
+
+      .important_point {
+        margin-left: 12px;
+        height: 28px;
+        font-size: 20px;
+        font-family: CKTKingKong;
+        color: #FFFFFF;
+        line-height: 24px;
+        text-shadow: 0px 1px 5px rgba(13, 88, 228, .5);
+        background: linear-gradient(180deg, #FFFFFF 10%, #0D58E4 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
     }
 
     .content {
       height: calc(100% - 60px);
       background: url("../../../../assets/mapView/面板内容背景.png") no-repeat;
       background-size: 100% 100%;
-      padding: 20px;
+      padding: 20px 20px 0 20px;
 
       .project_num {
         height: 27%;
