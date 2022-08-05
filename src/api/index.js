@@ -19,64 +19,65 @@ const api = {
 	tellOnline: "/ZhuJiRoad/user/updateOnline", //上报在新
 	getComponentProgressByModel: "/ZhuJiRoad/component/getComponentProgress", //根据模型id查询构件的进度信息
 
-	//----------------------根据项目id获取数据、修改------------------------
-	getWorkAreaByProjectId: "/ZhuJiRoad/projects/getGongQu", //根据项目id获取下面的工区
-	getRolesByProject: "/ZhuJiRoad/projects/getRolesByProject?projectId=3",
+  //----------------------根据项目id获取数据、修改------------------------
+  getWorkAreaByProjectId: "/ZhuJiRoad/projects/getGongQu", //根据项目id获取下面的工区
+  getRolesByProject: "/ZhuJiRoad/projects/getRolesByProject?projectId=3",
 
-	/*
-	 * 数据中心首页接口
-	 * */
-	// 获取项目信息工程规模，合同工期，投资规模以及关联单位
-	getEngCompany: "/ZhuJiRoad/count/getProjectDetail",
-	// 获取项目
-	// 获取进度中间表格数据
-	getMiddleData: "/ZhuJiRoad/progress/getMiddleData",
-	// 获取进度的右侧数据周报月报
-	getWeekMonthly: "/ZhuJiRoad/progress/getStatus",
-	//设置构件计划时间
-	setComponentTime: "/ZhuJiRoad/progress/uploadProgress",
-	//获取构件四个时间
-	getConponmentTime: "/ZhuJiRoad/progress/getByConponentid",
-	//
-	bridgeTree: "/ZhuJiRoad/component/getTree",
-	schedule: "/ZhuJiRoad/schedule/getScheuleAll",
-	// 获取项目下拉选数据
-	projectSelect: "/ZhuJiRoad/progress/projectSelect",
-	getHomeChart: "/ZhuJiRoad/count/getpjFirst", //首页统计模式图表数据
-	getHomeBottomChart: "/ZhuJiRoad/count/getGqFirst", //首页统计模式图表数据
-	getSafeChart: "/ZhuJiRoad/safe/newInterface", //首页安全统计
-	getAreaProgress: "/ZhuJiRoad/count/getCountIncresConponentGroupGq", //获取进度总览左下进度折线图数据
-	getAllProject: "/ZhuJiRoad/projects/getAllProjects", //获取所有项目、后续根据用户查询有权限访问的数据
-	getAllProjectsData: "/ZhuJiRoad/projects/getAll", //获取项目表所有数据
-	/*
-	 * 工程统计
-	 * */
-	// 获取每个构件的完成情况  形象进度  进度总览
-	getConponentStatus: "/ZhuJiRoad/progress/getConponentStatus",
-	// 构件完成数量--左右上图数据，还有方量数量
-	getFinishConponent: "/ZhuJiRoad/count/getFinishConponent",
-	// 构件完成数量按照月，按照日，按照季度--左下图数据
-	getCountConponent: "/ZhuJiRoad/count/getCountConponent",
-	// 获取项目下的构件的类型分类
-	componentType: "/ZhuJiRoad/count/getNewType",
-	// 构件完成数量按照月，按照日，按照季度--右下图数据
-	getCountIncresConponent: "/ZhuJiRoad/count/getCountIncresConponent",
-	// 获取每个工程的项目构件类型
-	getProjectTypeData: "/ZhuJiRoad/count/getProject", //进度总览表格图下拉选择接口
-	getProgressTableData: "/ZhuJiRoad/count/getTypeData", //获取进度总览表格数据
+  /*
+   * 数据中心首页接口
+   * */
+  // 获取项目信息工程规模，合同工期，投资规模以及关联单位
+  getEngCompany: "/ZhuJiRoad/count/getProjectDetail",
+  // 获取项目
+  // 获取进度中间表格数据
+  getMiddleData: "/ZhuJiRoad/progress/getMiddleData",
+  // 获取进度的右侧数据周报月报
+  getWeekMonthly: "/ZhuJiRoad/progress/getStatus",
+  //设置构件计划时间
+  setComponentTime: "/ZhuJiRoad/progress/uploadProgress",
+  //获取构件四个时间
+  getConponmentTime: "/ZhuJiRoad/progress/getByConponentid",
+  //
+  bridgeTree: "/ZhuJiRoad/component/getTree",
+  schedule: "/ZhuJiRoad/schedule/getScheuleAll",
+  // 获取项目下拉选数据
+  projectSelect: "/ZhuJiRoad/progress/projectSelect",
+  getHomeChart: "/ZhuJiRoad/count/getpjFirst", //首页统计模式图表数据
+  getHomeBottomChart: "/ZhuJiRoad/count/getGqFirst", //首页统计模式图表数据
+  getSafeChart: "/ZhuJiRoad/safe/newInterface", //首页安全统计
+  getAreaProgress: "/ZhuJiRoad/count/getCountIncresConponentGroupGq", //获取进度总览左下进度折线图数据
+  getAllProject: "/ZhuJiRoad/projects/getAllProjects", //获取所有项目、后续根据用户查询有权限访问的数据
+  getAllProjectsData: "/ZhuJiRoad/projects/getAll", //获取项目表所有数据
+  getProjectsByUser: "/ZhuJiRoad/projects/getProjectByUser",//通过用户工区权限查询项目
+  /*
+   * 工程统计
+   * */
+  // 获取每个构件的完成情况  形象进度  进度总览
+  getConponentStatus: "/ZhuJiRoad/progress/getConponentStatus",
+  // 构件完成数量--左右上图数据，还有方量数量
+  getFinishConponent: "/ZhuJiRoad/count/getFinishConponent",
+  // 构件完成数量按照月，按照日，按照季度--左下图数据
+  getCountConponent: "/ZhuJiRoad/count/getCountConponent",
+  // 获取项目下的构件的类型分类
+  componentType: "/ZhuJiRoad/count/getNewType",
+  // 构件完成数量按照月，按照日，按照季度--右下图数据
+  getCountIncresConponent: "/ZhuJiRoad/count/getCountIncresConponent",
+  // 获取每个工程的项目构件类型
+  getProjectTypeData: "/ZhuJiRoad/count/getProject", //进度总览表格图下拉选择接口
+  getProgressTableData: "/ZhuJiRoad/count/getTypeData", //获取进度总览表格数据
 
-	/*
-	 * 质量管理页面
-	 * */
-	checkViewTree: "/ZhuJiRoad/produce/getType",
-	checkViewTable: "/ZhuJiRoad/produce/getTypeStatus", //原质量验收表格数据
-	getNewCheckViewTable: "/ZhuJiRoad/produce/getTypeStatus", //最新质量验收表格数据
-	getCurrentPdf: "/ZhuJiRoad/produce/getCheckDataByrecod", //获取质量验收工序pdf
-	processRecords: "/ZhuJiRoad/produce/getCheckDataById",
-	getAllcheckData: "/ZhuJiRoad/produce/getAllcheckData",
-	getAllQualityGetPerday: "/ZhuJiRoad/quality/getPerday", //质量总览左下角数据
-	getQualityEventsGetDay: "/ZhuJiRoad/quality/getDay", //质量总览右下角数据
-	deleteQualityEvent: "/ZhuJiRoad/quality/deleteEvent", //删除质量事件
+  /*
+   * 质量管理页面
+   * */
+  checkViewTree: "/ZhuJiRoad/produce/getType",
+  checkViewTable: "/ZhuJiRoad/produce/getTypeStatus", //原质量验收表格数据
+  getNewCheckViewTable: "/ZhuJiRoad/produce/getTypeStatus", //最新质量验收表格数据
+  getCurrentPdf: "/ZhuJiRoad/produce/getCheckDataByrecod", //获取质量验收工序pdf
+  processRecords: "/ZhuJiRoad/produce/getCheckDataById",
+  getAllcheckData: "/ZhuJiRoad/produce/getAllcheckData",
+  getAllQualityGetPerday: "/ZhuJiRoad/quality/getPerday", //质量总览左下角数据
+  getQualityEventsGetDay: "/ZhuJiRoad/quality/getDay", //质量总览右下角数据
+  deleteQualityEvent: "/ZhuJiRoad/quality/deleteEvent", //删除质量事件
 
 	// ------------------质量检查、质量整个、整改确认、质量验收 -------------
 	bigSmallQuality: "/ZhuJiRoad/quality/getTree", //获取质量大小类
@@ -190,6 +191,7 @@ const api = {
   getStaffByProcessIdAndProjectId: "/ZhuJiRoad/person/getContractByProcessId", //根据项目id和工单ID查询报审的信息
   getStaffRecordsById: "/ZhuJiRoad/person/getContractStandingBook",//人员报审台账,
   deleteStaffRecord: "/ZhuJiRoad/person/delContract",//删除报审信息
+  adminGetAllStaffRecord: "/ZhuJiRoad/person/getAllContract",//管理员获取报审台账
   //----------------人员变更 -----------------
   addPersonChange: "/ZhuJiRoad/person/subPersonChange", //提交人员变更
   getPersonChange: "/ZhuJiRoad/person/getPersonChange", //获取人员变更信息

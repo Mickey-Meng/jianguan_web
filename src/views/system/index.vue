@@ -21,7 +21,7 @@
         <label>管理中心</label>
         <i class="el-icon-close" @click="closeDrawer"></i>
       </el-header>
-      <el-main>
+      <el-main class="system_wraper_container_main">
         <ul class="left_menu">
           <li
             v-for="(item, index) in options"
@@ -162,7 +162,7 @@
         }
       }
 
-      .el-main {
+      .system_wraper_container_main {
         display: flex;
         padding: 20px 0;
         justify-content: space-between;
@@ -196,6 +196,8 @@
 
       .el-footer {
         background-color: #fff;
+        display: flex;
+        align-items: center;
       }
     }
   }

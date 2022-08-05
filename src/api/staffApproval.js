@@ -69,17 +69,17 @@ export const deleteStaffRecord = (id, projectId) => {
  * @author 王海林
  * @date
  */
-// export const adminGetAllStaffRecord = (projectId, roleType = undefined) => {
-//   return request({
-//     url: api.adminGetAllStaffRecord,
-//     method: "post",
-//     data: {},
-//     params: {
-//       projectId,
-//       roleType
-//     }
-//   });
-// };
+export const adminGetAllStaffRecord = (projectId, roleType = undefined) => {
+  return request({
+    url: api.adminGetAllStaffRecord,
+    method: "post",
+    data: {},
+    params: {
+      projectId,
+      roleType
+    }
+  });
+};
 
 
 ///-------------------人员变更----------------------

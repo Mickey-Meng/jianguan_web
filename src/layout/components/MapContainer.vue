@@ -90,11 +90,11 @@
 
       let name = this.$route.name;
       let isMineRouters = ["staffSubmit", "personnelReportForExaminationRecords", "personnelChange", "personnelChangeRecord", "qingjiashenqing", "leaveRecord"];
-      if (isMineRouters.includes(name)) {
-        this.SET_IS_MINE(true);
-      } else {
-        this.SET_IS_MINE(false);
-      }
+      // if (isMineRouters.includes(name)) {
+      //   this.SET_IS_MINE(true);
+      // } else {
+      //   this.SET_IS_MINE(false);
+      // }
 
     },
     closeTree() {

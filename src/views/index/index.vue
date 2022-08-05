@@ -265,7 +265,8 @@ export default {
       document.onmouseup = null;
     },
     seeView() {
-      this.$router.push("/pandect");
+      // this.$router.push("/pandect");
+      this.$router.push("/mapView");
     },
     seeProject(item) {
       if (item.id) {

@@ -267,7 +267,6 @@
     },
     created() {
       this.init();
-      console.log(this.$store);
     },
     computed: {
       ...mapGetters(["project", "roleId"])
