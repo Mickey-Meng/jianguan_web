@@ -35,7 +35,7 @@
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
-										<div class="title-bar"></div><strong>隐蔽功能信息</strong>
+										<div class="title-bar"></div><strong>隐蔽工程信息</strong>
 									</div>
 									<div class="block-line">
 
