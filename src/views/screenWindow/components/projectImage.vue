@@ -9,25 +9,34 @@
 <template>
   <div class="image_select">
     <div class="left_btn_box">
-      <img src="../../../assets/mapView/左箭头.png" alt="">
+      <img src="../../../assets/mapView/左箭头.png" alt="" @click="toLeft">
     </div>
-    <ul class="main_image_box">
-      <li v-for="(item,index) in lists" :key="index">
-        <img :src="item.image" alt="">
-      </li>
-    </ul>
+    <div class="main_image_box">
+      <div class="video_box" ref="videoBox" :style="{transform:`translateX(${iWidth}px)`}">
+        <div v-for="(item, index) in minData" :key="index" :id="'video_line' + item.id">
+        </div>
+      </div>
+    </div>
     <div class="right_btn_box">
-      <img src="../../../assets/mapView/右箭头.png" alt="">
+      <img src="../../../assets/mapView/右箭头.png" alt="" @click="toRight">
     </div>
   </div>
 </template>
 
 <script>
+  import EZUIKit from "ezuikit-js";
+  import {getVideoToken} from "@/api/wisdomSite";
+
   export default {
     props: [],
     watch: {},
     data() {
       return {
+        minData: [],
+        playerArr: [],
+        currentIndex: 0,
+        maxIndex: null,
+        iWidth: 0,
         lists: [
           {
             image: require("@/assets/mapView/项目图片1.jpg")
@@ -45,10 +54,55 @@
       };
     },
     created() {
+      this.initData();
     },
     mounted() {
     },
-    methods: {},
+    methods: {
+      initData() {
+        this.$axios.get("./data/monitoring.json").then((res) => {
+          let data = res.data.data.filter((e) => e.type === 2) || [];
+          this.minData = data;
+          if (data.length > 4) {
+            this.maxIndex = data.length - 4;
+          }
+          this.initVideo();
+        });
+      },
+      initVideo() {
+        getVideoToken().then((res) => {
+          let token = res.data;
+          this.$nextTick(() => {
+            this.minData.forEach((item) => {
+              let player = new EZUIKit.EZUIKitPlayer({
+                id: `video_line${item.id}`, // 视频容器ID
+                accessToken: token,
+                url: item.url,
+                width: 210,
+                height: 114,
+                autoplay: false,
+                template: "standard", //
+                splitBasis: 1 //设置窗口切割参数
+              });
+              this.playerArr.push(player);
+            });
+          });
+        });
+      },
+      toLeft() {
+        if (this.iWidth < 0) {
+          this.iWidth += 220;
+        }
+      },
+      toRight() {
+        if (this.maxIndex) {
+          let maxW = this.maxIndex * 220;
+          if (Math.abs(this.iWidth) < maxW) {
+            this.iWidth -= 220;
+          }
+        }
+      }
+    },
     components: {},
     beforeDestroy() {
     }
@@ -86,16 +140,17 @@
       width: calc(100% - 120px);
       display: flex;
       align-items: center;
+      overflow: hidden;
 
-      li {
-        margin-right: 10px;
+      .video_box {
+        display: flex;
+        align-items: center;
+        transition: all 1s;
 
-        width: 210px;
-        height: 114px;
-
-        img {
-          width: 100%;
-          height: 100%;
+        div {
+          margin-right: 10px;
+          width: 210px;
+          height: 114px;
         }
       }
     }

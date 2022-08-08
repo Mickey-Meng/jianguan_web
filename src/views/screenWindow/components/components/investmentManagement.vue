@@ -8,6 +8,7 @@
 -->
 <template>
   <div>
+      <div class="measure" @click="openSystem">计量管理</div>
     <v-chart :options="option" autoresize class="v-chart-box"/>
 
   </div>
@@ -161,24 +162,44 @@
                   }
                 }
               },
-              data: [10, 52, 200, 334]
+                data: [10, 52, 200, 334]
             }
           ]
         }
       };
     },
-    created() {
-    },
-    mounted() {
-    },
-    methods: {},
-    components: {},
-    beforeDestroy() {
-    }
+      created() {
+      },
+      mounted() {
+      },
+      methods: {
+          openSystem() {
+              window.open('http://112.15.105.16:8081/');
+          }
+      },
+      components: {},
+      beforeDestroy() {
+      }
 
   };
 </script>
 
 <style lang='scss' scoped>
+  .measure {
+    position: absolute;
+    left: 154px;
+    top: 11px;
+    margin-left: 12px;
+    height: 28px;
+    font-size: 20px;
+    font-family: CKTKingKong;
+    color: #FFFFFF;
+    line-height: 24px;
+    text-shadow: 0px 1px 5px rgba(13, 88, 228, .5);
+    background: linear-gradient(180deg, #FFFFFF 10%, #0D58E4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    cursor: pointer;
+  }
 
 </style>
