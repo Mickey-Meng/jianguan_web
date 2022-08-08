@@ -8,15 +8,18 @@
  */
 import router from "./router";
 import store from "./store";
-import { Message } from "element-ui";
+import {Message} from "element-ui";
 import NProgress from "nprogress"; // progress bar
 import "nprogress/nprogress.css"; // progress bar style
-import { getToken } from "@/utils/auth"; // get token from cookie
+import {getToken} from "@/utils/auth"; // get token from cookie
 
 import getPageTitle from "@/utils/get-page-title";
+
 const hasToken = getToken("zj_token");
 
-NProgress.configure({ showSpinner: false }); // NProgress Configuration
+NProgress.configure({showSpinner: false}); // NProgress Configuration
+
+const whitePath = ["/login", "/pandect", "/home", "/mapView", "/404"];
 
 const LoginPath = ["/login"]; // no redirect whitelist
 // const whiteList = getWhiteList(constantRouters); //白名单
@@ -25,7 +28,8 @@ const LoginPath = ["/login"]; // no redirect whitelist
 if (hasToken) {
   store
     .dispatch("user/getUserRights")
-    .then(res => {})
+    .then(res => {
+    })
     .catch(error => {
       window.localStorage.clear();
       router.push(`/login`);
@@ -47,14 +51,23 @@ router.beforeEach(async (to, from, next) => {
     } else {
       const hasGetUserInfo = store.getters.name;
       if (hasGetUserInfo) {
-        next();
-      } else {
-        try {
+        if (!whitePath.includes(to.path)) {
+          let projectInfo = getToken("project_info");
+          if (projectInfo) {
+            next();
+            NProgress.done();
+          } else {
+            next({path: "/home"});
+            NProgress.done();
+          }
+
+        } else {
           next();
-        } catch (error) {
-          next(`/login`);
           NProgress.done();
         }
+      } else {
+        next(`/login`);
+        NProgress.done();
       }
     }
   } else {

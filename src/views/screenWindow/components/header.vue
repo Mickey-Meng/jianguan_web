@@ -6,12 +6,18 @@
       <li class="date">{{ nowDate }}</li>
       <li class="week">{{ nowday }}</li>
     </ul>
+    <ul class="weather">
+      <!--      <li class="time"></li>-->
+      <li class="text"> {{ weather.weather ? weather.weather : "" }}</li>
+      <li class="tem">{{ weather.temperature ? weather.temperature + "℃" : "" }}</li>
+    </ul>
 
   </div>
 </template>
 
 <script>
   import {getNowDatehs, getDay, getCurrentDate} from "@/utils/date";
+  import {getTodayWeather} from "@/api/system";
 
   export default {
     props: [],
@@ -20,13 +26,20 @@
       return {
         nowTime: "",
         nowDate: "",
-        nowday: ""
+        nowday: "",
+        weather: {},
+        weatherTimer: null,
+        dateTimer: null
       };
     },
     created() {
-      setInterval(() => {
+      this.initWeather();
+      this.dateTimer = setInterval(() => {
         this.nowTime = getNowDatehs();
       }, 1000);
+      this.weatherTimer = setInterval(() => {
+        this.initWeather();
+      }, 1000 * 60);
       this.nowDate = getCurrentDate();
       switch (getDay()) {
         case 1:
@@ -54,9 +67,21 @@
     },
     mounted() {
     },
-    methods: {},
+    methods: {
+      initWeather() {
+        getTodayWeather().then(res => {
+          let data = res.data || [];
+          data.sort((a, b) => b.id - a.id);
+          if (data && data.length > 0) {
+            this.weather = data[0];
+          }
+        });
+      }
+    },
     components: {},
     beforeDestroy() {
+      this.dateTimer && clearInterval(this.dateTimer);
+      this.weatherTimer && clearInterval(this.weatherTimer);
     }
 
   };
@@ -83,7 +108,8 @@
       top: 57px;
       display: flex;
       align-items: center;
-      .time{
+
+      .time {
         height: 35px;
         font-size: 32px;
         font-family: Furore;
@@ -92,19 +118,36 @@
         letter-spacing: 1px;
         -webkit-text-stroke: 1px #1671E9;
         text-stroke: 1px #1671E9;
-        background: linear-gradient(180deg, rgba(22,113,233,0) 0%, #1671E9 100%);
+        background: linear-gradient(180deg, rgba(22, 113, 233, 0) 0%, #1671E9 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }
-      .date{
+
+      .date {
         margin: 0 19px 0 16px;
       }
-      .date,.week{
+
+      .date, .week {
         height: 27px;
         font-size: 20px;
         font-family: CKTKingKong;
         color: #FFFFFF;
         line-height: 27px;
+      }
+    }
+
+    .weather {
+      position: absolute;
+      right: 40px;
+      top: 57px;
+      display: flex;
+      align-items: center;
+      font-size: 20px;
+      font-family: CKTKingKong;
+      color: #FFFFFF;
+
+      li {
+        margin-left: 18px;
       }
     }
   }

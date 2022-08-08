@@ -58,18 +58,19 @@
 </template>
 
 <script>
-  let nameList = ["诸暨店口湄池大桥改建工程", "诸暨市枫桥镇虎山隧道建设工程", "诸暨市店口综合港区工程", "235国道杭州至诸暨公路萧山河上至诸暨安华段改建工程"];
-  let colorList = ["#D3B020", "#479C39", "#FF8A40", "#729AE0"];
-  export default {
-    props: [],
-    watch: {},
-    data() {
-      return {
-          currentKey: "1",
-          tableData: [
-              {
-                  a: "235国道杭州至诸暨公路萧山河上至诸暨安",
-                  b: "新建",
+    let nameList = ["诸暨店口湄池大桥改建工程", "诸暨市枫桥镇虎山隧道建设工程", "诸暨市店口综合港区工程", "235国道杭州至诸暨公路萧山河上至诸暨安华段改建工程"];
+    // let colorList = ["#D3B020", "#479C39", "#FF8A40", "#729AE0"];
+    let colorList = ["#729AE0", "#FF8A40", "#479C39", "#D3B020"];
+    export default {
+        props: [],
+        watch: {},
+        data() {
+            return {
+                currentKey: "1",
+                tableData: [
+                    {
+                        a: "235国道杭州至诸暨公路萧山河上至诸暨安",
+                        b: "新建",
                   c: "2021.01.23"
               },
               {
@@ -88,15 +89,10 @@
                   c: "2021.01.23"
               },
               {
-                  a: "诸暨市枫桥镇虎山隧道建设工程",
+                  a: "2022年农村公路安全保障能力提升工程",
                   b: "新建",
                   c: "2021.01.23"
               },
-              {
-                  a: "诸暨店口湄池大桥改建工程",
-                  b: "新建",
-                  c: "2021.01.23"
-              }
           ],
           option: {
               xAxis: {
@@ -198,19 +194,23 @@
                   },
                   rich: {
                     green: {
-                      color: "#729AE0"
+                      // color: "#729AE0"
+                      color: "#FFC949"
                     },
                     blue: {
                       color: "#008AFF"
                     },
                     purple: {
-                      color: "#FF8A40"
+                      color: "#479C39"
+                      // color: "#FF8A40"
                     },
                     red: {
-                      color: "#479C39"
+                      // color: "#479C39"
+                      color: "#FF8A40"
                     },
                     yellow: {
-                      color: "#FFC949"
+                      // color: "#FFC949"
+                      color: "#729AE0"
                     }
                   },
                   // position: "right",
@@ -234,7 +234,7 @@
     },
     methods: {
       init() {
-          let valueLists = [31.3, 52, 4.2, 40];
+          let valueLists = [40, 4.2, 52, 31.3, 52];
           let category = nameList.map((item, index) => {
               return {
                   value: valueLists[index],

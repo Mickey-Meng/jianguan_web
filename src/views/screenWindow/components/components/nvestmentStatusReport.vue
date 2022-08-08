@@ -62,7 +62,7 @@
     methods: {
       getPageHeight() {
         let a = document.body.scrollHeight;
-        if (a > 937) {
+        if (a > 1000) {
           this.isFullScreen = true;
         } else {
           this.isFullScreen = false;
@@ -190,6 +190,7 @@
               &:before {
                 content: '';
                 background: url("../../../../assets/mapView/下拉选择.png") center center no-repeat;
+                //background: url("../../../../assets/mapView/下拉选择.png")  no-repeat;
                 position: absolute;
                 width: 100%;
                 height: 100%;
@@ -198,12 +199,20 @@
                 -webkit-appearance: none;
                 top: 0;
                 right: 10%;
+                //transform: rotateY(180deg);
 
               }
 
               &:after {
 
               }
+            }
+
+            .el-icon-arrow-up {
+              transform: translateZ(0);
+            }
+            .el-icon-arrow-up.is-reverse{
+              transform: rotateZ(180deg);
             }
           }
         }

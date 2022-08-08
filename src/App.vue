@@ -25,18 +25,24 @@ export default {
     let whiteRouter = ["/home", "/pandect","/mapView"];
     if (whiteRouter.includes(this.$route.path)) {
     } else {
-      let menus = getToken("routerMenus");
-      if (menus && menus.length > 0) {
-        let o = menus[0];
-        if (o.children) {
-          let path = o.children[0];
-          this.$router.push(path.path);
+      let projectInfo = getToken("project_info");
+      if (projectInfo) {
+        let menus = getToken("routerMenus");
+        if (menus && menus.length > 0) {
+          let o = menus[0];
+          if (o.children) {
+            let path = o.children[0];
+            this.$router.push(path.path);
+          } else {
+            this.$router.push("/data");
+          }
         } else {
           this.$router.push("/data");
         }
       } else {
-        this.$router.push("/data");
+        this.$router.push("/home");
       }
+
     }
   },
   methods: {},
