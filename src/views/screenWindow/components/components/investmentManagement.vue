@@ -33,15 +33,15 @@
             right: "5%",
             data: ["投资计划", "投资完成"],
             textStyle: {
-              fontSize: 14,
+              fontSize: 12,
               color: "#fff"
             }
           },
           grid: {
             containLabel: true,
-            left: "10%",
+            left: "5%",
             top: "21%",
-            right: "10%",
+            right: "5%",
             bottom: "4%"
           },
           xAxis: [{

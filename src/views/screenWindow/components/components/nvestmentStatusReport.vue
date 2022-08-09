@@ -11,7 +11,9 @@
     <div class="left_container">
       <div class="text_label">投资进度完成率</div>
       <div class="chart_box" :class="{isFullScreen:isFullScreen}">
-        <div><span>45</span><span>.77</span></div>
+                <div><span>45</span><span>.77</span></div>
+<!--        <v-chart :options="option" autoresize class="v-chart-box"/>-->
+
       </div>
     </div>
     <div class="right_container">
@@ -49,7 +51,8 @@
             id: 1
           }
         ],
-        isFullScreen: false
+        isFullScreen: false,
+        option: {}
       };
 
     },
