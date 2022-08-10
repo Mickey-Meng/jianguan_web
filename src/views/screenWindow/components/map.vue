@@ -68,7 +68,7 @@
             "maxHeight": 300,
             "fScanning": 0, //开启扫描
             "cycle1": 100,
-            "fGradient": 0,//渐变
+            "fGradient": 1,//渐变
             "cycle2": 120,
             "offset": 0.1,
             "intensity1": 2,

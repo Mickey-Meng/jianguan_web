@@ -19,7 +19,7 @@
         <el-table-column prop="uploadusername" label="上传人">
         </el-table-column>
         <el-table-column prop="uploadtime" label="上传时间"> </el-table-column>
-        <el-table-column label="附件"> </el-table-column>
+        <el-table-column label="文件类型" prop="uploadtype"> </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="{ row, $index }">
             <el-button size="mini" type="primary"  class="primary_mini" @click="showEdit(row)"
