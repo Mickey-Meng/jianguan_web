@@ -125,11 +125,17 @@ export default {
                 this.$message({
                   message: "用户不存在，请检查是否输入正确",
                   type: "warning",
-                  customClass: "message_override",
+                  customClass: "message_override"
                 });
               }
             })
-            .catch(() => {
+            .catch((res) => {
+              if (res.message && !res.data)
+                this.$message({
+                  message: res.message,
+                  type: "warning",
+                  customClass: "message_override"
+                });
               this.loading = false;
             });
         } else {
