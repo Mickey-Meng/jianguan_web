@@ -42,6 +42,15 @@
       ...mapMutations("project", ["SET_PROJECT"]),
       initMap() {
         let obj = JSON.parse(JSON.stringify(earth));
+        obj.init = {
+          lon: 120.08376519148769,
+          lat: 29.54450271387259,
+          height: 9405.454982947374,
+          heading: 27.023232616862018,
+          pitch: -26.513833998027724,
+          roll: 0.015635790759291873,
+          duration: 3
+        };
         obj.layers = [
           {
             name: "午夜蓝图",
@@ -55,7 +64,7 @@
             clampToGround: true
           }
         ];
-        mapCtx.zlskEarthHelper = new ZlskEarthHelper("map", obj);
+        window.ddd = mapCtx.zlskEarthHelper = new ZlskEarthHelper("map", obj);
         mm = mapCtx.zlskEarthHelper.earth.createMarkerManager();
         this.setColour();
       },
@@ -66,7 +75,7 @@
             "color": [7, 102, 184, 1],
             // "color": [150,153,161, 1],
             "maxHeight": 300,
-            "fScanning": 0, //开启扫描
+            "fScanning": 1, //开启扫描
             "cycle1": 100,
             "fGradient": 1,//渐变
             "cycle2": 120,
@@ -120,14 +129,14 @@
                 class: "map_view_popup", // 可选，默认值:
                 closable: false // 关闭按钮 可选，默认值: true
               });
-              mapCtx.zlskEarthHelper.earth.flytoLookat({
-                longitude: Number(site[1]),
-                latitude: Number(site[0]),
-                height: 2000,
-                pitch: -90,
-                heading: 0,
-                range: 0
-              });
+              // mapCtx.zlskEarthHelper.earth.flytoLookat({
+              //   longitude: Number(site[1]),
+              //   latitude: Number(site[0]),
+              //   height: 2000,
+              //   pitch: -90,
+              //   heading: 0,
+              //   range: 0
+              // });
 
             }
 

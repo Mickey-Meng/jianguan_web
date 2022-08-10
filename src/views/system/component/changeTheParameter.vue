@@ -371,7 +371,7 @@
           type: "warning"
         }).then(() => {
           deleteChangeRecord(row.id, this.project.id).then(() => {
-            this.tableDta.splice(index, 1);
+            this.tableData.splice(index, 1);
             this.$message.success("删除成功");
           }).catch(() => {
             this.$message.info("删除失败");
