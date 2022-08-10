@@ -199,12 +199,15 @@ const api = {
   getPersonChangeByProcessId: "/ZhuJiRoad/person/getChangeByProcessId", //根据项目id和工单ID查询变更信息
   getPersonChangeRecords: "/ZhuJiRoad/person/getChangeStandingBook",//人员变更记录
   deleteChangeRecord: "/ZhuJiRoad/person/delChange",//删除变更记录
+  getAllPersonChangeRecords: "/ZhuJiRoad/person/getAllChange",//获取所有变更记录
   //-------------------- 请假申请------------------
   submitLeave: "/ZhuJiRoad/person/subLeave", //提交请假申请
   getLeave: "/ZhuJiRoad/person/getLeaveData", //获取请假数据
   getLeaveByProcessId: "/ZhuJiRoad/person/getLeaveByProcessId",
   getLeaveRecordsById: "/ZhuJiRoad/person/getLeaveStandingBook",//获取请假台账
   deleteLeaveRecord: "/ZhuJiRoad/person/delLeave",//删除请假
+  getAllLeaveRecords: "/ZhuJiRoad/person/getAllLeave",//管理员获取所有请假记录
+
   //-------------电子围栏--------------
   addFence: "/ZhuJiRoad/fence/addFence", //新增电子围栏
   deleteFence: "/ZhuJiRoad/fence/delFence", //删除电子围栏

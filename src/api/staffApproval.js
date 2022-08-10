@@ -130,6 +130,17 @@ export const deleteChangeRecord = (id, projectId) => {
     }
   });
 };
+export const getAllPersonChangeRecords = (projectId, roleType) => {
+  return request({
+    url: api.getAllPersonChangeRecords,
+    method: "post",
+    data: {},
+    params: {
+      roleType,
+      projectId
+    }
+  });
+};
 //------------------请假申请----------------
 export const submitLeave = (data) => {
   return request({
@@ -175,6 +186,18 @@ export const deleteLeaveRecord = (id, projectId) => {
     params: {
       projectId,
       id
+    }
+  });
+};
+
+export const getAllLeaveRecords = (projectId, roleType) => {
+  return request({
+    url: api.getAllLeaveRecords,
+    method: "post",
+    data: {},
+    params: {
+      roleType,
+      projectId
     }
   });
 };
