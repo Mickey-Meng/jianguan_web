@@ -124,7 +124,7 @@
 			createFlow() {
 				const that = this;
 				this.dialogVisible = true;
-				if(this.bpmnModeler)return;
+				// if(this.bpmnModeler) return;
 				setTimeout(()=>{
 					const containerElement = document.getElementById('container');
 					this.bpmnModeler = new BpmnModeler({
@@ -162,11 +162,13 @@
 									fill: 'rgb(197 255 197)'
 								});
 							});
-
+							
 							userTaskList.forEach(item => {
 								let nodename = item.businessObject.$attrs['flowable:assignee'].replace('${','').replace('}','')
-								if (nodename == 'assignee') nodename += 'List';
-								modeling.updateLabel(item, item.businessObject.name + '\n' + (that.runVariables[nodename+'Str']&&that.runVariables[nodename+'Str'].length>0?that.runVariables[nodename+'Str']:'无'));
+								if (nodename == 'assignee') {
+									nodename = nodename + 'List';
+								}
+								modeling.updateLabel(item, item.businessObject.name + '\n' + (that.runVariables[nodename+'Str']&&that.runVariables[nodename+'Str'].length>0?that.runVariables[nodename+'Str'].join(','):'无'));
 							});
 							// this.setProcessStatus(this.processNodeInfo) // 未起作用，可能是css问题
 						} else {
