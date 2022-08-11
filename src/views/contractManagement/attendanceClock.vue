@@ -15,7 +15,12 @@
           <span>{{ data.day.split("-").slice(2).join("-") }}</span>
           <div v-for="(item,index) in clickData" :key="index">
             <div class="is_clock"
-                 v-if="item.clockStartTime.split(' ')[0].slice(5) ===  data.day.split('-').slice(1).join('-')">
+                 v-if="item.clockTime.split('T')[0].slice(5) ===  data.day.split('-').slice(1).join('-')">
+
+            </div>
+            <div class="clockTime"
+                 v-if="item.clockTime.split('T')[0].slice(5) ===  data.day.split('-').slice(1).join('-')">
+              打卡时间: {{ item.clockTime | disposeTime }}
             </div>
           </div>
         </div>
@@ -65,6 +70,16 @@
       value: function (val) {
         this.init(val);
       }
+    },
+    filters: {
+      disposeTime: function (val) {
+        if (val) {
+          return formatDate(val);
+        } else {
+          return "";
+        }
+
+      }
     }
   };
 </script>
@@ -87,7 +102,7 @@
           position: absolute;
           left: 50%;
           top: 50%;
-          transform: translate(-50%, -50%);
+          transform: translate(-50%, -70%);
           z-index: 1;
         }
       }
@@ -101,8 +116,17 @@
         position: absolute;
         left: 50%;
         top: 50%;
-        transform: translate(-50%, -50%);
+        transform: translate(-50%, -70%);
 
+
+      }
+
+      .clockTime {
+        position: absolute;
+        font-size: 14px;
+        color: black;
+        left: 0;
+        bottom: 0px;
       }
     }
 
