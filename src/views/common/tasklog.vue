@@ -168,6 +168,9 @@
 								if (nodename == 'assignee') {
 									nodename = nodename + 'List';
 								}
+								if (nodename == 'startUserName' && !that.runVariables[nodename+'Str']) {
+									nodename = 'initiator';
+								}
 								modeling.updateLabel(item, item.businessObject.name + '\n' + (that.runVariables[nodename+'Str']&&that.runVariables[nodename+'Str'].length>0?that.runVariables[nodename+'Str'].join(','):'无'));
 							});
 							// this.setProcessStatus(this.processNodeInfo) // 未起作用，可能是css问题
