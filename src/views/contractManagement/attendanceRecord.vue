@@ -56,29 +56,20 @@
       <div class="container">
         <el-table :data="tableData.slice((queryData.pageNum-1)*queryData.pageSize,queryData.pageNum*queryData.pageSize)"
                   style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
-          <el-table-column prop="attendancePersonName" label="打卡人"></el-table-column>
+          <el-table-column prop="attendancePersonName" label="打卡人" width="130"></el-table-column>
           <el-table-column label="图片" width="120">
             <template slot-scope="{row}">
               <img-viewer :imgList="[lookUrl+row.clockPic]"></img-viewer>
             </template>
-
-
           </el-table-column>
           <el-table-column prop="projectName" label="标段"></el-table-column>
-          <el-table-column label="上班打卡时间">
+          <el-table-column label="打卡时间" width="160">
             <template slot-scope="{row}">
-              {{ row.clockStartTime | disposeTime }}
+              {{ row.clockTime | disposeTime }}
             </template>
           </el-table-column>
-          <el-table-column label="下班打卡时间">
-            <template slot-scope="{row}">
-              {{ row.clockEndTime | disposeTime }}
-            </template>
-          </el-table-column>
-          <el-table-column prop="fenceAddrName" label="上班打卡点" show-overflow-tooltip></el-table-column>
-          <el-table-column prop="clockAddr" label="上班打卡位置" show-overflow-tooltip></el-table-column>
-          <el-table-column prop="fenceAddrName" label="下班打卡点" show-overflow-tooltip></el-table-column>
-          <el-table-column prop="clockEndAddr" label="下班打卡位置" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="fenceAddrName" label="打卡点" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="clockAddr" label="打卡位置" show-overflow-tooltip></el-table-column>
         </el-table>
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
                        :current-page="queryData.pageNum" :page-size="queryData.pageSize"
