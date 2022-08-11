@@ -8,6 +8,7 @@
 -->
 <template>
   <div>
+      <div class="measure" @click="openSystem">计量管理</div>
     <v-chart :options="option" autoresize class="v-chart-box"/>
 
   </div>
@@ -29,19 +30,19 @@
           },
           legend:{
             top: "2%",
-            right:"5%",
-            data:['投资计划','投资完成'],
-            textStyle:{
-              fontSize:14,
-              color:'#fff',
-            },
+            right: "5%",
+            data: ["投资计划", "投资完成"],
+            textStyle: {
+              fontSize: 12,
+              color: "#fff"
+            }
           },
           grid: {
             containLabel: true,
-            left: "10%",
-            top: "20%",
-            right: "10%",
-            bottom: "5%"
+            left: "5%",
+            top: "21%",
+            right: "5%",
+            bottom: "4%"
           },
           xAxis: [{
             type: "category",
@@ -104,7 +105,7 @@
               itemStyle: {
                 color: "rgba(114, 154, 224, .2)"
               },
-              data: [390, 390, 390, 390]
+              data: [350000, 350000, 350000, 350000]
             },
             {
               name: "投资计划",
@@ -124,7 +125,7 @@
                   }
                 }
               },
-              data: [10, 52, 200, 334]
+              data: [30121, 100984, 196539, 333916]
             },
             {
               tooltip: {
@@ -141,7 +142,7 @@
               itemStyle: {
                 color: "rgba(255, 138, 64, .2)"
               },
-              data: [390, 390, 390, 390]
+              data: [350000, 350000, 350000, 350000]
             },
             {
               name: "投资完成",
@@ -161,24 +162,51 @@
                   }
                 }
               },
-              data: [10, 52, 200, 334]
+              // label: {
+              //   normal: {
+              //     show: true,
+              //     position: ['25','-10']
+              //   }
+              //
+              // },
+              data: [49452, 152473, 0, 0]
             }
           ]
         }
       };
     },
-    created() {
-    },
-    mounted() {
-    },
-    methods: {},
-    components: {},
-    beforeDestroy() {
-    }
+      created() {
+      },
+      mounted() {
+      },
+      methods: {
+          openSystem() {
+              window.open('http://112.15.105.16:8081/');
+          }
+      },
+      components: {},
+      beforeDestroy() {
+      }
 
   };
 </script>
 
 <style lang='scss' scoped>
+  .measure {
+    position: absolute;
+    left: 154px;
+    top: 11px;
+    margin-left: 12px;
+    height: 28px;
+    font-size: 20px;
+    font-family: CKTKingKong;
+    color: #FFFFFF;
+    line-height: 24px;
+    text-shadow: 0px 1px 5px rgba(13, 88, 228, .5);
+    background: linear-gradient(180deg, #FFFFFF 10%, #0D58E4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    cursor: pointer;
+  }
 
 </style>

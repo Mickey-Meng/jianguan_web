@@ -9,6 +9,20 @@
 import api from "./index";
 import request from "@/utils/request";
 
+/**
+ * @Description: 获取诸暨当日天气
+ * @author 王海林
+ * @date
+ */
+export const getTodayWeather = () => {
+  return request({
+    url: api.getTodayWeather,
+    method: "post",
+    data: {}
+  });
+};
+
+
 export const getWorkPoint = (projectId) => {
   return request({
     url: api.getWorkPoint,

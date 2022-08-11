@@ -29,7 +29,20 @@ export const getAllProjectsData = () => {
     data: {}
   });
 };
-
+/**
+ * @Description: 通过用户工区权限查询项目
+ * @author wangharry
+ * @param {}
+ * @returns {}
+ * @date
+ */
+export const getProjectsByUser = () => {
+  return request({
+    url: api.getProjectsByUser,
+    method: "post",
+    data: {}
+  });
+};
 
 //项目相关
 export const getChildProject = params => {

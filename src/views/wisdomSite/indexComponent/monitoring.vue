@@ -15,9 +15,9 @@
         <div class="header-right">
           <ul v-if="currentKey === 'monitoring'">
             <li>
-              <span>正常运行</span><span>{{ tableData.length || 0 }}</span>
+                <span>正常运行</span><span>{{ inLine || 0 }}</span>
             </li>
-            <li><span>离线设备</span><span>0</span></li>
+              <li><span>离线设备</span><span>{{ outLine || 0 }}</span></li>
           </ul>
           <el-button size="mini" v-if="currentKey === 'record'"
             >导出记录</el-button
@@ -413,123 +413,125 @@ export default {
   },
   data() {
     return {
-      currentKey: "monitoring",
-      mnitoringType: "raiseDust", //raiseDust扬尘  noise噪音
-      siteKey: "",
-      siteKeyBf: "",
-      siteArr: [],
-      dataArr: [],
-      timeValue: "",
-      btns: [
-        {
-          name: "实时监测",
-          key: "monitoring",
-        },
-        {
-          name: "月度统计",
-          key: "statistics",
-        },
-        {
-          name: "变化趋势",
-          key: "trend",
-        },
-        {
-          name: "超限记录",
-          key: "record",
-        },
-      ],
-
-      tableData: [],
-      raiseData: [],
-      transfiniteRecords: [],
-      option: {
-        tooltip: {
-          trigger: "axis",
-        },
-        grid: {
-          x: 50,
-          y: 30,
-          x2: 70,
-          y2: 30,
-        },
-        xAxis: {
-          type: "category",
-          name: "时间(小时)",
-          data: [],
-          axisLabel: {
-            show: true,
-            textStyle: {
-              color: "#000",
+        currentKey: "monitoring",
+        mnitoringType: "raiseDust", //raiseDust扬尘  noise噪音
+        siteKey: "",
+        siteKeyBf: "",
+        siteArr: [],
+        dataArr: [],
+        timeValue: "",
+        inLine: null,
+        outLine: null,
+        btns: [
+            {
+                name: "实时监测",
+                key: "monitoring"
             },
-          },
-          axisLine: {
-            lineStyle: {
-              color: "#000",
-              width: 1, //这里是为了突出显示加上的
+            {
+                name: "月度统计",
+                key: "statistics"
             },
-          },
-        },
-        yAxis: {
-          type: "value",
-          name: "噪声(dB)",
-          axisLabel: {
-            formatter: "{value}",
-            textStyle: {
-              color: "#000",
+            {
+                name: "变化趋势",
+                key: "trend"
             },
-          },
-          axisLine: {
-            lineStyle: {
-              color: "#000",
-              width: 1, //这里是为了突出显示加上的
-            },
-          },
-        },
-        series: [
-          {
-            data: [],
-            type: "line",
-            symbol: "circle", //折线点设置为实心点
-            symbolSize: 8, //折线点的大小
-            itemStyle: {
-              normal: {
-                color: "#5BB6FF",
-                lineStyle: {
-                  color: "#5BB6FF", //改变折线颜色
-                },
-              },
-            },
-          },
+            {
+                name: "超限记录",
+                key: "record"
+            }
         ],
-      },
-      optionS: {
-        tooltip: {
-          trigger: "axis",
-        },
-        grid: {
-          x: 50,
-          y: 30,
-          x2: 70,
-          y2: 30,
-        },
-        xAxis: {
-          type: "category",
-          name: "时间(小时)",
-          data: [],
-          axisLabel: {
-            show: true,
-            textStyle: {
-              color: "#000",
+
+        tableData: [],
+        raiseData: [],
+        transfiniteRecords: [],
+        option: {
+            tooltip: {
+                trigger: "axis"
             },
-          },
-          axisLine: {
-            lineStyle: {
-              color: "#000",
-              width: 1, //这里是为了突出显示加上的
+            grid: {
+                x: 50,
+                y: 30,
+                x2: 70,
+                y2: 30
             },
-          },
+            xAxis: {
+                type: "category",
+                name: "时间(小时)",
+                data: [],
+                axisLabel: {
+                    show: true,
+                    textStyle: {
+                        color: "#000"
+                    }
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: "#000",
+                        width: 1 //这里是为了突出显示加上的
+                    }
+                }
+            },
+            yAxis: {
+                type: "value",
+                name: "噪声(dB)",
+                axisLabel: {
+                    formatter: "{value}",
+                    textStyle: {
+                        color: "#000"
+                    }
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: "#000",
+                        width: 1 //这里是为了突出显示加上的
+                    }
+                }
+            },
+            series: [
+                {
+                    data: [],
+                    type: "line",
+                    symbol: "circle", //折线点设置为实心点
+                    symbolSize: 8, //折线点的大小
+                    itemStyle: {
+                        normal: {
+                            color: "#5BB6FF",
+                            lineStyle: {
+                                color: "#5BB6FF" //改变折线颜色
+                            }
+                        }
+                    }
+                }
+            ]
         },
-        yAxis: {
+        optionS: {
+            tooltip: {
+                trigger: "axis"
+            },
+            grid: {
+                x: 50,
+                y: 30,
+                x2: 70,
+                y2: 30
+            },
+            xAxis: {
+                type: "category",
+                name: "时间(小时)",
+                data: [],
+                axisLabel: {
+                    show: true,
+                    textStyle: {
+                        color: "#000"
+                    }
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: "#000",
+                        width: 1 //这里是为了突出显示加上的
+                    }
+                }
+            },
+            yAxis: {
           type: "value",
           name: "PM2.5(μg/m3)",
           axisLabel: {
@@ -644,12 +646,25 @@ export default {
     },
     initData() {
       getEnvironmentVideo().then((res) => {
-        this.tableData = res.data;
-        this.siteArr = res.data;
-        if (res.data && res.data.length > 0) {
-          this.siteKey = res.data[0].code;
-          this.siteKeyBf = res.data[0].code;
-        }
+          this.tableData = res.data;
+          this.siteArr = res.data;
+          let time = getCurrentDate();
+          let inLineData = null;
+          res.data.forEach(e => {
+              if (e.time) {
+                  let date = e.time.split(" ");
+                  if (time == date[0]) {
+                      inLineData += 1;
+                  }
+
+              }
+          });
+          this.inLine = inLineData;
+          this.outLine = res.data.length - inLineData;
+          if (res.data && res.data.length > 0) {
+              this.siteKey = res.data[0].code;
+              this.siteKeyBf = res.data[0].code;
+          }
       });
       getEnvPerMonth().then((res) => {
         let data = res.data;

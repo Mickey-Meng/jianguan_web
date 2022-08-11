@@ -179,7 +179,7 @@ export const asyncRoutes = [{
 			code: "guanlidanao"
 		},
 		alwaysShow: true,
-		redirect: "/data",
+		redirect: "/home",
 		children: [{
 				path: "/data",
 				name: "data",

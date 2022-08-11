@@ -21,7 +21,7 @@
         <label>管理中心</label>
         <i class="el-icon-close" @click="closeDrawer"></i>
       </el-header>
-      <el-main>
+      <el-main class="system_wraper_container_main">
         <ul class="left_menu">
           <li
             v-for="(item, index) in options"
@@ -41,65 +41,84 @@
 </template>
 
 <script>
-import siteManage from "@/views/system/component/siteManage";
-import authorityManagement from "@/views/system/component/authorityManagement";
-import depManagementVue from "./component/depManagement.vue";
-import postManagement from "@/views/system/component/postManagement ";
-import orgUser from "@/views/system/component/orgUser";
-import inLineData from "@/views/system/component/inLineData";
-import Bus from "@/assets/eventBus";
-export default {
-  data() {
-    return {
-      drawer: false,
-      direction: "rtl",
-      currentView: "authorityManagement",
-      options: [
-        {
-          name: "工区权限",
-          key: "authorityManagement"
-        },
-        {
-          name: "工点管理",
-          key: "siteManage"
-        },
-        {
-          name: "上线数据",
-          key: "inLineData"
-        }
-        // {
-        //   name: "组织管理",
-        //   key: "depManagementVue"
-        // },
-        // {
-        //   name: "组织用户",
-        //   key: "orgUser"
-        // }
-      ],
-    };
-  },
-  created() {
-    Bus.$on("closeSystemDrawer", () => {
-      this.drawer = false;
-    });
-  },
-  components: {
-    siteManage,
-    authorityManagement,
-    depManagementVue,
-    postManagement,
-    orgUser, inLineData
-  },
-  computed: {},
-  methods: {
-    changeView(item) {
-      this.currentView = item.key;
+  import siteManage from "@/views/system/component/siteManage";
+  import authorityManagement from "@/views/system/component/authorityManagement";
+  import depManagementVue from "./component/depManagement.vue";
+  import postManagement from "@/views/system/component/postManagement ";
+  import orgUser from "@/views/system/component/orgUser";
+  import inLineData from "@/views/system/component/inLineData";
+  import submitForApprovalParameter from "@/views/system/component/submitForApprovalParameter";
+  import changeTheParameter from "@/views/system/component/changeTheParameter";
+  import leaveStandingBook from "@/views/system/component/leaveStandingBook";
+  import Bus from "@/assets/eventBus";
+
+  export default {
+    data() {
+      return {
+        drawer: false,
+        direction: "rtl",
+        currentView: "authorityManagement",
+        options: [
+          {
+            name: "工区权限",
+            key: "authorityManagement"
+          },
+          {
+            name: "工点管理",
+            key: "siteManage"
+          },
+          {
+            name: "上线数据",
+            key: "inLineData"
+          },
+          {
+            name: "报审台账",
+            key: "submitForApprovalParameter"
+          },
+          {
+            name: "变更台账",
+            key: "changeTheParameter"
+          },
+          {
+            name: "请假记录",
+            key: "leaveStandingBook"
+          }
+          // {
+          //   name: "组织管理",
+          //   key: "depManagementVue"
+          // },
+          // {
+          //   name: "组织用户",
+          //   key: "orgUser"
+          // }
+        ]
+      };
     },
-    showDrawer() {
-      this.drawer = true;
+    created() {
+      Bus.$on("closeSystemDrawer", () => {
+        this.drawer = false;
+      });
     },
-    closeDrawer() {
-      this.drawer = false;
+    components: {
+      siteManage,
+      authorityManagement,
+      depManagementVue,
+      postManagement,
+      orgUser, inLineData,
+      submitForApprovalParameter,
+      changeTheParameter,
+      leaveStandingBook
+    },
+    computed: {},
+    methods: {
+      changeView(item) {
+        this.currentView = item.key;
+      },
+      showDrawer() {
+        this.drawer = true;
+      },
+      closeDrawer() {
+        this.drawer = false;
     },
   },
 };
@@ -143,7 +162,7 @@ export default {
         }
       }
 
-      .el-main {
+      .system_wraper_container_main {
         display: flex;
         padding: 20px 0;
         justify-content: space-between;
@@ -165,12 +184,20 @@ export default {
             background-color: rgb(233, 244, 252);
           }
         }
+
         .right_content {
           width: 84.5%;
+
           .el-container {
             height: 100%;
           }
         }
+      }
+
+      .el-footer {
+        background-color: #fff;
+        display: flex;
+        align-items: center;
       }
     }
   }

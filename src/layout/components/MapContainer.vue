@@ -41,27 +41,29 @@
 </template>
 
 <script>
-import CesiumMap from "@/components/Map/Index";
-import PartTree from "@/components/tree/inde";
-export default {
-  name: "MapContainer",
-  components: {
-    CesiumMap,
-    PartTree,
-  },
-  data() {
-    return {
-      isOpen: true,
-      noMap: false,
-      allMap: false,
-      partMap: false,
-      haveLeft: false,
-      haveRight: false,
-      open: false,
-      cover: false,
-    };
-  },
-  computed: {
+  import CesiumMap from "@/components/Map/Index";
+  import PartTree from "@/components/tree/inde";
+  import {mapMutations} from "vuex";
+
+  export default {
+    name: "MapContainer",
+    components: {
+      CesiumMap,
+      PartTree
+    },
+    data() {
+      return {
+        isOpen: true,
+        noMap: false,
+        allMap: false,
+        partMap: false,
+        haveLeft: false,
+        haveRight: false,
+        open: false,
+        cover: false
+      };
+    },
+    computed: {
     key() {
       return this.$route.path;
     },
@@ -75,6 +77,7 @@ export default {
     this.checkRoute();
   },
   methods: {
+    ...mapMutations("project", ["SET_IS_MINE"]),
     checkRoute() {
       this.noMap = this.$route.meta.noMap;
       this.allMap = this.$route.meta.allMap;
@@ -84,6 +87,15 @@ export default {
       this.open = this.$route.meta.open;
       this.cover = this.$route.meta.cover;
       this.isOpen = true;
+
+      let name = this.$route.name;
+      let isMineRouters = ["staffSubmit", "personnelReportForExaminationRecords", "personnelChange", "personnelChangeRecord", "qingjiashenqing", "leaveRecord"];
+      // if (isMineRouters.includes(name)) {
+      //   this.SET_IS_MINE(true);
+      // } else {
+      //   this.SET_IS_MINE(false);
+      // }
+
     },
     closeTree() {
       this.isOpen = !this.isOpen;

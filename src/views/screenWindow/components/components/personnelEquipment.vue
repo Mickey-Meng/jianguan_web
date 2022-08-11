@@ -141,6 +141,12 @@
 
             }
           }
+          .el-icon-arrow-up {
+            transform: translateZ(0);
+          }
+          .el-icon-arrow-up.is-reverse{
+            transform: rotateZ(180deg);
+          }
         }
       }
     }

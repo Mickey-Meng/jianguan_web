@@ -7,76 +7,78 @@
  * @LastEditTime: 2022-05-09 19:52:20
  */
 const api = {
-	login: "/ZhuJiRoad/user/login",
-	getWorkArea: "/ZhuJiRoad/safe/uploadAddr", //获取工区数据，
-	getAreaByAuthority: "/ZhuJiRoad/safe/getGroups", //根据用户权限返回对应的工区
-	getProjectByArea: "/ZhuJiRoad/safe/getprojectBygongqu", //根据工区获取项目数据
-	getCheckerByAreaId: "/ZhuJiRoad/safe/getPersonLiableByGroup", //根据工区获取施工人员数据
-	getQiaoData: "/ZhuJiRoad/count/getQiaoData", // 获取桥数据
-	viewToken: "/ZhuJiRoad/user/viewToken", // 获取视频token，当视频token过期的时候请求这个接口
-	getSupervisorMsg: "/ZhuJiRoad/message/getMessage1", //消息提示
-	getConstructionMsg: "/ZhuJiRoad/message/getMessage2", //消息提示
-	tellOnline: "/ZhuJiRoad/user/updateOnline", //上报在新
-	getComponentProgressByModel: "/ZhuJiRoad/component/getComponentProgress", //根据模型id查询构件的进度信息
+  login: "/ZhuJiRoad/user/login",
+  getWorkArea: "/ZhuJiRoad/safe/uploadAddr", //获取工区数据，
+  getAreaByAuthority: "/ZhuJiRoad/safe/getGroups", //根据用户权限返回对应的工区
+  getProjectByArea: "/ZhuJiRoad/safe/getprojectBygongqu", //根据工区获取项目数据
+  getCheckerByAreaId: "/ZhuJiRoad/safe/getPersonLiableByGroup", //根据工区获取施工人员数据
+  getQiaoData: "/ZhuJiRoad/count/getQiaoData", // 获取桥数据
+  viewToken: "/ZhuJiRoad/user/viewToken", // 获取视频token，当视频token过期的时候请求这个接口
+  getSupervisorMsg: "/ZhuJiRoad/message/getMessage1", //消息提示
+  getConstructionMsg: "/ZhuJiRoad/message/getMessage2", //消息提示
+  tellOnline: "/ZhuJiRoad/user/updateOnline", //上报在新
+  getComponentProgressByModel: "/ZhuJiRoad/component/getComponentProgress", //根据模型id查询构件的进度信息
+  getTodayWeather: "/ZhuJiRoad/count/getTodayWeather", //获取诸暨当天天气情况
 
-	//----------------------根据项目id获取数据、修改------------------------
-	getWorkAreaByProjectId: "/ZhuJiRoad/projects/getGongQu", //根据项目id获取下面的工区
-	getRolesByProject: "/ZhuJiRoad/projects/getRolesByProject?projectId=3",
+  //----------------------根据项目id获取数据、修改------------------------
+  getWorkAreaByProjectId: "/ZhuJiRoad/projects/getGongQu", //根据项目id获取下面的工区
+  getRolesByProject: "/ZhuJiRoad/projects/getRolesByProject?projectId=3",
 
-	/*
-	 * 数据中心首页接口
-	 * */
-	// 获取项目信息工程规模，合同工期，投资规模以及关联单位
-	getEngCompany: "/ZhuJiRoad/count/getProjectDetail",
-	// 获取项目
-	// 获取进度中间表格数据
-	getMiddleData: "/ZhuJiRoad/progress/getMiddleData",
-	// 获取进度的右侧数据周报月报
-	getWeekMonthly: "/ZhuJiRoad/progress/getStatus",
-	//设置构件计划时间
-	setComponentTime: "/ZhuJiRoad/progress/uploadProgress",
-	//获取构件四个时间
-	getConponmentTime: "/ZhuJiRoad/progress/getByConponentid",
-	//
-	bridgeTree: "/ZhuJiRoad/component/getTree",
-	schedule: "/ZhuJiRoad/schedule/getScheuleAll",
-	// 获取项目下拉选数据
-	projectSelect: "/ZhuJiRoad/progress/projectSelect",
-	getHomeChart: "/ZhuJiRoad/count/getpjFirst", //首页统计模式图表数据
-	getHomeBottomChart: "/ZhuJiRoad/count/getGqFirst", //首页统计模式图表数据
-	getSafeChart: "/ZhuJiRoad/safe/newInterface", //首页安全统计
-	getAreaProgress: "/ZhuJiRoad/count/getCountIncresConponentGroupGq", //获取进度总览左下进度折线图数据
-	getAllProject: "/ZhuJiRoad/projects/getAllProjects", //获取所有项目、后续根据用户查询有权限访问的数据
-	getAllProjectsData: "/ZhuJiRoad/projects/getAll", //获取项目表所有数据
-	/*
-	 * 工程统计
-	 * */
-	// 获取每个构件的完成情况  形象进度  进度总览
-	getConponentStatus: "/ZhuJiRoad/progress/getConponentStatus",
-	// 构件完成数量--左右上图数据，还有方量数量
-	getFinishConponent: "/ZhuJiRoad/count/getFinishConponent",
-	// 构件完成数量按照月，按照日，按照季度--左下图数据
-	getCountConponent: "/ZhuJiRoad/count/getCountConponent",
-	// 获取项目下的构件的类型分类
-	componentType: "/ZhuJiRoad/count/getNewType",
-	// 构件完成数量按照月，按照日，按照季度--右下图数据
-	getCountIncresConponent: "/ZhuJiRoad/count/getCountIncresConponent",
-	// 获取每个工程的项目构件类型
-	getProjectTypeData: "/ZhuJiRoad/count/getProject", //进度总览表格图下拉选择接口
-	getProgressTableData: "/ZhuJiRoad/count/getTypeData", //获取进度总览表格数据
+  /*
+   * 数据中心首页接口
+   * */
+  // 获取项目信息工程规模，合同工期，投资规模以及关联单位
+  getEngCompany: "/ZhuJiRoad/count/getProjectDetail",
+  // 获取项目
+  // 获取进度中间表格数据
+  getMiddleData: "/ZhuJiRoad/progress/getMiddleData",
+  // 获取进度的右侧数据周报月报
+  getWeekMonthly: "/ZhuJiRoad/progress/getStatus",
+  //设置构件计划时间
+  setComponentTime: "/ZhuJiRoad/progress/uploadProgress",
+  //获取构件四个时间
+  getConponmentTime: "/ZhuJiRoad/progress/getByConponentid",
+  //
+  bridgeTree: "/ZhuJiRoad/component/getTree",
+  schedule: "/ZhuJiRoad/schedule/getScheuleAll",
+  // 获取项目下拉选数据
+  projectSelect: "/ZhuJiRoad/progress/projectSelect",
+  getHomeChart: "/ZhuJiRoad/count/getpjFirst", //首页统计模式图表数据
+  getHomeBottomChart: "/ZhuJiRoad/count/getGqFirst", //首页统计模式图表数据
+  getSafeChart: "/ZhuJiRoad/safe/newInterface", //首页安全统计
+  getAreaProgress: "/ZhuJiRoad/count/getCountIncresConponentGroupGq", //获取进度总览左下进度折线图数据
+  getAllProject: "/ZhuJiRoad/projects/getAllProjects", //获取所有项目、后续根据用户查询有权限访问的数据
+  getAllProjectsData: "/ZhuJiRoad/projects/getAll", //获取项目表所有数据
+  getProjectsByUser: "/ZhuJiRoad/projects/getProjectByUser",//通过用户工区权限查询项目
+  /*
+   * 工程统计
+   * */
+  // 获取每个构件的完成情况  形象进度  进度总览
+  getConponentStatus: "/ZhuJiRoad/progress/getConponentStatus",
+  // 构件完成数量--左右上图数据，还有方量数量
+  getFinishConponent: "/ZhuJiRoad/count/getFinishConponent",
+  // 构件完成数量按照月，按照日，按照季度--左下图数据
+  getCountConponent: "/ZhuJiRoad/count/getCountConponent",
+  // 获取项目下的构件的类型分类
+  componentType: "/ZhuJiRoad/count/getNewType",
+  // 构件完成数量按照月，按照日，按照季度--右下图数据
+  getCountIncresConponent: "/ZhuJiRoad/count/getCountIncresConponent",
+  // 获取每个工程的项目构件类型
+  getProjectTypeData: "/ZhuJiRoad/count/getProject", //进度总览表格图下拉选择接口
+  getProgressTableData: "/ZhuJiRoad/count/getTypeData", //获取进度总览表格数据
 
-	/*
-	 * 质量管理页面
-	 * */
-	checkViewTree: "/ZhuJiRoad/produce/getType",
-	checkViewTable: "/ZhuJiRoad/produce/getTypeStatus", //原质量验收表格数据
-	getNewCheckViewTable: "/ZhuJiRoad/produce/getTypeStatus", //最新质量验收表格数据
-	getCurrentPdf: "/ZhuJiRoad/produce/getCheckDataByrecod", //获取质量验收工序pdf
-	processRecords: "/ZhuJiRoad/produce/getCheckDataById",
-	getAllcheckData: "/ZhuJiRoad/produce/getAllcheckData",
-	getAllQualityGetPerday: "/ZhuJiRoad/quality/getPerday", //质量总览左下角数据
-	getQualityEventsGetDay: "/ZhuJiRoad/quality/getDay", //质量总览右下角数据
-	deleteQualityEvent: "/ZhuJiRoad/quality/deleteEvent", //删除质量事件
+  /*
+   * 质量管理页面
+   * */
+  checkViewTree: "/ZhuJiRoad/produce/getType",
+  checkViewTable: "/ZhuJiRoad/produce/getTypeStatus", //原质量验收表格数据
+  getNewCheckViewTable: "/ZhuJiRoad/produce/getTypeStatus", //最新质量验收表格数据
+  getCurrentPdf: "/ZhuJiRoad/produce/getCheckDataByrecod", //获取质量验收工序pdf
+  processRecords: "/ZhuJiRoad/produce/getCheckDataById",
+  getAllcheckData: "/ZhuJiRoad/produce/getAllcheckData",
+  getAllQualityGetPerday: "/ZhuJiRoad/quality/getPerday", //质量总览左下角数据
+  getQualityEventsGetDay: "/ZhuJiRoad/quality/getDay", //质量总览右下角数据
+  deleteQualityEvent: "/ZhuJiRoad/quality/deleteEvent", //删除质量事件
 
 	// ------------------质量检查、质量整个、整改确认、质量验收 -------------
 	bigSmallQuality: "/ZhuJiRoad/quality/getTree", //获取质量大小类
@@ -190,18 +192,22 @@ const api = {
   getStaffByProcessIdAndProjectId: "/ZhuJiRoad/person/getContractByProcessId", //根据项目id和工单ID查询报审的信息
   getStaffRecordsById: "/ZhuJiRoad/person/getContractStandingBook",//人员报审台账,
   deleteStaffRecord: "/ZhuJiRoad/person/delContract",//删除报审信息
+  adminGetAllStaffRecord: "/ZhuJiRoad/person/getAllContract",//管理员获取报审台账
   //----------------人员变更 -----------------
   addPersonChange: "/ZhuJiRoad/person/subPersonChange", //提交人员变更
   getPersonChange: "/ZhuJiRoad/person/getPersonChange", //获取人员变更信息
   getPersonChangeByProcessId: "/ZhuJiRoad/person/getChangeByProcessId", //根据项目id和工单ID查询变更信息
   getPersonChangeRecords: "/ZhuJiRoad/person/getChangeStandingBook",//人员变更记录
   deleteChangeRecord: "/ZhuJiRoad/person/delChange",//删除变更记录
+  getAllPersonChangeRecords: "/ZhuJiRoad/person/getAllChange",//获取所有变更记录
   //-------------------- 请假申请------------------
   submitLeave: "/ZhuJiRoad/person/subLeave", //提交请假申请
   getLeave: "/ZhuJiRoad/person/getLeaveData", //获取请假数据
   getLeaveByProcessId: "/ZhuJiRoad/person/getLeaveByProcessId",
   getLeaveRecordsById: "/ZhuJiRoad/person/getLeaveStandingBook",//获取请假台账
   deleteLeaveRecord: "/ZhuJiRoad/person/delLeave",//删除请假
+  getAllLeaveRecords: "/ZhuJiRoad/person/getAllLeave",//管理员获取所有请假记录
+
   //-------------电子围栏--------------
   addFence: "/ZhuJiRoad/fence/addFence", //新增电子围栏
   deleteFence: "/ZhuJiRoad/fence/delFence", //删除电子围栏
@@ -296,8 +302,8 @@ const api = {
 	addOrUpdateBuildTechBottom: "/ZhuJiApi/web/api/v1/buildTechBottom/addOrUpdate",
 	deleteBuildTechBottom: "/ZhuJiApi/web/api/v1/buildTechBottom/id",
 	exportBuildTechBottomList: "/ZhuJiApi/web/api/v1/buildTechBottom/export",
-	
-	
+
+
 	//施工方案
 	getBuildPlanList: "/ZhuJiApi/web/api/v1/buildPlan/page",
 	getBuildPlanDetail: "/ZhuJiApi/web/api/v1/buildPlan/detail/id",
@@ -328,7 +334,7 @@ const api = {
 	deleteComeGoMoney: "/ZhuJiApi/web/api/v1/comeGoMoney/id",
 	getComeGoMoneyList: "/ZhuJiApi/web/api/v1/comeGoMoney/page",
 	exportComeGoMoneyList: "/ZhuJiApi/web/api/v1/comeGoMoney/export",
-	
+
 	//进退场
 	addOrUpdateEnterExit: "/ZhuJiApi/web/api/v1/enterExit/addOrUpdate",
 	getEnterExitDeatil: "/ZhuJiApi/web/api/v1/enterExit/detail/id",
@@ -344,7 +350,7 @@ const api = {
 	getEquipmentEnterList: "/ZhuJiApi/web/api/v1/equipmentEnter/page",
 	getEquipmentEnterEnums: "/ZhuJiApi/web/api/v1/equipmentEnter/equipment/enums",
 	exportEquipmentEnterList: "/ZhuJiApi/web/api/v1/equipmentEnter/export",
-	
+
 	//设备退场
 	addOrUpdateEquipmentExit: "/ZhuJiApi/web/api/v1/equipmentExit/addOrUpdate",
 	getEquipmentExitDeatil: "/ZhuJiApi/web/api/v1/equipmentExit/detail/id",
@@ -358,7 +364,7 @@ const api = {
 	deleteProjectOpen: "/ZhuJiApi/web/api/v1/projectOpen/id",
 	getProjectOpenList: "/ZhuJiApi/web/api/v1/projectOpen/page",
 	exportProjectOpenList: "/ZhuJiApi/web/api/v1/projectOpen/export",
-	
+
 	//分项开工申请
   addOrUpdateSubitemOpen: "/ZhuJiApi/web/api/v1/subitemOpen/addOrUpdate",
   getSubitemOpenDeatil: "/ZhuJiApi/web/api/v1/subitemOpen/detail/id",
@@ -372,7 +378,7 @@ const api = {
   deleteFirstAccept: "/ZhuJiApi/web/api/v1/firstAccept/id",
   getFirstAcceptList: "/ZhuJiApi/web/api/v1/firstAccept/page",
   exportFirstAcceptList: "/ZhuJiApi/web/api/v1/firstAccept/export",
-  
+
   //质量简报
   addOrUpdateQualityReport: "/ZhuJiApi/web/api/v1/qualityReport/addOrUpdate",
   getQualityReportDeatil: "/ZhuJiApi/web/api/v1/qualityReport/detail/id",

@@ -6,9 +6,11 @@
  * @LastEditors: WangHarry
  * @LastEditTime: 2022-03-15 11:49:23
  */
-import { login, getUserInfo, loginMap } from "@/api/user";
-import { getToken, setToken } from "@/utils/auth";
-import { asyncRouters, resetRouter } from "../../router";
+import {login, getUserInfo, loginMap} from "@/api/user";
+import {getToken, setToken} from "@/utils/auth";
+import {asyncRouters, resetRouter} from "../../router";
+import {MessageBox, Message} from "element-ui";
+
 
 import store from "../index";
 
@@ -74,7 +76,12 @@ const actions = {
            * @returns {}
            * @date 2021/7/21
            */
-          let { groupid, loginData } = res.data;
+          if (!res.data) {
+
+            reject(res);
+
+          }
+          let {groupid, loginData} = res.data;
           if (loginData) {
             commit("SET_TOKEN", loginData.token);
             commit("SET_NAME", loginData.name);
@@ -82,8 +89,8 @@ const actions = {
             commit("SET_ROLE_ID", groupid);
             setToken("ID", loginData.id);
             setToken("zj_token", loginData.token);
-            setToken("userName",loginData.name);
-            setToken("groupId",groupid);
+            setToken("userName", loginData.name);
+            setToken("groupId", groupid);
           }
           /**
            * @Description: explorer 运维用户登陆获取地图图层信息 explorer 123456
@@ -114,6 +121,16 @@ const actions = {
               setToken("explorerRoles", res2.data.roles);
               setToken("rights", rights);
               commit("SET_RIGHTS", rights);
+              if (!res2.data.userInfo.GROUPID) {
+                Message({
+                  message: "账户没有组织信息,请联系管理员",
+                  type: "warning",
+                  customClass: "message_override"
+                });
+                window.localStorage.clear();
+                reject();
+                return false;
+              }
               commit("SET_GROUPID", res2.data.userInfo.GROUPID);
               setToken("GROUPID", res2.data.userInfo.GROUPID);
               setToken("name", res2.data.userInfo.USERNAME);

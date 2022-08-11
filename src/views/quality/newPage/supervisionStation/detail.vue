@@ -13,11 +13,11 @@
 							<el-form ref="form" label-width="200px">
 								
 								<div class="form-block">
-									<div class="form-block-title">
+									<!-- <div class="form-block-title">
 										<div class="title-bar"></div><strong>发起位置</strong>
 										
 									</div>
-									<locationmap></locationmap>
+									<locationmap></locationmap> -->
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
 									</div>

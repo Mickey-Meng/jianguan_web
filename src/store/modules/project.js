@@ -12,7 +12,8 @@ const getDefaultState = () => {
   return {
     project: getToken("project_info"),
     uploadUrl: "/ZhuJiRoad/mong/upload",
-    lookUrl: "/ZhuJiRoad/mong/preview?fileid="
+    lookUrl: "/ZhuJiRoad/mong/preview?fileid=",
+    isMine: false
   };
 };
 
@@ -22,6 +23,9 @@ const mutations = {
   SET_PROJECT: (state, item) => {
     setToken("project_info", item);
     state.project = item;
+  },
+  SET_IS_MINE: (state, value) => {
+    state.isMine = value;
   }
 };
 

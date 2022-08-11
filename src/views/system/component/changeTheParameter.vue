@@ -1,84 +1,76 @@
 <!--
 @name:
-@description: 人员变更记录
+@description: 变更台账
 @author: 王海林
-@time: 2022-05-11 15:40:36
+@time: 2022-08-05 13:38:54
 @modifier:
 @modifierTime:
 -->
 <template>
-  <el-container class="container-box">
+  <el-container>
     <el-header>
-      <div class="input-box">
-        <div class="input-value">
+      <div>
+        <div>
           <el-input v-model="queryData.beforeName" clearable placeholder="请输入变更前人员"></el-input>
         </div>
-
-      </div>
-      <div class="input-box" style="margin-left: 10px">
-        <div class="input-value">
-          <el-input v-model="queryData.afterName" clearable placeholder="请输入变更后人员"></el-input>
+        <div class="input-box" style="margin-left: 10px">
+          <div class="input-value">
+            <el-input v-model="queryData.afterName" clearable placeholder="请输入变更后人员"></el-input>
+          </div>
         </div>
-      </div>
-      <div class="input-box" style="margin-left: 10px">
-        <div class="input-value">
-          <el-date-picker
-            v-model="queryData.subDate"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择录入时间">
-          </el-date-picker>
+        <div class="input-box" style="margin-left: 10px">
+          <div class="input-value">
+            <el-date-picker
+              v-model="queryData.subDate"
+              type="date"
+              value-format="yyyy-MM-dd"
+              placeholder="请选择录入时间">
+            </el-date-picker>
+          </div>
         </div>
-      </div>
-      <div class="input-box" style="margin-left: 10px">
-        <div class="input-value">
-          <el-select v-model="queryData.selectValue" placeholder="请选择">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.name"
-              :value="item.value">
-            </el-option>
-          </el-select>
+        <div class="input-box" style="margin-left: 10px">
+          <div class="input-value">
+            <el-select v-model="queryData.selectValue" placeholder="请选择">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.name"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </div>
         </div>
-      </div>
-      <el-button type="primary" style="margin-left: 10px" @click="queryClick">搜索</el-button>
-
-      <div class="right-btns">
-        <div class="operate-btns">
-          <!--          <el-button size="small">导出</el-button>-->
-          <!--          <el-button size="small">批量操作</el-button>-->
-        </div>
+        <el-button type="primary" style="margin-left: 10px" @click="queryClick">搜索</el-button>
       </div>
     </el-header>
-    <el-main>
-      <div class="container">
-        <el-table :data="tableDta.slice((queryData.pageNum-1)*queryData.pageSize,queryData.pageNum*queryData.pageSize)"
-                  style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
-          <el-table-column prop="projectChildName" label="标段"></el-table-column>
-          <el-table-column prop="changeTypeName" label="人员变更类型"></el-table-column>
-          <el-table-column prop="changePostName" label="变更岗位"></el-table-column>
-          <el-table-column prop="beforePerson" label="变更前人员"></el-table-column>
-          <el-table-column prop="afterPerson" label="变更后人员"></el-table-column>
-          <el-table-column prop="subDate" label="录入日期">
-            <template slot-scope="{row,$index}">
-              {{ row.subDate | formatTime }}
-            </template>
-          </el-table-column>
-          <el-table-column label="操作">
-            <template slot-scope="{row,$index}">
-              <el-button type="text" size="mini" @click="seeDetail(row)">详情</el-button>
-              <el-button type="text" size="mini" v-if="roleId ===2" @click="deleteInfo(row,$index)">删除</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                       :current-page="queryData.pageNum" :page-size="queryData.pageSize"
-                       layout="total, sizes, prev, pager, next, jumper"
-                       :total="tableDta.length">
-        </el-pagination>
-      </div>
+    <el-main class="submit">
+      <el-table :data="tableData.slice((queryData.pageNum-1)*queryData.pageSize,queryData.pageNum*queryData.pageSize)"
+                style="width: 100%" border height="100%" class="have_scrolling">
+        <el-table-column prop="projectChildName" label="标段"></el-table-column>
+        <el-table-column prop="changeTypeName" label="人员变更类型"></el-table-column>
+        <el-table-column prop="changePostName" label="变更岗位"></el-table-column>
+        <el-table-column prop="beforePerson" label="变更前人员"></el-table-column>
+        <el-table-column prop="afterPerson" label="变更后人员"></el-table-column>
+        <el-table-column prop="subDate" label="录入日期">
+          <template slot-scope="{row,$index}">
+            {{ row.subDate | formatTime }}
+          </template>
+        </el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="{row,$index}">
+            <el-button type="text" size="mini" @click="seeDetail(row)">详情</el-button>
+            <el-button type="text" size="mini" v-if="roleId ===2" @click="deleteInfo(row,$index)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
     </el-main>
+    <el-footer>
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                     :current-page="queryData.pageNum" :page-size="queryData.pageSize"
+                     layout="total, sizes, prev, pager, next, jumper"
+                     :total="tableData.length">
+      </el-pagination>
+    </el-footer>
     <el-dialog class="full-dialog defined-dialog" :fullscreen="true" :visible.sync="dialogFormVisible">
       <template slot="title">
         {{ dialogTitle }}
@@ -276,26 +268,25 @@
       </el-container>
 
     </el-dialog>
+
   </el-container>
 </template>
 
 <script>
-  import {getPersonChangeRecords, deleteChangeRecord, deleteStaffRecord} from "@/api/staffApproval";
-  import {mapGetters} from "vuex";
+  import {deleteChangeRecord, getAllPersonChangeRecords} from "@/api/staffApproval";
   import {formatDate} from "@/utils/date";
   import tasklog from "@/views/common/tasklog";
   import {downLoadFile} from "@/utils/download";
+  import {mapGetters} from "vuex";
 
   export default {
+    props: [],
+    watch: {},
     data() {
       return {
-        tableDta: [],
-        fileData: [],//上传的附件
-        form: {},
-        taskInfo: {},
         dialogFormVisible: false,
         dialogTitle: "项目全生命周期数字管理平台",
-        allData: [],
+        form: {},
         options: [
           {
             name: "所有单位",
@@ -314,6 +305,9 @@
             value: 3
           }
         ],
+        taskInfo: {},
+        tableData: [],
+        fileData: [],
         queryData: {
           beforeName: "",
           afterName: "",
@@ -328,28 +322,28 @@
     created() {
       this.init();
     },
-    components: {tasklog},
     computed: {
       ...mapGetters(["project", "roleId"])
+    },
+    mounted() {
     },
     methods: {
       init() {
         let {selectValue, afterName, beforeName, subDate} = this.queryData;
         let type = selectValue === 10 ? undefined : selectValue;
-        getPersonChangeRecords(this.project.id, type).then(res => {
+        getAllPersonChangeRecords(this.project.id, type).then(res => {
           let data = res.data;
           if (!subDate && !afterName && !beforeName) {
-            this.tableDta = data;
+            this.tableData = data;
           } else if (!subDate && afterName && !beforeName) {
-            this.tableDta = data.filter(e => e.afterPerson.indexOf(afterName) !== -1);
+            this.tableData = data.filter(e => e.afterPerson.indexOf(afterName) !== -1);
           } else if (!subDate && !afterName && beforeName) {
-            this.tableDta = data.filter(e => e.beforePerson.indexOf(beforeName) !== -1);
+            this.tableData = data.filter(e => e.beforePerson.indexOf(beforeName) !== -1);
           } else if (subDate && !afterName && !beforeName) {
-            this.tableDta = data.filter(e => e.subDate.indexOf(subDate) !== -1);
+            this.tableData = data.filter(e => e.subDate.indexOf(subDate) !== -1);
           } else {
-            this.tableDta = data.filter(e => e.subDate.indexOf(subDate) !== -1 && e.beforePerson.indexOf(afterName) !== -1 && e.afterPerson.indexOf(afterName) !== -1);
+            this.tableData = data.filter(e => e.subDate.indexOf(subDate) !== -1 && e.beforePerson.indexOf(afterName) !== -1 && e.afterPerson.indexOf(afterName) !== -1);
           }
-
         });
       },
       seeDetail(row) {
@@ -370,9 +364,6 @@
           this.$refs["tasklog"].initData();
         });
       },
-      queryClick() {
-        this.init();
-      },
       deleteInfo(row, index) {
         this.$confirm("确定删除该变更信息?", "提示", {
           confirmButtonText: "确定",
@@ -380,15 +371,17 @@
           type: "warning"
         }).then(() => {
           deleteChangeRecord(row.id, this.project.id).then(() => {
-            // this.init();
-            this.tableDta.splice(index, 1);
+            this.tableData.splice(index, 1);
             this.$message.success("删除成功");
-          }).catch(()=>{
+          }).catch(() => {
             this.$message.info("删除失败");
           });
         }).catch(() => {
           this.$message.info("取消删除");
         });
+      },
+      queryClick() {
+        this.init();
       },
       handleSizeChange(val) {
         this.queryData.pageSize = val;
@@ -404,32 +397,30 @@
         }
       }
     },
+    components: {tasklog},
+    beforeDestroy() {
+    },
     filters: {
       formatTime(val) {
         return formatDate(val);
       }
     }
+
   };
 </script>
+
 <style lang='scss' scoped>
-  @import "../../assets/css/table.scss";
-  @import "../../assets/css/dialog.scss";
+  @import "../../../assets/css/table.scss";
+  @import "../../../assets/css/dialog.scss";
 
-  .form-bg {
-    .form-block {
-      .block-item-label {
-        width: 180px !important;
-      }
-
-      .block-item-value {
-        width: calc(100% - 200px) !important;
-      }
-
-      .el-date-editor {
-        width: 100% !important;
-      }
+  .el-header {
+    > div {
+      display: flex;
     }
   }
 
+  .submit {
+    padding: 20px 0 0 0 !important;
+  }
 
 </style>

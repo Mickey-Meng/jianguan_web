@@ -22,10 +22,12 @@
       <el-table-column
         prop="b"
         align="center"
+        width="110"
         label="质量整改完成率">
       </el-table-column>
       <el-table-column
         prop="c"
+        width="110"
         label="安全整改完成率">
       </el-table-column>
     </el-table>
@@ -41,24 +43,24 @@
       return {
         tableData: [
           {
-            a: "235国道杭州至诸暨公路萧…",
-            b: 90,
-            c: 90
+            a: "235国道杭州至诸暨公路萧山河上至诸暨安",
+            b: '91%',
+            c: '90%'
           },
           {
-            a: "235国道杭州至诸暨公路萧…",
-            b: 90,
-            c: 90
+            a: "诸暨市店口综合港区工程",
+            b: '93%',
+            c: '95%'
           },
           {
-            a: "235国道杭州至诸暨公路萧…",
-            b: 90,
-            c: 90
+            a: "诸暨市枫桥镇虎山隧道建设工程",
+            b: '87%',
+            c: '97%'
           },
           {
-            a: "235国道杭州至诸暨公路萧…",
-            b: 90,
-            c: 90
+            a: "诸暨店口湄池大桥改建工程",
+            b: '88%',
+            c: '89%'
           }
         ]
       };
@@ -77,8 +79,7 @@
 
 <style lang='scss' scoped>
   .quality_safety_wrapper {
-    //padding: 10px 20px;
-    padding:10px 20px 20px 20px;
+    padding:0 20px 20px 20px;
     height: 100%;
   }
 
@@ -144,7 +145,7 @@
       tbody {
         font-size: 14px;
         font-weight: 400;
-        color: #DCFDED;
+        color: #FFFFFF;
 
         tr{
           background: url("../../../../assets/mapView/行背景.png") no-repeat;

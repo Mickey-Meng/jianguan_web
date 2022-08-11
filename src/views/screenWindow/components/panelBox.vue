@@ -32,6 +32,7 @@
 <style lang='scss' scoped>
   .panel_wrapper {
     height: 100%;
+    position: relative;
 
     .header {
       height: 50px;

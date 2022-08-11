@@ -10,8 +10,10 @@
   <div class="nvestment_status_seport">
     <div class="left_container">
       <div class="text_label">投资进度完成率</div>
-      <div class="chart_box">
-        <v-chart :options="option" autoresize class="v-chart-box"/>
+      <div class="chart_box" :class="{isFullScreen:isFullScreen}">
+                <div><span>45</span><span>.77</span></div>
+<!--        <v-chart :options="option" autoresize class="v-chart-box"/>-->
+
       </div>
     </div>
     <div class="right_container">
@@ -49,15 +51,27 @@
             id: 1
           }
         ],
+        isFullScreen: false,
         option: {}
       };
 
     },
     created() {
+      this.getPageHeight();
+      window.addEventListener("resize", this.getPageHeight);
     },
     mounted() {
     },
-    methods: {},
+    methods: {
+      getPageHeight() {
+        let a = document.body.scrollHeight;
+        if (a > 1000) {
+          this.isFullScreen = true;
+        } else {
+          this.isFullScreen = false;
+        }
+      }
+    },
     components: {},
     beforeDestroy() {
     }
@@ -87,8 +101,66 @@
       }
 
       .chart_box {
-        height: calc(84% - 20px);
+        margin: 0 auto;
+        //height: calc(84% - 20px);
+        //min-width: 140px;
+        //min-height: 140px;
+        //max-height: 184px;
+        //max-width: 184px;
+        width: 140px;
+        height: 140px;
+        background: url("../../../../assets/mapView/饼状图.png") no-repeat;
+        background-size: 100% 100%;
+        position: relative;
+
+        div {
+          position: absolute;
+          top: 50px;
+          left: 40px;
+          > span:nth-of-type(1) {
+            height: 34px;
+            font-size: 28px;
+            font-family: DINPro-Bold;
+            font-weight: bold;
+            color: #039F22;
+          }
+
+          > span:nth-of-type(2) {
+            height: 34px;
+            font-size: 14px;
+            font-family: DINPro-Bold;
+            font-weight: bold;
+            color: #039F22;
+          }
+        }
       }
+
+      .isFullScreen {
+        width: 184px;
+        height: 184px;
+        div {
+          position: absolute;
+          left: 54px;
+          top: 65px;
+          > span:nth-of-type(1) {
+            height: 34px;
+            font-size: 34px;
+            font-family: DINPro-Bold;
+            font-weight: bold;
+            color: #039F22;
+          }
+
+          > span:nth-of-type(2) {
+            height: 34px;
+            font-size: 18px;
+            font-family: DINPro-Bold;
+            font-weight: bold;
+            color: #039F22;
+          }
+
+        }
+      }
+
     }
 
     .right_container {
@@ -121,6 +193,7 @@
               &:before {
                 content: '';
                 background: url("../../../../assets/mapView/下拉选择.png") center center no-repeat;
+                //background: url("../../../../assets/mapView/下拉选择.png")  no-repeat;
                 position: absolute;
                 width: 100%;
                 height: 100%;
@@ -129,12 +202,20 @@
                 -webkit-appearance: none;
                 top: 0;
                 right: 10%;
+                //transform: rotateY(180deg);
 
               }
 
               &:after {
 
               }
+            }
+
+            .el-icon-arrow-up {
+              transform: translateZ(0);
+            }
+            .el-icon-arrow-up.is-reverse{
+              transform: rotateZ(180deg);
             }
           }
         }

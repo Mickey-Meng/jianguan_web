@@ -64,7 +64,7 @@
       left: 0;
       width: 100%;
       height: 106px;
-      z-index: 100;
+      z-index: 1000;
       background: url("../../assets/mapView/顶部.png") no-repeat;
       background-size: 100% 100%;
       pointer-events: auto;
@@ -82,7 +82,7 @@
       top: 31px;
       background: url("../../assets/mapView/侧面左.png") no-repeat;
       background-size: 100% 100%;
-      z-index: 100;
+      z-index: 1000;
     }
 
     .side_right {
@@ -93,14 +93,14 @@
       top: 31px;
       background: url("../../assets/mapView/侧面右.png") no-repeat;
       background-size: 100% 100%;
-      z-index: 100;
+      z-index: 1000;
     }
 
     .left_container {
       position: absolute;
       left: 40px;
       top: 98px;
-      z-index: 100;
+      z-index: 1000;
       height: calc(100vh - 120px);
       width: 420px;
     }
@@ -109,7 +109,7 @@
       position: absolute;
       right: 40px;
       top: 98px;
-      z-index: 100;
+      z-index: 1000;
       width: 420px;
       height: calc(100vh - 120px);
     }
