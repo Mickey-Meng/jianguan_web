@@ -224,14 +224,14 @@
           let groupsIds = this.selectArea.map((item) => {
             return item.id;
           });
-          bindUserToGroup({ userIds, groupsIds }).then((res) => {
+          bindUserToGroup({userIds, groupsIds, projectId: this.sectionId}).then((res) => {
             this.selectArea = [];
             this.selectUser = [];
             this.$refs.multipleTableUser.clearSelection();
             this.$refs.multipleTableArea.clearSelection();
             this.$message({
               type: "success",
-              message: "绑定成功",
+              message: "绑定成功"
             });
           });
         })
@@ -284,6 +284,7 @@
   .organizational_tree {
     width: 32%;
     margin-right: 10px;
+    overflow: auto;
   }
 
   .right_content {

@@ -130,7 +130,7 @@ export default {
     },
   },
   destroyed() {
-    player.stop();
+    player && player.stop();
   },
 };
 </script>

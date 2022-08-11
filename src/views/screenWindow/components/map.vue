@@ -8,6 +8,7 @@
   import {earth} from "@/config/map";
   import {getProjectsByUser} from "@/api/project";
   import {mapGetters, mapMutations} from "vuex";
+  import redline_line from "@/config/redline_line.json";
 
   const Cesium = window.Cesium;
   // let earth = {};
@@ -66,7 +67,43 @@
         ];
         window.ddd = mapCtx.zlskEarthHelper = new ZlskEarthHelper("map", obj);
         mm = mapCtx.zlskEarthHelper.earth.createMarkerManager();
+        this.addCityLine();
         this.setColour();
+      },
+      addCityLine() {
+        this.$axios.get("./data/诸暨市_市界.json").then(res => {
+          console.log(res);
+          let features = res.data.geometries[0].coordinates;
+          let Cartesian3 = features.map((item) => {
+            return Cesium.Cartesian3.fromDegrees(item[0], item[1], 10);
+          });
+
+
+          let ins = new Cesium.GeometryInstance({
+            geometry: new Cesium.GroundPolylineGeometry({
+              positions: Cartesian3,
+              width: 2
+            })
+          });
+         let linePrimitive = new Cesium.GroundPolylinePrimitive({
+            show: true,
+            geometryInstances: ins,
+            appearance: new Cesium.PolylineMaterialAppearance({
+              closed: true,
+              material: new Cesium.Material({
+                fabric: {
+                  type: "Color",
+                  uniforms: {
+                    color: Cesium.Color.AQUA,
+                  },
+                },
+              }),
+            }),
+          });
+          mapCtx.zlskEarthHelper.viewer.scene.groundPrimitives.add(linePrimitive);
+
+
+        });
       },
       setColour() {
         let ffectOptions = {
