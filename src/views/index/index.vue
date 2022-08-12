@@ -86,7 +86,7 @@ import img5 from "@/assets/projectImg/图层4.png";
 import img6 from "@/assets/projectImg/图层5.png";
 import img7 from "@/assets/projectImg/图层6.png";
 import {getProjectAndSection} from "@/api/newProject";
-import {getAllProject} from "@/api/project";
+import {getAllProject,getProjectsByUser} from "@/api/project";
 export default {
   name: "",
   data() {
@@ -156,8 +156,8 @@ export default {
     //   this.$nextTick(() => {
     //     this.initEffects();
     //   });
-    // });
-    getAllProject().then(res => {
+    // });getProjectsByUser
+    getProjectsByUser().then(res => {
       let data = res.data;
       data.forEach(item => {
         item.img = img1;
@@ -169,6 +169,18 @@ export default {
         this.initEffects();
       });
     });
+    // getAllProject().then(res => {
+    //   let data = res.data;
+    //   data.forEach(item => {
+    //     item.img = img1;
+    //   });
+    //   let arr = data.concat(this.lists);
+    //   this.lists = arr;
+    //   this.initData();
+    //   this.$nextTick(() => {
+    //     this.initEffects();
+    //   });
+    // });
   },
   methods: {
     ...mapMutations("project", ["SET_PROJECT"]),
@@ -289,13 +301,26 @@ export default {
       window.localStorage.clear();
       this.$router.push("/login");
     },
+    upInlineStatus() {
+      updateOnline().then(res => {
+        let {isChange} = res.data;
+        if (isChange === "true") {
+          this.$message({
+            type: "info",
+            message: "用户角色改变,请重新登录"
+          });
+          window.localStorage.clear();
+          this.$router.push(`/login`);
+        }
+      });
+    },
     init() {
       let that = this;
-      updateOnline();
+      this.upInlineStatus();
       that.timer = setInterval(() => {
-        updateOnline();
+        this.upInlineStatus();
       }, 1000 * 60 * 3);
-    },
+    }
   },
   destroyed() {
     this.stopEffect();

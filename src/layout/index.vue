@@ -79,11 +79,24 @@
       checkRoute() {
         this.showMap = this.$route.meta.showMap;
       },
+      upInlineStatus() {
+        updateOnline().then(res => {
+          let {isChange} = res.data;
+          if (isChange === "true") {
+            this.$message({
+              type: "info",
+              message: "用户角色改变,请重新登录"
+            });
+            window.localStorage.clear();
+            this.$router.push(`/login`);
+          }
+        });
+      },
       init() {
         let that = this;
-        updateOnline();
+        this.upInlineStatus();
         that.timer = setInterval(() => {
-          updateOnline();
+          this.upInlineStatus();
         }, 1000 * 60 * 3);
       }
     },

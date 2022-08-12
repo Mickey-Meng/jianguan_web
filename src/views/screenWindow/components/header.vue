@@ -39,7 +39,7 @@
       }, 1000);
       this.weatherTimer = setInterval(() => {
         this.initWeather();
-      }, 1000 * 60);
+      }, 1000 * 60 * 60);
       this.nowDate = getCurrentDate();
       switch (getDay()) {
         case 1:
