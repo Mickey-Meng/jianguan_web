@@ -72,7 +72,7 @@
 										</div>
 									</div>
 								</div>
-								<approveuser :auditUser="auditUser" :flowKey="flowKey">
+								<approveuser v-if="approveVisible" :auditUser="auditUser" :flowKey="flowKey">
 								</approveuser>
 
 								<div class="form-block">
@@ -167,6 +167,7 @@
 					}]
 				},
 				auditUser: {},
+                approveVisible:true,
 				flowKey: 'jianlitongzhi'
 			};
 		},
@@ -195,6 +196,7 @@
 				this.addOrModifyFlag = obj['id'] ? false : true;
 				if (obj['id']) {
 					this.getDetail(obj['id']);
+                    this.approveVisible=false;
 				} else {
 					this.formData = {
 						"auditUser": {},
@@ -208,6 +210,8 @@
 						projectId:this.$store.getters.project['parentid'],
 						"title": ""
 					}
+					this.auditUser={};
+					this.approveVisible=true;
 				}
 			},
 

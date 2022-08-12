@@ -116,7 +116,7 @@
 									</div>
 								</div>
 
-								<approveuser :auditUser="auditUser" :flowKey="flowKey">
+								<approveuser v-if="approveVisible" :auditUser="auditUser" :flowKey="flowKey">
 								</approveuser>
 
 								<div class="form-block">
@@ -226,6 +226,7 @@
 					}]
 				},
 				auditUser: {},
+                approveVisible:true,
 				flowKey: 'jianlixunshi'
 			};
 		},
@@ -270,6 +271,7 @@
 				this.addOrModifyFlag = obj['id'] ? false : true;
 				if (obj['id']) {
 					this.getDetail(obj['id']);
+                    this.approveVisible=false;
 				} else {
 					this.formData = {
 						"address": {},
@@ -287,6 +289,8 @@
 						"startDate": formatDate(new Date()),
 						"video": [],
 					}
+					this.auditUser={};
+					this.approveVisible=true;
 				}
 			},
 

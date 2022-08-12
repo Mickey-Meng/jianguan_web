@@ -144,7 +144,7 @@
 									</div>
 								</div>
 
-								<approveuser :auditUser="auditUser" :flowKey="flowKey">
+								<approveuser v-if="approveVisible" :auditUser="auditUser" :flowKey="flowKey">
 								</approveuser>
 								<div class="form-block">
 									<el-button @click="addOrModify()" class="submit-btn" size="small" type="primary">提交
@@ -509,6 +509,7 @@
 					workType: ''
 				},
 				auditUser: {},
+                approveVisible:true,
 				flowKey: 'jintuichangguanli'
 			};
 		},
@@ -536,6 +537,7 @@
 				this.addOrModifyFlag = obj['id'] ? false : true;
 				if (obj['id']) {
 					this.getDetail(obj['id']);
+                    this.approveVisible=false;
 				} else {
 					this.formData = {
 						enterExitUsers: [],
@@ -553,6 +555,8 @@
 					this.reportTable = [];
 					this.factoryTable = [];
 					this.attachTable = [];
+					this.auditUser={};
+					this.approveVisible=true;
 				}
 			},
 			getChildProject() {

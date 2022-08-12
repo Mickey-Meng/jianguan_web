@@ -57,7 +57,7 @@
             </template>
           </el-table-column>
           <el-table-column label="操作">
-            <template slot-scope="{row,$index}">
+            <template slot-scope="{row}">
               <el-button type="text" size="mini" @click="seeDetail(row)">详情</el-button>
               <el-button type="text" size="mini">删除</el-button>
             </template>
@@ -279,7 +279,7 @@
                   </p>
                 </div>
               </div>
-              <approveuser :auditUser="auditUser" :flowKey="flowKey"></approveuser>
+              <approveuser v-if="approveVisible" :auditUser="auditUser" :flowKey="flowKey"></approveuser>
 
 
               <div class="form-block">
@@ -376,6 +376,7 @@
           ]
         },
         auditUser: {},
+        approveVisible:true,
         flowKey: ""
       };
     },

@@ -128,7 +128,7 @@
 									</div>
 								</div>
 								
-								<approveuser :auditUser="auditUser"  :flowKey="flowKey">
+								<approveuser v-if="approveVisible" :auditUser="auditUser"  :flowKey="flowKey">
 								</approveuser>
 								
 								<div class="form-block">
@@ -343,6 +343,7 @@ import projectinfo from "../../common/projectinfo.vue"
 					buildEndMonth: formatMonth(new Date())
 				},
 				auditUser: {},
+                approveVisible:true,
 				flowKey:'laowufenbaohetong'
 			};
 		},
@@ -365,6 +366,7 @@ import projectinfo from "../../common/projectinfo.vue"
 				obj=obj||{};
 				if (obj['id']) {
 					this.getDetail(obj['id']);
+                    this.approveVisible=false;
 				} else {
 					this.formData = {
 						attachment: [],
@@ -379,6 +381,8 @@ import projectinfo from "../../common/projectinfo.vue"
 					}
 					this.attachTable = [];
 					this.contractTable = [];
+					this.auditUser={};
+					this.approveVisible=true;
 				}
 			}
 		},
@@ -395,6 +399,7 @@ import projectinfo from "../../common/projectinfo.vue"
 				this.addOrModifyFlag = obj['id'] ? false : true;
 				if (obj['id']) {
 					this.getDetail(obj['id']);
+                    this.approveVisible=false;
 				} else {
 					this.formData = {
 						attachment: [],
@@ -411,6 +416,8 @@ import projectinfo from "../../common/projectinfo.vue"
 					this.reportTable = [];
 					this.factoryTable = [];
 					this.attachTable = [];
+					this.auditUser={};
+					this.approveVisible=true;
 				}
 			},
 			getDetail(id) {

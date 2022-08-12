@@ -151,7 +151,7 @@
 									</div>
 								</div>
 
-								<approveuser :auditUser="auditUser" :flowKey="flowKey">
+								<approveuser v-if="approveVisible" :auditUser="auditUser" :flowKey="flowKey">
 								</approveuser>
 								<div class="form-block">
 									<el-button class="submit-btn" size="small" type="primary" @click="addOrModify()">提交
@@ -478,6 +478,7 @@
 				},
 				flowNodesUsersData: [],
 				auditUser: {},
+                approveVisible:true,
 				flowKey: 'zhiliangjiance'
 			};
 		},

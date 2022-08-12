@@ -168,7 +168,7 @@
 									</div>
 								</div> -->
 								
-								<approveuser :auditUser="auditUser"  :flowKey="flowKey">
+								<approveuser v-if="approveVisible" :auditUser="auditUser"  :flowKey="flowKey">
 								</approveuser>
 								
 								<div class="form-block">
@@ -301,6 +301,7 @@
 				replyAttachTable: [], // 整改回复附件
 				fileList:[],
 				auditUser: {},
+                approveVisible:true,
 				flowKey:'shigongfangan'
 			};
 		},
@@ -325,6 +326,7 @@
 				obj=obj||{};
 				if (obj['id']) {
 					this.getDetail(obj['id']);
+                    this.approveVisible=false;
 				} else {
 					this.formData = {
 						buildPlanName: '', // 专项施工方案名称
@@ -350,6 +352,8 @@
 					this.buildPlanAttachTable=[]
 					this.expertMeetingAttachTable=[]
 					this.replyAttachTable=[]
+					this.auditUser={};
+					this.approveVisible=true;
 				}
 			},
 			getProjectInfoById(){

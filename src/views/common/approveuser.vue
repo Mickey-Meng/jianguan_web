@@ -8,7 +8,7 @@
 				<div class="form-block-title">
 					<div class="title-bar"></div><strong>待审批人</strong>
 				</div>
-				<div class="block-line" v-for="userOptions in flowNodesUsersData">
+				<div class="block-line" v-for="(userOptions,_index) in flowNodesUsersData" :key="_index">
 					<div class="block-item" v-if="userOptions.sort != 1">
 						<div class="block-item-label">{{userOptions.entryName}}<i class="require-icon"></i></div>
 						<div class="block-item-value">
@@ -19,7 +19,7 @@
 									:multiple="userOptions['isSign']?true:false"
 									v-model="auditUser[userOptions.entryUserVariable]"
 									@change="flowUserChange($event, userOptions.entryUserVariable)">
-									<el-option v-for="(item, idx) in userOptions.userInfo" :key="item.id"
+									<el-option v-for="(item, idx) in userOptions.userInfo" :key="item.id+idx"
 										:label="item.name" :value="item.username">
 									</el-option>
 								</el-select>
@@ -36,7 +36,7 @@
 									:multiple="true"
 									v-model="copyData['user']" 
 									@change="flowCopyUserChange($event, 'user')">
-									<el-option v-for="(item, idx) in userOptions.copyUserInfo" :key="item.id"
+									<el-option v-for="(item, idx) in userOptions.copyUserInfo" :key="item.id+idx"
 										:label="item.name" :value="item.username">
 									</el-option>
 								</el-select>

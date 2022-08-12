@@ -56,7 +56,7 @@
           <!--          <el-table-column prop="uploadname" label="是否自管"></el-table-column>-->
           <!--          <el-table-column prop="uploadname" label="状态"></el-table-column>-->
           <el-table-column label="操作">
-            <template slot-scope="{row,$index}">
+            <template slot-scope="{row}">
               <!--              <el-button type="text" size="mini" @click="issueStep(row)">发布</el-button>-->
               <!--              <el-button type="text" size="mini">修改</el-button>-->
               <el-button type="text" size="mini" @click="seeDetail(row)">详情</el-button>
@@ -347,7 +347,7 @@
                       </el-table>
                     </div>
                   </div>
-                  <approveuser :auditUser="auditUser" :flowKey="flowKey"></approveuser>
+                  <approveuser v-if="approveVisible" :auditUser="auditUser" :flowKey="flowKey"></approveuser>
                   <div class="form-block" v-if="isCreate">
                     <el-button class="submit-btn" size="small" type="primary" @click="submitStaffInfo">提交
                     </el-button>
@@ -456,6 +456,7 @@
         isShow: true,
         isCreate: true,
         auditUser: {},
+        approveVisible:true,
         flowKey: ""
       };
     },

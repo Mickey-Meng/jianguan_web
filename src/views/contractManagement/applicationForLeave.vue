@@ -54,7 +54,7 @@
           <el-table-column prop="subDate" label="申请时间" show-overflow-tooltip></el-table-column>
           <el-table-column prop="remark" label="备注" show-overflow-tooltip></el-table-column>
           <el-table-column label="操作">
-            <template slot-scope="{row,$index}">
+            <template slot-scope="{row}">
               <el-button type="text" size="mini" @click="seeDetail(row)">详情</el-button>
               <el-button type="text" size="mini">删除</el-button>
             </template>
@@ -170,7 +170,7 @@
                   </div>
                 </div>
               </div>
-              <approveuser :auditUser="auditUser" :flowKey="flowKey"></approveuser>
+              <approveuser v-if="approveVisible" :auditUser="auditUser" :flowKey="flowKey"></approveuser>
               <div class="form-block" v-if="isCreate">
                 <el-button class="submit-btn" size="small" type="primary" @click="submitStaffInfo" v-if="isCreate">提交
                 </el-button>
@@ -252,6 +252,7 @@
           noonOff: "14:00"//午休结束时间
         },
         auditUser: {},
+        approveVisible:true,
         flowKey: ""
       };
     },

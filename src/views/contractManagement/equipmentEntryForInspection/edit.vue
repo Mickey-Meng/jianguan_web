@@ -97,7 +97,7 @@
 
 								</div>
 								
-								<approveuser :auditUser="auditUser"  :flowKey="flowKey">
+								<approveuser v-if="approveVisible" :auditUser="auditUser"  :flowKey="flowKey">
 								</approveuser>
 								<div class="form-block">
 									<el-button @click="addOrModify()" class="submit-btn" size="small" type="primary">提交
@@ -293,6 +293,7 @@ import projectinfo from "../../common/projectinfo.vue"
 					enterDate: formatDate(new Date())
 				},
 				auditUser: {},
+                approveVisible:true,
 				flowKey:'shebeijinchangbaoyan'
 			};
 		},
@@ -318,6 +319,7 @@ import projectinfo from "../../common/projectinfo.vue"
 				obj=obj||{};
 				if (obj['id']) {
 					this.getDetail(obj['id']);
+                    this.approveVisible=false;
 				} else {
 					this.formData = {
 						attachment: [],
@@ -331,6 +333,8 @@ import projectinfo from "../../common/projectinfo.vue"
 					}
 					this.attachTable=[];
 					this.equipmentTable=[];
+					this.auditUser={};
+					this.approveVisible=true;
 				}
 			},
 			getProjectInfoById() {

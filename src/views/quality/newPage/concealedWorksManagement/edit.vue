@@ -89,7 +89,7 @@
 									</attachlist>
 
 								</div>
-								<approveuser :auditUser="auditUser"  :flowKey="flowKey">
+								<approveuser v-if="approveVisible" :auditUser="auditUser"  :flowKey="flowKey">
 								</approveuser>
 
 								<div class="form-block">
@@ -192,6 +192,7 @@
 				attachTable: [], //附件
 				fileList: [],
 				auditUser: {},
+                approveVisible:true,
 				flowKey:'yinbigongchengguanli'
 			};
 		},
@@ -221,6 +222,7 @@
 				this.addOrModifyFlag = obj['id'] ? false : true;
 				if (obj['id']) {
 					this.getDetail(obj['id']);
+                    this.approveVisible=false;
 				} else {
 					this.formData = {
 						attachment: [],
@@ -234,6 +236,8 @@
 						unit: ''
 					}
 					this.attachTable = [];
+					this.auditUser={};
+					this.approveVisible=true;
 				}
 			},
 			getProjectInfoById() {

@@ -1605,7 +1605,7 @@
 									</attachlist>
 								</div>
 
-								<approveuser :auditUser="auditUser" :flowKey="flowKey">
+								<approveuser v-if="approveVisible" :auditUser="auditUser" :flowKey="flowKey">
 								</approveuser>
 
 								<div class="form-block">
@@ -1737,6 +1737,7 @@
 				auditUser: {},
 				flowKey: 'jianlipangzhan',
 				partVisible: false,
+                approveVisible:true,
 				treeData: null
 			};
 		},
@@ -1814,6 +1815,7 @@
 				this.addOrModifyFlag = obj['id'] ? false : true;
 				if (obj['id']) {
 					this.getDetail(obj['id']);
+                    this.approveVisible=false;
 				} else {
 					this.sideInfo = {}
 					this.formData = {
@@ -1837,6 +1839,8 @@
 						"sideWorkCondition": "",
 						"video": []
 					}
+					this.auditUser={};
+					this.approveVisible=true;
 				}
 			},
 

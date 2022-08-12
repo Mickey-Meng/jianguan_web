@@ -54,7 +54,7 @@
 									</attachlist>
 								</div>
 
-								<approveuser :auditUser="auditUser" :flowKey="flowKey">
+								<approveuser v-if="approveVisible" :auditUser="auditUser" :flowKey="flowKey">
 								</approveuser>
 
 								<div class="form-block">
@@ -146,6 +146,7 @@
 				attachTable: [], //其他附件
 				flowNodesUsersData: [],
 				auditUser: {},
+                approveVisible:true,
 				flowKey: 'zhilianghuodong'
 			};
 		},
@@ -189,6 +190,7 @@
 				this.addOrModifyFlag = obj['id'] ? false : true;
 				if (obj['id']) {
 					this.getDetail(obj['id']);
+                    this.approveVisible=false;
 				} else {
 					this.formData = {
 						"activityInfo": "",
@@ -201,6 +203,8 @@
 						projectId:this.$store.getters.project['parentid'],
 						"remark": ""
 					}
+					this.auditUser={};
+					this.approveVisible=true;
 				}
 			},
 

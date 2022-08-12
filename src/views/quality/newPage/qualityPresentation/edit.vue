@@ -48,7 +48,7 @@
 
 								</div>
 
-								<approveuser :auditUser="auditUser"  :flowKey="flowKey">
+								<approveuser v-if="approveVisible" :auditUser="auditUser"  :flowKey="flowKey">
 								</approveuser>
 								<div class="form-block">
 									<el-button class="submit-btn" size="small" type="primary" @click="addOrModify()">提交
@@ -130,6 +130,7 @@
 					
 				},
 				auditUser: {},
+                approveVisible:true,
 				flowKey:'zhiliangjianbao'
 			};
 		},
@@ -173,6 +174,7 @@
 				this.addOrModifyFlag = obj['id'] ? false : true;
 				if (obj['id']) {
 					this.getDetail(obj['id']);
+                    this.approveVisible=false;
 				} else {
 					this.formData = {
 						buildSection:'',
@@ -184,6 +186,8 @@
 						replyPhotoAttachment: [],
 						buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 					}
+					this.auditUser={};
+					this.approveVisible=true;
 				}
 			},
 
