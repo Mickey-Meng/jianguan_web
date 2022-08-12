@@ -20,7 +20,7 @@
 					<el-input v-model="queryData.projectCode" placeholder="工程编号"></el-input>
 				</div>
 			</div>
-			<el-button type="primary">搜索</el-button>
+			<el-button type="primary" @click="query()">搜索</el-button>
 
 			<div v-if="!isDraft" class="right-btns">
 				<!-- <el-button type="primary" size="small"
@@ -182,7 +182,7 @@
 			},
 			exportData() {
 				this.queryData.draftFlag = 1;
-				api.exportEnterExitUserList(this.queryData).then((res) => {
+				api.exportEquipmentExitList(this.queryData).then((res) => {
 					const reader = new FileReader();
 					reader.readAsDataURL(res);
 					reader.onload = (e) => {

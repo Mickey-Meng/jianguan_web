@@ -56,7 +56,7 @@
 											<div class="block-item-label">支付金额<i class="require-icon"></i></div>
 											<div class="block-item-value">
 												<el-form-item prop="payAmount">
-													<el-input v-model.number="formData.payAmount"></el-input>
+													<el-input v-model="formData.payAmount" @input="formatNum(formData.payAmount, 'payAmount')"></el-input>
 												</el-form-item>
 											</div>
 										</div>
@@ -93,7 +93,7 @@
 									</div>
 								</div>
 
-								<approveuser :auditUser="auditUser" :copyData="copyData"  :flowKey="flowKey">
+								<approveuser v-if="approveVisible" :auditUser="auditUser" :copyData="copyData"  :flowKey="flowKey">
 								</approveuser>
 								<div class="form-block">
 									<el-button @click="addOrModify()" class="submit-btn" size="small" type="primary">提交
@@ -175,10 +175,12 @@ import projectinfo from "../../common/projectinfo.vue"
 						required: true,
 						message: '请选择拟分包工程部位',
 						trigger: 'blur'
-					}, {
-						type: 'number',
-						message: '合同金额必须为数字'
-					}]
+					}
+					// , {
+					// 	type: 'number',
+					// 	message: '合同金额必须为数字'
+					// },
+					]
 				},
 				baseInfo: {
 					buildSection: 1,
@@ -205,6 +207,7 @@ import projectinfo from "../../common/projectinfo.vue"
 				flowNodesUsersData: [],
 				auditUser: {},
 				copyData: {},
+				approveVisible:true,
 				flowKey:'wanglaikuanguanli'
 			};
 		},
@@ -224,12 +227,22 @@ import projectinfo from "../../common/projectinfo.vue"
 
 		},
 		methods: {
-			
+			formatNum(val, key) {
+			  let temp = val.toString();
+			  temp = temp.replace(/。/g, ".");
+			  temp = temp.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
+			  temp = temp.replace(/^\./g, ""); //验证第一个字符是数字
+			  temp = temp.replace(/\.{2,}/g, ""); //只保留第一个, 清除多余的
+			  temp = temp.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+			  temp = temp.replace(/^(\-)*(\d+)\.(\d\d).*$/, "$1$2.$3"); //只能输入两个小数
+			  this.formData[key] = temp;
+			},
 			changeVisible(obj, value) {
 				this.dialogFormVisible = value;
 				obj = obj || {};
 				if (obj['id']) {
 					this.getDetail(obj['id']);
+					this.approveVisible=false;
 				} else {
 					this.formData = {
 						attachment: [],
@@ -245,6 +258,9 @@ import projectinfo from "../../common/projectinfo.vue"
 						payDate: formatDate(new Date())
 					}
 					this.attachTable = [];
+					this.copyData={};
+					this.auditUser={};
+					this.approveVisible=true;
 				}
 			},
 			getDetail(id) {
@@ -304,7 +320,6 @@ import projectinfo from "../../common/projectinfo.vue"
 						if (valid) {
 							this.formData.attachment = this.attachTable;
 							this.formData.auditUser = this.auditUser;
-							console.log(this.copyData);
 							this.copyData.user = this.copyData.user.join(",");
 							this.formData.copyData = this.copyData;
 							this.formData.draftFlag=1;

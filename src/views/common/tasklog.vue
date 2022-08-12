@@ -71,42 +71,51 @@
 		},
 		methods: {
 			initData(){
-				api.viewProcessBpmn({
-					processDefinitionId:this.taskInfo['processDefinitionId']
-				}).then((res) => {
-					this.xmlStr=res['data'];
-					
-				});
-				api.getRunVariables({
-					processInstanceId:this.taskInfo['processInstanceId'],
-					flowKey: this.taskInfo['flowKey'],
-					buildSection: this.$store.getters.project.id,
-					projectId:this.$store.getters.project['parentid'],
-				}).then((res) => {
-					this.runVariables=res['data'];
-					
-				})
-				api.viewHighlightFlowData({
-					processInstanceId:this.taskInfo['processInstanceId']
-				}).then((res) => {
-					this.processNodeInfo = res.data;
-				});
-				api.listFlowTaskComment({
-					processInstanceId:this.taskInfo['processInstanceId']
-				}).then((res) => {
-					const _data = [];
-					for (let i = 0; i < res.data.length; i++) {
-						const item = res.data[i];
-						item.comment = item.comment === undefined ? "发起" : item.comment; // 默认显示为发起
-						// getUserInfo(item.createUserId).then(res1 => {
-						// 	item.createUsernameStr = res1.data.userInfo.NAME;
-						// 	_data.push(JSON.parse(JSON.stringify(item)));
-							
-						// 	this.logData=_data||[]; // 强制刷新
-						// })
-					}
-					this.logData=res['data']||[];
-				});
+				if(this.taskInfo['processDefinitionId']){
+					api.viewProcessBpmn({
+						processDefinitionId:this.taskInfo['processDefinitionId']
+					}).then((res) => {
+						this.xmlStr=res['data'];
+					});
+				}
+				if(this.taskInfo['processInstanceId'] && this.taskInfo['flowKey']){
+					api.getRunVariables({
+						processInstanceId:this.taskInfo['processInstanceId'],
+						flowKey: this.taskInfo['flowKey'],
+						buildSection: this.$store.getters.project.id,
+						projectId:this.$store.getters.project['parentid'],
+					}).then((res) => {
+						this.runVariables=res['data'];
+						
+					})
+				}
+				if(this.taskInfo['processInstanceId']){
+					api.viewHighlightFlowData({
+						processInstanceId:this.taskInfo['processInstanceId']
+					}).then((res) => {
+						this.processNodeInfo = res.data;
+					});
+				}
+				if(this.taskInfo['processInstanceId']){
+					api.listFlowTaskComment({
+						processInstanceId:this.taskInfo['processInstanceId']
+					}).then((res) => {
+						const _data = [];
+						for (let i = 0; i < res.data.length; i++) {
+							const item = res.data[i];
+							item.comment = item.comment === undefined ? "发起" : item.comment; // 默认显示为发起
+							// getUserInfo(item.createUserId).then(res1 => {
+							// 	item.createUsernameStr = res1.data.userInfo.NAME;
+							// 	_data.push(JSON.parse(JSON.stringify(item)));
+								
+							// 	this.logData=_data||[]; // 强制刷新
+							// })
+						}
+						this.logData=res['data']||[];
+					});
+				}
+				
+				
 				
 				// if(this.taskInfo['taskId']){
 				// 	api.viewTaskUserInfo({

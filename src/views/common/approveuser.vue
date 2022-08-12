@@ -59,7 +59,6 @@
 			return {
 				formData: {},
 				flowNodesUsersData: [],
-               
 			};
 		},
 		created() {},
