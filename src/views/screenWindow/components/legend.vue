@@ -1,17 +1,17 @@
 <template>
   <ul>
-    <li class="item">交通（579）</li>
+    <li class="item">交通（13）</li>
     <li class="item_1">
-      <div class="label">施工（155）</div>
+      <div class="label">施工（13）</div>
       <img src="../../../assets/mapView/施工.png" alt="">
     </li>
     <li class="item_1">
-      <div class="label">停工（208）</div>
+      <div class="label">停工（0）</div>
       <img src="../../../assets/mapView/停工.png" alt="">
 
     </li>
     <li class="item_1">
-      <div class="label">完工未验（216）</div>
+      <div class="label">完工未验（0）</div>
       <img src="../../../assets/mapView/完工未验.png" alt="">
 
     </li>
