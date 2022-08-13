@@ -140,7 +140,7 @@ export default {
     this.init();
   },
   computed: {
-    ...mapGetters(["menus"]),
+    ...mapGetters(["menus", "rights"])
   },
   mounted() {
     document.onselectstart = function () {
@@ -284,6 +284,10 @@ export default {
     seeProject(item) {
       if (item.id) {
         this.SET_PROJECT(item);
+        if (this.rights.includes("shujuzhongxin")) {
+          this.$router.push("/data");
+          return false;
+        }
         if (this.menus && this.menus.length > 0) {
           let item = this.menus[0];
           if (item.children && item.children.length > 0) {
