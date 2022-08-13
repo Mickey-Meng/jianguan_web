@@ -8,7 +8,7 @@
 -->
 <template>
   <ul>
-    <li v-for="(item,index) in menus" :key="index" :class="{isActive:item.isActive}">
+    <li v-for="(item,index) in menus" :key="index" :class="{isActive:item.id === currentId}" @click="changeData(item)">
       <div>{{ item.name }}</div>
     </li>
 
@@ -21,26 +21,23 @@
     watch: {},
     data() {
       return {
+        currentId: 1,
         menus: [
           {
             name: "交通类",
-            id: 1,
-            isActive: true
+            id: 1
           },
           {
             name: "房建类",
-            id: 2,
-            isActive: false
+            id: 2
           },
           {
             name: "市政类",
             id: 3,
-            isActive: false
           },
           {
             name: "其他类",
-            id: 4,
-            isActive: false
+            id: 4
           }
         ]
       };
@@ -49,7 +46,14 @@
     },
     mounted() {
     },
-    methods: {},
+    methods: {
+      changeData(item) {
+        if (this.currentId !== item.id) {
+          this.currentId = item.id;
+          this.$emit("changeData", item.name);
+        }
+      }
+    },
     components: {},
     beforeDestroy() {
     }
@@ -72,6 +76,8 @@
       background: url("../../../assets/mapView/项目类型.png") no-repeat;
       background-size: 100% 100%;
       margin-right: 16px;
+      cursor: pointer;
+      user-select: none;
       //height: 32px;
       div {
         font-size: 22px;

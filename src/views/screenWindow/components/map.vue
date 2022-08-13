@@ -13,10 +13,9 @@
   const Cesium = window.Cesium;
   // let earth = {};
   let mapCtx = {};
-  let mm;
-  // function clickProject(id){
-  //   console.log(id);
-  // }
+  // let mm, otherMm, roomMm;
+  let markerManagement = {};
+  let popupManagement = {};
   let that;
   window.clickProject = function (id) {
     that.goSystem(id);
@@ -26,7 +25,8 @@
     watch: {},
     data() {
       return {
-        allProjects: []
+        allProjects: [],
+        allPopupId: []
       };
     },
     created() {
@@ -66,9 +66,24 @@
           }
         ];
         window.ddd = mapCtx.zlskEarthHelper = new ZlskEarthHelper("map", obj);
-        mm = mapCtx.zlskEarthHelper.earth.createMarkerManager();
+        // mm = mapCtx.zlskEarthHelper.earth.createMarkerManager();
         this.addCityLine();
         this.setColour();
+      },
+      getMm(type) {
+        if (!markerManagement[type]) {
+          markerManagement[type] = mapCtx.zlskEarthHelper.earth.createMarkerManager();
+          if (type != "交通类") {
+            markerManagement[type].visible = false;
+          }
+        }
+        return markerManagement[type];
+      },
+      getPopup(type) {
+        if (!popupManagement[type]) {
+          popupManagement[type] = [];
+        }
+        return popupManagement[type];
       },
       addCityLine() {
         this.$axios.get("./data/诸暨市_市界.json").then(res => {
@@ -135,9 +150,13 @@
           let data = res.data;
           this.allProjects = data;
           let img = require("@/assets/mapView/施工.png");
+          console.log(data);
           data.forEach(item => {
-            let {introduction, name, projectpoint, id} = item;
+            let {introduction, name, projectpoint, id, projecttype} = item;
+            projecttype = projecttype ? projecttype : "其他类";
             if (projectpoint) {
+              let mm = this.getMm(projecttype);
+              let popup = this.getPopup(projecttype);
               let site = projectpoint.split(",");
               let mmid = mm.add({
                 position: [Number(site[1]), Number(site[0]), 20],
@@ -164,8 +183,11 @@
                 height: 140, // 可选，默认值: 240
                 content: html, // 弹框内容 可选，默认值: ''
                 class: "map_view_popup", // 可选，默认值:
-                closable: false // 关闭按钮 可选，默认值: true
+                closable: false, // 关闭按钮 可选，默认值: true
+                visible: projecttype === "交通类" ? true : false
               });
+              popup.push(a);
+              this.allPopupId.push(a);
               // mapCtx.zlskEarthHelper.earth.flytoLookat({
               //   longitude: Number(site[1]),
               //   latitude: Number(site[0]),
@@ -192,6 +214,25 @@
             }
           }
         }
+      },
+      changeMarkerVisible(type) {
+        if (Object.keys(markerManagement).length > 0) {
+          for (let i in markerManagement) {
+            markerManagement[i].visible = false;
+          }
+        }
+        if (markerManagement[type]) {
+          markerManagement[type].visible = true;
+        }
+        this.allPopupId.forEach(item => {
+          mapCtx.zlskEarthHelper.updatePopup(item, {visible: false});
+        });
+        if (popupManagement[type]) {
+          popupManagement[type].forEach(item => {
+            mapCtx.zlskEarthHelper.updatePopup(item, {visible: true});
+          });
+        }
+        console.log(markerManagement);
       }
     },
     components: {},

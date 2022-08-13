@@ -1,7 +1,7 @@
 <template>
   <div class="map_view_wrapper">
     <div class="earth">
-      <mapView></mapView>
+      <mapView ref="mapView"></mapView>
     </div>
     <div class="header_title">
       <headerTitle></headerTitle>
@@ -14,7 +14,7 @@
     <div class="right_container">
       <rightContainer></rightContainer>
     </div>
-    <projectType></projectType>
+    <projectType @changeData="changeData"></projectType>
     <legendView></legendView>
     <projectImage></projectImage>
 
@@ -40,7 +40,11 @@
     },
     mounted() {
     },
-    methods: {},
+    methods: {
+      changeData(name) {
+        this.$refs.mapView.changeMarkerVisible(name);
+      }
+    },
     components: {mapView, headerTitle, leftContainer, rightContainer, projectType, legendView, projectImage},
     beforeDestroy() {
     }
