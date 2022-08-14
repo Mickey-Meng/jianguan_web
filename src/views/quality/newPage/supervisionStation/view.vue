@@ -677,7 +677,7 @@
 									</el-form-item>
 								</el-col>
 								<el-col :span="12">
-									<el-form-item label="钢筋笼主筋间距设计值(mm)">
+									<el-form-item label="钢筋笼主筋间距实测值(mm)">
 										{{sideInfo.a96}}
 									</el-form-item>
 								</el-col>

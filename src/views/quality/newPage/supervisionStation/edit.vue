@@ -823,9 +823,9 @@
 													</el-form-item>
 												</el-col>
 												<el-col :span="12">
-													<el-form-item label="钢筋笼主筋间距设计值(mm)">
+													<el-form-item label="钢筋笼主筋间距实测值(mm)">
 														<el-input v-model="sideInfo.a96"
-															placeholder="请输入钢筋笼主筋间距设计值(mm)，多个数据请用,隔开"></el-input>
+															placeholder="请输入钢筋笼主筋间距实测值(mm)，多个数据请用,隔开"></el-input>
 													</el-form-item>
 												</el-col>
 											</el-row>

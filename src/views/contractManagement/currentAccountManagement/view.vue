@@ -90,7 +90,7 @@
 				formData: { //表单参数
 					attachment: [],
 					billCode: '',
-					explain: '',
+					explaination: '',
 					gatherUnit: '',
 					payAmount: null,
 					deletedFlag: 1,

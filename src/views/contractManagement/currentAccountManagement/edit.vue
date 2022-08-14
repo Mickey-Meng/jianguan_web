@@ -86,7 +86,7 @@
 										<div class="block-item">
 											<div class="block-item-label">说明</div>
 											<div class="block-item-value">
-												<el-input v-model="formData.explain" type="textarea" :rows="4"
+												<el-input v-model="formData.explaination" type="textarea" :rows="4"
 													placeholder="请输入"></el-input>
 											</div>
 										</div>
@@ -193,7 +193,7 @@ import projectinfo from "../../common/projectinfo.vue"
 				formData: { //表单参数
 					attachment: [],
 					billCode: '',
-					explain: '',
+					explaination: '',
 					gatherUnit: '',
 					payAmount: null,
 					deletedFlag: 1,
@@ -247,7 +247,7 @@ import projectinfo from "../../common/projectinfo.vue"
 					this.formData = {
 						attachment: [],
 						billCode: '',
-						explain: '',
+						explaination: '',
 						gatherUnit: '',
 						payAmount: null,
 						deletedFlag: 1,
@@ -283,7 +283,7 @@ import projectinfo from "../../common/projectinfo.vue"
 					if (diffCompare([this.formData, this.attachTable], [{
 								attachment: [],
 								billCode: '',
-								explain: '',
+								explaination: '',
 								gatherUnit: '',
 								payAmount: null,
 								deletedFlag: 1,
