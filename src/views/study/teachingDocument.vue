@@ -20,14 +20,16 @@
         <el-table-column prop="uploadtime" label="上传时间"> </el-table-column>
         <el-table-column label="操作" width="180">
           <template slot-scope="{ row, $index }">
-            <el-button type="primary" size="small" @click="downLoadFile(row)"  class="primary_mini" >
+
+            <el-button type="primary" size="small" @click="downLoadFile(row)" class="primary_mini">
               下载
             </el-button>
             <el-button
               type="danger"
               size="small"
               @click="handleDelete(row, $index)"
-              >删除</el-button
+            >删除
+            </el-button
             >
           </template>
         </el-table-column>
@@ -145,9 +147,9 @@ export default {
             this.dialogVisible = false;
             this.init();
             this.$message({
-              message: "文件上传上传成功",
+              message: "文件上传成功",
               type: "success",
-              customClass: "message_override",
+              customClass: "message_override"
             });
           });
         } else {
@@ -168,14 +170,14 @@ export default {
       this.$confirm("是否删除该文件?", "删除文件", {
         cancelButtonText: "取消",
         confirmButtonText: "确定",
-        customClass: "ceshi",
-        type: "warning",
+        customClass: "message_override",
+        type: "warning"
       }).then(() => {
         deleteFile(row.id).then((res) => {
           this.$message({
             message: "删除成功",
             type: "success",
-            customClass: "message_override",
+            customClass: "message_override"
           });
           this.tableData.splice(index, 1);
         });
@@ -183,7 +185,7 @@ export default {
     },
     downLoadFile(row) {
       downLoadFile(row.fileurl);
-    },
+    }
   },
 };
 </script>

@@ -26,12 +26,13 @@ import "@/icons"; // icon
 import "@/permission"; // permission control
 import "@/utils/geturl";
 
-import "@/assets/css/common.css"
+import "@/assets/css/common.css";
 
-import 'bpmn-js/dist/assets/diagram-js.css';
-import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css';
-import '@/font/font.css';
-import '@/components/Dialog';
+import "bpmn-js/dist/assets/diagram-js.css";
+import "bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css";
+import "@/font/font.css";
+import "@/components/Dialog";
+
 
 /**
  * If you don't want to use mock-server
