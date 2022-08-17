@@ -37,6 +37,7 @@
       custom-class="dialog-panel"
       :append-to-body="true"
       destroy-on-close
+      :modal="false"
       :close-on-click-modal="false"
     >
       <el-form
@@ -46,6 +47,7 @@
         label-width="120px"
         :model="form"
         :rules="rules"
+        style="pointer-events: auto"
       >
         <el-form-item label="标题" prop="title">
           <el-input v-model="form.title"></el-input>
