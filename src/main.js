@@ -33,6 +33,9 @@ import "bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css";
 import "@/font/font.css";
 import "@/components/Dialog";
 
+import "quill/dist/quill.core.css";
+import "quill/dist/quill.snow.css";
+import "quill/dist/quill.bubble.css";
 
 /**
  * If you don't want to use mock-server

@@ -27,6 +27,14 @@ export const getNews = (type = 1, projectId) => {
   });
 };
 
+export const updateNews = (data) => {
+  return request({
+    url: api.updateNews,
+    method: "post",
+    data
+  });
+};
+
 export const addNews = data => {
   return request({
     url: api.addNews,
@@ -35,7 +43,7 @@ export const addNews = data => {
   });
 };
 
-export const deleteNews = ({ id }) => {
+export const deleteNews = ({id}) => {
   return request({
     url: api.deleteNews,
     method: "get",

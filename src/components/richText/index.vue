@@ -15,9 +15,9 @@
   // import {uploadFile} from "@/api/flie";
   import selectImage from "@/components/richText/selectImage";
   import {quillEditor, Quill} from "vue-quill-editor";
-  import "quill/dist/quill.core.css";
-  import "quill/dist/quill.snow.css";
-  import "quill/dist/quill.bubble.css";
+  // import "quill/dist/quill.core.css";
+  // import "quill/dist/quill.snow.css";
+  // import "quill/dist/quill.bubble.css";
 
   // import { ImageResize } from 'quill-image-resize-module';
   import ImageResize from "quill-image-resize-module";  //添加

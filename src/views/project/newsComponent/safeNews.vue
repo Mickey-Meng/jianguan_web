@@ -29,9 +29,10 @@
         label="附件"
       align="center">
       </el-table-column> -->
-    <el-table-column label="操作" align="center">
+    <el-table-column label="操作" align="center" width="240">
       <template slot-scope="{ row, $index }">
         <el-button size="mini" type="primary" class="primary_mini" @click="seeDetail(row, $index)">详情</el-button>
+        <el-button size="mini" type="primary" class="primary_mini" @click="modify(row, $index)">修改</el-button>
         <el-button size="mini" @click="deleteNew(row, $index)">删除</el-button>
       </template>
     </el-table-column>
@@ -56,6 +57,9 @@ export default {
   methods: {
     seeDetail(row) {
       this.$emit("showNewsDetail", row);
+    },
+    modify(row) {
+      this.$emit("modifyData", row);
     },
     deleteNew(row, index) {
       this.$confirm("删除信息?", "删除", {

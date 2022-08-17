@@ -29,6 +29,7 @@
         :newsData="tableData"
         :type="currentView"
         @showNewsDetail="showNewsDetail"
+        @modifyData="modifyData"
       ></component>
     </div>
     <el-dialog
@@ -47,7 +48,7 @@
         label-width="120px"
         :model="form"
         :rules="rules"
-        style="pointer-events: auto"
+        style="pointer-events: auto;z-index: 1000002 !important"
       >
         <el-form-item label="标题" prop="title">
           <el-input v-model="form.title"></el-input>
@@ -76,7 +77,7 @@
             <el-button size="small" type="primary">点击上传</el-button>
           </el-upload>
         </el-form-item>
-        <el-form-item label="新闻内容">
+        <el-form-item label="新闻内容" prop="content">
           <richTextView v-model="form.content"></richTextView>
         </el-form-item>
       </el-form>
@@ -112,7 +113,7 @@
   import negNews from "@/views/project/newsComponent/negNews";
   import safeNews from "@/views/project/newsComponent/safeNews";
   import {mapGetters} from "vuex";
-  import {getNews, addNews} from "@/api/news";
+  import {getNews, addNews, updateNews} from "@/api/news";
   import {validPicurl} from "@/utils/validate";
   import richTextView from "@/components/richText/index";
 
@@ -128,6 +129,7 @@
         newsRow: {},
         fileList: [],
         form: {},
+        isCreate: true,
         rules: {
           title: [{required: true, message: "请输入标题", trigger: "blur"}],
           sttime: [{required: true, message: "请选择时间", trigger: "blur"}],
@@ -185,6 +187,7 @@
 
       },
       showDialog() {
+        this.isCreate = true;
         this.form = {
           projectId: this.project.id,
           content: "",
@@ -194,38 +197,51 @@
         this.fileList = [];
         this.dialogVisible = true;
       },
+      modifyData(item) {
+        this.isCreate = false;
+        this.form = Object.assign({}, item);
+        this.dialogVisible = true;
+      },
       submitNew() {
-        // if (this.fileList.length === 0) {
-        //   this.$message({
-        //     message: "请上传照片",
-        //     type: "warning",
-        //     customClass: "message_override"
-        //   });
-        //   return;
-        // }
+
         this.$refs["form"].validate((valid) => {
           if (valid) {
             const obj = Object.assign({}, this.form);
-            let str = this.fileList[0].response.data;
-            obj.pic = str;
-            if (this.currentView === "negNews") {
-              obj.type = 1;
-            } else if (this.currentView === "activityNews") {
-              obj.type = 2;
-            } else {
-              obj.type = 3;
-            }
-            addNews(obj).then((res) => {
-              this.$message({
-                message: "添加成功",
-                type: "success",
-                customClass: "message_override"
+            if (this.isCreate) {
+              if (this.currentView === "negNews") {
+                obj.type = 1;
+              } else if (this.currentView === "activityNews") {
+                obj.type = 2;
+              } else {
+                obj.type = 3;
+              }
+              addNews(obj).then((res) => {
+                this.initData();
+                this.fileList = [];
+                this.dialogVisible = false;
+                this.form = {};
+                this.$message({
+                  message: "添加成功",
+                  type: "success",
+                  customClass: "message_override"
+                });
               });
-            });
-            this.fileList = [];
-            this.dialogVisible = false;
-            this.form = {};
-            this.initData();
+            } else {
+              updateNews(obj).then(() => {
+                this.initData();
+                this.fileList = [];
+                this.dialogVisible = false;
+                this.form = {};
+                this.$message({
+                  message: "修改",
+                  type: "success",
+                  customClass: "message_override"
+                });
+              });
+
+            }
+
+
           }
         });
       },
