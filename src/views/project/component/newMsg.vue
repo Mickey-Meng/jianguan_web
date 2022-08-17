@@ -3,6 +3,12 @@
     <div class="new_ui_header">
       <div class="header_line"></div>
       <div class="header_text">新闻中心</div>
+      <div class="more_news" @click="goNewsPage">更多
+        <svg-icon
+          icon-class="rightArrow"
+        />
+      </div>
+
     </div>
     <div class="newList">
       <ul>
@@ -10,6 +16,7 @@
           v-for="(item, index) in newLists"
           :class="{ active: item.id == currentId }"
           :key="index"
+          @click="showDetail(item)"
         >
           <div class="normal" v-show="item.id !== currentId ">
             <div>{{ item.title }}</div>
@@ -26,6 +33,16 @@
         </li>
       </ul>
     </div>
+    <el-dialog
+      title="详情"
+      :visible.sync="dialogDetailVisible"
+      custom-class="dialog-panel news_detail_panel"
+      :append-to-body="true"
+      destroy-on-close
+      :close-on-click-modal="false"
+    >
+      <div class="news_detail ql-editor" v-html="newsRow.content"></div>
+    </el-dialog>
   </div>
 </template>
 
@@ -41,14 +58,16 @@
         newsIndex: 1,
         currentId: null,
         newLists: [],
-        timer: null
+        timer: null,
+        dialogDetailVisible: false,
+        newsRow: {}
       };
     },
     created() {
       this.initData();
     },
     computed: {
-      ...mapGetters(["project"])
+      ...mapGetters(["project", "rights"])
     },
     methods: {
       initData() {
@@ -70,15 +89,38 @@
           let obj = data[index];
           data.splice(index, 1);
           data.push(obj);
-        this.newLists = data;
-        this.currentId = data[0].id;
-      }, 5000);
+          this.newLists = data;
+          this.currentId = data[0].id;
+        }, 5000);
+      },
+      showDetail(item) {
+        if (item.content) {
+          this.newsRow = item;
+          this.dialogDetailVisible = true;
+        } else {
+          this.$message({
+            message: "未填写新闻内容",
+            type: "warning",
+            customClass: "message_override"
+          });
+        }
+      },
+      goNewsPage() {
+        if (this.rights.includes("xinwenzhongxin")) {
+          this.$router.push("/newsCenter");
+        } else {
+          this.$message({
+            message: "您没有新闻中心权限,请联系管理员",
+            type: "warning",
+            customClass: "message_override"
+          });
+        }
+      }
     },
-  },
-  destroyed() {
-    this.timer && clearInterval(this.timer);
-  },
-};
+    destroyed() {
+      this.timer && clearInterval(this.timer);
+    }
+  };
 </script>
 
 <style scoped lang="scss">
@@ -91,6 +133,14 @@
     display: flex;
     align-items: center;
     padding: 20px 0px 10px 20px;
+    position: relative;
+
+    .more_news {
+      position: absolute;
+      font-size: 14px;
+      right: 20px;
+      cursor: pointer;
+    }
 
     .header_line {
       width: 4px;
@@ -215,4 +265,15 @@
     //}
   }
 }
+</style>
+<style lang="scss">
+  .news_detail_panel {
+    width: 70%;
+
+    .news_detail {
+      height: 600px;
+      overflow-y: auto;
+    }
+
+  }
 </style>

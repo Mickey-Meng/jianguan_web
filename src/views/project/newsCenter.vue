@@ -28,6 +28,7 @@
         v-bind:is="currentView"
         :newsData="tableData"
         :type="currentView"
+        @showNewsDetail="showNewsDetail"
       ></component>
     </div>
     <el-dialog
@@ -59,7 +60,7 @@
           >
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="新闻照片">
+        <el-form-item label="新闻照片" prop="pic">
           <el-upload
             class="upload-demo"
             :headers="header"
@@ -73,6 +74,9 @@
             <el-button size="small" type="primary">点击上传</el-button>
           </el-upload>
         </el-form-item>
+        <el-form-item label="新闻内容">
+          <richTextView v-model="form.content"></richTextView>
+        </el-form-item>
       </el-form>
       <div style="text-align: right">
         <el-button plain size="mini" class="btn-bg" @click="submitNew"
@@ -83,120 +87,156 @@
           size="mini"
           class="btn-bg"
           @click="dialogVisible = false"
-          >取消</el-button
+        >取消
+        </el-button
         >
       </div>
+    </el-dialog>
+    <el-dialog
+      title="详情"
+      :visible.sync="dialogDetailVisible"
+      custom-class="dialog-panel news_detail_panel"
+      :append-to-body="true"
+      destroy-on-close
+      :close-on-click-modal="false"
+    >
+      <div class="news_detail ql-editor" v-html="newsRow.content"></div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import activityNews from "@/views/project/newsComponent/activityNews";
-import negNews from "@/views/project/newsComponent/negNews";
-import safeNews from "@/views/project/newsComponent/safeNews";
-import { mapGetters } from "vuex";
-import { getNews, addNews } from "@/api/news";
-import { validPicurl } from "@/utils/validate";
-export default {
-  name: "",
-  components: { activityNews, negNews, safeNews },
-  data() {
-    return {
-      currentView: "negNews",
-      dialogVisible: false,
-      header: { token: "" }, // 文件上传带token
-      fileList: [],
-      form: {},
-      rules: {
-        title: [{ required: true, message: "请输入标题", trigger: "blur" }],
-        sttime: [{ required: true, message: "请选择时间", trigger: "blur" }],
-      },
-      tableData: [],
-    };
-  },
-  computed: {
-    ...mapGetters(["userInfo", "uploadUrl", "project"])
-  },
-  created() {
-    this.initData();
-  },
-  methods: {
-    initData() {
-      let type = null;
-      if (this.currentView === "negNews") {
-        type = 1;
-      } else if (this.currentView === "activityNews") {
-        type = 2;
-      } else {
-        type = 3;
-      }
-      getNews(type,this.project.id).then((res) => {
-        let data = res.data;
-        if (data && data.length > 0) {
-          data.forEach((item) => {
-            item.pic = validPicurl(item.pic);
-            item.image = item.pic[0];
-          });
-        }
-        this.tableData = data;
-      });
-    },
-    changeView(val) {
-      if (this.currentView != val) {
-        this.currentView = val;
-        this.initData();
-      }
-    },
-    showDialog() {
-      this.form = {
-        projectId: this.project.id
+  import activityNews from "@/views/project/newsComponent/activityNews";
+  import negNews from "@/views/project/newsComponent/negNews";
+  import safeNews from "@/views/project/newsComponent/safeNews";
+  import {mapGetters} from "vuex";
+  import {getNews, addNews} from "@/api/news";
+  import {validPicurl} from "@/utils/validate";
+  import richTextView from "@/components/richText/index";
+
+  export default {
+    name: "",
+    components: {activityNews, negNews, safeNews, richTextView},
+    data() {
+      return {
+        currentView: "negNews",
+        dialogVisible: false,
+        dialogDetailVisible: false,
+        header: {token: ""}, // 文件上传带token
+        newsRow: {},
+        fileList: [],
+        form: {},
+        rules: {
+          title: [{required: true, message: "请输入标题", trigger: "blur"}],
+          sttime: [{required: true, message: "请选择时间", trigger: "blur"}],
+          pic: [{required: true, message: "请上传图片", trigger: "blur"}],
+          content: [{required: true, message: "请填写新闻内容", trigger: "blur"}]
+        },
+        tableData: []
       };
-      this.fileList = [];
-      this.dialogVisible = true;
     },
-    submitNew() {
-      if (this.fileList.length === 0) {
-        this.$message({
-          message: "请上传照片",
-          type: "warning",
-          customClass: "message_override",
-        });
-        return;
-      }
-      this.$refs["form"].validate((valid) => {
-        if (valid) {
-          const obj = Object.assign({}, this.form);
-          let str = this.fileList[0].response.data;
-          obj.pic = str;
-          if (this.currentView === "negNews") {
-            obj.type = 1;
-          } else if (this.currentView === "activityNews") {
-            obj.type = 2;
-          } else {
-            obj.type = 3;
-          }
-          addNews(obj).then((res) => {
-            this.$message({
-              message: "添加成功",
-              type: "success",
-              customClass: "message_override",
+    computed: {
+      ...mapGetters(["userInfo", "uploadUrl", "project"])
+    },
+    created() {
+      this.initData();
+    },
+    methods: {
+      initData() {
+        let type = null;
+        if (this.currentView === "negNews") {
+          type = 1;
+        } else if (this.currentView === "activityNews") {
+          type = 2;
+        } else {
+          type = 3;
+        }
+        getNews(type, this.project.id).then((res) => {
+          let data = res.data;
+          if (data && data.length > 0) {
+            data.forEach((item) => {
+              item.pic = validPicurl(item.pic);
+              item.image = item.pic[0];
             });
-          });
-          this.fileList = [];
-          this.dialogVisible = false;
-          this.form = {};
+          }
+          this.tableData = data;
+        });
+      },
+      changeView(val) {
+        if (this.currentView != val) {
+          this.currentView = val;
           this.initData();
         }
-      });
-    },
-    uploadSuccess(response, file, fileList) {
-      this.fileList = fileList;
-    },
-    handleRemove(file, fileList) {
-      this.fileList = fileList;
-    },
-  },
-};
+      },
+      showNewsDetail(row) {
+        if (row.content) {
+          this.newsRow = row;
+          this.dialogDetailVisible = true;
+        } else {
+          this.$message({
+            message: "未填写新闻内容",
+            type: "warning",
+            customClass: "message_override"
+          });
+        }
+
+
+      },
+      showDialog() {
+        this.form = {
+          projectId: this.project.id,
+          content: "",
+          pic: "",
+          title: ""
+        };
+        this.fileList = [];
+        this.dialogVisible = true;
+      },
+      submitNew() {
+        // if (this.fileList.length === 0) {
+        //   this.$message({
+        //     message: "请上传照片",
+        //     type: "warning",
+        //     customClass: "message_override"
+        //   });
+        //   return;
+        // }
+        this.$refs["form"].validate((valid) => {
+          if (valid) {
+            const obj = Object.assign({}, this.form);
+            let str = this.fileList[0].response.data;
+            obj.pic = str;
+            if (this.currentView === "negNews") {
+              obj.type = 1;
+            } else if (this.currentView === "activityNews") {
+              obj.type = 2;
+            } else {
+              obj.type = 3;
+            }
+            addNews(obj).then((res) => {
+              this.$message({
+                message: "添加成功",
+                type: "success",
+                customClass: "message_override"
+              });
+            });
+            this.fileList = [];
+            this.dialogVisible = false;
+            this.form = {};
+            this.initData();
+          }
+        });
+      },
+      uploadSuccess(response, file, fileList) {
+        this.form.pic = response.data;
+        this.fileList = fileList;
+      },
+      handleRemove(file, fileList) {
+        this.form.pic = "";
+        this.fileList = fileList;
+      }
+    }
+  };
 </script>
 
 <style scoped lang="scss">
@@ -234,10 +274,22 @@ export default {
       border-color: rgb(51, 133, 255);
     }
   }
+
   .content {
     margin-top: 10px;
     background-color: #ffffff;
     height: calc(100% - 100px);
   }
 }
+</style>
+<style lang="scss">
+  .news_detail_panel {
+    width: 70%;
+
+    .news_detail {
+      height: 600px;
+      overflow-y: auto;
+    }
+
+  }
 </style>
