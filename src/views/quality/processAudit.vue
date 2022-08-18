@@ -152,7 +152,6 @@
           <el-select
             v-model="form.result"
             placeholder="请选择审核状态"
-            popper-class="select-panel"
           >
             <el-option
               v-for="item in status"
@@ -195,6 +194,26 @@
             <div slot="tip" class="el-upload__tip">只能上传pdf文件</div>
             <el-button size="small" type="primary">点击上传</el-button>
           </el-upload>
+        </el-form-item>
+        <el-form-item label="通知全咨" v-if="form.result ==1">
+          <el-select v-model="qz" multiple>
+            <el-option
+              v-for="item in clientCompany"
+              :key="item.id"
+              :value="item.id"
+              :label="item.name"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="通知建设集团" v-if="form.result ==1">
+          <el-select v-model="jsdw" multiple>
+            <el-option
+              v-for="item in constructionGroup"
+              :key="item.id"
+              :value="item.id"
+              :label="item.name"
+            ></el-option>
+          </el-select>
         </el-form-item>
         <!-- <el-form-item label="旁站记录">
           <el-input
@@ -388,206 +407,227 @@
 </template>
 
 <script>
-import * as api from "@/api/quality";
-import { mapGetters } from "vuex";
-import { getToken } from "@/utils/auth";
-import { disposeUrl, validPicurl } from "@/utils/validate";
-import { downLoadFile } from "@/utils/download";
-import { formatDate } from "@/utils/date";
-export default {
-  name: "",
-  data() {
-    return {
-      value: "",
-      timeValue: "",
-      inputValue: "",
-      dialogVisible: false,
-      currentView: "check", //record
-      options: [],
-      status: [
-        {
-          name: "通过",
-          id: 1,
-        },
-        {
-          name: "驳回",
-          id: 2,
-        },
-      ],
-      tableData: [],
-      recordsData: [],
-      form: {
-        result: 1,
-        recondid: null,
-        testurl: "",
-        standbyrecode: "",
-      },
-      header: { token: "" },
-      fileList: [],
-      fileListPdf: [],
-      rowData: {},
-      rules: {
-        result: [
-          { required: true, message: "请选择审核状态", trigger: "blur" },
-        ],
-      },
-      //drawer数据
-      DrawerVisible: false,
-      showPic: [],
-      processRecordData: [],
-      acceptData: null,
-      componentInfo: {},
-      recodeUrl: "", //pdf地址
-      recode: {}, //pdf数据
-      dialogPdfVisible: false,
-    };
-  },
-  created() {
-    this.header.token = getToken("zj_token");
-    this.initData();
-    this.recodeUrl = this.getUrl;
-  },
-  computed: {
-    ...mapGetters(["userInfo", "getUrl","project"]),
-  },
-  methods: {
-    changeView(val) {
-      if (this.currentView !== val) {
-        this.currentView = val;
-        if (val === "record") {
-          this.getRecord();
-        } else {
-          this.initData();
-        }
-      }
-    },
-    initData() {
-      api.getAgency(this.project.id).then((res) => {
-        this.tableData = res.data;
-      });
-    },
-    getRecord() {
-      api.getAllcheckData(1).then((res) => {
-        this.recordsData = res.data.filter((e) => e.checkresult === 1);
-      });
-    },
-    showAuditDialog(row) {
-      this.rowData = row;
-      this.form = {
-        result: 1,
-        recondid: null,
-        testurl: "",
-        standbyrecode: "",
-      };
-      this.dialogVisible = true;
-    },
-    submitData() {
-      // if (this.fileList.length === 0) {
-      //   this.$message({
-      //     message: "请上传审核照片",
-      //     type: "warning",
-      //     customClass: "message_override",
-      //   });
-      //   return;
-      // }
-      this.$refs["form"].validate((valid) => {
-        if (valid) {
-          let obj = Object.assign({}, this.form);
-          obj.testurl = disposeUrl(this.fileList);
-          obj.recondid = this.rowData.recodeid;
-          if (this.fileListPdf && this.fileListPdf.length > 0) {
-            let str = this.fileListPdf[0].response.data;
-            obj.standbyrecode = str;
+  import * as api from "@/api/quality";
+  import {mapGetters} from "vuex";
+  import {getToken} from "@/utils/auth";
+  import {disposeUrl, validPicurl} from "@/utils/validate";
+  import {downLoadFile} from "@/utils/download";
+  import {formatDate} from "@/utils/date";
+  import {getConAndReferPerson} from "@/api/project";
+
+  export default {
+    name: "",
+    data() {
+      return {
+        value: "",
+        timeValue: "",
+        inputValue: "",
+        dialogVisible: false,
+        currentView: "check", //record
+        options: [],
+        jsdw: [],
+        qz: [],
+        status: [
+          {
+            name: "通过",
+            id: 1
+          },
+          {
+            name: "驳回",
+            id: 2
           }
-          api.confirmReport(obj).then((res) => {
-            this.dialogVisible = false;
-            this.$message({
-              message: "审核成功",
-              type: "success",
-              customClass: "message_override",
-            });
-            this.fileList = [];
-            this.fileListPdf = [];
+        ],
+        tableData: [],
+        constructionGroup: [],//建设集团的人
+        clientCompany: [], //全咨公司的人
+        recordsData: [],
+        form: {
+          result: 1,
+          recondid: null,
+          testurl: "",
+          standbyrecode: "",
+          copyUsers: ""
+        },
+        header: {token: ""},
+        fileList: [],
+        fileListPdf: [],
+        rowData: {},
+        rules: {
+          result: [
+            {required: true, message: "请选择审核状态", trigger: "blur"}
+          ]
+        },
+        //drawer数据
+        DrawerVisible: false,
+        showPic: [],
+        processRecordData: [],
+        acceptData: null,
+        componentInfo: {},
+        recodeUrl: "", //pdf地址
+        recode: {}, //pdf数据
+        dialogPdfVisible: false
+      };
+    },
+    created() {
+      this.header.token = getToken("zj_token");
+      this.initPerson();
+      this.initData();
+      this.recodeUrl = this.getUrl;
+    },
+    computed: {
+      ...mapGetters(["userInfo", "getUrl", "project"])
+    },
+    methods: {
+      changeView(val) {
+        if (this.currentView !== val) {
+          this.currentView = val;
+          if (val === "record") {
+            this.getRecord();
+          } else {
             this.initData();
-          });
+          }
         }
-      });
-    },
-    /**
-     * @Description: 查看记录详情
-     * @author wangharry
-     * @param {}
-     * @returns {}
-     * @date 2021/7/21
-     */
-    showDrawer(row) {
-      this.seeRecord(row);
+      },
+      initData() {
+        api.getAgency(this.project.id).then((res) => {
+          this.tableData = res.data;
+        });
+      },
+      initPerson() {
+        getConAndReferPerson(this.project.id).then(res => {
+          this.constructionGroup = res.data.JSDW;
+          this.clientCompany = res.data.QZ;
+        });
+      },
+      getRecord() {
+        api.getAllcheckData(1).then((res) => {
+          this.recordsData = res.data.filter((e) => e.checkresult === 1);
+        });
+      },
+      showAuditDialog(row) {
+        this.rowData = row;
+        this.form = {
+          result: 1,
+          recondid: null,
+          testurl: "",
+          standbyrecode: "",
+          copyUsers: ""
+        };
+        this.qz = this.clientCompany.map(e => e.id);
+        this.jsdw = this.constructionGroup.map(e => e.id);
+        this.dialogVisible = true;
+      },
+      submitData() {
+        // if (this.fileList.length === 0) {
+        //   this.$message({
+        //     message: "请上传审核照片",
+        //     type: "warning",
+        //     customClass: "message_override",
+        //   });
+        //   return;
+        // }
+        this.$refs["form"].validate((valid) => {
+          if (valid) {
+            let obj = Object.assign({}, this.form);
+            obj.testurl = disposeUrl(this.fileList);
+            obj.recondid = this.rowData.recodeid;
+            if (this.fileListPdf && this.fileListPdf.length > 0) {
+              let str = this.fileListPdf[0].response.data;
+              obj.standbyrecode = str;
+            }
+            if (obj.result == 1) {
+              let userData = this.qz.concat(this.jsdw);
+              obj.copyUsers = userData.join(",")
+            }
+            api.confirmReport(obj).then((res) => {
+              this.dialogVisible = false;
+              this.$message({
+                message: "审核成功",
+                type: "success",
+                customClass: "message_override"
+              });
+              this.fileList = [];
+              this.fileListPdf = [];
+              this.initData();
+            });
+          }
+        });
+      },
+      /**
+       * @Description: 查看记录详情
+       * @author wangharry
+       * @param {}
+       * @returns {}
+       * @date 2021/7/21
+       */
+      showDrawer(row) {
+        this.seeRecord(row);
 
-      // this.acceptData = null;
-      // api.getProcessRecordsById(row.id).then((res) => {
-      //   let { check, fillin, produceandrecode, recode } = res.data;
-      //   if (fillin) {
-      //     fillin.picurl = validPicurl(fillin.picurl);
-      //     fillin.name = "工序填报";
-      //     fillin.user = produceandrecode.updateusername;
-      //     this.processRecordData.push(fillin);
-      //   }
-      //   if (check) {
-      //     check.picurl = validPicurl(check.picurl);
-      //     check.name = "工序审核";
-      //     check.user = produceandrecode.checkusername;
-      //     this.processRecordData.push(check);
-      //   }
-      //   if (recode) {
-      //     let obj = Object.assign({}, recode);
-      //     obj.accrecodeurl = validPicurl(obj.accrecodeurl);
-      //     obj.testurl = validPicurl(obj.testurl);
-      //     this.acceptData = obj;
-      //   }
+        // this.acceptData = null;
+        // api.getProcessRecordsById(row.id).then((res) => {
+        //   let { check, fillin, produceandrecode, recode } = res.data;
+        //   if (fillin) {
+        //     fillin.picurl = validPicurl(fillin.picurl);
+        //     fillin.name = "工序填报";
+        //     fillin.user = produceandrecode.updateusername;
+        //     this.processRecordData.push(fillin);
+        //   }
+        //   if (check) {
+        //     check.picurl = validPicurl(check.picurl);
+        //     check.name = "工序审核";
+        //     check.user = produceandrecode.checkusername;
+        //     this.processRecordData.push(check);
+        //   }
+        //   if (recode) {
+        //     let obj = Object.assign({}, recode);
+        //     obj.accrecodeurl = validPicurl(obj.accrecodeurl);
+        //     obj.testurl = validPicurl(obj.testurl);
+        //     this.acceptData = obj;
+        //   }
 
-      //   this.DrawerVisible = true;
-      // });
-    },
-    seeRecord(row) {
-      this.componentInfo = row;
-      this.processRecordData = [];
-      // api.getCurrentPdf(row.recodeid).then((res) => {
-      //   let data = res.data;
-      //   let { recode } = data;
-      //   let obj = Object.assign(data, recode);
-      //   obj.pdf = this.recodeUrl + obj.remark;
-      //   this.recode = obj;
-      //   this.dialogPdfVisible = true;
-      // });
-      api.getCurrentPdf(row.recodeid).then((res) => {
-        let data = res.data;
-        let { recode, produceandrecode } = data;
-        let { accrecodeurl, remark, testurl, standbyrecode } = recode;
-        let { updateusername, checkusername, stime, updatetime, checkresult } =
-          produceandrecode;
-        let uploadUrl = validPicurl(accrecodeurl);
-        let uploadPdf = remark ? this.recodeUrl + remark : "";
-        let checkUrl = validPicurl(testurl);
-        let checkPdf = standbyrecode ? this.recodeUrl + standbyrecode : "";
-        let arr = [
-          {
-            process: "工序填报",
-            name: updateusername,
-            image: uploadUrl,
-            pdf: uploadPdf,
-            time: formatDate(stime),
-          },
-          {
-            process: "工序审核",
-            name: checkusername,
-            image: checkresult === 1 ? checkUrl : "",
-            pdf: checkresult === 1 ? checkPdf : "",
-            time: checkresult === 1 ? formatDate(updatetime) : "",
-          },
-        ];
-        this.processRecordData = arr;
-        this.DrawerVisible = true;
-      });
+        //   this.DrawerVisible = true;
+        // });
+      },
+      seeRecord(row) {
+        this.componentInfo = row;
+        this.processRecordData = [];
+        // api.getCurrentPdf(row.recodeid).then((res) => {
+        //   let data = res.data;
+        //   let { recode } = data;
+        //   let obj = Object.assign(data, recode);
+        //   obj.pdf = this.recodeUrl + obj.remark;
+        //   this.recode = obj;
+        //   this.dialogPdfVisible = true;
+        // });
+        api.getCurrentPdf(row.recodeid).then((res) => {
+          let data = res.data;
+          let {recode, produceandrecode} = data;
+          let {accrecodeurl, remark, testurl, standbyrecode} = recode;
+          let {updateusername, checkusername, stime, updatetime, checkresult} =
+            produceandrecode;
+          let uploadUrl = validPicurl(accrecodeurl);
+          let uploadPdf = remark ? this.recodeUrl + remark : "";
+          let checkUrl = validPicurl(testurl);
+          let checkPdf = standbyrecode ? this.recodeUrl + standbyrecode : "";
+          let arr = [
+            {
+              process: "工序填报",
+              name: updateusername,
+              image: uploadUrl,
+              pdf: uploadPdf,
+              time: formatDate(stime)
+            },
+            {
+              process: "工序审核",
+              name: checkusername,
+              image: checkresult === 1 ? checkUrl : "",
+              pdf: checkresult === 1 ? checkPdf : "",
+              time: checkresult === 1 ? formatDate(updatetime) : ""
+            }
+          ];
+          this.processRecordData = arr;
+          this.DrawerVisible = true;
+        });
     },
     downloadImage(item) {
       let str = item.split("=")[1];

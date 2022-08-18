@@ -253,7 +253,20 @@ export const asyncRoutes = [
         partMap: false,
         noMap: true
       }
-    }]
+    },
+      {
+        path: "/notifyList",
+        name: "notifyList",
+        component: () => import("@/views/task/notifyList"),
+        meta: {
+          title: "通知列表",
+          code: "notifyList",
+          icon: "circle",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      }]
   },
 
 

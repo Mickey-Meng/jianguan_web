@@ -7,38 +7,39 @@
  * @LastEditTime: 2022-05-09 19:52:20
  */
 const api = {
-  login: "/ZhuJiRoad/user/login",
-  getWorkArea: "/ZhuJiRoad/safe/uploadAddr", //获取工区数据，
-  getAreaByAuthority: "/ZhuJiRoad/safe/getGroups", //根据用户权限返回对应的工区
-  getProjectByArea: "/ZhuJiRoad/safe/getprojectBygongqu", //根据工区获取项目数据
-  getCheckerByAreaId: "/ZhuJiRoad/safe/getPersonLiableByGroup", //根据工区获取施工人员数据
-  getQiaoData: "/ZhuJiRoad/count/getQiaoData", // 获取桥数据
-  viewToken: "/ZhuJiRoad/user/viewToken", // 获取视频token，当视频token过期的时候请求这个接口
-  getSupervisorMsg: "/ZhuJiRoad/message/getMessage1", //消息提示
-  getConstructionMsg: "/ZhuJiRoad/message/getMessage2", //消息提示
-  tellOnline: "/ZhuJiRoad/user/updateOnline", //上报在新
-  getComponentProgressByModel: "/ZhuJiRoad/component/getComponentProgress", //根据模型id查询构件的进度信息
-  getTodayWeather: "/ZhuJiRoad/count/getTodayWeather", //获取诸暨当天天气情况
+    login: "/ZhuJiRoad/user/login",
+    getWorkArea: "/ZhuJiRoad/safe/uploadAddr", //获取工区数据，
+    getAreaByAuthority: "/ZhuJiRoad/safe/getGroups", //根据用户权限返回对应的工区
+    getProjectByArea: "/ZhuJiRoad/safe/getprojectBygongqu", //根据工区获取项目数据
+    getCheckerByAreaId: "/ZhuJiRoad/safe/getPersonLiableByGroup", //根据工区获取施工人员数据
+    getQiaoData: "/ZhuJiRoad/count/getQiaoData", // 获取桥数据
+    viewToken: "/ZhuJiRoad/user/viewToken", // 获取视频token，当视频token过期的时候请求这个接口
+    getSupervisorMsg: "/ZhuJiRoad/message/getMessage1", //消息提示
+    getConstructionMsg: "/ZhuJiRoad/message/getMessage2", //消息提示
+    tellOnline: "/ZhuJiRoad/user/updateOnline", //上报在新
+    getComponentProgressByModel: "/ZhuJiRoad/component/getComponentProgress", //根据模型id查询构件的进度信息
+    getTodayWeather: "/ZhuJiRoad/count/getTodayWeather", //获取诸暨当天天气情况
+    getConAndReferPerson: "/ZhuJiRoad/person/getPerson",//获取建设集团和全咨集团的人
 
-  //----------------------根据项目id获取数据、修改------------------------
-  getWorkAreaByProjectId: "/ZhuJiRoad/projects/getGongQu", //根据项目id获取下面的工区
-  getRolesByProject: "/ZhuJiRoad/projects/getRolesByProject?projectId=3",
+    //----------------------根据项目id获取数据、修改------------------------
+    getWorkAreaByProjectId: "/ZhuJiRoad/projects/getGongQu", //根据项目id获取下面的工区
+    getRolesByProject: "/ZhuJiRoad/projects/getRolesByProject?projectId=3",
 
-  /*
-   * 数据中心首页接口
-   * */
-  // 获取项目信息工程规模，合同工期，投资规模以及关联单位
-  getEngCompany: "/ZhuJiRoad/count/getProjectDetail",
-  // 获取项目
-  // 获取进度中间表格数据
-  getMiddleData: "/ZhuJiRoad/progress/getMiddleData",
-  // 获取进度的右侧数据周报月报
-  getWeekMonthly: "/ZhuJiRoad/progress/getStatus",
-  //设置构件计划时间
-  setComponentTime: "/ZhuJiRoad/progress/uploadProgress",
-  //获取构件四个时间
-  getConponmentTime: "/ZhuJiRoad/progress/getByConponentid",
-  //
+    /*
+     * 数据中心首页接口
+     * */
+    // 获取项目信息工程规模，合同工期，投资规模以及关联单位
+    getEngCompany: "/ZhuJiRoad/count/getProjectDetail",
+    // 获取项目
+    // 获取进度中间表格数据
+    getMiddleData: "/ZhuJiRoad/progress/getMiddleData",
+    // 获取进度的右侧数据周报月报
+    getWeekMonthly: "/ZhuJiRoad/progress/getStatus",
+    //设置构件计划时间
+    setComponentTime: "/ZhuJiRoad/progress/uploadProgress",
+    //获取构件四个时间
+    getConponmentTime: "/ZhuJiRoad/progress/getByConponentid",
+    //
   bridgeTree: "/ZhuJiRoad/component/getTree",
   schedule: "/ZhuJiRoad/schedule/getScheuleAll",
   // 获取项目下拉选数据

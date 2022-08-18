@@ -84,14 +84,28 @@ export const getProjectRoleTree = params => {
 		method: "post",
 		data: {},
 		params
-	});
+  });
 };
 export const getProjectUserTree = params => {
-	return request({
-		url: api.getProjectUserTree,
-		method: "post",
-		data: {},
-		params
-	});
+  return request({
+    url: api.getProjectUserTree,
+    method: "post",
+    data: {},
+    params
+  });
+};
+
+/**
+ * @Description: 获取建设集团和全咨集团的人
+ * @author 王海林
+ * @date
+ */
+export const getConAndReferPerson = projectId => {
+  return request({
+    url: api.getConAndReferPerson,
+    method: "post",
+    data: {},
+    params: {projectId}
+  });
 };
 
