@@ -196,7 +196,7 @@
           </el-upload>
         </el-form-item>
         <el-form-item label="通知全咨" v-if="form.result ==1">
-          <el-select v-model="qz" multiple>
+          <el-select v-model="qz" multiple :disabled="true">
             <el-option
               v-for="item in clientCompany"
               :key="item.id"
@@ -206,7 +206,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="通知建设集团" v-if="form.result ==1">
-          <el-select v-model="jsdw" multiple>
+          <el-select v-model="jsdw" multiple :disabled="true">
             <el-option
               v-for="item in constructionGroup"
               :key="item.id"
