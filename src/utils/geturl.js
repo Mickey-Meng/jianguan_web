@@ -11,7 +11,7 @@ import store from "../store";
   if (process.env.NODE_ENV === "development") {
     store.commit(
       "settings/SET_URL",
-      "http://192.168.2.128:8720/mong/preview?fileid="
+      "http://192.168.2.144:8720/mong/preview?fileid="
     );
   } else {
     //新生产

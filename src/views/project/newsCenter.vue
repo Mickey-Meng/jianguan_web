@@ -33,7 +33,7 @@
       ></component>
     </div>
     <el-dialog
-      title="添加新闻"
+      :title="isCreate?'添加新闻':'修改新闻'"
       :visible.sync="dialogVisible"
       custom-class="dialog-panel"
       :append-to-body="true"
@@ -159,8 +159,8 @@
           let data = res.data;
           if (data && data.length > 0) {
             data.forEach((item) => {
-              item.pic = validPicurl(item.pic);
-              item.image = item.pic[0];
+              item.images = validPicurl(item.pic);
+              item.image = item.images[0];
             });
           }
           this.tableData = data;
@@ -227,6 +227,9 @@
                 });
               });
             } else {
+
+              delete obj.image;
+              delete obj.images;
               updateNews(obj).then(() => {
                 this.initData();
                 this.fileList = [];

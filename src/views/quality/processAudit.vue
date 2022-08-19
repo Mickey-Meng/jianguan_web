@@ -591,14 +591,6 @@
       seeRecord(row) {
         this.componentInfo = row;
         this.processRecordData = [];
-        // api.getCurrentPdf(row.recodeid).then((res) => {
-        //   let data = res.data;
-        //   let { recode } = data;
-        //   let obj = Object.assign(data, recode);
-        //   obj.pdf = this.recodeUrl + obj.remark;
-        //   this.recode = obj;
-        //   this.dialogPdfVisible = true;
-        // });
         api.getCurrentPdf(row.recodeid).then((res) => {
           let data = res.data;
           let {recode, produceandrecode} = data;

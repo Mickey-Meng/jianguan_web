@@ -75,65 +75,66 @@ const api = {
   checkViewTable: "/ZhuJiRoad/produce/getTypeStatus", //原质量验收表格数据
   getNewCheckViewTable: "/ZhuJiRoad/produce/getTypeStatus", //最新质量验收表格数据
   getCurrentPdf: "/ZhuJiRoad/produce/getCheckDataByrecod", //获取质量验收工序pdf
-  processRecords: "/ZhuJiRoad/produce/getCheckDataById",
-  getAllcheckData: "/ZhuJiRoad/produce/getAllcheckData",
-  getAllQualityGetPerday: "/ZhuJiRoad/quality/getPerday", //质量总览左下角数据
-  getQualityEventsGetDay: "/ZhuJiRoad/quality/getDay", //质量总览右下角数据
-  deleteQualityEvent: "/ZhuJiRoad/quality/deleteEvent", //删除质量事件
+    processRecords: "/ZhuJiRoad/produce/getCheckDataById",
+    getAllcheckData: "/ZhuJiRoad/produce/getAllcheckData",
+    getAllQualityGetPerday: "/ZhuJiRoad/quality/getPerday", //质量总览左下角数据
+    getQualityEventsGetDay: "/ZhuJiRoad/quality/getDay", //质量总览右下角数据
+    deleteQualityEvent: "/ZhuJiRoad/quality/deleteEvent", //删除质量事件
 
-	// ------------------质量检查、质量整个、整改确认、质量验收 -------------
-	bigSmallQuality: "/ZhuJiRoad/quality/getTree", //获取质量大小类
-	getQualityPrincipal: "/ZhuJiRoad/quality/getcheck", //获取工区负责人
-	addQuality: "/ZhuJiRoad/quality/uploadData", //监理上传质量事件接口
-	getWorkList: "/ZhuJiRoad/quality/getQualityEvent", //施工获取质量检查事件
-	submitFinishEvent: "/ZhuJiRoad/quality/submitDealWithSafeEvent", //施工方确认质量整改
-	submitDealEvent: "/ZhuJiRoad/quality/submitDelaySafeEvent", //施工方对质量事件延期处理
-	getDelayEvent: "/ZhuJiRoad/quality/getDelaySafeEvent", //监理查询申请延期事件
-	disposeDelay: "/ZhuJiRoad/quality/doDelaySafeEvent", //监理方处理延期申请
-	disposeFinishQualityEvent: "/ZhuJiRoad/quality/doNotDoneSafeEvent", //监理确认已整改质量事件
-	getFinishQualityEvent: "/ZhuJiRoad/quality/getNotDoneSafeEvent", //监理方获取已整改待确认事件
-	getCompleteEvents: "/ZhuJiRoad/quality/getDoneSafeEvent", //获取监理验收审核的质量事件
-	getAllQualityEvents: "/ZhuJiRoad/quality/getAllStatusQualityEvent", //获取所有质量事件
-	getQualityEventsStatistic: "/ZhuJiRoad/quality/group", //获取质量总览右上角数据
-	getQualityChart: "/ZhuJiRoad/quality/newInterface", //质量总览左上角图表数据
-	//---------------------------新闻---------------------------------
-	getNews: "/ZhuJiRoad/news/get", //根据type查询新闻
-	addNews: "/ZhuJiRoad/news/add", //新增新闻
-	updateNews: "/ZhuJiRoad/news/update", //更新新闻
-	deleteNews: "/ZhuJiRoad/news/del", //删除新闻
-	getTenNews: "/ZhuJiRoad/news/getNews", //查询最新的10条新闻
+    // ------------------质量检查、质量整个、整改确认、质量验收 -------------
+    bigSmallQuality: "/ZhuJiRoad/quality/getTree", //获取质量大小类
+    getQualityPrincipal: "/ZhuJiRoad/quality/getcheck", //获取工区负责人
+    addQuality: "/ZhuJiRoad/quality/uploadData", //监理上传质量事件接口
+    getWorkList: "/ZhuJiRoad/quality/getQualityEvent", //施工获取质量检查事件
+    submitFinishEvent: "/ZhuJiRoad/quality/submitDealWithSafeEvent", //施工方确认质量整改
+    submitDealEvent: "/ZhuJiRoad/quality/submitDelaySafeEvent", //施工方对质量事件延期处理
+    getDelayEvent: "/ZhuJiRoad/quality/getDelaySafeEvent", //监理查询申请延期事件
+    disposeDelay: "/ZhuJiRoad/quality/doDelaySafeEvent", //监理方处理延期申请
+    disposeFinishQualityEvent: "/ZhuJiRoad/quality/doNotDoneSafeEvent", //监理确认已整改质量事件
+    getFinishQualityEvent: "/ZhuJiRoad/quality/getNotDoneSafeEvent", //监理方获取已整改待确认事件
+    getCompleteEvents: "/ZhuJiRoad/quality/getDoneSafeEvent", //获取监理验收审核的质量事件
+    getAllQualityEvents: "/ZhuJiRoad/quality/getAllStatusQualityEvent", //获取所有质量事件
+    getQualityEventsStatistic: "/ZhuJiRoad/quality/group", //获取质量总览右上角数据
+    getQualityChart: "/ZhuJiRoad/quality/newInterface", //质量总览左上角图表数据
+    //---------------------------新闻---------------------------------
+    getNews: "/ZhuJiRoad/news/get", //根据type查询新闻
+    addNews: "/ZhuJiRoad/news/add", //新增新闻
+    updateNews: "/ZhuJiRoad/news/update", //更新新闻
+    deleteNews: "/ZhuJiRoad/news/del", //删除新闻
+    getTenNews: "/ZhuJiRoad/news/getNews", //查询最新的10条新闻
 
-	//-------------------- 工序---------
-	deleteProduceInfo: "/ZhuJiRoad/produce/deleteProcess", //删除工序
-	/*
-	 * 工序填报页面
-	 * */
-	checkData: "/ZhuJiRoad/produce/getCheckDataByConponentId", //原获取工序接口
-	getCheckData: "/ZhuJiRoad/produce/getCheckDataByConponentId", //最新获取工序接口
-	fillProject: "/ZhuJiRoad/produce/getPorjectItem",
-	addRecord: "/ZhuJiRoad/produce/addRecode",
-	checker: "/ZhuJiRoad/produce/getChecker",
-	updateProgress: "/ZhuJiRoad/produce/updateRecode", //驳回后的工序再次修改
-	/*
-	 * 工序审核页面
-	 * */
-	getAgency: "/ZhuJiRoad/produce/getAgency",
-	confirmReport: "/ZhuJiRoad/produce/check",
-	/*
-	 * 安全
-	 * */
+    //-------------------- 工序---------
+    deleteProduceInfo: "/ZhuJiRoad/produce/deleteProcess", //删除工序
+    getCopyInfos: "/ZhuJiRoad/produce/getCopyInfos",//获取工序审核通知数据
+    /*
+     * 工序填报页面
+     * */
+    checkData: "/ZhuJiRoad/produce/getCheckDataByConponentId", //原获取工序接口
+    getCheckData: "/ZhuJiRoad/produce/getCheckDataByConponentId", //最新获取工序接口
+    fillProject: "/ZhuJiRoad/produce/getPorjectItem",
+    addRecord: "/ZhuJiRoad/produce/addRecode",
+    checker: "/ZhuJiRoad/produce/getChecker",
+    updateProgress: "/ZhuJiRoad/produce/updateRecode", //驳回后的工序再次修改
+    /*
+     * 工序审核页面
+     * */
+    getAgency: "/ZhuJiRoad/produce/getAgency",
+    confirmReport: "/ZhuJiRoad/produce/check",
+    /*
+     * 安全
+     * */
 
 
-	getDoneSafeEvent: "/ZhuJiRoad/safe/getDoneSafeEvent", //查询监理已审核确认整改安全事件  ------没有用到 -----------
+    getDoneSafeEvent: "/ZhuJiRoad/safe/getDoneSafeEvent", //查询监理已审核确认整改安全事件  ------没有用到 -----------
 
-	//---------安全接口已修改-----
-	getNotDoneSafeEvent: "/ZhuJiRoad/safe/getNotDoneSafeEvent", //监理方根据标段ID查询需要整改确认的数据
-	getSafeEvent: "/ZhuJiRoad/safe/getSafeEvent", //施工方根据标段ID获取安全检查事件
-	getDelaySafeEvent: "/ZhuJiRoad/safe/getDelaySafeEvent", //监理方根据标段ID查询延期申请事件
-	//无需修改接口
-	doDelaySafeEvent: "/ZhuJiRoad/safe/doDelaySafeEvent", //监理处理安全事件延期申请
-	doNotDoneSafeEvent: "/ZhuJiRoad/safe/doNotDoneSafeEvent", //监理审核安全事件整改
-	//---------安全接口已修改-----
+    //---------安全接口已修改-----
+    getNotDoneSafeEvent: "/ZhuJiRoad/safe/getNotDoneSafeEvent", //监理方根据标段ID查询需要整改确认的数据
+    getSafeEvent: "/ZhuJiRoad/safe/getSafeEvent", //施工方根据标段ID获取安全检查事件
+    getDelaySafeEvent: "/ZhuJiRoad/safe/getDelaySafeEvent", //监理方根据标段ID查询延期申请事件
+    //无需修改接口
+    doDelaySafeEvent: "/ZhuJiRoad/safe/doDelaySafeEvent", //监理处理安全事件延期申请
+    doNotDoneSafeEvent: "/ZhuJiRoad/safe/doNotDoneSafeEvent", //监理审核安全事件整改
+    //---------安全接口已修改-----
 
 	bigSmallSafe: "/ZhuJiRoad/safe/getTree", //获取安全事件大小类数据
 	getcheck: "/ZhuJiRoad/safe/getcheck", //获取安全事件工区负责人数据  ----弃用----------

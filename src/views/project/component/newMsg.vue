@@ -268,7 +268,7 @@
 </style>
 <style lang="scss">
   .news_detail_panel {
-    width: 70%;
+    width: 60%;
 
     .news_detail {
       height: 600px;

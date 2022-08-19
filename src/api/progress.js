@@ -157,3 +157,15 @@ export const updateProgress = data => {
     data
   });
 };
+/**
+ * @Description:
+ * @author 王海林
+ * @date 获取工序审核通知数据
+ */
+export const getCopyInfos = data => {
+  return request({
+    url: api.getCopyInfos,
+    method: "post",
+    data
+  });
+};

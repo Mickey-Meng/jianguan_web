@@ -21,7 +21,7 @@
     </el-table-column>
     <el-table-column label="图片" align="center">
       <template slot-scope="{ row }">
-        <img-viewer :img-list="row.pic"></img-viewer>
+        <img-viewer :img-list="row.images"></img-viewer>
       </template>
     </el-table-column>
     <!-- <el-table-column
