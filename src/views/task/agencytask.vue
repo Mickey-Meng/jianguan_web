@@ -108,6 +108,7 @@
 					this.tableData = this.allData.list || [];
 					this.queryData.pageParam.pageNum = res.data.pageNum;
 					this.queryData.pageParam.totalPage = res.data.total;
+                    this.$store.dispatch('task/updateAgencyNum', res.data.total||0)
 					this.queryData.pageParam.pageSize = res.data.pageSize;
 				});
 			},

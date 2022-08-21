@@ -5,6 +5,8 @@
         <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-noDropdown':!isNest}">
           <item :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)" :title="onlyOneChild.meta.title" />
         </el-menu-item>
+        <span v-if="onlyOneChild.meta.title=='待办任务'" class="message-num">{{agencytasknum}}</span>
+        <span v-if="onlyOneChild.meta.title=='抄送列表'" class="message-num">{{copytasknum}}</span>
       </app-link>
     </template>
 
@@ -31,8 +33,18 @@
   import AppLink from './Link'
   import FixiOSBug from './FixiOSBug'
 
+  import store from '@/store'
+
   export default {
     name: 'SidebarItem',
+    computed:{
+    agencytasknum() {
+        return store.state.task.agencytasknum;
+    },
+    copytasknum() {
+        return store.state.task.copytasknum;
+    }
+  },
     components: { Item, AppLink },
     mixins: [FixiOSBug],
     props: {
@@ -87,3 +99,24 @@
     }
   }
 </script>
+<style scoped>
+.nest-menu{
+    position: relative;
+}
+.message-num{
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    background-color: #f56c6c;
+    border-radius: 10px;
+    color: #fff;
+    display: inline-block;
+    font-size: 12px;
+    height: 18px;
+    line-height: 18px;
+    padding: 0 6px;
+    text-align: center;
+    white-space: nowrap;
+    border: 1px solid #fff;
+}
+</style>

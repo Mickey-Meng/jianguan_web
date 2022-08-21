@@ -11,7 +11,7 @@
 		<el-header>
 			<div class="input-box">
 				<div class="input-value">
-					<el-input placeholder="旁站项目" v-model="queryData.projectPartDesc"></el-input>
+					<el-input placeholder="工程部位描述" v-model="queryData.projectPartDesc"></el-input>
 				</div>
 			</div>
 			<div class="input-box">
@@ -53,6 +53,8 @@
 					</el-table-column> -->
 					<el-table-column prop="sideProjectName" align="center" label="旁站项目" show-overflow-tooltip>
 					</el-table-column>
+                    <el-table-column prop="projectPartDesc" align="center" label="工程部位描述" show-overflow-tooltip>
+					</el-table-column>
 					<el-table-column prop="createName" align="center" label="旁站人">
 					</el-table-column>
 					<el-table-column prop="sideDate" align="center" label="旁站时间">
@@ -60,7 +62,7 @@
 					<el-table-column prop="statusStr" align="center" label="状态">
 					</el-table-column>
 					<el-table-column fixed="right" width="120" align="center" label="操作">
-						<template slot-scope="{ row, $index }">
+						<template slot-scope="{ row }">
 							<el-button v-if="!isDraft"  type="text" size="mini" @click="modify(row)">修改</el-button>
 							<el-button v-if="!isDraft"  type="text" size="mini" @click="viewDetail(row)">详情</el-button>
 							

@@ -20,6 +20,8 @@ const getters = {
   getUrl: state => state.settings.getUrl,
   roleId: state => state.user.roleId,
   rights: state => state.user.rights,
-  isMine: state => state.project.isMine
+  isMine: state => state.project.isMine,
+  agencytasknum: state => state.task.agencytasknum,
+  copytasknum: state => state.task.copytasknum,
 };
 export default getters;

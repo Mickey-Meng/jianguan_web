@@ -304,7 +304,8 @@ import projectinfo from "../../common/projectinfo.vue"
 					this.formData.attachment = this.attachTable;
 					this.formData.draftFlag = isdraft ? 0 : 1;
 					this.formData.auditUser = this.auditUser;
-					this.formData.copyData.user = this.copyData.join(',');
+					this.copyData.user = this.copyData.user?this.copyData.user.join(","):'';
+					this.formData.copyData = this.copyData;
 					api.addOrUpdateComeGoMoney(this.formData).then((res) => {
 						if (res.data) {
 							this.$message({
@@ -320,7 +321,7 @@ import projectinfo from "../../common/projectinfo.vue"
 						if (valid) {
 							this.formData.attachment = this.attachTable;
 							this.formData.auditUser = this.auditUser;
-							this.copyData.user = this.copyData.user.join(",");
+							this.copyData.user = this.copyData.user?this.copyData.user.join(","):'';
 							this.formData.copyData = this.copyData;
 							this.formData.draftFlag=1;
 							api.addOrUpdateComeGoMoney(this.formData).then((res) => {

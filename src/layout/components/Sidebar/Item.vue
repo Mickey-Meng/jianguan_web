@@ -1,4 +1,6 @@
 <script>
+
+
 export default {
   name: 'MenuItem',
   functional: true,
@@ -12,6 +14,7 @@ export default {
       default: ''
     }
   },
+  
   render(h, context) {
     const { icon, title } = context.props
     const vnodes = []
@@ -25,7 +28,14 @@ export default {
     }
 
     if (title) {
-      vnodes.push(<span slot='title' class="nav_title_name">{(title)}</span>)
+        // if(title=='待办任务'){
+        //     vnodes.push(<span slot='title' class="nav_title_name">{(title)}{{this.agencytasknum}}</span>)
+        // }else if(title=='抄送列表'){
+        //     vnodes.push(<span slot='title' class="nav_title_name">{(title)}{{this.copytasknum}}</span>)
+        // }else{
+            
+        // }
+        vnodes.push(<span slot='title' class="nav_title_name">{(title)}</span>)
     }
     return vnodes
   }
