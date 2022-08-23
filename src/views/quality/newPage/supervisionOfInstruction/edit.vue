@@ -377,7 +377,7 @@
 						"reviewSupervision": "",
 						"seriousLevel": 0
 					}
-					this.auditUser={};
+					// this.auditUser={};
 					this.approveVisible=true;
 				}
 			},

@@ -203,7 +203,7 @@
 						projectId:this.$store.getters.project['parentid'],
 						"remark": ""
 					}
-					this.auditUser={};
+					// this.auditUser={};
 					this.approveVisible=true;
 				}
 			},

@@ -259,7 +259,7 @@ import projectinfo from "../../common/projectinfo.vue"
 					}
 					this.attachTable = [];
 					this.copyData={};
-					this.auditUser={};
+					// this.auditUser={};
 					this.approveVisible=true;
 				}
 			},

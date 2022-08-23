@@ -236,7 +236,7 @@
 						unit: ''
 					}
 					this.attachTable = [];
-					this.auditUser={};
+					// this.auditUser={};
 					this.approveVisible=true;
 				}
 			},

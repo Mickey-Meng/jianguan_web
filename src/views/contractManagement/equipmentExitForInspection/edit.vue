@@ -310,7 +310,7 @@ import projectinfo from "../../common/projectinfo.vue"
 					}
 					this.attachTable=[];
 					this.equipmentTable=[];
-					this.auditUser={};
+					// this.auditUser={};
 					this.approveVisible=true;
 				}
 			},

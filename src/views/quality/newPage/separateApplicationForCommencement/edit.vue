@@ -573,7 +573,7 @@
 						buildSection: this.$store.getters.project.id,
 						projectId:this.$store.getters.project['parentid']
 					}
-					this.auditUser={};
+					// this.auditUser={};
 					this.approveVisible=true;
 				}
 			},

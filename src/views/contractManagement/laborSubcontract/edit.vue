@@ -381,7 +381,7 @@ import projectinfo from "../../common/projectinfo.vue"
 					}
 					this.attachTable = [];
 					this.contractTable = [];
-					this.auditUser={};
+					// this.auditUser={};
 					this.approveVisible=true;
 				}
 			}
@@ -416,7 +416,7 @@ import projectinfo from "../../common/projectinfo.vue"
 					this.reportTable = [];
 					this.factoryTable = [];
 					this.attachTable = [];
-					this.auditUser={};
+					// this.auditUser={};
 					this.approveVisible=true;
 				}
 			},

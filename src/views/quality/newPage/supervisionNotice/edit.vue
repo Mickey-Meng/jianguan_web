@@ -210,7 +210,7 @@
 						projectId:this.$store.getters.project['parentid'],
 						"title": ""
 					}
-					this.auditUser={};
+					// this.auditUser={};
 					this.approveVisible=true;
 				}
 			},

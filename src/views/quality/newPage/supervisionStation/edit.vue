@@ -1839,7 +1839,7 @@
 						"sideWorkCondition": "",
 						"video": []
 					}
-					this.auditUser={};
+					// this.auditUser={};
 					this.approveVisible=true;
 				}
 			},

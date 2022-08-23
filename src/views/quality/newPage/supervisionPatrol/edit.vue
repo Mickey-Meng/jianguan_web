@@ -289,7 +289,7 @@
 						"startDate": formatDate(new Date()),
 						"video": [],
 					}
-					this.auditUser={};
+					// this.auditUser={};
 					this.approveVisible=true;
 				}
 			},

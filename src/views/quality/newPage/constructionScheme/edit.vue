@@ -352,7 +352,7 @@
 					this.buildPlanAttachTable=[]
 					this.expertMeetingAttachTable=[]
 					this.replyAttachTable=[]
-					this.auditUser={};
+					// this.auditUser={};
 					this.approveVisible=true;
 				}
 			},
