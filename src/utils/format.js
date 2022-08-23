@@ -199,6 +199,7 @@ const getChidlren =function (tree,value,path) {
   if (!path) {
     path = []
   }
+  tree=tree||[];
   for (var i = 0; i < tree.length; i++) {
     var tempPath = [...path]
     tempPath.push(tree[i].name)
