@@ -132,7 +132,7 @@ export default {
         })
         .then((res) => {
           res.data = res.data || {}
-          let copyNum =res.data.totalCount || 0
+          let copyNum =res.data.total || 0
         //   console.log('抄送任务条数：'+copyNum);
           store.dispatch('task/updateCopyNum', copyNum)
         })

@@ -193,6 +193,14 @@ export const getEnterExitUserList = data => {
 	});
 };
 
+export const exitEnterExitUserList = data => {
+	return request({
+		url: api.exitEnterExitUserList,
+		method: "post",
+		data:data
+	});
+};
+
 export const exportEnterExitUserList = data => {
 	return request({
 		url: api.exportEnterExitUserList,

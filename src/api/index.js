@@ -344,6 +344,7 @@ const api = {
 	getEnterExitList: "/ZhuJiApi/web/api/v1/enterExit/page",
 	getEnterExitUserList: "/ZhuJiApi/web/api/v1/enterExitUser/page",
 	exportEnterExitUserList: "/ZhuJiApi/web/api/v1/enterExitUser/export",
+    exitEnterExitUserList: "/ZhuJiApi/web/api/v1/enterExitUser/exitUsers",
 
 	//设备进场
 	addOrUpdateEquipmentEnter: "/ZhuJiApi/web/api/v1/equipmentEnter/addOrUpdate",

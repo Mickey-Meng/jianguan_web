@@ -115,9 +115,10 @@
 				api.listCopyMessage(this.queryData).then((res) => {
 					this.allData = res.data || {};
 					this.tableData = this.allData.dataList || [];
+					this.tableData = this.allData.list || [];
 					this.queryData.pageParam.pageNum = res.data.pageNum;
-					this.queryData.pageParam.totalPage = res.data.totalCount;
-                    this.$store.dispatch('task/updateCopyNum', res.data.totalCount||0)
+					this.queryData.pageParam.totalPage = res.data.total;
+                    this.$store.dispatch('task/updateCopyNum', res.data.total||0)
 					this.queryData.pageParam.pageSize = res.data.pageSize;
 				});
 			},
