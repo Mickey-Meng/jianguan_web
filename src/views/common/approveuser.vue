@@ -9,6 +9,27 @@
         <div class="title-bar"></div><strong>待审批人</strong>
       </div>
       <div class="block-line"
+           v-if="options.length>1">
+        <div class="block-item">
+          <div class="block-item-label">类型<i class="require-icon"></i></div>
+          <div class="block-item-value">
+            <el-form-item :rules="[{required: true,
+                                message: '必选',
+                                trigger: 'blur'}]">
+              <el-select placeholder="请选择"
+                         v-model="currentType"
+                         @change="changeNodeUser()">
+                <el-option v-for="(item, index) in options"
+                           :key="index"
+                           :label="item.label"
+                           :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </div>
+        </div>
+      </div>
+      <div class="block-line"
            v-for="(userOptions,_index) in flowNodesUsersData"
            :key="_index">
         <div class="block-item"
@@ -69,6 +90,9 @@ export default {
       formData: {},
       flowNodesUsersData: [],
       allData: {},
+
+      currentType: '',
+      options: [],
     }
   },
   created() {},
@@ -85,6 +109,7 @@ export default {
       this.copyData[data1] = data
     },
     getFlowAuditEntry() {
+      this.options = []
       api
         .getFlowAuditEntry({
           flowKey: this.flowKey,
@@ -93,12 +118,37 @@ export default {
         })
         .then((res) => {
           res = res.data || {}
-          this.allData=res;
+          this.allData = res
           let index = 0
           let currentData = []
           for (let f in res) {
             if (index == 0) {
               currentData = res[f]
+              this.currentType = f
+            }
+            if (f.indexOf('隧道') > -1) {
+              this.options.push({
+                label: '隧道',
+                value: f,
+              })
+            }
+            if (f.indexOf('桥梁') > -1) {
+              this.options.push({
+                label: '桥梁',
+                value: f,
+              })
+            }
+            if (f.indexOf('道路') > -1) {
+              this.options.push({
+                label: '道路',
+                value: f,
+              })
+            }
+            if (f.indexOf('其他') > -1) {
+              this.options.push({
+                label: '其他',
+                value: f,
+              })
             }
             index++
           }
@@ -118,7 +168,8 @@ export default {
           this.flowNodesUsersData = currentData
         })
     },
-    changeNodeUser(field) {
+    changeNodeUser() {
+      let field = this.currentType
       let currentData = this.allData[field] || []
       for (let i = 0; i < currentData.length; i++) {
         const item = currentData[i]

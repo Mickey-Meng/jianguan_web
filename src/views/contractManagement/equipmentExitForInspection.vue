@@ -57,7 +57,7 @@
 					</el-table-column>
 					<el-table-column fixed="right" width="120" align="center" label="操作">
 						<template slot-scope="{ row, $index }">
-							<el-button v-if="!isDraft"  type="text" size="mini" @click="modify(row)">修改</el-button>
+							<!-- <el-button v-if="!isDraft"  type="text" size="mini" @click="modify(row)">修改</el-button> -->
 							<el-button v-if="!isDraft"  type="text" size="mini" @click="viewDetail(row)">详情</el-button>
 							
 							<el-button v-if="isDraft" type="text" size="mini" @click="checkDetail(row)">选择</el-button>
@@ -74,6 +74,12 @@
 		</el-main>
 		<edit ref="edit" @query="query" :editRow="editRow"></edit>
 		<detail ref="detail" :detailRow="detailRow"></detail>
+
+        <el-dialog width="80%" class="little-container" :visible.sync="entryVisible">
+			<equipmentEntryForInspectionSimple @getDetail="getDetail"
+				v-if="entryVisible">
+			</equipmentEntryForInspectionSimple>
+		</el-dialog>
 	</el-container>
 </template>
 
@@ -106,19 +112,28 @@
 					projectId:this.$store.getters.project['parentid']
 				},
 				editRow:null,
-				detailRow:null
+				detailRow:null,
+                entryVisible:false
 			};
 		},
 		created() {},
 		components: {
 			edit,
-			detail
+			detail,
+            equipmentEntryForInspectionSimple: () => import("../contractManagement/equipmentEntryForInspectionSimple.vue")
 		},
 		computed: {},
 		mounted() {
 			this.query();
 		},
 		methods: {
+            hideDraft() {
+				this.entryVisible = false;
+			},
+            getDetail(row){
+                this.entryVisible = false;
+                this.$refs.edit.changeVisible(row,true);
+            },
 			query() {
 				this.queryData.draftFlag=this.isDraft?0:1;
 				api.getEquipmentExitList(this.queryData).then((res) => {
@@ -139,7 +154,8 @@
 			},
 			addNew() {
 				// this.editRow=null;
-				this.$refs.edit.changeVisible(null,true);
+                this.entryVisible=true;
+				//this.$refs.edit.changeVisible(null,true);
 			},
 			modify(row) {
 				// this.editRow=row;

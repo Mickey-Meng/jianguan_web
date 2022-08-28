@@ -198,9 +198,9 @@
 			</el-form>
 		</el-dialog>
 		<el-dialog width="80%" class="little-container" :visible.sync="draftVisible">
-			<constructionSubcontract @hideDraft="hideDraft" @getDetail="getDetail" :isDraft="draftVisible"
+			<equipmentEntryForInspection @hideDraft="hideDraft" @getDetail="getDetail" :isDraft="draftVisible"
 				v-if="draftVisible">
-			</constructionSubcontract>
+			</equipmentEntryForInspection>
 		</el-dialog>
 	</div>
 </template>
@@ -277,7 +277,7 @@ import projectinfo from "../../common/projectinfo.vue"
 					projectCode: '',
 					buildSection: this.$store.getters.project.id,
 					projectId:this.$store.getters.project['parentid'],
-					supervisionBan: '监理办'
+					supervisionBan: ''
 				},
 				attachTable: [], //附件
 				equipmentTable: [],
@@ -302,7 +302,8 @@ import projectinfo from "../../common/projectinfo.vue"
 			attachlist,
 			drafthandle,
 			approveuser,
-			projectinfo
+			projectinfo,
+            equipmentEntryForInspection: () => import("../equipmentEntryForInspection.vue")
 		},
 		computed: {},
 		mounted() {
@@ -423,6 +424,16 @@ import projectinfo from "../../common/projectinfo.vue"
 				
 			},
 			addEquipment() {
+                this.equipmentInfo={
+					equipmentName: '',
+					equipmentType: '',
+					num: null,
+					specification: '',
+					techCondition: '',
+					useWhere: '',
+					remark: '',
+					enterDate: formatDate(new Date())
+				};
 				this.equipmentVisible = true;
 			},
 			addEquipmentTable() {
