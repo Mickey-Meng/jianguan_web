@@ -340,9 +340,7 @@ export default {
         ids.push(item['id'])
       })
       api
-        .exitEnterExitUserList({
-          userIds: ids,
-        })
+        .exitEnterExitUserList(ids)
         .then((res) => {
           this.query_1()
           this.$message({
