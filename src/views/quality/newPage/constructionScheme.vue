@@ -184,7 +184,7 @@
 					reader.readAsDataURL(res);
 					reader.onload = (e) => {
 						const a = document.createElement('a');
-						a.download = `施工技术交底清单.xls`;
+						a.download = `施工方案清单.xls`;
 						a.href = e.target.result;
 						document.body.appendChild(a);
 						a.click();
