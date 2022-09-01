@@ -53,10 +53,10 @@
 											</div>
 										</div>
 										<div class="block-item">
-											<div class="block-item-label">人数<i class="require-icon"></i></div>
+											<div class="block-item-label">人数</div>
 											<div class="block-item-value">
 												<el-form-item prop="num">
-													<el-input v-model.number="formData.num"></el-input>
+													<el-input readonly v-model.number="inOutUserTable.length"></el-input>
 												</el-form-item>
 											</div>
 										</div>
@@ -362,10 +362,7 @@
 					label: '退场',
 					value: 1
 				}],
-				contractOptions: [{
-					label: '劳务分包合同',
-					value: 1
-				}],
+				contractOptions: [],
 				boolOptions: [{
 					label: '是',
 					value: '是'
@@ -485,7 +482,7 @@
 					buildSection: this.$store.getters.project.id,
 					projectId:this.$store.getters.project['parentid'],
 					laborContractId: null,
-					num: null,
+					// num: null,
 					type: 0
 				},
 				inOutUserTable: [],
@@ -524,6 +521,7 @@
 		computed: {},
 		mounted() {
 			// this.getContractBuildEnums();
+            this.getContractLaborListNoPage();
 			this.getChildProject();
 		},
 		watch: {
@@ -581,6 +579,12 @@
 					this.inOutUserTable = data.enterExitUsers || [];
 				});
 			},
+            getContractLaborListNoPage(){
+                api.getContractLaborListNoPage().then((res) => {
+					let options = res.data || [];
+					this.contractOptions = convertOptions(options, 'contractCode', 'contractCode');
+				});
+            },
 			// getContractBuildEnums() {
 			// 	api.getContractBuildEnums().then((res) => {
 			// 		let options = res.data || [];
@@ -610,13 +614,14 @@
 						return;
 					}
 
-					if (this.inOutUserTable.length != this.formData.num) {
-						this.$message({
-							type: 'error',
-							message: '人数不符!'
-						});
-						return
-					}
+					// if (this.inOutUserTable.length != this.formData.num) {
+					// 	this.$message({
+					// 		type: 'error',
+					// 		message: '人数不符!'
+					// 	});
+					// 	return
+					// }
+                    this.formData.num=this.inOutUserTable.length;
 					this.formData.enterExitUsers = this.inOutUserTable;
 					this.formData.draftFlag = isdraft ? 0 : 1;
 					this.formData.auditUser = this.auditUser;
@@ -631,13 +636,14 @@
 						}
 					});
 				} else {
-					if (this.inOutUserTable.length != this.formData.num) {
-						this.$message({
-							type: 'error',
-							message: '人数不符!'
-						});
-						return
-					}
+					// if (this.inOutUserTable.length != this.formData.num) {
+					// 	this.$message({
+					// 		type: 'error',
+					// 		message: '人数不符!'
+					// 	});
+					// 	return
+					// }
+                    this.formData.num=this.inOutUserTable.length;
 					this.$refs['ruleForm'].validate((valid) => {
 						if (valid) {
 							this.formData.enterExitUsers = this.inOutUserTable;

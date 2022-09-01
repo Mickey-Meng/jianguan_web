@@ -48,7 +48,13 @@ export const exportContractLaborList = data => {
 		"responseType": 'blob'
 	});
 };
-
+export const getContractLaborListNoPage = data => {
+	return request({
+		url: api.getContractLaborListNoPage,
+		method: "post",
+		data: data
+	});
+};
 
 export const addOrUpdateContractBuild = data => {
 	return request({

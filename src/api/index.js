@@ -321,6 +321,7 @@ const api = {
 	deleteContractLabor: "/ZhuJiApi/web/api/v1/laborContract/id",
 	getContractLaborList: "/ZhuJiApi/web/api/v1/laborContract/page",
 	exportContractLaborList: "/ZhuJiApi/web/api/v1/laborContract/export",
+    getContractLaborListNoPage: "/ZhuJiApi/web/api/v1/laborContract/list",
 
 	//施工专业分包合同
 	addOrUpdateContractBuild: "/ZhuJiApi/web/api/v1/buildContract/addOrUpdate",

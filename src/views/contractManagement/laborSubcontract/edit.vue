@@ -358,6 +358,7 @@ import projectinfo from "../../common/projectinfo.vue"
 		},
 		computed: {},
 		mounted() {
+            
 			this.getContractBuildEnums();
 			this.getUserInfo();
 		},
@@ -428,6 +429,7 @@ import projectinfo from "../../common/projectinfo.vue"
 					this.contractTable = data.information || [];
 				});
 			},
+            
 			getContractBuildEnums() {
 				api.getContractBuildEnums().then((res) => {
 					let options = res.data || [];
