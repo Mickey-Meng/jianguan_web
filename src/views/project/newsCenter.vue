@@ -48,7 +48,7 @@
         label-width="120px"
         :model="form"
         :rules="rules"
-        style="pointer-events: auto;z-index: 1000002 !important"
+        v-if="dialogVisible"
       >
         <el-form-item label="标题" prop="title">
           <el-input v-model="form.title"></el-input>
