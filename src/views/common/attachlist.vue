@@ -30,6 +30,8 @@
 		<el-dialog title="预览" :visible.sync="viewFileVisible" :fullscreen="true" width="100%" height="100%">
 			<!-- {{viewFileUrl}} -->
 			<img v-if="viewFileType=='img'" style="width: 100%; height: 100%" :src="viewFileUrl"/>
+			<video v-show="viewFileType=='mp4'" style="width: 100%; height: 100%" :src="viewFileUrl" controls></video>
+			<video v-show="viewFileType=='mov'" style="width: 100%; height: 100%" :src="viewFileUrl" controls></video>
 			<!-- <el-image style="width: 100%; height: 100%" :src="viewImgUrl" :fit="fill"></el-image> -->
 			<iframe width="100%" height="100%" style="min-height:800px" v-if="viewFileType=='pdf'" :src="viewFileUrl" frameborder="0"></iframe>
 		</el-dialog>
@@ -71,6 +73,8 @@
 				console.log(row);
 				let format = '';
 				if (row.fileName.indexOf('.png') > -1 || row.fileName.indexOf('.jpg') > -1) format = 'img';
+				if (row.fileName.indexOf('.mp4') > -1) format = 'mp4';
+				if (row.fileName.indexOf('.mov') > -1 || row.fileName.indexOf('.MOV') > -1) format = 'mov';
 				if (row.fileName.indexOf('.pdf') > -1) format = 'pdf';
 				this.viewFileType = format;
 				this.viewFileUrl = this.$store.getters.lookUrl + row.fileId;
