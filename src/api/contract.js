@@ -251,6 +251,15 @@ export const getEquipmentEnterList = data => {
 		data: data
 	});
 };
+
+export const getEquipmentInfoList = data => {
+	return request({
+		url: api.getEquipmentInfoList,
+		method: "post",
+		data: data
+	});
+};
+
 export const exportEquipmentEnterList = data => {
 	return request({
 		url: api.exportEquipmentEnterList,

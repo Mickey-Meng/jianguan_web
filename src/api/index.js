@@ -352,6 +352,7 @@ const api = {
 	getEquipmentEnterDeatil: "/ZhuJiApi/web/api/v1/equipmentEnter/detail/id",
 	deleteEquipmentEnter: "/ZhuJiApi/web/api/v1/equipmentEnter/id",
 	getEquipmentEnterList: "/ZhuJiApi/web/api/v1/equipmentEnter/page",
+    getEquipmentInfoList: "/ZhuJiApi/web/api/v1/equipmentInfo/page",
 	getEquipmentEnterEnums: "/ZhuJiApi/web/api/v1/equipmentEnter/equipment/enums",
 	exportEquipmentEnterList: "/ZhuJiApi/web/api/v1/equipmentEnter/export",
 
