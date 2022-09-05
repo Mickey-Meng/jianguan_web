@@ -582,7 +582,7 @@
             getContractLaborListNoPage(){
                 api.getContractLaborListNoPage().then((res) => {
 					let options = res.data || [];
-					this.contractOptions = convertOptions(options, 'contractCode', 'contractCode');
+					this.contractOptions = convertOptions(options, 'contractCode', 'id');
 				});
             },
 			// getContractBuildEnums() {
