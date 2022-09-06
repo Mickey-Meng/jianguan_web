@@ -1497,6 +1497,19 @@ export const asyncRoutes = [
 					noMap: true
 				}
 			},
+      {
+        path: "/attendanceStatistics",
+        name: "attendanceStatistics",
+        component: () => import("@/views/contractManagement/attendanceStatistics"),
+        meta: {
+          title: "考勤统计",
+          code: "kaoqintongji",
+          icon: "circle",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },
 			{
 				path: "/constructionSubcontract",
 				name: "constructionSubcontract",

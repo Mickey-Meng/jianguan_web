@@ -9,6 +9,7 @@
 
 const path = require("path");
 const defaultSettings = require("./src/settings.js");
+const webpack = require("webpack");
 
 function resolve(dir) {
 	return path.join(__dirname, dir);
@@ -36,27 +37,28 @@ module.exports = {
 				}
 			},
 			"/ZhuJiRoad": {
-				// target: 'http://101.200.223.171:8085',
-				target: 'https://system.zlskkj.com:59031',
-				// target: "http://192.168.2.149:8720",
-				changeOrigin: true,
-				pathRewrite: {
-					// "^/ZhuJiRoad": ""
-				}
-			},
+        // target: 'http://101.200.223.171:8085',
+        target: 'https://system.zlskkj.com:59031',
+        // target: "http://192.168.2.146:8720",
+        changeOrigin: true,
+        pathRewrite: {
+          // "^/ZhuJiRoad": ""
+        }
+      },
 			"/zlsk_js_api": {
-				target: 'https://system.zlskkj.com:59031',
-				// target: "http://101.200.223.171:8085",
-				// target: "http://192.168.2.163:9010",
-				changeOrigin: true,
-				secure: true,
-				pathRewrite: {}
-			},
+        target: 'https://system.zlskkj.com:59031',
+        // target: "http://101.200.223.171:8085",
+        // target: "http://192.168.2.163:9010",
+        changeOrigin: true,
+        secure: true,
+        pathRewrite: {}
+      },
 			"/ZhuJiApi": {
-				target: "http://101.200.223.171:80",
-				changeOrigin: true,
-				pathRewrite: {}
-			},
+        target: "https://system.zlskkj.com:59031",
+        // target: "http://101.200.223.171:80",
+        changeOrigin: true,
+        pathRewrite: {}
+      },
 		}
 	},
 	configureWebpack: {
@@ -69,16 +71,20 @@ module.exports = {
 		}
 	},
 	chainWebpack(config) {
-		config.module
-			.rule("svg")
-			.exclude.add(resolve("src/icons"))
-			.end();
-		config.module
-			.rule("icons")
-			.test(/\.svg$/)
-			.include.add(resolve("src/icons"))
-			.end()
-			.use("svg-sprite-loader")
+    config.plugin("provide").use(webpack.ProvidePlugin, [{
+      "window.Quill": "quill/dist/quill.js",
+      "Quill": "quill/dist/quill.js"
+    }]);
+    config.module
+      .rule("svg")
+      .exclude.add(resolve("src/icons"))
+      .end();
+    config.module
+      .rule("icons")
+      .test(/\.svg$/)
+      .include.add(resolve("src/icons"))
+      .end()
+      .use("svg-sprite-loader")
 			.loader("svg-sprite-loader")
 			.options({
 				symbolId: "icon-[name]"
