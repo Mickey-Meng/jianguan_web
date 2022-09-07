@@ -83,7 +83,7 @@
             axisLabel: {}
           },
           series: [{
-            name: "已打卡",
+            name: "总人数",
             type: "bar",
             barWidth: "15%",
             itemStyle: {
@@ -95,12 +95,24 @@
             data: []
           },
             {
+              name: "已打卡",
+              type: "bar",
+              barWidth: "15%",
+              itemStyle: {
+                normal: {
+                  color: "#7F7FFE",
+                  barBorderRadius: 12
+                }
+              },
+              data: []
+            },
+            {
               name: "未打卡",
               type: "bar",
               barWidth: "15%",
               itemStyle: {
                 normal: {
-                  color: "#8080FF",
+                  color: "#D6D6D6",
                   barBorderRadius: 11
                 }
 
@@ -113,7 +125,7 @@
               barWidth: "15%",
               itemStyle: {
                 normal: {
-                  color: "#D7D7D7",
+                  color: "#F49923",
                   barBorderRadius: 11
                 }
               },
@@ -137,9 +149,11 @@
           let inWork = [sg.clockInCount, jl.clockInCount, qz.clockInCount];
           let outWork = [sg.notClockInCount, jl.notClockInCount, qz.notClockInCount];
           let leaveWork = [sg.leaveCount, jl.leaveCount, qz.leaveCount];
-          this.option.series[0].data = inWork;
-          this.option.series[1].data = outWork;
-          this.option.series[2].data = leaveWork;
+          let all = [sg.all, jl.all, qz.all];
+          this.option.series[0].data = all;
+          this.option.series[1].data = inWork;
+          this.option.series[2].data = outWork;
+          this.option.series[3].data = leaveWork;
         });
       }
     },

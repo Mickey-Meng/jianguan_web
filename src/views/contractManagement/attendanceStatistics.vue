@@ -16,9 +16,10 @@
     <div class="bottom">
       <div class="label_btn">
         <div class="label">考勤统计列表</div>
-        <div class="btn_select">
-          <el-button type="primary" size="mini">导出</el-button>
-          <el-select v-model="queryData.unitType" placeholder="请选择">
+        <div class="btn_select_date">
+          <!--          <el-button type="primary" size="mini">导出</el-button>-->
+          <span>单位:</span>
+          <el-select v-model="queryData.unitType" placeholder="请选择" clearable>
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -26,6 +27,27 @@
               :value="item.value">
             </el-option>
           </el-select>
+          <span>考勤状态:</span>
+          <el-select v-model="queryData.type" placeholder="请选择" clearable>
+            <el-option
+              v-for="item in status"
+              :key="item.value"
+              :label="item.name"
+              :value="item.value">
+            </el-option>
+          </el-select>
+          <span>时间:</span>
+          <div>
+            <el-date-picker
+              v-model="queryData.date"
+              value-format="yyyy-MM"
+              type="month"
+              style="width: 220px;margin: 0 5px"
+              placeholder="选择月">
+            </el-date-picker>
+          </div>
+          <el-button type="primary" size="mini" @click="initData()">查询</el-button>
+
         </div>
       </div>
       <div class="table_b_w">
@@ -104,15 +126,13 @@
         tableData: [],
         queryData: {
           projectId: null,
-          unitType: 10
+          unitType: null,
+          date: "",
+          type: ""
         },
         pageNum: 1,
         pageSize: 10,
         options: [
-          {
-            name: "所有单位",
-            value: 10
-          },
           {
             name: "施工单位",
             value: 1
@@ -123,6 +143,20 @@
           },
           {
             name: "全咨单位",
+            value: 3
+          }
+        ],
+        status: [
+          {
+            name: "已打卡",
+            value: 1
+          },
+          {
+            name: "未打卡",
+            value: 2
+          },
+          {
+            name: "请休假",
             value: 3
           }
         ]
@@ -140,7 +174,7 @@
     methods: {
       initData() {
         let obj = Object.assign({},this.queryData)
-        obj.unitType = obj.unitType === 10 ? undefined : obj.unitType;
+        // obj.unitType = obj.unitType === 10 ? "" : obj.unitType;
         getAllClockOut(obj).then(res => {
           this.tableData = res.data;
         });
@@ -203,8 +237,14 @@
           font-family: PingFang SC;
         }
 
-        .btn_select {
+        .btn_select_date {
           display: flex;
+          align-items: center;
+          padding-right: 10px;
+
+          span {
+            white-space: nowrap;
+          }
 
           .el-select {
             margin: 0 10px;
