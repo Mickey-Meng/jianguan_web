@@ -113,7 +113,9 @@
                                        align="center"
                                        label="操作">
                         <template slot-scope="{ row, $index }">
-                          <!-- <el-button type="text" size="mini">预览</el-button> -->
+                          <el-button type="text"
+                                     size="mini"
+                                     @click="editEquipment(row, $index)">编辑</el-button>
                           <el-button type="text"
                                      size="mini"
                                      @click="deleteEquipment(row, $index)">删除</el-button>
@@ -367,6 +369,8 @@ export default {
       },
       auditUser: {},
       approveVisible: true,
+
+      editIndex: -1,
       flowKey: 'shebeijinchangbaoyan',
     }
   },
@@ -513,6 +517,7 @@ export default {
       }
     },
     addEquipment() {
+      this.editIndex = -1
       this.equipmentInfo = {
         equipmentName: '',
         equipmentType: '',
@@ -528,11 +533,23 @@ export default {
     addEquipmentTable() {
       this.$refs['newform'].validate((valid) => {
         if (valid) {
-          this.equipmentTable.push({ ...this.equipmentInfo })
-          this.equipmentTable=this.formatEquType(this.equipmentTable);
+          if (this.editIndex > -1) {
+            this.equipmentTable[this.editIndex] = { ...this.equipmentInfo }
+            this.$set(this.equipmentTable, this.editIndex, {
+              ...this.equipmentInfo,
+            })
+          } else {
+            this.equipmentTable.push({ ...this.equipmentInfo })
+          }
+          this.equipmentTable = this.formatEquType(this.equipmentTable)
           this.equipmentVisible = false
         }
       })
+    },
+    editEquipment(row, index) {
+      this.editIndex = index
+      this.equipmentInfo = { ...row }
+      this.equipmentVisible = true
     },
     deleteEquipment(row, index) {
       this.$confirm('确认是否删除?', '提示', {
