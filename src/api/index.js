@@ -244,6 +244,7 @@ const api = {
   listHistoricTask: "/ZhuJiApi/flow/flowOperation/listHistoricTask", //已办
   listHistoricProcessInstance: "/ZhuJiApi/flow/flowOperation/listHistoricProcessInstance", //历史任务
   submitUserTask: "/ZhuJiApi/admin/flow/flowStaticPage/submitUserTask",
+  startAndTakeUserTask: "/ZhuJiApi/admin/flow/flowStaticPage/startAndTakeUserTask",//流程显示人员接口
   rejectRuntimeTask: "/ZhuJiApi/admin/flow/flowOperation/rejectRuntimeTask", //驳回
   viewTaskUserInfo: "/ZhuJiApi/admin/flow/flowOperation/viewTaskUserInfo", //审批人
   viewRuntimeTaskInfo: "/ZhuJiApi/admin/flow/flowOperation/viewRuntimeTaskInfo", //查询流程按钮
@@ -253,7 +254,7 @@ const api = {
   listRemindingTask: "/ZhuJiApi/admin/flow/flowMessage/listRemindingTask", //抄送列表
   listCopyMessage: "/ZhuJiApi/admin/flow/flowMessage/listCopyMessage", //抄送列表
   getFlowAndTaskInfo: "/ZhuJiApi/admin/flow/flowStaticPage/getFlowAndTaskInfo", //根据流程idH获取三个key 用于查看审批信息
-  getRunVariables: '/ZhuJiApi/flow/flowOperation/getRunVariables', //根据流程idH获取三个key 用于查看审批信息
+  getRunVariables: "/ZhuJiApi/flow/flowOperation/getRunVariables", //根据流程idH获取三个key 用于查看审批信息
   getFlowType: "/ZhuJiApi/web/api/v1/flowType/page",//分页查询流程类型数据
   addFlowEntryByFlowKey: "/ZhuJiApi/web/api/v1/flowAuditEntry/addFlowEntryByFlowKey",//新增流程节点信息
   addOrUpdateFlowAuditEntry: "/ZhuJiApi/web/api/v1/flowAuditEntry/addOrUpdate",//新增或者更新流程节点审核人员数据

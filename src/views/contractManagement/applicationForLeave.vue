@@ -200,11 +200,12 @@
   import {getNowDate} from "@/utils/date";
   import {getDic} from "@/api/user";
   import {mapGetters} from "vuex";
-  import {getOrgUser, submitLeave, getLeave} from "@/api/staffApproval";
+  import {getOrgUser, submitLeave, getLeave, startAndTakeUserTask} from "@/api/staffApproval";
   import {submitUserTask} from "@/api/quality";
   import {getUserRoleAndCode} from "@/api/newProject";
   import tasklog from "@/views/common/tasklog";
   import approveuser from "@/views/common/approveuser.vue";
+  import {getFlowAuditEntry} from "@/api/quality";
 
 
   export default {
@@ -342,28 +343,53 @@
         });
       },
       issueStep(row) {
-        let obj = {
-          copyData: {},
-          flowTaskCommentDto: {
-            approvalType: "",
-            comment: "",
-            delegateAssginee: ""
-          },
-          masterData: {},
-          processInstanceId: row.data,
-          slaveData: {},
-          taskId: "",
-          taskletiableData: {}
-        };
-        submitUserTask(obj).then(res1 => {
-          this.$message({
-            type: "success",
-            message: "填报成功!",
-            customClass: "message_override"
+        //查询人员
+        getFlowAuditEntry({
+          flowKey: this.flowKey,
+          buildSection: this.$store.getters.project.id,
+          projectId: this.$store.getters.project["parentid"] || 2
+        }).then(res => {
+          let arr = [];
+          let {data} = res;
+          for (let i in data) {
+            arr = arr.concat(data[i]);
+          }
+          let userMap = {};
+          arr.forEach(item => {
+            let value = item.entryUserVariable;
+            userMap[value] = item.userNames;
           });
-          this.initData();
-          this.dialogFormVisible = false;
+          //显示审核人员信息接口
+
+          // //用户提交任务
+          let obj = {
+            copyData: {},
+            flowTaskCommentDto: {
+              approvalType: "",
+              comment: "",
+              delegateAssginee: ""
+            },
+            // auditUser: userMap,
+            masterData: {},
+            processInstanceId: row.data,
+            slaveData: {},
+            taskId: "",
+            taskletiableData: {}
+          };
+          submitUserTask(obj).then(res1 => {
+            this.$message({
+              type: "success",
+              message: "填报成功!",
+              customClass: "message_override"
+            });
+            this.initData();
+            this.dialogFormVisible = false;
+          });
+
+
         });
+        // return;
+
       },
       seeDetail(row) {
         this.isCreate = false;
