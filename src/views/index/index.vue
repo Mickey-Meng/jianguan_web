@@ -218,16 +218,16 @@ export default {
       this.listData = data;
     },
     initEffects() {
-      var album = document.getElementById("album"),
+      let album = document.getElementById("album"),
         aImg = document.getElementsByClassName("img_box");
-      for (var i = 0; i < aImg.length; i++) {
+      for (let i = 0; i < aImg.length; i++) {
         // 图片旋转分散 36°
         aImg[i].style.transform =
           "rotateY(" + (i * 360) / aImg.length + "deg) translateZ(300px)";
         aImg[i].style.transition =
           "transform 1s " + (aImg.length - i) * 0.1 + "s";
       }
-      var lastX = 0, // 前一次的坐标X
+      let lastX = 0, // 前一次的坐标X
         lastY = 0,
         nowX = 0, // 当前的坐标X
         nowY = 0,
@@ -329,6 +329,9 @@ export default {
   },
   destroyed() {
     this.stopEffect();
+    document.onselectstart = function () {
+      return true;
+    };
     this.timer && clearInterval(this.timer);
   },
 };

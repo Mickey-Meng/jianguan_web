@@ -300,3 +300,18 @@ export const getMyClockRecords = (id, startTime = undefined, endTime = undefined
     }
   });
 };
+
+
+/**
+ * @Description: 流程显示人员接口
+ * @author 王海林
+ * @date
+ */
+
+export const startAndTakeUserTask = (key, data) => {
+  return request({
+    url: api.startAndTakeUserTask + "/" + key,
+    method: "post",
+    data
+  });
+};
