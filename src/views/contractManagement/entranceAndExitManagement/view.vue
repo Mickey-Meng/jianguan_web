@@ -21,7 +21,7 @@
 						<div class="block-item">
 							<div class="block-item-label">劳务分包合同<i class="require-icon"></i></div>
 							<div class="block-item-value">
-								{{formData.laborContractId}}
+								{{formData.laborContractCode}}
 							</div>
 						</div>
 						<div class="block-item">
@@ -138,7 +138,7 @@
 					draftFlag: 1,
 					buildSection: this.$store.getters.project.id,
 					projectId:this.$store.getters.project['parentid'],
-					laborContractId: null,
+					laborContractCode: null,
 					num: null,
 					type: 0
 				},
