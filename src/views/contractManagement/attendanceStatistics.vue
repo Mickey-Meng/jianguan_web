@@ -17,7 +17,7 @@
       <div class="label_btn">
         <div class="label">考勤统计列表</div>
         <div class="btn_select_date">
-          <!--          <el-button type="primary" size="mini">导出</el-button>-->
+          <el-button type="primary" size="mini" style="margin-right: 5px" @click="exportExcel">导出</el-button>
           <span>单位:</span>
           <el-select v-model="queryData.unitType" placeholder="请选择" clearable>
             <el-option
@@ -93,7 +93,9 @@
             prop="clockInState"
           >
             <template slot-scope="{row}">
-              <span>{{ row.clockInState === 1 ? "已打卡" : row.clockInState === 2 ? "未打卡" : "休假" }}</span>
+              <span :class="row.clockInState ===1?'has_clock':row.clockInState===2?'not_clock':'leave'">{{
+                  row.clockInState === 1 ? "已打卡" : row.clockInState === 2 ? "未打卡" : "休假"
+                }}</span>
             </template>
           </el-table-column>
         </el-table>
@@ -173,11 +175,23 @@
     },
     methods: {
       initData() {
-        let obj = Object.assign({},this.queryData)
+        let obj = Object.assign({}, this.queryData);
         // obj.unitType = obj.unitType === 10 ? "" : obj.unitType;
         getAllClockOut(obj).then(res => {
           this.tableData = res.data;
         });
+      },
+      exportExcel() {
+        let {projectId, date, type, unitType} = this.queryData;
+        let url = `/ZhuJiRoad/count/getAllClockOutExport?projectId=${projectId}&date=${date}&type=${type}&unitType=${unitType}`;
+        let link = document.createElement("a"); // 创建a标签
+        link.style.display = "none";
+        link.href = url; // 设置下载地址
+        link.setAttribute("download", ""); // 添加downLoad属性
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
       },
       handleSizeChange(val) {
         this.pageSize = val;
@@ -279,6 +293,21 @@
         height: 100%;
       }
     }
+
+  }
+
+  .has_clock {
+    color: #37D30D;
+
+  }
+
+  .not_clock {
+    color: #D6D6D6;
+
+  }
+
+  .leave {
+    color: #F49923;
 
   }
 </style>

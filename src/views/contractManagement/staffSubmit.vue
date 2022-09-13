@@ -393,6 +393,9 @@
   import tasklog from "@/views/common/tasklog";
   import {getUserRoleAndCode} from "@/api/newProject";
   import approveuser from "@/views/common/approveuser.vue";
+  import {getFlowAuditEntry} from "@/api/quality";
+  import {getToken} from "@/utils/auth";
+
 
   export default {
     name: "",
@@ -619,27 +622,46 @@
         });
       },
       issueStep(row) {
-        let obj = {
-          copyData: {},
-          flowTaskCommentDto: {
-            approvalType: "",
-            comment: "",
-            delegateAssginee: ""
-          },
-          masterData: {},
-          processInstanceId: row.data,
-          slaveData: {},
-          taskId: "",
-          taskVariableData: {}
-        };
-        submitUserTask(obj).then(res1 => {
-          this.$message({
-            type: "success",
-            message: "填报成功!",
-            customClass: "message_override"
+        //查询人员
+        getFlowAuditEntry({
+          flowKey: this.flowKey,
+          buildSection: this.$store.getters.project.id,
+          projectId: this.$store.getters.project["parentid"] || 2
+        }).then(res => {
+          let arr = [];
+          let {data} = res;
+          for (let i in data) {
+            arr = arr.concat(data[i]);
+          }
+          let userMap = {};
+          arr.forEach(item => {
+            let value = item.entryUserVariable;
+            userMap[value] = item.userNames.toString();
           });
-          this.initData();
-          this.dialogFormVisible = false;
+          userMap.startUserName = getToken("name");
+          let obj = {
+            copyData: {},
+            flowTaskCommentDto: {
+              approvalType: "",
+              comment: "",
+              delegateAssginee: ""
+            },
+            // auditUser: userMap,
+            masterData: {},
+            processInstanceId: row.data,
+            slaveData: {},
+            taskId: "",
+            taskVariableData: userMap
+          };
+          submitUserTask(obj).then(res1 => {
+            this.$message({
+              type: "success",
+              message: "填报成功!",
+              customClass: "message_override"
+            });
+            this.initData();
+            this.dialogFormVisible = false;
+          });
         });
       },
       seeDetail(row) {

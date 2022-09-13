@@ -206,6 +206,7 @@
   import tasklog from "@/views/common/tasklog";
   import approveuser from "@/views/common/approveuser.vue";
   import {getFlowAuditEntry} from "@/api/quality";
+  import {getToken} from "@/utils/auth";
 
 
   export default {
@@ -357,39 +358,33 @@
           let userMap = {};
           arr.forEach(item => {
             let value = item.entryUserVariable;
-            userMap[value] = item.userNames;
+            userMap[value] = item.userNames.toString();
           });
-          //显示审核人员信息接口
-
-          // //用户提交任务
-          let obj = {
-            copyData: {},
-            flowTaskCommentDto: {
-              approvalType: "",
-              comment: "",
-              delegateAssginee: ""
-            },
-            // auditUser: userMap,
-            masterData: {},
-            processInstanceId: row.data,
-            slaveData: {},
-            taskId: "",
-            taskletiableData: {}
-          };
-          submitUserTask(obj).then(res1 => {
-            this.$message({
-              type: "success",
-              message: "填报成功!",
-              customClass: "message_override"
+          userMap.startUserName = getToken("name");
+            let obj = {
+              copyData: {},
+              flowTaskCommentDto: {
+                approvalType: "",
+                comment: "",
+                delegateAssginee: ""
+              },
+              // auditUser: userMap,
+              masterData: {},
+              processInstanceId: row.data,
+              slaveData: {},
+              taskId: "",
+              taskVariableData: userMap
+            };
+            submitUserTask(obj).then(res1 => {
+              this.$message({
+                type: "success",
+                message: "填报成功!",
+                customClass: "message_override"
+              });
+              this.initData();
+              this.dialogFormVisible = false;
             });
-            this.initData();
-            this.dialogFormVisible = false;
-          });
-
-
         });
-        // return;
-
       },
       seeDetail(row) {
         this.isCreate = false;
