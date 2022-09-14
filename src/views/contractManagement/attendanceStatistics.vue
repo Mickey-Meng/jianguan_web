@@ -128,7 +128,7 @@
         tableData: [],
         queryData: {
           projectId: null,
-          unitType: null,
+          unitType: "",
           date: "",
           type: ""
         },
@@ -184,6 +184,7 @@
       exportExcel() {
         let {projectId, date, type, unitType} = this.queryData;
         let url = `/ZhuJiRoad/count/getAllClockOutExport?projectId=${projectId}&date=${date}&type=${type}&unitType=${unitType}`;
+        console.log(url);
         let link = document.createElement("a"); // 创建a标签
         link.style.display = "none";
         link.href = url; // 设置下载地址

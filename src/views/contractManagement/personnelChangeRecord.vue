@@ -381,7 +381,8 @@
         }).then(() => {
           deleteChangeRecord(row.id, this.project.id).then(() => {
             // this.init();
-            this.tableDta.splice(index, 1);
+            let ind = this.tableData.findIndex(e => e.id === row.id);
+            this.tableData.splice(ind, 1);
             this.$message.success("删除成功");
           }).catch(()=>{
             this.$message.info("删除失败");

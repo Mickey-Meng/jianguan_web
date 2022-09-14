@@ -277,14 +277,16 @@
         // this.dialogFormVisible = true;
       },
       deleteInfo(row, index) {
-        console.log(this.tableData, index);
         this.$confirm("确定删除该请假信息?", "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
         }).then(() => {
           deleteLeaveRecord(row.id, this.project.id).then(() => {
-            this.tableData.splice(index, 1);
+            // this.tableData.splice(index, 1);
+            let ind = this.tableData.findIndex(e => e.id === row.id);
+            this.tableData.splice(ind, 1);
+            // this.init();
             this.$message.success("删除成功");
           }).catch(() => {
             this.$message.info("删除失败");
