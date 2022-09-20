@@ -8,7 +8,7 @@
 -->
 <template>
   <div class="attendance_box">
-    <div class="label">今日在岗/不在岗占比</div>
+    <div class="label">今日已打卡/未打卡/请假占比</div>
     <div class="chart_content">
       <v-chart autoresize :options="option" class="charts"></v-chart>
     </div>
@@ -16,7 +16,9 @@
 </template>
 
 <script>
-  import {getOnDutyOrNotCount} from "@/api/attendanceStatistics";
+  // import {getOnDutyOrNotCount} from "@/api/attendanceStatistics";
+  import {getTodayClockOut} from "@/api/attendanceStatistics";
+
   import {mapGetters} from "vuex";
 
 
@@ -34,7 +36,7 @@
           legend: {
             show: true,
             itemGap: 12,
-            data: ["在岗", "不在岗"]
+            data: ["已打卡", "未打卡", "请假"]
           },
 
           series: [{
@@ -59,36 +61,31 @@
             },
             hoverAnimation: false,
             data: [{
-              value: 90,
-              name: "在岗",
+              value: 0,
+              name: "已打卡",
               itemStyle: {
                 normal: {
-                  color: { // 颜色渐变
-                    colorStops: [{
-                      offset: 0,
-                      color: "#6F78CC" // 0% 处的颜色
-                    }, {
-                      offset: 1,
-                      color: "#6F78CC" // 100% 处的颜色1
-                    }]
-                  },
-                  label: {
-                    show: true
-                  },
-                  labelLine: {
-                    show: true
-                  }
+                  color: "#7F7FFE"
                 }
               }
             }, {
-              name: "不在岗",
-              value: 10,
+              name: "未打卡",
+              value: 0,
               itemStyle: {
                 normal: {
-                  color: "#4897F6"
+                  color: "#D6D6D6"
                 }
               }
-            }]
+            },
+              {
+                name: "请假",
+                value: 0,
+                itemStyle: {
+                  normal: {
+                    color: "#F49923"
+                  }
+                }
+              }]
           }]
         }
       };
@@ -103,11 +100,14 @@
     },
     methods: {
       init() {
-        getOnDutyOrNotCount(this.project.id).then(res => {
-          let {all, onDuty} = res.data;
-          let outDuty = all - onDuty;
-          this.option.series[0].data[0].value = onDuty;
-          this.option.series[0].data[1].value = outDuty;
+        getTodayClockOut(this.project.id).then(res => {
+          let {jl, qz, sg} = res.data;
+          let clockCount = jl.clockInCount + qz.clockInCount + sg.clockInCount;
+          let notClockInCount = jl.notClockInCount + qz.notClockInCount + sg.notClockInCount;
+          let leaveCount = jl.leaveCount + qz.leaveCount + sg.leaveCount;
+          this.option.series[0].data[0].value = clockCount;
+          this.option.series[0].data[1].value = notClockInCount;
+          this.option.series[0].data[2].value = leaveCount;
         });
       }
     },
