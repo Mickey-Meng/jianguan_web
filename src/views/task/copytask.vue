@@ -33,7 +33,7 @@
 					</el-date-picker>
 				</div>
 			</div> -->
-			<el-button type="primary" @click="query">搜索</el-button>
+			<el-button type="primary" @click="query()">搜索</el-button>
 		</el-header>
 		<el-main>
 			<div class="container">
@@ -76,7 +76,9 @@
 	import {
 		constantRoutes
 	} from "@/router/router";
-  import {setToken} from "@/utils/auth";
+    import {
+		setToken,getToken
+	} from "@/utils/auth";
 	export default {
 		data() {
 			return {
@@ -108,11 +110,21 @@
 			...mapGetters(["menus"])
 		},
 		mounted() {
-			this.query();
+            let hisData=getToken('historyData');
+            if(hisData){
+                this.queryData=hisData['data'];
+            }
+			this.listCopyMessage();
 		},
 		methods: {
-			query() {
-				api.listCopyMessage(this.queryData).then((res) => {
+			query(page) {
+				setToken("historyData", null);
+                page= page||1;
+                this.queryData.pageParam.pageNum = page||1;
+				this.listCopyMessage();
+			},
+            listCopyMessage(){
+                api.listCopyMessage(this.queryData).then((res) => {
 					this.allData = res.data || {};
 					this.tableData = this.allData.dataList || [];
 					this.tableData = this.allData.list || [];
@@ -121,10 +133,10 @@
                     this.$store.dispatch('task/updateCopyNum', res.data.total||0)
 					this.queryData.pageParam.pageSize = res.data.pageSize;
 				});
-			},
+            },
 			handleCurrentChange(page) {
-				this.queryData.pageParam.pageNum = page
-				this.query()
+				// this.queryData.pageParam.pageNum = page
+				this.query(page)
 			},
 			gotoHandle(row) {
 				// row['formKey'] = (typeof row['formKey']) == 'string' ? JSON.parse(row['formKey']) : row['formKey'];
@@ -134,7 +146,8 @@
 					"jldwryqj", "qzdwryqj"
 				];
 				if (router) {
-          setToken("taskType", 4);
+                    setToken("taskType", 4);
+                    setToken("historyData", {type:4,data:this.queryData});
 					this.$router.push({
 						path: router.path,
 						query: {

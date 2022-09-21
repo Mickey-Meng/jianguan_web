@@ -77,7 +77,7 @@
 		constantRoutes
 	} from "@/router/router";
 	import {
-		setToken
+		setToken,getToken
 	} from "@/utils/auth";
 	export default {
 		data() {
@@ -108,21 +108,30 @@
 			...mapGetters(["menus"])
 		},
 		mounted() {
-			this.query();
+            let hisData=getToken('historyData');
+            if(hisData){
+                this.queryData=hisData['data'];
+            }
+			this.listHistoricTask();
 		},
 		methods: {
 			query() {
-				api.listHistoricTask(this.queryData).then((res) => {
+				setToken("historyData", null);
+                page= page||1;
+                this.queryData.pageParam.pageNum = page||1;
+				this.listHistoricTask();
+			},
+            listHistoricTask(){
+                api.listHistoricTask(this.queryData).then((res) => {
 					this.allData = res.data || {};
 					this.tableData = this.allData.list || [];
 					this.queryData.pageParam.pageNum = res.data.pageNum;
 					this.queryData.pageParam.totalPage = res.data.total;
 					this.queryData.pageParam.pageSize = res.data.pageSize;
 				});
-			},
+            },
 			handleCurrentChange(page) {
-				this.queryData.pageParam.pageNum = page
-				this.query()
+				this.query(page)
 			},
 			gotoHandle(row) {
 				row['formKey'] = (typeof row['formKey']) == 'string' ? JSON.parse(row['formKey']) : row['formKey'];
@@ -133,6 +142,7 @@
 				];
 				if (router) {
 					setToken("taskType", 2);
+                    setToken("historyData", {type:2,data:this.queryData});
 					this.$router.push({
 						path: router.path,
 						query: {

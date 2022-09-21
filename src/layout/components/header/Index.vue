@@ -361,6 +361,7 @@ export default {
       this.$router.push(`/login`);
     },
     changeRouter(item) {
+        
       if (item.children.length > 0) {
         this.currentRoutes = item.children;
         if (item.children && item.children.length > 0) {
