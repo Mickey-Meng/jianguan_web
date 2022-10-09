@@ -81,7 +81,7 @@ export default {
           },
           // backgroundColor: "#fff",
           textStyle: {
-            color: "#5c6c7c",
+            color: "#FFFFFF",
           },
         },
         grid: {
