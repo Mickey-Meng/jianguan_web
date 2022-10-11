@@ -190,14 +190,15 @@ export const deleteLeaveRecord = (id, projectId) => {
   });
 };
 
-export const getAllLeaveRecords = (projectId, roleType) => {
+export const getAllLeaveRecords = (projectId, roleType, state) => {
   return request({
     url: api.getAllLeaveRecords,
     method: "post",
     data: {},
     params: {
       roleType,
-      projectId
+      projectId,
+      state
     }
   });
 };

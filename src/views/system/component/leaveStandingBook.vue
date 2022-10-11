@@ -40,6 +40,18 @@
             </el-select>
           </div>
         </div>
+        <div class="input-box" style="margin-left: 10px">
+          <div class="input-value">
+            <el-select v-model="queryData.state" placeholder="请选择" clearable>
+              <el-option
+                v-for="item in status"
+                :key="item.value"
+                :label="item.name"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </div>
+        </div>
         <el-button type="primary" style="margin-left: 10px" @click="queryClick">搜索</el-button>
       </div>
 
@@ -210,11 +222,22 @@
             value: 3
           }
         ],
+        status: [
+          {
+            name: "审批中",
+            value: 1
+          },
+          {
+            name: "审批通过",
+            value: 2
+          }
+        ],
         queryData: {
           leaveName: "",
           leaveTime: null,
           pageNum: 1,
           totalPage: 1,
+          state: "",
           pageSize: 10,
           selectValue: 10
         },
@@ -238,9 +261,9 @@
     components: {tasklog},
     methods: {
       init() {
-        let {selectValue, leaveName, leaveTime} = this.queryData;
+        let {selectValue, leaveName, leaveTime, state} = this.queryData;
         let type = selectValue === 10 ? undefined : selectValue;
-        getAllLeaveRecords(this.project.id, type).then(res => {
+        getAllLeaveRecords(this.project.id, type, state).then(res => {
           let data = res.data;
           if (!leaveName && !leaveTime) {
             this.tableData = data;
