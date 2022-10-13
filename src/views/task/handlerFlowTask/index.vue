@@ -20,7 +20,7 @@
 									<el-button size="medium" type="primary">复制填充</el-button>
 								</div>
 							</div>
-							<router-view ref="routerview" :detailRow="detailRow" :readOnly="readOnly"></router-view>
+							<!-- <router-view ref="routerview" :detailRow="detailRow" :readOnly="readOnly"></router-view> -->
 						</div>
 					</div>
 					<taskhandle v-if="isHandleVisible" :taskInfo="taskInfo" @updateReadOnly="updateReadOnly" @addOrModify="addOrModify" ref="taskhandle"></taskhandle>
@@ -66,38 +66,38 @@
 			tasklog
 		},
 		mounted() {
-			var params = getQueryVariable();
-			if (params['businessKey']) {
-				this.detailRow = {
-					id:params['businessKey']
-				};
-				this.updateView();
-				if(params['processDefinitionId']){
-					this.taskInfo={
-						processDefinitionId: params['processDefinitionId'],
-						processInstanceId: params['processInstanceId'],
-						taskId: params['taskId'],
-						flowKey:params['processDefinitionKey'],
-						entryKey:params['taskKey']
-					};
-					if(params['taskId']){
-						this.isHandleVisible=true;
-						this.isUnEdit=true;
+			// var params = getQueryVariable();
+			// if (params['businessKey']) {
+			// 	this.detailRow = {
+			// 		id:params['businessKey']
+			// 	};
+			// 	this.updateView();
+			// 	if(params['processDefinitionId']){
+			// 		this.taskInfo={
+			// 			processDefinitionId: params['processDefinitionId'],
+			// 			processInstanceId: params['processInstanceId'],
+			// 			taskId: params['taskId'],
+			// 			flowKey:params['processDefinitionKey'],
+			// 			entryKey:params['taskKey']
+			// 		};
+			// 		if(params['taskId']){
+			// 			this.isHandleVisible=true;
+			// 			this.isUnEdit=true;
 
-						this.updateTaskHandle();
-						this.updateTaskLog();
-					}
-					this.isInfoVisible=true;
+			// 			this.updateTaskHandle();
+			// 			this.updateTaskLog();
+			// 		}
+			// 		this.isInfoVisible=true;
 
-				}else{
-					this.isUnEdit=false;
-				}
-			}else{
-				this.isUnEdit=false;
-			}
-			if(params['isHiddenEdit'] === 'true'){
-			  this.isUnEdit = false
-      }
+			// 	}else{
+			// 		this.isUnEdit=false;
+			// 	}
+			// }else{
+			// 	this.isUnEdit=false;
+			// }
+			// if(params['isHiddenEdit'] === 'true'){
+			//   this.isUnEdit = false
+    //   }
 		},
 		methods:{
 			updateView(){
@@ -116,7 +116,8 @@
 				},100)
 			},
 			closeDialog(){
-				this.$router.go(-1);
+				// this.$router.go(-1);
+                window.history.back();
 			},
 			updateReadOnly(e){
 				this.readOnly = e;

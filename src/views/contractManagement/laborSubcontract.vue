@@ -36,6 +36,8 @@
 					</el-table-column>
 					<el-table-column prop="buildSectionName" align="center" label="施工标段" show-overflow-tooltip>
 					</el-table-column>
+                    <el-table-column prop="contractCode" align="center" label="合同编号" show-overflow-tooltip>
+					</el-table-column>
 					<el-table-column prop="laborContractProjectName" align="center" label="拟劳务合作工程名称" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="startDate" align="center" label="备案日期" show-overflow-tooltip>
