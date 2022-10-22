@@ -115,7 +115,7 @@
 			this.listHistoricTask();
 		},
 		methods: {
-			query() {
+			query(page) {
 				setToken("historyData", null);
                 page= page||1;
                 this.queryData.pageParam.pageNum = page||1;
