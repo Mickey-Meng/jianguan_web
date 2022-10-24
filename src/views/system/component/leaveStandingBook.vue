@@ -69,7 +69,7 @@
           <!--          <el-table-column prop="uploadname" label="备注"></el-table-column>-->
           <el-table-column label="状态">
             <template slot-scope="{row,$index}">
-              <span>{{ row.status === 2 ? "审核完成" : "审核中" }}</span>
+              <span>{{ row.status === 2 ? "审核完成" : row.status === 1 ? "审核中" : row.status === 3 ? "已失效" : "" }}</span>
             </template>
           </el-table-column>
           <el-table-column label="操作">
@@ -230,6 +230,10 @@
           {
             name: "审批通过",
             value: 2
+          },
+          {
+            name: "已失效",
+            value: 3
           }
         ],
         queryData: {
