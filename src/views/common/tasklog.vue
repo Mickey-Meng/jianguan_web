@@ -39,8 +39,8 @@
 			</el-tabs>
 		</div>
 		<el-drawer title="我是标题" :visible.sync="dialogVisible" :with-header="false" size="90%">
-			<div id="container" style="width:100%;height:100%"></div>
-		</el-drawer>
+      <div id="container" style="width:100%;height:100%" v-if="dialogVisible"></div>
+    </el-drawer>
 	</div>
 </template>
 
@@ -75,7 +75,7 @@
 					api.viewProcessBpmn({
 						processDefinitionId:this.taskInfo['processDefinitionId']
 					}).then((res) => {
-						this.xmlStr=res['data'];
+            this.xmlStr = res["data"];
 					});
 				}
 				if(this.taskInfo['processInstanceId'] && this.taskInfo['flowKey']){
@@ -86,50 +86,49 @@
 						projectId:this.$store.getters.project['parentid'],
 					}).then((res) => {
 						this.runVariables=res['data'];
-						
+
 					})
 				}
 				if(this.taskInfo['processInstanceId']){
 					api.viewHighlightFlowData({
 						processInstanceId:this.taskInfo['processInstanceId']
-					}).then((res) => {
-						this.processNodeInfo = res.data;
-					});
-				}
-				if(this.taskInfo['processInstanceId']){
-					api.listFlowTaskComment({
-						processInstanceId:this.taskInfo['processInstanceId']
-					}).then((res) => {
-						const _data = [];
-						for (let i = 0; i < res.data.length; i++) {
-							const item = res.data[i];
-							item.comment = item.comment === undefined ? "发起" : item.comment; // 默认显示为发起
-							// getUserInfo(item.createUserId).then(res1 => {
-							// 	item.createUsernameStr = res1.data.userInfo.NAME;
-							// 	_data.push(JSON.parse(JSON.stringify(item)));
-								
-							// 	this.logData=_data||[]; // 强制刷新
-							// })
-						}
-						this.logData=res['data']||[];
-					});
-				}
-				
-				
-				
-				// if(this.taskInfo['taskId']){
-				// 	api.viewTaskUserInfo({
-				// 		processDefinitionId: this.taskInfo['processDefinitionId'],
-				// 		processInstanceId: this.taskInfo['processInstanceId'],
-				// 		taskId: this.taskInfo['taskId'],
-				// 		historic:true
-				// 	}).then((res) => {
-				// 		this.userData=res['data']||[];
-				// 	});
-				// }else{
-				// 	this.hasTaskUser=false;
-				// }
-			},
+          }).then((res) => {
+            this.processNodeInfo = res.data;
+          });
+        }
+        if (this.taskInfo["processInstanceId"]) {
+          api.listFlowTaskComment({
+            processInstanceId: this.taskInfo["processInstanceId"]
+          }).then((res) => {
+            const _data = [];
+            for (let i = 0; i < res.data.length; i++) {
+              const item = res.data[i];
+              item.comment = item.comment === undefined ? "发起" : item.comment; // 默认显示为发起
+              // getUserInfo(item.createUserId).then(res1 => {
+              // 	item.createUsernameStr = res1.data.userInfo.NAME;
+              // 	_data.push(JSON.parse(JSON.stringify(item)));
+
+              // 	this.logData=_data||[]; // 强制刷新
+              // })
+            }
+            this.logData = res["data"] || [];
+          });
+        }
+
+
+        // if(this.taskInfo['taskId']){
+        // 	api.viewTaskUserInfo({
+        // 		processDefinitionId: this.taskInfo['processDefinitionId'],
+        // 		processInstanceId: this.taskInfo['processInstanceId'],
+        // 		taskId: this.taskInfo['taskId'],
+        // 		historic:true
+        // 	}).then((res) => {
+        // 		this.userData=res['data']||[];
+        // 	});
+        // }else{
+        // 	this.hasTaskUser=false;
+        // }
+      },
 			createFlow() {
 				const that = this;
 				this.dialogVisible = true;
@@ -151,39 +150,39 @@
 							canvas.zoom('fit-viewport')
 
 							let { finishedTaskSet, unfinishedTaskSet } = this.processNodeInfo;
-							// 目的：为第一个节点添加绿色，为第二个节点添加黄色
-							// 实现步骤：1、找到页面里所有节点
-							const elementRegistry = this.bpmnModeler.get('elementRegistry');
-							const nodeList = elementRegistry.filter (
-							(item) => finishedTaskSet.indexOf(item.id) > -1 && unfinishedTaskSet.indexOf(item.id) < 0
-							);
-							const userTaskList = elementRegistry.filter(
-								(item) => item.type === 'bpmn:UserTask'
-								);
-							// 此时得到的userTaskList 便是流程图中所有的节点的集合
-							console.log(nodeList, elementRegistry);
-							// 步骤2 ：为节点添加颜色
-							// 方式1 ：modeling.setColor(参数1：节点，可以是单个元素实例，也可是多个节点组成的数组，参数2：class类);
-							let modeling = this.bpmnModeler.get('modeling');
-							nodeList.forEach(item => {
-								modeling.setColor(item, {
-									stroke: 'green',
-									fill: 'rgb(197 255 197)'
-								});
-							});
-							
-							userTaskList.forEach(item => {
-								let nodename = item.businessObject.$attrs['flowable:assignee'].replace('${','').replace('}','')
-								if (nodename == 'assignee') {
-									nodename = nodename + 'List';
-								}
-								if (nodename == 'startUserName' && !that.runVariables[nodename+'Str']) {
-									nodename = 'initiator';
-								}
-								modeling.updateLabel(item, item.businessObject.name + '\n' + (that.runVariables[nodename+'Str']&&that.runVariables[nodename+'Str'].length>0?that.runVariables[nodename+'Str'].join(','):'无'));
-							});
-							// this.setProcessStatus(this.processNodeInfo) // 未起作用，可能是css问题
-						} else {
+              // 目的：为第一个节点添加绿色，为第二个节点添加黄色
+              // 实现步骤：1、找到页面里所有节点
+              const elementRegistry = this.bpmnModeler.get("elementRegistry");
+              const nodeList = elementRegistry.filter(
+                (item) => finishedTaskSet.indexOf(item.id) > -1 && unfinishedTaskSet.indexOf(item.id) < 0
+              );
+              const userTaskList = elementRegistry.filter(
+                (item) => item.type === "bpmn:UserTask"
+              );
+              // 此时得到的userTaskList 便是流程图中所有的节点的集合
+              console.log(nodeList, elementRegistry);
+              // 步骤2 ：为节点添加颜色
+              // 方式1 ：modeling.setColor(参数1：节点，可以是单个元素实例，也可是多个节点组成的数组，参数2：class类);
+              let modeling = this.bpmnModeler.get("modeling");
+              nodeList.forEach(item => {
+                modeling.setColor(item, {
+                  stroke: "green",
+                  fill: "rgb(197 255 197)"
+                });
+              });
+
+              userTaskList.forEach(item => {
+                let nodename = item.businessObject.$attrs["flowable:assignee"].replace("${", "").replace("}", "");
+                if (nodename == "assignee") {
+                  nodename = nodename + "List";
+                }
+                if (nodename == "startUserName" && !that.runVariables[nodename + "Str"]) {
+                  nodename = "initiator";
+                }
+                modeling.updateLabel(item, item.businessObject.name + "\n" + (that.runVariables[nodename + "Str"] && that.runVariables[nodename + "Str"].length > 0 ? that.runVariables[nodename + "Str"].join(",") : "无"));
+              });
+              // this.setProcessStatus(this.processNodeInfo) // 未起作用，可能是css问题
+            } else {
 							console.log('something went wrong:', err);
 						}
 					});

@@ -285,6 +285,7 @@
         });
       },
       seeDetail(row) {
+        this.taskInfo = {};
         this.dialogFormVisible = true;
         this.form = Object.assign({}, row);
         let {processDefinitionId, processInstanceId, taskId} = row;
@@ -298,7 +299,10 @@
         }
         this.dialogFormVisible = true;
         this.$nextTick(() => {
-          this.$refs["tasklog"].initData();
+          setTimeout(() => {
+            this.$refs["tasklog"].initData();
+
+          }, 100);
         });
       },
       openDialog() {
