@@ -270,8 +270,9 @@
         this.form = Object.assign({}, row);
         let {processDefinitionId, processInstanceId, taskId} = row;
         if (processDefinitionId && processInstanceId && taskId) {
+          let flowKey = processDefinitionId.split(":")[0];
           this.taskInfo = {
-            processDefinitionId, processInstanceId, taskId
+            processDefinitionId, processInstanceId, taskId, flowKey
           };
         } else {
           this.taskInfo = {};
