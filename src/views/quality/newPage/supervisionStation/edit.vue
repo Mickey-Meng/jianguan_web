@@ -738,7 +738,7 @@
 													</el-form-item>
 												</el-col>
 												<el-col :span="12">
-													<el-form-item label="业人员持证上岗情况">
+													<el-form-item label="特殊作业人员持证上岗情况">
 														<el-radio v-model="sideInfo.a84" label="是">是</el-radio>
 														<el-radio v-model="sideInfo.a84" label="否">否</el-radio>
 													</el-form-item>
