@@ -28,7 +28,7 @@ module.exports = {
     open: true,
     proxy: {
       "/STSfmzj": {
-        target: 'http://127.0.0.1:8720',
+        target: 'https://system.zlskkj.com:59031',
 
         changeOrigin: true,
         //               secure:true          //https需要开启此配置
@@ -46,14 +46,14 @@ module.exports = {
         }
       },
       "/zlsk_js_api": {
-        target: 'http://127.0.0.1:8720',
+        target: 'https://system.zlskkj.com:59031',
 
 
         changeOrigin: true,
         secure: true,
         pathRewrite: {}
       },
-      "/ZhuJiApi/": {
+      "/ZhuJiApi": {
         target: "http://127.0.0.1:8888",
 
         changeOrigin: true,
