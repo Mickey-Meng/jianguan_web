@@ -11,7 +11,7 @@
     <div class="left_container">
       <div class="text_label">投资进度完成率</div>
       <div class="chart_box" :class="{isFullScreen:isFullScreen}">
-                <div><span>45</span><span>.77</span></div>
+                <div><span>25</span><span>.77</span></div>
 <!--        <v-chart :options="option" autoresize class="v-chart-box"/>-->
 
       </div>
@@ -30,7 +30,7 @@
         <div>预计投资(万元)</div>
       </div>
       <div class="item">
-        <div>152472</div>
+        <div>85839</div>
         <div>实际投资(万元)</div>
       </div>
     </div>
