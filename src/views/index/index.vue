@@ -43,7 +43,8 @@
         <div id="album">
           <div class="img_box" v-for="(item, index) in listData" :key="index">
             <div class="img_box_wrapper" @mouseover="mouseOver(item)" @click.stop="seeProject(item)">
-              <img :src="item.projectpic?'/ZhuJiRoad/mong/preview?fileid=' +item.projectpic :img1" alt=""/>
+<!--              <img :src="item.projectpic?'/ZhuJiRoad/mong/preview?fileid=' +item.projectpic :img1" alt="" :project="item.projectpic"/>-->
+              <img :src="projectImg(item.name)" alt="" :projectName="item.name"/>
               <label class="pro_name">{{ item.name }}</label>
 <!--              <ul class="section_lists">-->
 <!--                <li v-for="section in item.child" v-show="currentProjectId === item.id"  @click.stop="seeProject(section)">{{ section.name }}</li>-->
@@ -77,6 +78,12 @@ import box from "@/assets/image/SX001.png";
 import { mapMutations, mapGetters } from "vuex";
 import { removeToken } from "@/utils/auth";
 import { updateOnline } from "@/api/user";
+
+
+import img11 from "@/assets/projectImg/池州市平天湖东部区域棚户区改造建设工程EPC总承包.png";
+import img12 from "@/assets/projectImg/池州市急救中心建设项目.jpg";
+import img13 from "@/assets/projectImg/池州职业技术学院实验实训南区EPC总承包项目.jpg";
+import img14 from "@/assets/projectImg/清溪大道改造工程.jpg";
 
 import img1 from "@/assets/projectImg/图层0.png";
 import img2 from "@/assets/projectImg/图层1.png";
@@ -185,6 +192,19 @@ export default {
   },
   methods: {
     ...mapMutations("project", ["SET_PROJECT"]),
+    projectImg(val) {
+      if(val === "池州市平天湖东部区域棚户区改造建设工程EPC总承包") {
+        return img11;
+      } else if(val === "池州市急救中心建设项目") {
+        return img12;
+      } else if (val === "池州港乌沙港区共用码头") {
+        return img13;
+      } else if (val === "兰亭至店口公路工程诸暨段") {
+        return img14;
+      } else {
+        return this.img1;
+      }
+    },
     initData() {
       this.listData = this.lists.slice(
         (this.currentPage - 1) * this.pageSize,

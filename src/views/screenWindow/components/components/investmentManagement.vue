@@ -8,7 +8,7 @@
 -->
 <template>
   <div>
-      <div class="measure" @click="openSystem">计量管理</div>
+<!--   yangaogao   <div class="measure" @click="openSystem">计量管理</div>-->
     <v-chart :options="option" autoresize class="v-chart-box"/>
 
   </div>

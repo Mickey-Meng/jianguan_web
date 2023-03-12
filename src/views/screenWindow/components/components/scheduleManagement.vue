@@ -16,11 +16,11 @@
       <div class="content" :class="{isTable:currentKey==='2'}">
           <div class="project_num" v-if="currentKey === '1'">
               <div>
-                  <div class="value">22</div>
+                  <div class="value">5</div>
                   <div class="label">项目总数(个)</div>
               </div>
               <div>
-                  <div class="value">75</div>
+                  <div class="value">5</div>
                   <div class="label">关键节点(个)</div>
               </div>
           </div>
@@ -59,9 +59,9 @@
 </template>
 
 <script>
-    let nameList = ["池州市急救中心建设项目", "清溪大道改造工程", "池州职业技术学院实验实训南区EPC总承包项目", "池州市平天湖东部区域棚户区改造建设工程EPC总承包"];
+    let nameList = ["池州港乌沙港区公用码头工程项目","池州市急救中心建设项目", "池州职业技术学院实验实训南区EPC总承包项目", "池州市平天湖东部区域棚户区改造建设工程EPC总承包"];
     // let colorList = ["#D3B020", "#479C39", "#FF8A40", "#729AE0"];
-    let colorList = ["#729AE0", "#FF8A40", "#479C39", "#D3B020"];
+    let colorList = ["#729AE0", "#FF8A40", "#479C39", "#D3B020", "#D3B020"];
     export default {
         props: [],
         watch: {},

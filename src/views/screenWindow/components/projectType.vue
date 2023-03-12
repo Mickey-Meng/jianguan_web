@@ -24,7 +24,7 @@
         currentId: 2,
         menus: [
           {
-            name: "交通1五类",
+            name: "交通类",
             id: 1
           },
           {
