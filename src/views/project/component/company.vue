@@ -26,7 +26,7 @@ export default {
       lists: [
         {
           title: "管理单位",
-          name: "诸暨市建设集团有限公司",
+          name: "池州建设投资集团有限公司",
         },
         {
           title: "建设单位",

@@ -234,7 +234,7 @@ export default {
   data() {
     return {
       admin: admin,
-      TopSysNameValue: "诸暨交投项目全生命周期数字管理平台",
+      TopSysNameValue: "诸暨交投全生命周期智慧建设管理平台",
       DialogVisible: false,
       routes: [],
       currentRoutes: [],

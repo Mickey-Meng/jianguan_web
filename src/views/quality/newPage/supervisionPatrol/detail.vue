@@ -135,10 +135,10 @@
 		data() {
 			return {
 				dialogFormVisible: false,
-				dialogTitle: '项目全生命周期数字管理平台',
+				dialogTitle: '全生命周期智慧建设管理平台',
 				baseInfo: {
 					buildSection: '',
-					buildSectionName: '235国道杭州至诸暨公路萧山河上至诸暨安华段改建工程',
+					buildSectionName: '池州市平天湖东部区域棚户区改造建设工程EPC总承包',
 					contractCode: '235SJSG01',
 					buildCompany: '中交上海航道局有限公司、中国交通建设股份有限公司、浙江诸安建设集团有限公司、浙江省交通规划设计研究院有限公司',
 					supervisionUnit: '浙江交科公路水运工程监理有限公司',

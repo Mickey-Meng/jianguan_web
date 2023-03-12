@@ -9,7 +9,7 @@
 <template>
 
   <div class="wrapper">
-    <div class="title">235国道杭州至诸暨公路萧山河上至诸暨安华段改建工程总体布置图</div>
+    <div class="title">池州市平天湖东部区域棚户区改造建设工程EPC总承包总体布置图</div>
     <div class="content"></div>
 
   </div>

@@ -15,7 +15,7 @@
           <map-container />
         </div>
       </div>
-      <div class="company-name">诸暨市建设集团有限公司</div>
+      <div class="company-name">池州建设投资集团有限公司</div>
     </div>
   </div>
 </template>

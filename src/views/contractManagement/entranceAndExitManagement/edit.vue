@@ -352,7 +352,7 @@
 			return {
 				draftVisible: false,
 				addOrModifyFlag: true,
-				dialogTitle: '项目全生命周期数字管理平台',
+				dialogTitle: '全生命周期智慧建设管理平台',
 				dialogFormVisible: false,
 				childOptions: [],
 				typeOptions: [{
@@ -467,7 +467,7 @@
 				},
 				baseInfo: {
 					buildSection: 1,
-					projectName: '235国道杭州至诸暨公路萧山河上至诸暨安华段改建工程',
+					projectName: '池州市平天湖东部区域棚户区改造建设工程EPC总承包',
 					buildSectionName: '235国道项目部',
 					contractCode: 'ORG_00004',
 					startupUser: '赵赞文',

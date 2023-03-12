@@ -44,12 +44,12 @@
       initMap() {
         let obj = JSON.parse(JSON.stringify(earth));
         obj.init = {
-          lon: 120.08376519148769,
-          lat: 29.54450271387259,
-          height: 9405.454982947374,
-          heading: 27.023232616862018,
-          pitch: -26.513833998027724,
-          roll: 0.015635790759291873,
+          lon: 117.46471434258237,
+          lat: 30.59982300620444,
+          height: 3529.704298839902,
+          heading: 16.196112994937916,
+          pitch: -29.742000441177492,
+          roll: 0.0010975985507093802,
           duration: 3
         };
         obj.layers = [
@@ -69,6 +69,36 @@
         // mm = mapCtx.zlskEarthHelper.earth.createMarkerManager();
         this.addCityLine();
         this.setColour();
+        const handler = new Cesium.ScreenSpaceEventHandler(mapCtx.zlskEarthHelper.viewer.scene.canvas);
+        handler.setInputAction(function (movement) {
+            const camera = mapCtx.zlskEarthHelper.viewer.camera;
+            const pitch = Cesium.Math.toDegrees(mapCtx.zlskEarthHelper.viewer.camera.pitch);
+            const heading = Cesium.Math.toDegrees(mapCtx.zlskEarthHelper.viewer.camera.heading);
+            const roll = Cesium.Math.toDegrees(mapCtx.zlskEarthHelper.viewer.camera.roll);
+
+            
+            let scene = mapCtx.zlskEarthHelper.viewer.scene;
+            let ellipsoid = scene.globe.ellipsoid;
+            const cartographic = mapCtx.zlskEarthHelper.viewer.scene.globe.ellipsoid.cartesianToCartographic(camera.position);
+
+            let currentHeight = ellipsoid.cartesianToCartographic(mapCtx.zlskEarthHelper.viewer.camera.position).height;
+            let longitude = Cesium.Math.toDegrees(cartographic.longitude);
+            let latitude = Cesium.Math.toDegrees(cartographic.latitude);
+
+            console.log({
+                destination: Cesium.Cartesian3.clone(camera.position),
+                orientation: {
+                  direction: Cesium.Cartesian3.clone(camera.direction),
+                  up: Cesium.Cartesian3.clone(camera.up),
+                },
+                latitude,
+                longitude,
+                height: currentHeight,
+                pitch,
+                heading,
+                roll
+            })
+        }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
       },
       getMm(type) {
         if (!markerManagement[type]) {
