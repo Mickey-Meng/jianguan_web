@@ -61,7 +61,7 @@
           {
             name: "诸暨白模",
             type: "C3DTILES",
-            url: "http://150.158.139.18:8080/data_zlsk/chizhoushi/jianzhu/tileset.json",
+            url: "http://150.158.139.18:8080/static/data_zlsk/chizhoushi/jianzhu/tileset.json",
             clampToGround: true
           }
         ];
