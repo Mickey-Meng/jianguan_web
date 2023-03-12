@@ -3,7 +3,7 @@
 
 		<div class="form-content">
 			<el-form ref="form" label-width="80px">
-
+				
 				<div class="form-block">
 					<div class="form-block-title">
 						<div class="title-bar"></div><strong>基本信息</strong>
@@ -14,7 +14,7 @@
 							<div class="block-item-label">发起人</div>
 							<div class="block-item-value">
 								{{baseInfo.startupUser}}
-
+				
 							</div>
 						</div>
 					</div> -->
@@ -36,7 +36,7 @@
 							<div class="block-item-label">合同编号</div>
 							<div class="block-item-value">
 								{{formData.contractCode}}
-
+								
 							</div>
 						</div>
 						<div class="block-item">
@@ -51,9 +51,9 @@
 						<span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
 							xisx xis pdf文件，且不超过100m</span>
 					</div>
-
+				
 					<attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>
-
+					
 				</div>
 				<div class="form-block">
 					<div class="form-block-title">
@@ -92,12 +92,12 @@
 							</el-table-column>
 							<el-table-column prop="remark" width="120px" align="center" label="备注">
 							</el-table-column>
-
+							
 						</el-table>
 					</div>
 				</div>
-
-
+				
+				
 			</el-form>
 		</div>
 	</div>
@@ -108,23 +108,23 @@
 	import { getUserInfo } from "@/api/user";
 	import attachlist from "../../common/attachlist"
 	import projectinfo from "../../common/projectinfo.vue"
-
+	
 	import {
 		formatMonth,
 		formatDate,
 		formatDateTime,
 		convertOptions
 	} from "@/utils/format.js";
-
+	
 	export default {
 		data() {
 			return {
 				dialogTitle: '全生命周期智慧建设管理平台',
 				dialogFormVisible: false,
-
+				
 				baseInfo: {
 					buildSection: 1,
-					projectName:'池州港乌沙港区公用码头工程项目',
+					projectName:'池州市平天湖东部区域棚户区改造建设工程EPC总承包',
 					buildSectionName: '235国道项目部',
 					contractCode: 'ORG_00004',
 					startupUser: '赵赞文',
@@ -152,10 +152,10 @@
 		},
 		computed: {},
 		watch: {
-
+			
 		},
 		mounted() {
-
+			
 		},
 		methods: {
 			getUserInfo(id) {

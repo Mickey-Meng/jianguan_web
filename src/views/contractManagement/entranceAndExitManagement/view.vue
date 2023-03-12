@@ -3,7 +3,7 @@
 
 		<div class="form-content">
 			<el-form ref="form" label-width="80px">
-
+				
 				<div class="form-block">
 					<div class="form-block-title">
 						<div class="title-bar"></div><strong>基本信息</strong>
@@ -114,9 +114,9 @@
 		formatDateTime,
 		convertOptions
 	} from "@/utils/format.js";
-
+	
 	import projectinfo from "../../common/projectinfo.vue"
-
+	
 	export default {
 		data() {
 			return {
@@ -124,7 +124,7 @@
 				dialogFormVisible: false,
 				baseInfo: {
 					buildSection: 1,
-					projectName:'池州港乌沙港区公用码头工程项目',
+					projectName:'池州市平天湖东部区域棚户区改造建设工程EPC总承包',
 					buildSectionName: '235国道项目部',
 					contractCode: 'ORG_00004',
 					startupUser: '赵赞文',
@@ -151,10 +151,10 @@
 		},
 		computed: {},
 		watch: {
-
+			
 		},
 		mounted() {
-
+			
 		},
 		methods: {
 			getDetail(id) {

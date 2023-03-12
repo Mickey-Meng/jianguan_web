@@ -6,7 +6,7 @@
 				<div class="form-block">
 					<!-- <div class="form-block-title">
 						<div class="title-bar"></div><strong>发起位置</strong>
-
+						
 					</div>
 					<locationmap></locationmap> -->
 					<div class="form-block-title">
@@ -25,11 +25,11 @@
 								<div class="block-item-label">旁站时间</div>
 								<div class="block-item-value">
 									{{formData.sideDate}}
-
+					
 								</div>
 							</div>
 						</div>
-
+					
 					</div>
 				</div>
 				<div class="form-block">
@@ -254,7 +254,7 @@
 									</el-form-item>
 								</el-col>
 							</el-row>
-
+						
 							<el-row>
 								<el-col :span="12">
 									<el-form-item label="开始时间">
@@ -274,7 +274,7 @@
 									</el-form-item>
 								</el-col>
 							</el-row>
-
+						
 							<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">主要数据记录
 							</el-row>
 							<el-row>
@@ -307,9 +307,9 @@
 										{{sideInfo.a69}}
 									</el-form-item>
 								</el-col>
-
+						
 							</el-row>
-
+						
 						</el-collapse-item>
 						<el-collapse-item v-if="formData.sideProjectId==3" title="嵌入表单" name="3">
 							<el-row
@@ -341,7 +341,7 @@
 									</el-form-item>
 								</el-col>
 							</el-row>
-
+						
 							<el-row>
 								<el-col :span="12">
 									<el-form-item label="开始时间">
@@ -373,7 +373,7 @@
 									</el-form-item>
 								</el-col>
 							</el-row>
-
+						
 							<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">主要数据记录
 							</el-row>
 						</el-collapse-item>
@@ -730,7 +730,7 @@
 									</el-form-item>
 								</el-col>
 							</el-row>
-
+						
 						</el-collapse-item>
 						<el-collapse-item v-if="formData.sideProjectId==6" title="嵌入表单" name="6">
 							<el-row
@@ -768,9 +768,9 @@
 										{{sideInfo.a109}}
 									</el-form-item>
 								</el-col>
-
+						
 							</el-row>
-
+						
 							<el-row>
 								<el-col :span="12">
 									<el-form-item label="浇筑开始时间">
@@ -852,9 +852,9 @@
 										{{sideInfo.a123}}
 									</el-form-item>
 								</el-col>
-
+						
 							</el-row>
-
+						
 						</el-collapse-item>
 						<el-collapse-item v-if="formData.sideProjectId==7" title="嵌入表单" name="7">
 							<el-row
@@ -898,7 +898,7 @@
 									</el-form-item>
 								</el-col>
 							</el-row>
-
+						
 							<el-row>
 								<el-col :span="12">
 									<el-form-item label="下钻开始时间">
@@ -967,9 +967,9 @@
 										{{sideInfo.a140}}
 									</el-form-item>
 								</el-col>
-
+						
 							</el-row>
-
+						
 						</el-collapse-item>
 						<el-collapse-item v-if="formData.sideProjectId==8" title="嵌入表单" name="8">
 							<el-row
@@ -1013,7 +1013,7 @@
 									</el-form-item>
 								</el-col>
 							</el-row>
-
+						
 							<el-row>
 								<el-col :span="12">
 									<el-form-item label="安装开始时间">
@@ -1100,7 +1100,7 @@
 									</el-form-item>
 								</el-col>
 							</el-row>
-
+						
 						</el-collapse-item>
 						<el-collapse-item v-if="formData.sideProjectId==9" title="嵌入表单" name="9">
 							<el-row
@@ -1171,7 +1171,7 @@
 									{{sideInfo.a171}}
 								</el-form-item>
 							</el-row>
-
+							
 							<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">主要数据记录
 							</el-row>
 							<el-row>
@@ -1192,9 +1192,9 @@
 										{{sideInfo.a174}}
 									</el-form-item>
 								</el-col>
-
+								
 							</el-row>
-
+							
 						</el-collapse-item>
 						<el-collapse-item v-if="formData.sideProjectId==10" title="嵌入表单" name="10">
 							<el-row
@@ -1265,7 +1265,7 @@
 									{{sideInfo.a185}}
 								</el-form-item>
 							</el-row>
-
+							
 							<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">主要数据记录
 							</el-row>
 							<el-row>
@@ -1286,14 +1286,14 @@
 										{{sideInfo.a188}}
 									</el-form-item>
 								</el-col>
-
+								
 							</el-row>
-
+							
 						</el-collapse-item>
-
+										
 					</el-collapse>
-
-
+													
+				
 					<div class="block-line">
 						<div class="block-item">
 							<div class="block-item-label">旁站工作情况</div>
@@ -1311,7 +1311,7 @@
 						</div>
 					</div>
 				</div>
-
+				
 				<div class="form-block">
 					<div class="form-block-title">
 						<div class="title-bar"></div><strong>旁站现场照片</strong>
@@ -1366,20 +1366,20 @@
 		getChidlren
 	} from "@/utils/format.js";
 	import attachlist from "../../../common/attachlist"
-
+	
 	import {
 		getBridgeTree
 	} from "@/api/tree";
-
+	
 	import simpleData from '../../../common/simdata.js'
-
+	
 	export default {
 		data() {
 			return {
 				sideOptions:[],
 				baseInfo: {
 					buildSection: 1,
-					buildSectionName: '池州港乌沙港区公用码头工程项目',
+					buildSectionName: '池州市平天湖东部区域棚户区改造建设工程EPC总承包',
 					contractCode: '235SJSG01',
 					buildCompany: '中交上海航道局有限公司、中国交通建设股份有限公司、浙江诸安建设集团有限公司、浙江省交通规划设计研究院有限公司',
 					supervisionUnit: '浙江交科公路水运工程监理有限公司',
@@ -1387,7 +1387,7 @@
 				},
 				sideInfoVisible:'',
 				sideInfo: {
-
+				
 				},
 				formData: { //表单参数
 					"actualCheckAttachment": [],
@@ -1419,10 +1419,10 @@
 			attachlist
 		},
 		computed: {
-
+			
 		},
 		watch: {
-
+			
 		},
 		mounted() {
 			this.initData();
@@ -1450,7 +1450,7 @@
 					this.formData = data;
 					this.sideInfo = data['sideInfo'] ? JSON.parse(data['sideInfo']) : {};
 					this.formData.sideProjectStr=getOptionsLabel(this.sideOptions,this.formData.sideProjectId)
-
+					
 					let treename=getChidlren(this.treeData,this.formData.projectPartId,[]);
 					this.formData.projectPartStr=(treename?treename:[]).join('/');
 				});
@@ -1465,5 +1465,5 @@
 			width: calc(100% - 200px) !important
 		}
 	}
-	@import "../../../../assets/css/dialog.scss";
+	@import "../../../../assets/css/dialog.scss"
 </style>

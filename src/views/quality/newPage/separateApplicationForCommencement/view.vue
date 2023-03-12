@@ -72,7 +72,7 @@
 								{{formData.buildPrepareExplain}}
 							</div>
 						</div>
-
+				
 					</div>
 				</div>
 				<div class="form-block">
@@ -277,13 +277,13 @@
 	} from "@/utils/format.js";
 	import attachlist from "../../../common/attachlist"
 	import projectinfo from "../../../common/projectinfo.vue"
-
+	
 	export default {
 		data() {
 			return {
 				baseInfo: {
 					buildSection: 1,
-					buildSectionName: '池州港乌沙港区公用码头工程项目',
+					buildSectionName: '池州市平天湖东部区域棚户区改造建设工程EPC总承包',
 					contractCode: '235SJSG01',
 					buildCompany: '中交上海航道局有限公司、中国交通建设股份有限公司、浙江诸安建设集团有限公司、浙江省交通规划设计研究院有限公司',
 					supervisionUnit: '浙江交科公路水运工程监理有限公司',
@@ -338,7 +338,7 @@
 		},
 		computed: {},
 		watch: {
-
+			
 		},
 		mounted() {
 			this.getProjectInfoById();
@@ -367,5 +367,5 @@
 </script>
 
 <style scoped lang="scss">
-	@import "../../../../assets/css/dialog.scss";
+	@import "../../../../assets/css/dialog.scss"
 </style>

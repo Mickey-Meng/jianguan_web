@@ -122,7 +122,7 @@ export default {
 
       baseInfo: {
         buildSection: 1,
-        projectName: '池州港乌沙港区公用码头工程项目',
+        projectName: '池州市平天湖东部区域棚户区改造建设工程EPC总承包',
         buildSectionName: '235国道项目部',
         contractCode: 'ORG_00004',
         startupUser: '赵赞文',

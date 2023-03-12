@@ -15,7 +15,7 @@
 									<div class="title-big-bar"></div>
 									<strong>施工技术交底-浙公路（JL）011</strong>
 								</div>
-
+		
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
@@ -30,7 +30,7 @@
 										</div>
 									</div>
 									<div class="block-line">
-
+		
 										<div class="block-item">
 											<div class="block-item-label">施工技术交底概述</div>
 											<div class="block-item-value">
@@ -51,7 +51,7 @@
 										<span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
 											xisx xis pdf文件，且不超过100m</span>
 									</div>
-
+		
 									<div class="block-line">
 										<div class="block-table-title">附件</div>
 										<div class="block-table-btns">
@@ -60,7 +60,7 @@
 									</div>
 									<attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>
 								</div>
-
+		
 								<!-- <div class="form-title">
 									<div class="title-big-bar"></div><strong>审批信息</strong>
 								</div> -->
@@ -106,7 +106,7 @@
 				waitTableData: [],
 				baseInfo: {
 					buildSection: 1,
-					buildSectionName: '池州港乌沙港区公用码头工程项目',
+					buildSectionName: '池州市平天湖东部区域棚户区改造建设工程EPC总承包',
 					contractCode: '235SJSG01',
 					buildCompany: '中交上海航道局有限公司、中国交通建设股份有限公司、浙江诸安建设集团有限公司、浙江省交通规划设计研究院有限公司',
 					supervisionUnit: '浙江交科公路水运工程监理有限公司',
@@ -214,6 +214,6 @@
 </script>
 
 <style scoped lang="scss">
-	@import "../../../../assets/css/dialog.scss";
+	@import "../../../../assets/css/dialog.scss"
 </style>
 

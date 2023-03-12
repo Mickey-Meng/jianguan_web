@@ -11,14 +11,14 @@
 					<div class="form-bg">
 						<div class="form-content">
 							<el-form ref="form" label-width="80px">
-
+								
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
 									</div>
 									<projectinfo></projectinfo>
 									<div class="block-line">
-
+								
 										<div class="block-item">
 											<div class="block-item-label">工程编号</div>
 											<div class="block-item-value">
@@ -68,12 +68,12 @@
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>附件清单</strong>
 									</div>
-
+								
 									<attachlist :editAble="false" ref="attachlist" :attachTable="attachTable">
 									</attachlist>
-
+								
 								</div> -->
-
+								
 							</el-form>
 							<!-- <taskhandle :taskInfo="taskInfo"></taskhandle> -->
 						</div>
@@ -90,7 +90,7 @@
 				</el-aside>
 			</el-container>
 		</el-dialog>
-
+		
 	</div>
 </template>
 
@@ -101,7 +101,7 @@
 	import taskhandle from '../../common/taskhandle'
 	import attachlist from "../../common/attachlist"
 	import projectinfo from "../../common/projectinfo.vue"
-
+	
 	import {
 		formatMonth,
 		formatDate,
@@ -118,7 +118,7 @@
 				dialogFormVisible: false,
 				baseInfo: {
 					buildSection: 1,
-					projectName:'池州港乌沙港区公用码头工程项目',
+					projectName:'池州市平天湖东部区域棚户区改造建设工程EPC总承包',
 					buildSectionName: '235国道项目部',
 					contractCode: 'ORG_00004',
 					startupUser: '赵赞文',

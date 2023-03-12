@@ -374,7 +374,7 @@
 			return {
 				draftVisible: false,
 				addOrModifyFlag: true,
-				dialogTitle: '项目全生命周期数字管理平台',
+				dialogTitle: '全生命周期智慧建设管理平台',
 				dialogFormVisible: false,
 				
 				buildUserOptions:[{

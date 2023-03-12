@@ -11,7 +11,7 @@
 					<div class="form-bg">
 						<div class="form-content">
 							<el-form ref="form" label-width="80px">
-
+								
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
@@ -48,12 +48,12 @@
 										</div>
 									</div>
 								</div>
-
+								
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>人员清单</strong>
 									</div>
-
+									
 									<div class="block-table">
 										<el-table :data="inOutUserTable" style="width: 100%" border
 											class="have_scrolling">
@@ -118,7 +118,7 @@
 										</el-table>
 									</div>
 								</div>
-
+								
 							</el-form>
 							<!-- <taskhandle :taskInfo="taskInfo"></taskhandle> -->
 						</div>
@@ -135,7 +135,7 @@
 				</el-aside>
 			</el-container>
 		</el-dialog>
-
+		
 	</div>
 </template>
 
@@ -146,7 +146,7 @@
 	import taskhandle from '../../common/taskhandle'
 	import attachlist from "../../common/attachlist"
 	import projectinfo from "../../common/projectinfo.vue"
-
+	
 	import {
 		formatMonth,
 		formatDate,
@@ -163,8 +163,8 @@
 
 				baseInfo: {
 					buildSection: 1,
-					projectName: '池州港乌沙港区公用码头工程项目',
-					buildSectionName: '池州港乌沙港区公用码头工程项目',
+					projectName: '池州市平天湖东部区域棚户区改造建设工程EPC总承包',
+					buildSectionName: '池州市平天湖东部区域棚户区改造建设工程EPC总承包',
 					contractCode: '235SJSG01',
 					buildCompany: '中交上海航道局有限公司、中国交通建设股份有限公司、浙江诸安建设集团有限公司、浙江省交通规划设计研究院有限公司',
 					supervisionUnit: '浙江交科公路水运工程监理有限公司',
@@ -202,7 +202,7 @@
 			}
 		},
 		mounted() {
-
+			
 		},
 		methods: {
 			closeDialog(){

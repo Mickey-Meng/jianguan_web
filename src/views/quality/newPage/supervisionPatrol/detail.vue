@@ -14,7 +14,7 @@
 								<div class="form-block">
 									<!-- <div class="form-block-title">
 										<div class="title-bar"></div><strong>发起位置</strong>
-
+										
 									</div>
 									<locationmap></locationmap> -->
 									<div class="form-block-title">
@@ -27,11 +27,11 @@
 												<div class="block-item-label">发起时间</div>
 												<div class="block-item-value">
 													{{formData.startDate}}
-
+								
 												</div>
 											</div>
 										</div>
-
+								
 									</div>
 								</div>
 								<div class="form-block">
@@ -65,8 +65,8 @@
 										</div>
 									</div>
 								</div>
-
-
+								
+								
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>巡视现场照片</strong>
@@ -112,7 +112,7 @@
 				</el-aside> -->
 			</el-container>
 		</el-dialog>
-
+		
 	</div>
 </template>
 
@@ -138,7 +138,7 @@
 				dialogTitle: '全生命周期智慧建设管理平台',
 				baseInfo: {
 					buildSection: '',
-					buildSectionName: '池州港乌沙港区公用码头工程项目',
+					buildSectionName: '池州市平天湖东部区域棚户区改造建设工程EPC总承包',
 					contractCode: '235SJSG01',
 					buildCompany: '中交上海航道局有限公司、中国交通建设股份有限公司、浙江诸安建设集团有限公司、浙江省交通规划设计研究院有限公司',
 					supervisionUnit: '浙江交科公路水运工程监理有限公司',
@@ -172,7 +172,7 @@
 			projectinfo
 		},
 		computed: {
-
+			
 		},
 		watch:{
 			detailRow(obj){
@@ -226,5 +226,5 @@
 </script>
 
 <style scoped lang="scss">
-	@import "../../../../assets/css/dialog.scss";
+	@import "../../../../assets/css/dialog.scss"
 </style>
