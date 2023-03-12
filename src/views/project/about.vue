@@ -49,19 +49,19 @@
           <div class="text-content custom-scrollbar">
             <div class="small-title">建设内容和开竣工时间</div>
             <div class="small-text about-text">
-              <p>
+              <p style="line-height:30px;font-size: 18px;">
                 池州市平天湖东部区域棚户区改造建设工程EPC总承包设计施工总承包项目，是《国家公路网规划（2013年-2030年）》中的一条纵向干线公路，也是国省道网络中的重要“一纵”。线路总体呈南北走向，途径萧山河上、诸暨次坞、应店街、草塔、安华等主要乡镇，主线全长53.95公里(其中：萧山段长1.1公里，诸暨段长52.85
                 公里)。
               </p>
-              <p>
+              <p style="line-height:30px;font-size: 18px;">
                 采用双向六车道一级公路标准，设计速度80公里/小时，路基宽度33米。连接线全长6.37公里，采用双向四车道一级公路标准，设计速度60公里/小时，路基宽度23.5米。
               </p>
-              <p>
+              <p style="line-height:30px;font-size: 18px;">
                 项目总投资669321万元，其中建筑安装工程费约为431724万元。2021年6月10日开工，2023年6月9日竣工，总工期36个月。
               </p>
             </div>
             <div class="small-title">今年目标任务</div>
-            <div class="small-text target-text">
+            <div class="small-text target-text"  style="line-height:30px;font-size: 18px;">
               (1)中心试验室土建建设完成,并投入使用;(2)1#、2#钢筋加工中心建设、1#、2#混凝土拌合站建设、1#、2#预制梁场建设、验收完成具备生产条件;(3)桥梁桩基累计完成1131根，墩柱完成330个，T梁预制完成155片；(4)隧道开挖累计完成2500m，二衬累计完成1860m；
               （5）2021年年度计划完成产值目标为80072万元。
             </div>
@@ -208,7 +208,7 @@ export default {
             text-indent: 2em;
           }
           .about-text {
-            height: 110px;
+            height: 120px;
           }
           .target-text {
             text-indent: 2em;

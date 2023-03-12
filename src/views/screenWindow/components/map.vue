@@ -61,7 +61,7 @@
           {
             name: "诸暨白模",
             type: "C3DTILES",
-            url: "https://system.zlskkj.com:59031/data_zlsk/zhujishi/jianzhu/tileset.json",
+            url: "http://localhost:8081/tileset.json",
             clampToGround: true
           }
         ];
@@ -116,7 +116,7 @@
         return popupManagement[type];
       },
       addCityLine() {
-        this.$axios.get("./data/诸暨市_市界.json").then(res => {
+        this.$axios.get("./data/池州市_市界.json").then(res => {
           console.log(res);
           let features = res.data.geometries[0].coordinates;
           let Cartesian3 = features.map((item) => {

@@ -124,6 +124,7 @@ export default {
           data.sort((a, b) => a.gongqucode - b.gongqucode);
           this.currentAreaInfo = data[0];
         }
+        console.log('11111111111111',data)
         this.areaLists = data;
       });
     },
