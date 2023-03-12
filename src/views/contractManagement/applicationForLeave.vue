@@ -245,7 +245,7 @@
         ],
         userRoleParentCode: "",
         isCreate: true,
-        dialogTitle: "项目全生命周期数字管理平台",
+        dialogTitle: "全生命周期智慧建设管理平台",
         workTime: {
           wh: 8,//上班时长,
           on: "9:00",//上班时间

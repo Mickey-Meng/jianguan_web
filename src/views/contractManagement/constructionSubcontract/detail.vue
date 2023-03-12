@@ -11,7 +11,7 @@
 					<div class="form-bg">
 						<div class="form-content">
 							<el-form ref="form" label-width="80px">
-								
+
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
@@ -39,7 +39,7 @@
 											xisx xis pdf文件，且不超过100m</span>
 									</div>
 									<attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>
-									
+
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
@@ -75,13 +75,13 @@
 											</el-table-column>
 											<el-table-column prop="remark" width="120px" align="center" label="备注">
 											</el-table-column>
-											
+
 										</el-table>
 									</div>
 								</div>
-								
-								
-								
+
+
+
 							</el-form>
 							<!-- <taskhandle :taskInfo="taskInfo"></taskhandle> -->
 						</div>
@@ -98,7 +98,7 @@
 				</el-aside>
 			</el-container>
 		</el-dialog>
-		
+
 	</div>
 </template>
 
@@ -113,7 +113,7 @@
 		props:['detailRow'],
 		data() {
 			return {
-				dialogTitle: '项目全生命周期数字管理平台',
+				dialogTitle: '全生命周期智慧建设管理平台',
 				dialogFormVisible: false,
 
 				baseInfo: {
@@ -156,7 +156,7 @@
 			}
 		},
 		mounted() {
-			
+
 		},
 		methods: {
 			closeDialog(){

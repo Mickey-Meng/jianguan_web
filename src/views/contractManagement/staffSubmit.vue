@@ -452,7 +452,7 @@
           pic: ""//暂存的相片url，提交时删除
         },
         selectUsers: [],//根据上报人员角色查询对应角色的人员
-        dialogTitle: "项目全生命周期数字管理平台",
+        dialogTitle: "全生命周期智慧建设管理平台",
         currentRow: {},
         currentRowIndex: null,
         disabledArr: [],

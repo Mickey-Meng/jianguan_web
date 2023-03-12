@@ -306,7 +306,7 @@
 <script>
 	import * as api from "@/api/quality";
 	import * as userapi from "@/api/user";
-	
+
 	import {
 		convertOptions,
 		getQueryVariable,
@@ -326,7 +326,7 @@
 		data() {
 			return {
 				dialogFormVisible: false,
-				dialogTitle: '项目全生命周期数字管理平台',
+				dialogTitle: '全生命周期智慧建设管理平台',
 				buildUserOptions:[{
 					label:'洪涛',
 					value:'148'
@@ -341,7 +341,7 @@
 				}],
 				baseInfo: {
 					buildSection: '',
-					buildSectionName: '235国道杭州至诸暨公路萧山河上至诸暨安华段改建工程',
+					buildSectionName: '池州港乌沙港区公用码头工程项目',
 					contractCode: '235SJSG01',
 					buildCompany: '中交上海航道局有限公司、中国交通建设股份有限公司、浙江诸安建设集团有限公司、浙江省交通规划设计研究院有限公司',
 					supervisionUnit: '浙江交科公路水运工程监理有限公司',
@@ -419,7 +419,7 @@
 				this.buildUserOptions=[];
 				this.checkUserOptions=[];
 				this.liveUserOptions=[];
-				
+
 				userapi.getUserByRoleId(this.$store.getters.project['id'],70).then(res=>{
 					let data=res.data||[];
 					data.forEach(item=>{
@@ -500,5 +500,5 @@
 </script>
 
 <style scoped lang="scss">
-	@import "../../../../assets/css/dialog.scss"
+	@import "../../../../assets/css/dialog.scss";
 </style>

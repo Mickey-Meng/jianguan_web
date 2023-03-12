@@ -78,15 +78,15 @@ export default {
       timeKey: 3,
       nav: [
         {
-          name: "桥梁",
+          name: "房建",
           key: "QL"
         },
         {
-          name: "道路",
+          name: "桥梁",
           key: "LM"
         },
         {
-          name: "隧道",
+          name: "道路",
           key: "SD"
         },
         {

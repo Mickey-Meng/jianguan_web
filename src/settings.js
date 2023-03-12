@@ -8,7 +8,7 @@
  */
 module.exports = {
 
-  title: '项目全生命周期数字管理平台',
+  title: '全生命周期智慧建设管理平台',
 
   /**
    * @type {boolean} true | false

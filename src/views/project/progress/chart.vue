@@ -22,7 +22,7 @@
       <div class="right_process">
         <div class="item">
           <div class="header_text">
-            <div class="text">桥梁进度</div>
+            <div class="text">房建进度</div>
             <div class="num ql">{{ qlNum }}</div>
           </div>
           <div class="line">
@@ -31,7 +31,7 @@
         </div>
         <div class="item item_dl">
           <div class="header_text">
-            <div class="text">道路进度</div>
+            <div class="text">桥梁进度</div>
             <div class="num dl">{{ dlNum }}</div>
           </div>
           <div class="line">
@@ -40,7 +40,7 @@
         </div>
         <div class="item">
           <div class="header_text">
-            <div class="text">隧道进度</div>
+            <div class="text">道路进度</div>
             <div class="num sd">{{ sdNum }}</div>
           </div>
           <div class="line">

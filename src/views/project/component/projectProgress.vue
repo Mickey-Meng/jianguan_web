@@ -20,26 +20,26 @@
         <div class="charts">
           <v-chart :options="option" autoresize class="v-chart-box" />
         </div>
-        <div>桥梁进度</div>
+        <div>房建进度</div>
       </div>
       <div class="road">
         <div class="charts">
           <v-chart :options="roadOption" autoresize class="v-chart-box" />
         </div>
-        <div>道路进度</div>
+        <div>桥梁进度</div>
       </div>
       <div class="tunneling">
         <div class="charts">
           <v-chart :options="roadOption" autoresize class="v-chart-box" />
         </div>
-        <div>隧道进度</div>
+        <div>道路进度</div>
       </div>
     </div>
     <div class="bottom">
       <div class="nav">
-        <div :class="{'active':currentView == 'Bridge'}" @click="changeView('Bridge')">桥梁工程</div>
-        <div :class="{'active':currentView == 'Road'}" @click="changeView('Road')">道路工程</div>
-        <div :class="{'active':currentView == 'tunneling'}" @click="changeView('tunneling')">隧道工程</div>
+        <div :class="{'active':currentView == 'Bridge'}" @click="changeView('Bridge')">房建工程</div>
+        <div :class="{'active':currentView == 'Road'}" @click="changeView('Road')">桥梁工程</div>
+        <div :class="{'active':currentView == 'tunneling'}" @click="changeView('tunneling')">道路工程</div>
       </div>
       <keep-alive>
         <component :is="currentView" :engineering="engineering" />

@@ -11,14 +11,14 @@
 					<div class="form-bg">
 						<div class="form-content">
 							<el-form ref="form" label-width="80px">
-								
+
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
 									</div>
 									<projectinfo></projectinfo>
 									<div class="block-line">
-								
+
 										<div class="block-item">
 											<div class="block-item-label">工程编号</div>
 											<div class="block-item-value">
@@ -68,12 +68,12 @@
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>附件清单</strong>
 									</div>
-								
+
 									<attachlist :editAble="false" ref="attachlist" :attachTable="attachTable">
 									</attachlist>
-								
+
 								</div> -->
-								
+
 							</el-form>
 							<!-- <taskhandle :taskInfo="taskInfo"></taskhandle> -->
 						</div>
@@ -90,7 +90,7 @@
 				</el-aside>
 			</el-container>
 		</el-dialog>
-		
+
 	</div>
 </template>
 
@@ -101,7 +101,7 @@
 	import taskhandle from '../../common/taskhandle'
 	import attachlist from "../../common/attachlist"
 	import projectinfo from "../../common/projectinfo.vue"
-	
+
 	import {
 		formatMonth,
 		formatDate,
@@ -114,11 +114,11 @@
 		props:['detailRow'],
 		data() {
 			return {
-				dialogTitle: '项目全生命周期数字管理平台',
+				dialogTitle: '全生命周期智慧建设管理平台',
 				dialogFormVisible: false,
 				baseInfo: {
 					buildSection: 1,
-					projectName:'235国道杭州至诸暨公路萧山河上至诸暨安华段改建工程',
+					projectName:'池州港乌沙港区公用码头工程项目',
 					buildSectionName: '235国道项目部',
 					contractCode: 'ORG_00004',
 					startupUser: '赵赞文',

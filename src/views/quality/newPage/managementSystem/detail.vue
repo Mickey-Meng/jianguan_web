@@ -20,7 +20,7 @@
 									<projectinfo></projectinfo>
 									<div class="block-line">
 										<div class="block-item">
-											
+
 											<div class="block-item-label">编制人：<i class="require-icon"></i></div>
 											<div class="block-item-value">
 												{{formData.compileUser}}
@@ -33,7 +33,7 @@
 											</div>
 										</div>
 									</div>
-									
+
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
@@ -78,7 +78,7 @@
 		data() {
 			return {
 				dialogFormVisible: false,
-				dialogTitle: '项目全生命周期数字管理平台',
+				dialogTitle: '全生命周期智慧建设管理平台',
 				formData: { //表单参数
 					buildSection: this.$store.getters.project.id,
 					projectId:this.$store.getters.project.parentid,
@@ -129,12 +129,12 @@
 					let data = res['data'] || {};
 					this.formData = data;
 				});
-				
+
 			}
 		},
 	};
 </script>
 
 <style scoped lang="scss">
-	@import "../../../../assets/css/dialog.scss"
+	@import "../../../../assets/css/dialog.scss";
 </style>

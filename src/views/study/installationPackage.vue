@@ -10,7 +10,7 @@
   <el-container class="container-box">
     <el-header>
       <el-button type="primary" @click="showDialog">上传安装包</el-button>
-      <div class="text">诸暨建设集团项目管理</div>
+      <div class="text">诸暨管理</div>
       <svg-icon icon-class="erweima" class="return" @click="seeShuZi" />
 <!--      <div class="text">项目数据中心</div>-->
 <!--      <svg-icon icon-class="erweima" class="return" @click="seeShuJu" />-->

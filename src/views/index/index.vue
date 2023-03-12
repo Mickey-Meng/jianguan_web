@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <img :src="logo" alt="" />
-    <div class="header">项目全生命周期数字管理平台</div>
+    <div class="header">全生命周期智慧建设管理平台</div>
     <div class="exit" @click="exitSys">返回登陆</div>
     <!-- <div class="main">
       <div class="all-view">
@@ -66,7 +66,7 @@
         />
       </div>
     </div>
-    <div class="footer">诸暨市建设集团有限公司</div>
+    <div class="footer">池州建设投资集团有限公司</div>
   </div>
 </template>
 
@@ -101,7 +101,7 @@ export default {
         //   name: "G235改建",
         //   img: img1,
         // },
-        {
+        /*{
           name: "项目2",
           img: img2
         },
@@ -124,7 +124,7 @@ export default {
         {
           name: "项目7",
           img: img7,
-        },
+        },*/
       ],
       listData: [],
       doubleArr: [],

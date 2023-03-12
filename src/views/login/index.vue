@@ -2,7 +2,7 @@
   <div class="login-container">
     <img src="../../assets/image/logo.png" alt="logo" class="logo-box" />
     <div class="title-container">
-      <h3 class="title">项目全生命周期数字管理平台</h3>
+      <h3 class="title">全生命周期智慧建设管理平台</h3>
     </div>
     <el-form
       ref="loginForm"
@@ -55,7 +55,7 @@
         >登陆</el-button
       >
     </el-form>
-    <div class="company-name">诸暨市建设集团有限公司</div>
+    <div class="company-name">池州建设投资集团有限公司</div>
   </div>
 </template>
 

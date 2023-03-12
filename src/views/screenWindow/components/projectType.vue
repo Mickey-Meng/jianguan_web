@@ -21,14 +21,14 @@
     watch: {},
     data() {
       return {
-        currentId: 1,
+        currentId: 2,
         menus: [
           {
-            name: "交通类",
+            name: "交通1五类",
             id: 1
           },
           {
-            name: "房建类",
+            name: "建筑类",
             id: 2
           },
           {
