@@ -61,7 +61,7 @@
           {
             name: "诸暨白模",
             type: "C3DTILES",
-            url: "http://localhost:8081/tileset.json",
+            url: "http://150.158.139.18:8080/data_zlsk/chizhoushi/jianzhu/tileset.json",
             clampToGround: true
           }
         ];
@@ -85,12 +85,19 @@
             let longitude = Cesium.Math.toDegrees(cartographic.longitude);
             let latitude = Cesium.Math.toDegrees(cartographic.latitude);
 
+            const click_pos = mapCtx.zlskEarthHelper.viewer.scene.pickPosition(movement.position)
+            const cartographic_pos = mapCtx.zlskEarthHelper.viewer.scene.globe.ellipsoid.cartesianToCartographic(click_pos);
+            let longitude_pos = Cesium.Math.toDegrees(cartographic_pos.longitude);
+            let latitude_pos = Cesium.Math.toDegrees(cartographic_pos.latitude);
+
             console.log({
                 destination: Cesium.Cartesian3.clone(camera.position),
                 orientation: {
                   direction: Cesium.Cartesian3.clone(camera.direction),
                   up: Cesium.Cartesian3.clone(camera.up),
                 },
+                longitude_pos,
+                latitude_pos,
                 latitude,
                 longitude,
                 height: currentHeight,
