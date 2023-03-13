@@ -84,6 +84,8 @@ import img11 from "@/assets/projectImg/池州市平天湖东部区域棚户区�
 import img12 from "@/assets/projectImg/池州市急救中心建设项目.jpg";
 import img13 from "@/assets/projectImg/池州职业技术学院实验实训南区EPC总承包项目.jpg";
 import img14 from "@/assets/projectImg/清溪大道改造工程.jpg";
+import img15 from "@/assets/projectImg/池州港乌沙港区共用码头.png";
+
 
 import img1 from "@/assets/projectImg/图层0.png";
 import img2 from "@/assets/projectImg/图层1.png";
@@ -193,15 +195,25 @@ export default {
   methods: {
     ...mapMutations("project", ["SET_PROJECT"]),
     projectImg(val) {
+
+
+      // import img11 from "@/assets/projectImg/池州市平天湖东部区域棚户区改造建设工程EPC总承包.png";
+      // import img12 from "@/assets/projectImg/池州市急救中心建设项目.jpg";
+      // import img13 from "@/assets/projectImg/池州职业技术学院实验实训南区EPC总承包项目.jpg";
+      // import img14 from "@/assets/projectImg/清溪大道改造工程.jpg";
+      // import img15 from "@/assets/projectImg/池州港乌沙港区共用码头.png";
+    debugger;
       if(val === "池州市平天湖东部区域棚户区改造建设工程EPC总承包") {
         return img11;
       } else if(val === "池州市急救中心建设项目") {
         return img12;
       } else if (val === "池州港乌沙港区共用码头") {
-        return img13;
-      } else if (val === "兰亭至店口公路工程诸暨段") {
+        return img15;
+      } else if (val === "清溪大道改造工程") {
         return img14;
-      } else {
+      } else if(val.indexOf("池州职业技术学院实验实训南区EPC总承包") > -1) {
+        return img13;
+      }else {
         return this.img1;
       }
     },
