@@ -1332,6 +1332,29 @@ export const asyncRoutes = [
 		]
 	},
 	{
+		path: "/study",
+		meta: {
+			title: "计量管理",
+			icon: "education",
+			code: "jiliangguanli"
+		},
+		alwaysShow: true,
+		component: Layout,
+		children: [{
+			path: "/teachingVideo",
+			name: "teachingVideo",
+			component: () => import("@/views/study/index"),
+			meta: {
+				title: "计量管理",
+				code: "jiaoxueshipin",
+				icon: "circle",
+				allMap: false,
+				partMap: false,
+				noMap: true
+			}
+		}]
+	},
+	{
 		path: 'contractManagement',
 		meta: {
 			title: "合同管理",

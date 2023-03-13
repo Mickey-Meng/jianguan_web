@@ -61,7 +61,7 @@
           {
             name: "诸暨白模",
             type: "C3DTILES",
-            url: "http://150.158.139.18:8080/static/data_zlsk/chizhoushi/jianzhu/tileset.json",
+            url: "http://150.158.139.18:8901/static/data_zlsk/chizhoushi/jianzhu/tileset.json",
             clampToGround: true
           }
         ];
@@ -110,7 +110,7 @@
       getMm(type) {
         if (!markerManagement[type]) {
           markerManagement[type] = mapCtx.zlskEarthHelper.earth.createMarkerManager();
-          if (type != "交通类") {
+          if (type != "建筑类") {
             markerManagement[type].visible = false;
           }
         }
@@ -221,7 +221,7 @@
                 content: html, // 弹框内容 可选，默认值: ''
                 class: "map_view_popup", // 可选，默认值:
                 closable: false, // 关闭按钮 可选，默认值: true
-                visible: projecttype === "交通类" ? true : false
+                visible: projecttype === "建筑类" ? true : false
               });
               popup.push(a);
               this.allPopupId.push(a);
