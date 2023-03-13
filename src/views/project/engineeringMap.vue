@@ -41,7 +41,7 @@
       width: 98%;
       margin: 10px auto 0;
       height: calc(100% - 100px);
-      background: url("../../assets/image/engMpBF.jpg") no-repeat;
+      background: url("../../assets/image/池州港乌沙港区共用码头工程总体布置图.png") no-repeat;
       background-size: 100% 100%;
     }
   }
