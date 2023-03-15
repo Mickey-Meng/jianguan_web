@@ -1,0 +1,44 @@
+.zlsk-m-secr-svgc{
+	position: relative;
+	height: 620px;
+}
+.zlsk-m-secr-popc{
+	position: absolute;
+	top: 0;
+}
+.zlsk-m-secr-pp{
+	position: absolute;
+	left: 0;
+	top: 0;
+	display: none;
+	width: 260px;
+	background: rgba(0, 0, 0, 0.8);
+}
+.zlsk-m-secr-pp-btn-close{
+	position: absolute;
+	top: 0;
+	right: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 20px;
+	height: 20px;
+	background: rgba(255, 0, 0, 1);
+	color: #eee;
+	font-size: 22px;
+	cursor: pointer;
+}
+.zlsk-m-secr-pp-content{
+	padding: 20px 10px 10px 10px;
+}
+.zlsk-m-secr-pr{
+	display: flex;
+	align-items: center;
+	height: 30px;
+	border-bottom: 1px dashed #999;
+	font-size: 14px;
+}
+.zlsk-m-secr-pr-label{
+	width: 90px;
+}
+.zlsk-m-secr-pr-text{}

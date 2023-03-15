@@ -1,0 +1,10 @@
+
+st_tn_poi: poi_dian
+st_fn_poi_key: 编号
+st_fn_poi_name: 名称
+st_fn_poi_type: 类型
+st_fn_poi_lv: 级别
+st_fn_poi_park: 所属小区
+st_fn_poi_building: 所属建筑
+st_fn_poi_floor: 楼层
+

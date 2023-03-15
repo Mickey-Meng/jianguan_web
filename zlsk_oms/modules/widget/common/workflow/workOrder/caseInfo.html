@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>案件信息</title>
+    <link rel="stylesheet" href="../../../../../lib/ok_admin/css/okadmin.css">
+    <script type="text/javascript" src="../../../../../lib/ok_admin/lib/layui/layui.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+</head>
+<body>
+<div class="layui-body commonOutCss" style="left: 0">
+    <div id="form">
+        <table class="layui-hide" id="caseList" lay-filter="caseList"></table>
+    </div>
+</div>
+
+<script type="text/html" id="toolbar">
+    <form class="layui-form  layui-col-md12" style="height: 40px" lay-filter="toolForm" >
+        <div class="layui-input-inline ok-search">
+            <input class="layui-input" placeholder="案件编号" autocomplete="off" name="cno" id="cno">
+        </div>
+        <div class="layui-input-inline " style="width: 200px;">
+            <div id="searchType"></div>
+        </div>
+        <div class="layui-input-inline " style="width: 200px;">
+            <div id="flowType"></div>
+        </div>
+        <button class="layui-btn"  id="search">
+            <i class="layui-icon">&#xe615;</i>
+        </button>
+    </form>
+</script>
+
+<script type="text/html" id="operationTpl">
+    <button class="layui-btn  layui-btn-xs" lay-event="btnItemMap">查看位置</button>
+    <button class="layui-btn  layui-btn-xs" lay-event="btnItemInfo">查看步骤</button>
+    {{#     if(d.isHand){            }}
+    <button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="btnItemHand">前往处理</button>
+    {{#      }                              }}
+</script>
+<script>
+    var $;
+    var form;
+    var table;
+    var okUtils;
+    var okLayer;
+    var xmSelect;
+    var layer;
+    var constantUrl;
+
+    var myTable;
+    var searchType;
+    var flowType;
+    var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    layui.use(['table','zTable','form','okUtils','okLayer','xmSelect','layer','constantUrl'],function () {
+        $ = layui.jquery;
+        form = layui.form;
+        table = layui.table;
+        okUtils = layui.okUtils;
+        okLayer = layui.okLayer;
+        xmSelect = layui.xmSelect;
+        layer = layui.layer;
+        constantUrl = layui.constantUrl;
+
+        var zTable = layui.zTable({
+            elem: '#caseList'
+            , page: true
+            , limit: 20
+            , url:constantUrl.stForm.getCaseInfo
+            , where :{'type':'5','ukid':userInfo.ID}
+            , parseData: function (res) {
+                var result = {};
+                if (res.data){
+                    if (this.page.curr) {
+                        result = res.data.slice(this.limit * (this.page.curr - 1), this.limit * this.page.curr);
+                    } else {
+                        result = res.data.slice(0, this.limit);
+                    }
+                }
+                return {
+                    "code": res.meow, //解析接口状态
+                    "msg": res.msg, //解析提示文本
+                    "count": res.data ? res.data.length : 0, //解析数据长度
+                    "data": result //解析数据列表
+                };
+            }
+            , toolbar: '#toolbar'
+            , cols: [[ //标题栏
+                  {field: 'cno', title: '案件编号'}
+                , {field: 'cname', title: '案件名'}
+                , {field: 'currentStepName', title: '当前步骤'}
+                , {field: 'stime', title: '创建时间'}
+                , {field: 'etime', title: '结案时间'}
+                , {field: 'timelimit', title: '时限'}
+                , {title: "操作", width: 300, align: "center", templet: "#operationTpl"}
+            ]]
+        });
+
+        myTable = zTable.getTable();
+
+        zTable.getLayuiTable().on("tool(caseList)", function (obj) {
+            var data = obj.data;
+            switch (obj.event) {
+                case 'btnItemMap':
+                    okLayer.open("查看位置", "workMap.html?cno=" + data.cno + "&flowId=" + data.fid , "100%", "100%", function (layero) {},function () {});
+                    break;
+                case 'btnItemInfo':
+                    okLayer.open("查看步骤", "../commonFlowDealStep.html?cno=" + data.cno + "&flowId=" + data.fid , "100%", "100%", function (layero) {},function () {});
+                    break;
+                case 'btnItemHand':
+                    okLayer.open("流程步骤", "../commonFlowDeal.html?flowId=" + data.fid , "100%", "100%", function (layero) {},function () {});
+                    break;
+            }
+        });
+
+        okUtils.getDic('case_search_type',function (array,map) {
+            $.each(array,function (index,value) {
+                if (value.key == '5'){
+                    value.selected = true;
+                }
+            });
+            searchType = generateXmSelect(array,'#searchType','选择查询类型',true,function (arr,change,isAdd) {});
+        });
+
+        okUtils.ajax({
+            'url':constantUrl.stFlow2.getWorkFlowList
+        }).done(function (data1) {
+            if (data1.meow === 0 && data1.data){
+                $.each(data1.data,function (index,value) {
+                    value.value = value.name;
+                });
+                flowType = generateXmSelect(data1.data,'#flowType','选择流程',true,function (arr,change,isAdd) {})
+            }
+        });
+
+        $('#search').click(function () {
+            let type ;
+            let flowId ;
+            let cno = $('#cno').val();
+            if (searchType.getValue() && searchType.getValue()[0]){
+                type = searchType.getValue()[0].key;
+            }
+            if (flowType.getValue() && flowType.getValue()[0]){
+                flowId = flowType.getValue()[0].gid;
+            }
+            myTable.refresh({
+                where:{type:type,flowId:flowId,ukid: userInfo.ID,cno:cno}
+            });
+            return false;
+        });
+    });
+
+</script>
+</body>
+</html>

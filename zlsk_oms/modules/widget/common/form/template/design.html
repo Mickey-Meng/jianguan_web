@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模板显示样式设计</title>
+    <link rel="stylesheet" href="../../../../../lib/ok_admin/css/okadmin.css">
+    <script type="text/javascript" src="../../../../../lib/ok_admin/lib/layui/layui.js"></script>
+</head>
+<body>
+<div class="layui-tab layui-tab-brief">
+    <ul class="layui-tab-title">
+        <li class="layui-this">列表信息</li>
+        <li>查询字段</li>
+        <li>快捷查询字段</li>
+        <li>显示字段</li>
+        <li>排序字段</li>
+        <li>功能按钮</li>
+    </ul>
+    <div class="layui-tab-content" style="height: 100%">
+        <div class="layui-tab-item layui-show">
+            <form class="layui-form form_template" action="" lay-filter="form_template" style="margin-top: 10px;padding-right: 20px">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">是否分页<label style="color: red;">*</label></label>
+                    <div class="layui-input-block">
+                        <div id="page_use_select"></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">分页大小<label style="color: red;">*</label></label>
+                    <div class="layui-input-block">
+                        <div id="page_size_select"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="layui-tab-item">
+            <div class="layui-tab-item layui-show">
+                <form class="layui-form form_template" action="" lay-filter="form_template" style="margin-top: 10px;padding-right: 20px">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">查询字段<label style="color: red;">*</label></label>
+                        <div class="layui-input-block">
+                            <div id="search_field_select"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="layui-tab-item">
+            <div class="layui-tab-item layui-show">
+                <form class="layui-form form_template" action="" lay-filter="form_template" style="margin-top: 10px;padding-right: 20px">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">快捷查询字段<label style="color: red;">*</label></label>
+                        <div class="layui-input-block">
+                            <div id="quick_search_field_select"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="layui-tab-item">
+            <div class="layui-tab-item layui-show">
+                <form class="layui-form form_template" action="" lay-filter="form_template" style="margin-top: 10px;padding-right: 20px">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">显示字段<label style="color: red;">*</label></label>
+                        <div class="layui-input-block">
+                            <div id="show_field_select"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="layui-tab-item">
+            <div class="layui-tab-item layui-show">
+                <form class="layui-form form_template" action="" lay-filter="form_template" style="margin-top: 10px;padding-right: 20px">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">排序字段<label style="color: red;">*</label></label>
+                        <div class="layui-input-block">
+                            <div id="sort_field_select"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="layui-tab-item">
+            <div class="layui-tab-item layui-show">
+                <form class="layui-form form_template" action="" lay-filter="form_template" style="margin-top: 10px;padding-right: 20px">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">功能按钮<label style="color: red;">*</label></label>
+                        <div class="layui-input-block">
+                            <div id="button_select"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <button onclick="saveTemplate()" class="layui-btn layui-btn-sm"  lay-filter="btn_save" title="提交" style="position: absolute;top: 10px;right: 30px;">
+        提交
+        <i class="layui-icon" style="margin-left: 10px">&#58885;</i>
+    </button>
+</div>
+
+</body>
+<script src="./design.js"></script>
+<script src="../formUtil.js"></script>
+</html>

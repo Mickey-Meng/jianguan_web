@@ -1,0 +1,17 @@
+linefields:
+attachment:
+- 蝶阀
+- 阀门
+- 阀门井
+- 闸阀
+- 球阀
+- 调压箱
+pointfields:
+pointlayer:
+- ZFTR_P
+- ZFJS_P
+- JS_POINT
+linelayer:
+- ZFTR_L
+- ZFJS_L
+- JS_LINE

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>角色配置</title>
+    <link rel="stylesheet" href="../../../../../lib/ok_admin/css/okadmin.css">
+    <script type="text/javascript" src="../../../../../lib/ok_admin/lib/layui/layui.js"></script>
+    <style>
+        #departmentTree {
+            height: 100%;
+            width: 20%;
+            float: left;
+            overflow: auto;
+        }
+
+        #user {
+            width: 80%;
+            right: 10px;
+            float: left;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-body commonOutCss" style="left: 0px">
+    <div id="departmentTree" style="min-height:400px;"></div>
+    <div id="user" >
+        <div class="layui-tab layui-tab-card" lay-filter='tabs'>
+            <ul class="layui-tab-title">
+                <li lay-id="mobilePrj">手持工程</li>
+                <li lay-id="webPrj" class="layui-this">工程管理</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item" id="app"></div>
+                <div class="layui-tab-item layui-show" id="web"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var $;
+    var okUtils;
+    var okLayer;
+    var constantUrl;
+
+    var cacheRole ;
+    layui.use(['tree', 'form', 'table', 'okUtils', "okLayer", "layer", 'constantUrl','element'], function () {
+        $ = layui.jquery;
+        var tree = layui.tree;
+        okUtils = layui.okUtils;
+        constantUrl = layui.constantUrl;
+        okLayer = layui.okLayer;
+        layer = layui.layer;
+        var element = layui.element;
+        var form = layui.form;
+
+        getMenu("app","app");
+        getMenu("web","web");
+
+        element.on('tab(tabs)', function(){
+            if (this.getAttribute('lay-id') == "mobilePrj"){
+
+            }else if (this.getAttribute('lay-id') == "webPrj"){
+
+            }
+        });
+
+        var groupData = [];
+        okUtils.ajax({"url":constantUrl.stAuth.selectRole}).done(function (data1) {
+            if (data1.data == null) {
+                layer.alert( data1.msg)
+            } else {
+                data = okUtils.structureTree({"data":data1.data.getMe,"spread":true});
+                for (var index = 0; index < data.length; index++) {
+                    if (data[index].PARENTID == -1) {
+                        groupData.push(data[index])
+                    }
+                }
+                tree.render({
+                    elem: '#departmentTree'
+                    , data: groupData
+                    , id: 'treeId'
+                    , showChecked : true
+                    , onlyIconControl: true
+                    ,click: function(obj){
+                        cacheRole = obj.data;
+                        showMenu(obj.data.ID)
+                    }
+                });
+            }
+        });
+    });
+
+    var getMenu = function (data,id) {
+        okUtils.ajax({"url":constantUrl.stAuth.selectMenu,"param":{"visible": data}}).done(function (data1) {
+            var msg = initMenu(data1);
+            $("#" + id).html(msg);
+            selectAll();
+        }).fail(function (data) {
+            layer.alert("警告 " +  data.msg)
+        })
+    };
+
+    var initMenu = function (data) {
+        var msg = "";
+        var tree = [];
+        var old = data.data.getMe;
+        $.each(old, function (index, value) {
+            if (value.PARENTID == -1) {
+                tree.push(value);
+            }
+        });
+        getTree(old, tree);
+        $.each(tree, function (index, value) {
+               msg += "<div style=\"margin: 20px\">\n" +
+                    "    <input type=\"checkbox\" data-type='1' name=\"" + value.ID + "\" value=\"" + value.ID + "\"><b> " + value.NAME + "</b>\n" +
+                    "    <hr style='margin: 5px 0'>\n" +
+                    "    <div style=\"margin-left: 20px\">\n";
+          //  $.each(value.children, function (index1, value1) {
+
+                $.each(value.children, function (index2, value2) {
+                    if (value2.children.length != 0) {
+                        // msg += "<input type=\"checkbox\" data-type='1' name=\"" + (value1.ID) * 0.23 + "\" value=\"" + value2.ID + "\"><b> " + value2.NAME + "</b>\n" +
+                        //     "<hr style='margin: 5px 0'>\n" +
+                        //     "<div style=\"margin: 10px auto 10px 20px\">\n";
+                        $.each(value2.children, function (index3, value3) {
+                            msg += "<span style='margin-right: 20px'><input type=\"checkbox\"  data-type='2' name=\"" + (value2.ID) * 0.23 + "\" value=\"" + value3.ID + "\"> " + value3.NAME + "</span>\n";
+                        });
+                        msg += "</div>"
+                    } else {
+                        msg += "<span style='margin-right: 20px'><input type=\"checkbox\"  data-type='2' name=\"" + (value.ID) * 0.23 + "\" value=\"" + value2.ID + "\"> " + value2.NAME + "</span>\n";
+                    }
+                });
+                msg += "   </div>\n" +
+                    "    </div>"
+          //  });
+            msg += "</div>";
+        });
+        msg += "<div style=\"text-align: center; margin-bottom: 10px;\">\n" +
+            "                <button name=\"editMenu\" style='display: inline' class=\"layui-btn\" onclick=\"editMenu()\">提交<i style='margin-left: 10px' class=\"layui-icon\">&#4101;</i></button>\n" +
+            "            </div>";
+        return msg;
+    };
+
+    var selectAll = function () {
+        $("input:checkbox").click(function () {
+            if ($(this).is(':checked')) {
+                $("[name='" + (this.value * 0.23) + "']").prop('checked', true);
+                for (var i = 0; i < $("[name='" + (this.value * 0.23) + "']").length; i++) {
+                    $("[name='" + ($("[name='" + (this.value * 0.23) + "']").eq(i).val() * 0.23) + "']").prop('checked', true);
+                }
+            } else {
+                $("[name='" + (this.value * 0.23) + "']").prop('checked', false);
+                for (var i = 0; i < $("[name='" + (this.value * 0.23) + "']").length; i++) {
+                    $("[name='" + ($("[name='" + (this.value * 0.23) + "']").eq(i).val() * 0.23) + "']").prop('checked', false);
+                }
+            }
+        })
+    };
+
+    var showMenu = function (roleId) {
+        $('input:checkbox').each(function () {
+            $(this).prop('checked', false);
+        });
+        okUtils.ajax({"url":constantUrl.stAuth.selectRoleMenu,"param":{"uid": roleId}}).done(function (data1) {
+            var data = data1.data.getMe;
+            data.forEach(function (value) {
+                $("input:checkbox[value='" + value.ID + "']").prop('checked', 'true');
+            });
+        }).fail(function (error) {
+            layer.alert(error.msg)
+        });
+    };
+
+    var getTree = function (child, tree) {
+        if (!tree) {
+            return;
+        }
+        for (var i = 0; i < tree.length; i++) {
+            tree[i].children = [];
+            for (var j = 0; j < child.length; j++) {
+                if (tree[i].ID == child[j].PARENTID) {
+                    tree[i].children.push(child[j]);
+                }
+            }
+            getTree(child, tree[i].children);
+        }
+    };
+
+    var editMenu = function () {
+        var role = cacheRole;
+        if (!role || role.ROLELEVEL == 1) {
+            layer.alert( "请选择具体角色");
+        }else {
+            var roleId = role.ID;
+            var menus = $("input:checkbox:checked");
+            if (menus.length != 0) {
+                var menuId = [];
+                menus.each(function (index, element) {
+                    if (element.getAttribute('data-type') != 1) {
+                        menuId.push($(element).val());
+                    }
+                });
+
+                okUtils.ajax({"url":constantUrl.stAuth.deleteRoleMenu,"param":{"uid": roleId}}).done(function (data) {
+                    if (data.data == null) {
+                        layer.alert(data.msg)
+                    } else {
+                        okUtils.ajax({"url":constantUrl.stAuth.insertRoleMenu,"param":{"roleId": roleId, "menuId": menuId},"traditional":true}).done(function (data) {
+                            if (data.data == null) {
+                                layer.alert("警告 " +  data.msg)
+                            } else {
+                                layer.alert("菜单修改成功")
+                            }
+                        }).fail(function (data) {
+                            layer.alert("警告 " +  data.msg)
+                        });
+                    }
+                }).fail(function (data) {
+                    layer.alert("警告 " +  data.msg)
+                });
+            } else {
+                okUtils.ajax({"url":constantUrl.stAuth.deleteRoleMenu,"param":{"uid": roleId}}).done(function (data) {
+                    layer.alert(data.msg);
+                })
+            }
+        }
+    }
+
+</script>
+</body>
+</html>

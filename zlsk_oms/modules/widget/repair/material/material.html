@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../../../lib/ok_admin/css/okadmin.css">
+    <link rel="stylesheet" href="../../../../lib/ok_admin/lib/layui/css/dtree/dtree.css">
+    <link rel="stylesheet" href="../../../../lib/ok_admin/lib/layui/css/dtree/font/dtreefont.css">
+    <script type="text/javascript" src="../../../../lib/ok_admin/lib/layui/layui.js"></script>
+    <style>
+        .layui-tab {
+            margin: 0;
+        }
+
+        #materialTypeTree {
+            height: 100%;
+            width: 18%;
+            float: left;
+            overflow: auto;
+        }
+
+        #material {
+            width: 80%;
+            right: 10px;
+            float: left;
+            position: absolute;
+        }
+
+        #linkedLayer {
+            padding: 1%;
+        }
+
+        .layui-table-box {
+            clear: both;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="layui-body commonOutCss" style="left: 0">
+        <!-- 左侧材料类型树 -->
+        <div id="materialTypeTree" style="min-height:400px;">
+            <div id="tree" class="demo-tree"></div>
+        </div>
+
+        <!-- 右侧内容主体 -->
+        <div id="material">
+            <!-- 材料表 -->
+            <table class="layui-hide" id="materials" lay-filter="materialFilter">
+            </table>
+            <br>
+
+            <!-- 人工表 -->
+            <table class="layui-hide" id="man" lay-filter="test">
+            </table>
+        </div>
+    </div>
+
+    <!-- 材料表头 -->
+    <script type="text/html" id="toolbar">
+        <form class="layui-form layui-col-md12" lay-filter="materialFormFilter">
+            <div class="layui-input-inline ok-search">
+                <input class="layui-input" placeholder="材料编码" autocomplete="off" name="getStuffCode">
+            </div>
+            <div class="layui-input-inline ok-search">
+                <input class="layui-input" placeholder="材料名称" autocomplete="off" name="getStuffName">
+            </div>
+            <div class="layui-input-inline ok-search">
+                <input class="layui-input" placeholder="规格型号" autocomplete="off" name="getSpec">
+            </div>
+            <button class="layui-btn" lay-submit="" lay-filter="materiaSearch" title="条件查询">
+                <i class="layui-icon">&#xe615;</i>
+            </button>
+            <button type="button" lay-submit="" class="layui-btn" id="uploadBtn" title="类型导入" lay-filter="upload" data-method="offset" data-type="auto">
+                类型导入
+                <i class="layui-icon">&#58964;</i>
+            </button>
+        </form>
+    </script>
+
+    <!-- 关联表头 -->
+    <script type="text/html" id="linkedToolbar">
+        <form class="layui-form layui-col-md12" lay-filter="linkedFormFilter">
+            <div class="layui-input-inline ok-search">
+                <input class="layui-input" placeholder="项目编码" autocomplete="off" name="linkedCode">
+            </div>
+            <div class="layui-input-inline ok-search">
+                <input class="layui-input" placeholder="项目名称" autocomplete="off" name="linkedName">
+            </div>
+            <button class="layui-btn" lay-submit="" lay-filter="linkedSearch" title="条件查询">
+                <i class="layui-icon">&#xe615;</i>
+            </button>
+        </form>
+    </script>
+
+    <!-- 弹出层类容 -->
+    <!-- 类型导入弹出层 -->
+    <div id='uploadLayer'>
+        <div style="margin:10px;">
+            <table style="margin-left: 10px;margin-right: 10px;border-collapse:separate; border-spacing:0px 10px;width: 90%">
+                <tr>
+                    <td><span id="getTempFile" style="float: left;cursor: pointer;color: #5FB878">EXCEL模板下载</span></td>
+                </tr>
+                <tr>
+                    <td><span style="color: #FF5722">文件表头必须与模板完全一致</span></td>
+                </tr>
+                <tr>
+                    <td><span style="color: #FF5722">数据行使用文本格式</span></td>
+                </tr>
+                <tr>
+                    <td><span style="color: #FF5722">文件只读取第一张表,表名无限制</span></td>
+                </tr>
+                <tr>
+                    <td><span style="color: #FF5722">文件上传后每一条数据以分类编码为关键字,有则更新,无则添加</span></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="layui-upload">
+                            <button type="button" class="layui-btn layui-btn-normal" id="choose">选择文件</button>
+                            <button type="button" class="layui-btn" id="upload">开始上传</button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- 人工关联弹窗 -->
+    <div id="linkedLayer">
+        <table class="layui-hide" id="linkedTable" lay-filter="linkedFilter">
+        </table>
+    </div>
+
+    <script>
+        //layui声明使用
+        layui.use(['okUtils', 'constantUrl', 'dtree', 'tree', 'form', 'table', "okLayer", 'zTable', 'layer', 'upload'], function() {
+            var $ = layui.jquery
+            var tree = layui.tree;
+            var dtree = layui.dtree;
+            var okUtils = layui.okUtils;
+            var form = layui.form;
+            var layer = layui.layer;
+            var upload = layui.upload;
+            var table = layui.table;
+
+            var manList = [];
+            var materialParam = {
+                StuffCode: 11111
+            }
+            materialTable(materialParam);
+            manTable(manList);
+
+            //测试:发送ajax打印数据
+            var tryParam = {
+                Type: "河南七建工程集团有限公司"
+            }
+            var tryParams = JSON.stringify(tryParam);
+            okUtils.ajax({
+                url: layui.constantUrl.stRepair.getMaterialMan,
+                isNeedToken: false,
+                param: {
+                    pageSize: 10000,
+                    pageNumber: 1,
+                    mapStr: tryParams
+                }
+            }).done(function(data) {
+                if (data.data == null) {
+                    layer.alert("警告 " + data.msg)
+                } else {
+                    console.log(data.data.getMe[0]);
+                }
+            }).fail(function(error) {
+                layer.alert(error)
+            });
+
+            //发送ajax获取后台数据创建左侧材料类型树
+            okUtils.ajax({
+                url: layui.constantUrl.stRepair.getMaterialType,
+                isNeedToken: false
+            }).done(function(data) {
+                if (data.data == null) {
+                    layer.alert("警告 " + data.msg)
+                } else {
+                    //材料类型树数据
+                    var materialTypeTreeData = [];
+
+                    function getMaterialTypeTreeData(data1, data2) {
+                        for (var i = 0; i < data1.length; i++) {
+                            if (!data1[i].LastTypeCode) {
+                                data1[i].LastTypeCode = 0
+                            }
+                            data2.push({
+                                    id: data1[i].TypeCode,
+                                    title: '[' + data1[i].TypeCode + ']' + data1[i].TypeName,
+                                    parentId: data1[i].LastTypeCode,
+                                    children: []
+                                })
+                                //如果有下一级，递归调用
+                            if (data1[i].son) {
+                                getMaterialTypeTreeData(data1[i].son, data2[i].children);
+                            }
+                        }
+                    };
+                    getMaterialTypeTreeData(data.data, materialTypeTreeData);
+
+                    //创建材料类型树
+                    dtree.render({
+                        elem: '#tree',
+                        data: materialTypeTreeData,
+                        initLevel: 1
+                    });
+
+                    //点击树节点关联搜索创造表格
+                    dtree.on("node('tree')", function(obj) {
+                        var treeParam = {
+                            StuffCode: obj.param.nodeId
+                        }
+                        materialTable(treeParam);
+                    });
+                }
+            });
+
+            //创建材料表的函数
+            function materialTable(param) {
+                if ((!param.StuffCode) & (!param.StuffName) & (!param.Spec)) {
+                    param.StuffCode = '0620'
+                }
+                var params = JSON.stringify(param);
+                layui.table.render({
+                    id: 'materials',
+                    elem: '#materials',
+                    page: true, //是否显示分页
+                    limit: 10, //每页默认显示的数量
+                    url: layui.constantUrl.stRepair.selectMaterial,
+                    request: {
+                        pageName: 'pageNumber', //页码的参数名称，默认：page
+                        limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                    },
+                    where: {
+                        'mapStr': params
+                    },
+                    toolbar: '#toolbar', //开启头部工具栏，并为其绑定左侧模板
+                    parseData: function(res) { //res 即为原始返回的数据
+                        console.log(res.data.getMe)
+                        return {
+                            "code": res.meow, //解析接口状态
+                            "msg": res.data.msg, //解析提示文本
+                            "count": res.data.total, //解析数据长度
+                            "data": res.data.getMe //解析数据列表
+                        };
+                    },
+                    height: '530',
+                    minWidth: 2000,
+                    cols: [
+                        [{
+                            type: 'numbers'
+                        }, {
+                            field: 'StuffCode',
+                            title: '材料编码',
+                            align: 'center'
+                        }, {
+                            field: 'StuffName',
+                            title: '材料名称',
+                            align: 'center'
+                        }, {
+                            field: 'Spec',
+                            title: '规格型号',
+                            align: 'center'
+                        }, {
+                            field: 'PriceMethod',
+                            title: '计价方式',
+                            align: 'center'
+                        }, {
+                            field: 'Type',
+                            title: '所属类别',
+                            align: 'center'
+                        }, {
+                            field: 'Unit',
+                            title: '计价单位',
+                            align: 'center'
+                        }, {
+                            field: 'Factory',
+                            title: '厂家',
+                            align: 'center'
+                        }, {
+                            field: 'CostNew',
+                            title: '材料价格',
+                            align: 'center'
+                        }, {
+                            title: '关联操作',
+                            align: 'center',
+                            templet: '<div><button class = "layui-btn layui-btn-normal layui-btn-xs" lay-event = "linkedMan"> 关联人工 </button> </div>'
+                        }]
+                    ]
+                });
+
+                //材料表搜索按钮创造表格
+                form.on("submit(materiaSearch)", function(data) {
+                    event.preventDefault();
+                    var searchParam = {
+                        StuffCode: data.field.getStuffCode,
+                        StuffName: data.field.getStuffName,
+                        Spec: data.field.getSpec
+                    };
+                    if ((!searchParam.StuffCode) && (!searchParam.StuffName) && (!searchParam.Spec)) {
+                        layer.msg("请选择材料类型");
+                        return;
+                    }
+                    table.reload('materials', {
+                        where: {
+                            'mapStr': JSON.stringify(searchParam)
+                        },
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        },
+                        done: function(res, curr, count) {
+                            form.val("materialFormFilter", {
+                                'getStuffCode': searchParam.StuffCode,
+                                'getStuffName': searchParam.StuffName,
+                                'getSpec': searchParam.Spec
+                            });
+                        }
+                    });
+                });
+
+                //类型导入按钮弹出层
+                form.on("submit(upload)", function() {
+                    //创造类型导入弹窗
+                    layer.open({
+                        type: 1,
+                        area: '450px',
+                        title: '文件上传',
+                        content: $('#uploadLayer'),
+                        btn: '确定',
+                        yes: function() {
+                            layer.closeAll();
+                        }
+                    });
+
+                    //弹出层功能
+                    //跳转模板下载模块......假URL
+                    $('#getTempFile').on('click', function() {
+                        var url = layui.constantUrl.stTemp.uploadFile + '/材料_模板.xls';
+                        window.open(url);
+                    });
+                    //选完文件后不自动上传
+                    upload.render({
+                        elem: '#choose',
+                        url: layui.constantUrl.stRepair.insertMaterialByExcel,
+                        auto: false,
+                        accept: 'file',
+                        bindAction: '#upload',
+                        done: function(res) {
+                            layer.msg('上传成功');
+
+                        }
+                    });
+                });
+
+
+                ////关联人工按钮弹出层
+                table.on('tool(materialFilter)', function(obj) {
+                    if (obj.event === 'linkedMan') {
+                        layer.open({
+                            type: 1,
+                            area: ['900px', '600px'],
+                            title: '人工选择',
+                            content: $('#linkedLayer'),
+                            end: function(res) {
+                                $("#linkedLayer").css("display", 'none');
+                            }
+                        })
+                        var firstLinkedParam = {
+                            Type: '河南七建工程集团有限公司'
+                        };
+                        var data = '';
+                        getLinkedTabel(firstLinkedParam);
+
+                        //构造关联表格的函数
+                        function getLinkedTabel(param) {
+                            var params = JSON.stringify(param);
+                            table.render({
+                                id: 'linkedTable',
+                                elem: '#linkedTable',
+                                page: true, //是否显示分页
+                                limit: 10, //每页默认显示的数量
+                                request: {
+                                    pageName: 'pageNumber', //页码的参数名称，默认：page
+                                    limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                                },
+                                url: layui.constantUrl.stRepair.getMaterialMan,
+                                where: {
+                                    'mapStr': params
+                                },
+                                toolbar: '#linkedToolbar', //开启头部工具栏，并为其绑定左侧模板
+                                parseData: function(res) { //res 即为原始返回的数据
+                                    return {
+                                        "code": res.meow, //解析接口状态
+                                        "msg": res.msg, //解析提示文本
+                                        "count": res.data.total, //解析数据长度
+                                        "data": res.data.getMe //解析数据列表
+                                    };
+                                },
+                                height: 535,
+                                cols: [
+                                    [{
+                                        type: 'numbers'
+                                    }, {
+                                        field: 'Code',
+                                        title: '项目编码',
+                                        align: 'center'
+                                    }, {
+                                        field: 'Name',
+                                        title: '项目名称',
+                                        align: 'center'
+                                    }, {
+                                        field: 'Unit',
+                                        title: '计量单位',
+                                        align: 'center'
+                                    }, {
+                                        field: 'UnitPrice',
+                                        title: '综合单价（不含税造价）',
+                                        align: 'center'
+                                    }, {
+                                        title: '关联操作',
+                                        align: 'center',
+                                        templet: '<div><button class = "layui-btn layui-btn-normal layui-btn-xs" lay-event = "linked"> 关联 </button> </div>'
+                                    }]
+                                ]
+                            });
+
+                            //搜索按钮创造关联表格
+                            form.on("submit(linkedSearch)", function(data) {
+                                event.preventDefault();
+                                var submitLinkedParam = {
+                                    Type: '河南七建工程集团有限公司',
+                                    Code: data.field.linkedCode,
+                                    Name: data.field.linkedName
+                                };
+                                if ((!submitLinkedParam.Code) && (!submitLinkedParam.Name)) {
+                                    return;
+                                };
+                                // getLinkedTabel(submitLinkedParam);
+                                // submitLinkedParam = null;
+                                table.reload('linkedTable', {
+                                    where: {
+                                        'mapStr': JSON.stringify(submitLinkedParam)
+                                    },
+                                    page: {
+                                        curr: 1 //重新从第 1 页开始
+                                    },
+                                    done: function(res, curr, count) {
+                                        form.val("linkedFormFilter", {
+                                            'linkedCode': submitLinkedParam.Code,
+                                            'linkedName': submitLinkedParam.Name
+                                        });
+
+                                    }
+                                });
+                            });
+                            //关联按钮功能
+                            table.on('tool(linkedFilter)', function(obj1) {
+                                if (obj1.event === 'linked') {
+                                    //发送ajax关联
+                                    okUtils.ajax({
+                                        url: layui.constantUrl.stRepair.addRelationship,
+                                        type: 'POST',
+                                        isNeedToken: false,
+                                        param: {
+                                            stuffCode: obj.data.StuffCode,
+                                            code: obj1.data.Code
+                                        }
+                                    }).done(function(data) {
+                                        layer.closeAll();
+                                        layer.msg('关联成功');
+                                    }).fail(function(error) {
+                                        layer.msg('关联失败');
+                                    });
+                                }
+                            });
+                        }
+                    }
+                })
+
+                //监听行单击事件
+                table.on('row(materialFilter)', function(obj) {
+                    // console.log(obj.tr) //得到当前行元素对象
+                    //console.log(obj.data); //得到当前行数据
+                    // console.log(obj.man_price_List)
+                    manTable(obj.data.man_price_List);
+                });
+            }
+
+            function manTable(man_price_List) {
+                man_price_List = man_price_List ? man_price_List : []
+                layui.use('table', function() {
+                    layui.table.render({
+                        elem: '#man',
+                        data: man_price_List,
+                        height: '200',
+                        minWidth: 2000,
+                        cols: [
+                            [{
+                                type: 'numbers'
+                            }, {
+                                field: 'Type',
+                                title: '计价方式'
+                            }, {
+                                field: 'Code',
+                                title: '项目编码'
+                            }, {
+                                field: 'Name',
+                                title: '项目名称'
+                            }, {
+                                field: 'Unit',
+                                title: '计量单位'
+                            }, {
+                                field: 'UnitPrice',
+                                title: '综合单价（不含税造价）'
+                            }, {
+                                field: 'PersonPrice',
+                                title: '人工费'
+                            }, {
+                                field: 'AnWenPrice',
+                                title: '安文费'
+                            }, {
+                                field: 'GuiPrice',
+                                title: '规费'
+                            }, {
+                                field: 'Tax',
+                                title: '税金'
+                            }, {
+                                field: 'Price',
+                                title: '结算单位'
+                            }]
+                        ],
+                    });
+                });
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Tell IE to use the latest, best version. -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Make the application on mobile take up the full browser screen and disable user scaling. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title>地图</title>
+    <link rel="stylesheet" href="../../../../../lib/ok_admin/css/okadmin.css">
+    <link rel="stylesheet" href="../../../../../modules/widget/common/map/css/zCss.css">
+    <link rel="stylesheet" href="../../../../../modules/widget/common/map/css/zInfoWindow.css">
+    <script type="text/javascript" src="../../../../../lib/sfmbase/sfmUtil.js"></script>
+    <script type="text/javascript" src="../../../../../lib/ok_admin/lib/layui/layui.js"></script>
+    <script src="../../../../../modules/widget/common/map/zInfoWindow.js"></script>
+    <script src="../../../../../modules/widget/common/map/location.js"></script>
+    <script src="../../../../../modules/widget/common/map/zUtil.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript">
+        SFM.sfmUtil.loadJquery();
+        SFM.sfmUtil.loadSfmBase();
+        SFM.sfmUtil.loadCesium('1.60');
+    </script>
+</head>
+<body onload="init()">
+<div id="cesiumContainer">
+    <div id="mapSwitch" style="border-radius:4px;position:absolute;left:70px;top:20px;z-index: 9999">
+        <button class="layui-btn" id="save" style="display: none">保存</button>
+    </div>
+</div>
+<script>
+    var viewer;
+    var scene;
+    var handler;
+    var entityMark;
+    var entityPolygon = {};
+    var entityPolyline = {};
+    var entityPoint = {};
+    var flagRightClick = 0;
+    var flagFinishDraw = false;
+
+    var cno;
+    var isAdd = false;
+
+    var layer;
+    var okUtils;
+    var constantUrl;
+
+    var positions = {"screenPoint":[],"wgs84Point":[]};
+    var init = function () {
+        layui.use(['layer','constantUrl','okUtils'],function () {});
+        layer = layui.layer;
+        okUtils = layui.okUtils;
+        constantUrl = layui.constantUrl;
+        var point = {longitude:106.596437,latitude:26.459918,height:10000};
+        viewer = zUtil.initCesium($,'cesiumContainer',{},point);
+        locationUtil.initLocation(Cesium,viewer);
+        datasource = zUtil.getDataSourceByName(Cesium,viewer,'mark');
+        loadCesium()
+    };
+
+    var loadCesium = function(){
+        cno = okUtils.getUrlParameter('cno');
+        isAdd = okUtils.getUrlParameter('isAdd');
+        scene = viewer.scene;
+        primitives = scene.primitives;
+
+        entityMark = viewer.entities.add({
+            label : {
+                show : false,
+                color: '#ffffff',
+                font: '10px',
+                style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+                outlineColor : '#000000',
+                outlineWidth : 2.0,
+                horizontalOrigin : Cesium.HorizontalOrigin.LEFT,
+                verticalOrigin : Cesium.VerticalOrigin.BOTTOM
+            }
+        });
+        if (isAdd){
+            clickFunction();
+        }
+    };
+
+    var clickFunction = function () {
+        handler = viewer.screenSpaceEventHandler;
+        handler.setInputAction(function onLeftClick(movement) {
+            if (flagFinishDraw){
+                return;
+            }
+
+            drawGraphic(screenToGeo(movement.position),{},true);
+        }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+        handler.setInputAction(function onRightClick(movement) {
+            flagRightClick++;
+            setTimeout(function(){
+                flagRightClick = 0;
+            },1500);
+            if (flagRightClick > 1){
+                clearAll();
+                flagFinishDraw = false;
+            }else if (!flagFinishDraw){
+                flagFinishDraw = true;
+                drawGraphic(screenToGeo(movement.position),{},true);
+            }
+        }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
+
+        handler.setInputAction(function(movement){
+            var pick1 = new Cesium.Cartesian2(movement.endPosition.x,movement.endPosition.y);
+            entityMark.position = viewer.scene.globe.pick(viewer.camera.getPickRay(pick1),viewer.scene);
+            entityMark.label.show = true;
+            entityMark.label.text = '左键绘制右键结束\n双击右键清除' ;
+        },Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+
+        $('#save').click(function () {
+            uploadPoint();
+        })
+    };
+
+    var screenToGeo = function(position){
+        var screen = new Cesium.Cartesian2(position.x,position.y);
+        var world = scene.globe.pick(viewer.camera.getPickRay(screen),scene);
+        var Geography = scene.globe.ellipsoid.cartesianToCartographic(world);
+        return {longitude:Cesium.Math.toDegrees(Geography.longitude),latitude:Cesium.Math.toDegrees(Geography.latitude)};
+    };
+
+    var drawGraphic = function (geo,position,isAdd) {
+        if (isAdd){
+            position = Cesium.Cartesian3.fromDegrees(geo.longitude,geo.latitude);
+            positions.wgs84Point.push([geo.longitude,geo.latitude]);
+            positions.screenPoint.push(position);
+        }
+        if (!entityPolygon.polygon)entityPolygon = createPolygonEntity(entityPolygon);
+        entityPolygon.polygon.hierarchy.positions.push(position);
+        if (entityPolygon.polygon.hierarchy.positions.length > 2){
+            datasource.entities.add(entityPolygon);
+            return
+        }
+        if (!entityPolyline.polygon)entityPolyline = createPolylineEntity(entityPolyline);
+        entityPolyline.polyline.positions.push(position);
+        if (entityPolyline.polyline.positions.length > 1){
+            datasource.entities.add(entityPolyline);
+            return
+        }
+        if (!entityPoint.polygon)entityPoint = createPointEntity(entityPoint);
+        entityPoint.position = position;
+        datasource.entities.add(entityPolygon);
+        datasource.entities.add(entityPolyline);
+        datasource.entities.add(entityPoint);
+    };
+
+    var createPolygonEntity = function (entityPolygon) {
+        if (!entityPolygon.polygon ){
+            entityPolygon.polygon = {};
+        }
+        if (!entityPolygon.polygon.hierarchy){
+            entityPolygon.polygon.hierarchy = {};
+            entityPolygon.polygon.hierarchy.positions = [];
+        }
+        entityPolygon.polygon.material = Cesium.Color.fromCssColorString('#ff0000');
+        return entityPolygon;
+    };
+
+    var createPointEntity = function (entity) {
+        if (!entity){
+            return
+        }
+        entity.polyline = {};
+        entity.polygon = {};
+        entity.point = {
+            pixelSize:3,
+            color:Cesium.Color.fromCssColorString('#ff0000').withAlpha(255),
+            outlineColor:Cesium.Color.fromCssColorString('#ff0000').withAlpha(255),
+        };
+        return entity;
+    };
+
+    var createPolylineEntity = function (entityPolyline) {
+        if (!entityPolyline.polyline){
+            entityPolyline.polyline = {};
+        }
+        if (!entityPolyline.polyline.positions){
+            entityPolyline.polyline.positions = [];
+        }
+        entityPolyline.polyline.material = Cesium.Color.fromCssColorString('#ff0000');
+        return entityPolyline;
+    };
+
+    var clearAll = function () {
+        datasource.entities.removeAll();
+        entityPoint = {};
+        entityPolyline = {};
+        entityPolygon = {};
+    };
+
+    var getPoint = function () {
+        if (!cno){
+            layer.alert('未获取到参数，请刷新后重试');
+            return
+        }
+        okUtils.ajax({
+            'url':constantUrl.stForm.easySelectWithOutLike,
+            'param':{'table':'ss_f_layer_mark','mapStr':JSON.stringify({'cno':cno})}
+        }).done(function (data1) {
+            if (data1.meow === 0){
+                clearAll();
+                if (data1.data && data1.data.length > 0){
+                    $.each(data1.data,function (index,value) {
+                        drawGraphic('',value.point_array,false)
+                    })
+                }
+            }else {
+                layer.alert('警告 查询失败');
+            }
+        })
+    };
+
+    var uploadPoint = function () {
+        if (datasource.entities.length === 0){
+            layer.alert('警告 请先画出范围');
+            return;
+        }
+        let param = {};
+        param.center_point = zUtil.getRingCenterPoint(positions.screenPoint);
+        param.point_array = positions.screenPoint;
+        param.cno = cno;
+        param.sttime = dateFormat('YYYY-mm-dd HH:MM:SS',new Date());
+        okUtils.ajax({
+            'url':constantUrl.stForm.easyInsert,
+            'param':param
+        }).done(function (data1) {
+            if (data1.meow === 0){
+                layer.msg('上传成功');
+                parent.layer.close(parent.layer.getFrameIndex(window.name));
+            }else {
+                layer.alert(('警告 上传失败'))
+            }
+        })
+    }
+
+</script>
+</body>
+</html>

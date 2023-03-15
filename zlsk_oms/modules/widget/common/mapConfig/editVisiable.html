@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>注册地图服务</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../../../lib/ok_admin/css/oksub.css">
+</head>
+
+<body>
+    <div class="ok-body">
+        <!--form表单-->
+        <form class="layui-form ok-form" lay-filter="filter">
+            <div class="layui-form-item">
+                <label class="layui-form-label">是否可见</label>
+                <div class="layui-input-block">
+                    <select name="visiable" lay-filter="visiable">
+                        <option value="-1"></option>
+                        <option value="1">可见</option>
+                        <option value="0">不可见</option>
+                    </select>
+                </div>
+            </div>
+             <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="add">立即提交</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--js逻辑-->
+    <script type="text/javascript" src="../../../../lib/ok_admin/lib/layui/layui.js"></script>
+    <script>
+    var $;
+    var attrObj = null;
+    var obj = null;
+    var selectedServer = null;
+
+    function initForm(res) {
+        var jsonString = JSON.stringify(res);
+        obj = JSON.parse(jsonString);
+
+    }
+    layui.use(["element", "form", "laydate", "okLayer", "okUtils", 'constantUrl', 'tree', 'layer'], function() {
+        $ = layui.jquery;
+        var form = layui.form;
+        var laydate = layui.laydate;
+        var okLayer = layui.okLayer;
+        var okUtils = layui.okUtils;
+        var tree = layui.tree;
+        var constantUrl = layui.constantUrl;
+        var layer = layui.layer;
+        form.val("filter", obj);
+        form.on("submit(add)", function(data) {
+            var param = {};
+            var v = data.field.visiable;
+            if (v == "-1") {
+                layer.msg("请选择是否可见", { icon: 5 }); //提示
+                return false;
+            }
+            param.visiable = v;
+            var url = constantUrl.stMap.editMapConfig;
+            param.ID = obj.ID;
+
+            okUtils.ajax({ "url": url, "param": param, type: 'POST' }).done(function(response) {
+                okLayer.msg.greenTick("添加成功", function() {
+                    parent.parentFlag = 1;
+                    parent.layer.close(parent.layer.getFrameIndex(window.name));
+                });
+            }).fail(function(error) {
+                console.log(error)
+            });
+            return false;
+        });
+    });
+    </script>
+</body>
+
+</html>

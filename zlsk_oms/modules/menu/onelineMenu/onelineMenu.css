@@ -1,0 +1,41 @@
+.sfm-m-menu-wrapper{
+	height: 44px;
+	margin: 56px auto 0px auto;
+	background-color: rgb(67, 74, 89);
+}
+.sfm-m-menu-box{
+	height: 100%;
+	margin: 0px auto 0px auto;
+}
+.sfm-m-mi-box{
+	float: left;
+	/*width: 130px;*/
+	height: 30px;
+	margin: 9px 0px 5px 0px;
+	padding: 0px 10px;
+	border-radius: 15px;
+	text-align: center;
+	cursor: pointer;
+}
+.sfm-m-mi-box:hover, .sfm-m-mi-box.sfm-f-active, .sfm-m-mi-box.sfm-f-hover{
+	background-color: rgb(2, 108, 236);
+}
+.sfm-m-mi-box-inner{
+	display: inline-block;
+	margin: auto;
+}
+.sfm-m-mi-box .sfm-m-mi-img{
+	display: block;
+	float: left;
+	width: 18px;
+	height: 18px;
+	margin: 6px 0px;
+}
+.sfm-m-mi-box .sfm-m-mi-text{
+	float: left;
+	height: 30px;
+	margin: 0px 0px 0px 10px;
+	line-height: 30px;
+	font-size: 16px;
+	color: #fff;
+}

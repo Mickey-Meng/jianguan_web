@@ -1,0 +1,8 @@
+config: 山西省太原市
+configs:
+      山西省太原市:
+            name: 山西省太原市
+            confdir:
+            - 山西省太原市
+            - common
+            key: 山西省太原市

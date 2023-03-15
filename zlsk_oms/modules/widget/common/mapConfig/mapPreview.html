@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="../../../../lib/ok_admin/css/okadmin.css">
+    <script type="text/javascript" src="../../../../lib/sfmbase/sfmUtil.js"></script>
+    <script type="text/javascript" src="../../../../lib/ok_admin/lib/layui/layui.js"></script>
+    <script type="text/javascript">
+        SFM.sfmUtil.loadJquery();
+        SFM.sfmUtil.loadSfmBase();
+        SFM.sfmUtil.loadCesium('1.66');
+    </script>
+</head>
+
+<body onload="init()">
+<div class="layui-body-map commonOutCss">
+    <div id="divCesiumContainer" style="height: 100%;"></div>
+</div>
+<script>
+    const init = () => {
+        let layer = layui.data('mapPreview')[getUrlParameter('id')];
+        let initPoint = getValue(layer['attribute'],'initPoint',null);
+        let pose = getValue(layer['attribute'],'pose',null);
+        if(initPoint === null){
+            initPoint = pose;
+        }
+        if(layer['attribute']){
+            for (let key in layer['attribute']){
+                layer[key] = layer['attribute'][key];
+            }
+        }
+        var helper = new ZlskEarthHelper('divCesiumContainer', {
+            init: {
+                lon: getValue(initPoint,'lon',114.261455),
+                lat: getValue(initPoint,'lat',30.621873),
+                height: getValue(initPoint,'height',1000),
+                heading: 0,
+                pitch: -90,
+                roll: 0,
+                duration: 0
+            },
+            viewerOptions: {
+                imageryProvider: {
+                    name:'谷歌影像',
+                    type:'URL',
+                    url: 'http://mt2.google.cn/vt?lyrs=s@800&x={x}&y={y}&z={z}',
+                    minimumLevel: 1,
+                    maximumLevel: 18,
+                },
+            },
+            baseLayers: [],
+            layers: [layer]
+        });
+    };
+
+    const getValue = (attribute,key,defaultValue) => {
+        if(attribute){
+            return attribute[key] || defaultValue;
+        }else {
+            return defaultValue;
+        }
+    };
+
+    const getUrlParameter = (name,isParent) => {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if(isParent){
+            r = window.parent.location.search.substr(1).match(reg);
+        }
+        if (r != null) return decodeURI(r[2]); return null; //返回参数值
+    };
+</script>
+</body>
+</html>

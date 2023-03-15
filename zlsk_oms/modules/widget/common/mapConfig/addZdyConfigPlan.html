@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>地图方案</title>
+    <link rel="stylesheet" href="../../../../lib/ok_admin/css/okadmin.css">
+    <script type="text/javascript" src="../../../../lib/ok_admin/lib/layui/layui.js"></script>
+    <style>
+        .layui-table-cell { overflow: visible !important;}
+     .layui-input{ height:20px !important; }
+      .layui-input[name='serverName']{ height:38px !important; }
+    </style>
+</head>
+
+<body>
+    <div class="layui-body commonOutCss" style="left: 0;" id="content">
+        <form class="layui-form ok-form" lay-filter="filter" id="cform">
+            <div class="layui-input-inline">
+                <label class="layui-form-label">服务名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="serverName" placeholder="服务名称" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-input-inline" id="fwlx" style="display: none;">
+                <label class="layui-form-label">服务类型</label>
+                <div class="layui-input-block">
+                    <select name="type" lay-filter="type" id="select">
+                    </select>
+                </div>
+            </div>
+            <div class="layui-input-inline" style="margin-top: 2px;height: 38px;margin-left: 20px;">
+                <button class="layui-btn" lay-submit="" lay-filter="search" title="条件查询">
+                    <i class="layui-icon">&#xe615;</i>
+                </button>
+            </div>
+        </form>
+        <div>
+            <table class="layui-hide" id="mapConfigRecords" lay-filter="mapConfigRecords"></table>
+        </div>
+        <div style="text-align: center;height: 25px;">
+            <button class="layui-btn" lay-submit id="add">立即提交</button>
+        </div>
+    </div>
+    <script>
+        var $;
+    var result = null;
+    var flag = 0;
+    var selectArry = [];
+    function initForm(selectData, zdyId) {
+        layui.use(['tree', 'form', 'table', 'okUtils', "okLayer", 'constantUrl', 'zTable', 'layer'], function() {
+            $ = layui.jquery;
+            var tree = layui.tree;
+            var okUtils = layui.okUtils;
+            var constantUrl = layui.constantUrl;
+            var okLayer = layui.okLayer;
+            var form = layui.form;
+            var table = layui.table;
+            var layer = layui.layer;
+            var param = { mpid: selectData.id };
+            okUtils.ajax({ "url": constantUrl.stAuth.selectDicByParentKey, "param": { keyStr: 'mapType' } }).done(function(data1) {
+                if (data1.data == null) {
+                    layer.alert("警告 " + data1.msg)
+                }
+                var d = data1.data.mapType;
+                $("#select").append(' <option value="-1">请选择</option>');
+                for (var i = 0; i < d.length; i++) {
+                    $("#select").append(' <option value="' + d[i].key + '">' + d[i].value + '</option>');
+                    form.render("select");
+                }
+            }).fail(function(error) {
+                console.log(error)
+            });
+            var url = "";
+            if (selectData.sttype == 'customLayer') {
+                url = constantUrl.stBase.easySelect;
+                param = { table: 'st_layers' };
+                flag = 1;
+                $('#fwlx').hide();
+            } else {
+                url = constantUrl.stMap.selectNoPlans;
+                flag = 0;
+                $('#fwlx').show();
+            }
+            var h = $('#content').height();
+            var fh = $('#cform').height();
+            var th = h - fh - 30;
+            var zTable = layui.zTable({
+                elem: '#mapConfigRecords',
+                page: false, //是否显示分页
+                url: url,
+                where: param,
+                parseData: function(res) { //res 即为原始返回的数据
+                    if (!res.data) {
+                        return {
+                            "code": res.meow, //解析接口状态
+                            "msg": "无数据", //解析提示文本
+                            "count": 0, //解析数据长度
+                            "data": [] //解析数据列表
+                        };
+                    }
+                    if (flag == 1) {
+                        var d = res.data;
+                        var rd = [];
+                        for (var i = 0; i < d.length; i++) {
+                            if ($.inArray(d[i].id, zdyId) > -1) {
+                                continue;
+                            }
+                            rd.push({
+                                ID: d[i].id,
+                                serverName: d[i].name,
+                                createtime: d[i].time,
+                                type: '自定义服务'
+                            })
+                        }
+                        return {
+                            "code": res.meow, //解析接口状态
+                            "msg": res.data.msg, //解析提示文本
+                            "data": rd //解析数据列表
+                        };
+                    } else {
+                        return {
+                            "code": res.meow, //解析接口状态
+                            "msg": res.data.msg, //解析提示文本
+                            "data": res.data.getMe //解析数据列表
+                        };
+                    }
+
+                },
+                height: th,
+                cols: [
+                    [ //标题栏
+                        { type: 'checkbox', width: 50 },
+                        { field: 'serverName', title: '名称' }, { field: 'type', title: '服务类型' }, { field: 'visiable', title: '是否可见', templet: '#statusTpl', unresize: true, height: '35px' }, { field: 'createtime', title: '添加时间' }
+                    ]
+                ]
+            });
+
+            var myTable = zTable.getTable();
+
+            form.on("submit(search)", function(data) {
+                var param = {};
+                var url = "";
+                if (flag == 1) {
+                    url = constantUrl.stBase.easySelect;
+                    param = { table: 'st_layers', mapStr: JSON.stringify({ name: data.field.serverName }) };
+                } else {
+                    url = constantUrl.stMap.selectNoPlans;
+                    param.serverName = data.field.serverName;
+                    var stype = data.field.type;
+                    if (stype != "-1") {
+                        param.type = stype;
+                    }
+                }
+
+
+                myTable.reload({
+                    url: url,
+                    where: param
+                });
+                $("#select").val("请选择");
+                //重新渲染
+                form.render("select");
+                return false;
+            });
+            form.on('select(status)', function(obj) {
+                 var vs = obj.elem.getAttribute('dataId');
+                 var v = getVObj(selectArry,'id',vs);
+                 if(v == null){
+                   selectArry.push({
+                    id:vs,
+                    v:obj.value
+                   });
+                 }else{
+                    selectArry[v]['v'] = obj.value
+                 }
+
+
+
+            })
+
+            $('#add').click(function() {
+                var checkStatus = table.checkStatus('mapConfigRecords');
+                if (selectData == null) {
+                    layer.msg('请选择一个方案');
+                    return false;
+                }
+                var d = checkStatus.data;
+                if (d.length == 0) {
+                    layer.msg('请勾选地图服务基础信息');
+                    return false;
+                }
+                var jsonobj = [];
+                if(selectArry.length == 0){
+                    layer.msg('请选择该服务是否可见');
+                    return false;
+                }
+                for (var i = 0; i < d.length; i++) {
+                    var v = getVisible(d[i].ID);
+                    if(v == -1){
+                        layer.msg('请确认服务是否可见');
+                        return false;
+                    }
+                    jsonobj.push({
+                        mpId: selectData.id,
+                        mcrId: d[i].ID
+                    })
+                }
+                var plans = JSON.stringify(jsonobj);
+                var param = {};
+                param.plans = plans;
+                param.visibles = JSON.stringify(selectArry);;
+                okUtils.ajax({ "url": constantUrl.stMap.insertMapRecordPlan, "param": param, type: 'POST' }).done(function(response) {
+                    okLayer.msg.greenTick("添加成功", function() {
+                        parent.layer.close(parent.layer.getFrameIndex(window.name));
+                        parent.zdyId = [];
+                        selectArry = [];
+
+                    });
+                }).fail(function(error) {
+                    console.log(error)
+                });
+            });
+
+           var getVisible = function(id){
+               var v = -1;
+               if(selectArry.length == 0){
+                return v;
+               }
+               for (var i = 0; i < selectArry.length; i++) {
+                     if(selectArry[i].id == id){
+                         return selectArry[i].v;
+                     }
+               }
+               return v;
+           }
+
+           var getVObj = function(list,key,value){
+              if(!list){
+                return null;
+              }
+              for (var i = 0; i < list.length; i++) {
+                   if(list[i][key] == value){
+                      return i;
+                   }
+              }
+              return null;
+           }
+
+        })
+    }
+    </script>
+</body>
+<script type="text/html" id="statusTpl">
+    <select name="visible" lay-filter="status" dataId="{{d.ID}}">
+         <option value="-1">请选择</option>
+        <option value="1">可见</option>
+        <option value="0">不可见</option>
+    </select>
+</html>

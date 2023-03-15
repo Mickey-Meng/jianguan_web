@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新建文件夹</title>
+    <link rel="stylesheet" href="../../../../lib/ok_admin/css/okadmin.css">
+    <script type="text/javascript" src="../../../../lib/ok_admin/lib/layui/layui.js"></script>
+</head>
+<body>
+<form class="layui-form ok-form" lay-filter="filter" style="margin-left: 10px;margin-top: 10px">
+    <div class="layui-form-item">
+        <label class="layui-form-label">文件夹名</label>
+        <div class="layui-input-block">
+            <input type="text" id="fileName" name="fileName" placeholder="请输入文件夹名" autocomplete="off" class="layui-input" lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="edit">提交</button>
+        </div>
+    </div>
+</form>
+<script>
+    var $;
+    var initData;
+    var URL_PREFIX = 'http://localhost:9000/esriProxy/proxy.jsp?http://localhost:8080/';
+    function initForm(data) {
+        var jsonString = JSON.stringify(data);
+        initData = JSON.parse(jsonString);
+    }
+    layui.use([ "form",  "okLayer",  "layer"], function () {
+        $ = layui.jquery;
+        var form = layui.form;
+        var okLayer = layui.okLayer;
+        var layer = layui.layer;
+
+        form.on("submit(filter)", function (data) {
+            createNewFile(initData);
+            return false;
+        });
+
+        function createNewFile(data) {
+            $.ajax({
+                url:URL_PREFIX + 'homeController/newFolder.ajax',
+                type:'POST',
+                data:{
+                    parentId : initData.folderId,
+                    folderName : $('#fileName').val(),
+                    folderConstraint : initData.folderConstraint
+                },
+                dataType:'text',
+                success : function(result) {
+                    if (result === "mustLogin") {
+                        // window.location.href = "prv/login.html";
+                        layer.alert("提示：出现意外错误，可能未能创建文件夹");
+                    } else {
+                        if (result === "noAuthorized") {
+                            layer.alert("提示：您的操作未被授权，创建文件夹失败。");
+                        } else if (result === "errorParameter") {
+                            layer.alert("提示：参数不正确，创建文件夹失败。");
+                        } else if (result === "cannotCreateFolder") {
+                            layer.alert("提示：出现意外错误，可能未能创建文件夹。");
+                        } else if (result === "nameOccupied") {
+                            layer.alert("提示：该名称已被占用，请选取其他名称。");
+                        } else if (result === "createFolderSuccess") {
+                            parent.parentFlag = 1;
+                            parent.layer.close(parent.layer.getFrameIndex(window.name));
+                        } else {
+                            layer.alert(locationpath);
+                        }
+                    }
+                },
+                error : function() {
+                    layer.alert("提示：出现意外错误，可能未能创建文件夹");
+                }
+            });
+        }
+    })
+</script>
+</body>
+</html>

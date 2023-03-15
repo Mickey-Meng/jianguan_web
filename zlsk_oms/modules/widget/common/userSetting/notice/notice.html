@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>公告管理</title>
+    <link rel="stylesheet" href="../../../../../lib/ok_admin/css/okadmin.css">
+    <script type="text/javascript" src="../../../../../lib/ok_admin/lib/layui/layui.js"></script>
+    <script type="text/javascript" src="../../../../../lib/ok_admin/lib/layui/extend/treeGrid.js"></script>
+</head>
+
+<body>
+    <div class="commonOutCss">
+        <table class="layui-hide" id="nlist" lay-filter="nlist"></table>
+    </div>
+    <script type="text/html" id="toolbar">
+        <form class="layui-form layui-col-md12" id="search-form">
+        <div class="layui-input-inline">
+            <input class="layui-input"  placeholder="请输入公告标题" name="title">
+        </div>
+        <a class="layui-btn " lay-submit="" lay-filter="search" title="查询"><i class="layui-icon">&#58901;</i></a>
+        <a class="layui-btn " id="add" title="添加公告"><i class="layui-icon">&#58964;</i></a>
+    </form>
+</script>
+    <script>
+        var parentFlag = 0;
+    var $;
+    var selectData = null;
+    layui.use(['tree', 'form', 'table', 'okUtils', "okLayer", 'constantUrl', 'zTable'],function () {
+                    $ = layui.jquery;
+                    var okUtils = layui.okUtils;
+                    var constantUrl = layui.constantUrl;
+                    var okLayer = layui.okLayer;
+                    var form = layui.form;
+                    var zTable = layui.zTable({
+                        elem: '#nlist',
+                        page: true, //是否显示分页
+                        limit: 10, //每页默认显示的数量
+                        url: constantUrl.stAuth.selectNotice,
+                        parseData: function(res) { //res 即为原始返回的数据
+                            if (!res.data) {
+                                return {
+                                    "code": res.meow, //解析接口状态
+                                    "msg": "无数据", //解析提示文本
+                                    "count": 0, //解析数据长度
+                                    "data": [] //解析数据列表
+                                };
+                            }
+                            var result =  res.data.getMe;
+                            return {
+                                "code": res.meow, //解析接口状态
+                                "msg": res.data.msg, //解析提示文本
+                                "count": res.data.total, //解析数据长度
+                                "data": result //解析数据列表
+                            };
+                        },
+                        height: 'full-40',
+                        toolbar: '#toolbar',
+                        cols: [
+                            [ //标题栏
+                                { field: 'title', title: '公告标题' },
+                                { field: 'content', title: '公告内容' },
+                                // { field: 'linkPath', title: '功能名称' },
+                                { field: 'createName', title: '添加人' },
+                                { field: 'createtime', title: '添加时间' },
+                                { title: "操作", width: 300, align: "center", templet: "#operationTpl" }
+                            ]
+                        ]
+});
+var myTable = zTable.getTable();
+form.on("submit(search)", function (data) {
+    var param = {};
+    param.title = data.field.title;
+
+    myTable.reload({
+        url: constantUrl.stMap.selectNotice,
+        where: param,
+         page: {curr: 1}
+     });
+    return false;
+});
+$(document).on('click', '#add', function() {
+    parentFlag = 0;
+    okLayer.open("添加公告", "add.html", "40%", "60%", function(layero) {
+        var iframeWin = window[layero.find("iframe")[0]["name"]];
+        iframeWin.initForm(null,selectData,true);
+    }, function() {
+     if (parentFlag === 1) {
+            myTable.reload();
+        }
+    })
+ });
+
+$(document).on('click', '#reload', function() {
+    myTable.reload({
+        url: constantUrl.stMap.selectNotice,
+        page: {curr: 1}
+    });
+    return false;
+});
+zTable.getLayuiTable().on("tool(nlist)", function (obj) {
+    var data = obj.data;
+        switch (obj.event) {
+            case "btnEdit":
+                parentFlag = 0;
+                edit(data);
+                break;
+             case "btnDel":
+                parentFlag = 0;
+                btnDel(data);
+                break;
+        }
+});
+
+var edit = function(obj) {
+    okLayer.open("编辑公告", "add.html", "40%", "60%", function(layero) {
+        var iframeWin = window[layero.find("iframe")[0]["name"]];
+        iframeWin.initForm(obj, selectData, false);
+    }, function() {
+        if (parentFlag === 1) {
+            myTable.reload();
+        }
+     })
+};
+function btnDel(data) {
+     okLayer.confirm("确定要删除吗？", function (index) {
+        okUtils.ajax({
+            "url": constantUrl.stAuth.delNotice,
+            "param": {"id": data.id}
+            }).done(function (response) {
+            okUtils.table.successMsg("删除成功");
+            myTable.reload();
+        }).fail(function (error) {
+            console.log(error)
+        });
+    });
+}
+});
+
+    </script>
+</body>
+<script type="text/html" id="operationTpl">
+    <div>
+        <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="btnEdit">编辑信息</button>
+        <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="btnDel">删除</button>
+    </div>
+</script>
+
+</html>

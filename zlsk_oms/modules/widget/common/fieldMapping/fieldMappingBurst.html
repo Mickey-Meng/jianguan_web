@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>爆管</title>
+    <link rel="stylesheet" href="../../../../lib/ok_admin/css/okadmin.css">
+    <script type="text/javascript" src="../../../../lib/ok_admin/lib/layui/layui.js"></script>
+</head>
+<body>
+<div class="layui-body commonOutCss" style="left: 0">
+    <div>
+        <table class="layui-hide" id="tlist" lay-filter="tlist"></table>
+    </div>
+</div>
+<script type="text/html" id="toolbar">
+    <form class="layui-form layui-col-md12" >
+        <button class="layui-btn" id="save" lay-filter="save" lay-submit=""  title="确定">
+            确定
+        </button>
+        <button class="layui-btn" id="view" lay-filter="view" lay-submit=""  title="查看" >
+            查看
+        </button>
+    </form>
+</script>
+<script type="text/html" id="statusTpl">
+    {{#  if(d.ststate == -1){ }}
+    <span class="layui-btn layui-btn-danger layui-btn-xs">删除</span>
+    {{#  } else if(d.ststate == 0) { }}
+    <span class="layui-btn layui-btn-warm layui-btn-xs">冻结</span>
+    {{#  } else if(d.ststate == 1) { }}
+    <span class="layui-btn layui-btn-normal layui-btn-xs">正常</span>
+    {{#  } }}
+</script>
+<script>
+    var $;
+    var layer;
+    var form;
+    var okLayer;
+    var zTable;
+    var okUtils;
+    var constantUrl;
+
+    var dataForm;
+    var parentBFlag;
+    var dataList = [];
+    var showList = [] ;
+    const fm = ['蝶阀','阀门','阀门井','闸阀','球阀','调压箱'];
+    layui.use(['form', 'table', 'okUtils', "okLayer", "layer", 'constantUrl', 'zTable'],function () {
+        $ = layui.jquery;
+        form = layui.form;
+        layer = layui.layer;
+        zTable = layui.table;
+        okLayer = layui.okLayer;
+        okUtils = layui.okUtils;
+        constantUrl = layui.constantUrl;
+
+        var ck = okUtils.getUrlParameter('ck');
+
+        okUtils.ajax({
+            'url':constantUrl.stMap.easySelect,
+            'param':{table:'zlsk_ps_tc',mapStr: JSON.stringify({ck:ck})}
+        }).done(function (data1) {
+            if (data1.meow === 0){
+                if (data1.data){
+                    let flag = [];
+                    dataList = data1.data;
+                    data1.data.forEach(function (value,index) {
+                        if (flag.indexOf(value.group) === -1){
+                            flag.push(value.group);
+                            showList.push(value);
+                        }
+                    })
+                }
+                renderTable(showList);
+            }else {
+                renderTable([]);
+                layer.alert('警告 查询失败')
+            }
+        });
+
+        function renderTable(data){
+            zTable.render({
+                elem: '#tlist'
+                , page: false
+                , limit: data ? data.length : 0
+                , data : data
+                , size:'lg'
+                , height: 'full-40'
+                , toolbar:'#toolbar'
+                , cols: [[ //标题栏
+                    {type:'checkbox'}
+                    ,  {field: 'ck', title: '配置组名称'}
+                    , {field: 'key', title: '表名'}
+                    , {field: 'name', title: '名称'}
+                    , {field: 'group', title: '分组名称'}
+                    , {field: 'type', title: '管线类型'}
+                    , {field: 'code', title: '管线编码(大类)' }
+                    , {field: 'pipecode', title: '管线编码(小类)'}
+                    , {field: 'sttime', title: '添加时间'}
+                    , {field: 'ststate', title: '状态',templet: "#statusTpl"}
+                ]]
+            });
+        }
+
+        okUtils.ajax({
+            'url':constantUrl.stMap.easySelect,
+            'param':{table:'zlsk_ps_bc',mapStr: JSON.stringify({ck:ck})}
+        }).done(function (data1) {
+            if (data1.meow === 0 && data1.data ){
+                if (data1.data.length > 0){
+                    dataForm = data1.data[0];
+                }else {
+                    layer.alert('该分组下爆管未配置')
+                }
+            }else {
+                layer.alert('警告 查询失败')
+            }
+        });
+
+        form.on('submit(save)',function () {
+            let list = zTable.checkStatus('tlist');
+            if (!list.data || list.data.length === 0){
+                layer.alert('未选择数据');
+                return false;
+            }
+            let group = [];
+            list.data.forEach(function (value,index) {
+                group.push(value.group);
+            });
+            let arrayObj = {};
+            dataList.forEach(function (value,index) {
+                if (group.indexOf(value.group) != -1){
+                    if (!arrayObj[value.group]){
+                        arrayObj[value.group] = {}
+                    }
+                    arrayObj[value.group][value.type] = value.key;
+                }
+            });
+            let pointlayer = '';
+            let linelayer  = '';
+            for(let key in arrayObj){
+                if (!arrayObj[key]['point'] || !arrayObj[key]['line']){
+                    layer.alert('存在点或者线未选择');
+                    return  false;
+                }
+                pointlayer += arrayObj[key]['point'] + ',';
+                linelayer += arrayObj[key]['line'] + ',';
+            }
+            pointlayer =  pointlayer .substring(0,pointlayer .length-1);
+            linelayer  =  linelayer  .substring(0,linelayer  .length-1);
+            let field;
+            let attr = [];
+            let flagDupli = [];
+            let dataArray = dataForm && dataForm.attachment ? dataForm.attachment.split(',') : [];
+            okUtils.ajax({
+                'url':constantUrl.stMap.easySelect,
+                'param':{table:'zlsk_ps_fc',mapStr:JSON.stringify({ck:ck,key:'ST_ATTACHMENT'})}
+            }).done(function (data1) {
+                if (data1.meow === 0 && data1.data && data1.data[0] && data1.data[0].field){
+                    field = data1.data[0].field;
+                    let sCount = 0;
+                    let eCount = 0;
+                    for(let key in arrayObj){
+                        sCount++;
+                        okUtils.ajax({
+                            'url':constantUrl.stMap.easySelect,
+                            'param': {table:arrayObj[key].point}
+                        }).done(function (data1) {
+                            if (data1.meow === 0){
+                                eCount++;
+                                data1.data.forEach(function (value,index) {
+                                    if (value[field] && attr.indexOf(value[field]) === -1 && flagDupli.indexOf(value[field]) === -1){
+                                        flagDupli.push(value[field]);
+                                        let cache = {value:value[field],name:value[field]};
+                                        if (dataArray.length === 0){
+                                            cache.selected = fm.indexOf(value[field]) !== -1;
+                                        }else {
+                                            cache.selected = dataArray.indexOf(value[field]) !== -1;
+                                        }
+                                        attr.push(cache);
+                                    }
+                                });
+                                if (sCount === eCount){
+                                    parentBFlag = 0;
+                                    okLayer.open("爆管阀门选择", "fieldMappingBurstAttr.html" , "300px", "200px", function (layero) {
+                                        var iframeWin = window[layero.find("iframe")[0]["name"]];
+                                        iframeWin.initForm(ck,pointlayer,linelayer,JSON.stringify(attr));
+                                    }, function () {
+                                        parent.layer.close(parent.layer.getFrameIndex(window.name));
+                                    });
+                                }
+                            }
+                        })
+                    }
+                }else {
+                    layer.alert('警告 查询失败');
+                    return false;
+                }
+            });
+            return  false;
+        });
+
+        form.on('submit(view)',function () {
+            if (dataForm){
+                okLayer.open("查看", "fieldMappingBurstForm.html" , "480px", "340px", function (layero) {
+                    var iframeWin = window[layero.find("iframe")[0]["name"]];
+                    iframeWin.initForm(JSON.stringify(dataForm));
+                }, function () {})
+            }else {
+                layer.alert('警告 未查询爆管数据')
+            }
+            return false;
+        });
+    })
+</script>
+</body>
+</html>

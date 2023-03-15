@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字典配置</title>
+    <link rel="stylesheet" href="../../../../../lib/ok_admin/css/okadmin.css">
+    <script type="text/javascript" src="../../../../../lib/ok_admin/lib/layui/layui.js"></script>
+</head>
+<body style="overflow: hidden">
+<div class="commonOutCss">
+    <table id="treeTable" lay-filter="treeTable"></table>
+</div>
+
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn " id = "add" style="text-align: right;margin-right: 20px" title="字典添加">字典添加<i style="margin-left: 10px" class="layui-icon">&#58964;</i></button>
+    </div>
+</script>
+<script>
+    var ptable = null, treeGrid = null, tableId = 'treeTable', layer = null, okLayer = null;
+    var $;
+    var parentData = 0;
+
+    layui.use(['zTreeGrid','treeGrid', 'layer', 'constantUrl', 'dltable', "okLayer", 'okUtils'], function () {
+        $ = layui.jquery;
+        treeGrid = layui.treeGrid;
+        layer = layui.layer;
+        okLayer = layui.okLayer;
+        var constantUrl = layui.constantUrl;
+        var okUtils = layui.okUtils;
+        var zTreeGrid = layui.zTreeGrid({
+            id: tableId
+            , elem: '#' + tableId
+            , idField: 'id'
+            , height:'full-40'
+            , url: constantUrl.stAuth.selectDic
+            , parseData: function (res) {
+                return {
+                    "code": res.meow,
+                    "msg": res.msg,
+                    "data": res.data,
+                    "count":10
+                };
+            }
+            , toolbar: '#toolbarDemo'
+            , treeId: 'id'//树形id字段名称
+            , treeUpId: 'parentid'//树形父id字段名称
+            , treeShowName: 'name'//以树形式显示的字段
+            , cols: [[
+                {field: 'name',  title: '名称'},
+                {field: 'key',  title: '名称编号'},
+                {field: 'sttime', title: '创建时间'},
+                {
+                    width: 100, title: '操作', align: 'center'/*toolbar: '#barDemo'*/
+                    , templet: function (d) {
+                    var html = '';
+                    var addBtn = '<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">编辑</a>';
+                    var delBtn = '<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>';
+                    return addBtn + delBtn;
+                }
+                }
+            ]]
+        });
+
+        zTreeGrid.getTreeGrid();
+
+        zTreeGrid.getLayuiTreeGrid().on('tool(' + tableId + ')', function (obj) {
+            if (obj.event === "edit") {
+                edit(obj);
+            }else if (obj.event === "del"){
+                del(obj)
+            }
+        });
+
+        var del = function (obj) {
+            var children = obj.data.children;
+            var msg;
+            if (children == "") {
+                msg = "您确认想要删除该配置字典吗？";
+            } else {
+                layer.alert("该节点存在子节点，无法删除");
+                return;
+            }
+            var  ids = [];
+            ids.push(obj.data.id);
+            $.each(children, function (index, value) {
+                ids.push(value.id);
+            });
+            layer.confirm(msg, {icon: 3, title:'提示'}, function(index){
+                layer.close(index);
+                okUtils.ajax({"url":constantUrl.stAuth.deleteDic,"param":{"ids":ids},"traditional":true}).done(function (data1) {
+                    layer.alert("删除成功");
+                    reload();
+                }).fail(function (error) {
+                    console.log(error);
+                });
+            });
+        };
+
+        $(document).on('click', '#add', function () {
+            parentData = 0;
+            okLayer.open("添加字典", "dictionaryAdd.html", "30%", "50%", function (layero) {
+                var iframeWin = window[layero.find("iframe")[0]["name"]];
+                iframeWin.initForm("",true,treeGrid.getDataTreeList(tableId));
+            }, function () {
+                if (parentData === 1){
+                    reload()
+                }
+            })
+        });
+
+        var edit = function (obj) {
+            okLayer.open("编辑字典", "dictionaryAdd.html", "30%", "40%", function (layero) {
+                var iframeWin = window[layero.find("iframe")[0]["name"]];
+                iframeWin.initForm( obj.data,false,"");
+            }, function () {
+                if (parentData === 1){
+                    reload()
+                }
+            })
+        };
+    });
+
+    function reload() {
+        treeGrid.reload(tableId, {
+            page: {
+                curr: 1
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,1952 @@
+{
+  "公共管理类用户": {
+    "searchFields": ["BH","TCDM", "XM","XB","GZDW","ZW","LXFS","ZZMM","BZ","SZWZ"],
+    "listShowField": ["XM","GZDW","ZW"],
+    "updateField": ["BH","TCDM","XM","XB","GZDW","ZW","LXFS","ZZMM","BZ","SZWZ"],
+    "fieldCn": {
+      "BH": {
+        "newName": "编号",
+        "unit": ""
+      },
+      "TCDM": {
+        "newName": "图层代码",
+        "unit": ""
+      },
+      "XM": {
+        "newName": "姓名",
+        "unit": ""
+      },
+      "XB": {
+        "newName": "性别",
+        "unit": ""
+      },
+      "GZDW": {
+        "newName": "工作单位",
+        "unit": ""
+      },
+      "ZW": {
+        "newName": "职务",
+        "unit": ""
+      },
+      "LXFS": {
+        "newName": "联系方式",
+        "unit": ""
+      },
+      "ZZMM": {
+        "newName": "政治面貌",
+        "unit": ""
+      },
+      "BZ": {
+        "newName": "备注",
+        "unit": ""
+      },
+      "SZWZ": {
+        "newName": "所在位置",
+        "unit": ""
+      }
+    },
+    "redraw": {
+      "type": "point",
+      "image": "/files/images/运动休闲.png",
+      "labelField": ["XM"],
+      "labelDisplay": 15000
+    }
+  },
+  "公益事业类用户": {
+    "searchFields": ["BH", "TCDM","XM","XB","GZDW","ZW","LXFS","ZZMM","BZ","SZWZ"],
+    "listShowField": ["XM","GZDW","ZW"],
+    "updateField": ["BH", "TCDM","XM","XB","GZDW","ZW","LXFS","ZZMM","BZ","SZWZ"],
+    "fieldCn": {
+      "BH": {
+        "newName": "编号",
+        "unit": ""
+      },
+      "TCDM": {
+        "newName": "图层代码",
+        "unit": ""
+      },
+      "XM": {
+        "newName": "姓名",
+        "unit": ""
+      },
+      "XB": {
+        "newName": "性别",
+        "unit": ""
+      },
+      "GZDW": {
+        "newName": "工作单位",
+        "unit": ""
+      },
+      "ZW": {
+        "newName": "职务",
+        "unit": ""
+      },
+      "LXFS": {
+        "newName": "联系方式",
+        "unit": ""
+      },
+      "ZZMM": {
+        "newName": "政治面貌",
+        "unit": ""
+      },
+      "BZ": {
+        "newName": "备注",
+        "unit": ""
+      },
+      "SZWZ": {
+        "newName": "所在位置",
+        "unit": ""
+      }
+    },
+    "redraw": {
+      "type": "point",
+      "image": "/files/images/运动休闲.png",
+      "labelField": ["XM"]
+    }
+  },
+  "企业类用户": {
+    "searchFields": ["BH", "TCDM","XM","XB","LX","LXFS","GM","JYFW","FZR","BZ","SZWZ"],
+    "listShowField": ["XM","LX","JYFW"],
+    "updateField": ["BH", "TCDM","XM","XB","LX","LXFS","GM","JYFW","FZR","BZ","SZWZ"],
+    "fieldCn": {
+      "BH": {
+        "newName": "编号",
+        "unit": ""
+      },
+      "TCDM": {
+        "newName": "图层代码",
+        "unit": ""
+      },
+      "XM": {
+        "newName": "姓名",
+        "unit": ""
+      },
+      "XB": {
+        "newName": "性别",
+        "unit": ""
+      },
+      "LX": {
+        "newName": "类型",
+        "unit": ""
+      },
+      "LXFS": {
+        "newName": "联系方式",
+        "unit": ""
+      },
+      "GM": {
+        "newName": "规模",
+        "unit": ""
+      },
+      "JYFW": {
+        "newName": "经营范围",
+        "unit": ""
+      },
+      "FZR": {
+        "newName": "负责人",
+        "unit": ""
+      },
+      "BZ": {
+        "newName": "备注",
+        "unit": ""
+      },
+      "SZWZ": {
+        "newName": "所在位置",
+        "unit": ""
+      }
+    },
+    "redraw": {
+      "type": "point",
+      "image": "/files/images/运动休闲.png",
+      "labelField": ["XM"]
+    }
+  },
+  "家庭类用户": {
+    "searchFields": ["BH", "TCDM","XM","XB","YHZGX","CSRQ","LXFS","ZZMM","LDJN","BZ","SZWZ"],
+    "listShowField": ["XM","ZZMM","LDJN"],
+    "updateField": ["BH", "TCDM","XM","XB","YHZGX","CSRQ","LXFS","ZZMM","LDJN","BZ","SZWZ"],
+    "fieldCn": {
+      "BH": {
+        "newName": "编号",
+        "unit": ""
+      },
+      "TCDM": {
+        "newName": "图层代码",
+        "unit": ""
+      },
+      "XM": {
+        "newName": "姓名",
+        "unit": ""
+      },
+      "XB": {
+        "newName": "性别",
+        "unit": ""
+      },
+      "YHZGX": {
+        "newName": "与户主关系",
+        "unit": ""
+      },
+      "CSRQ": {
+        "newName": "出生日期",
+        "unit": ""
+      },
+      "LXFS": {
+        "newName": "联系方式",
+        "unit": ""
+      },
+      "ZZMM": {
+        "newName": "政治面貌",
+        "unit": ""
+      },
+      "LDJN": {
+        "newName": "劳动技能",
+        "unit": ""
+      },
+      "BZ": {
+        "newName": "备注",
+        "unit": ""
+      },
+      "SZWZ": {
+        "newName": "所在位置",
+        "unit": ""
+      }
+    },
+    "redraw": {
+      "type": "point",
+      "image": "/files/images/运动休闲.png",
+      "labelField": ["XM"]
+    }
+  },
+  "个人类用户": {
+    "searchFields": ["BH", "TCDM","XM","XB","ZYLX","ZZ","FWFW","LXFS","BZ","SZWZ"],
+    "listShowField": ["XM","ZYLX","FWFW"],
+    "updateField": ["BH", "TCDM","XM","XB","ZYLX","ZZ","FWFW","LXFS","BZ","SZWZ"],
+    "fieldCn": {
+      "BH": {
+        "newName": "编号",
+        "unit": ""
+      },
+      "TCDM": {
+        "newName": "图层代码",
+        "unit": ""
+      },
+      "XM": {
+        "newName": "姓名",
+        "unit": ""
+      },
+      "XB": {
+        "newName": "性别",
+        "unit": ""
+      },
+      "ZYLX": {
+        "newName": "职业类型",
+        "unit": ""
+      },
+      "ZZ": {
+        "newName": "住址",
+        "unit": ""
+      },
+      "FWFW": {
+        "newName": "服务范围",
+        "unit": ""
+      },
+      "LXFS": {
+        "newName": "联系方式",
+        "unit": ""
+      },
+      "BZ": {
+        "newName": "备注",
+        "unit": ""
+      },
+      "SZWZ": {
+        "newName": "所在位置",
+        "unit": ""
+      }
+    },
+    "redraw": {
+      "type": "point",
+      "image": "/files/images/运动休闲.png",
+      "labelField": ["XM"]
+    }
+  },
+  "种植业分布图": {
+    "searchFields": ["BH", "TCDM","WZLB","ZZQY","FBDK","ZZMJ","QYR","GLRY","NCPXS","BZ"],
+    "listShowField": ["WZLB","QYR"],
+    "updateField": ["BH", "TCDM","WZLB","ZZQY","FBDK","ZZMJ","QYR","GLRY","NCPXS","BZ"],
+    "fieldCn": {
+      "BH": {
+        "newName": "编号",
+        "unit": ""
+      },
+      "TCDM": {
+        "newName": "图层代码",
+        "unit": ""
+      },
+      "WZLB": {
+        "newName": "物种类别",
+        "unit": ""
+      },
+      "ZZQY": {
+        "newName": "种植区域",
+        "unit": ""
+      },
+      "FBDK": {
+        "newName": "分布地块",
+        "unit": ""
+      },
+      "ZZMJ": {
+        "newName": "种植面积",
+        "unit": ""
+      },
+      "QYR": {
+        "newName": "权益人",
+        "unit": ""
+      },
+      "GLRY": {
+        "newName": "管理人员",
+        "unit": ""
+      },
+      "NCPXS": {
+        "newName": "农产品形式",
+        "unit": ""
+      },
+      "BZ": {
+        "newName": "备注",
+        "unit": ""
+      }
+    }
+  },
+  "林产业分布图": {
+    "searchFields": ["BH", "TCDM","DD","FW","GM","WHLYJG","ZYZZWZ","SYQ","DKFL","GLY","WZLB","ZZL","BZ"],
+    "listShowField": ["DD","SYQ","ZYZZWZ"],
+    "updateField": ["BH", "TCDM","DD","FW","GM","WHLYJG","ZYZZWZ","SYQ","DKFL","GLY","WZLB","ZZL","BZ"],
+    "fieldCn": {
+      "BH": {
+        "newName": "编号",
+        "unit": ""
+      },
+      "TCDM": {
+        "newName": "图层代码",
+        "unit": ""
+      },
+      "DD": {
+        "newName": "地点",
+        "unit": ""
+      },
+      "FW": {
+        "newName": "范围",
+        "unit": ""
+      },
+      "GM": {
+        "newName": "规模",
+        "unit": ""
+      },
+      "WHLYJG": {
+        "newName": "文化旅游景观",
+        "unit": ""
+      },
+      "ZYZZWZ": {
+        "newName": "主要种植物种",
+        "unit": ""
+      },
+      "SYQ": {
+        "newName": "所有权",
+        "unit": ""
+      },
+      "DKFL": {
+        "newName": "地块分类",
+        "unit": ""
+      },
+      "GLY": {
+        "newName": "管理员",
+        "unit": ""
+      },
+      "WZLB": {
+        "newName": "物种类别",
+        "unit": ""
+      },
+      "ZZL": {
+        "newName": "种植量",
+        "unit": ""
+      },
+      "BZ": {
+        "newName": "备注",
+        "unit": ""
+      }
+    }
+  },
+  "畜牧业分布图": {
+    "searchFields": ["BH", "TCDM","DD","FW","GM","XYWZ","SYQ","DKFL","WZLB","GLY","XYL","BZ"],
+    "listShowField": ["DD","SYQ","XYWZ"],
+    "updateField": ["BH", "TCDM","DD","FW","GM","XYWZ","SYQ","DKFL","WZLB","GLY","XYL","BZ"],
+    "fieldCn": {
+      "BH": {
+        "newName": "编号",
+        "unit": ""
+      },
+      "TCDM": {
+        "newName": "图层代码",
+        "unit": ""
+      },
+      "DD": {
+        "newName": "地点",
+        "unit": ""
+      },
+      "FW": {
+        "newName": "范围",
+        "unit": ""
+      },
+      "GM": {
+        "newName": "规模",
+        "unit": ""
+      },
+      "XYWZ": {
+        "newName": "畜养物种",
+        "unit": ""
+      },
+      "SYQ": {
+        "newName": "所有权",
+        "unit": ""
+      },
+      "DKFL": {
+        "newName": "地块分类",
+        "unit": ""
+      },
+      "WZLB": {
+        "newName": "物种类别",
+        "unit": ""
+      },
+      "GLY": {
+        "newName": "管理员",
+        "unit": ""
+      },
+      "XYL": {
+        "newName": "畜养量",
+        "unit": ""
+      },
+      "BZ": {
+        "newName": "备注",
+        "unit": ""
+      }
+    }
+  },
+  "水产业分布图": {
+    "searchFields": ["BH", "TCDM","DD","FW","GM","WHLYJG","ZYZZWZ","SYQ","DKFL","WZLB","GLY","ZZL","SMSZ","BZ"],
+    "listShowField": ["DD","SYQ","ZYZZWZ"],
+    "updateField": ["BH", "TCDM","DD","FW","GM","WHLYJG","ZYZZWZ","SYQ","DKFL","WZLB","GLY","ZZL","SMSZ","BZ"],
+    "fieldCn": {
+      "BH": {
+        "newName": "编号",
+        "unit": ""
+      },
+      "TCDM": {
+        "newName": "图层代码",
+        "unit": ""
+      },
+      "DD": {
+        "newName": "地点",
+        "unit": ""
+      },
+      "FW": {
+        "newName": "范围",
+        "unit": ""
+      },
+      "GM": {
+        "newName": "规模",
+        "unit": ""
+      },
+      "WHLYJG": {
+        "newName": "文化旅游景观",
+        "unit": ""
+      },
+      "ZYZZWZ": {
+        "newName": "主要种植物种",
+        "unit": ""
+      },
+      "SYQ": {
+        "newName": "所有权",
+        "unit": ""
+      },
+      "DKFL": {
+        "newName": "地块分类",
+        "unit": ""
+      },
+      "WZLB": {
+        "newName": "物种类别",
+        "unit": ""
+      },
+      "GLY": {
+        "newName": "管理员",
+        "unit": ""
+      },
+      "ZZL": {
+        "newName": "种植量",
+        "unit": ""
+      },
+      "SMSZ": {
+        "newName": "水面水质",
+        "unit": ""
+      },
+      "BZ": {
+        "newName": "备注",
+        "unit": ""
+      }
+    }
+  },
+  "农用地": {
+    "searchFields": ["BH", "TCDM","JBNTTBBH","DLBM","DLMC","PDJB","JBNTMJ"],
+    "listShowField": ["JBNTTBBH","DLMC"],
+    "updateField": ["BH", "TCDM","JBNTTBBH","DLBM","DLMC","PDJB","JBNTMJ"],
+    "fieldCn": {
+      "BH": {
+        "newName": "编号",
+        "unit": ""
+      },
+      "TCDM": {
+        "newName": "图层代码",
+        "unit": ""
+      },
+      "JBNTTBBH": {
+        "newName": "基本农田图斑编号",
+        "unit": ""
+      },
+      "DLBM": {
+        "newName": "地类编码",
+        "unit": ""
+      },
+      "DLMC": {
+        "newName": "地类名称",
+        "unit": ""
+      },
+      "PDJB": {
+        "newName": "坡度级别",
+        "unit": ""
+      },
+      "JBNTMJ": {
+        "newName": "基本农田面积",
+        "unit": "m2"
+      }
+    }
+  },
+  "建设用地": {
+    "searchFields": ["BH", "ZDDM","ZDDM","BDCDYH","ZL","ZDMJ","MJDW","YT","DJ","QLLX","QLXZ","QLSDFS","RJL","DJH","BZ","ZT"],
+    "listShowField": ["ZDDM","QLLX"],
+    "updateField": ["BH", "ZDDM","ZDDM","BDCDYH","ZL","ZDMJ","MJDW","YT","DJ","QLLX","QLXZ","QLSDFS","RJL","DJH","BZ","ZT"],
+    "fieldCn": {
+      "BH": {
+        "newName": "编号",
+        "unit": ""
+      },
+      "TCDM": {
+        "newName": "图层代码",
+        "unit": ""
+      },
+      "ZDDM": {
+        "newName": "宗地代码",
+        "unit": ""
+      },
+      "BDCDYH": {
+        "newName": "不动产单元号",
+        "unit": ""
+      },
+      "ZL": {
+        "newName": "坐落",
+        "unit": ""
+      },
+      "ZDMJ": {
+        "newName": "宗地面积",
+        "unit": ""
+      },
+      "MJDW": {
+        "newName": "面积单位",
+        "unit": ""
+      },
+      "YT": {
+        "newName": "用途",
+        "unit": ""
+      },
+      "DJ": {
+        "newName": "等级",
+        "unit": ""
+      },
+      "QLLX": {
+        "newName": "权利类型",
+        "unit": ""
+      },
+      "QLXZ": {
+        "newName": "权利性质",
+        "unit": ""
+      },
+      "QLSDFS": {
+        "newName": "权利设定方式",
+        "unit": ""
+      },
+      "RJL": {
+        "newName": "容积率",
+        "unit": ""
+      },
+      "DJH": {
+        "newName": "地籍号",
+        "unit": ""
+      },
+      "BZ": {
+        "newName": "备注",
+        "unit": ""
+      },
+      "ZT": {
+        "newName": "状态",
+        "unit": ""
+      }
+    }
+  },
+  "未利用地": {
+    "searchFields": ["BH", "ZDDM","DLBM","DLMC","PDJB","JBMJ"],
+    "listShowField": ["DLBM","DLMC"],
+    "updateField": ["BH", "ZDDM","DLBM","DLMC","PDJB","JBMJ"],
+    "fieldCn": {
+      "BH": {
+        "newName": "编号",
+        "unit": ""
+      },
+      "TCDM": {
+        "newName": "图层代码",
+        "unit": ""
+      },
+      "DLBM": {
+        "newName": "地类编码",
+        "unit": ""
+      },
+      "DLMC": {
+        "newName": "地类名称",
+        "unit": ""
+      },
+      "PDJB": {
+        "newName": "坡度级别",
+        "unit": ""
+      },
+      "JBMJ": {
+        "newName": "基本面积",
+        "unit": ""
+      }
+    }
+  },
+  "粮食生产功能区图": {
+    "searchFields": ["BH", "TCDM","QPKDM","QYHFLX","QDKDM","QDKMC","QDKMJ","SFGBZNT","ZLDJDM","JYZTMC","JYZTLX","BZ"],
+    "listShowField": ["QPKDM","QDKMC","JYZTMC"],
+    "updateField": ["BH", "TCDM","QPKDM","QYHFLX","QDKDM","QDKMC","QDKMJ","SFGBZNT","ZLDJDM","JYZTMC","JYZTLX","BZ"],
+    "fieldCn": {
+      "BH": {
+        "newName": "编号",
+        "unit": ""
+      },
+      "TCDM": {
+        "newName": "图层代码",
+        "unit": ""
+      },
+      "QPKDM": {
+        "newName": "区片块代码",
+        "unit": ""
+      },
+      "QYHFLX": {
+        "newName": "区域划分类型",
+        "unit": ""
+      },
+      "QDKDM": {
+        "newName": "区地块代码",
+        "unit": ""
+      },
+      "QDKMC": {
+        "newName": "区地块名称",
+        "unit": ""
+      },
+      "QDKMJ": {
+        "newName": "区地块面积",
+        "unit": "m2"
+      },
+      "SFGBZNT": {
+        "newName": "是否高标准农田",
+        "unit": ""
+      },
+      "ZLDJDM": {
+        "newName": "质量等级代码",
+        "unit": ""
+      },
+      "JYZTMC": {
+        "newName": "经营主体名称",
+        "unit": ""
+      },
+      "JYZTLX": {
+        "newName": "经营主体类型",
+        "unit": ""
+      },
+      "BZ": {
+        "newName": "备注",
+        "unit": ""
+      }
+    }
+  },
+  "重要农产品生产保护区图": {
+    "searchFields": ["BH", "TCDM","QPKDM","QYHFLX","QDKDM","QDKMC","QDKMJ","SFGBZNT","ZLDJDM","JYZTMC","JYZTLX","BZ"],
+    "listShowField": ["QPKDM","QDKMC","JYZTMC"],
+    "updateField": ["BH", "TCDM","QPKDM","QYHFLX","QDKDM","QDKMC","QDKMJ","SFGBZNT","ZLDJDM","JYZTMC","JYZTLX","BZ"],
+    "fieldCn": {
+      "BH": {
+        "newName": "编号",
+        "unit": ""
+      },
+      "TCDM": {
+        "newName": "图层代码",
+        "unit": ""
+      },
+      "QPKDM": {
+        "newName": "区片块代码",
+        "unit": ""
+      },
+      "QYHFLX": {
+        "newName": "区域划分类型",
+        "unit": ""
+      },
+      "QDKDM": {
+        "newName": "区地块代码",
+        "unit": ""
+      },
+      "QDKMC": {
+        "newName": "区地块名称",
+        "unit": ""
+      },
+      "QDKMJ": {
+        "newName": "区地块面积",
+        "unit": "m2"
+      },
+      "SFGBZNT": {
+        "newName": "是否高标准农田",
+        "unit": ""
+      },
+      "ZLDJDM": {
+        "newName": "质量等级代码",
+        "unit": ""
+      },
+      "JYZTMC": {
+        "newName": "经营主体名称",
+        "unit": ""
+      },
+      "JYZTLX": {
+        "newName": "经营主体类型",
+        "unit": ""
+      },
+      "BZ": {
+        "newName": "备注",
+        "unit": ""
+      }
+    }
+  },
+  "房屋所有权": {
+    "searchFields": ["BH", "TCDM","BDCDYH","QLLX","DJLX","DJYY","FDZL","TDSYQR","DYTDMJ","FTTDMJ","TDSYQSSJ","TDSYJSSJ","FDCJYJG","BDCQZH","QXDM","DJJG","DBR","DJSJ","FJ","FCFHT","QSZT"],
+    "listShowField": ["BDCDYH","TDSYQR","QLLX"],
+    "updateField": ["BH", "TCDM","BDCDYH","QLLX","DJLX","DJYY","FDZL","TDSYQR","DYTDMJ","FTTDMJ","TDSYQSSJ","TDSYJSSJ","FDCJYJG","BDCQZH","QXDM","DJJG","DBR","DJSJ","FJ","FCFHT","QSZT"],
+    "fieldCn": {
+      "BH": {
+        "newName": "编号",
+        "unit": ""
+      },
+      "TCDM": {
+        "newName": "图层代码",
+        "unit": ""
+      },
+      "BDCDYH": {
+        "newName": "不动产单元号",
+        "unit": ""
+      },
+      "QLLX": {
+        "newName": "权利类型",
+        "unit": ""
+      },
+      "DJLX": {
+        "newName": "登记类型",
+        "unit": ""
+      },
+      "DJYY": {
+        "newName": "登记原因",
+        "unit": ""
+      },
+      "FDZL": {
+        "newName": "房地坐落",
+        "unit": ""
+      },
+      "TDSYQR": {
+        "newName": "土地使用权人",
+        "unit": ""
+      },
+      "DYTDMJ": {
+        "newName": "独用土地面积",
+        "unit": "平方米"
+      },
+      "FTTDMJ": {
+        "newName": "分摊土地面积",
+        "unit": "平方米"
+      },
+      "TDSYQSSJ": {
+        "newName": "土地使用起始时间",
+        "unit": ""
+      },
+      "TDSYJSSJ": {
+        "newName": "土地使用结束时间",
+        "unit": ""
+      },
+      "FDCJYJG": {
+        "newName": "房地产交易价格",
+        "unit": ""
+      },
+      "BDCQZH": {
+        "newName": "不动产权证号",
+        "unit": ""
+      },
+      "QXDM": {
+        "newName": "区县代码",
+        "unit": ""
+      },
+      "DJJG": {
+        "newName": "登记机构",
+        "unit": ""
+      },
+      "DBR": {
+        "newName": "登簿人",
+        "unit": ""
+      },
+      "DJSJ": {
+        "newName": "登记时间",
+        "unit": ""
+      },
+      "FJ": {
+        "newName": "附记",
+        "unit": ""
+      },
+      "FCFHT": {
+        "newName": "房产分户图",
+        "unit": ""
+      },
+      "QSZT": {
+        "newName": "权属状态",
+        "unit": ""
+      }
+    }
+  },
+  "集体土地所有权": {
+    "searchFields": ["BH", "TCDM","BDCDYH","QLLX","DJLX","DJYY","MJDW","NYDMJ","GDMJ","LDMJ","CDMJ","QTNYDMJ","JSYDMJ","WLYDMJ","BDCQZH","QXDM","DJJG","DBR","DJSJ","FJ","QSZT"],
+    "listShowField": ["BDCDYH","QLLX"],
+    "updateField": ["BH", "TCDM","BDCDYH","QLLX","DJLX","DJYY","MJDW","NYDMJ","GDMJ","LDMJ","CDMJ","QTNYDMJ","JSYDMJ","WLYDMJ","BDCQZH","QXDM","DJJG","DBR","DJSJ","FJ","QSZT"],
+    "fieldCn": {
+      "BH": {
+        "newName": "编号",
+        "unit": ""
+      },
+      "TCDM": {
+        "newName": "图层代码",
+        "unit": ""
+      },
+      "BDCDYH": {
+        "newName": "不动产单元号",
+        "unit": ""
+      },
+      "QLLX": {
+        "newName": "权利类型",
+        "unit": ""
+      },
+      "DJLX": {
+        "newName": "登记类型",
+        "unit": ""
+      },
+      "DJYY": {
+        "newName": "登记原因",
+        "unit": ""
+      },
+      "MJDW": {
+        "newName": "面积单位",
+        "unit": ""
+      },
+      "NYDMJ": {
+        "newName": "农用地面积",
+        "unit": ""
+      },
+      "GDMJ": {
+        "newName": "耕地面积",
+        "unit": ""
+      },
+      "LDMJ": {
+        "newName": "林地面积",
+        "unit": ""
+      },
+      "CDMJ": {
+        "newName": "草地面积",
+        "unit": ""
+      },
+      "QTNYDMJ": {
+        "newName": "其它农用地面积",
+        "unit": ""
+      },
+      "JSYDMJ": {
+        "newName": "建设用地面积",
+        "unit": ""
+      },
+      "WLYDMJ": {
+        "newName": "未利用地面积",
+        "unit": ""
+      },
+      "BDCQZH": {
+        "newName": "不动产权证号",
+        "unit": ""
+      },
+      "QXDM": {
+        "newName": "区县代码",
+        "unit": ""
+      },
+      "DJJG": {
+        "newName": "登记机构",
+        "unit": ""
+      },
+      "DBR": {
+        "newName": "登簿人",
+        "unit": ""
+      },
+      "DJSJ": {
+        "newName": "登记时间",
+        "unit": ""
+      },
+      "FJ": {
+        "newName": "附记",
+        "unit": ""
+      },
+      "QSZT": {
+        "newName": "权属状态",
+        "unit": ""
+      }
+    }
+  },
+  "建设用地使用权": {
+    "searchFields": ["BH", "TCDM","ZDDM","BDCDYH","QLLX","DJLX","DJYY","SYQMJ","SYQQSSJ","SYQJSSJ","QDJG","BDCQZH","QXDM","DJJG","DBR","DJSJ","FJ","QSZT"],
+    "listShowField": ["ZDDM","QLLX"],
+    "updateField": ["BH", "TCDM","ZDDM","BDCDYH","QLLX","DJLX","DJYY","SYQMJ","SYQQSSJ","SYQJSSJ","QDJG","BDCQZH","QXDM","DJJG","DBR","DJSJ","FJ","QSZT"],
+    "fieldCn": {
+      "BH": {
+        "newName": "编号",
+        "unit": ""
+      },
+      "TCDM": {
+        "newName": "图层代码",
+        "unit": ""
+      },
+      "ZDDM": {
+        "newName": "宗地代码",
+        "unit": ""
+      },
+      "BDCDYH": {
+        "newName": "不动产单元号",
+        "unit": ""
+      },
+      "QLLX": {
+        "newName": "权利类型",
+        "unit": ""
+      },
+      "DJLX": {
+        "newName": "登记类型",
+        "unit": ""
+      },
+      "DJYY": {
+        "newName": "登记原因",
+        "unit": ""
+      },
+      "SYQMJ": {
+        "newName": "使用权面积",
+        "unit": "平方米"
+      },
+      "SYQQSSJ": {
+        "newName": "使用权起始时间",
+        "unit": ""
+      },
+      "SYQJSSJ": {
+        "newName": "使用权结束时间",
+        "unit": ""
+      },
+      "QDJG": {
+        "newName": "取得价格",
+        "unit": ""
+      },
+      "BDCQZH": {
+        "newName": "不动产权证号",
+        "unit": ""
+      },
+      "QXDM": {
+        "newName": "区县代码",
+        "unit": ""
+      },
+      "DJJG": {
+        "newName": "登记机构",
+        "unit": ""
+      },
+      "DBR": {
+        "newName": "登簿人",
+        "unit": ""
+      },
+      "DJSJ": {
+        "newName": "登记时间",
+        "unit": ""
+      },
+      "FJ": {
+        "newName": "附记",
+        "unit": ""
+      },
+      "QSZT": {
+        "newName": "权属状态",
+        "unit": ""
+      }
+    }
+  },
+  "土地承包经营权": {
+    "searchFields": ["BH", "TCDM","BDCDYH","QLLX","DJLX","DJYY","ZL","FBFDM","FBFMC","CBMJ","CBQSSJ","CBJSSJ","TDSYQXZ","SYTTLX","YZYFS","CYZL","SYZCL","BDCQZH","QXDM","DJJG","DBR","DJSJ","FJ","QSZT"],
+    "listShowField": ["BDCDYH","QLLX","FBFMC"],
+    "updateField": ["BH", "TCDM","BDCDYH","QLLX","DJLX","DJYY","ZL","FBFDM","FBFMC","CBMJ","CBQSSJ","CBJSSJ","TDSYQXZ","SYTTLX","YZYFS","CYZL","SYZCL","BDCQZH","QXDM","DJJG","DBR","DJSJ","FJ","QSZT"],
+    "fieldCn": {
+      "BH": {
+        "newName": "编号",
+        "unit": ""
+      },
+      "TCDM": {
+        "newName": "图层代码",
+        "unit": ""
+      },
+      "BDCDYH": {
+        "newName": "不动产单元号",
+        "unit": ""
+      },
+      "QLLX": {
+        "newName": "权利类型",
+        "unit": ""
+      },
+      "DJLX": {
+        "newName": "登记类型",
+        "unit": ""
+      },
+      "DJYY": {
+        "newName": "登记原因",
+        "unit": ""
+      },
+      "ZL": {
+        "newName": "坐落",
+        "unit": ""
+      },
+      "FBFDM": {
+        "newName": "发包方代码",
+        "unit": ""
+      },
+      "FBFMC": {
+        "newName": "发包方名称",
+        "unit": ""
+      },
+      "CBMJ": {
+        "newName": "承包（使用权）面积",
+        "unit": ""
+      },
+      "CBQSSJ": {
+        "newName": "承包(使用)起始时间",
+        "unit": ""
+      },
+      "CBJSSJ": {
+        "newName": "承包(使用)结束时间",
+        "unit": ""
+      },
+      "TDSYQXZ": {
+        "newName": "土地所有权性质",
+        "unit": ""
+      },
+      "SYTTLX": {
+        "newName": "水域滩涂类型",
+        "unit": ""
+      },
+      "YZYFS": {
+        "newName": "养殖业方式",
+        "unit": ""
+      },
+      "CYZL": {
+        "newName": "草原质量",
+        "unit": ""
+      },
+      "SYZCL": {
+        "newName": "适宜载畜量",
+        "unit": ""
+      },
+      "BDCQZH": {
+        "newName": "不动产权证号",
+        "unit": ""
+      },
+      "QXDM": {
+        "newName": "区县代码",
+        "unit": ""
+      },
+      "DJJG": {
+        "newName": "登记机构",
+        "unit": ""
+      },
+      "DBR": {
+        "newName": "登簿人",
+        "unit": ""
+      },
+      "DJSJ": {
+        "newName": "登记时间",
+        "unit": ""
+      },
+      "FJ": {
+        "newName": "附记",
+        "unit": ""
+      },
+      "QSZT": {
+        "newName": "权属状态",
+        "unit": ""
+      }
+    }
+  },
+  "林地和林木所有权": {
+    "searchFields": ["BH", "TCDM","BDCDYH","QLLX","DJLX","DJYY","FBF","SYQMJ","LDSYQSSJ","LDSYJSSJ","LDSYQXZ","SLLMSYQR1","SLLMSYQR2","ZYSZ","ZS","LZ","QY","ZLND","LB","XB","XDM","BDCQZH","QXDM","DJJG","DBR","DJSJ","FJ","QSZT"],
+    "listShowField": ["QLLX","ZYSZ"],
+    "updateField": ["BH", "TCDM","BDCDYH","QLLX","DJLX","DJYY","FBF","SYQMJ","LDSYQSSJ","LDSYJSSJ","LDSYQXZ","SLLMSYQR1","SLLMSYQR2","ZYSZ","ZS","LZ","QY","ZLND","LB","XB","XDM","BDCQZH","QXDM","DJJG","DBR","DJSJ","FJ","QSZT"],
+    "fieldCn": {
+      "BH": {
+        "newName": "编号",
+        "unit": ""
+      },
+      "TCDM": {
+        "newName": "图层代码",
+        "unit": ""
+      },
+      "BDCDYH": {
+        "newName": "不动产单元号",
+        "unit": ""
+      },
+      "QLLX": {
+        "newName": "权利类型",
+        "unit": ""
+      },
+      "DJLX": {
+        "newName": "登记类型",
+        "unit": ""
+      },
+      "DJYY": {
+        "newName": "登记原因",
+        "unit": ""
+      },
+      "FBF": {
+        "newName": "发包方",
+        "unit": ""
+      },
+      "SYQMJ": {
+        "newName": "使用权（承包）面积",
+        "unit": ""
+      },
+      "LDSYQSSJ": {
+        "newName": "林地使用（承包）起始时间",
+        "unit": ""
+      },
+      "LDSYJSSJ": {
+        "newName": "林地使用（承包）结束时间",
+        "unit": ""
+      },
+      "LDSYQXZ": {
+        "newName": "林地所有权性质",
+        "unit": ""
+      },
+      "SLLMSYQR1": {
+        "newName": "森林、林木所有权人",
+        "unit": ""
+      },
+      "SLLMSYQR2": {
+        "newName": "森林、林木使用权人",
+        "unit": ""
+      },
+      "ZYSZ": {
+        "newName": "主要树种",
+        "unit": ""
+      },
+      "ZS": {
+        "newName": "株数",
+        "unit": ""
+      },
+      "LZ": {
+        "newName": "林种",
+        "unit": ""
+      },
+      "QY": {
+        "newName": "起源",
+        "unit": ""
+      },
+      "ZLND": {
+        "newName": "造林年度",
+        "unit": ""
+      },
+      "LB": {
+        "newName": "林班",
+        "unit": ""
+      },
+      "XB": {
+        "newName": "小班",
+        "unit": ""
+      },
+      "XDM": {
+        "newName": "小地名",
+        "unit": ""
+      },
+      "BDCQZH": {
+        "newName": "不动产权证号",
+        "unit": ""
+      },
+      "QXDM": {
+        "newName": "区县代码",
+        "unit": ""
+      },
+      "DJJG": {
+        "newName": "登记机构",
+        "unit": ""
+      },
+      "DBR": {
+        "newName": "登簿人",
+        "unit": ""
+      },
+      "DJSJ": {
+        "newName": "登记时间",
+        "unit": ""
+      },
+      "FJ": {
+        "newName": "附记",
+        "unit": ""
+      },
+      "QSZT": {
+        "newName": "权属状态",
+        "unit": ""
+      }
+    }
+  },
+  "经济养殖水面使用权": {
+    "searchFields": ["BH", "TCDM","BDCDYH","QLLX","DJLX","DJYY","ZL","FBFDM","FBFMC","CBMJ","CBQSSJ","CBJSSJ","TDSYQXZ","SYTTLX","YZYFS","CYZL","SYZCL","BDCQZH","QXDM","DJJG","DBR","DJSJ","FJ","QSZT"],
+    "listShowField": ["BDCDYH","QLLX","DJLX"],
+    "updateField": ["BDCDYH","QLLX"],
+    "fieldCn": {
+      "BH": {
+        "newName": "编号",
+        "unit": ""
+      },
+      "TCDM": {
+        "newName": "图层代码",
+        "unit": ""
+      },
+      "BDCDYH": {
+        "newName": "不动产单元号",
+        "unit": ""
+      },
+      "QLLX": {
+        "newName": "权利类型",
+        "unit": ""
+      },
+      "DJLX": {
+        "newName": "登记类型",
+        "unit": ""
+      },
+      "DJYY": {
+        "newName": "登记原因",
+        "unit": ""
+      },
+
+      "ZL": {
+        "newName": "坐落",
+        "unit": ""
+      },
+      "FBFDM": {
+        "newName": "发包方代码",
+        "unit": ""
+      },
+      "FBFMC": {
+        "newName": "发包方名称",
+        "unit": ""
+      },
+      "CBMJ": {
+        "newName": "承包（使用权）面积",
+        "unit": ""
+      },
+      "CBQSSJ": {
+        "newName": "承包(使用)起始时间",
+        "unit": ""
+      },
+      "CBJSSJ": {
+        "newName": "承包(使用)结束时间",
+        "unit": ""
+      },
+      "TDSYQXZ": {
+        "newName": "土地所有权性质",
+        "unit": ""
+      },
+      "SYTTLX": {
+        "newName": "水域滩涂类型",
+        "unit": ""
+      },
+      "YZYFS": {
+        "newName": "养殖业方式",
+        "unit": ""
+      },
+      "CYZL": {
+        "newName": "草原质量",
+        "unit": ""
+      },
+      "SYZCL": {
+        "newName": "适宜载畜量",
+        "unit": ""
+      },
+      "BDCQZH": {
+        "newName": "不动产权证号",
+        "unit": ""
+      },
+      "QXDM": {
+        "newName": "区县代码",
+        "unit": ""
+      },
+      "DJJG": {
+        "newName": "登记机构",
+        "unit": ""
+      },
+      "DBR": {
+        "newName": "登簿人",
+        "unit": ""
+      },
+      "DJSJ": {
+        "newName": "登记时间",
+        "unit": ""
+      },
+      "FJ": {
+        "newName": "附记",
+        "unit": ""
+      },
+      "QSZT": {
+        "newName": "权属状态",
+        "unit": ""
+      }
+    }
+  },
+  "交通设施": {
+    "searchFields": ["BH", "MC","TCDM","SSXZ","XZQDM","XZQZQDM","CD","XZB","YZB","BZ","ZRR"],
+    "listShowField": ["MC","ZRR"],
+    "updateField": ["BH", "MC","TCDM","SSXZ","XZQDM","XZQZQDM","CD","XZB","YZB","BZ","ZRR"],
+    "fieldCn": {
+      "BH": {
+        "newName": "编号",
+        "unit": ""
+      },
+      "MC": {
+        "newName": "名称",
+        "unit": ""
+      },
+      "TCDM": {
+        "newName": "图层代码",
+        "unit": ""
+      },
+      "SSXZ": {
+        "newName": "所属乡镇",
+        "unit": ""
+      },
+      "XZQDM": {
+        "newName": "行政区代码",
+        "unit": ""
+      },
+      "XZQZQDM": {
+        "newName": "行政区子区代码",
+        "unit": ""
+      },
+      "CD": {
+        "newName": "长度",
+        "unit": ""
+      },
+      "XZB": {
+        "newName": "X坐标",
+        "unit": ""
+      },
+      "YZB": {
+        "newName": "Y坐标",
+        "unit": ""
+      },
+      "BZ": {
+        "newName": "备注",
+        "unit": ""
+      },
+      "ZRR": {
+        "newName": "责任人",
+        "unit": ""
+      }
+    },
+    "redraw": {
+      "type": "point",
+      "image": "/files/images/商业设施及服务.png",
+      "labelField": ["MC"],
+      "labelDisplay": 15000
+    }
+  },
+  "通信设施": {
+    "searchFields": ["BH", "MC","TCDM","SSXZ","LX","DZ","XZB","YZB","BZ","ZRR"],
+    "listShowField": ["MC","ZRR"],
+    "updateField": ["BH", "MC","TCDM","SSXZ","LX","DZ","XZB","YZB","BZ","ZRR"],
+    "fieldCn": {
+      "BH": {
+        "newName": "编号",
+        "unit": ""
+      },
+      "MC": {
+        "newName": "名称",
+        "unit": ""
+      },
+      "TCDM": {
+        "newName": "图层代码",
+        "unit": ""
+      },
+      "SSXZ": {
+        "newName": "所属乡镇",
+        "unit": ""
+      },
+      "LX": {
+        "newName": "类型",
+        "unit": ""
+      },
+      "DZ": {
+        "newName": "地址",
+        "unit": ""
+      },
+      "XZB": {
+        "newName": "X坐标",
+        "unit": ""
+      },
+      "YZB": {
+        "newName": "Y坐标",
+        "unit": ""
+      },
+      "BZ": {
+        "newName": "备注",
+        "unit": ""
+      },
+      "ZRR": {
+        "newName": "责任人",
+        "unit": ""
+      }
+    },
+    "redraw": {
+      "type": "point",
+      "image": "/files/images/商业设施及服务.png",
+      "labelField": ["MC"],
+      "labelDisplay": 15000
+    }
+  },
+  "饮水设施": {
+    "searchFields": ["BH", "MC","TCDM","LX","NL","SSXZQ","DZ","XZB","YZB","BZ","ZRR"],
+    "listShowField": ["MC","LX"],
+    "updateField": ["BH", "MC","TCDM","LX","NL","SSXZQ","DZ","XZB","YZB","BZ","ZRR"],
+    "fieldCn": {
+      "BH": {
+        "newName": "编号",
+        "unit": ""
+      },
+      "MC": {
+        "newName": "名称",
+        "unit": ""
+      },
+      "TCDM": {
+        "newName": "图层代码",
+        "unit": ""
+      },
+      "LX": {
+        "newName": "类型",
+        "unit": ""
+      },
+      "NL": {
+        "newName": "能力",
+        "unit": ""
+      },
+      "SSXZQ": {
+        "newName": "所属行政区",
+        "unit": ""
+      },
+      "DZ": {
+        "newName": "地址",
+        "unit": ""
+      },
+      "XZB": {
+        "newName": "X坐标",
+        "unit": ""
+      },
+      "YZB": {
+        "newName": "Y坐标",
+        "unit": ""
+      },
+      "BZ": {
+        "newName": "备注",
+        "unit": ""
+      },
+      "ZRR": {
+        "newName": "责任人",
+        "unit": ""
+      }
+    },
+    "redraw": {
+      "type": "point",
+      "image": "/files/images/商业设施及服务.png",
+      "labelField": ["MC"],
+      "labelDisplay": 15000
+    }
+  },
+  "水利设施": {
+    "searchFields": ["BH", "MC","TCDM","LX","NL","SSXZQ","DZ","XZB","YZB","BZ","ZRR"],
+    "listShowField": ["MC","LX","ZRR"],
+    "updateField": ["BH", "MC","TCDM","LX","NL","SSXZQ","DZ","XZB","YZB","BZ","ZRR"],
+    "fieldCn": {
+      "BH": {
+        "newName": "编号",
+        "unit": ""
+      },
+      "MC": {
+        "newName": "名称",
+        "unit": ""
+      },
+      "TCDM": {
+        "newName": "图层代码",
+        "unit": ""
+      },
+      "LX": {
+        "newName": "类型",
+        "unit": ""
+      },
+      "NL": {
+        "newName": "能力",
+        "unit": ""
+      },
+      "SSXZQ": {
+        "newName": "所属行政区",
+        "unit": ""
+      },
+      "DZ": {
+        "newName": "地址",
+        "unit": ""
+      },
+      "XZB": {
+        "newName": "X坐标",
+        "unit": ""
+      },
+      "YZB": {
+        "newName": "Y坐标",
+        "unit": ""
+      },
+      "BZ": {
+        "newName": "备注",
+        "unit": ""
+      },
+      "ZRR": {
+        "newName": "责任人",
+        "unit": ""
+      }
+    },
+    "redraw": {
+      "type": "point",
+      "image": "/files/images/商业设施及服务.png",
+      "labelField": ["MC"],
+      "labelDisplay": 15000
+    }
+  },
+  "环保设施": {
+    "searchFields": ["BH", "MC","TCDM","LX","NL","SSXZQ","DZ","XZB","YZB","BZ","ZRR"],
+    "listShowField": ["MC","LX","ZRR"],
+    "updateField": ["BH", "MC","TCDM","LX","NL","SSXZQ","DZ","XZB","YZB","BZ","ZRR"],
+    "fieldCn": {
+      "BH": {
+        "newName": "编号",
+        "unit": ""
+      },
+      "MC": {
+        "newName": "名称",
+        "unit": ""
+      },
+      "TCDM": {
+        "newName": "图层代码",
+        "unit": ""
+      },
+      "LX": {
+        "newName": "类型",
+        "unit": ""
+      },
+      "NL": {
+        "newName": "能力",
+        "unit": ""
+      },
+      "SSXZQ": {
+        "newName": "所属行政区",
+        "unit": ""
+      },
+      "DZ": {
+        "newName": "地址",
+        "unit": ""
+      },
+      "XZB": {
+        "newName": "X坐标",
+        "unit": ""
+      },
+      "YZB": {
+        "newName": "Y坐标",
+        "unit": ""
+      },
+      "BZ": {
+        "newName": "备注",
+        "unit": ""
+      },
+      "ZRR": {
+        "newName": "责任人",
+        "unit": ""
+      }
+    },
+    "redraw": {
+      "type": "point",
+      "image": "/files/images/商业设施及服务.png",
+      "labelField": ["MC"],
+      "labelDisplay": 15000
+    }
+  },
+  "安保设施": {
+    "searchFields": ["BH", "MC","TCDM","LX","NL","SSXZQ","DZ","XZB","YZB","BZ","ZRR"],
+    "listShowField": ["MC","LX","ZRR"],
+    "updateField": ["BH", "MC","TCDM","LX","NL","SSXZQ","DZ","XZB","YZB","BZ","ZRR"],
+    "fieldCn": {
+      "BH": {
+        "newName": "编号",
+        "unit": ""
+      },
+      "MC": {
+        "newName": "名称",
+        "unit": ""
+      },
+      "TCDM": {
+        "newName": "图层代码",
+        "unit": ""
+      },
+      "LX": {
+        "newName": "类型",
+        "unit": ""
+      },
+      "NL": {
+        "newName": "能力",
+        "unit": ""
+      },
+      "SSXZQ": {
+        "newName": "所属行政区",
+        "unit": ""
+      },
+      "DZ": {
+        "newName": "地址",
+        "unit": ""
+      },
+      "XZB": {
+        "newName": "X坐标",
+        "unit": ""
+      },
+      "YZB": {
+        "newName": "Y坐标",
+        "unit": ""
+      },
+      "BZ": {
+        "newName": "备注",
+        "unit": ""
+      },
+      "ZRR": {
+        "newName": "责任人",
+        "unit": ""
+      }
+    },
+    "redraw": {
+      "type": "point",
+      "image": "/files/images/商业设施及服务.png",
+      "labelField": ["MC"],
+      "labelDisplay": 15000
+    }
+  },
+  "教育设施": {
+    "searchFields": ["BH", "MC","TCDM","LX","NL","SSXZQ","DZ","XZB","YZB","BZ","ZRR"],
+    "listShowField": ["MC","LX","ZRR"],
+    "updateField": ["BH", "MC","TCDM","LX","NL","SSXZQ","DZ","XZB","YZB","BZ","ZRR"],
+    "fieldCn": {
+      "BH": {
+        "newName": "编号",
+        "unit": ""
+      },
+      "MC": {
+        "newName": "名称",
+        "unit": ""
+      },
+      "TCDM": {
+        "newName": "图层代码",
+        "unit": ""
+      },
+      "LX": {
+        "newName": "类型",
+        "unit": ""
+      },
+      "NL": {
+        "newName": "能力",
+        "unit": ""
+      },
+      "SSXZQ": {
+        "newName": "所属行政区",
+        "unit": ""
+      },
+      "DZ": {
+        "newName": "地址",
+        "unit": ""
+      },
+      "XZB": {
+        "newName": "X坐标",
+        "unit": ""
+      },
+      "YZB": {
+        "newName": "Y坐标",
+        "unit": ""
+      },
+      "BZ": {
+        "newName": "备注",
+        "unit": ""
+      },
+      "ZRR": {
+        "newName": "责任人",
+        "unit": ""
+      }
+    },
+    "redraw": {
+      "type": "point",
+      "image": "/files/images/商业设施及服务.png",
+      "labelField": ["MC"],
+      "labelDisplay": 15000
+    }
+  },
+  "文化设施": {
+    "searchFields": ["BH", "MC","TCDM","LX","NL","SSXZQ","DZ","XZB","YZB","BZ","ZRR"],
+    "listShowField": ["MC","LX","ZRR"],
+    "updateField": ["BH", "MC","TCDM","LX","NL","SSXZQ","DZ","XZB","YZB","BZ","ZRR"],
+    "fieldCn": {
+      "BH": {
+        "newName": "编号",
+        "unit": ""
+      },
+      "MC": {
+        "newName": "名称",
+        "unit": ""
+      },
+      "TCDM": {
+        "newName": "图层代码",
+        "unit": ""
+      },
+      "LX": {
+        "newName": "类型",
+        "unit": ""
+      },
+      "NL": {
+        "newName": "能力",
+        "unit": ""
+      },
+      "SSXZQ": {
+        "newName": "所属行政区",
+        "unit": ""
+      },
+      "DZ": {
+        "newName": "地址",
+        "unit": ""
+      },
+      "XZB": {
+        "newName": "X坐标",
+        "unit": ""
+      },
+      "YZB": {
+        "newName": "Y坐标",
+        "unit": ""
+      },
+      "BZ": {
+        "newName": "备注",
+        "unit": ""
+      },
+      "ZRR": {
+        "newName": "责任人",
+        "unit": ""
+      }
+    },
+    "redraw": {
+      "type": "point",
+      "image": "/files/images/商业设施及服务.png",
+      "labelField": ["MC"],
+      "labelDisplay": 15000
+    }
+  },
+  "体育设施": {
+    "searchFields": ["BH", "MC","TCDM","LX","NL","SSXZQ","DZ","XZB","YZB","BZ","ZRR"],
+    "listShowField": ["MC","LX","ZRR"],
+    "updateField": ["BH", "MC","TCDM","LX","NL","SSXZQ","DZ","XZB","YZB","BZ","ZRR"],
+    "fieldCn": {
+      "BH": {
+        "newName": "编号",
+        "unit": ""
+      },
+      "MC": {
+        "newName": "名称",
+        "unit": ""
+      },
+      "TCDM": {
+        "newName": "图层代码",
+        "unit": ""
+      },
+      "LX": {
+        "newName": "类型",
+        "unit": ""
+      },
+      "NL": {
+        "newName": "能力",
+        "unit": ""
+      },
+      "SSXZQ": {
+        "newName": "所属行政区",
+        "unit": ""
+      },
+      "DZ": {
+        "newName": "地址",
+        "unit": ""
+      },
+      "XZB": {
+        "newName": "X坐标",
+        "unit": ""
+      },
+      "YZB": {
+        "newName": "Y坐标",
+        "unit": ""
+      },
+      "BZ": {
+        "newName": "备注",
+        "unit": ""
+      },
+      "ZRR": {
+        "newName": "责任人",
+        "unit": ""
+      }
+    },
+    "redraw": {
+      "type": "point",
+      "image": "/files/images/商业设施及服务.png",
+      "labelField": ["MC"],
+      "labelDisplay": 15000
+    }
+  },
+  "养老福利设施": {
+    "searchFields": ["BH", "MC","TCDM","LX","NL","SSXZQ","DZ","XZB","YZB","BZ","ZRR"],
+    "listShowField": ["MC","LX","ZRR"],
+    "updateField": ["BH", "MC","TCDM","LX","NL","SSXZQ","DZ","XZB","YZB","BZ","ZRR"],
+    "fieldCn": {
+      "BH": {
+        "newName": "编号",
+        "unit": ""
+      },
+      "MC": {
+        "newName": "名称",
+        "unit": ""
+      },
+      "TCDM": {
+        "newName": "图层代码",
+        "unit": ""
+      },
+      "LX": {
+        "newName": "类型",
+        "unit": ""
+      },
+      "NL": {
+        "newName": "能力",
+        "unit": ""
+      },
+      "SSXZQ": {
+        "newName": "所属行政区",
+        "unit": ""
+      },
+      "DZ": {
+        "newName": "地址",
+        "unit": ""
+      },
+      "XZB": {
+        "newName": "X坐标",
+        "unit": ""
+      },
+      "YZB": {
+        "newName": "Y坐标",
+        "unit": ""
+      },
+      "BZ": {
+        "newName": "备注",
+        "unit": ""
+      },
+      "ZRR": {
+        "newName": "责任人",
+        "unit": ""
+      }
+    },
+    "redraw": {
+      "type": "point",
+      "image": "/files/images/商业设施及服务.png",
+      "labelField": ["MC"],
+      "labelDisplay": 15000
+    }
+  },
+  "电力设施": {
+    "searchFields": ["BH", "MC","TCDM","LX","NL","SSXZQ","DZ","XZB","YZB","BZ","ZRR"],
+    "listShowField": ["MC","LX","ZRR"],
+    "updateField": ["BH", "MC","TCDM","LX","NL","SSXZQ","DZ","XZB","YZB","BZ","ZRR"],
+    "fieldCn": {
+      "BH": {
+        "newName": "编号",
+        "unit": ""
+      },
+      "MC": {
+        "newName": "名称",
+        "unit": ""
+      },
+      "TCDM": {
+        "newName": "图层代码",
+        "unit": ""
+      },
+      "LX": {
+        "newName": "类型",
+        "unit": ""
+      },
+      "NL": {
+        "newName": "能力",
+        "unit": ""
+      },
+      "SSXZQ": {
+        "newName": "所属行政区",
+        "unit": ""
+      },
+      "DZ": {
+        "newName": "地址",
+        "unit": ""
+      },
+      "XZB": {
+        "newName": "X坐标",
+        "unit": ""
+      },
+      "YZB": {
+        "newName": "Y坐标",
+        "unit": ""
+      },
+      "BZ": {
+        "newName": "备注",
+        "unit": ""
+      },
+      "ZRR": {
+        "newName": "责任人",
+        "unit": ""
+      }
+    },
+    "redraw": {
+      "type": "point",
+      "image": "/files/images/商业设施及服务.png",
+      "labelField": ["MC"],
+      "labelDisplay": 15000
+    }
+  }
+}

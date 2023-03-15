@@ -1,0 +1,248 @@
+point:
+    - key: ST_ID
+      field: gid
+      label: 管点ID
+      type: number
+      state: 0
+    - key: ST_KEY
+      field: 编号
+      label: 管点编号
+      type: string
+      state: 1
+    - key: ST_PT_ALT
+      field: 地面高程
+      label: 地面高程
+      type: number
+      state: 1
+    - key: ST_PT_TYPE
+      field: 特征
+      label: 特征
+      type: string
+      state: 1
+    - key: ST_ATTACHMENT
+      field: 附属设施
+      label: 附属设施
+      type: string
+      state: 1
+    - key: ST_OFFSET
+      field: 偏心井点号
+      label: 偏心井点号
+      type: string
+      state: 1
+    - key: ST_ANGLE
+      field: 旋转角度
+      label: 旋转角度
+      type: number
+      state: 1
+    - key: ST_WELL
+      field: 井类型
+      label: 井类型
+      type: string
+      state: 1
+    - key: ST_WELL_ID
+      field: ""
+      label: 井ID
+      type: number
+      state: 0
+    - key: ST_WDIA
+      field: 井室直径
+      label: 井直径
+      type: number
+      state: 1
+    - key: ST_NDEEP
+      field: 井脖深
+      label: 井脖深
+      type: number
+      state: 1
+    - key: ST_WDEEP
+      field: 井底埋深
+      label: 井底埋深
+      type: number
+      state: 1
+    - key: ST_PLATE
+      field: 井盖类型
+      label: 井盖类型
+      type: string
+      state: 1
+    - key: ST_PSIZE
+      field: null
+      label: 井盖规格
+      type: string
+      state: 1
+    - key: ST_PMATER
+      field: null
+      label: 井盖材质
+      type: string
+      state: 1
+    - key: ST_WMATER
+      field: null
+      label: 井材质
+      type: string
+      state: 1
+    - key: ST_BD_TIME
+      field: 建设日期
+      label: 建设年代
+      type: string
+      state: 1
+    - key: ST_OWNER
+      field: 权属单位
+      label: 权属单位
+      type: string
+      state: 1
+    - key: ST_ADDR
+      field: 所在道路
+      label: 所在位置
+      type: string
+      state: 1
+    - key: ST_UPDATE
+      field: null
+      label: 更新状态
+      type: string
+      state: 1
+
+line:
+    - key: ST_ID
+      field: gid
+      label: ID
+      type: number
+      state: 0
+    - key: ST_KEY
+      field: 管线id
+      label: 管线编号
+      type: string
+      state: 1
+    - key: ST_SPT_KEY
+      field: 起点编号
+      label: 起点编号
+      type: string
+      state: 1
+    - key: ST_EPT_KEY
+      field: 终点编号
+      label: 终点编号
+      type: string
+      state: 1
+    - key: ST_SDEEP
+      field: 起点埋深
+      label: 起点埋深
+      type: number
+      state: 1
+    - key: ST_EDEEP
+      field: 终点埋深
+      label: 终点埋深
+      type: number
+      state: 1
+    - key: ST_SALT
+      field: 起点高程
+      label: 起点高程
+      type: number
+      state: 1
+    - key: ST_EALT
+      field: 终点高程
+      label: 终点高程
+      type: number
+      state: 1
+    - key: ST_LTTYPE
+      field: 埋设方式
+      label: 埋设方式
+      type: string
+      state: 1
+    - key: ST_SIZE
+      field: 管径
+      label: 管径
+      type: string
+      state: 1
+    - key: ST_PMATER
+      field: 材质
+      label: 材质
+      type: string
+      state: 1
+    - key: ST_FLOWDIR
+      field: 流向
+      label: 流向
+      type: number
+      state: 1
+    - key: ST_PRESSUR
+      field: 压力
+      label: 压力
+      type: string
+      state: 1
+    - key: ST_LTYPE
+      field: 线型
+      label: 线型
+      type: string
+      state: 1
+    - key: ST_STATUS
+      field: 使用状况
+      label: 使用状况
+      type: string
+      state: 1
+    - key: ST_PSVALUE
+      field: 压力
+      label: 电压值
+      type: string
+      state: 1
+    - key: ST_VENTNUM
+      field: 电缆条数
+      label: 电缆条数
+      type: string
+      state: 1
+    - key: ST_HOLETOL
+      field: 总孔数
+      label: 总孔数
+      type: number
+      state: 1
+    - key: ST_HOLEUSE
+      field: 已用孔数
+      label: 已用孔数
+      type: number
+      state: 1
+    - key: ST_BD_TIME
+      field: 建设日期
+      label: 建设年代
+      type: string
+      state: 1
+    - key: ST_OWNER
+      field: 权属单位
+      label: 权属单位
+      type: string
+      state: 1
+    - key: ST_ADDR
+      field: 所在道路
+      label: 所在位置
+      type: string
+      state: 1
+    - key: ST_UPDATE
+      field: null
+      label: 更新状态
+      type: string
+      state: 1
+
+polygon:
+    - key: ST_ID
+      field: gid
+      label: ID
+      type: number
+      state: 1
+    - key: ST_NDEEP
+      field: 井脖深
+      label: 井脖深
+      type: number
+      state: 1
+    - key: ST_WDEEP
+      field: 井底深
+      label: 井底深
+      type: number
+      state: 1
+
+
+other:
+    - key: ST_ID
+      field: gid
+      label: ID
+      type: number
+      state: 0
+    - key: ST_NAME
+      field: name
+      label: 名称
+      type: string
+      state: 1

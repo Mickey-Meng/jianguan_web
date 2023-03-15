@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../../../lib/ok_admin/css/okadmin.css">
+    <link rel="stylesheet" href="../../../../lib/ok_admin/lib/layui/css/dtree/dtree.css">
+    <link rel="stylesheet" href="../../../../lib/ok_admin/lib/layui/css/dtree/font/dtreefont.css">
+    <script type="text/javascript" src="../../../../lib/ok_admin/lib/layui/layui.js"></script>
+    <style>
+        .layui-tab {
+            margin: 0;
+        }
+
+        #materialTypeTree {
+            height: 100%;
+            width: 18%;
+            float: left;
+            overflow: auto;
+        }
+
+        #materialType {
+            width: 80%;
+            right: 10px;
+            float: left;
+            position: absolute;
+        }
+
+        .layui-table-box {
+            clear: both;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="layui-body commonOutCss" style="left: 0">
+        <!-- 左侧材料类型树 -->
+        <div id="materialTypeTree" style="min-height:400px;">
+            <div id="tree" class="demo-tree"></div>
+        </div>
+        <!-- 右侧材料类型表 -->
+        <div id="materialType">
+            <table class="layui-hide" id="materialTypes" lay-filter="test">
+            </table>
+        </div>
+    </div>
+
+    <!-- 材料类型表头 -->
+    <script type="text/html" id="toolbar">
+        <form class="layui-form layui-col-md12" lay-filter="materialTypeFormFilter">
+            <div class="layui-input-inline ok-search">
+                <input class="layui-input" placeholder="本级编码" autocomplete="off" name="getTypeCode">
+            </div>
+            <div class="layui-input-inline ok-search">
+                <input class="layui-input" placeholder="本级名称" autocomplete="off" name="getTypeName">
+            </div>
+            <div class="layui-input-inline ok-search">
+                <input class="layui-input" placeholder="上级编码" autocomplete="off" name="getLastTypeCode">
+            </div>
+            <div class="layui-input-inline ok-search">
+                <input class="layui-input" placeholder="上级名称" autocomplete="off" name="getLastTypeName">
+            </div>
+            <button class="layui-btn" lay-submit="" lay-filter="search" title="条件查询">
+                <i class="layui-icon">&#xe615;</i>
+            </button>
+            <button type="button" lay-submit="" class="layui-btn" id="uploadBtn" title="类型导入" lay-filter="upload" data-method="offset" data-type="auto">
+                类型导入
+                <i class="layui-icon">&#58964;</i>
+            </button>
+        </form>
+    </script>
+
+    <!-- 类型导入弹出层 -->
+    <div id='uploadLayer'>
+        <div style="margin:10px;">
+            <table style="margin-left: 10px;margin-right: 10px;border-collapse:separate; border-spacing:0px 10px;width: 90%">
+                <tr>
+                    <td><span id="getTempFile" style="float: left;cursor: pointer;color: #5FB878">EXCEL模板下载</span></td>
+                </tr>
+                <tr>
+                    <td><span style="color: #FF5722">文件表头必须与模板完全一致</span></td>
+                </tr>
+                <tr>
+                    <td><span style="color: #FF5722">数据行使用文本格式</span></td>
+                </tr>
+                <tr>
+                    <td><span style="color: #FF5722">文件只读取第一张表,表名无限制</span></td>
+                </tr>
+                <tr>
+                    <td><span style="color: #FF5722">文件上传后每一条数据以分类编码为关键字,有则更新,无则添加</span></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="layui-upload">
+                            <button type="button" class="layui-btn layui-btn-normal" id="choose">选择文件</button>
+                            <button type="button" class="layui-btn" id="upload">开始上传</button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        //layui声明使用
+        layui.use(['constantUrl', 'okUtils', 'dtree', 'table', 'form', 'layer', 'upload'], function() {
+            var $ = layui.jquery;
+            var okUtils = layui.okUtils;
+            var dtree = layui.dtree;
+            var table = layui.table;
+            var form = layui.form;
+            var layer = layui.layer;
+            var upload = layui.upload;
+
+            //初始表格
+            var firstParam = {
+                TypeCode: '0620',
+                TypeName: '',
+                LastTypeCode: '',
+                LastTypeName: ''
+            }
+            materialTypeTable(firstParam);
+
+            //发送ajax获取后台数据创建左侧材料类型树
+            okUtils.ajax({
+                url: layui.constantUrl.stRepair.getMaterialType,
+                isNeedToken: false
+            }).done(function(data) {
+                if (data.data == null) {
+                    layer.alert("警告 " + data.msg)
+                } else {
+                    //处理材料类型树数据
+                    var materialTypeTreeData = [];
+
+                    function getMaterialTypeTreeData(data1, data2) {
+                        for (var i = 0; i < data1.length; i++) {
+                            if (!data1[i].LastTypeCode) {
+                                data1[i].LastTypeCode = 0
+                            }
+                            data2.push({
+                                    id: data1[i].TypeCode,
+                                    title: '[' + data1[i].TypeCode + ']' + data1[i].TypeName,
+                                    parentId: data1[i].LastTypeCode,
+                                    children: []
+                                })
+                                //如果有下一级，递归调用
+                            if (data1[i].son) {
+                                getMaterialTypeTreeData(data1[i].son, data2[i].children);
+                            }
+                        }
+                    };
+                    getMaterialTypeTreeData(data.data, materialTypeTreeData);
+
+                    //创建材料类型树
+                    dtree.render({
+                        elem: '#tree',
+                        data: materialTypeTreeData,
+                        initLevel: 1
+                    });
+
+                    //点击树节点关联搜索创造表格
+                    dtree.on("node('tree')", function(obj) {
+                        var treeParam = {
+                            TypeCode: obj.param.nodeId,
+                            TypeName: '',
+                            LastTypeCode: '',
+                            LastTypeName: ''
+                        }
+                        materialTypeTable(treeParam);
+                    });
+                }
+            });
+
+
+            //创建材料类型表的函数
+            function materialTypeTable(param) {
+                table.render({
+                    id: 'materialTypes',
+                    elem: '#materialTypes',
+                    page: true, //是否显示分页
+                    limit: 15, //每页默认显示的数量
+                    url: layui.constantUrl.stRepair.getMaterialTypeList,
+                    request: {
+                        pageName: 'pageNumber', //页码的参数名称，默认：page
+                        limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                    },
+                    where: {
+                        'mapStr': JSON.stringify(param)
+                    },
+                    toolbar: '#toolbar', //开启头部工具栏，并为其绑定左侧模板
+                    parseData: function(res) { //res 即为原始返回的数据
+                        //console.log(res.data.getMe)
+                        return {
+                            "code": res.meow, //解析接口状态
+                            "msg": res.data.msg, //解析提示文本
+                            "count": res.data.total, //解析数据长度
+                            "data": res.data.getMe //解析数据列表
+                        };
+                    },
+                    height: 'full-58',
+                    minWidth: 2000,
+                    cols: [
+                        [{
+                            type: 'numbers'
+                        }, {
+                            field: 'TypeCode',
+                            title: '本级类型编码',
+                            align: 'center'
+                        }, {
+                            field: 'TypeName',
+                            title: '本级类型名称',
+                            align: 'center'
+                        }, {
+                            field: 'LastTypeCode',
+                            title: '上级类型编码',
+                            align: 'center'
+                        }, {
+                            field: 'LastTypeName',
+                            title: '上级级类型名称',
+                            align: 'center'
+                        }]
+                    ]
+                });
+
+                //搜索按钮创造表格
+                form.on("submit(search)", function(data) {
+                    event.preventDefault();
+                    var searchParam = {
+                        TypeCode: data.field.getTypeCode,
+                        TypeName: data.field.getTypeName,
+                        LastTypeCode: data.field.getLastTypeCode,
+                        LastTypeName: data.field.getLastTypeName
+                    };
+                    if ((!searchParam.TypeCode) && (!searchParam.TypeName) && (!searchParam.LastTypeCode) && (!searchParam.LastTypeName)) {
+                        return;
+                    }
+                    table.reload('materialTypes', {
+                        where: {
+                            'mapStr': JSON.stringify(searchParam)
+                        },
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        },
+                        done: function(res, curr, count) {
+                            form.val("materialTypeFormFilter", {
+                                'getTypeCode': searchParam.TypeCode,
+                                'getTypeName': searchParam.TypeName,
+                                'getLastTypeCode': searchParam.LastTypeCode,
+                                'getLastTypeName': searchParam.LastTypeName
+                            });
+                        }
+                    });
+                });
+
+                //类型导入按钮弹出层
+
+                form.on("submit(upload)", function() {
+                    //创造类型导入弹窗
+                    layer.open({
+                        type: 1,
+                        area: '450px',
+                        title: '文件上传',
+                        content: $('#uploadLayer'),
+                        btn: '确定',
+                        yes: function() {
+                            layer.closeAll();
+                        }
+                    });
+
+                    //弹出层功能
+                    //跳转模板下载模块
+                    $('#getTempFile').on('click', function() {
+                        var url = layui.constantUrl.stTemp.uploadFile + '/材料类型_模板.xls';
+                        window.open(url);
+                    });
+                    //选完文件后不自动上传
+                    upload.render({
+                        elem: '#choose',
+                        url: layui.constantUrl.stRepair.insertMaterialByExcel,
+                        auto: false,
+                        accept: 'file',
+                        bindAction: '#upload',
+                        done: function(res) {
+                            layer.msg('上传成功');
+                        }
+                    });
+                });
+            }
+        })
+    </script>
+</body>
+
+</html>

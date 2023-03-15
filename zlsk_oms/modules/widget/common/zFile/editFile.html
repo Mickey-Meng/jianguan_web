@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑文件</title>
+    <link rel="stylesheet" href="../../../../lib/ok_admin/css/okadmin.css">
+    <script type="text/javascript" src="../../../../lib/ok_admin/lib/layui/layui.js"></script>
+</head>
+<body>
+<form class="layui-form ok-form" lay-filter="filter" style="margin-left: 10px;margin-top: 10px">
+    <div class="layui-form-item">
+        <label class="layui-form-label">文件名</label>
+        <div class="layui-input-block">
+            <input type="text" id="fileName" name="fileName" placeholder="请输入文件名" autocomplete="off" class="layui-input" lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="edit">提交</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    var $;
+    var isFile;
+    var initData;
+    var URL_PREFIX = 'http://localhost:9000/esriProxy/proxy.jsp?http://localhost:8080/';
+    function initForm(data,paramIsFile) {
+        var jsonString = JSON.stringify(data);
+        initData = JSON.parse(jsonString);
+        isFile = paramIsFile;
+    }
+    layui.use([ "form",  "okLayer",  "layer"], function () {
+        $ = layui.jquery;
+        var form = layui.form;
+        var okLayer = layui.okLayer;
+        var layer = layui.layer;
+
+        form.val("filter", initData);
+
+        form.on("submit(filter)", function (data) {
+            if (isFile){
+                let newFileName = $('#fileName').val();
+                let reg = new RegExp("[\/\|\\\\\*\\<\\>\\?\\:\\&\\$" + '"' + "]+", "g");
+                if (newFileName && newFileName.length > 0) {
+                    if (newFileName.length < 128) {
+                        if (!reg.test(newFileName) && newFileName.indexOf(".")!==0) {
+                            $.ajax({
+                                type : "POST",
+                                dataType : "text",
+                                data : {
+                                    fileId : initData.fileId,
+                                    newFileName : newFileName
+                                },
+                                url : URL_PREFIX + "homeController/renameFile.ajax",
+                                success : function(result) {
+                                    if (result === "mustLogin") {
+                                        // window.location.href = "prv/login.html";
+                                        layer.alert("提示：出现意外错误，可能未能编辑文件夹，请刷新后重试。");
+                                    } else {
+                                        if (result === "cannotRenameFile") {
+                                            layer.alert("提示：出现意外错误，可能未能重命名文件，请刷新后重试。");
+                                        } else if (result === "renameFileSuccess") {
+                                            parent.parentFlag = 1;
+                                            parent.layer.close(parent.layer.getFrameIndex(window.name));
+                                        } else if (result === "errorParameter") {
+                                            layer.alert("提示：参数错误，重命名失败，请刷新后重试。");
+                                        } else if (result === "nameOccupied") {
+                                            layer.alert("提示：该名称已被占用，请选取其他名称。");
+                                        } else if (result === "noAuthorized") {
+                                            layer.alert("提示：您的操作未被授权，重命名失败，请刷新后重试。");
+                                        } else {
+                                            layer.alert("提示：出现意外错误，可能未能重命名文件，请刷新后重试。");
+                                        }
+                                    }
+                                },
+                                error : function() {
+                                    layer.alert("提示：出现意外错误，可能未能重命名文件。");
+                                }
+                            });
+                        } else {
+                            layer.alert("提示：文件名中不应含有：引号 / \ * | < > & $ : ? 且不能以“.”开头。");
+                        }
+                    } else {
+                        layer.alert("提示：文件名称太长。");
+                    }
+                } else {
+                    layer.alert("提示：文件名不能为空。");
+                }
+            } else {
+                let newName = $('#fileName').val();
+                let reg = new RegExp("[\/\|\\\\\*\\<\\>\\?\\:\\&\\$" + '"' + "]+", "g");
+                if (newName.length === 0) {
+                    layer.alert("提示：文件夹名称不能为空。");
+                } else if (newName.length > 128) {
+                    layer.alert("提示：文件夹名称太长。");
+                } else if (!reg.test(newName) && newName.indexOf(".") !== 0) {
+                    $.ajax({
+                        type : "POST",
+                        dataType : "text",
+                        data : {
+                            folderId : initData.folderId,
+                            newName : newName,
+                            folderConstraint : initData.folderConstraint
+                        },
+                        url : URL_PREFIX + "homeController/renameFolder.ajax",
+                        success : function(result) {
+                            if (result === "mustLogin") {
+                                // window.location.href = "prv/login.html";
+                                layer.alert("提示：出现意外错误，可能未能编辑文件夹，请刷新后重试。");
+                            } else {
+                                if (result === "noAuthorized") {
+                                    layer.alert("提示：您的操作未被授权，编辑失败。");
+                                } else if (result === "errorParameter") {
+                                    layer.alert("提示：参数不正确，编辑失败，请刷新后重试。");
+                                } else if (result === "nameOccupied") {
+                                    layer.alert("提示：该名称已被占用，请选取其他名称。");
+                                } else if (result === "renameFolderSuccess") {
+                                    parent.parentFlag = 1;
+                                    parent.layer.close(parent.layer.getFrameIndex(window.name));
+                                } else {
+                                    layer.alert("提示：出现意外错误，可能未能编辑文件夹，请刷新后重试。");
+                                }
+                            }
+                        },
+                        error : function() {
+                            layer.alert("提示：出现意外错误，可能未能编辑文件夹，请刷新后重试。");
+                        }
+                    });
+                } else {
+                    layer.alert("提示：文件夹名中不应含有：引号 / \ * | < > & $ : ? 且不能以“.”开头。");
+                }
+            }
+            return false;
+        })
+    })
+</script>
+</body>
+</html>

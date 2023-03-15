@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>layui流程管理</title>
+    <link rel="stylesheet" href="../../../../../lib/ok_admin/css/okadmin.css">
+    <script type="text/javascript" src="../../../../../lib/ok_admin/lib/layui/layui.js"></script>
+</head>
+<body>
+<div class="layui-body commonOutCss" style="left: 0">
+    <div id="flow">
+        <table class="layui-hide" id="flows" lay-filter="flows"></table>
+    </div>
+</div>
+
+<script type="text/html" id="operationTpl">
+    <div>
+        <button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="btnPublish">发布流程</button>
+        <button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="btnEdit">编辑</button>
+        <button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="btnDesign">流程设计</button>
+        <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="btnDel">删除</button>
+    </div>
+</script>
+
+<script type="text/html" id="toolbar">
+    <form class="layui-form  layui-col-md12" style="height: 40px" lay-filter="toolForm" >
+        <button class="layui-btn" id="add" lay-submit=""  lay-filter="add" title="新建">
+            新建
+            <i class="layui-icon">&#58964;</i>
+        </button>
+    </form>
+</script>
+
+<script>
+    var $;
+    var okUtil;
+    var layer;
+    var okLayer;
+    var constantUrl;
+
+    var parentFlowData;
+    layui.use(['zTable','okUtils','okLayer','constantUrl','layer'],function () {
+        $ = layui.jquery;
+        layer = layui.layer;
+        okUtil = layui.okUtils;
+        okLayer = layui.okLayer;
+        constantUrl = layui.constantUrl;
+
+        var zTable = layui.zTable({
+            elem: '#flows'
+            , page: true
+            , limit: 10
+            , url: constantUrl.stFlow2.getWorkFlowList
+            , parseData: function (res) {
+                var result = {};
+                if (res.data){
+                    if (this.page.curr) {
+                        result = res.data.slice(this.limit * (this.page.curr - 1), this.limit * this.page.curr);
+                    } else {
+                        result = res.data.slice(0, this.limit);
+                    }
+                }
+                return {
+                    "code": res.meow, //解析接口状态
+                    "msg": res.msg, //解析提示文本
+                    "count": res.data ? res.data.length : 0, //解析数据长度
+                    "data": result //解析数据列表
+                };
+            }
+            , toolbar: '#toolbar'
+            , cols: [[ //标题栏
+                {field: 'key', title: '流程key'}
+                , {field: 'name', title: '流程名称'}
+                , {field: 'des', title: '流程描述'}
+                , {field: 'sttime', title: '建立时间'}
+                , {title: "操作", width: 300, align: "center", templet: "#operationTpl"}
+            ]]
+        });
+
+        var myTable = zTable.getTable();
+
+        zTable.getLayuiTable().on("tool(flows)", function (obj) {
+            var data = obj.data;
+            switch (obj.event) {
+                case 'btnPublish':
+                    var url = '/modules/widget/common/workflow/commonFlowDeal.html?flowId=' + data.gid;
+                    var oInput = document.createElement('input');
+                    oInput.value = url;
+                    document.body.appendChild(oInput);
+                    oInput.select(); // 选择对象
+                    document.execCommand("Copy"); // 执行浏览器复制命令
+                    oInput.className = 'oInput';
+                    oInput.style.display='none';
+                    layui.okLayer.msg.greenTick('模块地址已复制,请到菜单配置处配置');
+                    break;
+                case "btnEdit":
+                    okLayer.open("编辑流程信息", "FormAddFlow.html", "100%", "100%", function (layero) {
+                        var iframeWin = window[layero.find("iframe")[0]["name"]];
+                        iframeWin.initForm(data.gid);
+                    },function () {
+                        myTable.reload()
+                    });
+                    break;
+                case "btnDesign":
+                    layui.okLayer.open("设计流程", "LayuiFlowDesign.html?FlowId=" + data.gid + "&designType=edit", "100%", "100%", function (layero) {
+                        var iframeWin = window[layero.find("iframe")[0]["name"]];
+                    }, function () {
+                        myTable.reload()
+                    });
+                    break;
+                case "btnDel":
+                    okLayer.confirm('确定删除吗',function () {
+                        okUtil.ajax({'url':constantUrl.stFlow2.deleteWorkFlow,'param':{'fid':data.gid}}).done(function (data) {
+                            if (data.meow === 0){
+                                myTable.reload();
+                                layer.closeAll('dialog');
+                            }else {
+                                layer.alert('警告 删除失败')
+                            }
+                        });
+                    });
+                    break;
+            }
+        });
+
+        layui.form.on('submit(add)',function (data) {
+            parentFlowData = null;
+            okLayer.open("添加流程信息", "FormAddFlow.html", "60%", "60%",function (dom,index) {
+
+            },function () {
+                if (parentFlowData){
+                    okLayer.open("设计流程", "LayuiFlowDesign.html", "100%", "100%", function (layero) {
+                        var iframeWin = window[layero.find("iframe")[0]["name"]];
+                        iframeWin.initForm(parentFlowData);
+                    },function () {
+                        myTable.reload()
+                    })
+                }
+            });
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

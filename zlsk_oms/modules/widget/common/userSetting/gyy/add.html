@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>添加字典</title>
+    <link rel="stylesheet" href="../../../../../lib/ok_admin/lib/layui/css/layui.css" media="all">
+    <script type="text/javascript" src="../../../../../lib/ok_admin/lib/layui/layui.js"></script>
+</head>
+
+<body>
+    <form class="layui-form layui-form-pane ok-form" style="margin-top: 15px;margin-right: 20px;">
+        <div class="layui-form-item">
+            <label class="layui-form-label">名称</label>
+            <div class="layui-input-block">
+                <input type="text" id="name" name="funName" placeholder="请输入功能名称" autocomplete="off" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">名称编码</label>
+            <div class="layui-input-block">
+                <input type="text" id="key" name="funKey" placeholder="请输入功能编码" autocomplete="off" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="add">提交<i style='margin-left: 10px' class="layui-icon">&#4101;</i></button>
+            </div>
+        </div>
+    </form>
+    <script>
+    var $;
+
+    layui.use(['form', 'constantUrl', 'okUtils', 'okLayer'], function() {
+        $ = layui.jquery;
+        var form = layui.form;
+        var okLayer = layui.okLayer;
+        var okUtils = layui.okUtils;
+        var constantUrl = layui.constantUrl;
+        form.on("submit(add)", function(data) {
+            var param = {};
+            param = data.field;
+            param.parentId = -1;
+            okUtils.ajax({ "url": constantUrl.stAuth.addGyy, "param": param, type: 'POST' }).done(function(data1) {
+                okLayer.msg.greenTick("添加成功", function() {
+                    parent.parentData = 1;
+                    parent.layer.close(parent.layer.getFrameIndex(window.name));
+                })
+            }).fail(function(error) {
+                layer.alert(error)
+            });
+        })
+    })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>关联表单</title>
+    <link rel="stylesheet" href="../../../../../lib/ok_admin/css/okadmin.css">
+    <script type="text/javascript" src="../../../../../lib/ok_admin/lib/layui/layui.js"></script>
+</head>
+<body>
+<div>
+    <table class="layui-hide" id="forms" lay-filter="forms"></table>
+</div>
+<script>
+    var $;
+    var dtId;
+    var layer;
+    var okLayer;
+    var okUtils;
+    var constantUrl;
+    layui.use(['zTable','layer','okLayer','okUtils','constantUrl'],function () {
+        layer = layui.layer;
+        okLayer = layui.okLayer;
+        okUtils = layui.okUtils;
+        constantUrl = layui.constantUrl;
+
+        dtId = layui.okUtils.getUrlParameter('templateId');
+        let selectParam = {};
+        selectParam.table = 'zlsk_oms_dt_form_rel';
+        selectParam.mapStr = JSON.stringify({'dtid':dtId});
+        okUtils.ajax({'url':constantUrl.stForm.easySelectWithOutLike,'param': selectParam}).done(function (data1) {
+            let fmid = -1;
+            if (data1.meow === 0 && data1.data && data1.data.length > 0 ){
+                fmid = data1.data[0].fmid;
+            }
+            loadTableData(fmid);
+
+        });
+    });
+
+    var loadTableData = function (fmid) {
+        var zTable = layui.zTable({
+            elem: '#forms'
+            , page: true
+            , limit: 10
+            , url: constantUrl.stForm.easySelect
+            , where: {'table': 'zlsk_oms_form_def'}
+            , parseData: function (res) {
+                if (res.data){
+                    for (let index = 0; index < res.data.length; index++) {
+                        if (res.data[index].gid === fmid){
+                            res.data[index].LAY_CHECKED = true
+                        }
+                    }
+                }else {
+                    res.data = [];
+                }
+                var result = {};
+                if (this.page.curr) {
+                    result = res.data.slice(this.limit * (this.page.curr - 1), this.limit * this.page.curr);
+                } else {
+                    result = res.data.slice(0, this.limit);
+                }
+                return {
+                    "code": res.meow, //解析接口状态
+                    "msg": res.msg, //解析提示文本
+                    "count": res.data.length , //解析数据长度
+                    "data": result //解析数据列表
+                };
+            }
+            , cols: [[ //标题栏
+                {type:'radio'}
+                , {field: 'name', title: '名称'}
+                , {field: 'des', title: '描述'}
+                , {field: 'sttime', title: '建立时间'}
+                , {title: "操作", width: 300, align: "center", templet: "#operationTpl"}
+            ]]
+        });
+        zTable.getTable();
+
+        zTable.getLayuiTable().on('row(forms)', function(obj){
+            let data = obj.data;
+            let table = 'zlsk_oms_dt_form_rel';
+            let param = {};
+            param.table = table;
+            param.mapStr = JSON.stringify({'dtid':dtId,'fmid':data.gid,'fmKey':data.code});
+            okLayer.confirm('确定关联表单(' + data.name + ')吗？',function () {
+                okUtils.ajax({'url':constantUrl.stForm.easySelectWithOutLike,'param': {'table':table,'mapStr':JSON.stringify({'dtid':dtId})}}).done(function (data1) {
+                    let url ;
+                    if (data1.meow === 0 && data1.data && data1.data.length > 0){
+                        let gid = data1.data[0].gid;
+                        param.clause = JSON.stringify({'gid':gid});
+                        url = constantUrl.stForm.easyUpdate;
+                    }else {
+                        url = constantUrl.stForm.easyInsert;
+                    }
+                    okUtils.ajax({'url':url,'param': param}).done(function (data1) {
+                        if (data1.meow === 0){
+                            parent.parentFlag = 1;
+                            parent.layer.close(parent.layer.getFrameIndex(window.name));
+                        }else {
+                            layer.alert('警告 绑定表单失败')
+                        }
+                    })
+                }).fail(function () {
+                    layer.alert('操作失败')
+                });
+            });
+            //标注选中样式
+            obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
+        });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../../../../lib/ok_admin/css/okadmin.css">
+    <script type="text/javascript" src="../../../../../lib/ok_admin/lib/layui/layui.js"></script>
+</head>
+<body>
+    <script type="text/html" id="toolbar">
+        <form class="layui-form layui-col-md12" id="search-form">
+            <div class="layui-input-inline">
+                <input class="layui-input" placeholder="名称" autocomplete="off" name="name" >
+            </div>
+            <div class="layui-input-inline">
+                <input class="layui-input" placeholder="编码" autocomplete="off" name="code" >
+            </div>
+            <div class="layui-input-inline" style="width: 200px">
+                <div id="bo_type_select"></div>
+            </div>
+            <button id="btn_search" style="margin-left: 10px" class="layui-btn" lay-submit="" lay-filter="search" title="条件查询">
+                <i class="layui-icon">&#58901;</i>
+            </button>
+            <button type="reset" class="layui-btn" id="btn_reset" title="重置刷新">
+                <i class="layui-icon">&#58982;</i>
+            </button>
+            <button class="layui-btn" id="btn_add" title="添加业务对象">
+                <i class="layui-icon">&#58964;</i>
+            </button>
+        </form>
+    </script>
+    <div class="layui-body commonOutCss" style="left: 0">
+        <table class="layui-table" id="bo_table" lay-filter="bo_table"></table>
+    </div>
+</body>
+<script src="../formUtil.js"></script>
+<script src="./boManageHome.js"></script>
+</html>

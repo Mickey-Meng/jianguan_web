@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>添加用户</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../../../../lib/ok_admin/css/oksub.css">
+</head>
+
+<body>
+    <div class="ok-body">
+        <!--面包屑导航区域-->
+        <div class="ok-body-breadcrumb" style="display: none">
+            <span class="layui-breadcrumb">
+                <a><cite>首页</cite></a>
+                <a><cite>会员管理</cite></a>
+                <a><cite>用户列表</cite></a>
+                <a><cite>添加用户</cite></a>
+            </span>
+            <a class="layui-btn layui-btn-sm" href="javascript:location.replace(location.href);" title="刷新">
+                <i class="layui-icon layui-icon-refresh"></i>
+            </a>
+        </div>
+        <!--form表单-->
+        <form class="layui-form layui-form-pane ok-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="USERNAME" placeholder="请输入用户名" autocomplete="off" class="layui-input" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">真实姓名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="NAME" placeholder="请输入真实姓名" autocomplete="off" class="layui-input" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">组织机构</label>
+                <div class="layui-input-block">
+                    <input type="text" readonly="readonly" id="groupName" name="GROUPNAME" placeholder="请输入组织机构" autocomplete="off" class="layui-input" lay-verify="required">
+                    <div id="group" style="display: none"></div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">岗位</label>
+                <div class="layui-input-block">
+                    <input type="text" readonly="readonly" id="positionName" name="pname" placeholder="请输入岗位" autocomplete="off" class="layui-input" >
+                    <div id="position" style="display: none"></div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户组</label>
+                <div class="layui-input-block">
+                    <select name="ugid" lay-filter="ugid" id="select">
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">电话号码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="PHONE" placeholder="请输入电话号码" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">邮箱</label>
+                <div class="layui-input-block">
+                    <input type="text" name="EMAIL" placeholder="请输入邮箱" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码</label>
+                <div class="layui-input-block">
+                    <input type="password" id="pwd1" name="PASSWORD" placeholder="请输入密码" autocomplete="new-password" class="layui-input" lay-verify="required|pwd">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">确认密码</label>
+                <div class="layui-input-block">
+                    <input type="password" id="pwd2" name="PASSWORD1" placeholder="请输入密码" autocomplete="new-password" class="layui-input" lay-verify="required|pwd">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="add">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--js逻辑-->
+    <script type="text/javascript" src="../../../../../lib/ok_admin/lib/layui/layui.js"></script>
+    <script>
+    var groupData;
+    var $;
+    var treeData = [];
+
+    function initForm(group) {
+        var groupString = JSON.stringify(group);
+        groupData = JSON.parse(groupString);
+        layui.use(["element", "form", "laydate", "okLayer", "okUtils", 'constantUrl', 'tree'], function() {
+            $ = layui.jquery;
+            var form = layui.form;
+            var laydate = layui.laydate;
+            var okLayer = layui.okLayer;
+            var okUtils = layui.okUtils;
+            var tree = layui.tree;
+            var constantUrl = layui.constantUrl;
+            var groupid = [];
+            var positionCode = [];
+            okUtils.ajax({ "url": constantUrl.stAuth.selectPosition }).done(function(data1) {
+                if (data1.data == null) {
+                    layer.alert("警告 " + data1.msg)
+                } else {
+                    data = okUtils.structureTree({ "data": data1.data.getMe, "check": true, "spread": true }, 'id', 'positionName', 'parentId');
+                    for (var index = 0; index < data.length; index++) {
+                        if (data[index].parentId === -1) {
+                            treeData[0] = data[index];
+                        }
+                    }
+                    tree.render({
+                        elem: '#position',
+                        onlyIconControl: true,
+                        data: treeData,
+                        id: 'treeId2',
+                        onlyIconControl: true,
+                        showLine: false, //关闭连接线
+                        click: function(obj) {
+                            if (obj.data.parentId == -1) {
+                                layer.msg("请选择子节点");
+                                return false;
+                            }
+                            $('#positionName').val(obj.data.positionName);
+                            var cache = {};
+                            cache.name = obj.data.positionName;
+                            cache.id = obj.data.positionCode;
+                            if (JSON.stringify(positionCode).indexOf(JSON.stringify(cache)) == -1) {
+                                positionCode.push(cache);
+                            }
+                            $("#position").hide();
+                        }
+                    });
+                }
+
+                okUtils.ajax({ "url": constantUrl.stAuth.selectUserOrganize }).done(function(data1) {
+                    if (data1.meow != 0) {
+                        layer.alert("警告 " + data1.msg)
+                    } else {
+                          okUtils.adapterSelect("#select", "", "id", "userGroupName", data1.data.getMe);
+
+                    }
+                }).fail(function(error) {
+                    layer.alert("警告 " + error)
+                });
+            });
+            //            TODO change tree to select
+            tree.render({
+                elem: '#group',
+                data: groupData,
+                id: 'treeId1',
+                onlyIconControl: true,
+                click: function(obj) {
+                    $('#groupName').val(obj.data.NAME);
+                    var cache = {};
+                    cache.name = obj.data.NAME;
+                    cache.id = obj.data.ID;
+                    if (JSON.stringify(groupid).indexOf(JSON.stringify(cache)) == -1) {
+                        groupid.push(cache);
+                    }
+                    $("#group").hide();
+                },
+                showLine: false //关闭连接线
+            });
+
+            $(document).on('click', '#groupName', function() {
+                $("#group").show();
+            });
+            $(document).on('click', '#positionName', function() {
+                $("#position").show();
+            });
+
+            form.verify({
+                pwd: function(value) {
+                    if (value.length < 5) {
+                        return '密码过于简单，请重新输入';
+                    }
+                    if ($("#pwd1").val() !== $("#pwd2").val()) {
+                        return "两次输入密码不一致";
+                    }
+                }
+            });
+
+            form.on("submit(add)", function(data) {
+                var param = {};
+                for (var index = 0; index < groupid.length; index++) {
+                    if (groupid[index].name == data.field.GROUPNAME) {
+                        param.groupid = groupid[index].id;
+                    }
+                }
+                for (var index = 0; index < positionCode.length; index++) {
+                    if (positionCode[index].name == data.field.pname) {
+                        param.post = positionCode[index].id;
+                    }
+                }
+                param.username = data.field.USERNAME;
+                param.name1 = data.field.NAME;
+                param.pwd = data.field.PASSWORD;
+                param.phone = data.field.PHONE;
+                param.email = data.field.EMAIL;
+                param.ugid = data.field.ugid;
+                param.usercode = "";
+                okUtils.ajax({ "url": constantUrl.stAuth.insertUser, "param": param }).done(function(response) {
+                    okLayer.msg.greenTick("添加成功", function() {
+                        parent.parentFlag = 1;
+                        parent.layer.close(parent.layer.getFrameIndex(window.name));
+                    });
+                }).fail(function(error) {
+                    console.log(error)
+                });
+                return false;
+            });
+        });
+    }
+    </script>
+</body>
+
+</html>

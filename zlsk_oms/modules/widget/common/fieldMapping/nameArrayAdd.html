@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加数据</title>
+    <link rel="stylesheet" href="../../../../lib/ok_admin/css/okadmin.css">
+    <script type="text/javascript" src="../../../../lib/ok_admin/lib/layui/layui.js"></script>
+</head>
+<body>
+<form class="layui-form layui-form-pane ok-form" lay-filter="form" style="margin: 10px">
+    <div class="layui-form-item">
+        <label class="layui-form-label">显示名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="name" placeholder="请输入显示名称" autocomplete="off" class="layui-input" lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">标准名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="value" placeholder="请输入标准名称" autocomplete="off" class="layui-input" lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="submit">立即提交</button>
+        </div>
+    </div>
+</form>
+<script>
+    var $;
+    var form;
+    var layer;
+    var okLayer;
+    var okUtils;
+    var constantUrl;
+
+    var isAdd;
+    var formData;
+    function initForm(data) {
+        formData = JSON.parse(data);
+    }
+    layui.use(['form', 'okUtils', "okLayer", "layer", 'constantUrl'],function () {
+        $ = layui.$;
+        form = layui.form;
+        layer = layui.layer;
+        okUtils = layui.okUtils;
+        okLayer = layui.okLayer;
+        constantUrl = layui.constantUrl;
+
+        isAdd = okUtils.getUrlParameter('isAdd');
+        if (isAdd === 'false' && formData) {
+            form.val('form', formData);
+        }
+
+        form.on('submit(submit)',function (data) {
+            let field = data.field;
+            field.sttime = new Date();
+            if (isAdd === 'false' && formData) {
+                field.gid = formData.gid;
+            }
+            okUtils.ajax({
+                url:constantUrl.stMap.easyUpload,
+                param:{table:'zlsk_ps_fsa',mapStr:JSON.stringify(field)},
+                type:'post'
+            }).done(function (data1) {
+                if (data1.meow === 0){
+                    parent.parentAFlag = 1;
+                    parent.layer.close(parent.layer.getFrameIndex(window.name));
+                }else {
+                    layer.alert('警告 上传数据失败')
+                }
+            });
+            return false;
+        });
+
+    })
+</script>
+</body>
+</html>
