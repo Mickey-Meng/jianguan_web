@@ -28,21 +28,22 @@ module.exports = {
     open: true,
     proxy: {
       "/STSfmzj": {
-        target: 'https://system.zlskkj.com:59031',
+        // target: 'https://system.zlskkj.com:59031',
+        target: 'http://150.158.139.18:8901/STSfmzj',
 
         changeOrigin: true,
         //               secure:true          //https需要开启此配置
         //               ws: true,             //是否启用websockets
         pathRewrite: {
-          // '^/STSfmzj': ''
+          '^/STSfmzj': ''
         }
       },
       "/ZhuJiRoad": {
         // target: "http://150.158.139.18:8081",
-        target: 'http://127.0.0.1:8720',
+        target: 'http://127.0.0.1:8720/ZhuJiRoad',
         changeOrigin: true,
         pathRewrite: {
-          // "^/ZhuJiRoad": ""
+          "^/ZhuJiRoad": ""
         }
       },
       "/zlsk_js_api": {
@@ -54,7 +55,7 @@ module.exports = {
         pathRewrite: {}
       },
       "/ZhuJiApi": {
-        target: "http://127.0.0.1:8888",
+        target: "http://127.0.0.1:8876",
 
         changeOrigin: true,
         pathRewrite: {}
