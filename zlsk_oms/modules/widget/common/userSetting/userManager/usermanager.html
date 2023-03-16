@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户管理</title>
+    <link rel="stylesheet" href="../../../../../lib/ok_admin/css/okadmin.css">
+    <script type="text/javascript" src="../../../../../lib/ok_admin/lib/layui/layui.js"></script>
+    <style>
+        #departmentTree {
+            height: 100%;
+            width: 20%;
+            float: left;
+            overflow: auto;
+        }
+
+        #user {
+            width: 80%;
+            right: 10px;
+            float: left;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-body commonOutCss" style="left: 0">
+    <div id="departmentTree" style="min-height:400px;"></div>
+    <div id="user">
+        <table class="layui-hide" id="users" lay-filter="users"></table>
+    </div>
+</div>
+
+<script type="text/html" id="toolbar">
+    <form class="layui-form layui-col-md12">
+        <div class="layui-input-inline ok-search">
+            <input class="layui-input" placeholder="账号" autocomplete="off" name="username">
+        </div>
+        <button class="layui-btn" lay-submit="" lay-filter="search" title="条件查询">
+            <i class="layui-icon">&#xe615;</i>
+        </button>
+        <button class="layui-btn" id="add" title="新建用户">
+            新建用户
+            <i class="layui-icon">&#58964;</i>
+        </button>
+    </form>
+</script>
+
+<script>
+    var $;
+    var parentFlag = 0;
+    var groupId = 1;
+
+    layui.use(['tree', 'form', 'table', 'okUtils', "okLayer", 'constantUrl', 'zTable'], function () {
+        $ = layui.jquery;
+        var tree = layui.tree;
+        var okUtils = layui.okUtils;
+        var constantUrl = layui.constantUrl;
+        var okLayer = layui.okLayer;
+        var form = layui.form;
+
+        var groupData = [];
+        var code = 1;
+
+        okUtils.ajax({"url": constantUrl.stAuth.selectGroup}).done(function (data1) {
+            if (data1.data == null) {
+                layer.alert("警告 " + data1.msg)
+            } else {
+                data = okUtils.structureTree({"data": data1.data.getMe, "check": true, "spread": true});
+                for (var index = 0; index < data.length; index++) {
+                    if (data[index].PARENTID == -1) {
+                        groupData[0] = data[index];
+                    }
+                }
+                tree.render({
+                    elem: '#departmentTree'
+                    , data: groupData
+                    , id: 'treeId'
+                    , spread: true
+                    , onlyIconControl: true
+                    , click: function (obj) {
+                        groupId = obj.data.ID;
+                        code = obj.data.CODE;
+                        myTable.refresh({
+                            where: {groupid:groupId,code:obj.data.CODE,name1:''},
+                            page: {curr: 1}
+                        });
+                    }
+                })
+            }
+        }).fail(function (error) {
+            console.log(error)
+        });
+
+        var zTable = layui.zTable({
+            elem: '#users'
+            , page: true //是否显示分页
+            , limit: 10 //每页默认显示的数量
+            , url: constantUrl.stAuth.selectByGroup
+            , where: {groupid:1}
+            , parseData: function (res) { //res 即为原始返回的数据
+                var result = {};//分页
+                if (this.page.curr) {
+                    // result = res.data.getMe.slice(this.limit * (this.page.curr - 1), this.limit * this.page.curr);
+                    result = res.data.getMe
+                } else {
+                    result = res.data.getMe.slice(0, this.limit);
+                }
+                return {
+                    "code": res.meow, //解析接口状态
+                    "msg": res.data.msg, //解析提示文本
+                    "count": res.data.total, //解析数据长度
+                    "data": result //解析数据列表
+                };
+            }
+            , height: 'full-58'
+            ,toolbar:'#toolbar'
+            , cols: [[ //标题栏
+                {field: 'USERNAME', title: '用户名称'}
+                , {field: 'NAME', title: '真实姓名'}
+                , {field: 'GROUPNAME', title: '组织机构'}
+                , {field: 'positionName', title: '岗位'}
+                , {field: 'PHONE', title: '电话号码'}
+                , {field: 'EMAIL', title: '邮箱地址'}
+                , {field: 'STTIME', title: '创建时间'}
+                , {field: 'STSTATE', title: '状态', templet: "#statusTpl"}
+                , {title: "操作", width: 300, align: "center", templet: "#operationTpl"}
+            ]]
+        });
+
+        var myTable = zTable.getTable();
+
+        form.on("submit(search)", function (data) {
+            var param = {};
+            param.name1 = data.field.username;
+            param.code = code;
+            myTable.reload({
+                url: constantUrl.stAuth.selectByGroup,
+                where: param,
+                page: {curr: 1}
+            });
+            return false;
+        });
+
+        zTable.getLayuiTable().on("tool(users)", function (obj) {
+            var data = obj.data;
+            switch (obj.event) {
+                case "btnLinked":
+                    parentFlag = 0;
+                    btnLinked(data);
+                    break;
+                case "btnEdit":
+                    parentFlag = 0;
+                    btnEdit(data);
+                    break;
+                case "btnDel":
+                    btnDel(data);
+                    break;
+                case "btnTransfer":
+                    parentFlag = 0;
+                    btnTransfer(data);
+                    break;
+            }
+        });
+
+        $('#add').click(function () {
+            okLayer.open("添加用户", "userAdd.html", "90%", "90%", function (layero) {
+                var iframeWin = window[layero.find("iframe")[0]["name"]];
+                iframeWin.initForm(groupData);
+            }, function () {
+                if (parentFlag === 1) {
+                    myTable.reload({where: {"groupid": groupId}})
+                }
+            });
+            return false;
+        });
+
+        function btnLinked(data) {
+            okLayer.open("关联用户", "userRole.html", "30%", "90%", function (layero) {
+                var iframeWin = window[layero.find("iframe")[0]["name"]];
+                iframeWin.initForm(data);
+            }, function () {
+                if (parentFlag === 1) {
+                    myTable.reload({where: {"groupid": groupId}})
+                }
+            })
+        }
+
+        function btnEdit(data) {
+            okLayer.open("编辑用户", "userEdit.html", "90%", "90%", function (layero) {
+                var iframeWin = window[layero.find("iframe")[0]["name"]];
+                iframeWin.initForm(data, groupData);
+            }, function () {
+                if (parentFlag === 1) {
+                    myTable.reload({where: {"groupid": groupId}})
+                }
+            })
+        }
+
+        function btnDel(data) {
+            okLayer.confirm("确定要删除吗？", function (index) {
+                okUtils.ajax({
+                    "url": constantUrl.stAuth.updateUserState,
+                    "param": {"id": data.ID, "ststate": -1}
+                }).done(function (response) {
+                    okUtils.table.successMsg("删除成功");
+                }).fail(function (error) {
+                    console.log(error)
+                });
+            });
+        }
+
+        function btnTransfer(data) {
+            okLayer.open("用户调岗", "userGroup.html", "30%", "60%", function (layero) {
+                var iframeWin = window[layero.find("iframe")[0]["name"]];
+                groupData.forEach(function (value) {
+                    value.title = value.NAME;
+                })
+                iframeWin.initForm(data, groupData);
+            }, function () {
+                if (parentFlag === 1) {
+                    myTable.reload({where: {"groupid": groupId}})
+                }
+            })
+        }
+    });
+</script>
+
+<script type="text/html" id="operationTpl">
+    <div>
+        <button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="btnLinked">关联角色</button>
+        <button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="btnEdit">编辑用户</button>
+        <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="btnDel">删除用户</button>
+        <button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="btnTransfer">用户调岗</button>
+    </div>
+</script>
+<!-- 启用|停用模板 -->
+<script type="text/html" id="statusTpl">
+    {{#  if(d.STSTATE == 1){ }}
+    <span class="layui-btn layui-btn-normal layui-btn-xs">已启用</span>
+    {{#  } else if(d.STSTATE == 0) { }}
+    <span class="layui-btn layui-btn-warm layui-btn-xs">已停用</span>
+    {{#  } }}
+</script>
+</body>
+</html>

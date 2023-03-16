@@ -1,0 +1,490 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+    <title>流程设计器</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="author" content="leipi.org">
+    <link rel="stylesheet" href="../../../../../lib/ok_admin/css/okadmin.css">
+    <link href="../Public/css/bootstrap/css/bootstrap.css?2025" rel="stylesheet" type="text/css"/>
+    <!--[if lte IE 6]>
+    <link rel="stylesheet" type="text/css" href="../Public/css/bootstrap/css/bootstrap-ie6.css?2025">
+    <![endif]-->
+    <!--[if lte IE 7]>
+    <link rel="stylesheet" type="text/css" href="../Public/css/bootstrap/css/ie.css?2025">
+    <![endif]-->
+    <link href="../Public/css/site.css?2025" rel="stylesheet" type="text/css"/>
+
+    <link rel="stylesheet" type="text/css" href="../Public/js/flowdesign/flowdesign.css" media="screen"/>
+
+    <!--select 2-->
+    <link rel="stylesheet" type="text/css" href="../Public/js/jquery.multiselect2side/css/jquery.multiselect2side.css" media="screen"/>
+
+    <script type="text/javascript" src="../../../../../lib/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../../../lib/ok_admin/lib/layui/layui.js"></script>
+    <script type="text/javascript" src="../Public/css/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../../../lib/bootstrap/plugins/bootstrap-select.min.js"></script>
+
+    <script type="text/javascript" src="../Public/js/jquery-ui/jquery-ui-1.9.2-min.js"></script>
+    <script type="text/javascript" src="../Public/js/jsPlumb/jquery.jsPlumb-1.3.16-all-min.js"></script>
+    <script type="text/javascript" src="../Public/js/jquery.contextmenu.r2.js?2025"></script>
+    <!--select 2-->
+    <script type="text/javascript" src="../Public/js/jquery.multiselect2side/js/jquery.multiselect2side.js?2025"></script>
+    <script type="text/javascript" src="../Public/js/flowdesign/leipi.flowdesign.v3.js?2025"></script>
+
+</head>
+<body>
+<!-- fixed navbar -->
+<div class="navbar navbar-inverse navbar-fixed-top" >
+    <div class="navbar-inner">
+        <div class="container">
+            <div class="pull-right">
+                <button class="btn btn-info" type="button" id="leipi_edit">编辑流向条件</button>
+                <button class="btn btn-info" type="button" id="role_edit">编辑承办人</button>
+                <button class="btn btn-info" type="button" id="leipi_save">保存设计</button>
+<!--                 <button class="btn btn-danger" type="button" id="leipi_clear">清空连接</button> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- nodeInfoModal -->
+<div id="attributeModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true" style="width:600px;margin-left:-350px">
+    <div class="modal-body" style="max-height:500px;">
+
+    </div>
+</div>
+
+<!--contextmenu div-->
+<div id="processMenu" style="display:none;">
+    <ul>
+        <li id="nodeInfo"><i class="icon-cog"></i>&nbsp;<span class="_label">节点信息</span></li>
+        <li id="nodeForm"><i class="icon-cog"></i>&nbsp;<span class="_label">绑定表单</span></li>
+        <li id="nodeDeleteForm"><i class="icon-cog"></i>&nbsp;<span class="_label">解绑表单</span></li>
+        <li id="delete"><i class="icon-trash"></i>&nbsp;<span class="_label">删除</span></li>
+    </ul>
+</div>
+
+<div id="canvasMenu" style="display:none;">
+    <ul>
+        <li id="add"><i class="icon-plus"></i>&nbsp;<span class="_label">添加步骤</span></li>
+    </ul>
+</div>
+<!--end div-->
+
+<div class="container mini-layout" id="flowdesign_canvas">
+    <!--div class="process-step btn" style="left: 189px; top: 340px;"><span class="process-num badge badge-inverse"><i class="icon-star icon-white"></i>3</span> 步骤3</div-->
+</div> <!-- /container -->
+
+<script>
+    var FlowId ;
+    var dataContainer = {};
+    dataContainer.info = {};
+    dataContainer.roles = [];
+    dataContainer.lines = [];
+    dataContainer.defroles = [];
+    dataContainer.cond = [];
+    dataContainer.cacheNodes =  {};
+    var countNodeIndex = 0;
+    var parentNodeData;
+    var parentNodeRoleData;
+    var parentLineCondData;
+    var parentNodeForm;
+    var allLines;
+
+    function initForm(data) {
+        if (data){
+            dataContainer.info = JSON.parse(data);
+        }
+    }
+
+    layui.use(['okLayer','okUtils','constantUrl','layer'],function () {
+        FlowId = layui.okUtils.getUrlParameter('FlowId');
+        // generateProcessData();
+        /*创建流程设计器*/
+        var _canvas = $("#flowdesign_canvas").Flowdesign({
+            // "processData": getFlowInfo(),
+            /*画面右键*/
+
+            canvasMenus: {
+                "add": function (t) {
+                    if (!dataContainer.info.key){
+                        layui.layer.alert("请刷新后重试");
+                        return
+                    }
+                    countNodeIndex++;
+                    var params = {};
+                    params["nodeid"] = countNodeIndex;
+                    params["id"] = countNodeIndex;
+                    params["fkey"] = dataContainer.info.key;
+                    params["name"] = "新建节点";
+                    var mLeft = $("#jqContextMenu").css("left"), mTop = $("#jqContextMenu").css("top");
+                    let x = mLeft.substring(0, mLeft.length - 2);
+                    let y = mTop.substring(0, mTop.length - 2);
+                    params['x'] = x;
+                    params['y'] = y;
+                    params['style'] = "width:120px;height:30px;line-height:30px;color:#0e76a8;left:" + x + "px;top:" + y + "px;";
+                    if (!_canvas.addProcess(params)) {
+                        layui.layer.alert("添加失败");
+                    }else {
+                        dataContainer.cacheNodes[countNodeIndex] = params;
+                    }
+                }
+            }
+            /*步骤右键*/
+            , processMenus: {
+                "delete": function (t) {//右键当前的ID _canvas.getActiveId();
+                    let currentIndex = _canvas.getActiveId();
+                    _canvas.delProcess(currentIndex);
+                    delete dataContainer.cacheNodes[currentIndex];
+                },
+                "nodeInfo": function (t) {
+                    let currentIndex = _canvas.getActiveId();
+                    parentNodeData = null;
+                    layui.okLayer.open("编辑节点", "FormNodeInfo.html", "80%", "80%", function (layero) {
+                        var iframeWin = window[layero.find("iframe")[0]["name"]];
+                        iframeWin.initForm(JSON.stringify(dataContainer.cacheNodes[currentIndex]),JSON.stringify(dataContainer.cacheNodes));
+                    },function () {
+                        if (parentNodeData){
+                            $.extend(dataContainer.cacheNodes[currentIndex], JSON.parse(parentNodeData));
+                        }
+                    })
+                },
+                "nodeForm":function (t) {
+                    let currentIndex = _canvas.getActiveId();
+                    if (!dataContainer.cacheNodes[currentIndex] || !dataContainer.cacheNodes[currentIndex].gid){
+                        layui.layer.alert('警告 请先保存设计节点')
+                    }else {
+                        let form = getCurrentForm(currentIndex);
+                        parentNodeForm = 0;
+                        layui.okLayer.open("绑定表单", "FormFlowRel.html", "60%", "80%", function (layero) {
+                            var iframeWin = window[layero.find("iframe")[0]["name"]];
+                            iframeWin.initForm(JSON.stringify(dataContainer.cacheNodes[currentIndex]),JSON.stringify(form));
+                        },function () {
+                            if (parentNodeForm){
+                                getFlowInfo();
+                            }
+                        })
+                    }
+                },
+                "nodeDeleteForm":function (t) {
+                    let currentIndex = _canvas.getActiveId();
+                    let node = dataContainer.cacheNodes[currentIndex];
+                    let form = getCurrentForm(currentIndex);
+                    if ($.isEmptyObject(form)){
+                        layui.layer.alert('未绑定表单')
+                    }else {
+                        layui.okUtils.ajax({
+                            'url':layui.constantUrl.stFlow2.deleteNodeForm,
+                            'param':{'gid':form.gid}
+                        }).done(function (data1) {
+                            if (data1.meow === 0){
+                                layer.msg('解绑成功');
+                                getFlowInfo()
+                            }else {
+                                layui.layer.alert('警告 解绑失败');
+                            }
+                        })
+                    }
+                }
+            }
+            , fnRepeat: function () {
+                layui.layer.alert("步骤连接重复了，请重新连接");
+            }
+            , fnClick: function () { // 单击节点
+
+            }
+            , fnDbClick: function () { // 双击节点
+
+            }
+        });
+
+        getFlowInfo ();
+
+        /*保存*/
+        $("#leipi_save").bind('click', function () {
+            if (checkNodeIsNull()){
+                layui.layer.alert('存在节点未填写基本信息');
+                return
+            }
+            let lines = generateLineData(_canvas.getProcessInfo());
+            if (!lines || lines.length === 0){
+                layui.layer.alert('存在流程节点未连接');
+                return;
+            }
+            let status = checkDataBeforeUpload();
+            if (status !== ''){
+                layui.layer.alert(status);
+                return
+            }
+            let data = $.extend({},dataContainer);
+            let processInfo;
+            if (_canvas.getProcessInfo()){
+                processInfo = JSON.parse(_canvas.getProcessInfo());
+            }
+            data.lines = generateLineData(_canvas.getProcessInfo());
+
+            let cacheNodes = [];
+            for (let key in data.cacheNodes){
+                let cache = data.cacheNodes[key];
+                delete cache.id;
+                delete cache.nodeid;
+                if (!cache.sfid){
+                    cache.sfid = -1;
+                }
+                if (FlowId){
+                    cache.flowId = parseInt(FlowId);
+                }
+                if (processInfo && processInfo[cache.gid]){
+                    cache.nstyle = "width:120px;height:30px;line-height:30px;color:#0e76a8;left:" + processInfo[cache.gid].x + "px;top:" + processInfo[cache.gid].y + "px;";
+                }else {
+                    cache.nstyle = cache.style;
+                }
+                cache.gid = parseInt(cache.gid);
+                delete cache.style;
+                cacheNodes.push(cache);
+            }
+
+            data.nodes = cacheNodes;
+            delete data.cacheNodes;
+            let url = FlowId ? layui.constantUrl.stFlow2.updateWorkFlow : layui.constantUrl.stFlow2.createWorkFlow;
+            layui.okUtils.ajax({
+                'url':url,
+                'param':{'workflow':JSON.stringify(data)}
+            }).done(function (data1) {
+                if (data1.meow === 0){
+                    // getFlowInfo ();
+                    parent.layer.close(parent.layer.getFrameIndex(window.name));
+                }else {
+                    layui.layer.alert('警告 保存失败');
+                }
+            });
+        });
+
+        $('#leipi_edit').bind('click',function () {
+            if (checkNodeIsNull()){
+                layui.layer.alert('存在节点未填写基本信息，无法编辑流向信息');
+                return
+            }
+            if (!dataContainer.info.gid){
+                layui.layer.alert('请先保存设计');
+                return;
+            }
+            let lines = generateLineData(_canvas.getProcessInfo());
+            if (!lines || lines.length === 0){
+                layui.layer.alert('流程节点未连接');
+                return;
+            }
+            dataContainer.lines = lines;
+            parentLineCondData = null;
+            layui.okLayer.open("编辑流向条件", "FormLineCond.html", "80%", "80%", function (layero) {
+                var iframeWin = window[layero.find("iframe")[0]["name"]];
+                iframeWin.initForm(JSON.stringify(dataContainer.cond),JSON.stringify(lines),JSON.stringify(dataContainer.nodes),dataContainer.info.gid);
+            },function () {
+                if (parentLineCondData){
+                    getFlowInfo ()
+                }
+            })
+        });
+        $('#role_edit').click(function () {
+            if (checkNodeIsNull()){
+                layui.layer.alert('存在节点未填写基本信息，无法编辑节点承办人');
+                return
+            }
+            if (!dataContainer.info.gid){
+                layui.layer.alert('请先保存设计');
+                return;
+            }
+            let lines = generateLineData(_canvas.getProcessInfo());
+            if (!lines || lines.length === 0){
+                layui.layer.alert('流程节点未连接');
+                return;
+            }
+            if (allLines && allLines.length !== lines.length){
+                layui.layer.alert('存在未保存的连接线，请先保存设计');
+                return;
+            }
+            dataContainer.lines = lines;
+            parentNodeRoleData = null;
+            layui.okLayer.open("编辑节点承办人", "FormNodeRole.html", "60%", "60%", function (layero) {
+                var iframeWin = window[layero.find("iframe")[0]["name"]];
+                iframeWin.initForm(JSON.stringify(dataContainer.roles),JSON.stringify(dataContainer.defroles),JSON.stringify(lines),JSON.stringify(dataContainer.nodes),JSON.stringify(allLines));
+            },function () {
+                if (parentNodeRoleData){
+                    // reloadFlow();
+                    getFlowInfo ()
+                }
+            })
+        });
+
+        /*清除*/
+        $("#leipi_clear").bind('click', function () {
+            if (_canvas.clear()) {
+                layui.layer.alert("清空连接成功，你可以重新连接");
+            } else {
+                layui.layer.alert("清空连接失败");
+            }
+        });
+
+        function getFlowInfo () {
+            if (!FlowId){
+                return [];
+            }
+            let url = sessionStorage.getItem('stFlow2') + 'getWorkFlowDetail';
+            layui.okUtils.ajax({
+                'url':url,
+                'param':{'fid':FlowId,returnDataAnyWay:true}
+            }).done(function (data1) {
+                if (data1.meow === 0){
+                    let nodes = [];
+                    let cacheNodes = {};
+                    allLines = data1.data.lines;
+                    if (data1.data && data1.data.nodes){
+                        let nodeSE = [];
+                        for (let index = 0; index < allLines.length; index++) {
+                            if (!nodeSE[allLines[index].snode]){
+                                nodeSE[allLines[index].snode] = [];
+                            }
+                            nodeSE[data1.data.lines[index].snode].push(data1.data.lines[index].enode);
+                        }
+                        countNodeIndex = 1;
+                        let cacheNodeNnAndId = [];
+                        for (let index = 0; index < data1.data.nodes.length; index++) {
+                            cacheNodeNnAndId[data1.data.nodes[index].nn] = data1.data.nodes[index];
+                        }
+                        for (let index = 0; index < data1.data.nodes.length; index++) {
+                            let cache =  data1.data.nodes[index];
+                            if (  parseInt(cache.gid) > countNodeIndex){countNodeIndex = parseInt(cache.gid) + 1}
+                            cacheNodes[data1.data.nodes[index].gid] = data1.data.nodes[index];
+                            cache.nodeid = cache.gid;
+                            cache.id = cache.gid;
+                            cache.pid = cache.gid;
+                            cache.process_to = '';
+                            cache.process_name = cache.name;
+                            if (!cache.nstyle){
+                                cache.style = "width:120px;height:30px;line-height:30px;color:#0e76a8;left:" + 100 + "px;top:" + 100 + "px;";
+                            }else {
+                                cache.style = cache.nstyle;
+                            }
+                            if (nodeSE[cache.nn]){
+                                for (let idx = 0; idx < nodeSE[cache.nn].length; idx++) {
+                                    cache.process_to += cacheNodeNnAndId[nodeSE[cache.nn][idx]].gid + ',';
+                                }
+                                cache.process_to = cache.process_to.substring(0,cache.process_to.length - 1);
+                            }
+                            nodes.push(cache);
+                        }
+                        dataContainer = data1.data;
+                        dataContainer.cacheNodes = cacheNodes;
+                    }
+                    let processData = {};
+                    processData["total"] = nodes.length;
+                    processData["list"] = nodes;
+                    reloadFlowByData(processData);
+                    return processData;
+                }else {
+                    return {};
+                }
+            });
+        }
+
+        function getCurrentForm(currentIndex) {
+            let form = {};
+            if (dataContainer.forms){
+                for (let index = 0; index < dataContainer.forms.length; index++) {
+                    if (dataContainer.cacheNodes[currentIndex].gid ===  dataContainer.forms[index].nid){
+                        form = dataContainer.forms[index];
+                    }
+                }
+            }
+            return form;
+        }
+
+        function reloadFlow() {
+            let obj = $("#flowdesign_canvas") ;
+            obj.html('');
+            obj.Flowdesign({
+                "processData": getFlowInfo()
+            })
+        }
+
+        function reloadFlowByData(data) {
+            let obj = $("#flowdesign_canvas") ;
+            obj.html('');
+            obj.Flowdesign({
+                "processData": data
+            })
+        }
+    });
+
+    var checkNodeIsNull = function () {
+        for (let key in dataContainer.cacheNodes){
+            if (!dataContainer.cacheNodes[key].nn){
+                return true;
+            }
+        }
+        return false;
+    };
+
+    var checkDataBeforeUpload = function () {
+        // 检查起点和终点 node nn是否重复
+        let countStart = 0;
+        let countEnd = 0;
+        let cacheNn = [];
+        for (let key in dataContainer.cacheNodes){
+            if (dataContainer.cacheNodes[key].ntype == 1){
+                countStart++;
+            }
+            if (dataContainer.cacheNodes[key].ntype == 3){
+                countEnd++;
+            }
+            if (cacheNn.indexOf(dataContainer.cacheNodes[key].nn) !== -1){
+                return '节点编号重复';
+            }else if (countStart > 1){
+                return '存在多个起点';
+            }else if (countEnd > 1 ){
+                return '存在多个终点';
+            }
+            cacheNn.push(dataContainer.cacheNodes[key].nn);
+        }
+        return '';
+    };
+
+    var generateLineData = function (processInfoString) {
+        let lines = [];
+        let checkDuplicate = [];
+        if (processInfoString){
+            let processInfo = JSON.parse(processInfoString);
+            for (var key in processInfo) {
+                if (processInfo[key]['enode']){
+                    for (let index = 0; index < processInfo[key]['enode'].length; index++) {
+                        let snodeData = dataContainer.cacheNodes[processInfo[key].snode];
+                        let enodeData = dataContainer.cacheNodes[processInfo[key].enode[index]];
+                        if (!snodeData || !enodeData){
+                            continue;
+                        }
+                        let snode = snodeData.nn;
+                        let enode = enodeData.nn;
+                        if (checkDuplicate.indexOf(snode + '-' + enode) === -1){
+                            let line = {fkey:dataContainer.info.key,snode:snode,enode:enode,ltype:1};// 	流向类型默认为1
+                            if (FlowId){
+                                line.fid = parseInt(FlowId);
+                            }
+                            lines.push(line) ;
+                            checkDuplicate.push(snode + '-' + enode)
+                        }
+                    }
+                }
+            }
+        }
+        checkDuplicate = null;
+        return lines;
+    };
+
+</script>
+</body>
+</html>

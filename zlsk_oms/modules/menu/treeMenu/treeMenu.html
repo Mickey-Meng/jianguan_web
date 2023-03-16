@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <script type="text/javascript" src="../../../lib/sfmbase/sfmUtil.js"></script>
+    <script type="text/javascript">
+        SFM.sfmUtil.loadJquery();
+        SFM.sfmUtil.loadSfmBase();
+        SFM.sfmUtil.load(
+            '/styles/zTreeStyle.css',
+            '/lib/jquery/plugins/jquery.ztree.all-3.5.min.js',
+            '/lib/jquery/plugins/jquery.ztree.exhide.min.js'
+        );
+    </script>
+    <script type="text/javascript">
+    var SFM_ALL = 'SFM_ALL';
+
+    SFM.SfmTreeMenu = SFM.SfmMenuBase.extend({
+        constructor: function(options){
+            var me = this;
+            me.base(options);
+            me.addAction('setMenuName', me._setMenuName);
+        },
+        destroy: function(){
+            this.base();
+        },
+        render: function(){
+            var me = this;
+            me.el = $('body');
+            var ui = me.data.ui = {};
+            me.data.ui.$body = $('body');
+            me.data.ui.$divtt = $('#divTitle');
+            me.data.ui.$sptt = $('#spTitle');
+            me.data.ui.$divmtc = $('#divMtc');
+            me.data.ui.$imgeb = $('#imgExpandBtn');
+
+            var cfg = me.getConfig();
+
+            cfg.title && ui.$sptt.text(cfg.title);
+            cfg.ebUrl && (ui.$imgeb[0].src = cfg.ebUrl);
+
+            var d = cfg.region || 'west';
+            ui.$imgeb.on('click', function(){
+                me.doAction('container_expand', null, {region: d, visible: false});
+                me.doAction('container_showSplitBar', null, {region: d, visible: true});
+            });
+
+            me._renderMenus();
+            me._setMenuAvailable(null, 'earth', me.doAction('hasEarth'));
+            me._setMenuAvailable(null, 'map', me.doAction('hasMap'));
+            me.base();
+            return me;
+        },
+        resize: function(){
+            var cfg = this.getConfig();
+            var ui = this.data.ui;
+            var h = ui.$body.height();
+            if(cfg.showTitle){
+                var th = ui.$divtt.height();
+                ui.$divmtc.height(h - th);
+            }
+            return this;
+        },
+
+        __getMenuBox__: function(options){
+            var tn = this.data.ztree.getNodeByParam('mid', options.mid);
+            if(!tn){
+                return this.base(options);
+            }
+            return this.el.find('#' + tn.tId);
+        },
+
+        _renderMenus: function(){
+            var me = this;
+            var menus = me.menu;
+            var cfg = me.getConfig();
+            var setting = {
+                check: {
+                    enable: !!cfg.showCheck,
+                    chkStyle: "checkbox"
+                },
+                data: {
+                    key: {
+                        url: 'outurl'
+                    }
+                },
+                view: {
+                    dblClickExpand: false,
+                    expandSpeed: "",
+                    selectedMulti: false,
+                    showIcon: cfg.showIcon !== false,
+                    showLine: cfg.showLine !== false,
+                    showTitle: cfg.showTitle !== false
+                },
+                callback: {
+                    onClick: function(event, treeId, node) {
+                        me.data.ztree.cancelSelectedNode();
+                    }
+                }
+            };
+            me.data.ztree = $.fn.zTree.init($('#menuTree'), setting, menus);
+            me.data.ztree.expandAll(true);
+            return me;
+        },
+        _setMenuAvailable: function(mk, group, available){
+            var me = this;
+            if(mk){
+                var mi = me.menuMap[mk];
+                if(mi){
+                    var $md = me.__getMenuBox__(mi);
+                    // available ? $md.removeAttr('disabled') : $md.attr('disabled', 'disabled');
+                    // $md[0] && ($md[0].disabled = !available);
+                    me._setMiAvailable($md, available);
+                }
+            }
+            if(group){
+                for(var i = 0;i < me.menu.length;i++){
+                    var mi = me.menu[i];
+                    if(group == SFM_ALL || me._inGroup(group, mi.groups) > -1){
+                        var $md = me.__getMenuBox__(mi);
+                        me._setMiAvailable($md, available);
+                    }
+                    if(mi.children){
+                        for(var j = 0;j < mi.children.length;j++){
+                            var cmj = mi.children[j];
+                            if(group == SFM_ALL || me._inGroup(group, cmj.groups) > -1){
+                                var $md2 = me.__getMenuBox__(cmj);
+                                me._setMiAvailable($md2, available);
+                            }
+                            if(cmj.children){
+                                for(var k = 0;k < cmj.children.length;k++){
+                                    var cmjk = cmj.children[k];
+                                    if(group == SFM_ALL || me._inGroup(group, cmjk.groups) > -1){
+                                        var $md3 = me.__getMenuBox__(cmjk);
+                                        me._setMiAvailable($md3, available);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            me.doAction('onSetMenuAvailable', null, mk, group, available);
+            return me;
+        },
+        _setMiAvailable: function($mi, available){
+            var tid = $mi && $mi[0].id;
+            var tn = this.data.ztree.getNodeByTId(tid);
+            tn && this.data.ztree[available ? 'showNode' : 'hideNode'](tn);
+            return this;
+        },
+        _setMenuName: function(mk, name){
+            var me = this;
+            if(mk){
+                var mi = me.menuMap[mk];
+                if(mi){
+                    var $md = me.el.find('#' + mi.mid);
+                    me._setMiName($md, name);
+                }
+            }
+            me.doAction('onSetMenuName', null, mk, name);
+            return me;
+        },
+        _setMiName: function($mi, name){
+            $mi.find('.sfm-m-mi-text').text(name);
+            return this;
+        },
+
+        __className__: 'SfmTreeMenu'
+    });
+
+    var treeMenu = new SFM.SfmTreeMenu({ctx: window});
+    </script>
+    <script type="text/javascript">
+        treeMenu.initConfig();
+        $(function(){
+            treeMenu.render();
+        });
+    </script>
+</head>
+
+<body>
+    <div id="divTitle" class="sfm-m-header">
+        <span id="spTitle" class="sfm-m-title"></span>
+        <img id="imgExpandBtn" src="" class="sfm-m-exbtn" />
+    </div>
+    <div id="divMtc" class="sfm-m-tc">
+        <ul id="menuTree" class="ztree"></ul>
+    </div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+.sfm-t-header-wrapper{
+	height: 100%;
+	overflow: hidden;
+	background: url(./images/bg.png) repeat-x;
+}
+.sfm-t-header{
+	height: 100%;
+	overflow: hidden;
+	background: url(./images/top.png) no-repeat;
+}
+
+
+.sfm-t-tab{
+	background-color: #09498A;
+}
+.sfm-f-active.sfm-t-tab{
+	background-color: #f5f5f5;
+}
+.sfm-t-tab span, .sfm-t-tab label, .sfm-t-tab div{
+	color: #f5f5f5;
+}
+.sfm-t-tab .sfm-t-closebtn{
+	color: red;
+}
+.sfm-f-active.sfm-t-tab span, .sfm-f-active.sfm-t-tab label, .sfm-f-active.sfm-t-tab div{
+	color: #3879d9;
+}
+/*.sfm-f-active.sfm-t-tab span, .sfm-f-active.sfm-t-tab label, .sfm-f-active.sfm-t-tab div{
+	color: rgb(15,63,100);
+}*/
+.sfm-f-active.sfm-t-tab .sfm-t-closebtn{
+	color: red;
+}
+.sfm-t-tab-bgcolor{
+	background-color: #09498A;
+}
+.sfm-f-active.sfm-t-tab-bgcolor, .sfm-f-active .sfm-t-tab-bgcolor{
+	background-color: #f5f5f5;
+}
+.sfm-t-tab-fontcolor{
+	color: #f5f5f5;
+}
+.sfm-f-active.sfm-t-tab-fontcolor, .sfm-f-active .sfm-t-tab-fontcolor{
+	color: #3879d9;
+}
+
+/*.sfm-t-tab-dialog-title{
+	background-color: #4169E1;
+}*/
+.sfm-t-tab-dialog-title{
+	background-color: rgb(15,63,100);
+}
+/*.sfm-t-tab-dialog-title-text{
+	color: #f5f5f5;
+	font-weight: bold;
+}*/
+
+.sfm-t-tab-dialog-title-text{
+	color: rgb(109,213,255);
+	font-weight: bold;
+}

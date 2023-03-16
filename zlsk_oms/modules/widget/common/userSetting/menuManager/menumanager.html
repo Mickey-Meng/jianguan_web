@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>菜单配置</title>
+    <link rel="stylesheet" href="../../../../../lib/ok_admin/css/okadmin.css">
+    <script type="text/javascript" src="../../../../../lib/ok_admin/lib/layui/layui.js"></script>
+    <style>
+        #departmentTree {
+            height: 100%;
+            width: 20%;
+            float: left;
+            overflow: auto;
+        }
+
+        #user {
+            width: 80%;
+            right: 10px;
+            float: left;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="layui-body commonOutCss" style="left: 0px">
+        <div id="departmentTree"></div>
+        <div id="user">
+            <div class="layui-row layui-tab-card layui-tab" style="margin-left: 20px">
+                <form class="layui-form " style="width: auto;margin: 10px" lay-filter="form" id="form">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">菜单名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="name" placeholder="请输入菜单名称" autocomplete="off" class="layui-input" lay-verify="required">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">菜单编码</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="menucode" placeholder="请输入菜单编码" autocomplete="off" class="layui-input" lay-verify="required">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">顺序编号</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="order" placeholder="请输入顺序编号" autocomplete="off" class="layui-input" lay-verify="required">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">模块地址</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="url" placeholder="请输入模块地址" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">配置文件</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="config" placeholder="请输入配置文件" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">样式文件</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="style" placeholder="请输入样式文件" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">菜单图标</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="icon" placeholder="请输入菜单图标" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">菜单类型</label>
+                        <div class="layui-input-block">
+                            <select name="type" id="type"></select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">菜单位置</label>
+                        <div class="layui-input-block">
+                            <select name="region" id="region"></select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">所属系统</label>
+                        <div class="layui-input-block">
+                            <!-- <div name="sys" id="sys"></div> -->
+                            <input type="text" name="sys" autocomplete="off" class="layui-input" disabled>
+                        </div>
+                    </div>
+                    <div class="layui-form-item" style="display: none" id="higherOffice">
+                        <label class="layui-form-label">上级菜单</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="parent" autocomplete="off" class="layui-input" disabled>
+                        </div>
+                    </div>
+                    <div style="text-align: center">
+                        <button class="layui-btn layui-btn-normal" id="custom">添加自定义配置<i class="layui-icon">&#4101;</i></button>
+                        <button class="layui-btn" lay-submit lay-filter="submit">提交<i style='margin-left: 20px' class="layui-icon">&#4101;</i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+    var $;
+    var mutiSelect = null;
+    var attrObj = null;
+    var selectData = null;
+    var menuData = [{ id: -1, title: '菜单列表', spread: true, lev: -1 }];
+    var sysList = [];
+    layui.use(['tree', 'layer', 'form', 'table', 'okUtils', "okLayer", 'constantUrl', 'xmSelect'], function() {
+        $ = layui.jquery;
+        var tree = layui.tree;
+        var okUtils = layui.okUtils;
+        var constantUrl = layui.constantUrl;
+        var okLayer = layui.okLayer;
+        var layer = layui.layer;
+        var form = layui.form;
+        var xmSelect = layui.xmSelect;
+        var addFlag = 0; //区分添加和编辑的标志 1 添加 2 编辑
+
+        var cacheData = {};
+        var sysTypes = [];
+        var initTree = function() {
+            var groupData = {};
+            sysTypes = [];
+            okUtils.ajax({ "url": constantUrl.stAuth.selectMenu }).done(function(data1) {
+                if (data1.data == null) {
+                    layer.alert("警告 " + data1.msg)
+                } else {
+                    var data = okUtils.structureTree({ "data": data1.data.getMe, "spread": true });
+                    var d = [];
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].PARENTID == -1) {
+                            d.push(data[i]);
+                        }
+                    }
+                    initMenuData(d);
+
+
+                }
+            })
+
+            // okUtils.ajax({ "url": constantUrl.stAuth.selectMenu }).done(function(data1) {
+            //     debugger;
+            //     if (data1.data == null) {
+            //         layer.alert("警告 " + data1.msg)
+            //     } else {
+            //         var data = okUtils.structureTree({ "data": data1.data.getMe, "spread": true });
+            //         for (var index = 0; index < data.length; index++) {
+            //             if (data[index].PARENTID == -1) {
+            //                 groupData[0] = data[index];
+            //             }
+            //         }
+            //         tree.render({
+            //             elem: '#departmentTree',
+            //             onlyIconControl: true,
+            //             data: groupData,
+            //             id: 'treeId',
+            //             customOperate: true,
+            //             edit: ['add', 'update', 'del'],
+            //             operate: function(obj) {
+            //                 var type = obj.type; //得到操作类型：add、edit、del
+            //                 var data = obj.data; //得到当前节点的数据
+            //                 document.getElementById("form").reset();
+            //                 cacheData = data;
+            //                 if (type === 'add') { //增加节点
+            //                     addFlag = 1;
+            //                     addGroup(obj.data);
+            //                 } else if (type === 'del') { //删除节点
+            //                     deleteGroup(data)
+            //                 } else {
+            //                     addFlag = 2;
+            //                     editGroup(obj.data);
+            //                 }
+            //                 return false;
+            //             },
+            //             click: function(obj) {
+            //                 document.getElementById("form").reset();
+            //                 cacheData = obj.data;
+            //                 addFlag = 2;
+            //                 editGroup(obj.data);
+            //             }
+            //         });
+            //     }
+            // })
+            okUtils.ajax({ "url": constantUrl.stAuth.selectDicByParentKey, "param": { 'keyStr': 'menuType' } }).done(function(data1) {
+                if (data1.meow != 0) {
+                    layer.alert("警告 " + data1.msg)
+                } else {
+                    var d = data1.data.menuType;
+                    okUtils.adapterSelect("#type", "", "key", "value", d);
+
+                }
+            }).fail(function(error) {
+                layer.alert("警告 " + error)
+            });
+            okUtils.ajax({ "url": constantUrl.stAuth.selectDicByParentKey, "param": { 'keyStr': 'menuRegion' } }).done(function(data1) {
+                if (data1.meow != 0) {
+                    layer.alert("警告 " + data1.msg)
+                } else {
+                    var d = data1.data.menuRegion;
+                    okUtils.adapterSelect("#region", "", "key", "value", d);
+
+                }
+            }).fail(function(error) {
+                layer.alert("警告 " + error)
+            });
+            // okUtils.ajax({ "url": constantUrl.stAuth.selectSubSystem }).done(function(data1) {
+            //     if (data1.meow != 0) {
+            //         layer.alert("警告 " + data1.msg)
+            //     } else {
+            //         var d = data1.data.getMe;
+            //         var mdata = [];
+            //         for (var i = 0; i < d.length; i++) {
+            //             mdata.push({
+            //                 name: d[i].sysName,
+            //                 value: d[i].ID
+            //             })
+            //         }
+            //         mutiSelect = xmSelect.render({
+            //             el: '#sys',
+            //             language: 'zn',
+            //             data: mdata
+            //         })
+
+            //     }
+            // }).fail(function(error) {
+            //     layer.alert("警告 " + error)
+            // });
+        };
+
+        initTree();
+
+        var initMenuData = function(mlist) {
+            okUtils.ajax({ "url": constantUrl.stAuth.selectSubsystemType }).done(function(data1) {
+                if (data1.meow != 0) {
+                    layer.alert("警告 " + data1.msg)
+                } else {
+                    var d = data1.data.getMe;
+                    var cd = [];
+                    for (var i = 0; i < d.length; i++) {
+                        if ($.inArray(d[i].type, sysTypes) > -1) {
+                            continue;
+                        }
+                        var c = getChildren(d, 'type', d[i].type, d[i].ID, mlist);
+
+                        cd.push({
+                            id: d[i].ID,
+                            title: d[i].type,
+                            spread: true,
+                            children: c,
+                            parentId: -1,
+                            lev: 0
+                        })
+                        sysTypes.push(d[i].type);
+                    }
+                    menuData[0]['children'] = cd;
+                    tree.render({
+                        elem: '#departmentTree',
+                        onlyIconControl: true,
+                        data: menuData,
+                        id: 'treeId',
+                        customOperate: true,
+                        edit: ['add', 'update', 'del'],
+                        operate: function(obj) {
+                            var type = obj.type; //得到操作类型：add、edit、del
+                            var data = obj.data; //得到当前节点的数据
+                            document.getElementById("form").reset();
+                            cacheData = data;
+                            if (type === 'add') { //增加节点
+                                if(obj.data.lev < 1){
+                                    layer.msg("请在系统节点下添加菜单");
+                                    return false;
+                                }
+                                addFlag = 1;
+                                addGroup(obj.data);
+                            } else if (type === 'del') { //删除节点
+                                deleteGroup(data)
+                            } else {
+                                addFlag = 2;
+                                editGroup(obj.data);
+                            }
+                            return false;
+                        },
+                        click: function(obj) {
+                            document.getElementById("form").reset();
+                            cacheData = obj.data;
+                            addFlag = 2;
+                            editGroup(obj.data);
+                        }
+                    });
+
+
+                }
+            }).fail(function(error) {
+                layer.alert("警告 " + error)
+            });
+        }
+        var getChildren = function(list, key, value, pid, mlist) {
+            var d = [];
+            if (!list) {
+                return d;
+            }
+            for (var i = 0; i < list.length; i++) {
+                if (list[i][key] == value) {
+                    if (!list[i].ID) {
+                        continue;
+                    }
+                    d.push({
+                        id: list[i].ID,
+                        title: list[i].sysName,
+                        spread: true,
+                        parentId: pid,
+                        lev: 1,
+                        VISIBLE:value,
+                        children: getMenuList(mlist, 'sid', list[i].ID, list[i].ID, list[i].sysName,value)
+                    });
+                    sysList.push({id:list[i].ID,name:list[i].sysName});
+
+                }
+            }
+            return d;
+        }
+        var getMenuList = function(list, key, value, pid, sysName,visible) {
+            var d = [];
+            if (!list) {
+                return d;
+            }
+            for (var i = 0; i < list.length; i++) {
+                if (list[i][key] == value) {
+                    list[i]['parentId'] = pid;
+                    list[i]['title'] = list[i].NAME;
+                    list[i]['spread'] = false;
+                    list[i]['lev'] = 2;
+                    list[i]['VISIBLE'] = visible;
+                    d.push(list[i]);
+
+
+                }
+            }
+            return d;
+        }
+        form.on("submit(submit)", function(data) {
+            var param = data.field;
+            param.storder = data.field.order;
+            // var valueStr = mutiSelect.getValue('valueStr');
+            // if (!valueStr) {
+            //     layer.alert("请选择所属系统")
+            //     return false;
+            // }
+            // param.sms = valueStr;
+            param.menuconfig = attrObj;
+            var sys = data.field.sys;
+            if(sysList.length == 0){
+                layer.alert("获取子系统失败,请重新加载");
+                return false;
+            }
+            var sid = null;
+            for (var i = 0; i < sysList.length; i++) {
+                 if(sysList[i].name == sys){
+                     sid = sysList[i].id;
+                     break;
+                 }
+            }
+           param.sms =  sid;
+            if (param.name != '' && param.storder != '') {
+                if (addFlag === 1) {
+                    param.visible = cacheData.VISIBLE;
+                    param.parentid = cacheData.ID || -1;
+                    okUtils.ajax({ "url": constantUrl.stAuth.insertMenu, "param": param }).done(function(data) {
+                        layer.alert("添加成功");
+                        reset();
+                        initTree();
+                    }).fail(function(error) {
+                        layer.alert(error);
+                    })
+                } else if (addFlag === 2) {
+                    param.id = cacheData.ID;
+                    okUtils.ajax({ "url": constantUrl.stAuth.updateMenu, "param": param }).done(function(data) {
+                        layer.alert("编辑成功");
+                        reset();
+                        initTree();
+                    }).fail(function(error) {
+                        layer.alert(error);
+                    })
+                } else {
+                    layer.alert("请刷新后重试")
+                }
+            } else {
+                layer.alert("请填写菜单名称和顺序编号")
+            }
+            return false;
+        });
+
+        $('#custom').click(function() {
+            if (addFlag == 2) {
+                okLayer.open("编辑属性信息", "customAdd.html", "50%", "60%", function(layero) {
+                    var iframeWin = window[layero.find("iframe")[0]["name"]];
+                    iframeWin.initForm(selectData.MENUCONFIG);
+                }, function() {
+
+                });
+                return false;
+            } else {
+
+                okLayer.open("添加属性信息", "customAdd.html", "50%", "60%", function(layero) {
+                    var iframeWin = window[layero.find("iframe")[0]["name"]];
+                    iframeWin.initForm(null);
+                }, function() {
+
+                });
+                return false;
+            }
+
+        });
+        var reset = function() {
+            $("[name=name]").val("");
+            $("[name=menucode]").val("");
+            $("[name=order]").val("");
+            $("[name=url]").val("");
+            $("[name=icon]").val("");
+            $("[name=config]").val("");
+            $("[name=style]").val("");
+        }
+        var editGroup = function(data) {
+            selectData = data;
+            $("#higherOffice").hide();
+            var param = {};
+            param.url = data.URL;
+            param.icon = data.ICON;
+            param.name = data.NAME;
+            param.order = data.STORDER;
+            param.menucode = data.MENUCODE;
+            param.type = data.TYPE;
+            param.region = data.REGION;
+            param.config = data.CONFIG;
+            param.style = data.STYLE;
+            param.sys = data.sysName || data.title;
+            form.val("form", param);
+            // var s = data.sid;
+            // var sd = [];
+            // if (s) {
+            //     var ss = s.split(",");
+            //     for (var i = 0; i < ss.length; i++) {
+            //         sd.push(Number(ss[i]));
+            //     }
+            // }
+            // mutiSelect.setValue(sd);
+        };
+
+        var addGroup = function(data) {
+            $("#higherOffice").show();
+            var param = {};
+            param.parent = data.NAME || data.title;
+            param.sys = data.sysName || data.title;
+            form.val("form", param);
+        };
+
+        var deleteGroup = function(data) {
+            var param = {};
+            if (data.children && data.children != "" && data.children.length > 0) {
+                var menuIds = [];
+                getRole(data, menuIds);
+                $.param(menuIds, true);
+                param = { "menuId": menuIds };
+            } else {
+                param = { "menuId": data.ID };
+            }
+
+            layer.confirm('是否确认删除', { icon: 3, title: '提示' }, function(index) {
+                layer.close(index);
+                okUtils.ajax({ "url": constantUrl.stAuth.deleteMenu, "param": param }).done(function(data1) {
+                    if (data1.data == null) {
+                        layer.msg("警告" + data.msg);
+                    } else {
+                        initTree();
+                    }
+                }).fail(function(error) {
+                    layer.alert(error)
+                });
+            });
+        };
+    });
+
+    var getRole = function(data, cache) {
+        cache.push(data.ID);
+        if (data.children && data.children.length > 0) {
+            for (var index = 0; index < data.children.length; index++) {
+                getRole(data.children[index], cache);
+            }
+        }
+        return cache;
+    }
+    </script>
+</body>
+
+</html>

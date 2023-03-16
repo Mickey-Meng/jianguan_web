@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>关联表单</title>
+    <link rel="stylesheet" href="../../../../../lib/ok_admin/css/okadmin.css">
+    <script type="text/javascript" src="../../../../../lib/ok_admin/lib/layui/layui.js"></script>
+</head>
+<body>
+<div style="margin-left: 10px;margin-top: 10px">
+    <div id="formDataDiv" style="float: bottom">
+        <table class="layui-hide" id="formData" lay-filter="formData"></table>
+    </div>
+</div>
+
+<script type="text/html" id="toolbar">
+    <form class="layui-form layui-col-md12" lay-filter="searchForm">
+        <div class="layui-input-inline ok-search">
+            <input class="layui-input" placeholder="表单名称" autocomplete="off" name="formName">
+        </div>
+        <div class="layui-input-inline ok-search">
+            <input class="layui-input" placeholder="表单编号" autocomplete="off" name="formCode">
+        </div>
+        <button class="layui-btn" lay-submit="" lay-filter="search" >
+            <i class="layui-icon">&#xe615;</i>
+        </button>
+
+        <button class="layui-btn" lay-submit="" lay-filter="submit" id="submit" style="margin-left: 20px">
+            提交
+        </button>
+        <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="cancel" id="cancel">
+            取消
+        </button>
+    </form>
+</script>
+
+<script>
+    var $;
+    var table;
+    var layer;
+    var form;
+    var okUtils;
+    var constantUrl;
+
+    var nodeInfo;
+    var nodeForm;
+    function initForm(data,dataform) {
+        if (data){
+            nodeInfo = JSON.parse(data);
+        }
+        if (dataform){
+            nodeForm = JSON.parse(dataform);
+        }
+    }
+    layui.use(['table','layer','form','okUtils','constantUrl'],function () {
+        $ = layui.jquery;
+        table = layui.table;
+        layer = layui.layer;
+        form = layui.form;
+        okUtils = layui.okUtils;
+        constantUrl = layui.constantUrl;
+
+        table.render({
+            elem: '#formData'
+            , page: true
+            , limit: 10
+            , headers:{token:okUtils.getCookie("token")}
+            , url: constantUrl.stForm.easySelect
+            , where: {'table': 'zlsk_oms_form_def'}
+            , parseData: function (res) {
+                var result = {};
+                if (!$.isEmptyObject(nodeForm) && res && res.data){
+                    for (let index = 0; index < res.data.length; index++) {
+                        if (res.data[index].gid == nodeForm.fmid){
+                            res.data[index].LAY_CHECKED = true;
+                        }
+                    }
+                }
+                if (this.page.curr) {
+                    result = res.data.slice(this.limit * (this.page.curr - 1), this.limit * this.page.curr);
+                } else {
+                    result = res.data.slice(0, this.limit);
+                }
+                return {
+                    "code": res.meow, //解析接口状态
+                    "msg": res.msg, //解析提示文本
+                    "count": result.length, //解析数据长度
+                    "data": result //解析数据列表
+                };
+            }
+            , defaultToolbar:[]
+            , toolbar:'#toolbar'
+            , cols: [[ //标题栏
+                {type:'radio'}
+                , {field: 'name', title: '名称'}
+                , {field: 'des', title: '描述'}
+                , {field: 'sttime', title: '建立时间'}
+            ]]
+        });
+
+        form.on('search(searchForm)', function(data){
+            let param = {};
+            param.table = 'zlsk_oms_form_def';
+            param.mapStr = JSON.stringify({'name':data.field.formName,'code':data.field.formCode});
+            table.reload({
+                where: param,
+                page: {curr: 1}
+            })
+        });
+
+        $("#submit").click(function () {
+            var checkStatus = table.checkStatus('formData');
+            if (!checkStatus.data || checkStatus.data.length === 0){
+                layui.layer.alert('请选择表单');
+                return
+            }
+            let url;
+            let param = {};
+            if ($.isEmptyObject(nodeForm)){
+                url = constantUrl.stFlow2.addNodeForm;
+            }else {
+                url = constantUrl.stFlow2.updateNodeForm;
+                param.gid = nodeForm.gid;
+            }
+
+            param.ststate = 1;
+            param.sttime = okUtils.getCurrentDateStr();
+            param.fid = nodeInfo.fid;
+            param.nid = nodeInfo.gid;
+            param.fmid = checkStatus.data[0].gid;
+            param.fmkey = checkStatus.data[0].name;
+            param.fmname = checkStatus.data[0].code;
+            okUtils.ajax({
+                'url':url,
+                'param':{'form':JSON.stringify(param)}
+            }).done(function (data1) {
+                if (data1.meow === 0){
+                    parent.parentNodeForm = 1;
+                    parent.layer.close(parent.layer.getFrameIndex(window.name));
+                }else {
+                    layer.alert('警告 关联表单失败')
+                }
+            });
+            return false;
+        });
+
+        $("#cancel").click(function () {
+            parent.layer.close(parent.layer.getFrameIndex(window.name));
+            return false;
+        })
+    })
+</script>
+</body>
+</html>

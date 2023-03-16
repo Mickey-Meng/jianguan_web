@@ -1,0 +1,8 @@
+enable: 0
+
+tablefile:
+  - name: table_workflow.yml
+    enable: 0
+datafile:
+  - name: DbData.xml
+    enable: 0

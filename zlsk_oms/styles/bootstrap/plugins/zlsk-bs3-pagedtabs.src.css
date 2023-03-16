@@ -1,0 +1,20 @@
+.sfm-c-bs3pagedtabs-tab-container:after{
+	clear: both;
+}
+.sfm-c-bs3pagedtabs-prev, .sfm-c-bs3pagedtabs-next{
+	float: left;
+	background-color: #d9edf7;
+	cursor: pointer;
+}
+.sfm-c-bs3pagedtabs-prev.sfm-f-disabled, .sfm-c-bs3pagedtabs-next.sfm-f-disabled{
+	background-color: #eee;
+	cursor: auto;
+}
+.sfm-c-bs3pagedtabs-tabs{
+	float: left;
+}
+.sfm-c-bs3pagedtabs-li a{
+	text-overflow: ellipsis;
+	overflow: hidden;
+	word-break: keep-all;
+}

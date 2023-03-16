@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../../../../lib/ok_admin/css/okadmin.css">
+    <script type="text/javascript" src="../../../../../lib/ok_admin/lib/layui/layui.js"></script>
+</head>
+<body style="overflow: hidden">
+<form class="layui-form form_bo_base" action="" lay-filter="form_bo_base" style="margin-top: 10px">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">名称<label style="color: red;">*</label></label>
+            <div class="layui-input-block">
+                <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="请输入对象名称" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">编码<label style="color: red;">*</label></label>
+            <div class="layui-input-block">
+                <input type="text" name="code" lay-verify="required|accountNumber" autocomplete="off" placeholder="请输入对象编码" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">数据长度<label style="color: red;">*</label></label>
+            <div class="layui-input-block">
+                <input type="number" name="dlength" lay-verify="required" autocomplete="off" placeholder="请输入数据长度" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">默认值</label>
+            <div class="layui-input-block">
+                <input type="text" name="ddv" lay-verify="" autocomplete="off" placeholder="请输入默认值" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">数据类型<label style="color: red;">*</label></label>
+            <div class="layui-input-block">
+                <div id="dtype_select" style="width: 182px"></div>
+            </div>
+        </div>
+        <div class="layui-inline dprec" style="display: none">
+            <label class="layui-form-label">小数位数</label>
+            <div class="layui-input-block">
+                <input value="0" type="number" name="dprec" lay-verify="" autocomplete="off" placeholder="请输入小数位数" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline dfmt" style="display: none">
+            <label class="layui-form-label">日期格式</label>
+            <div class="layui-input-block">
+                <input value="yyyy-MM-dd" type="text" name="dfmt" lay-verify="" autocomplete="off" placeholder="请输入日期格式" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">是否可为空<label style="color: red;">*</label></label>
+        <div class="layui-input-block">
+            <input type="checkbox" checked="" name="nullable" lay-skin="switch" lay-filter="switchTest" lay-text="是|否">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">描述</label>
+        <div class="layui-input-block">
+            <textarea name="des" placeholder="请输入对象描述" class="layui-textarea" style="width: 88%"></textarea>
+        </div>
+    </div>
+
+    <button lay-submit  class="layui-btn layui-btn-sm" lay-filter="btn_submit" id="btn_submit" title="提交" style="position: absolute;right: 66px;bottom: 10px">
+        提交
+        <i class="layui-icon">&#58964;</i>
+    </button>
+</form>
+</body>
+<script src="./addBoAttr.js"></script>
+</html>

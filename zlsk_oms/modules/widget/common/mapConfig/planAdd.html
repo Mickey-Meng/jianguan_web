@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>注册地图服务</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../../../lib/ok_admin/css/oksub.css">
+</head>
+
+<body>
+    <div class="ok-body">
+        <!--form表单-->
+        <form class="layui-form layui-form-pane ok-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label" id="fa"></label>
+                <div class="layui-input-block">
+                    <input type="text" name="planName" placeholder="" autocomplete="off" class="layui-input" lay-verify="required" id="pn">
+                </div>
+            </div>
+            <div class="layui-form-item" id="fz" style="display: none;">
+                <label class="layui-form-label" id="fzType">分组类型</label>
+                <div class="layui-input-block">
+                    <select name="type" lay-filter="type" id="select">
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item" id="orderLabel">
+                <label class="layui-form-label">顺序编号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="storder" placeholder="" autocomplete="off" class="layui-input" id="storder">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="add">立即提交</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--js逻辑-->
+    <script type="text/javascript" src="../../../../lib/ok_admin/lib/layui/layui.js"></script>
+    <script>
+    var $;
+
+    function initForm(d, type, parentId, lev, title, res) {
+        layui.use(["element", "form", "laydate", "okLayer", "okUtils", 'constantUrl', 'tree', 'layer'], function() {
+            $ = layui.jquery;
+            var form = layui.form;
+            var laydate = layui.laydate;
+            var okLayer = layui.okLayer;
+            var okUtils = layui.okUtils;
+            var tree = layui.tree;
+            var constantUrl = layui.constantUrl;
+            var layer = layui.layer;
+            if (type == 1) {
+                $('#pn').val(d.title);
+                $('#storder').val(d.storder);
+               // $('#orderLabel').hide();
+            }
+            $('#fa').html(title);
+            if (lev > 0) {
+                $('#fz').show();
+                okUtils.ajax({ "url": constantUrl.stAuth.selectDicByParentKey, "param": { keyStr: 'planType' } }).done(function(data1) {
+                    if (data1.data == null) {
+                        layer.alert("警告 " + data1.msg)
+                    }
+                    var d = data1.data.planType;
+                    $("#select").append(' <option value="-1">请选择</option>');
+                    for (var i = 0; i < d.length; i++) {
+                        $("#select").append(' <option value="' + d[i].key + '">' + d[i].value + '</option>');
+                        form.render("select");
+                    }
+                }).fail(function(error) {
+                    console.log(error)
+                });
+            } else {
+                $('#fz').hide();
+            }
+            form.on("submit(add)", function(data) {
+                if (type == 0) {
+                    var param = {};
+                    param.pname = data.field.planName;
+                    param.storder = data.field.storder;
+                    var e = Exist(res, 'pname', data.field.planName, 'parentId', parentId);
+                    if (e) {
+                        layer.msg("名称重复,请重新添加");
+                        return false;
+                    }
+                    param.lev = lev;
+                    param.parentId = parentId;
+                    param.ststate = 1;
+                    param.storder = data.field.storder;
+                    if (lev > 0) {
+                        var st = data.field.type;
+                        if (st == "-1") {
+                            layer.msg("请选择分组类型");
+                            return false;
+                        }
+                        param.sttype = st;
+                    }
+
+                    okUtils.ajax({ "url": constantUrl.stMap.addMapPlans, "param": param, type: 'POST' }).done(function(response) {
+                        okLayer.msg.greenTick("添加成功", function() {
+                            parent.layer.close(parent.layer.getFrameIndex(window.name));
+                        });
+                    }).fail(function(error) {
+                        console.log(error)
+                    });
+                } else if (type == 1) {
+                    var param = {};
+                    param.pname = data.field.planName;
+                    param.storder = data.field.storder;
+                    var e = Exist(res, 'pname', data.field.planName, 'parentId', parentId);
+                    if (e) {
+                        layer.msg("名称重复,请重新添加");
+                        return false;
+                    }
+                    param.ID = d.id;
+                    okUtils.ajax({ "url": constantUrl.stMap.editMapPlans, "param": param, type: 'POST' }).done(function(response) {
+                        okLayer.msg.greenTick("编辑成功", function() {
+                            parent.layer.close(parent.layer.getFrameIndex(window.name));
+                        });
+                    }).fail(function(error) {
+                        console.log(error)
+                    });
+                }
+
+                return false;
+            });
+            var Exist = function(list, key, value, key1, value1) {
+                if (!list) {
+                    return false;
+                }
+                for (var i = 0; i < list.length; i++) {
+                    if (list[i][key] == value && list[i][key1] == value1) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+    }
+    </script>
+</body>
+
+</html>

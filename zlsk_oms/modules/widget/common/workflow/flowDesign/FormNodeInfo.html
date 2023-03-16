@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>节点信息</title>
+    <link rel="stylesheet" href="../../../../../lib/ok_admin/css/okadmin.css">
+    <script type="text/javascript" src="../../../../../lib/ok_admin/lib/layui/layui.js"></script>
+</head>
+<body>
+<div class="ok-body">
+    <!--form表单-->
+    <form class="layui-form ok-form" lay-filter="form">
+        <div class="layui-form-item">
+            <label class="layui-form-label">节点key</label>
+            <div class="layui-input-block">
+                <input type="text" name="key" placeholder="节点key" autocomplete="off" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">节点名</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" placeholder="节点名" autocomplete="off" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">节点编号</label>
+            <div class="layui-input-block">
+                <input type="number" name="nn" placeholder="节点编号" autocomplete="off" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">节点类型</label>
+            <div class="layui-input-block">
+                <select name="ntype">
+                    <option value="1">起点</option>
+                    <option value="2">中间点</option>
+                    <option value="3">终点</option>
+                    <option value="4">子流程节点</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">办理类型</label>
+            <div class="layui-input-block">
+                <select name="htype">
+                    <option value="1">仅可选一人</option>
+                    <option value="2">一人接收一人办理</option>
+                    <option value="3">多人接收一人办理</option>
+                    <option value="4">多人接收多人办理一人移交</option>
+                    <option value="4">多人接收多人办理多人移交</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">节点分组</label>
+            <div class="layui-input-block">
+                <input type="text" name="ngp" placeholder="节点分组" autocomplete="off" class="layui-input" >
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">分组类型</label>
+            <div class="layui-input-block">
+                <select name="ngtype">
+                    <option value="">请选择</option>
+                    <option value="0">互斥</option>
+                    <option value="1">并行</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">处理时限</label>
+            <div class="layui-input-block">
+                <input type="text" name="handtime" placeholder="处理时限" autocomplete="off" class="layui-input" >
+            </div>
+        </div>
+<!--        <div class="layui-form-item">-->
+<!--            <label class="layui-form-label">节点样式</label>-->
+<!--            <div class="layui-input-block">-->
+<!--                <input type="text" name="nstyle" placeholder="节点样式" autocomplete="off" class="layui-input" lay-verify="required">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="layui-form-item">-->
+<!--            <label class="layui-form-label">子节点</label>-->
+<!--            <div class="layui-input-block">-->
+<!--                <div name="sfid" id="sfid"></div>-->
+<!--            </div>-->
+<!--        </div>-->
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="submit">提交</button>
+                <button id="cancel" class="layui-btn layui-btn-primary">取消</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    var $;
+    var form;
+    var layer;
+    var nodeData;
+    var nodeSelect;
+    function initForm(data) {
+        if (data){
+            nodeData  = JSON.parse(data);
+        }
+    }
+
+    layui.use(['form','layer','okUtils','constantUrl','xmSelect'],function () {
+        $ = layui.jquery;
+        form = layui.form;
+        layer = layui.layer;
+        let okUtils = layui.okUtils;
+        let xmSelect = layui.xmSelect;
+        let constantUrl = layui.constantUrl;
+
+        form.val('form',nodeData);
+        // okUtils.ajax({
+        //     'url':constantUrl.stForm.getWorkFlowListFilter,
+        //     'param':{'ftype':2}
+        // }).done(function (data1) {
+        //     if (data1.meow === 0){
+        //         let cache = data1.data;
+        //         $.each(cache,function (index,value) {
+        //             value.value = value.gid;
+        //             if (value.gid == nodeData.sfid){
+        //                 value.selected = true;
+        //             }
+        //         });
+        //         nodeSelect = xmSelect.render({
+        //             el: '#sfid',
+        //             tips: '选择子节点',
+        //             name: 'sfid',
+        //             data: cache,
+        //             filterable: true,
+        //             repeat: false,
+        //             radio: true,
+        //             clickClose: true,
+        //             theme: {
+        //                 color: '#333333',
+        //             },
+        //             model: {
+        //                 label: {
+        //                     type: 'block',
+        //                     block: {
+        //                         showCount: 0,
+        //                         showIcon: false,//是否显示删除图标
+        //                     }
+        //                 }
+        //             }
+        //         });
+        //         if (nodeData){
+        //             form.val('form',nodeData);
+        //         }
+        //     }else {
+        //         layer.alert('警告 查询子流程失败')
+        //     }
+        // });
+
+        form.on('submit(submit)',function (data) {
+            let cache = data.field;
+            for (let key in cache){
+                if (!cache[key] || cache[key] == null || cache[key] == ''){
+                    delete cache[key];
+                }
+            }
+            cache.nn = parseInt(cache.nn);
+            cache.ntype = parseInt(cache.ntype);
+            cache.htype = parseInt(cache.htype);
+            cache.ngtype = parseInt(cache.ngtype);
+            // let sfid = nodeSelect.getValue();
+            // sfid = sfid && sfid[0] && sfid[0].gid ? parseInt(sfid[0].gid) : -1;
+            cache.sfid = -1;
+            parent.parentNodeData = JSON.stringify(data.field);
+            parent.layer.close(parent.layer.getFrameIndex(window.name));
+            return false;
+        });
+
+        $('#cancel').click(function () {
+            parent.layer.close(parent.layer.getFrameIndex(window.name));
+            return false;
+        });
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,1085 @@
+{
+  "五珠村": {
+    "路灯": {
+      "searchFields": ["NAME", "责任人","投资额","所在位置"],
+      "listShowField": ["NAME","所在位置"],
+      "fieldCn": {
+        "NAME": {
+          "newName": "名称",
+          "unit": ""
+        },
+        "责任人": {
+          "newName": "责任人",
+          "unit": ""
+        },
+        "投资额": {
+          "newName": "投资额",
+          "unit": ""
+        },
+        "所在位置": {
+          "newName": "所在位置",
+          "unit": ""
+        },
+        "REMARK": {
+          "newName": "备注",
+          "unit": ""
+        },
+        "东经": {
+          "newName": "东经",
+          "unit": ""
+        },
+        "北纬": {
+          "newName": "北纬",
+          "unit": ""
+        }
+      },
+      "redraw": {
+        "type": "point",
+        "image": "/files/images/村.png",
+        "labelField": ["NAME"]
+      }
+    },
+    "安保设施": {
+      "searchFields": ["NAME","REMARK"],
+      "listShowField": ["NAME","REMARK","scwz"],
+      "fieldCn": {
+        "NAME": {
+          "newName": "名称",
+          "unit": ""
+        },
+        "REMARK": {
+          "newName": "备注",
+          "unit": ""
+        },
+        "scwz": {
+          "newName": "所在位置",
+          "unit": ""
+        },
+        "zrr": {
+          "newName": "责任人",
+          "unit": ""
+        },
+        "mc": {
+          "newName": "名称",
+          "unit": ""
+        },
+        "东经": {
+          "newName": "东经",
+          "unit": ""
+        },
+        "北纬": {
+          "newName": "北纬",
+          "unit": ""
+        },
+        "smms": {
+          "newName": "说明描述",
+          "unit": ""
+        },
+        "TYPE": {
+          "newName": "类型",
+          "unit": ""
+        }
+      },
+      "redraw": {
+        "type": "point",
+        "image": "/files/images/商业设施及服务.png",
+        "labelField": ["REMARK"]
+      }
+    },
+    "公交站台": {
+      "searchFields": ["NAME","REMARK"],
+      "listShowField": ["NAME","REMARK","szwz"],
+      "fieldCn": {
+        "NAME": {
+          "newName": "名称",
+          "unit": ""
+        },
+        "REMARK": {
+          "newName": "备注",
+          "unit": ""
+        },
+        "ssmc": {
+          "newName": "设施名称",
+          "unit": ""
+        },
+        "txnlhsl": {
+          "newName": "通行能力或数量",
+          "unit": ""
+        },
+        "szwz": {
+          "newName": "所在位置",
+          "unit": ""
+        },
+        "东经": {
+          "newName": "东经",
+          "unit": ""
+        },
+        "北纬": {
+          "newName": "北纬",
+          "unit": ""
+        },
+        "TYPE": {
+          "newName": "类型",
+          "unit": ""
+        }
+      },
+      "redraw": {
+        "type": "point",
+        "image": "/files/images/汽车销售及服务.png",
+        "labelField": ["NAME","REMARK"]
+      }
+    },
+    "教育设施": {
+      "searchFields": ["NAME","REMARK"],
+      "listShowField": ["NAME","REMARK","szwz"],
+      "fieldCn": {
+        "NAME": {
+          "newName": "名称",
+          "unit": ""
+        },
+        "REMARK": {
+          "newName": "备注",
+          "unit": ""
+        },
+        "mc": {
+          "newName": "名称",
+          "unit": ""
+        },
+        "tze": {
+          "newName": "投资额",
+          "unit": ""
+        },
+        "szwz": {
+          "newName": "所在位置",
+          "unit": ""
+        },
+        "smms": {
+          "newName": "说明描述",
+          "unit": ""
+        },
+        "东经": {
+          "newName": "东经",
+          "unit": ""
+        },
+        "北纬": {
+          "newName": "北纬",
+          "unit": ""
+        },
+        "TYPE": {
+          "newName": "类型",
+          "unit": ""
+        }
+      },
+      "redraw": {
+        "type": "point",
+        "image": "/files/images/公司企业.png",
+        "labelField": ["REMARK"]
+      }
+    },
+    "体育设施": {
+      "searchFields": ["NAME","REMARK"],
+      "listShowField": ["NAME","REMARK","szwz"],
+      "fieldCn": {
+        "NAME": {
+          "newName": "名称",
+          "unit": ""
+        },
+        "REMARK": {
+          "newName": "备注",
+          "unit": ""
+        },
+        "mc": {
+          "newName": "名称",
+          "unit": ""
+        },
+        "tze": {
+          "newName": "投资额",
+          "unit": ""
+        },
+        "zrr": {
+          "newName": "责任人",
+          "unit": ""
+        },
+        "szwz": {
+          "newName": "所在位置",
+          "unit": ""
+        },
+        "smms": {
+          "newName": "说明描述",
+          "unit": ""
+        },
+        "东经": {
+          "newName": "东经",
+          "unit": ""
+        },
+        "北纬": {
+          "newName": "北纬",
+          "unit": ""
+        },
+        "TYPE": {
+          "newName": "类型",
+          "unit": ""
+        }
+      },
+      "redraw": {
+        "type": "point",
+        "image": "/files/images/运动休闲.png",
+        "labelField": ["REMARK"]
+      }
+    },
+    "通信设施": {
+      "searchFields": ["NAME","REMARK"],
+      "listShowField": ["NAME","REMARK","szwz"],
+      "fieldCn": {
+        "NAME": {
+          "newName": "名称",
+          "unit": ""
+        },
+        "REMARK": {
+          "newName": "备注",
+          "unit": ""
+        },
+        "ssmc": {
+          "newName": "设施名称",
+          "unit": ""
+        },
+        "tze": {
+          "newName": "投资额",
+          "unit": ""
+        },
+        "zrr": {
+          "newName": "责任人",
+          "unit": ""
+        },
+        "szwz": {
+          "newName": "所在位置",
+          "unit": ""
+        },
+        "smms": {
+          "newName": "说明描述",
+          "unit": ""
+        },
+        "东经": {
+          "newName": "东经",
+          "unit": ""
+        },
+        "北纬": {
+          "newName": "北纬",
+          "unit": ""
+        },
+        "TYPE": {
+          "newName": "类型",
+          "unit": ""
+        }
+      },
+      "redraw": {
+        "type": "point",
+        "image": "/files/images/运动休闲.png",
+        "labelField": ["REMARK"]
+      }
+    },
+    "自来水设施": {
+      "searchFields": ["NAME","REMARK"],
+      "listShowField": ["NAME","REMARK","szwz"],
+      "fieldCn": {
+        "NAME": {
+          "newName": "名称",
+          "unit": ""
+        },
+        "ssmc": {
+          "newName": "设施名称",
+          "unit": ""
+        },
+        "mc": {
+          "newName": "名称",
+          "unit": ""
+        },
+        "tze": {
+          "newName": "投资额",
+          "unit": ""
+        },
+        "zrr": {
+          "newName": "责任人",
+          "unit": ""
+        },
+        "szwz": {
+          "newName": "所在位置",
+          "unit": ""
+        },
+        "东经": {
+          "newName": "东经",
+          "unit": ""
+        },
+        "北纬": {
+          "newName": "北纬",
+          "unit": ""
+        },
+        "smms": {
+          "newName": "说明描述",
+          "unit": ""
+        },
+        "TYPE": {
+          "newName": "类型",
+          "unit": ""
+        },
+        "REMARK": {
+          "newName": "备注",
+          "unit": ""
+        }
+      },
+      "redraw": {
+        "type": "point",
+        "image": "/files/images/运动休闲.png",
+        "labelField": ["REMARK"]
+      }
+    },
+    "垃圾处理设施": {
+      "searchFields": ["NAME","REMARK"],
+      "listShowField": ["NAME","REMARK","szwz"],
+      "fieldCn": {
+        "NAME": {
+          "newName": "名称",
+          "unit": ""
+        },
+        "ssmc": {
+          "newName": "设施名称",
+          "unit": ""
+        },
+        "mc": {
+          "newName": "名称",
+          "unit": ""
+        },
+        "szwz": {
+          "newName": "所在位置",
+          "unit": ""
+        },
+        "东经": {
+          "newName": "东经",
+          "unit": ""
+        },
+        "北纬": {
+          "newName": "北纬",
+          "unit": ""
+        },
+        "smms": {
+          "newName": "说明描述",
+          "unit": ""
+        },
+        "TYPE": {
+          "newName": "类型",
+          "unit": ""
+        },
+        "REMARK": {
+          "newName": "备注",
+          "unit": ""
+        }
+      },
+      "redraw": {
+        "type": "point",
+        "image": "/files/images/运动休闲.png",
+        "labelField": ["REMARK"]
+      }
+    },
+    "其它便民设施": {
+      "searchFields": ["NAME","REMARK"],
+      "listShowField": ["NAME","REMARK","szwz"],
+      "fieldCn": {
+        "NAME": {
+          "newName": "名称",
+          "unit": ""
+        },
+        "mc": {
+          "newName": "名称",
+          "unit": ""
+        },
+        "zrr": {
+          "newName": "责任人",
+          "unit": ""
+        },
+        "szwz": {
+          "newName": "所在位置",
+          "unit": ""
+        },
+        "东经": {
+          "newName": "东经",
+          "unit": ""
+        },
+        "北纬": {
+          "newName": "北纬",
+          "unit": ""
+        },
+        "smms": {
+          "newName": "说明描述",
+          "unit": ""
+        },
+        "TYPE": {
+          "newName": "类型",
+          "unit": ""
+        },
+        "REMARK": {
+          "newName": "备注",
+          "unit": ""
+        }
+      },
+      "redraw": {
+        "type": "point",
+        "image": "/files/images/运动休闲.png",
+        "labelField": ["REMARK"]
+      }
+    },
+    "建筑点": {
+      "searchFields": ["NAME","REMARK"],
+      "listShowField": ["NAME","REMARK"],
+      "fieldCn": {
+        "NAME": {
+          "newName": "名称",
+          "unit": ""
+        },
+        "REMARK": {
+          "newName": "备注",
+          "unit": ""
+        }
+      },
+      "redraw": {
+        "type": "point",
+        "image": "/files/images/运动休闲.png",
+        "labelField": ["NAME"],
+        "labelColor": "#0A93FC"
+      }
+    },
+    "合作社基地": {
+      "searchFields": ["NAME","基地名称"],
+      "listShowField": ["NAME","基地名称","所处位置"],
+      "fieldCn": {
+        "NAME": {
+          "newName": "名称",
+          "unit": ""
+        },
+        "基地名称": {
+          "newName": "基地名称",
+          "unit": ""
+        },
+        "权力人": {
+          "newName": "权力人",
+          "unit": ""
+        },
+        "东经": {
+          "newName": "东经",
+          "unit": ""
+        },
+        "北纬": {
+          "newName": "北纬",
+          "unit": ""
+        },
+        "所处位置": {
+          "newName": "备注",
+          "unit": ""
+        },
+        "使用权性质": {
+          "newName": "备注",
+          "unit": ""
+        }
+      },
+      "redraw": {
+        "type": "polygon",
+        "labelField": ["基地名称"],
+        "labelColor":"#000000",
+        "polygonColor":"#C500FF",
+        "polylineColor":"#C500FF"
+      }
+    },
+    "水库": {
+      "searchFields": ["NAME","REMARK"],
+      "listShowField": ["NAME","REMARK","szwz"],
+      "fieldCn": {
+        "NAME": {
+          "newName": "名称",
+          "unit": ""
+        },
+        "mc": {
+          "newName": "名称",
+          "unit": ""
+        },
+        "zrr": {
+          "newName": "责任人",
+          "unit": ""
+        },
+        "szwz": {
+          "newName": "所在位置",
+          "unit": ""
+        },
+        "东经": {
+          "newName": "东经",
+          "unit": ""
+        },
+        "北纬": {
+          "newName": "北纬",
+          "unit": ""
+        },
+        "smms": {
+          "newName": "说明描述",
+          "unit": ""
+        },
+        "TYPE": {
+          "newName": "类型",
+          "unit": ""
+        },
+        "REMARK": {
+          "newName": "备注",
+          "unit": ""
+        },
+        "SHAPE_Leng": {
+          "newName": "长度",
+          "unit": ""
+        }
+      },
+      "redraw": {
+        "type": "polygon",
+        "labelField": ["REMARK"],
+        "labelColor":"#000000",
+        "polygonColor":"#BEE8FF",
+        "polylineColor":"#BEE8FF"
+      }
+    },
+    "池塘": {
+      "searchFields": ["NAME","REMARK"],
+      "listShowField": ["NAME","REMARK","scwz"],
+      "fieldCn": {
+        "NAME": {
+          "newName": "名称",
+          "unit": ""
+        },
+        "mc": {
+          "newName": "名称",
+          "unit": ""
+        },
+        "zrr": {
+          "newName": "责任人",
+          "unit": ""
+        },
+        "scwz": {
+          "newName": "所在位置",
+          "unit": ""
+        },
+        "东经": {
+          "newName": "东经",
+          "unit": ""
+        },
+        "北纬": {
+          "newName": "北纬",
+          "unit": ""
+        },
+        "smms": {
+          "newName": "说明描述",
+          "unit": ""
+        },
+        "TYPE": {
+          "newName": "类型",
+          "unit": ""
+        },
+        "SHAPE_Area": {
+          "newName": "面积",
+          "unit": ""
+        },
+        "SHAPE_Leng": {
+          "newName": "长度",
+          "unit": ""
+        },
+        "REMARK": {
+          "newName": "备注",
+          "unit": ""
+        }
+      },
+      "redraw": {
+        "type": "polygon",
+        "labelField": ["REMARK"],
+        "labelColor":"#000000",
+        "polygonColor":"#9EAAD7",
+        "polylineColor":"#9EAAD7"
+      }
+    },
+    "河流": {
+      "searchFields": ["mc","scwz"],
+      "listShowField": ["mc","scwz"],
+      "fieldCn": {
+        "ssmc": {
+          "newName": "设施名称",
+          "unit": ""
+        },
+        "mc": {
+          "newName": "名称",
+          "unit": ""
+        },
+        "zrr": {
+          "newName": "责任人",
+          "unit": ""
+        },
+        "scwz": {
+          "newName": "所在位置",
+          "unit": ""
+        },
+        "东经": {
+          "newName": "东经",
+          "unit": ""
+        },
+        "北纬": {
+          "newName": "北纬",
+          "unit": ""
+        },
+        "smms": {
+          "newName": "说明描述",
+          "unit": ""
+        },
+        "TYPE": {
+          "newName": "类型",
+          "unit": ""
+        },
+        "SHAPE_Area": {
+          "newName": "面积",
+          "unit": ""
+        },
+        "SHAPE_Leng": {
+          "newName": "长度",
+          "unit": ""
+        }
+      },
+      "redraw": {
+        "type": "polygon",
+        "labelField": ["mc"],
+        "labelColor":"#000000",
+        "polygonColor":"#CCF5FF",
+        "polylineColor":"#CCF5FF"
+      }
+    },
+    "支渠": {
+      "searchFields": ["NAME","szwz"],
+      "listShowField": ["NAME","szwz"],
+      "fieldCn": {
+        "NAME": {
+          "newName": "名称",
+          "unit": ""
+        },
+        "REMARK": {
+          "newName": "备注",
+          "unit": ""
+        },
+        "mc": {
+          "newName": "名称",
+          "unit": ""
+        },
+        "zrr": {
+          "newName": "责任人",
+          "unit": ""
+        },
+        "szwz": {
+          "newName": "所在位置",
+          "unit": ""
+        },
+        "东经": {
+          "newName": "东经",
+          "unit": ""
+        },
+        "北纬": {
+          "newName": "北纬",
+          "unit": ""
+        },
+        "smms": {
+          "newName": "说明描述",
+          "unit": ""
+        },
+        "TYPE": {
+          "newName": "类型",
+          "unit": ""
+        },
+        "SHAPE_Area": {
+          "newName": "面积",
+          "unit": ""
+        },
+        "SHAPE_Leng": {
+          "newName": "长度",
+          "unit": ""
+        }
+      },
+      "redraw": {
+        "type": "polygon",
+        "labelField": ["REMARK"],
+        "labelColor":"#000000",
+        "polygonColor":"#B5CFFF",
+        "polylineColor":"#B5CFFF"
+      }
+    },
+    "水系附属": {
+      "searchFields": ["CODE","TYPE"],
+      "listShowField": ["CODE","TYPE"],
+      "fieldCn": {
+        "CODE": {
+          "newName": "编号",
+          "unit": ""
+        },
+        "TYPE": {
+          "newName": "类型",
+          "unit": ""
+        },
+        "SHAPE_Area": {
+          "newName": "面积",
+          "unit": ""
+        },
+        "SHAPE_Leng": {
+          "newName": "长度",
+          "unit": ""
+        }
+      },
+      "redraw": {
+        "type": "polygon",
+        "labelField": ["TYPE"],
+        "labelColor":"#000000",
+        "polygonColor":"#B5CFFF",
+        "polylineColor":"#B5CFFF"
+      }
+    },
+    "居民地附属": {
+      "searchFields": ["TYPE","fwaqdj","syqk"],
+      "listShowField": ["TYPE","fwaqdj","syqk"],
+      "fieldCn": {
+        "fwqlrxm": {
+          "newName": "房屋权利人姓名",
+          "unit": ""
+        },
+        "jzmc": {
+          "newName": "建筑名称",
+          "unit": ""
+        },
+        "fwlb": {
+          "newName": "房屋类别",
+          "unit": ""
+        },
+        "fwzcs": {
+          "newName": "房屋总层数",
+          "unit": ""
+        },
+        "jzjg": {
+          "newName": "建筑结构",
+          "unit": ""
+        },
+        "fwaqzk": {
+          "newName": "房屋安全状况",
+          "unit": ""
+        },
+        "fwaqdj": {
+          "newName": "房屋安全等级",
+          "unit": ""
+        },
+        "syqk": {
+          "newName": "使用情况",
+          "unit": ""
+        },
+        "qdsj": {
+          "newName": "取得时间",
+          "unit": ""
+        },
+        "zm": {
+          "newName": "组名",
+          "unit": ""
+        },
+        "sfzh": {
+          "newName": "身份证号",
+          "unit": ""
+        },
+        "fwdm": {
+          "newName": "房屋代码",
+          "unit": ""
+        },
+        "TYPE": {
+          "newName": "类型",
+          "unit": ""
+        },
+        "SHAPE_Area": {
+          "newName": "面积",
+          "unit": ""
+        },
+        "SHAPE_Leng": {
+          "newName": "长度",
+          "unit": ""
+        }
+      },
+      "redraw": {
+        "type": "polygon",
+        "labelField": ["TYPE"],
+        "labelColor":"#000000",
+        "polygonColor":"#ea4c9a",
+        "polylineColor":"#ea4c9a",
+        "labelDisplay": 300,
+        "polygonDisplay": 4000,
+        "polylineDisplay": 7000
+      }
+    },
+    "道路": {
+      "searchFields": ["NAME","REMARK"],
+      "listShowField": ["NAME","REMARK"],
+      "fieldCn": {
+        "NAME": {
+          "newName": "名称",
+          "unit": ""
+        },
+        "REMARK": {
+          "newName": "备注",
+          "unit": ""
+        },
+        "ssmc": {
+          "newName": "设施名称",
+          "unit": ""
+        },
+        "txnlhsl": {
+          "newName": "通行能力或数量",
+          "unit": ""
+        },
+        "zrr": {
+          "newName": "责任人",
+          "unit": ""
+        },
+        "szwz": {
+          "newName": "所在位置",
+          "unit": ""
+        },
+        "东经": {
+          "newName": "东经",
+          "unit": ""
+        },
+        "北纬": {
+          "newName": "北纬",
+          "unit": ""
+        },
+        "TYPE": {
+          "newName": "类型",
+          "unit": ""
+        },
+        "SHAPE_Area": {
+          "newName": "面积",
+          "unit": ""
+        },
+        "SHAPE_Leng": {
+          "newName": "长度",
+          "unit": ""
+        }
+      },
+      "redraw": {
+        "type": "polygon",
+        "labelField": ["TYPE"],
+        "labelColor":"#000000",
+        "polygonColor":"#FDFD3D",
+        "polylineColor":"#FDFD3D"
+      }
+    },
+    "土地利用": {
+      "searchFields": ["NAME","dkbm"],
+      "listShowField": ["dkmc"],
+      "fieldCn": {
+        "NAME": {
+          "newName": "名称",
+          "unit": ""
+        },
+        "dkbm": {
+          "newName": "地块编码",
+          "unit": ""
+        },
+        "dkmc": {
+          "newName": "地块名称",
+          "unit": ""
+        },
+        "scwz": {
+          "newName": "所处位置",
+          "unit": ""
+        },
+        "xttdyt": {
+          "newName": "选填土地用途",
+          "unit": ""
+        },
+        "dklx": {
+          "newName": "地块类型",
+          "unit": ""
+        },
+        "txlylx": {
+          "newName": "填写利用类型",
+          "unit": ""
+        },
+        "x": {
+          "newName": "东经",
+          "unit": ""
+        },
+        "y": {
+          "newName": "北纬",
+          "unit": ""
+        },
+        "xtjbntxx": {
+          "newName": "选填基本农田信息",
+          "unit": ""
+        },
+        "scmj": {
+          "newName": "实测面积",
+          "unit": ""
+        },
+        "jcsj": {
+          "newName": "检测时间",
+          "unit": ""
+        },
+        "yxdhl": {
+          "newName": "有效氮含量",
+          "unit": ""
+        },
+        "yxlhl": {
+          "newName": "有效磷含量",
+          "unit": ""
+        },
+        "yxjhl": {
+          "newName": "有效钾含量",
+          "unit": ""
+        },
+        "yjzhl": {
+          "newName": "有机质含量",
+          "unit": ""
+        },
+        "PHz": {
+          "newName": "PH值",
+          "unit": ""
+        },
+        "pH_值≤": {
+          "newName": "PH值≤",
+          "unit": ""
+        },
+        "CODE": {
+          "newName": "编码",
+          "unit": ""
+        },
+        "TYPE": {
+          "newName": "类型",
+          "unit": ""
+        },
+        "SHAPE_Area": {
+          "newName": "面积",
+          "unit": ""
+        },
+        "SHAPE_Leng": {
+          "newName": "长度",
+          "unit": ""
+        }
+      },
+      "redraw": {
+        "type": "polygon",
+        "labelField": ["TYPE"],
+        "labelColor":"#000000",
+        "polygonColor":"#00FF00",
+        "polylineColor":"#00FF00"
+      }
+    },
+    "五珠村点": {
+      "searchFields": ["NAME"],
+      "listShowField": ["NAME"],
+      "fieldCn": {
+        "NAME": {
+          "newName": "名称",
+          "unit": ""
+        }
+      },
+      "redraw": {
+        "type": "point",
+        "image": "/files/images/村.png",
+        "labelField": ["NAME"],
+        "labelDisplay": 8000
+      }
+    },
+    "五珠村自然村点": {
+      "searchFields": ["NAME"],
+      "listShowField": ["NAME"],
+      "fieldCn": {
+        "NAME": {
+          "newName": "名称",
+          "unit": ""
+        }
+      },
+      "redraw": {
+        "type": "point",
+        "image": "/files/images/村.png",
+        "labelField": ["NAME"],
+        "labelDisplay": 8000
+      }
+    },
+    "五珠村/自然村": {
+      "searchFields": ["NAME"],
+      "listShowField": ["NAME"],
+      "fieldCn": {
+        "NAME": {
+          "newName": "名称",
+          "unit": ""
+        }
+      },
+      "redraw": {
+        "type": "polyline",
+        "labelField": ["NAME"],
+        "labelColor":"#000000",
+        "polygonColor":"#DF73FF",
+        "polylineColor":"#DF73FF",
+        "polygonDisplay": 8000,
+        "polylineDisplay": 8000
+      }
+    },
+    "五珠村": {
+      "searchFields": ["NAME"],
+      "listShowField": ["NAME"],
+      "fieldCn": {
+        "NAME": {
+          "newName": "名称",
+          "unit": ""
+        }
+      },
+      "redraw": {
+        "type": "polyline",
+        "labelField": ["TYPE"],
+        "labelColor":"#000000",
+        "polygonColor":"#FFFF00",
+        "polylineColor":"#FFFF00",
+        "polygonDisplay": 8000,
+        "polylineDisplay": 8000
+      }
+    }
+  },
+  "颜闸村": {
+    "polygon": {
+      "searchFields": ["TBLXMC", "ZDZL","ZDBM"],
+      "listShowField": ["TBLXMC","ZDBM","ZDZL"],
+      "fieldCn": {
+        "TBLXMC": {
+          "newName": "类型名称",
+          "unit": ""
+        },
+        "ZDZL": {
+          "newName": "宗地坐落",
+          "unit": ""
+        },
+        "ZDBM": {
+          "newName": "宗地编码",
+          "unit": ""
+        },
+        "area": {
+          "newName": "面积",
+          "unit": ""
+        }
+      },
+      "redraw": {
+        "type": "polygon",
+        "labelField": ["TBLXMC"],
+        "labelColor":"#000000",
+        "polygonColor":"#FFFF00",
+        "polylineColor":"#FFFF00",
+        "polygonDisplay": 8000,
+        "polylineDisplay": 8000
+      },
+      "diyBusiness":{
+        "mk": "YzcBusiness",
+        "name":"颜闸村地块数据独立业务",
+        "url": "/modules/widget/snky/view/zy/yzcBusiness.js",
+        "type": "module",
+        "region": "none"
+      }
+    }
+  }
+}

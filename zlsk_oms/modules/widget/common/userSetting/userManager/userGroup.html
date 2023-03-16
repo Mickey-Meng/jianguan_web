@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>编辑用户</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../../../../lib/ok_admin/css/oksub.css">
+    <link rel="stylesheet" href="../../../../../lib/ok_admin/css/okadmin.css"  media="all">
+</head>
+<body>
+<div class="ok-body">
+    <!--面包屑导航区域-->
+    <div class="ok-body-breadcrumb" style="display: none">
+            <span class="layui-breadcrumb">
+                <a><cite>首页</cite></a>
+                <a><cite>会员管理</cite></a>
+                <a><cite>用户列表</cite></a>
+				<a><cite>编辑用户</cite></a>
+            </span>
+        <a class="layui-btn layui-btn-sm" href="javascript:location.replace(location.href);" title="刷新">
+            <i class="layui-icon layui-icon-refresh"></i>
+        </a>
+    </div>
+    <!--form表单-->
+    <form class="layui-form ok-form" lay-filter="filter">
+        <div class="layui-form-item" >
+            <label class="layui-form-label">组织机构</label>
+            <div class="layui-input-block" id="divContent">
+                <!--<input type="text"  readonly="readonly" id="groupName"  name="GROUPNAME" placeholder="请选择组织机构" autocomplete="off" class="layui-input" >-->
+                <!--<div id="group" style="display: none"></div>-->
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="edit">立即提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+<!--js逻辑-->
+<script type="text/javascript" src="../../../../../lib/ok_admin/lib/layui/layui.js"></script>
+<script>
+    var initData;
+    var groupData;
+    var $;
+
+    function initForm(data, group) {
+        var jsonString = JSON.stringify(data);
+        var groupString = JSON.stringify(group);
+        initData = JSON.parse(jsonString);
+        groupData = JSON.parse(groupString);
+    }
+
+    layui.use(["element", "form",  "okLayer", "okUtils", 'constantUrl','zDownTree'], function () {
+        $ = layui.jquery;
+        var form = layui.form;
+        var okLayer = layui.okLayer;
+        var okUtils = layui.okUtils;
+        var constantUrl = layui.constantUrl;
+        var zDownTree = layui.zDownTree();
+        zDownTree.render({
+            elem:'#divContent',//接收该控件的父级DIV
+            inputName:'groupid',//input中的name--->对应form返回值中的field
+            callbackField:'ID',//data中取值字段    groupid = data[ID]
+            hint:"请选择部门 (当前部门：" + initData.GROUPNAME + ")",
+            isChildNodeClickClose:true,
+            isFatherNodeClickClose:true,//父节点是否响应并关闭
+            isFatherNodeCallback:true,//父节点是否响应
+            data:groupData
+        });
+
+        form.on("submit(edit)", function (data) {
+            var groupId = {
+                groupid:data.field.groupid,
+                userid:initData.ID
+            };
+            okUtils.ajax({"url":constantUrl.stAuth.updateUserGroup,"param":groupId}).done(function (response) {
+                console.log(response);
+                okLayer.msg.greenTick("调岗成功", function () {
+                    parent.parentFlag = 1;
+                    parent.layer.close(parent.layer.getFrameIndex(window.name));
+                });
+            }).fail(function (error) {
+                console.log(error)
+            });
+            return false;
+
+        });
+    })
+</script>
+</body>
+</html>

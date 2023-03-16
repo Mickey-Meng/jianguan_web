@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模板字段</title>
+    <link rel="stylesheet" href="../../../../../lib/ok_admin/css/okadmin.css">
+    <script type="text/javascript" src="../../../../../lib/ok_admin/lib/layui/layui.js"></script>
+</head>
+<body>
+<div class="layui-body commonOutCss" style="left: 0">
+    <div id="filed_tree" style="position: absolute;top: 0;bottom: 0;left: 0;width: 250px"></div>
+    <div id="form_container" style="position: absolute;left: 250px;right: 0;top: 0;bottom: 0">
+    </div>
+    <button onclick="submitField()" lay-submit="" class="layui-btn layui-btn-sm"  lay-filter="btn_save" title="提交" style="position: absolute;bottom: 10px;right: 20px;">
+        提交
+        <i class="layui-icon" style="margin-left: 10px">&#58885;</i>
+    </button>
+</div>
+</body>
+<script src="./templateField.js"></script>
+<script src="../formUtil.js"></script>
+
+</html>

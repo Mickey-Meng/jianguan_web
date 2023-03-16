@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑节点流向</title>
+    <link rel="stylesheet" href="../../../../../lib/ok_admin/css/okadmin.css">
+    <script type="text/javascript" src="../../../../../lib/ok_admin/lib/layui/layui.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+</head>
+<body>
+<div class="ok-body" style="margin: 10px">
+    <div style="width: 22%;float: left">
+        <div id="lineTree"></div>
+    </div>
+    <div style="width: 78%;float: left">
+        <label style="margin-left: 20px" id="labelUrl"></label>
+        <!--form表单-->
+        <form class="layui-form ok-form" lay-filter="form" style="margin-top: 10px">
+            <div class="layui-form-item">
+                <label class="layui-form-label">移交条件</label>
+                <div class="layui-input-block">
+                    <input type="text" id="cond" name="cond" placeholder="移交条件" autocomplete="off" class="layui-input disabled" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">是否自动移交</label>
+                <div class="layui-input-block">
+                    <select name="fho" id="autoHand">
+                        <option value="">请选择</option>
+                        <option value="0">否</option>
+                        <option value="1">是</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" id="submit">确定</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    var $;
+    var form;
+    var tree;
+    var okUtils;
+    var constantUrl;
+
+    var fid;
+    var Lines;
+    var Nodes;
+    var formData;
+    var LineCond;
+    var currentSnode ;
+    var currentEnode ;
+    var flagParentData;
+    function initForm(data,line,node,flowId) {
+        if (data){
+            LineCond  = JSON.parse(data);
+        }
+        if (line){
+            Lines = JSON.parse(line);
+        }
+        if (node){
+            Nodes = JSON.parse(node);
+        }
+        fid = flowId;
+    }
+    layui.use(['form','tree','okUtils','constantUrl'],function () {
+        $ = layui.jquery;
+        form = layui.form;
+        tree = layui.tree;
+        okUtils = layui.okUtils;
+        constantUrl = layui.constantUrl;
+
+        let groupData = generateTree(generateLineName(Lines,Nodes));
+        tree.render({
+            elem: '#lineTree'
+            , data: groupData
+            , id: 'treeId'
+            , spread: true
+            , onlyIconControl: true
+            , click: function (obj) {
+                if (obj.data.id !== -1){
+                    // fid = obj.data.fid;
+                    currentSnode = obj.data.snode;
+                    currentEnode = obj.data.enode;
+                    let nodeData = getNodeAndFrom(currentSnode);
+                    let isForm = nodeData === -1 || !nodeData.forms ? '没有表单' : '存在表单';
+                    $('#labelUrl').text('选中节点：' + obj.data.title + '(' + isForm + ')');
+                    let currentLine = getLines(currentSnode,currentEnode);
+                    if (currentLine !== -1){
+                        form.val('form',currentLine)
+                    }else {
+                        form.val('form',{fho:'',cond:''})
+                    }
+                    form.render();
+                }
+            }
+        });
+
+        okUtils.ajax({
+            'url':constantUrl.stForm.getFlowNodeFormInfo,
+            'param':{'flowId':fid}
+        }).done(function (data1) {
+            if (data1.meow === 0){
+                Nodes = data1.data.node;
+            }else {
+                layer.alert('警告 获取节点信息失败');
+            }
+        });
+
+        $('#cond').click(function () {
+            if (!currentSnode || !currentEnode){
+                layer.alert('警告 请先选择节点信息');
+                return false;
+            }
+            let node = getNodeAndFrom(currentSnode);
+            if (!node || !node.forms){
+                layer.alert('警告 该节点未绑定表单');
+                return false;
+            }
+            flagParentData = null;
+            let currentCond = $('#cond').val();
+            layui.okLayer.open("编辑节点流向限制条件", "FormLineCondEdit.html?boid=" + node.forms[0].boid , "90%", "90%", function (layero) {
+                var iframeWin = window[layero.find("iframe")[0]["name"]];
+                iframeWin.initForm(currentCond);
+            },function () {
+                if (flagParentData){
+                    $('#cond').val(flagParentData);
+                }
+            });
+            return false;
+        });
+
+        $('#submit').click(function () {
+            if (!currentSnode || !currentEnode){
+                layer.alert('警告 请先选择节点信息');
+                return false;
+            }
+            let cacheNodes = {};
+            for (let index = 0; index < Nodes.length; index++) {
+                cacheNodes[Nodes[index].nn] = Nodes[index].gid;
+            }
+            let cache = getLines(currentSnode,currentEnode);
+            if (cache === -1){
+                let cacheField = form.val('form');
+                cacheField.fid = fid;
+                cacheField.ststate = 1;
+                cacheField.snn = currentSnode;
+                cacheField.enn = currentEnode;
+                cacheField.fkey = Nodes[0].fkey;
+                cacheField.snid = cacheNodes[currentSnode];
+                cacheField.enid = cacheNodes[currentEnode];
+                layui.okUtils.ajax({
+                    'url': layui.constantUrl.stFlow2.addLineCond,
+                    'param': {
+                        'cond': JSON.stringify(cacheField)
+                    }
+                }).done(function (data4) {
+                    if (data4.meow === 0) {
+                        // layui.layer.alert('保存成功');
+                        parent.parentLineCondData = 1;
+                        parent.layer.close(parent.layer.getFrameIndex(window.name));
+                    } else {
+                        layui.layer.alert('警告 保存失败');
+                    }
+                });
+            }else {
+                let index = LineCond.indexOf(cache);
+                $.extend(LineCond[index],form.val('form'));
+                layui.okUtils.ajax({
+                    'url': layui.constantUrl.stFlow2.updateLineCond,
+                    'param': {
+                        'gid': LineCond[index].gid,
+                        'cond': JSON.stringify(LineCond[index])
+                    }
+                }).done(function (data4) {
+                    if (data4.meow === 0) {
+                        // layui.layer.alert('保存成功');
+                        parent.layer.close(parent.layer.getFrameIndex(window.name));
+                    } else {
+                        layui.layer.alert('警告 保存失败');
+                    }
+                });
+            }
+            parent.parentLineCondData = 1;
+            parent.layer.close(parent.layer.getFrameIndex(window.name));
+            return false;
+        });
+    });
+
+    var getNodeAndFrom = function (node) {
+        if (Nodes){
+            for (let index = 0; index < Nodes.length; index++) {
+                if (Nodes[index].nn == node){
+                    return Nodes[index];
+                }
+            }
+        }
+        return -1;
+    };
+
+    var getLines = function (snode,enode) {
+        if (LineCond){
+            for (let index = 0; index < LineCond.length; index++) {
+                if (LineCond[index].snn == snode && LineCond[index].enn == enode){
+                    return LineCond[index];
+                }
+            }
+        }
+        return -1;
+    };
+
+    var generateTree = function (data) {
+        let parent = {title:'节点信息',id:-1,children:[],spread : true};
+        if (data){
+            for (var index = 0; index < data.length; index++) {
+                var m = data[index];
+                m.title = m.sname + '-' + m.ename;
+                m.id = index;
+                m.spread = true;
+                m.checked = getLines(m.snn,m.enn) !== -1;
+                parent.children.push(m) ;
+            }
+        }
+        return [parent];
+    };
+
+</script>
+</body>
+</html>

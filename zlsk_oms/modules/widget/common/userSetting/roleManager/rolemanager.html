@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>角色管理</title>
+    <link rel="stylesheet" href="../../../../../lib/ok_admin/css/okadmin.css">
+    <script type="text/javascript" src="../../../../../lib/ok_admin/lib/layui/layui.js"></script>
+    <script type="text/javascript" src="../../../../../lib/ok_admin/lib/layui/extend/treeGrid.js"></script>
+</head>
+<body >
+
+<div class="commonOutCss">
+    <table id="treeTable" lay-filter="treeTable"></table>
+</div>
+
+<script type="text/html" id="toolbarDemo">
+    <form class="layui-form layui-col-md12" id="search-form">
+        <div class="layui-input-inline">
+            <input class="layui-input"  placeholder="请输入角色名" name="name">
+        </div>
+        <div class="layui-input-inline">
+            <select name="xm" id="xm" lay-filter="xmFilter"></select>
+        </div>
+
+        <a class="layui-btn " id="query" title="条件查询"><i class="layui-icon">&#58901;</i></a>
+        <a class="layui-btn " id="reload" title="重置刷新"><i class="layui-icon">&#58982;</i></a>
+        <a class="layui-btn " id="add" title="创建角色"><i class="layui-icon">&#58964;</i></a>
+    </form>
+</script>
+
+<script>
+    var funs = sessionStorage.getItem("funs");
+    var ptable = null, treeGrid = null, tableId = 'treeTable', layer = null, parentFlag = 0;
+    var cacheSelect = {};
+    var $;
+    layui.use(['treeGrid', 'layer', 'constantUrl', "okLayer", 'okUtils', 'form'], function () {
+        $ = layui.jquery;
+        treeGrid = layui.treeGrid;
+        layer = layui.layer;
+        var constantUrl = layui.constantUrl;
+        var okUtils = layui.okUtils;
+        var okLayer = layui.okLayer;
+        var form = layui.form;
+
+        ptable = treeGrid.render({
+            id: tableId
+            , elem: '#' + tableId
+            , idField: 'ID'
+            , height:'full-40'
+            , iconOpen: false
+            , toolbar: '#toolbarDemo'
+            , url: constantUrl.stAuth.selectRole
+            , parseData: function (res) {
+                var show = document.getElementById("xm");
+                if (show.options.length === 0) {
+                    var cache = [];
+                    cache.push({"ID": -1, "NAME": "所有"});
+                    $.each(res.data.getMe, function (index, value){
+                        if (value.ROLELEVEL === 1){
+                            cache.push({"ID": value.ID, "NAME": value.NAME});
+                        }
+                    });
+                    okUtils.adapterSelect("#xm", "", "ID", "NAME", cache);
+                    cacheSelect = show.options;
+                }
+                return {
+                    "code": res.meow,
+                    "msg": res.msg,
+                    "count": res.data.total,
+                    "data": res.data.getMe
+                };
+            }
+            , cellMinWidth: 100
+            , treeId: 'ID'//树形id字段名称
+            , treeUpId: 'PARENTID'//树形父id字段名称
+            , treeShowName: 'NAME'//以树形式显示的字段
+            , cols: [[
+                {field: 'NAME', title: '角色名称'},
+                {field: 'CODE', title: '角色编号'},
+                {field: 'STTIME', title: '创建时间'},
+                {
+                    width: 100, title: '操作', align: 'center'/*toolbar: '#barDemo'*/
+                    , templet: function (d) {
+                    var html = '';
+                    var addBtn = '<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">编辑</a>';
+                    var delBtn = '<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>';
+                    return addBtn + delBtn;
+                }
+                }
+
+            ]]
+            , page: false
+        });
+
+        treeGrid.on('tool(' + tableId + ')', function (obj) {
+            if (obj.event === 'del') {
+                layer.confirm("你确定删除数据吗？", {icon: 3, title: '提示'},
+                    function (index) {//确定回调
+                        if (obj.data.children && obj.data.children.length > 0) {
+                            layer.alert("该节点存在子节点，无法删除")
+                        } else {
+                            var param = {};
+                            param.roleId = obj.data.ID;
+                            okUtils.ajax({"url": constantUrl.stAuth.deleteRole, "param": param}).done(function (data1) {
+                                obj.del();
+                            }).fail(function (error) {
+                                layer.alert(error)
+                            })
+                        }
+                        layer.close(index);
+                    }, function (index) {//取消回调
+                        layer.close(index);
+                    }
+                );
+            } else if (obj.event === "edit") {
+                parentFlag = 0;
+                edit(obj);
+            }
+        });
+
+        $(document).on('click', '#query', function () {
+            var param = {};
+            param.name = $.trim($("input[name='name']").val());
+            var options = $("#xm option:selected");
+            param.rolelevel = 2;
+            if (options.val() != -1) {
+                param.parentid = options.val();
+            }
+            treeGrid.query(tableId, {
+                where: param
+            });
+        });
+
+        $(document).on('click', '#add', function () {
+            parentFlag = 0;
+            okLayer.open("添加角色", "roleEdit.html", "30%", "60%", function (layero) {
+                var iframeWin = window[layero.find("iframe")[0]["name"]];
+                iframeWin.initForm(cacheSelect, "", true);
+            }, function () {
+                if (parentFlag === 1){
+                    reload()
+                }
+            })
+        });
+
+        $(document).on('click', '#reload', function () {
+//            $("#xm").find("option[value = '所有']").attr("selected", "selected");
+            $("[name=xm]").val("");
+            $("[name=name]").val("");
+            form.render('select');
+            treeGrid.reload(tableId, {
+                page: {
+                    curr: 1
+                }
+            });
+        });
+
+        function reload() {
+            treeGrid.reload(tableId, {
+                page: {
+                    curr: 1
+                }
+            });
+        }
+
+        var edit = function (obj) {
+            okLayer.open("编辑角色", "roleEdit.html", "30%", "50%", function (layero) {
+                var iframeWin = window[layero.find("iframe")[0]["name"]];
+                iframeWin.initForm(cacheSelect, obj.data, false);
+            }, function () {
+                if (parentFlag === 1) {
+                    reload()
+                }
+            })
+        };
+    });
+
+
+</script>
+</body>
+</html>

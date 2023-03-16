@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加数据</title>
+    <link rel="stylesheet" href="../../../../lib/ok_admin/css/okadmin.css">
+    <script type="text/javascript" src="../../../../lib/ok_admin/lib/layui/layui.js"></script>
+    <style>
+        .layui-form-label{
+            width: 140px !important;
+        }
+        .layui-input-block{
+            margin-left: 140px !important;
+        }
+    </style>
+</head>
+<body>
+<form class="layui-form layui-form-pane ok-form" lay-filter="depthForm" style="display: none;margin: 10px" id="depthForm">
+    <div class="layui-form-item">
+        <label class="layui-form-label" >管线</label>
+        <div class="layui-input-block" >
+            <input type="text" name="pipe" placeholder="请输入管线" autocomplete="off" class="layui-input" lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">管线编码(大类)</label>
+        <div class="layui-input-block">
+            <select  id="code" name="code" placeholder="请输入管线编码(大类)" autocomplete="off" class="layui-input" ></select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">压力类型</label>
+        <div class="layui-input-block">
+            <input type="text" name="pressure" placeholder="请输入压力类型" autocomplete="off" class="layui-input" >
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">压力类型编码</label>
+        <div class="layui-input-block">
+            <input type="text" name="pressure_code" placeholder="请输入压力类型编码" autocomplete="off" class="layui-input" >
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">埋设方式</label>
+        <div class="layui-input-block">
+            <input type="text" name="burying_method" placeholder="请输入埋设方式" autocomplete="off" class="layui-input" >
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">埋设方式编码</label>
+        <div class="layui-input-block">
+            <input type="text" name="burying_code" placeholder="请输入埋设方式编码" autocomplete="off" class="layui-input" >
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">最小管径</label>
+        <div class="layui-input-block">
+            <input type="text" name="min_ST_SIZE" placeholder="请输入最小管径" autocomplete="off" class="layui-input" lay-verify="number">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">最大管径</label>
+        <div class="layui-input-block">
+            <input type="text" name="max_ST_SIZE" placeholder="请输入最大管径" autocomplete="off" class="layui-input" lay-verify="number">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">最小压力</label>
+        <div class="layui-input-block">
+            <input type="text" name="min_ST_PSVALUE" placeholder="请输入最小压力" autocomplete="off" class="layui-input" lay-verify="decimal">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">最大压力</label>
+        <div class="layui-input-block">
+            <input type="text" name="max_ST_PSVALUE" placeholder="请输入最大压力" autocomplete="off" class="layui-input" lay-verify="decimal">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">人行道</label>
+        <div class="layui-input-block">
+            <input type="text" name="sidewalk" placeholder="请输入人行道" autocomplete="off" class="layui-input" lay-verify="required|decimal">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">马路</label>
+        <div class="layui-input-block">
+            <input type="text" name="roadway" placeholder="请输入马路" autocomplete="off" class="layui-input" lay-verify="required|decimal">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">分组</label>
+        <div class="layui-input-block">
+            <input type="text" name="ck" id="ckDepth" placeholder="请输入分组" autocomplete="off" class="layui-input" lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="addDepth">立即提交</button>
+        </div>
+    </div>
+</form>
+
+<form class="layui-form layui-form-pane ok-form" lay-filter="horizontalForm" style="display: none;margin: 10px" id="horizontalForm">
+    <div class="layui-form-item">
+        <label class="layui-form-label">管线1</label>
+        <div class="layui-input-block">
+            <input type="text" name="pipe1" placeholder="请输入管线1" autocomplete="off" class="layui-input" lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">管线1编码(大类)</label>
+        <div class="layui-input-block">
+            <select  id="code1" name="code1" placeholder="请输入管线1编码(大类)" autocomplete="off" class="layui-input" ></select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">管线2</label>
+        <div class="layui-input-block">
+            <input type="text" name="pipe2" placeholder="请输入管线2" autocomplete="off" class="layui-input" lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">管线2编码(大类)</label>
+        <div class="layui-input-block">
+            <select  id="code2" name="code2" placeholder="请输入管线2编码(大类)" autocomplete="off" class="layui-input" ></select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">压力类型1</label>
+        <div class="layui-input-block">
+            <input type="text" name="pressure1" placeholder="请输入压力类型1" autocomplete="off" class="layui-input" >
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">压力类型编码1</label>
+        <div class="layui-input-block">
+            <input type="text" name="pressure_code1" placeholder="请输入压力类型编码1" autocomplete="off" class="layui-input" >
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">压力类型2</label>
+        <div class="layui-input-block">
+            <input type="text" name="pressure2" placeholder="请输入压力类型2" autocomplete="off" class="layui-input" >
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">压力类型编码2</label>
+        <div class="layui-input-block">
+            <input type="text" name="pressure_code2" placeholder="请输入压力类型编码2" autocomplete="off" class="layui-input" >
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">埋设方式1</label>
+        <div class="layui-input-block">
+            <input type="text" name="burying_method1" placeholder="请输入埋设方式1" autocomplete="off" class="layui-input" >
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">埋设方式编码1</label>
+        <div class="layui-input-block">
+            <input type="text" name="burying_code1" placeholder="请输入埋设方式编码1" autocomplete="off" class="layui-input" >
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">埋设方式2</label>
+        <div class="layui-input-block">
+            <input type="text" name="burying_method2" placeholder="请输入埋设方式2" autocomplete="off" class="layui-input" >
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">埋设方式编码2</label>
+        <div class="layui-input-block">
+            <input type="text" name="burying_code2" placeholder="请输入埋设方式编码2" autocomplete="off" class="layui-input" >
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">最小管径1</label>
+        <div class="layui-input-block">
+            <input type="text" name="min_ST_SIZE1" placeholder="请输入最小管径1" autocomplete="off" class="layui-input" lay-verify="number">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">最大管径1</label>
+        <div class="layui-input-block">
+            <input type="text" name="max_ST_SIZE1" placeholder="请输入最大管径1" autocomplete="off" class="layui-input"  lay-verify="number">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">最小管径2</label>
+        <div class="layui-input-block">
+            <input type="text" name="min_ST_SIZE2" placeholder="请输入最小管径2" autocomplete="off" class="layui-input" lay-verify="number">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">最大管径2</label>
+        <div class="layui-input-block">
+            <input type="text" name="max_ST_SIZE2" placeholder="请输入最大管径2" autocomplete="off" class="layui-input" lay-verify="number">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">最小压力1</label>
+        <div class="layui-input-block">
+            <input type="text" name="min_ST_PSVALUE1" placeholder="请输入最小压力1" autocomplete="off" class="layui-input" lay-verify="decimal">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">最大压力1</label>
+        <div class="layui-input-block">
+            <input type="text" name="max_ST_PSVALUE1" placeholder="请输入最大压力1" autocomplete="off" class="layui-input" lay-verify="decimal">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">最小压力2</label>
+        <div class="layui-input-block">
+            <input type="text" name="min_ST_PSVALUE2" placeholder="请输入最小压力2" autocomplete="off" class="layui-input" lay-verify="decimal">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">最大压力2</label>
+        <div class="layui-input-block">
+            <input type="text" name="max_ST_PSVALUE2" placeholder="请输入最大压力2" autocomplete="off" class="layui-input" lay-verify="decimal">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">标准</label>
+        <div class="layui-input-block">
+            <input type="text" name="iso" placeholder="请输入标准" autocomplete="off" class="layui-input" lay-verify="required" lay-verify="required|decimal">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">分组</label>
+        <div class="layui-input-block">
+            <input type="text" name="ck" id="ckHorizontal" placeholder="请输入分组" autocomplete="off" class="layui-input" lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="addHorizontal">立即提交</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    var $;
+    var form;
+    var layer;
+    var okLayer;
+    var okUtils;
+    var constantUrl;
+
+    var  ck;
+    var  type;
+    layui.use(['form', 'okUtils', "okLayer", "layer", 'constantUrl'],function () {
+        $ = layui.$;
+        form = layui.form;
+        layer = layui.layer;
+        okUtils = layui.okUtils;
+        okLayer = layui.okLayer;
+        constantUrl = layui.constantUrl;
+
+        ck = okUtils.getUrlParameter('ck');
+        type = okUtils.getUrlParameter('type');
+
+        $('#ckDepth').val(ck);
+        $('#ckHorizontal').val(ck);
+        let flag = [];
+        let codeList = [];
+        okUtils.ajax({
+            url:constantUrl.stMap.easySelect,
+            param:{table:'zlsk_ps_tc',mapStr:JSON.stringify({ck:ck})}
+        }).done(function (data1) {
+            if (data1.meow === 0){
+                data1.data.forEach(function (value,index) {
+                    if (flag.indexOf(value.code) === -1){
+                        flag.push(value.code);
+                        codeList.push({value:value.code})
+                    }
+                });
+                okUtils.adapterSelect('#code','','value','value',codeList);
+                okUtils.adapterSelect('#code1','','value','value',codeList);
+                okUtils.adapterSelect('#code2','','value','value',codeList);
+            }else {
+                layer.alert('警告 未获取到配置组表信息')
+            }
+        });
+
+        let domDepth = $('#depthForm');
+        let domHorizontal = $('#horizontalForm');
+        switch (type) {
+            case 'depth':
+                domDepth.show();
+                break;
+            case 'horizontal':
+                domHorizontal.show();
+                break;
+            case 'vertical':
+                domHorizontal.show();
+                break;
+        }
+
+        form.verify({
+            number: function(value, item){ //value：表单的值、item：表单的DOM对象
+                if(value!= '' && !new RegExp("^\\d+$").test(value)){
+                    return '请输入整数';
+                }
+            }
+            ,decimal: function (value,item) {
+                if(value!= '' && !new RegExp("^[0-9]+(.[0-9]{1,3})?$").test(value)){
+                    return '请输入三位小数数字';
+                }
+            }
+        });
+
+        form.on('submit(addDepth)',function (data) {
+            let param = {};
+            for (let key in data.field){
+                if (data.field[key] == ''){
+                    delete data.field[key]
+                }
+            }
+            if (!data.field.code || data.field.code == ''){
+                layer.alert('警告 未选择管线编码');
+                return false;
+            }
+            param.table = 'zlsk_ps_dc';
+            param.mapStr = JSON.stringify(data.field);
+            okUtils.ajax({
+                url:constantUrl.stMap.easyUpload,
+                param:param,
+                type:'post'
+            }).done(function (data1) {
+                if (data1.meow === 0){
+                    parent.parentBFlag = 1;
+                    parent.layer.close(parent.layer.getFrameIndex(window.name));
+                }else {
+                    layer.alert('警告 上传失败')
+                }
+            });
+            return false;
+        });
+
+        form.on('submit(addHorizontal)',function (data) {
+            let param = {};
+            for (let key in data.field){
+                if (data.field[key] == ''){
+                    delete data.field[key]
+                }
+            }
+            if (!data.field.code1 || data.field.code1 == '' || !data.field.code2 ||data.field.code2 == ''){
+                layer.alert('警告 未选择管线编码');
+                return false;
+            }
+            param.table = type === 'horizontal' ? 'zlsk_ps_hdc' : 'zlsk_ps_vdc';
+            param.mapStr = JSON.stringify(data.field);
+            okUtils.ajax({
+                url:constantUrl.stMap.easyUpload,
+                param:param,
+                type:'post'
+            }).done(function (data1) {
+                if (data1.meow === 0){
+                    parent.parentBFlag = 1;
+                    parent.layer.close(parent.layer.getFrameIndex(window.name));
+                }else {
+                    layer.alert('警告 上传失败')
+                }
+            });
+            return false;
+        });
+    })
+</script>
+</body>
+</html>

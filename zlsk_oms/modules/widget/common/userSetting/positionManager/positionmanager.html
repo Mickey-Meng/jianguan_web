@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>岗位管理</title>
+    <link rel="stylesheet" href="../../../../../lib/ok_admin/css/okadmin.css">
+    <script type="text/javascript" src="../../../../../lib/ok_admin/lib/layui/layui.js"></script>
+    <style>
+        #departmentTree {
+            height: 100%;
+            width: 20%;
+            float: left;
+            overflow: auto;
+        }
+
+        #user {
+            width: 80%;
+            right: 10px;
+            float: left;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="layui-body commonOutCss" style="left: 0px">
+        <div id="departmentTree" style="min-height:400px;"></div>
+        <div id="user">
+            <div class="layui-row layui-tab-card layui-tab">
+                <form class="layui-form " style="width: auto;margin: 10px;" lay-filter="form" id="form">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">岗位名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="positionName" placeholder="请输入岗位名称" autocomplete="off" class="layui-input" lay-verify="required">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">岗位编码</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="positionCode" placeholder="请输入岗位编码" autocomplete="off" class="layui-input" lay-verify="required">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">描述</label>
+                        <div class="layui-input-block">
+                            <textarea name="description" placeholder="请输入内容" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">顺序编号</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="storder" placeholder="请输入顺序编号" autocomplete="off" class="layui-input" lay-verify="required">
+                        </div>
+                    </div>
+                    <div class="layui-form-item" style="display: none" id="higherOffice">
+                        <label class="layui-form-label">上级岗位</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="parent" placeholder="请输入上级部门" autocomplete="off" class="layui-input" lay-verify="addRequired" disabled>
+                        </div>
+                    </div>
+                    <div style="text-align: center">
+                        <button class="layui-btn" lay-submit lay-filter="submit">提交<i style='margin-left: 10px' class="layui-icon">&#4101;</i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+    var $;
+    var treeData = [];
+    var alldata = null;
+    layui.use(['tree', 'layer', 'form', 'table', 'okUtils', "okLayer", 'constantUrl'], function() {
+        $ = layui.jquery;
+        var tree = layui.tree;
+        var okUtils = layui.okUtils;
+        var constantUrl = layui.constantUrl;
+        var okLayer = layui.okLayer;
+        var layer = layui.layer;
+        var form = layui.form;
+        var cacheData = {};
+        var addFlag = 0; //区分添加和编辑的标志 1 添加 2 编辑
+
+        var initTree = function() {
+            var groupData = [];
+            okUtils.ajax({ "url": constantUrl.stAuth.selectPosition }).done(function(data1) {
+                if (data1.data == null) {
+                    layer.alert("警告 " + data1.msg)
+                } else {
+                    alldata = data1.data.getMe;
+                    data = okUtils.structureTree({ "data": data1.data.getMe, "check": true, "spread": true }, 'id', 'positionName', 'parentId');
+                    for (var index = 0; index < data.length; index++) {
+                        if (data[index].parentId === -1) {
+                            treeData[0] = data[index];
+                        }
+                    }
+                    tree.render({
+                        elem: '#departmentTree',
+                        onlyIconControl: true,
+                        data: treeData,
+                        id: 'treeId',
+                        customOperate: true,
+                        edit: ['add', 'update', 'del'],
+                        operate: function(obj) {
+                            var type = obj.type; //得到操作类型：add、edit、del
+                            var data = obj.data; //得到当前节点的数据
+                            document.getElementById("form").reset();
+                            cacheData = data;
+                            if (type === 'add') { //增加节点
+                                addFlag = 1;
+                                addPosition(data)
+                            } else if (type === 'del') { //删除节点
+                                deletePosition(data)
+                            } else {
+                                editPosition(obj.data);
+                            }
+                            return false;
+                        },
+                        click: function(obj) {
+                            cacheData = obj.data;
+                            editPosition(obj.data);
+                        }
+                    });
+                }
+            });
+        };
+
+        initTree();
+        form.on("submit(submit)", function(data) {
+            if (!cacheData.id) {
+                layer.msg("请选择父节点");
+                return false;
+            }
+            var param = data.field;
+
+            if (addFlag === 1) {
+                var e = Exist(alldata, 'positionCode', data.field.positionCode);
+                if (e) {
+                    layer.msg(data.field.positionCode + "--岗位编码已存在");
+                    return false;
+                }
+                param.parentId = cacheData.id;
+                param.lev = cacheData.lev + 1;
+                okUtils.ajax({ "url": constantUrl.stAuth.addPosition, "param": param, type: 'POST' }).done(function(data3) {
+                    layer.alert("添加成功");
+                    reFresh();
+                    initTree();
+                }).fail(function(error) {
+                    layer.alert("警告 " + error);
+                })
+            } else if (addFlag === 2) {
+                var e = ExistUpdate(alldata, 'positionCode', data.field.positionCode,'id',cacheData.id);
+                if (e) {
+                    layer.msg(data.field.positionCode + "--岗位编码已存在");
+                    return false;
+                }
+                param.id = cacheData.id;
+                okUtils.ajax({ "url": constantUrl.stAuth.updatePosition, "param": param, type: 'POST' }).done(function(data3) {
+                    layer.alert("编辑成功");
+                    reFresh();
+                    initTree();
+                }).fail(function(error) {
+                    layer.alert("警告 " + error);
+                })
+            } else {
+                layer.msg("请刷新后重试")
+            }
+            return false;
+        });
+
+        var resetForm = function(data) {
+            $("#higherOffice").hide();
+            form.val("form", data);
+        };
+
+        var editPosition = function(data) {
+            addFlag = 2;
+            $("#higherOffice").hide();
+            var param = {};
+            param.positionName = data.positionName;
+            param.positionCode = data.positionCode;
+            param.description = data.description;
+            param.storder = data.storder;
+            form.val("form", param);
+        };
+        var reFresh = function(){
+              var param = {};
+            param.positionName = "";
+            param.positionCode = "";
+            param.description = "";
+            param.storder = "";
+            form.val("form", param);
+        }
+        var addPosition = function(data) {
+            addFlag = 1;
+            $("#higherOffice").show();
+            var newData = {};
+            newData.parent = data.title;
+            form.val("form", newData);
+        };
+
+        var deletePosition = function(data) {
+            var title = '是否确认删除';
+            if (data.children) {
+                title = "是否确认删除以及其子节点";
+            }
+            var param = { "id": data.id };
+            layer.confirm(title, { icon: 3, title: '提示' }, function(index) {
+                layer.close(index);
+                okUtils.ajax({ "url": constantUrl.stAuth.delPosition, "param": param }).done(function(data1) {
+                    if (data1.meow == 0) {
+                        initTree();
+                    } else {
+                        layer.msg("警告" + data1.msg);
+                    }
+                });
+            });
+        };
+
+        var Exist = function(list, key, value) {
+            if (!list) {
+                return false;
+            }
+            for (var i = 0; i < list.length; i++) {
+                if (list[i][key] == value) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        var ExistUpdate = function(list, key, value, key1, value1) {
+            if (!list) {
+                return false;
+            }
+            for (var i = 0; i < list.length; i++) {
+                if (list[i][key] == value && list[i][key1] != value1) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    })
+    </script>
+</body>
+
+</html>

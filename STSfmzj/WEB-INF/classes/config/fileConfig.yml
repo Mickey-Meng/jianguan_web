@@ -1,0 +1,5 @@
+config: st
+
+configs:
+    st:
+        DbTable: st_dbmanagerrestservice/db/

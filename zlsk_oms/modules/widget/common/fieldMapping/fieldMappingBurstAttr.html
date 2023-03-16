@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>爆管附属</title>
+    <link rel="stylesheet" href="../../../../lib/ok_admin/css/okadmin.css">
+    <script type="text/javascript" src="../../../../lib/ok_admin/lib/layui/layui.js"></script>
+</head>
+<body>
+<div class="layui-body commonOutCss" style="left: 0" id="content">
+    <form class="layui-form layui-form-pane ok-form" style="overflow: auto" lay-filter="config">
+        <div id="attachment" style="width: 200px;margin: 10px"></div>
+        <div style="text-align: center">
+            <button class="layui-btn" lay-submit lay-filter="add" id="add">立即提交</button>
+        </div>
+    </form>
+</div>
+<script>
+    var $;
+    var ck;
+    var pointlayer;
+    var linelayer;
+    var attr ;
+    var xmSelect;
+    function initForm(ckString,pointlayerString,linelayerString,attrString) {
+        ck = ckString;
+        pointlayer = pointlayerString;
+        linelayer = linelayerString;
+        attr = JSON.parse(attrString);
+    }
+    layui.use([ "form",  "okLayer", "layer", "okUtils", 'constantUrl', 'xmSelect'], function() {
+        var form = layui.form;
+        var layer = layui.layer;
+        var okUtils = layui.okUtils;
+        var constantUrl = layui.constantUrl;
+        xmSelect = layui.xmSelect;
+
+        let select = generateSelect("attachment",attr);
+        form.on('submit(add)',function (data) {
+            let param = {};
+            let attr = '';
+            if (select.getValue().length === 0){
+                layer.alert('警告 未选择阀门');
+                return false;
+            }else {
+                for (let index = 0; index < select.getValue().length; index++) {
+                    attr += select.getValue()[index].value + ',';
+                }
+            }
+            attr = attr.substring(0 ,attr.length - 1);
+            param.ck = ck;
+            param.pointlayer = pointlayer;
+            param.linelayer = linelayer;
+            param.attachment = attr;
+            param.sttime = new Date();
+            okUtils.ajax({
+                'url': constantUrl.stMap.uploadDataBurst,
+                'param': {dataInfo:JSON.stringify(param),ck:ck},
+                'type':'post'
+            }).done(function (data1) {
+                if (data1.meow === 0){
+                    layer.msg('上传成功');
+                    parent.parentBFlag = 1;
+                    parent.layer.close(parent.layer.getFrameIndex(window.name));
+                }else {
+                    layer.alert('警告 添加数据失败');
+                }
+            });
+            return false;
+        })
+    });
+
+    var generateSelect = function (id,array) {
+        return xmSelect.render({
+            el: '#' + id,
+            tips:'请选择',
+            name: 'name',
+            filterable: false,
+            repeat: false,
+            radio: false,
+            clickClose: true,
+            data: array,
+            theme: {
+                color: '#333333',
+            },
+            model: {
+                label: {
+                    type: 'block',
+                    block: {
+                        showCount: 0,
+                        showIcon: false,//是否显示删除图标
+                    }
+                }
+            }
+        })
+    }
+</script>
+</body>
+</html>

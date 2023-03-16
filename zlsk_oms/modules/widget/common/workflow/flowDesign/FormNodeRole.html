@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>节点承办人</title>
+    <link rel="stylesheet" href="../../../../../lib/ok_admin/css/okadmin.css">
+    <script type="text/javascript" src="../../../../../lib/ok_admin/lib/layui/layui.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+</head>
+<body>
+<div class="ok-body" style="margin: 10px">
+    <div style="width: 30%;float: left">
+        <div id="lineTree"></div>
+    </div>
+    <div style="width: 70%;float: left">
+        <label style="margin-left: 20px" id="labelUrl"></label>
+        <form class="layui-form ok-form" lay-filter="form" id="form">
+            <div class="layui-form-item" id="filterTaker">
+                <label class="layui-form-label">过滤移交人</label>
+                <div class="layui-input-block">
+                    <div id="frft"></div>
+<!--                    <select name="frft" id="frft" lay-filter="frft">-->
+<!--                        <option value="">请选择</option>-->
+<!--                        <option value="0">不做处理</option>-->
+<!--                        <option value="1">仅同部门承办人</option>-->
+<!--                        <option value="2">仅同组承办人</option>-->
+<!--                        <option value="3">仅能移交给同部门同组承办人</option>-->
+<!--                        <option value="4">仅指定节点的承办人</option>-->
+<!--                        <option value="8">仅自己</option>-->
+<!--                    </select>-->
+                </div>
+            </div>
+            <div class="layui-form-item" id="takerTypy">
+                <label class="layui-form-label">承办人类型</label>
+                <div class="layui-input-block">
+                    <div id="rtype"></div>
+<!--                    <select name="rtype" id="rtype" lay-filter="rtype">-->
+<!--                        <option value="">请选择</option>-->
+<!--                        <option value="1">角色</option>-->
+<!--                        <option value="2">部门</option>-->
+<!--                        <option value="3">岗位</option>-->
+<!--                        <option value="4">用户</option>-->
+<!--                        <option value="5">节点承办人</option>-->
+<!--                    </select>-->
+                </div>
+            </div>
+            <div class="layui-form-item" id="Taker">
+                <label class="layui-form-label">承办人</label>
+                <div class="layui-input-block">
+                    <div id="rid"></div>
+<!--                    <select name="rid" id="rid" lay-filter="rid"></select>-->
+                </div>
+            </div>
+            <div class="layui-form-item" id="defaultTaker">
+                <label class="layui-form-label">默认承办人</label>
+                <div class="layui-input-block">
+                    <div id="defaultRid"></div>
+<!--                    <select name="defaultRid" id="defaultRid" lay-filter="defaultRid"></select>-->
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn"  id="submit">确定</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        var $;
+        var form;
+        var tree;
+        var layer;
+        var okUtils;
+        var xmSelect;
+        var constantUrl;
+
+        var defRole;
+        var nodeInfo;
+        var lines;
+        var groups;
+        var ridSelect;
+        var defaultRidSelect;
+        var frftSelect;
+        var rTypeSelect;
+        var frftSelectData;
+        var rTypeSelectData;
+        var roles = [];
+        var users = [];
+        var nodeRoles = [];
+        var positions = [];
+        var allLinesData = {};
+        var userData = {};
+        var currentSnode ;
+        var currentEnode ;
+        var userInfo = sessionStorage.getItem('userInfo');
+
+        function initForm(noderole,defroles,line,nodeinfo,alllines) {
+            if (noderole){
+                nodeRoles = JSON.parse(noderole);
+            }
+            if (defroles){
+                defRole = JSON.parse(defroles);
+            }
+            if (line){
+                lines = JSON.parse(line);
+            }
+            if (nodeinfo){
+                nodeInfo = JSON.parse(nodeinfo);
+            }
+            if (alllines){
+                let allLines = JSON.parse(alllines);
+                for (let index = 0; index < allLines.length; index++) {
+                    let key = allLines[index].snode + '-' + allLines[index].enode;
+                    allLinesData[key] = allLines[index];
+                }
+            }
+        }
+
+        layui.use(['form','okUtils','constantUrl','layer','tree','xmSelect'],function () {
+            $ = layui.jquery;
+            form = layui.form;
+            tree = layui.tree;
+            layer = layui.layer;
+            okUtils = layui.okUtils;
+            xmSelect = layui.xmSelect;
+            constantUrl = layui.constantUrl;
+
+            let group = generateTree(generateLineName(lines,nodeInfo));
+            tree.render({
+                elem: '#lineTree'
+                , data: group
+                , id: 'treeId'
+                , spread: true
+                , onlyIconControl: true
+                , click: function (obj) {
+                    if (obj.data.id !== -1){
+                        currentSnode = obj.data.snode;
+                        currentEnode = obj.data.enode;
+                        $('#labelUrl').text('选中节点：' + obj.data.title);
+                        let currentRole = getRole(currentSnode,currentEnode,nodeRoles);
+                        if (currentRole !== -1){
+                            initForm(currentRole);
+                        }else {
+                            frftSelect.setValue([]);
+                            rTypeSelect.setValue([]);
+                            ridSelect.setValue([]);
+                            defaultRidSelect.setValue([]);
+                        }
+                    }
+                }
+            });
+
+            function initForm(data) {
+                frftSelect.setValue(getInitSelectData(data,frftSelectData,'frft'));
+                rTypeSelect.setValue(getInitSelectData(data,rTypeSelectData,'rtype'));
+
+                ridSelect.update({
+                    data:getRid(data.rtype,data.rid)
+                });
+                let defaultRole = getRole(currentSnode,currentEnode,defRole);
+                if (defaultRole !== -1){
+                    defaultRidSelect.update({
+                        data:getRid(defaultRole.rtype,defaultRole.rid)
+                    });
+                }else {
+                    defaultRidSelect.update({
+                        data:getRid(data.rtype,data.rid)
+                    });
+                    defaultRidSelect.setValue([])
+                }
+            }
+
+            ridSelect = generateXmSelect([],'#rid','承办人','rid',true);
+            defaultRidSelect = generateXmSelect([],'#defaultRid','默认承办人','defaultTaker',true);
+            layui.okUtils.getDic('filterTaker', function (array, map) {
+                frftSelectData = array;
+                frftSelect = generateXmSelect(array,'#frft','过滤移交人','frft',true)
+            });
+
+            layui.okUtils.getDic('takerTypy', function (array, map) {
+                rTypeSelectData = array;
+                rTypeSelect = generateXmSelect(array,'#rtype','承办人类型','rtype',true)
+            });
+
+            okUtils.ajax({url:constantUrl.stAuth.selectRole}).done(function (data1) {
+                if (data1.meow ===0 && data1.data){
+                    let cache = data1.data.getMe;
+                    if (cache && cache.length > 0){
+                        $.each(cache,function (index,value) {
+                            if (value.PARENTID !== -1){
+                                roles.push(value);
+                                okUtils.ajax({url:constantUrl.stAuth.getUsersByRoleAndGroup,param:{roleCode:value.CODE},returnDataAnyWay:true}).done(function (data2) {
+                                    if (data2.data && data2.data.length > 0){
+                                        for (let idx = 0; idx < data2.data.length; idx++) {
+                                            if (data2.data[idx].children && data2.data[idx].children.length > 0){
+                                                for (let index1 = 0; index1 < data2.data[idx].children.length; index1++) {
+                                                    if (data2.data[idx].children[index1] && data2.data[idx].children[index1].children && data2.data[idx].children[index1].children.length > 0){
+                                                        for (let i = 0; i < data2.data[idx].children[index1].children.length; i++) {
+                                                            let user = data2.data[idx].children[index1].children[i];
+                                                            if (!userData[user.ID]){
+                                                                userData[user.ID] = user;
+                                                                users.push(user);
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                })
+                            }
+                        });
+                    }
+                }else {
+                    layer.alert('警告 查询角色失败')
+                }
+            });
+
+            okUtils.ajax({url:constantUrl.stAuth.selectGroup}).done(function (data1) {
+                if (data1.meow === 0 && data1.data){
+                    groups = data1.data.getMe;
+                }else {
+                    layer.alert('警告 查询角色失败')
+                }
+            });
+
+            okUtils.ajax({url:constantUrl.stAuth.selectPosition}).done(function (data1) {
+                if (data1.meow === 0 && data1.data){
+                    let cache = data1.data.getMe;
+                    let checkDuplicate = [];
+                    if (cache){
+                        $.each(cache,function (index,value) {
+                            value.ID = value.id;
+                            value.value = value.id;
+                            value.name = value.positionName;
+                            if (value.parentId != -1 &&  checkDuplicate.indexOf(value.id) == -1){
+                                checkDuplicate.push(value.id);
+                                positions.push(value);
+                            }
+                        })
+                    }
+                }else {
+                    layer.alert('警告 查询角色失败')
+                }
+            });
+
+            $('#submit').click(function () {
+                if (!currentSnode || !currentEnode){
+                    layer.alert('警告 请先选择节点信息');
+                    return false;
+                }
+                if (checkArrayNull(ridSelect.getValue())){
+                    layer.alert('警告 请选择承办人');
+                    return false;
+                }else if (checkArrayNull(frftSelect.getValue())){
+                    layer.alert('警告 请选择过滤承办人');
+                    return false;
+                }else if (checkArrayNull(rTypeSelect.getValue())){
+                    layer.alert('警告 请选择承办人类型');
+                    return false;
+                }
+                let roles;
+                let defaultRole = '[]';
+                let cacheRole = getRole(currentSnode,currentEnode,nodeRoles);
+                let cacheDefaultRole = getRole(currentSnode,currentEnode,defRole);
+                let cacheField = {};
+                let nodeIdAndNn = {};
+                for (let index = 0; index < nodeInfo.length; index++) {
+                    nodeIdAndNn[nodeInfo[index].nn] = nodeInfo[index].gid;
+                }
+                cacheField.frft = parseInt(frftSelect.getValue()[0].key);
+                cacheField.rtype = parseInt(rTypeSelect.getValue()[0].key);
+                roles = generateSubmitRoleData(cacheRole,cacheField,ridSelect.getValue()[0].ID,nodeIdAndNn,true);
+                if (defaultRidSelect.getValue() && defaultRidSelect.getValue().length !== 0){
+                    defaultRole = generateSubmitRoleData(cacheDefaultRole,cacheField,defaultRidSelect.getValue()[0].ID,nodeIdAndNn,false);
+                }
+                layui.okUtils.ajax({
+                    'url': layui.constantUrl.stFlow2.updateNodeRoles,
+                    'param': {
+                        'snid': nodeIdAndNn[currentSnode],
+                        'enid': nodeIdAndNn[currentEnode],
+                        'roles': roles,
+                        'defroles': defaultRole
+                    }
+                }).done(function (data4) {
+                    if (data4.meow === 0) {
+                        // layui.layer.alert('保存成功');
+                        parent.parentNodeRoleData = 1;
+                        parent.layer.close(parent.layer.getFrameIndex(window.name));
+                    } else {
+                        layui.layer.alert('警告 保存失败');
+                    }
+                });
+                return false;
+            });
+        });
+
+        function checkArrayNull(arrayCache) {
+            return !arrayCache || arrayCache.length === 0;
+        }
+
+        function generateSubmitRoleData(cacheData,cacheField,rid,nodeIdAndNn,isNodeRole) {
+            let roles;
+            cacheField.rid = rid;
+            if (cacheData === -1){
+                cacheField.snn = currentSnode;
+                cacheField.enn = currentEnode;
+                cacheField.fkey = nodeInfo[0].fkey;
+                cacheField.snid = nodeIdAndNn[currentSnode];
+                cacheField.enid = nodeIdAndNn[currentEnode];
+                roles = JSON.stringify([cacheField]);
+            }else {
+                let data = isNodeRole ? nodeRoles : defRole;
+                let index = data.indexOf(cacheData);
+                $.extend(data[index],cacheField);
+                roles = JSON.stringify([data[index]]);
+            }
+            return roles;
+        }
+
+        var getData = function (datas,item,filterItem,filterValue) {
+            if (datas && item){
+                for (let index = 0; index < datas.length; index++) {
+                    if (datas[index][filterItem] == filterValue){
+                        return datas[index][item];
+                    }
+                }
+            }
+            return '';
+        };
+
+        var getRole = function (snode,enode,roles) {
+            if (roles){
+                for (let index = 0; index < roles.length; index++) {
+                    if (roles[index].snn == snode && roles[index].enn == enode){
+                        return roles[index];
+                    }
+                }
+            }
+            return -1;
+        };
+
+        var getInitSelectData = function (dataRole,dataValue,key) {
+            let result = [];
+            if (!dataValue || !dataRole){
+                return result;
+            }
+            for (let index = 0; index < dataValue.length; index++) {
+                if (dataValue[index].key == dataRole[key]){
+                    result.push(dataValue[index])
+                }
+            }
+            return result;
+        };
+
+        var generateTree = function (data) {
+            let parent = {title:'节点信息',id:-1,children:[],spread : true};
+            if (data){
+                for (var index = 0; index < data.length; index++) {
+                    var m = data[index];
+                    m.title =  m.sname + '-' + m.ename;
+                    m.id = index;
+                    m.spread = true;
+                    m.checked = getRole(m.snode,m.enode) !== -1;
+                    parent.children.push(m) ;
+                }
+            }
+            return [parent];
+        };
+
+        var generateXmSelect = function (array,id,tips,type,isRadio) {
+            return xmSelect.render({
+                el: id,
+                tips: tips,
+                name: 'gid',
+                data: array,
+                filterable: true,
+                repeat: false,
+                radio: isRadio,
+                clickClose: true,
+                direction: 'down',
+                theme: {
+                    color: '#333333',
+                },
+                model: {
+                    label: {
+                        type: 'block',
+                        block: {
+                            showCount: 0,
+                            showIcon: false,//是否显示删除图标
+                        }
+                    }
+                },
+                on: function (data) {
+                    var arr = data.arr;
+                    var change = data.change;
+                    var isAdd = data.isAdd;
+                    let value;
+                    switch (type) {
+                        case 'frft':
+                            value = parseInt(arr[0] ? arr[0].key : '-1');
+                            if (value === 4){
+                                $('#takerTypy').hide();
+                                rTypeSelect.setValue(getInitSelectData({rtype:5},rTypeSelectData,'rtype'));
+                                ridSelect.update({
+                                    data:getRid(5)
+                                });
+                                defaultRidSelect.update({
+                                    data:getRid(5)
+                                });
+                            }else if (value === 8){
+                                $('#takerTypy').hide();
+                                rTypeSelect.setValue(getInitSelectData({rtype:4},rTypeSelectData,'rtype'));
+                                let data = {};
+                                $.extend(data,JSON.parse(userInfo));
+                                data.selected = true;
+                                data.name = data.NAME;
+                                data.value = data.NAME;
+                                ridSelect.update({
+                                    data:[data]
+                                });
+                                defaultRidSelect.update({
+                                    data:[data]
+                                });
+                            }else {
+                                $('#takerTypy').show();
+                            }
+                            break;
+                        case 'rtype':
+                            value = parseInt(arr[0] ? arr[0].key : '-1');
+                            ridSelect.update({
+                                data:getRid(value)
+                            });
+                            defaultRidSelect.update({
+                                data:getRid(value)
+                            });
+                            break;
+                        case 'rid':
+                            value = arr[0] ? arr[0].ID  : -1;
+                            if (allLinesData){
+                                for (let key in allLinesData){
+                                    if (value == allLinesData[key].gid ){
+                                        for (let index = 0; index < nodeRoles.length; index++) {
+                                            if (nodeRoles[index].snn == allLinesData[key].snode && nodeRoles[index].enn == allLinesData[key].enode && nodeRoles[index].rtype == 5){
+                                                ridSelect.setValue([]);
+                                                layer.alert('警告 禁止相互选为承办点');
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+                        case 'defaultTaker':
+                            value = arr[0] ? arr[0].ID  : -1;
+                            if (allLinesData){
+                                for (let key in allLinesData){
+                                    if (value == allLinesData[key].gid ){
+                                        for (let index = 0; index < defRole.length; index++) {
+                                            if (defRole[index].snn == allLinesData[key].snode && defRole[index].enn == allLinesData[key].enode && defRole[index].rtype == 5){
+                                                ridSelect.setValue([]);
+                                                layer.alert('警告 禁止相互选为承办点');
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+                    }
+                }
+            });
+        };
+
+        function getRid(rtype,rid){
+            let ridData;
+            switch (rtype) {
+                case 1:
+                    ridData = roles;
+                    break;
+                case 2:
+                    ridData = groups;
+                    break;
+                case 3://暂时没有岗位
+                    ridData = positions;
+                    break;
+                case 4:
+                    ridData = users;
+                    break;
+                case 5: // 选择节点
+                    let exceptSelfNodes = $.extend({},lines);
+                    let cacheNodes = [];
+                    let name = currentSnode + '-' + currentEnode;
+                    for (let key in exceptSelfNodes){
+                        let cache = exceptSelfNodes[key];
+                        if (!cache.snode || !cache.enode)continue;
+                        let cacheTitle = cache.snode + '-' + cache.enode;
+                        if (cacheTitle && name != cacheTitle ){
+                            cache.ID = allLinesData[cacheTitle].gid;
+                            cache.name = cache.title;
+                            cache.value = cacheTitle;
+                            cacheNodes.push(cache);
+                        }
+                    }
+                    ridData = cacheNodes;
+                    break;
+            }
+            $.each(ridData,function (index,value) {
+                if (!value.name){
+                    value.name = value.NAME;
+                }
+                if (!value.value){
+                    value.value = value.NAME;
+                }
+                if (value.ID == rid){
+                    value.selected = true;
+                }else {
+                    value.selected = false;
+                }
+            });
+            return ridData;
+        }
+    </script>
+</div>
+</body>
+</html>

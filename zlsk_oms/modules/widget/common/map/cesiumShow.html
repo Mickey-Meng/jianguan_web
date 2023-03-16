@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="../../../../lib/ok_admin/css/okadmin.css">
+    <link rel="stylesheet" href="./css/zCss.css">
+    <link rel="stylesheet" href="./css/zInfoWindow.css">
+    <script type="text/javascript" src="../../../../lib/sfmbase/sfmUtil.js"></script>
+    <script type="text/javascript" src="../../../../lib/ok_admin/lib/layui/layui.js"></script>
+    <script src="./zUtil.js"></script>
+    <script src="./zInfoWindow.js"></script>
+    <script type="text/javascript">
+        SFM.sfmUtil.loadJquery();
+        SFM.sfmUtil.loadSfmBase();
+        SFM.sfmUtil.loadCesium('1.60');
+    </script>
+    <script type="text/javascript">
+        SFM.CesiumEarthWidget = SFM.SfmResizableWidgetBase.extend({
+            constructor: function(options) {
+                var me = this;
+                me.base(options);
+            },
+            destroy: function() {
+                this.base();
+            },
+            render: function() {
+                var me = this;
+                me.base();
+                return me;
+            },
+            getEarthContext: function() {
+                return earthCtx;
+            },
+            __className__: 'CesiumEarthWidget'
+        });
+        var sfmWidget = new SFM.CesiumEarthWidget();
+    </script>
+    <script src="./gcoord.js"></script>
+    <script src="./location.js"></script>
+    <script src="./FileSaver.js"></script>
+    <script src="./saveXz.js"></script>
+</head>
+
+<body onload="init()">
+<div id="divCesiumContainer" class="layui-body-map commonOutCss"></div>
+<!-- 搜索定位 -->
+<div id="location" class="location">
+    <input id="search_value" type="text">
+    <span id="btn_search" class="layui-icon" style="float: right;margin-right: 5px">&#58901;</span>
+</div>
+<div id="queryRegion" style="width: 330px;z-index: 1000;position:relative;left: 25px;top: 25px;height: 40px;line-height:40px;padding:0 10px 0 10px;background: rgba(39, 39, 39, 0.8)">
+    <span style="color: white">行政边界</span>
+    <button onclick="queryXz()" type="button" class="layui-btn layui-btn-primary layui-btn-sm" style="margin-left: 10px">获取</button>
+    <button onclick="saveJson()" type="button" class="layui-btn layui-btn-primary layui-btn-sm">保存CityTree</button>
+    <button onclick="saveFeature()" type="button" class="layui-btn layui-btn-primary layui-btn-sm">获取CityPolygon</button>
+</div>
+
+<script>
+    var viewer;
+    var datasource;
+
+    var init = function(){
+        var point = {longitude:118.576223,latitude:39.980506,height:10000};
+        viewer = zUtil.initCesium($,'divCesiumContainer',{},point);
+        locationUtil.initLocation(Cesium,viewer);
+        datasource = zUtil.getDataSourceByName(Cesium,viewer,'clickDatasource');
+        initHandler();
+    };
+
+    function initHandler() {
+        var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+        handler.setInputAction(function(movement) {
+            showClickDetail(movement.position);
+        }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+    }
+
+    function showClickDetail(position) {
+        var geometry = zUtil.screenToGeo(Cesium,viewer,position);
+        layui.okUtils.getAddress(geometry.latitude + ',' + geometry.longitude,function (data,location) {
+            locationUtil.locate(location,data,Cesium,viewer);
+        });
+    }
+
+    function loadLayer(type,option) {
+        var imageProvider = getImageProvider(type,option);
+        let imageryLayer = new Cesium.ImageryLayer(imageProvider);
+        viewer.imageryLayers.add(imageryLayer);
+    }
+
+    function getImageProvider(type,option) {
+        type = type.toLowerCase();
+        var imageProvider;
+        switch (type) {
+            case 'wms':
+                imageProvider = new Cesium.WebMapServiceImageryProvider(option);
+                break;
+            case 'mwts':
+                imageProvider = new Cesium.WebMapTileServiceImageryProvider(option);
+                break;
+            case 'arcgis_map_service':
+                imageProvider = new Cesium.ArcGisMapServerImageryProvider(option);
+                break;
+        }
+        return imageProvider;
+    }
+
+    /**
+     * WMS加载示例(geoserver)
+     */
+    function loadWMSFromGeoServer() {
+        var url = 'http://localhost:9000/geoserver/gwc/service/wms';
+        var layer = 'ice:yx';
+        loadLayer('wms',{
+            url: url,
+            layers: layer,
+        });
+    }
+
+    /**
+     * WMTS加载示例(geoserver)
+     */
+    function loadWMTSFromGeoServer() {
+        var url = 'http://localhost:9000/geoserver/gwc/service/wmts';
+        var layer = 'ice:yx';
+        loadLayer('mwts',{
+            url: url,
+            layer: layer,
+            format: 'image/png',
+            style : '',
+            tileMatrixSetID: 'EPSG:4326',
+            tileMatrixLabels: [
+                'EPSG:4326:0', 'EPSG:4326:1', 'EPSG:4326:2', 'EPSG:4326:3', 'EPSG:4326:4', 'EPSG:4326:5', 'EPSG:4326:6',
+                'EPSG:4326:7', 'EPSG:4326:8', 'EPSG:4326:9', 'EPSG:4326:10', 'EPSG:4326:11', 'EPSG:4326:12', 'EPSG:4326:13',
+                'EPSG:4326:14', 'EPSG:4326:15', 'EPSG:4326:16', 'EPSG:4326:17', 'EPSG:4326:18', 'EPSG:4326:19', 'EPSG:4326:20', 'EPSG:4326:21'
+            ],
+            visible: true
+        });
+    }
+
+    /**
+     * WMTS加载示例(天地图切片)
+     */
+    function loadWMTSFromTDT() {
+        // 影像
+        var url_img = 'http://t0.tianditu.com/img_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=img&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=7711a24780452f03bb7c02fba98183b9';
+        // 矢量
+        var url_vec = 'http://t0.tianditu.gov.cn/vec_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=vec&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=7711a24780452f03bb7c02fba98183b9';
+        // 地形
+        var url_ter = 'http://t0.tianditu.gov.cn/ter_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=ter&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=7711a24780452f03bb7c02fba98183b9';
+        // 标注
+        var url_mark = 'http://t0.tianditu.gov.cn/cta_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=cta&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=7711a24780452f03bb7c02fba98183b9';
+        loadLayer('mwts',{
+            url: url_img
+        });
+    }
+
+    /**
+     * ArcgisMapService加载(WMS,WMTS)
+     */
+    function loadArcgisMapService() {
+        var url_arcgis_online_img = 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer';
+        var url_arcgis_online_street = 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer';
+        var url = 'http://localhost:6080/arcgis/rest/services/qgyxpy/MapServer';
+        loadLayer('arcgis_map_service',{
+            url: url
+        });
+    }
+
+</script>
+</body>
+
+</html>

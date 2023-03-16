@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>权限配置</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- <link rel="stylesheet" href="../../../../lib/ok_admin/css/oksub.css"> -->
+    <link rel="stylesheet" href="../../../../lib/ok_admin/css/okadmin.css">
+</head>
+<style>
+    body {
+        overflow: hidden;
+        background: white;
+    }
+
+    #planTree {
+        height: 100%;
+        width: 35%;
+        float: left;
+        overflow: auto;
+    }
+
+    #tabDiv {
+        width: 65%;
+        right: 10px;
+        float: left;
+        position: absolute;
+    }
+
+    .treeNodeCss {
+        background: #D3D3D3;
+    }
+    .layui-this-color{
+        border: none; border-radius: 0; border-bottom: 1.5px solid black;background-color: #009688;
+        color: #ffffff;
+    }
+
+    </style>
+
+<body style="background: transparent">
+    <div>
+        <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief" style="padding: 0 10px 0 10px">
+            <div class="layui-tab-title-father" style="box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);background-color: #fff;">
+                <ul id="tabTitle" class="layui-tab-title ok-tab-title not-scroll">
+                    <li class="layui-this-color">组织</li>
+                    <li>角色</li>
+                    <li>用户</li>
+                </ul>
+            </div>
+            <div class="layui-tab-content">
+                <div class="layui-body commonOutCss" style="left: 0;overflow: hidden;margin-top: 58px;" id="content">
+                    <div id="planTree" style="min-height:400px;margin-left:10px;background: #ffffff"></div>
+                    <div id="tabDiv" style="background: #ffffff">
+                        <div style="height: 35px;text-align: right;">
+                            <button class="layui-btn" lay-submit id="reloadTable">加载地图方案数据</button>
+                        </div>
+                        <div style="margin-top: 10px;">
+                            <table class="layui-hide" id="tabs" lay-filter="tabs"></table>
+                        </div>
+                        <!--  <div style="text-align: center;height: 30px;">
+                            <button class="layui-btn" lay-submit id="add">立即提交</button>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--js逻辑-->
+    <script type="text/javascript" src="../../../../lib/ok_admin/lib/layui/layui.js"></script>
+    <script>
+        var $;
+    var index = 0;
+    var planData = [{ id: -1, title: '关联对象', spread: true, lv: 0 }];
+    var selectData = { id: -1, title: '关联对象', spread: true, lv: 0 };
+    var titleField = 'NAME';
+    var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+    var userid = userInfo.ID;
+    layui.use(['tree', 'form', 'table', "element", "okLayer", "okUtils", 'constantUrl', 'zTable', 'layer'], function() {
+        $ = layui.jquery;
+        var tree = layui.tree;
+        var okLayer = layui.okLayer;
+        var okUtils = layui.okUtils;
+        var constantUrl = layui.constantUrl;
+        var layer = layui.layer;
+        var element = layui.element;
+        var table = layui.table;
+        var h = $('#content').height();
+        element.on('tab(docDemoTabBrief)', function(data) {
+            $('.layui-tab-title li').removeClass('layui-this');
+            $('.layui-tab-title li').removeClass('layui-this-color');
+            $(this).addClass('layui-this-color');
+            index = data.index;
+            planData = [{ id: -1, title: '关联对象', spread: true }];
+            initTree(index);
+            selectData = { id: -1, title: '关联对象', spread: true, lv: 0 };
+
+        });
+        var initTree = function(type) {
+            var p = {};
+            p.type = type;
+            p.userid = userid;
+            p.groupid = userInfo.GROUPID
+            okUtils.ajax({ "url": constantUrl.stMap.query, "param": p }).done(function(data1) {
+                if (data1.data == null) {
+                    layer.alert("警告 " + data1.msg)
+                } else {
+                    var d = data1.data.getMe;
+                    var cd = [];
+                    var tempId = "";
+                    var aid = "";
+                    if(type == 0){
+                        var data = okUtils.structureTree({ "data": data1.data.getMe, "check": true, "spread": true });
+                        for (var i = 0; i < data.length; i++) {
+                               var c = data[i].children;
+                               if(c){
+                                for (var j = 0; j < c.length; j++) {
+                                   c[j]['lv'] = 2;
+                                 }
+                               }
+
+                               if(i == 0){
+                                 cd.push({
+                                id: data[i].ID,
+                                title: data[i][titleField],
+                                spread: true,
+                                children: c,
+                                lv: 1
+                            });
+                               }
+
+                        }
+
+                }else{
+
+                    for (var i = 0; i < d.length; i++) {
+                        var e = Exist(cd, d[i].ID);
+
+                        if (!e) {
+                            var c = [];
+
+                            if (type == 2) {
+                                c = getChildren(d, 'ID', d[i].ID);
+                                for (var j = 0; j < c.length; j++) {
+                                    aid += c[j].id + ",";
+                                }
+                            }
+
+                            cd.push({
+                                id: d[i].ID,
+                                title: d[i][titleField],
+                                spread: true,
+                                children: c,
+                                lv: 1
+                            });
+                        }
+
+                    }
+
+                }
+                planData[0]['children'] = cd;
+
+                    tree.render({
+                        elem: '#planTree',
+                        data: planData,
+                        id: 'treeId',
+                        spread: true,
+                        onlyIconControl: true,
+                        customOperate: true,
+                        edit: ['del'],
+                        operate: function(obj) {
+                            var type = obj.type; //得到操作类型：add、edit、del
+                            var data = obj.data; //得到当前节点的数据
+                            if (type == 'del' && data.lv > 0) { //删除节点
+                                deletePer(data);
+                            } else {
+                                layer.msg('请删除下级节点');
+                            }
+                            return false;
+                        },
+                        click: function(obj) {
+                            selectData = obj.data;
+                            $('.layui-tree-txt').removeClass('treeNodeCss');
+                            $(obj.elem.find("span")[1]).addClass('treeNodeCss');
+                            if(index == 0 || index == 1){
+                                initTable(selectData);
+                            }else if(index == 2){
+                               var aid = "";
+                               var c = obj.data.children;
+                               if(c){
+                                 for (var j = 0; j < c.length; j++) {
+                                    aid += c[j].id + ",";
+                                }
+                                initTable(aid);
+                               }else{
+                                 initTable(obj.data.id + ",");
+                               }
+
+                            }
+
+                        }
+                    })
+
+                    if(index == 0){
+                          initTable(cd[0]);
+                      }else if(index == 1){
+                          initTable(planData[0]);
+                      }else if(index == 2){
+                         initTable(aid);
+                      }
+
+                }
+            }).fail(function(error) {
+                console.log(error)
+            });
+        }
+        initTree(index);
+        var Exist = function(list, v) {
+            if (!list) {
+                return false;
+            }
+            for (var i = 0; i < list.length; i++) {
+                if (list[i].id == v) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        var getChildren = function(list, key, value) {
+            var d = [];
+            if (!list) {
+                return d;
+            }
+            for (var i = 0; i < list.length; i++) {
+                if (list[i][key]) {
+                    if (list[i][key] == value) {
+                        if(!list[i].USERNAME){
+                            continue;
+                        }
+                        d.push({ id: list[i].USERID, title: list[i].USERNAME, spread: true, lv: 2 });
+                    }
+                }
+
+            }
+            return d;
+        }
+        $('#reloadTable').click(function() {
+            if (selectData == null) {
+                layer.msg('请选择一个关联对象');
+                return false;
+            }
+            if (selectData.lv < 1) {
+                layer.msg('请选择子节点');
+                return false;
+            }
+            if(index == 2 && selectData.lv < 2){
+                  layer.msg('请选择子节点');
+                return false;
+            }
+            okLayer.open("地图方案信息", "addPer_Plan.html", "90%", "90%", function(layero) {
+                var iframeWin = window[layero.find("iframe")[0]["name"]];
+                iframeWin.initForm(selectData,index + 1);
+
+            }, function() {
+                initTable(selectData);
+            });
+        })
+        var deletePer = function(data) {
+            var lv = data.lv;
+            var param = {};
+            var type = lv;
+            param = {
+                type: type,
+                id: data.id
+            }
+            okLayer.confirm("确定要删除吗？", function() {
+
+                okUtils.ajax({
+                    "url": constantUrl.stMap.delMapPermission,
+                    "param": param
+                }).done(function(response) {
+                    okUtils.table.successMsg("删除成功");
+                    initTree(index);
+                    myTable.reload();
+                }).fail(function(error) {
+                    console.log(error)
+                });
+            });
+        }
+        var qId = "";
+        var getIds = function(res){
+            if(!res.length){
+                return;
+            }
+            for (var i = 0; i < res.length; i++) {
+
+                      qId += res[i].ID + ",";
+                      if(res[i].children){
+                        getIds(res[i].children);
+                      }
+              }
+
+        }
+
+         var getIds1 = function(res){
+            if(!res.length){
+                return;
+            }
+            for (var i = 0; i < res.length; i++) {
+
+                      qId += res[i].id + ",";
+                      if(res[i].children){
+                        getIds(res[i].children);
+                      }
+              }
+
+        }
+        var initTable = function(obj) {
+            var url = "";
+            var param = {};
+            var url = "";
+            var param =  null;
+            if(index == 0){
+                if(!obj.children || obj.children.length == 0){
+                param =  { ptype: index + 1, aid: obj.id }
+
+             }else{
+                 getIds(obj.children);
+                      if(qId != ""){
+                          qId = qId.substring(0,qId.length - 1);
+                      }
+                      var id = obj.ID || obj.id;
+                      var aid = id +"," + qId;
+                        param =  { ptype: index + 1, aid: aid }
+             }
+            }else if(index == 1){
+                if(!obj.children || obj.children.length == 0){
+                   param =  { ptype: index + 1, aid: obj.id }
+
+                  }else{
+                 getIds1(obj.children);
+                      if(qId != ""){
+                          qId = qId.substring(0,qId.length - 1);
+                      }
+                        param =  { ptype: index + 1, aid: qId }
+             }
+            }else if(index == 2){
+                 obj = obj.substring(0,obj.length - 1);
+                param =  { ptype: index + 1, aid: obj }
+            }
+
+            myTable.reload({
+                url: constantUrl.stMap.selectPlanByPer,
+                where: param
+            });
+        }
+        var zTable = layui.zTable({
+            elem: '#tabs',
+            page: false, //是否显示分页
+            url: constantUrl.stMap.selectPlanByPer,
+            where: { ptype: index + 1},
+            parseData: function(res) { //res 即为原始返回的数据
+                if (!res.data) {
+                    return {
+                        "code": res.meow, //解析接口状态
+                        "msg": "无数据", //解析提示文本
+                        "count": 0, //解析数据长度
+                        "data": [] //解析数据列表
+                    };
+                }
+                qId = "";
+                var d = res.data.getMe;
+                var result = [];
+                for (var i = 0; i < d.length; i++) {
+                      var e = isExist(result,'ID',d[i].ID);
+                       d[i].associateId =  d[i].associateId.toFixed(0);
+                      if(e != null){
+                          result[e]['associateId'] = result[e]['associateId'] + "," + d[i].associateId
+                        continue;
+                      }
+                      result.push(d[i])
+                }
+                return {
+                    "code": res.meow, //解析接口状态
+                    "msg": res.data.msg, //解析提示文本
+                    "data": result //解析数据列表
+                };
+            },
+            height:'full-130',
+            cols: [
+                [ //标题栏
+                    // { type: 'checkbox', width: 50 },
+                    { field: 'pname', title: '方案名称' }, { field: 'createtime', title: '添加时间' },{title: "操作", width: 100, align: "center", templet: "#operationTpl"}
+                ]
+            ]
+        });
+
+        var myTable = zTable.getTable();
+
+
+        $('#add').click(function() {
+            var checkStatus = table.checkStatus('tabs');
+            if (selectData == null) {
+                layer.msg('请选择关联对象');
+                return false;
+            }
+            var d = checkStatus.data;
+            if (d.length == 0) {
+                layer.msg('请勾选方案');
+                return false;
+            }
+            if (Number(selectData.id) < 0) {
+                layer.msg('请选择关联对象');
+                return false;
+            }
+            var jsonobj = [];
+            for (var i = 0; i < d.length; i++) {
+                jsonobj.push({
+                    associateId: selectData.id,
+                    mId: d[i].ID,
+                    ptype: index + 1
+                })
+            }
+            var m = JSON.stringify(jsonobj);
+            var param = {};
+            param.mps = m;
+            okUtils.ajax({ "url": constantUrl.stMap.addMapPermission, "param": param, type: 'POST' }).done(function(response) {
+                okLayer.msg.greenTick("添加成功", function() {
+                    initTree(index);
+                    selectData = null;
+                    $('.layui-tree-txt').removeClass('treeNodeCss');
+                    myTable.reload();
+                });
+            }).fail(function(error) {
+                console.log(error)
+            });
+        });
+
+          zTable.getLayuiTable().on("tool(tabs)", function (obj) {
+            var data = obj.data;
+            switch (obj.event) {
+                case "btnDel":
+                    btnDel(data);
+                    break;
+            }
+        });
+         function btnDel(data) {
+            var del = Number(index)  + 1;
+            okLayer.confirm("确定要删除吗？", function (index) {
+                okUtils.ajax({
+                    "url": constantUrl.stMap.delMapPermission,
+                    "param": {"id": data.ID,type:0,ptype:del,aid:selectData.id}
+                }).done(function (response) {
+                    okUtils.table.successMsg("删除成功");
+                   initTable(selectData)
+                }).fail(function (error) {
+                    console.log(error)
+                });
+            });
+        }
+        var isExist = function(list, key, value) {
+                 if (!list) {
+                     return null;
+                 }
+                 for (var i = 0; i < list.length; i++) {
+                     if (list[i][key] == value) {
+                         return i;
+                     }
+                 }
+                 return null
+       }
+    });
+    </script>
+</body>
+<script type="text/html" id="operationTpl">
+    <div>
+            {{#  if(d.associateId.indexOf(selectData.id) > -1){ }}
+       <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="btnDel">删除</button>
+    {{#  } else if(d.visiable == 0) { }}
+
+     {{#  } }}
+
+    </div>
+</script>
+
+</html>

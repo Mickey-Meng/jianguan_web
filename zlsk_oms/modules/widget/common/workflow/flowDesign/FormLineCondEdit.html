@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑节点流向限制条件</title>
+    <link rel="stylesheet" href="../../../../../lib/ok_admin/css/okadmin.css">
+    <script type="text/javascript" src="../../../../../lib/ok_admin/lib/layui/layui.js"></script>
+    <style>
+        #obData{
+            width: auto;
+            height: auto;
+            min-height: 50%;
+            overflow: auto
+        }
+    </style>
+</head>
+<body>
+<div class="ok-body" style="margin: 10px">
+    <div id="obData"></div>
+    <div id="formula">
+        <textarea id="input" placeholder="请输入内容" class="layui-textarea" ></textarea>
+    </div>
+    <button class="layui-btn" style="margin-top: 10px" id="submit">提交</button>
+</div>
+<script>
+    var $;
+    var layer;
+    var okUtils;
+    var okLayer;
+    var constantUrl;
+
+    var boid;
+    var flagType;
+    var cacheData = {};
+    var cacheCodeData = {};
+    var cacheType = [];
+    var cacheCalculateData = '';
+    const cacheOData = [{'name':'加','code':'+'},{'name':'减','code':'-'},{'name':'乘','code':'*'},
+        {'name':'除','code':'/'},{'name':'且','code':'&&'}, {'name':'或','code':'||'},
+        {'name':'大于','code':'>'},{'name':'小于','code':'<'},{'name':'等于','code':'=='}];
+    function initForm(cond) {
+        document.getElementById('input').value = cond;
+    }
+    layui.use(['okLayer','okUtils','constantUrl','layer'],function () {
+        $ = layui.jquery;
+        layer = layui.layer;
+        okUtils = layui.okUtils;
+        okLayer = layui.okLayer;
+        constantUrl = layui.constantUrl;
+
+        boid = okUtils.getUrlParameter('boid');
+        okUtils.getDic('form_data_type',function (array,map) {
+            okUtils.ajax({
+                'url':constantUrl.stForm.easySelectWithOutLike,
+                'param':{'table':'zlsk_oms_bo_attr','mapStr':JSON.stringify({'boid':boid})}
+            }).done(function (data1) {
+                if (data1.meow === 0){
+                    let attr = data1.data;
+                    if (attr && attr.length > 0){
+                        $('#obData').empty();
+                        let title = "运算符号";
+                        let br = '';
+                        for (let index = 0; index < cacheOData.length; index++) {
+                            if (index === cacheOData.length -1){
+                                br = '<br>';
+                            }
+                            addButton(title,cacheOData[index].name,cacheOData[index].code,br,cacheOData[index].code);
+                            title = '';
+                        }
+                        let cacheKeys = {};
+                        let keyData = [];
+                        for (let i = 0; i < array.length; i++) {
+                            keyData.push(array[i].key);
+                            cacheKeys[array[i].key] = array[i].name;
+                        }
+                        for (let index = 0; index < attr.length; index++) {
+                            let type = attr[index].dtype;
+                            if (keyData.indexOf(type) !== -1){
+                                if (!cacheData[type]){
+                                    cacheData[type] = [];
+                                    cacheCodeData[type] = [];
+                                }
+                                cacheData[type].push(attr[index]);
+                                cacheCodeData[type].push(attr[index].code);
+                            }else {
+                                if (!cacheData.default){
+                                    cacheData.default = [];
+                                    cacheCodeData.default = [];
+                                }
+                                cacheData.default.push(attr[index]);
+                                cacheCodeData.default.push(attr[index].code);
+                            }
+                        }
+                        for (let key in cacheData){
+                            if (cacheData[key]){
+                                for (let index = 0; index < cacheData[key].length; index++) {
+                                    br = index === cacheData[key].length -1 ? '<br>' : '' ;
+                                    if (index === 0 && cacheKeys[key]){
+                                        title = cacheKeys[key] + ":";
+                                    }else {
+                                        title = "";
+                                    }
+                                    addButton(title,cacheData[key][index].name,cacheData[key][index].code,br,key)
+                                }
+                            }
+                        }
+                    }
+                }else {
+                    layer.alert('警告 查询业务对象失败');
+                }
+            });
+        });
+
+        $('#submit').click(function () {
+            let data = $('#input').val();
+
+            let timeString = "import java.text.SimpleDateFormat;" +
+                "SimpleDateFormat sf1 = new SimpleDateFormat(\"yyyy-MM-dd HH:mm:ss\", Locale.CHINA);";
+            if(data.indexOf(timeString) === -1){
+                let cacheArray = data.split(/[&|]/);
+                let flagCacheState ;
+                let cacheContainer = [];
+                let reNumber = /^[0-9]*$/ ; //验证数字和时间
+                var reDateTime = /^(?:19|20)[0-9][0-9]-(?:(?:0[1-9])|(?:1[0-2]))-(?:(?:[0-2][1-9])|(?:[1-3][0-1])) (?:(?:[0-2][0-3])|(?:[0-1][0-9])):[0-5][0-9]:[0-5][0-9]$/;
+                for (let index = 0; index < cacheArray.length; index++) {
+                    if (cacheArray[index] !== ''){
+                        let operateData = cacheArray[index].split(/[+-/!*<>=]/);
+                        for (let key in cacheData){
+                            let isTimeType = key === 'datetime';
+                            if (isTimeType){
+                                data = timeString + data;
+                            }
+                            flagCacheState = false;
+                            for (let idx = 0; idx < operateData.length; idx++) {
+                                if (reNumber.test(operateData[idx]) || reDateTime.test(operateData[idx])){
+                                    continue
+                                }
+                                let state = cacheCodeData[key].indexOf(operateData[idx]) === -1;
+                                if (flagCacheState && !state || !flagCacheState && state && idx !== 0){
+                                    layer.alert('存在不同类型的运算');
+                                    return
+                                }
+                                flagCacheState = state;
+                                if (isTimeType && cacheContainer.indexOf(operateData[idx]) === -1 && !state){
+                                    cacheContainer.push(operateData[idx]);
+                                    data = data.replace(operateData[idx],'sf1.parse(' + operateData[idx] + ').getTime()/1000/3600/24')
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            parent.flagParentData = data;
+            parent.layer.close(parent.layer.getFrameIndex(window.name));
+        });
+
+        function addButton(title,name,code,br,type) {
+            let width = '60px';
+            if (!title || title === ''){
+                width = '0px';
+            }
+            $('#obData').append(
+                "<span style='width: " + width + ";text-align: center;display:inline-block;'>" + title + "</span><button class='layui-btn " + type + "' " +
+                "style='margin-left: 10px' onclick=\"copyData('" + code + "','" + name + "','" + type + "')\" >" + name + "</button>" + br
+            )
+        }
+
+        // String.prototype.replaceAll = function(search, replacement) {
+        //     var target = this;
+        //     return target.replace(new RegExp(search, 'g'), replacement);
+        // };
+    });
+
+    function copyData(value,name,type) {
+        let isAndOr = type === '&&' || type === '||';
+        let isOperator = false;
+        let flag = false;
+        for (let index = 0; index < cacheOData.length; index++) {
+            if (!isOperator && cacheOData[index].code === type){
+                isOperator = true;
+            }
+            if (!flag && flagType === cacheOData[index].code){
+                flag = true;
+            }
+        }
+        if (flagType){
+            if ( !isOperator && !flag && flagType !== type){
+                layer.alert('不同类型无法运算');
+                return
+            }
+        }else if (isOperator){
+            layer.alert('不能以运算符为起始');
+            return
+        }
+        flagType = !isOperator || isAndOr ? type : flagType;
+        if (isAndOr){
+            cacheType.push({cacheCalculateData:type});
+        }else {
+            cacheCalculateData += value;
+        }
+        let data = $('#input').val();
+        $('#input').val(data + '' + value);
+
+/*        var oInput = document.createElement('input');
+        oInput.value = value;
+        document.body.appendChild(oInput);
+        oInput.select(); // 选择对象
+        document.execCommand("Copy"); // 执行浏览器复制命令
+        oInput.className = 'oInput';
+        oInput.style.display='none';
+        layui.okLayer.msg.greenTick('已复制业务对象 ' + name + ' 的code');*/
+    }
+
+    function checkJudgeEqual(cache) {
+        if (!cache || cache.length === 0){
+            return '';
+        }
+        let result = '';
+        for (let index = 0; index < cache.length; index++) {
+            let value = cache[index];
+            if (index !== 0 && index !== cache.length -1 && value === '=' && cache[index-1] == '>' && cache[index-1] == '<' && cache[index+1] == '>' && cache[index+1] == '<'){
+                result += '==';
+            }else {
+                result += value;
+            }
+        }
+        return result;
+    }
+
+    function changeBtnState(state) {
+        let objectOperation = $('.operator');//运算符
+        let objectInt = $('.int');
+        let objectFloat = $('.float');
+        let objectVarchar = $('.VARCHAR');
+        let objectTime = $('.datetime');
+
+        switch (state) {
+            case 1:
+                btnEnable([objectOperation]);
+                btnDisable([objectInt,objectFloat,objectVarchar,objectTime]);
+                break;
+            case 2:
+                btnEnable([objectInt]);
+                btnDisable([objectOperation,objectFloat,objectVarchar,objectTime]);
+                break;
+            case 3:
+                btnEnable([objectFloat]);
+                btnDisable([objectOperation,objectInt,objectVarchar,objectTime]);
+                break;
+            case 4:
+                btnEnable([objectVarchar]);
+                btnDisable([objectOperation,objectInt,objectFloat,objectTime]);
+                break;
+            case 5:
+                btnEnable([objectTime]);
+                btnDisable([objectOperation,objectInt,objectFloat,objectVarchar]);
+                break;
+            case 6:
+                btnEnable([objectInt,objectFloat,objectVarchar,objectTime]);
+                btnDisable([objectOperation]);
+                break;
+        }
+    }
+
+    function btnEnable(object) {
+        if (object){
+            for (let index = 0; index < object.length; index++) {
+                object[index].removeAttr("disabled")
+            }
+        }
+    }
+
+    function btnDisable(object) {
+        if (object){
+            for (let index = 0; index < object.length; index++) {
+                object.attr('disabled','true');
+            }
+        }
+    }
+</script>
+</body>
+</html>

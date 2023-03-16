@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加字典</title>
+    <link rel="stylesheet" href="../../../../../lib/ok_admin/lib/layui/css/layui.css" media="all">
+    <script type="text/javascript" src="../../../../../lib/ok_admin/lib/layui/layui.js"></script>
+</head>
+<body>
+<form class="layui-form layui-form-pane ok-form" style="margin-top: 15px;margin-right: 20px;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">名称</label>
+        <div class="layui-input-block">
+            <input type="text" id="name" name="name" placeholder="请输入字典名称" autocomplete="off" class="layui-input"
+                   lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">名称编码</label>
+        <div class="layui-input-block">
+            <input type="text" id="key" name="key" placeholder="请输入字典编码" autocomplete="off" class="layui-input"
+                   lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item" id="select" style="display: none">
+        <label class="layui-form-label">所属上级</label>
+        <div class="layui-input-block">
+            <select name="higherOffice" id="higherOffice" lay-verify="required"></select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="add">提交<i style='margin-left: 10px' class="layui-icon">&#4101;</i></button>
+        </div>
+    </div>
+</form>
+<script>
+
+    var $;
+    var initData;
+    var isAdd;
+    var item;
+
+    function initForm(data,isadd,selectItem) {
+        initData = data;
+        isAdd = isadd;
+        item = selectItem;
+
+        if (!isAdd){
+            document.getElementById("name").value = initData.name;
+            document.getElementById("key").value = initData.key;
+        }
+    }
+
+    layui.use(['form','constantUrl','okUtils','okLayer'], function () {
+        $ = layui.jquery;
+        var form = layui.form;
+        var okLayer = layui.okLayer;
+        var okUtils = layui.okUtils;
+        var constantUrl = layui.constantUrl;
+
+        if (isAdd){
+            var cache = [];
+            cache.push({"id":"-1","name":"所有"});
+            $.each(item,function (index, value) {
+                cache.push(value);
+            });
+            okUtils.adapterSelect("#higherOffice", "", "id", "name", cache);
+            $("#select").show();
+        }
+
+
+        form.on("submit(add)",function (data) {
+            var param = {};
+
+            if (isAdd){
+                var higherOffice = $("#higherOffice option:selected");
+                param = data.field;
+                param.parentid =  higherOffice.val();
+                okUtils.ajax({"url":constantUrl.stAuth.insertDic,"param":param}).done(function (data1) {
+                    okLayer.msg.greenTick( "添加成功" , function () {
+                        parent.parentData = 1;
+                        parent.layer.close(parent.layer.getFrameIndex(window.name));
+                    })
+                }).fail(function (error) {
+                    layer.alert(error)
+                });
+            }else {
+                param = data.field;
+                param.value = data.field.name;
+                param.id = initData.id;
+                okUtils.ajax({"url":constantUrl.stAuth.updateDic,"param":param}).done(function (data1) {
+                    okLayer.msg.greenTick( "编辑成功" , function () {
+                        parent.parentData = 1;
+                        parent.layer.close(parent.layer.getFrameIndex(window.name));
+                    }).fail(function (error) {
+                        layer.alert(error)
+                    });
+                })
+            }
+            return false;
+        })
+    })
+
+</script>
+</body>
+</html>

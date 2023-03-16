@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>移交</title>
+    <link rel="stylesheet" href="../../../../lib/ok_admin/css/okadmin.css">
+    <script type="text/javascript" src="../../../../lib/ok_admin/lib/layui/layui.js"></script>
+</head>
+<body>
+<div>
+    <div class="layui-body commonOutCss" style="left: 0">
+        <div>
+            <div  id="nextNode" style="width: 200px"></div>
+            <div id="user" style="margin-top: 10px">
+                <table class="layui-hide" id="users" lay-filter="users"></table>
+            </div>
+        </div>
+        <div style="text-align: center;margin: 10px">
+            <button class="layui-btn layui-btn-normal" id="handAll">移交全部</button>
+            <button class="layui-btn layui-btn-normal" id="handToDefault" style="margin-right: 50px">移交默认承办人</button>
+            <button class="layui-btn " id="hand">移交</button>
+            <button class="layui-btn layui-btn-warm" id="cancel">取消</button>
+        </div>
+    </div>
+
+    <script type="text/html" id="toolbar">
+        <form class="layui-form layui-col-md12">
+            <div class="layui-input-inline ok-search">
+                <input class="layui-input" placeholder="名称" autocomplete="off" name="name" id="name">
+            </div>
+            <button class="layui-btn" lay-submit="" lay-filter="search" title="条件查询">
+                <i class="layui-icon">&#xe615;</i>
+            </button>
+        </form>
+    </script>
+</div>
+<script>
+    var $;
+    var tree;
+    var table;
+    var layer;
+    var okUtils;
+    var constantUrl;
+
+    var flowInfo;
+    var doingCase;
+    var currentNode;
+    var selectedNode;
+    var currentNodeId;
+    var cacheTableData;
+    var nextNodes = [];
+    var roleTypes = [];
+    var rolesData = {};
+    var nodeRoleRel = {};
+    var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    function initForm(data) {
+        if (data){
+            doingCase = JSON.parse(data);
+            currentNodeId = doingCase.nid;
+        }
+    }
+    layui.use(['tree','layer','okUtils','constantUrl','table','xmSelect','form'],function () {
+        $ = layui.jquery;
+        tree = layui.tree;
+        table = layui.table;
+        layer = layui.layer;
+        okUtils = layui.okUtils;
+        constantUrl = layui.constantUrl;
+
+        okUtils.ajax({
+            'url':constantUrl.stFlow2.getWorkFlowDetail,
+            'param':{'fid':doingCase.fid}
+        }).done(function (data1) {
+            if (data1.meow === 0){
+                flowInfo = data1.data;
+                okUtils.ajax({
+                    'url':constantUrl.stForm.getStepHistory,
+                    'param':{'cno':doingCase.cno}
+                }).done(function (data2) {
+                    if (data2.meow === 0){
+                        initUi(flowInfo,data2.data);
+                    }else {
+                        layer.alert('警告 查询流程信息失败')
+                    }
+                });
+            }else {
+                layer.alert('警告 查询流程信息失败')
+            }
+        });
+
+        table.render({
+            elem: '#users'
+            , page: true //是否显示分页
+            , limit: 10 //每页默认显示的数量
+            , data: []
+            , defaultToolbar:[]
+            , headers:{token:okUtils.getCookie("token")}
+            , toolbar:'#toolbar'
+            , cols: [[ //标题栏
+                {type:'checkbox'},
+                 {field: 'name', title: '名称'}
+            ]]
+        });
+
+        function initUi(flowInfo,currentStep) {
+            for (let index = 0; index < flowInfo.nodes.length; index++) {
+                if (currentNodeId == flowInfo.nodes[index].gid){
+                    currentNode = flowInfo.nodes[index];
+                    currentNode.name = flowInfo.lines[index].snode + '-' + flowInfo.lines[index].enode;
+                    currentNode.value = currentNode.name;
+                    break;
+                }
+            }
+            for (let idx = 0; idx <flowInfo.roles.length ; idx++) {
+                let title = flowInfo.roles[idx].snn + '-' + flowInfo.roles[idx].enn;
+                rolesData[title] = flowInfo.roles[idx];
+            }
+            nextNodes = [];
+            // nextNodes.push(currentNode);//平级移交
+            if (currentStep && currentStep.length > 1){
+                let lastNode = currentStep[0];          //getStep order by gid desc
+                let preNode ;
+                for (let index = 1; index < currentStep.length; index++) {
+                    if (lastNode.prestep == currentStep[index].gid){
+                        preNode = currentStep[index];
+                        break;
+                    }
+                }
+                nextNodes.push({name:'平级移交',snode:preNode.nn,enode:lastNode.nn})
+            }
+            for (let index = 0; index < flowInfo.lines.length; index++) {
+                if (currentNode.nn == flowInfo.lines[index].snode){
+                    let data = flowInfo.lines[index];
+                    data.name = flowInfo.lines[index].snode + '-' + flowInfo.lines[index].enode;
+                    data.value = data.name;
+                    nextNodes.push(data);
+                    if (rolesData[name]){
+                        roleTypes.push(flowInfo.roles[idx]);
+                    }
+                }
+            }
+            if (nextNodes){
+                layui.xmSelect.render({
+                    el: '#nextNode',
+                    tips: '下级节点',
+                    name: 'gid',
+                    data: nextNodes,
+                    filterable: false,
+                    repeat: false,
+                    radio: false,
+                    clickClose: true,
+                    theme: {
+                        color: '#333333',
+                    },
+                    model: {
+                        label: {
+                            type: 'block',
+                            block: {
+                                showCount: 0,
+                                showIcon: false,//是否显示删除图标
+                            }
+                        }
+                    },
+                    on: function(data){
+                        //arr:  当前多选已选中的数据
+                        var arr = data.arr;
+                        //change, 此次选择变化的数据,数组
+                        var change = data.change;
+                        //isAdd, 此次操作是新增还是删除
+                        var isAdd = data.isAdd;
+
+                        selectedNode = arr;
+                        if (arr.length === 0){
+                            table.reload('users',{
+                                data:[]
+                            });
+                            return
+                        }
+                        let roles = [];
+                        for (let index = 0; index < arr.length; index++) {
+                            getHandMan(arr[index].snode,arr[index].enode,function (data,enode) {
+                                nodeRoleRel[enode] = data;
+                                roles.push.apply(roles,data);
+                                if (index === arr.length - 1){
+                                    if (roles.length > 0){
+                                        let cacheRole = [];
+                                        let flagCheck = [];
+                                        for (let index = 0; index < roles.length; index++) {
+                                            if (flagCheck.indexOf(roles[index].id) === -1){
+                                                flagCheck.push(roles[index].id);
+                                                cacheRole.push(roles[index]);
+                                            }
+                                        }
+                                        table.reload('users',{
+                                            data:cacheRole
+                                        })
+                                    }else {
+                                        layer.alert('警告 查询承办人信息出错，请刷新后重试')
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        }
+
+        layui.form.on("submit(search)", function (data) {
+            let baseName = $('#name').val();
+            let tableData = table.cache['users'];
+            if (!baseName || baseName == '' || !tableData){
+                table.reload('users',{
+                    data:cacheTableData
+                });
+                return false;
+            }
+            cacheTableData = tableData;
+            let cache = [];
+            $.each(tableData,function (index,value) {
+                if (value.name.indexOf(baseName) !== -1){
+                    cache.push(value);
+                }
+            });
+            table.reload('users',{
+                data:cache
+            });
+
+            return false;
+        });
+
+        $('#handAll').click(function () {
+            let param = {};
+            param.sid = doingCase.sid;
+            param.user = userInfo.ID;
+            param.abort = 1;
+            okUtils.ajax({
+                'url':constantUrl.stFlow2.handoverToAll,
+                'param':param
+            }).done(function (data1) {
+                if (data1.meow === 0){
+                    layer.msg('移交成功');
+                    parent.parentFlag = 1;
+                    parent.layer.close(parent.layer.getFrameIndex(window.name));
+                }else {
+                    layer.alert('警告 ' + data1.msg);
+                }
+            })
+        });
+
+        $('#handToDefault').click(function () {
+            if (!selectedNode){
+                layer.alert('请选择节点');
+                return
+            }
+            let param = {};
+            let target = [];
+            for (let index = 0; index < selectedNode.length; index++) {
+                target.push(getNodeIdByNn(selectedNode[index].enode));
+            }
+            param.sid = doingCase.sid;
+            param.userid = userInfo.ID;
+            param.target = JSON.stringify(target);
+            okUtils.ajax({
+                'url':constantUrl.stFlow2.handoverToDefault,
+                'param':param
+            }).done(function (data1) {
+                if (data1.meow === 0){
+                    layer.msg('移交成功');
+                    parent.parentFlag = 1;
+                    parent.layer.close(parent.layer.getFrameIndex(window.name));
+                }else {
+                    layer.alert('警告 ' + data1.msg);
+                }
+            })
+        });
+
+        $('#hand').click(function () {
+            let param = {};
+            var checkStatus = table.checkStatus('users');
+            if (!checkStatus.data || checkStatus.data.length === 0){
+                layer.alert('请选择移交人');
+                return
+            }
+            if (!selectedNode){
+                layer.alert('请选择节点');
+                return
+            }
+
+            let target = [];
+            for (let index = 0; index < selectedNode.length; index++) {
+                if (currentNodeId === selectedNode[index].enode && selectedNode.length > 1){
+                    layer.alert('平级移交仅可选择一个节点');
+                    return
+                }
+                let info = {};
+                info.nid = getNodeIdByNn(selectedNode[index].enode);
+
+                let uks = [];
+                let roles = nodeRoleRel[selectedNode[index].enode];
+                for (let index = 0; index < checkStatus.data.length; index++) {
+                    if (roles){
+                        for (let i = 0; i < roles.length; i++) {
+                            if (roles[i].id == checkStatus.data[index].id){
+                                uks.push(checkStatus.data[index].id);
+                            }
+                        }
+                    }
+                }
+                info.uks = uks;
+                target.push(info);
+            }
+
+            param.sid = doingCase.sid;
+            param.userid = userInfo.ID;
+            param.target = JSON.stringify(target);
+            okUtils.ajax({
+                'url':constantUrl.stFlow2.handoverCase,
+                'param':param
+            }).done(function (data1) {
+                if (data1.meow === 0){
+                    layer.msg('移交成功');
+                    parent.parentFlag = 1;
+                    parent.layer.close(parent.layer.getFrameIndex(window.name));
+                }else {
+                    layer.alert('警告 ' + data1.msg);
+                }
+            })
+        });
+
+        $('#cancel').click(function () {
+            parent.layer.close(parent.layer.getFrameIndex(window.name));
+        });
+    });
+
+    function getNodeIdByNn(nn) {
+        for (let index = 0; index < flowInfo.nodes.length; index++) {
+            if (flowInfo.nodes[index].nn == nn){
+                return flowInfo.nodes[index].gid;
+            }
+        }
+        return -1;
+    }
+
+    function getHandMan(snode,enode,callback) {
+        if (nodeRoleRel[enode]){
+            callback(nodeRoleRel[enode],enode);
+            return
+        }
+        let snid = getNodeIdByNn(snode);
+        let enid = getNodeIdByNn(enode);
+        okUtils.ajax({
+            'url':constantUrl.stFlow2.getNodeHandman,
+            'param':{'snid':snid,'enid':enid,'userid':userInfo.ID}
+        }).done(function (data1) {
+            if (data1.meow === 0){
+                callback(data1.data,enode);
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

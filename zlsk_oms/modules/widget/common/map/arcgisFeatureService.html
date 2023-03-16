@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="../../../../lib/ok_admin/css/okadmin.css">
+    <link rel="stylesheet" href="./css/zCss.css">
+    <link rel="stylesheet" href="./css/zInfoWindow.css">
+    <script type="text/javascript" src="../../../../lib/sfmbase/sfmUtil.js"></script>
+    <script type="text/javascript" src="../../../../lib/ok_admin/lib/layui/layui.js"></script>
+    <script src="./zUtil.js"></script>
+    <script src="./zInfoWindow.js"></script>
+    <script type="text/javascript">
+        SFM.sfmUtil.loadJquery();
+        SFM.sfmUtil.loadSfmBase();
+        SFM.sfmUtil.loadCesium('1.60');
+        SFM.sfmUtil.load(
+            '/styles/zTreeStyle.css',
+            '/lib/jquery/plugins/jquery.ztree.all-3.5.min.js',
+            '/modules/lib/drawPlot/createModel.js',
+            '/modules/lib/drawPlot/createBillboard.js',
+            '/modules/lib/drawPlot/createLabel.js',
+            '/modules/lib/drawPlot/createPoint.js',
+            '/modules/lib/drawPlot/createPolygon.js',
+            '/modules/lib/drawPlot/createPolyline.js',
+            '/modules/lib/drawPlot/createRectangle.js',
+            '/modules/lib/drawPlot/createImgRectangle.js',
+            '/modules/lib/drawPlot/createCorridor.js',
+            '/modules/lib/drawPlot/createCircle.js',
+            '/modules/lib/drawPlot/createCylinder.js',
+            '/modules/lib/drawPlot/drawTool.js',
+        );
+    </script>
+    <script type="text/javascript">
+        SFM.CesiumEarthWidget = SFM.SfmResizableWidgetBase.extend({
+            constructor: function(options) {
+                var me = this;
+                me.base(options);
+            },
+            destroy: function() {
+                this.base();
+            },
+            render: function() {
+                var me = this;
+                me.base();
+                return me;
+            },
+            getEarthContext: function() {
+                return earthCtx;
+            },
+            __className__: 'CesiumEarthWidget'
+        });
+        var sfmWidget = new SFM.CesiumEarthWidget();
+    </script>
+    <script src="./gcoord.js"></script>
+    <script src="./location.js"></script>
+    <script src="./FileSaver.js"></script>
+    <script src="./saveXz.js"></script>
+
+</head>
+
+<body onload="init()">
+<div id="divCesiumContainer" class="layui-body-map commonOutCss">
+</div>
+<div  class="feature_left">
+    <div id="layerSelect" style="margin: 10px"></div>
+    <div style="width: 100%;border-bottom: 1px solid #787878;"></div>
+    <div style="height: calc(100% - 75px);overflow: auto;">
+        <ul id="ztree" class="ztree"></ul>
+    </div>
+</div>
+<div  class="feature_detail">
+    <div style="line-height: 50px;height: 50px;">
+        <div id="div_zy_search_name" style="margin-left: 16px;float: left">
+            属性查询
+        </div>
+        <button onclick="switchUi(1)" id="zy_btn_back" type="button" class="layui-btn layui-btn-primary layui-btn-sm" style="float: right;margin-top: 10px;margin-right: 10px">
+            <i class="layui-icon">&#58972;</i>
+        </button>
+    </div>
+    <div style="width: 100%;border-bottom: 1px solid #787878;"></div>
+    <div style="line-height: 50px;height: 50px;">
+        <div id="zyFields" style="margin-top: 5px;margin-bottom: 5px;width: 140px;float: left;margin-left: 5px;"></div>
+        <input id="zy_input" class="layui-input" style="float: left;width:100px;margin-top: 10px;margin-left: 10px">
+        <button onclick="addFeature()" title="添加"  type="button" class="layui-btn layui-btn-primary layui-btn-sm" style="float: right;margin-top: 10px;margin-right: 10px">
+            <i class="layui-icon">&#58916;</i>
+        </button>
+        <button onclick="searchFeatures()" title="属性查询" id="zy_btn_search" type="button" class="layui-btn layui-btn-primary layui-btn-sm" style="float: right;margin-top: 10px;margin-right: 4px">
+            <i class="layui-icon">&#58901;</i>
+        </button>
+    </div>
+    <div style="width: 100%;border-bottom: 1px solid #787878;"></div>
+    <div class="div_slate_list scrollbar_ul featureList" style="height: 705px">
+        <ul id="zy_ul">
+
+        </ul>
+    </div>
+</div>
+<div id="container_geo_attributes" style="position: absolute;left: 380px;top: 71px;;width:350px;z-index: 999;background-color: rgba(34,34,34,0.6);color: #fff;display: none">
+    <div style="line-height: 50px;height: 50px;">
+        <div style="margin-left: 16px;float: left;color: #009688">
+            要素属性
+        </div>
+        <button  onclick="switchFeatureAttr(0)" type="button" class="layui-btn layui-btn-primary layui-btn-sm" style="float: right;margin-top: 10px;margin-right: 4px">
+            <i class="layui-icon">&#58972;</i>
+            返回
+        </button>
+        <!--            <button onclick="addNewAttr()" id="btn_add_geo_attr" type="button" class="layui-btn layui-btn-primary layui-btn-sm" style="float: right;margin-top: 10px;margin-right: 4px">-->
+        <!--                <i class="layui-icon">&#58916;</i>-->
+        <!--                添加-->
+        <!--            </button>-->
+        <button  onclick="saveGeoAttr()" id="saveGeoAttrBtn" type="button" class="layui-btn layui-btn-primary layui-btn-sm" style="float: right;margin-top: 10px;margin-right: 4px">
+            <i class="layui-icon">&#58885;</i>
+            <i style="font-style: normal;">保存</i>
+        </button>
+    </div>
+    <div style="width: 100%;border-bottom: 1px solid #787878;"></div>
+    <div class="normal_list scrollbar_ul div_slate_list_no_hover" style="height: 316px;">
+        <form class="layui-form" lay-filter="form-edit">
+            <ul id="geoAttrList">
+
+            </ul>
+        </form>
+    </div>
+</div>
+<script>
+    var $;
+    var viewer;
+    var layerConfig = [
+        {
+            name:'五珠村',
+            value:'http://localhost:6080/arcgis/rest/services/wzcsl_new/MapServer',
+            featureUrl:'http://localhost:6080/arcgis/rest/services/wzcsl_new/FeatureServer',
+            initPoint: {
+                longitude: 115.127431, latitude: 29.954024, height: 8.50 * 1000
+            }
+        },
+        {
+            name:'颜闸村',
+            value:'http://localhost:6080/arcgis/rest/services/yzcsl_new/MapServer',
+            featureUrl:'http://localhost:6080/arcgis/rest/services/yzcsl_new/FeatureServer',
+            initPoint: {
+                longitude: 112.43320650478589, latitude: 29.999316988969106, height: 10000
+            }
+        }
+    ];
+    var layerConfigMap = [];
+    var hasLoadSourceCache = [];
+    var currentLayer;
+    var zTree;
+    var fieldConfig;
+    var unique_feature_mark = 'objectid';
+    var drawTool;
+
+    function init(){
+        viewer = zUtil.initCesium($,'divCesiumContainer',{},{longitude:112.43320650478589,latitude:29.999316988969106,height:10000});
+        //自定义图层切换
+        drawTool = new DrawTool({
+            Cesium: Cesium,
+            viewer: viewer,
+            hasEdit: false
+        });
+        loadLayerToCesium();
+        loadConfig();
+        initUi();
+    }
+
+    function loadConfig() {
+        var host_url = SFM.sfmUtil.getHostUrl();
+        var config = sessionStorage.getItem("cnField");
+        if(config){
+            fieldConfig = JSON.parse(config);
+        }else {
+            zUtil.cacheDataToStorage("cnField",host_url + '/files/data/cnField.json',function (data) {
+                fieldConfig = data;
+            });
+        }
+    }
+
+    function loadLayerToCesium() {
+        layerConfig.forEach(function (item) {
+            var imageryProvider = new Cesium.ArcGisMapServerImageryProvider({
+                url: item.value,
+                proxy: new Cesium.DefaultProxy("/proxy/")
+            });
+            item.imageryProvider = imageryProvider;
+            item.imageLayer = viewer.imageryLayers.addImageryProvider(imageryProvider);
+            layerConfigMap[item.name] = item;
+        });
+    }
+
+    function initUi() {
+        layui.use(['okUtils', "okLayer", 'constantUrl','xmSelect','form'],function () {
+            $ = layui.jquery;
+            renderLayerSelect();
+        })
+    }
+
+    var index = 0;
+    function renderLayerSelect() {
+        var select = zUtil.renderEasySelect($,{
+            el: '#layerSelect',
+            tips:'请选择图层',
+            name: 'layer',
+            data:layerConfig,
+            on:function (data) {
+                // if(index === 0){
+                //     getXz();
+                //     index ++;
+                // }else if(index === 1){
+                //     saveJson();
+                //     index++;
+                // }else if(index === 2){
+                //     saveFeature();
+                //     index++;
+                // }
+                if(data.arr && data.arr.length !== 0){
+                    var exist = select.getValue('valueStr');
+                    if(!exist || exist === '' || exist !== data.arr[0].value){
+                        showCurrentLayer(data.arr[0].name);
+                    }
+                }
+            }
+        })
+    }
+
+    function showCurrentLayer(name) {
+        currentLayer = layerConfigMap[name];
+        zUtil.getLayerData(currentLayer.value, function (metaData, data) {
+            hasLoadSourceCache[name] = {
+                metaData: metaData,
+                data: data,
+                datasourceList: []
+            };
+            renderTree(data);
+            zUtil.flyToPoint(Cesium,viewer,currentLayer.initPoint.longitude,currentLayer.initPoint.latitude,currentLayer.initPoint.height)
+        });
+    }
+
+    function renderTree(treeData) {
+        var setting = {
+            check: {
+                enable: true
+            },
+            callback: {
+                onCheck: function(event, treeId, treeNode){
+                    setLayerVisible(treeNode);
+                },
+                onRightClick:function(event, treeId, treeNode) {
+                    if(treeNode && !treeNode.isParent){
+                        layui.contextMenu.show(
+                            [
+                                {
+                                    name: '编辑',
+                                    click: function () {
+                                        switchToEdit(treeNode);
+                                    }
+                                }
+                            ], event.clientX, event.clientY);
+                    }
+                }
+            },
+        };
+        zTree = $.fn.zTree.init($('#ztree'), setting, treeData);
+    }
+
+    function setLayerVisible(treeNode) {
+        var allCheckedNodes = zTree.getCheckedNodes(true);
+        var allIds = [];
+        for (var index = 0; index < allCheckedNodes.length; index++) {
+            var node = allCheckedNodes[index];
+            if (!node.isParent && node.id) {
+                allIds.push(node.id);
+            }
+        }
+        var imageryProvider = layerConfigMap[currentLayer.name].imageryProvider;
+        imageryProvider._layers = allIds.length === 0 ? '-1' : allIds.toString();
+        refreshImageLayer();
+    }
+
+    function refreshImageLayer() {
+        var imageLayer = layerConfigMap[currentLayer.name].imageLayer;
+        imageLayer.show = false;
+        setTimeout(function () {
+            imageLayer.show = true;
+        }, 20);
+    }
+
+    var fieldSelect;
+    var currentLayerTreeNode;
+    var currentFieldConfig;
+    var geometryType;
+    var currentLayerFields;
+    function switchToEdit(treeNode) {
+        currentLayerTreeNode = treeNode;
+        currentFieldConfig = fieldConfig[treeNode.name];
+        zUtil.getLayerFields(currentLayer.value + '/' + treeNode.id,function (fields,meta) {
+            geometryType = meta.geometryType;
+            currentLayerFields = fields;
+            if(currentFieldConfig){
+                var searchFields = [];
+                for (var index = 0;index < currentFieldConfig.searchFields.length;index ++){
+                    searchFields.push({
+                        alias:currentFieldConfig.fieldCn[currentFieldConfig.searchFields[index]].newName,
+                        name:currentFieldConfig.searchFields[index]
+                    });
+                }
+                initSearchSelect(searchFields);
+            }else {
+                initSearchSelect(fields);
+            }
+            switchUi(0);
+        });
+    }
+
+    function initSearchSelect(fields) {
+        fieldSelect = zUtil.renderSelect({
+            el: '#zyFields',
+            tips:'请选择查询字段',
+            name: 'zyFields',
+            data: fields,
+            radio: false,
+            showDeleteIcon:true,
+            repeat: false,
+            clickClose: false,
+            prop: {
+                name: 'alias',
+                value: 'name',
+            }
+        });
+    }
+
+    function searchFeatures() {
+        var values = fieldSelect.getValue('value');
+        var inputValue = $('#zy_input').val();
+        var option = [];
+        if(values && values.length !== 0 && inputValue && inputValue !== ''){
+            for (var index = 0;index < values.length;index ++){
+                option[values[index].toLowerCase()] = inputValue;
+            }
+        }
+        zUtil.queryArcgis(currentLayer.value + '/' + currentLayerTreeNode.id,option,function (data) {
+            var features = data.features || [];
+            initFeatureList(features);
+        });
+    }
+
+    var allFeatureMap;
+    function initFeatureList(features) {
+        var html = '';
+        allFeatureMap = [];
+        features.sort(function (a,b) {
+            return a.attributes[unique_feature_mark] - b.attributes[unique_feature_mark]
+        });
+        for (var index = 0;index < features.length;index ++){
+            var feature = features[index];
+            var id = feature.attributes[unique_feature_mark];
+            allFeatureMap[feature.attributes[unique_feature_mark]] = feature;
+            var content = currentFieldConfig ? getListShowContent(currentFieldConfig.listShowField,feature.attributes) : feature.attributes[unique_feature_mark];
+            html+='<li data-id="'+ feature.attributes[unique_feature_mark] +'" title="'+ content +'">'+
+                '                        <span style="margin-left: 16px;font-size: 3px;display: inline-block;overflow: hidden;" class="layui-icon">&#58903;</span>' +
+                '                        <span style="margin-left: 2px;display: inline-block;overflow: hidden;width: 170px" >'+ content +'</span>\n' +
+                '                        <button type="button" class="layui-btn layui-btn-primary layui-btn-xs delete" style="float: right;margin-top: 9px;margin-right: 4px">\n' +
+                '                            <i class="layui-icon">&#58944;</i>\n' +
+                '                            删除\n' +
+                '                        </button>\n' +
+                '                        <button type="button" class="layui-btn layui-btn-primary layui-btn-xs edit" style="float: right;margin-top: 9px;margin-right: 10px">\n' +
+                '                            <i class="layui-icon">&#58946;</i>\n' +
+                '                            编辑\n' +
+                '                        </button>\n' +
+                '</li>'
+        }
+        $('#zy_ul').html(html);
+
+        $('.div_slate_list li span').off('click').on('click',function(){
+            var id = $(this)[0].parentNode.dataset.id;
+            var feature = allFeatureMap[id];
+            showFeature(feature,currentFieldConfig);
+        });
+
+        $('.div_slate_list li .delete').off('click').on('click',function(){
+            var id = $(this)[0].parentNode.dataset.id;
+            var url = currentLayer.featureUrl;
+            layui.okLayer.confirm('确定要删除嘛,删除后不可恢复',function () {
+                zUtil.arcgis_deleteFeatures(url,currentLayerTreeNode.id,id,function (data) {
+                    if(data && data.deleteResults){
+                        layui.okLayer.msg.greenTick('删除成功',function () {
+                            searchFeatures();
+                            refreshImageLayer();
+                        })
+                    }
+                });
+            });
+        });
+        $('.div_slate_list li .edit').off('click').on('click',function(){
+            var id = $(this)[0].parentNode.dataset.id;
+            var feature = allFeatureMap[id];
+            isAddFeature = false;
+            switchFeatureAttr(1);
+            showFeatureAttr(feature);
+            showFeatureGeometry(feature);
+        });
+    }
+
+    function getAttrDetailHtml(feature) {
+        var html = '<div class="div_slate_list scrollbar_ul" style="height: 200px;margin: 40px 30px 40px 40px">\n' +
+            '        <ul>\n';
+
+        var currentFieldConfig = fieldConfig[currentLayerTreeNode.name];
+        if(currentFieldConfig && currentFieldConfig.updateField){
+            var fieldCn = currentFieldConfig.fieldCn;
+            for (var key in fieldCn){
+                var value = (feature.attributes[key] || feature.attributes[key.toLowerCase()]) + '&nbsp;' + fieldCn[key].unit;
+                var text = fieldCn[key].newName;
+                html += getDetailItemLi(text,value);
+            }
+        }else {
+            for (var key in feature.attributes){
+                html += getDetailItemLi(key,feature.attributes[key]);
+            }
+        }
+
+        html +=    '        </ul>\n' +
+            '    </div>';
+
+        return html;
+    }
+
+    function getDetailItemLi(text,value) {
+        var html = '<li style="300px">';
+        html += '<span title="'+ text +'" style="margin-left: 2px;display: inline-block;overflow: hidden;width: 100px">'+ text +'</span>';
+        html += '<span title="'+ value +'" style="display: inline-block;overflow: hidden;width: 190px;margin-left: 10px">'+ value +'</span>';
+        html += '</li>';
+        return html;
+    }
+
+    function showFeature(feature) {
+        var geometry = feature.geometry;
+        var locateX,locateY;
+        var locateZ = geometry.rings ? 5 : 10;
+        if(geometry.x && geometry.y){
+            locateX = geometry.x;
+            locateY = geometry.y;
+        }else if(geometry.rings){
+            locateX = geometry.rings[0][0][0];
+            locateY = geometry.rings[0][0][1];
+        }
+        var cartographic2s = [];
+        cartographic2s.push(Cesium.Cartographic.fromDegrees(locateX, locateY));
+        zUtil.getHeight(Cesium,viewer,cartographic2s,function (updatedPositions){
+            zInfoWindow.showInfoWindow($,{
+                Cesium:Cesium,
+                viewer:viewer,
+                point:{longitude:locateX,latitude:locateY,height:updatedPositions[0].height},
+                content:getAttrDetailHtml(feature),
+                parentElement:'divCesiumContainer'
+            });
+            zUtil.flyToPoint(Cesium,viewer,locateX,locateY,300);
+        });
+    }
+
+    function getListShowContent(fields,attributes) {
+        var content = '';
+        for (var fieldIndex = 0;fieldIndex < fields.length;fieldIndex ++){
+            var value = attributes[fields[fieldIndex]];
+            if(!value){
+                var key = fields[fieldIndex].toLowerCase();
+                value = attributes[key];
+            }
+            content += value + '&nbsp;&nbsp;'
+        }
+        return content;
+    }
+
+    function showFeatureGeometry(feature) {
+        var geometry = feature.geometry;
+        if(geometryType === 'esriGeometryPoint'){
+        }
+    }
+
+    var currentAddFeatureGeometry;
+    var isAddFeature = false;
+    function addFeature() {
+        isAddFeature = true;
+        switchFeatureAttr(1);
+        var currentFieldConfig = fieldConfig[currentLayerTreeNode.name];
+        $('#geoAttrList').html('');
+        if(currentFieldConfig && currentFieldConfig.updateField){
+            var updateField = currentFieldConfig.updateField;
+            updateField.forEach(function (field) {
+                addNewAttr(currentFieldConfig.fieldCn[field].newName,field,'');
+            });
+        }else {
+            currentLayerFields.forEach(function (field) {
+                if(field.type !== 'esriFieldTypeGeometry' &&
+                    field.type !== "esriFieldTypeOID"){
+                    addNewAttr(field.name,field.name,'');
+                }
+            });
+        }
+        if(geometryType === 'esriGeometryPoint'){
+            drawTool.startDraw({
+                type: 'point',
+                style: {},
+                success: function (evt) {
+                    viewer.scene.globe.depthTestAgainstTerrain = false;
+                    var car = evt.point.position._value;
+                    var geo = zUtil.cartesian3ToGeo(Cesium,viewer,car);
+                    currentAddFeatureGeometry = {x:geo.longitude,y:geo.latitude};
+                }
+            });
+        }else if(geometryType === 'esriGeometryPolygon'){
+            drawTool.startDraw({
+                type: 'polygon',
+                style: {
+                    fill: "on",
+                    material: "#3388ff",
+                    alpha: "0.2",
+                },
+                success: function (evt) {
+                    viewer.scene.globe.depthTestAgainstTerrain = false;
+                    var cars = evt.positions;
+                    currentAddFeatureGeometry = turnCartesian3ToGeo(cars);
+                }
+            });
+        }
+    }
+
+    var turnCartesian3ToGeo = function(cars) {
+        var geos = [];
+        for (var index = 0; index < cars.length; index++) {
+            var geo = zUtil.cartesian3ToGeoArray(Cesium, viewer, cars[index]);
+            geos.push(geo);
+        }
+        geos.push(geos[0]);
+        return {
+            rings:[geos]
+        };
+    };
+
+    /**
+     * 只可以更新设置的一些字段
+     */
+    function showFeatureAttr(feature) {
+        var currentFieldConfig = fieldConfig[currentLayerTreeNode.name];
+        $('#geoAttrList').html('');
+        if(currentFieldConfig && currentFieldConfig.updateField){
+            var updateField = currentFieldConfig.updateField;
+            updateField.forEach(function (field) {
+                addNewAttr(currentFieldConfig.fieldCn[field].newName,field.toLowerCase(),feature.attributes[field] || feature.attributes[field.toLowerCase()]);
+            });
+        }else {
+            for (var key in feature.attributes){
+                addNewAttr(key,key,feature.attributes[key]);
+            }
+        }
+        $('#geoAttrList').append('<li style="display: none"><input type="number" name="'+ unique_feature_mark +'" value='+ feature.attributes[unique_feature_mark] +'></li>');
+    }
+
+    function saveGeoAttr() {
+        if(isAddFeature && !currentAddFeatureGeometry){
+            layui.okLayer.msg.redCross('请先绘制');
+            return;
+        }
+        var attributes = layui.form.getValue('form-edit');
+        if(!isAddFeature){
+            attributes[unique_feature_mark] = parseInt(attributes[unique_feature_mark]);
+        }
+        var url = currentLayer.featureUrl;
+        if(!isAddFeature){
+            var features = [{
+                "attributes":attributes
+            }];
+            zUtil.arcgis_updateFeatures(url,currentLayerTreeNode.id,features,function (data) {
+                if(data && data.updateResults){
+                    layui.okLayer.msg.greenTick('更新成功',function () {
+                        searchFeatures();
+                    });
+                }else {
+                    layui.okLayer.msg.redCross('更新失败');
+                }
+            });
+        }else {
+            drawTool.destroy();
+            var features = [{
+                "attributes":attributes,
+                "geometry":currentAddFeatureGeometry
+            }];
+            zUtil.arcgis_addFeatures(url,currentLayerTreeNode.id,features,function (data) {
+                if(data && data.addResults){
+                    layui.okLayer.msg.greenTick('添加成功',function () {
+                        searchFeatures();
+                        refreshImageLayer();
+                    });
+                }else {
+                    layui.okLayer.msg.redCross('添加失败');
+                }
+            });
+        }
+    }
+
+    var addNewAttr = function (cnName,attrKey,attrValue) {
+        cnName = cnName || '';
+        attrKey = attrKey || '';
+        attrValue = attrValue || '';
+        var li = '<li>\n' +
+            '                        <span title="'+ cnName +'" style="display: inline-block;overflow:hidden;width:120px;float: left;margin-left: 10px">'+ cnName +'</span>\n' +
+            '                        <input  name="' + attrKey +'" value="'+ attrValue +'" id="value" class="layui-input" style="width:200px;float: right;margin-top: 5px;margin-right: 4px" placeholder="属性值">\n' +
+            '                    </li>';
+        $('#geoAttrList').append(li);
+    };
+
+    function switchUi(type) {
+        if(type === 0){
+            $('#zy_ul').html('');
+            searchFeatures();
+            $('.feature_left').hide();
+            $('.feature_detail').show();
+        }else {
+            $('.feature_left').show();
+            $('.feature_detail').hide();
+
+            switchFeatureAttr(0);
+            zInfoWindow.closeInfoWindow();
+        }
+    }
+
+    function switchFeatureAttr(type) {
+        var dom = $('#container_geo_attributes');
+        if(type === 0){
+            dom.hide();
+            drawTool.destroy();
+        }else {
+            dom.show();
+        }
+    }
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>项目管理</title>
+  <link rel="stylesheet" href="../../../../../lib/ok_admin/css/okadmin.css">
+  <script type="text/javascript" src="../../../../../lib/ok_admin/lib/layui/layui.js"></script>
+  <link rel="stylesheet" type="text/css" href="/zlsk_js_api/lib/leaflet/leaflet-1.7.1/leaflet.css"/>
+  <script type="text/javascript" src="/zlsk_js_api/lib/leaflet/leaflet-1.7.1/leaflet.js"></script>
+  <link rel="stylesheet" type="text/css" href="/zlsk_js_api/lib/zlskmap/zlskmap.css"/>
+  <script type="text/javascript" src="/zlsk_js_api/lib/zlskmap/zlskmap.js"></script>
+  <style>
+    #departmentTree {
+      height: 100%;
+      width: 20%;
+      float: left;
+      overflow: auto;
+    }
+
+    #user {
+      width: 78%;
+      right: 10px;
+      float: left;
+      position: absolute;
+    }
+
+    #user .layui-form .layui-form-label {
+      width: 100px;
+      padding: 9px 4px;
+
+    }
+
+    #user .companyManager .layui-tree .layui-icon-file::before {
+      content: '';
+    }
+
+    #map {
+      width: 100%;
+      height: 400px;
+      position: relative;
+    }
+
+    #map .tool {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      display: flex;
+      flex-direction: column;
+      z-index: 10000;
+    }
+
+    #map .tool li {
+      cursor: pointer;
+      height: 38px;
+      width: 38px;
+      background: url("../../../../../images/menus/tool/li_bg.png") no-repeat;
+      background-size: 100% 100%;
+      margin-bottom: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #map .tool li img {
+      width: 20px;
+      height: 20px;
+
+    }
+
+
+    /* #user .layui-form .layui-form-item {
+        width: 100%;
+        float: left;
+
+    }
+
+    #user .layui-form .layui-input-block {
+        width: calc(100% - 240px);
+        margin-left: 10px;
+    } */
+  </style>
+</head>
+
+<body>
+<div class="layui-body commonOutCss" style="left: 0px">
+  <div id="departmentTree" style="min-height:400px;"></div>
+  <div id="user">
+    <div class="layui-row layui-tab-card layui-tab">
+      <form class="layui-form " style="width: auto;margin: 10px;" lay-filter="form" id="form">
+        <div class="layui-form-item">
+          <label class="layui-form-label">项目名称</label>
+          <div class="layui-input-block">
+            <input type="text" name="name" placeholder="请输入项目名称" autocomplete="off" class="layui-input"
+                   lay-verify="required"
+            >
+          </div>
+        </div>
+
+        <div class="layui-form-item companyManager" style="display: none">
+          <label class="layui-form-label">合同号</label>
+          <div class="layui-input-block">
+            <input type="text" name="contractnum" placeholder="请输入合同号" autocomplete="off"
+                   class="layui-input"
+            >
+          </div>
+        </div>
+        <div class="layui-form-item companyManager" style="display: none">
+          <label class="layui-form-label">是否自管</label>
+          <div class="layui-input-block">
+            <select name="isauto" id="isauto">
+              <option value="1">自管</option>
+              <option value="0">非自管</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="layui-form-item companyManager" style="display: none">
+          <label class="layui-form-label">投资金额</label>
+          <div class="layui-input-block">
+            <input type="number" name="investment" placeholder="请输入投资金额(单位万元)" autocomplete="off"
+                   class="layui-input"
+            >
+          </div>
+        </div>
+        <div class="layui-form-item companyManager" style="display: none">
+          <label class="layui-form-label">项目简介</label>
+          <div class="layui-input-block">
+                         <textarea name="introduction" rows="10" cols="5" id="introduction" placeholder="请输入项目简介"
+                                   autocomplete="off"
+                                   class="layui-input"></textarea>
+          </div>
+        </div>
+        <div class="layui-form-item companyManager" style="display: none">
+          <label class="layui-form-label">项目类型</label>
+          <div class="layui-input-block">
+            <select name="projecttype" id="projectType">
+              <option value="交通类">交通类</option>
+              <option value="房建类">房建类</option>
+              <option value="市政类">市政类</option>
+              <option value="其他类">其他类</option>
+            </select>
+          </div>
+        </div>
+        <div class="layui-form-item companyManager" style="display: none">
+          <label class="layui-form-label">项目图片</label>
+          <div class="layui-input-block">
+            <button type="button" class="layui-btn" disabled="true" id="uploadImage">
+              <i class="layui-icon">&#xe67c;</i>上传图片
+            </button>
+          </div>
+        </div>
+        <div class="layui-form-item companyManager" style="display: none">
+          <label class="layui-form-label">组织机构</label></label>
+          <div class="layui-input-block">
+            <input type="text" readonly="readonly" name="zzjg" placeholder="请选择组织机构" autocomplete="off"
+                   class="layui-input showTree">
+            <div id="org" class="org" style="display: none"></div>
+          </div>
+        </div>
+        <div class="layui-form-item companyManager" style="display: none">
+          <label class="layui-form-label">设计单位</label>
+          <div class="layui-input-block">
+            <input type="text" readonly="readonly" name="sjdw" value="" placeholder="请选择设计单位"
+                   autocomplete="off" class="layui-input showTree">
+            <div id="sheji" class="sheji" style="display: none"></div>
+          </div>
+        </div>
+        <div class="layui-form-item companyManager" style="display: none">
+          <label class="layui-form-label">管理单位</label>
+          <div class="layui-input-block">
+            <input type="text" readonly="readonly" name="gldw" value="" placeholder="请选择管理单位"
+                   autocomplete="off" class="layui-input showTree">
+            <div id="guanli" style="display: none"></div>
+          </div>
+        </div>
+        <div class="layui-form-item companyManager" style="display: none">
+          <label class="layui-form-label">监理单位</label>
+          <div class="layui-input-block">
+            <input type="text" readonly="readonly" name="jldw" value="" placeholder="请选择监理单位"
+                   autocomplete="off" class="layui-input showTree">
+            <div id="jianli" style="display: none"></div>
+          </div>
+        </div>
+        <div class="layui-form-item companyManager" style="display: none">
+          <label class="layui-form-label">建设单位</label>
+          <div class="layui-input-block">
+            <input type="text" readonly="readonly" name="jsdw" value="" placeholder="请选择建设单位"
+                   autocomplete="off" class="layui-input showTree">
+            <div id="jianshe" style="display: none"></div>
+          </div>
+        </div>
+        <div class="layui-form-item companyManager" style="display: none">
+          <label class="layui-form-label">全过程咨询单位</label>
+          <div class="layui-input-block">
+            <input type="text" readonly="readonly" name="qgczxdw" value="" placeholder="请选择全过程咨询单位"
+                   autocomplete="off" class="layui-input showTree">
+            <div id="quanzi" style="display: none"></div>
+          </div>
+        </div>
+        <div class="layui-form-item companyManager" style="display: none">
+          <label class="layui-form-label">施工单位</label>
+          <div class="layui-input-block">
+            <input type="text" readonly="readonly" name="sgdw" value="" placeholder="请选择施工单位"
+                   autocomplete="off" class="layui-input showTree">
+            <div id="shigong" style="display: none"></div>
+          </div>
+        </div>
+        <div class="layui-form-item companyManager" style="display: none">
+          <label class="layui-form-label">项目点</label>
+          <div class="layui-input-block">
+            <input type="text" name="projectpoint" id="projectpoint" placeholder="请点击地图拾取项目点" readonly
+                   autocomplete="off"
+                   class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item companyManager" style="display: none">
+          <label class="layui-form-label">项目线</label>
+          <div class="layui-input-block">
+                        <textarea name="coordinate" rows="10" cols="5" id="coordinate" placeholder="请点击地图拾取项目线" readonly
+                                  autocomplete="off"
+                                  class="layui-input"></textarea>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <div id="map">
+            <ul class="tool companyManager" style="display: none">
+              <li id="drawPoint">
+                <img src="../../../../../images/menus/tool/site.png" alt="">
+              </li>
+              <li id="drawLine">
+                <img src="../../../../../images/menus/tool/line.png" alt="">
+              </li>
+              <li id="clear">
+                <img src="../../../../../images/menus/tool/clear.png" alt="">
+              </li>
+            </ul>
+
+          </div>
+        </div>
+        <div class="layui-form-item" style="display: none" id="higherOffice">
+          <label class="layui-form-label">上级工程</label>
+          <div class="layui-input-block">
+            <input type="text" name="parent" placeholder="请输入上级工程" autocomplete="off"
+                   class="layui-input" disabled>
+          </div>
+        </div>
+        <div style="text-align: center">
+          <button class="layui-btn" lay-submit lay-filter="submit" id="submitBtn"
+                  style="display: none;">提交<i style='margin-left: 10px'
+                                              class="layui-icon">&#4101;</i></button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+  let $;
+  layui.use(["tree", "layer", "form", "table", "okUtils", "okLayer", "constantUrl", "util", "upload"], function () {
+    $ = layui.jquery;
+    let tree = layui.tree;
+    let okUtils = layui.okUtils;
+    let constantUrl = layui.constantUrl;
+    let upload = layui.upload;
+    let okLayer = layui.okLayer;
+    let layer = layui.layer;
+    let form = layui.form;
+    let util = layer.util;
+    let cacheData = {};
+    let addFlag = 0; //区分添加和编辑的标志 1 添加 2 编辑
+    let orgData = []; //组织树状数据
+
+    let shigong = []; //施工单位
+    let jianli = []; //监理单位
+    let jianshe = []; //建设单位
+    let sheji = []; //设计单位
+    let quanzi = []; //全咨单位
+    let guanli = []; //管理单位
+    let checkedCompanyId = []; //选中的单位id
+    // let groupid = []; //选中的组织数据
+    let isAddBiaoDuan = false; //判断是否是添加标段
+    let map; //地图
+    const L = window.L;
+    let key = ["49ea1deec0ffd88ef13a3f69987e9a63"];
+    let feature;
+    let workDraw;
+    let uploadImageStr = "";
+
+
+    //查询新的项目，代理
+    let baseUrl = window.location.host;
+    let httpUrl = "https://" + baseUrl + "/ZhuJiRoad/";
+    let currentPageUrl = {
+      getProjectTree: httpUrl + "projects/getAll", //项目表所有数据
+      addProject: httpUrl + "projects/addProjects", //添加项目
+      deleteProject: httpUrl + "projects/deleteProjects", //删除项目
+      getProjectInfoById: httpUrl + "projects/getProjectInfoById", //根据项目id获取项目数据
+      updateProject: httpUrl + "projects/updateProjects", //更新项目信息
+      getCpmpany: httpUrl + "projects/getAllCompany", //获取所有单位信息
+      uploadImage: httpUrl + "mong/upload" //上传文件
+    };
+
+    function getTrees(ary, pid = -1) {
+      if (!pid) {
+        // 如果没有父id（第一次递归的时候）将所有父级查询出来
+        return ary.filter(item => !item.parentid).map(item => {
+          // 通过父节点ID查询所有子节点
+          item.children = getTrees(ary, item.id);
+          return item;
+        });
+      } else {
+        return ary.filter(item => item.parentid === pid).map(item => {
+          // 通过父节点ID查询所有子节点
+          item.children = getTrees(ary, item.id);
+          return item;
+        });
+      }
+    }
+
+    //初始化工具
+    function initDraw() {
+      feature = L.featureGroup().addTo(map);
+      workDraw = new L.zlskmap.Draw({
+        map: map,
+        hasDel: false,
+        isOnly: true,
+        onCreate: function (e) {
+          let {layerType, layer} = e;
+
+          if (layerType === "marker") {
+            let {_latlng} = layer;
+            let value = _latlng.lat + "," + _latlng.lng;
+            $("#projectpoint").val(value);
+          } else if (layerType === "polyline") {
+            let {_latlngs} = layer;
+            let value = _latlngs.map(item => {
+              return [item.lat, item.lng];
+            });
+            $("#coordinate").val(JSON.stringify(value));
+          }
+        },
+        onChange: function (e) {
+          // that.disposeStr(e.layer._latlngs[0]);
+        }
+      });
+      workDraw.hasEdit(false);
+
+    }
+
+    function initMap() {
+      L.zlskmap.createMap({
+        id: "map",
+        crs: "EPSG:4326",
+        data: {
+          zoom: 14,
+          center: {
+            x: 120.1095329338229,
+            y: 29.706018768457866
+          },
+          basemaps: []
+        },
+        success: function (i) {
+          map = i;
+          L.zlskmap.layer.createLayer({
+            type: "www_tdt",
+            layer: "vec",
+            key: key,
+            crs: "EPSG4326"
+          }).addTo(map);
+
+          //初始化绘制工具、layer
+          initDraw();
+
+        }
+      });
+
+    }
+
+    //初始化地图
+    initMap();
+
+    //取点点击事件
+    $("#drawPoint").bind("click", function (event) {
+      event.stopPropagation();
+      workDraw.startDraw("marker", {
+        "style": {
+          "opacity": 1,
+          "iconSize0": 25,
+          "iconSize1": 41,
+          "iconAnchor0": 12,
+          "iconAnchor1": 41
+        }
+      });
+    });
+    //取线点击事件
+    $("#drawLine").bind("click", function (event) {
+      event.stopPropagation();
+      workDraw.startDraw("polyline", {
+        "style": {
+          "color": "#3388ff",
+          "weight": 3,
+          "opacity": 1,
+          "dashArray": ""
+        }
+      });
+    });
+
+    //清除绘制数据
+    $("#clear").bind("click", function (event) {
+      event.stopPropagation();
+      workDraw && workDraw.clearDraw();
+      workDraw && workDraw.stopDraw();
+    });
+
+    //执行实例 上传文件
+    let uploadInst = upload.render({
+      elem: "#uploadImage" //绑定元素
+      , url: currentPageUrl.uploadImage //上传接口
+      , auto: false
+      , choose: function (obj) {
+        let flag = true;
+        obj.preview(function (index, file, result) {
+          const fileSuffix = file.name.substring(file.name.lastIndexOf(".") + 1);
+          if (
+            ["JPG", "JPEG", "PNG", "BMP", "GIF"].includes(fileSuffix.toUpperCase())
+          ) {
+            let limitFileSize = 20;
+            const isLtM = file.size / 1024 / 1024 < limitFileSize;
+            if (isLtM) {
+              obj.upload(index, file); //满足条件调用上传方法
+            } else {
+              layer.alert("文件大小不能超过" + limitFileSize + "M");
+              flag = false;
+              return false;
+            }
+
+          } else {
+            layer.alert("请上传JPG,JPEG,PNG,BMP,GIF类型的文件");
+            flag = false;
+            return false;
+          }
+        });
+      }
+      , done: function (res) {
+        uploadImageStr = res.data;
+        layer.alert("上传成功");
+        //上传完毕回调
+      }
+      , error: function () {
+        uploadImageStr = "";
+        layer.alert("上传失败");
+        //请求异常回调
+      }
+    });
+
+
+    let initTree = function () {
+      let groupData = [];
+      $("#uploadImage").attr("disabled", true);
+      uploadImageStr = "";
+      $.ajax({
+        url: currentPageUrl.getProjectTree,
+        type: "post",
+        data: {},
+        dataType: "json",
+        traditional: false,
+        async: true,
+        success: function (data) {
+          let treeArr = data.data;
+          treeArr.forEach(item => {
+            item.title = item.name || m[title];
+            item.id = item.id || m[id];
+            item.checked = true;
+          });
+          let treeData = getTrees(treeArr);
+          tree.render({
+            elem: "#departmentTree",
+            onlyIconControl: true,
+            data: treeData,
+            id: "treeId",
+            customOperate: true,
+            edit: ["add", "update", "del"],
+            operate: function (obj) {
+              let type = obj.type; //得到操作类型：add、edit、del
+              let data = obj.data; //得到当前节点的数据
+              document.getElementById("form").reset();
+              cacheData = data;
+              checkedCompanyId = [];
+
+              if (type === "add") { //增加节点
+                addGroup(data);
+
+                if (data.grouplevel === 2) {
+                  $("#uploadImage").attr("disabled", false);
+                  controlCompanyManager(true);
+                } else {
+                  controlCompanyManager(false);
+                }
+                $("#submitBtn").show();
+              } else if (type === "del") { //删除节点
+                deleteGroup(data);
+              } else {
+                if (data.grouplevel === 3) {
+                  $("#uploadImage").attr("disabled", false);
+                  controlCompanyManager(true);
+                } else {
+                  controlCompanyManager(false);
+                }
+                $("#submitBtn").show();
+                editGroup(obj.data);
+              }
+              return false;
+            },
+            click: function (obj) {
+              if (obj.data.grouplevel === 3) {
+                controlCompanyManager(true);
+              } else {
+                controlCompanyManager(false);
+              }
+              cacheData = obj.data;
+              $("#submitBtn").hide();
+              editGroup(obj.data);
+            }
+          });
+        }
+      });
+    };
+    //获取项目数据树
+    initTree();
+    //获取组织
+    let initOrg = function () {
+      let groupData = [];
+      okUtils.ajax({
+        "url": constantUrl.stAuth.selectGroup
+      }).done(function (data1) {
+        if (data1.data == null) {
+          layer.alert("警告 " + data1.msg);
+        } else {
+          data = okUtils.structureTree({
+            "data": data1.data.getMe,
+            "check": true,
+            "spread": true
+          });
+          for (let index = 0; index < data.length; index++) {
+            if (data[index].PARENTID === -1) {
+              groupData[0] = data[index];
+            }
+          }
+          orgData = groupData;
+          //渲染组织机构
+          tree.render({
+            elem: "#org",
+            data: orgData,
+            id: "treeIdorg",
+            onlyIconControl: true,
+            showCheckbox: true,
+            showLine: false //关闭连接线
+          });
+        }
+      });
+
+    };
+    initOrg();
+
+    let renderCompanyTree = function (id, data, setChecked) {
+      tree.render({
+        elem: "#" + id,
+        onlyIconControl: true,
+        data: data,
+        id: "treeId" + id,
+        customOperate: true,
+        showCheckbox: true,
+        edit: [],
+        oncheck: function (obj) {
+          //存储当前选中的id
+          let info = checkedCompanyId.find(e => e === obj.data.id);
+          if (obj.checked) {
+            if (!info) checkedCompanyId.push(obj.data.id);
+
+          } else {
+            if (info) {
+              let index = checkedCompanyId.findIndex(e => e === obj.data.id);
+              checkedCompanyId.splice(index, 1);
+            }
+          }
+          let value = $("#" + id).prev("input")[0].value;
+          let name = obj.data.name;
+          if (obj.checked) {
+            if (!value) {
+              $("#" + id).prev("input")[0].value = name;
+            } else {
+              if (value.indexOf(name) != -1) {
+              } else {
+                $("#" + id).prev("input")[0].value = value + "," + name;
+              }
+            }
+          } else {
+            if (!value) {
+              //
+            } else {
+              if (value.indexOf(name) != -1) {
+                let arr = value.split(",");
+                let index = arr.findIndex(e => e == name);
+                arr.splice(index, 1);
+                let str = arr.join(",");
+                $("#" + id).prev("input")[0].value = str;
+
+              }
+            }
+          }
+        }
+      });
+    };
+
+    //获取所有单位信息
+    let initCompany = function () {
+      $.ajax({
+        url: currentPageUrl.getCpmpany,
+        type: "post",
+        data: {},
+        dataType: "json",
+        traditional: false,
+        async: true,
+        success: function (res) {
+          if (res && res.data.length > 0) {
+            let c = res.data;
+            c.forEach(item => {
+              item.title = item.name;
+              item.spread = false;
+            });
+            shigong = c.filter(e => e.typecode === "sgdw");
+            jianli = c.filter(e => e.typecode === "jldw");
+            jianshe = c.filter(e => e.typecode === "jsdw");
+            sheji = c.filter(e => e.typecode === "sjdw");
+            quanzi = c.filter(e => e.typecode === "qgczxdw");
+            guanli = c.filter(e => e.typecode === "gldw");
+            renderCompanyTree("shigong", shigong);
+            renderCompanyTree("quanzi", quanzi);
+            renderCompanyTree("jianshe", jianshe);
+            renderCompanyTree("guanli", guanli);
+            renderCompanyTree("sheji", sheji);
+            renderCompanyTree("jianli", jianli);
+          } else {
+            layer.alert("请添加单位");
+          }
+
+        }
+      });
+
+    };
+    initCompany();
+
+    //輸入框點擊事件,顯示下面的復選數據
+    let initBindEvent = function () {
+      let dom = $(".showTree");
+      dom.on("click", function () {
+        $(this).next().show();
+        $(this).parents(".companyManager").siblings(".companyManager").find(".showTree")
+          .next().hide();
+      });
+    };
+    let result = [];
+
+    //递归树获取最下层的id
+    function getTreeItem(data) {
+      data.forEach(item => {
+        if (!item.children) {
+          result.push(item.id); // 结果赋值
+        } else {
+          getTreeItem(item.children);
+        }
+      });
+    }
+
+    //表單提交事件
+    form.on("submit(submit)", function (data) {
+      let param = data.field;
+      //新增
+      if (addFlag === 1) {
+        let obj = {
+          groupid: "",
+          grouplevel: cacheData.grouplevel + 1,
+          name: param.name,
+          parentid: cacheData.id,
+          projectCompany: "",
+          isauto: param.isauto || null,
+          contractnum: param.contractnum,
+          coordinate: param.coordinate,
+          investment: param.investment,
+          projectpoint: param.projectpoint,
+          projecttype: param.projecttype,
+          introduction: param.introduction,
+          projectpic: uploadImageStr ? uploadImageStr : ""
+        };
+        if (obj.grouplevel === 3 && checkedCompanyId.length > 0) {
+          obj.projectCompany = checkedCompanyId.join(",");
+        } else if (obj.grouplevel === 3 && checkedCompanyId.length === 0) {
+          layer.alert("请选择施工、监理等单位");
+          return false;
+        }
+        if (obj.grouplevel === 3) {
+          let checkshuju = tree.getChecked("treeIdorg");
+          if (checkshuju.length > 0) {
+            result = []; // 运行结果
+            getTreeItem(checkshuju);
+            obj.groupid = result.join(",");
+          } else {
+            layer.alert("请选择组织");
+            return false;
+          }
+        }
+
+
+        $.ajax({
+          url: currentPageUrl.addProject,
+          type: "post",
+          data: JSON.stringify(obj),
+          dataType: "json",
+          traditional: false,
+          async: true,
+          headers: {
+            "Content-Type": "application/json;charset=UTF-8"
+          },
+          success: function () {
+            layer.alert("新增成功");
+            $("#submitBtn").hide();
+            resetForm();
+            controlCompanyManager(false);
+            initTree();
+          }
+        });
+      } else if (addFlag === 2) {
+        //修改
+        let info = Object.assign({}, cacheData);
+        let submitData = {
+          groupid: "",
+          name: param.name,
+          projectCompany: "",
+          id: info.id,
+          isauto: param.isauto || null,
+          contractnum: param.contractnum,
+          coordinate: param.coordinate,
+          investment: param.investment,
+          projectpoint: param.projectpoint,
+          projecttype: param.projecttype,
+          introduction: param.introduction,
+          projectpic: uploadImageStr ? uploadImageStr : param.projectpic
+        };
+
+        // if (info.grouplevel === 3 && checkedCompanyId.length > 0) {
+        //     obj.projectCompany = checkedCompanyId.join(",");
+        // } else if (obj.grouplevel === 3 && checkedCompanyId.length === 0) {
+        //     layer.alert("请选择施工、监理等单位");
+        //     return false;
+        // }
+
+        if (checkedCompanyId.length > 0 && info.grouplevel === 3) {
+          submitData.projectCompany = checkedCompanyId.join(",");
+        } else if (info.grouplevel === 3 && checkedCompanyId.length === 0) {
+          layer.alert("请选择施工、监理等单位");
+          return false;
+        }
+        if (info.grouplevel === 3) {
+          let checkshuju = tree.getChecked("treeIdorg");
+          if (checkshuju.length > 0) {
+            result = []; // 运行结果
+            getTreeItem(checkshuju);
+            submitData.groupid = result.join(",");
+          } else {
+            layer.alert("请选择组织");
+            return false;
+          }
+
+        }
+        $.ajax({
+          url: currentPageUrl.updateProject,
+          type: "post",
+          data: JSON.stringify(submitData),
+          dataType: "json",
+          traditional: false,
+          async: true,
+          headers: {
+            "Content-Type": "application/json;charset=UTF-8"
+          },
+          success: function (res) {
+            layer.alert("修改成功");
+            $("#submitBtn").hide();
+            resetForm();
+            controlCompanyManager(false);
+            initTree();
+          }
+        });
+      } else {
+        layer.msg("请刷新后重试");
+      }
+      return false;
+    });
+    //重置表單
+    let resetForm = function () {
+      $("#higherOffice").hide();
+      let param = {
+        name: "",//项目名称
+        zzjg: "",//组织机构
+        sjdw: "",//设计单位
+        gldw: "",//管理单位
+        jldw: "",//监理单位
+        jsdw: "",//建设单位
+        qgczxdw: "",//全过程咨询单位
+        sgdw: "",//施工单位
+        contractnum: "",//合同号,
+        investment: null,//投资金额,
+        projecttype: "交通类",//项目类型
+        coordinate: "",//线
+        projectpoint: "",//点,
+        projectsurface: "",//面
+        introduction: "",//项目简介
+        isauto: 1,//是否资管,
+        projectpic: "" //项目照片
+      };
+      form.val("form", param);
+    };
+    //編輯修改
+    let editGroup = function (data) {
+      addFlag = 2;
+      $("#higherOffice").hide();
+      //请求获取数据
+      let param = {};
+      // param.name = data.name;
+      $.ajax({
+        url: currentPageUrl.getProjectInfoById + "?projectid=" + data.id,
+        type: "post",
+        data: {},
+        dataType: "json",
+        traditional: false,
+        async: true,
+        headers: {
+          "Content-Type": "application/json;charset=UTF-8"
+        },
+        success: function (res) {
+          let {
+            companys,
+            project
+          } = res.data;
+          let param = {
+            name: project.name,
+            zzjg: "",
+            sjdw: "",
+            gldw: "",
+            jldw: "",
+            jsdw: "",
+            qgczxdw: "",
+            sgdw: "",
+            projectpoint: project.projectpoint,
+            coordinate: project.coordinate,
+            projectsurface: project.projectsurface,
+            investment: project.investment,
+            projecttype: project.projecttype,
+            contractnum: project.contractnum,
+            isauto: project.isauto,
+            introduction: project.introduction,
+            projectpic: project.projectpic
+          };
+          let comarr = [];
+          if (companys.length > 0 && project.grouplevel === 3) {
+            let shigongid = companys.filter(e => {
+              comarr.push(e.id);
+              return e.typecode === "sgdw";
+            }).map(
+              e => {
+                param.sgdw += e.name + ",";
+                return e.id;
+              });
+            let jianliid = companys.filter(e => e.typecode === "jldw").map(
+              e => {
+                param.jldw += e.name + ",";
+                return e.id;
+              });
+            let jiansheid = companys.filter(e => e.typecode === "jsdw").map(
+              e => {
+                param.jsdw += e.name + ",";
+                return e.id;
+              });
+            let shejiid = companys.filter(e => e.typecode === "sjdw").map(e => {
+              param.sjdw += e.name + ",";
+              return e.id;
+            });
+            let quanziid = companys.filter(e => e.typecode === "qgczxdw").map(
+              e => {
+                param.qgczxdw += e.name + ",";
+                return e.id;
+              });
+            let guanliid = companys.filter(e => e.typecode === "gldw").map(
+              e => {
+                param.gldw += e.name + ",";
+                return e.id;
+              });
+            let orgid = project.groupid.split(",");
+            let idarr = [{
+              key: "treeIdshigong",
+              isCheck: shigongid
+            }, {
+              key: "treeIdquanzi",
+              isCheck: quanziid
+            }, {
+              key: "treeIdjianshe",
+              isCheck: jiansheid
+            }, {
+              key: "treeIdguanli",
+              isCheck: guanliid
+            }, {
+              key: "treeIdsheji",
+              isCheck: shejiid
+            }, {
+              key: "treeIdjianli",
+              isCheck: jianliid
+            }, {
+              key: "treeIdorg",
+              isCheck: orgid
+            }];
+            idarr.forEach(item => {
+              tree.setChecked(item.key, item.isCheck);
+            });
+          }
+          checkedCompanyId = comarr;
+          form.val("form", param);
+        }
+      });
+      // form.val("form", {});
+    };
+    //控制組織單位表單div顯示隱藏
+    let controlCompanyManager = function (type) {
+      if (type) {
+        initBindEvent();
+        $(".companyManager").each((index, item) => {
+          item.style.display = "block";
+        });
+      } else {
+        $(".companyManager").each((index, item) => {
+          item.style.display = "none";
+        });
+      }
+      $(".companyManager").find(".showTree").next().hide();
+    };
+    //新增事件
+    let addGroup = function (data) {
+      addFlag = 1;
+      $("#higherOffice").show();
+      // $("#hideOrg").show();
+      let newData = {
+        name: "",
+        grouplevel: data.grouplevel + 1,
+        parentid: data.id
+      };
+      newData.parent = data.name;
+      form.val("form", newData);
+
+
+    };
+
+    let deleteGroup = function (data) {
+      if (data.children.length > 0) {
+        layer.alert("警告:请先删除子项目");
+        return;
+      }
+      layer.confirm("是否确认删除", {
+        icon: 3,
+        title: "提示"
+      }, function (index) {
+        layer.close(index);
+        $.ajax({
+          url: currentPageUrl.deleteProject + "?projectid=" + data.id,
+          type: "post",
+          data: {},
+          dataType: "json",
+          traditional: false,
+          async: true,
+          headers: {
+            "Content-Type": "application/json;charset=UTF-8"
+          },
+          success: function () {
+            layer.msg("删除成功");
+            initTree();
+          }
+        });
+      });
+    };
+
+  });
+</script>
+</body>
+
+</html>

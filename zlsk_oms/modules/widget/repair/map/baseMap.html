@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>首页地图</title>
+    <link rel="stylesheet" href="../../../../lib/ok_admin/css/okadmin.css">
+    <link rel="stylesheet" href="../../common/map/css/zCss.css">
+    <link rel="stylesheet" href="../../common/map/css/zInfoWindow.css">
+    <script type="text/javascript" src="../../../../lib/sfmbase/sfmUtil.js"></script>
+    <script type="text/javascript" src="../../../../lib/ok_admin/lib/layui/layui.js"></script>
+    <script src="../../common/map/zUtil.js"></script>
+    <script src="../../common/map/zInfoWindow.js"></script>
+    <script type="text/javascript" src="../node_modules/file-saver/dist/FileSaver.js"></script>
+    <script type="text/javascript">
+        SFM.sfmUtil.loadJquery();
+        SFM.sfmUtil.loadSfmBase();
+        SFM.sfmUtil.loadCesium('1.60');
+        SFM.sfmUtil.load(
+            '/modules/lib/drawPlot/createModel.js',
+            '/modules/lib/drawPlot/createBillboard.js',
+            '/modules/lib/drawPlot/createLabel.js',
+            '/modules/lib/drawPlot/createPoint.js',
+            '/modules/lib/drawPlot/createPolygon.js',
+            '/modules/lib/drawPlot/createPolyline.js',
+            '/modules/lib/drawPlot/createRectangle.js',
+            '/modules/lib/drawPlot/createImgRectangle.js',
+            '/modules/lib/drawPlot/createCorridor.js',
+            '/modules/lib/drawPlot/createCircle.js',
+            '/modules/lib/drawPlot/createCylinder.js',
+            '/modules/lib/drawPlot/drawTool.js',
+        );
+    </script>
+    <script type="text/javascript">
+        SFM.CesiumEarthWidget = SFM.SfmResizableWidgetBase.extend({
+            constructor: function(options) {
+                var me = this;
+                me.base(options);
+            },
+            destroy: function() {
+                this.base();
+            },
+            render: function() {
+                var me = this;
+                me.base();
+                return me;
+            },
+            getEarthContext: function() {
+                return earthCtx;
+            },
+            __className__: 'CesiumEarthWidget'
+        });
+        var sfmWidget = new SFM.CesiumEarthWidget();
+    </script>
+    <script src="../../common/map/gcoord.js"></script>
+    <script src="../../common/map/location.js"></script>
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .operateUi {
+            border-radius: 2px;
+            border: 1px solid #429aff;
+            font-size: 16px;
+            color: #666666;
+            padding: 2px 5px 2px 5px;
+            margin: 2px;
+            cursor: pointer;
+        }
+
+        .toolCss {
+            background-color: white;
+            border-radius: 4px;
+            position: absolute;
+            bottom: 30px;
+        }
+
+        .toolImg {
+            width: 20px;
+            height: 20px;
+            padding: 2px
+        }
+
+        .disno {
+            display: none;
+        }
+
+        .zi999 {
+            z-index: 999;
+        }
+
+        .r10 {
+            right: 10px;
+        }
+
+        .l30 {
+            left: 30px;
+        }
+
+        .l114 {
+            left: 114px;
+        }
+
+        .l72 {
+            left: 72px;
+        }
+    </style>
+</head>
+
+<body onload="init()">
+    <!-- cesium容器 -->
+    <div id="divCesiumContainer" class="layui-body-map commonOutCss">
+    </div>
+
+    <!--右下图层控制器 -->
+    <div id="mapSwitch" class="toolCss zi999 r10">
+    </div>
+
+    <!-- 左下工具栏 -->
+    <!-- 定位到最初位置 -->
+    <div class="toolCss zi999 l30">
+        <div onclick="reset()" class="operateUi">
+            <img src="../images/icon_map_location.png" class="toolImg">
+        </div>
+    </div>
+
+    <!-- 测量工具 -->
+    <div id="measuringOperate" class="toolCss l72 zi999">
+        <div id="measure_tool" class="disno">
+            <div onclick="measuring('line')" class="operateUi" title="长度测量">
+                <img src="../images/icon_measure_length.png" class="toolImg">
+            </div>
+            <div onclick="measuring('polygon')" class="operateUi" title="面积测量">
+                <img src="../images/icon_measure_area.png" class="toolImg">
+            </div>
+            <div onclick="clearMeasuring()" class="operateUi" title="清除">
+                <img src="../images/icon_clear.png" class="toolImg">
+            </div>
+        </div>
+        <div onclick="measureToggle()" class="operateUi" title="测量工具">
+            <img src="../images/icon_measure.png" class="toolImg">
+        </div>
+    </div>
+
+    <!-- 绘制工具 -->
+    <div id="drawOperate" class="toolCss zi999 l114">
+        <div id="draw_tool" class="disno">
+            <div id="draw_point" onclick="draw('point')" class="operateUi" title="点绘制">
+                <img src="../images/icon_draw_point.png" class="toolImg">
+            </div>
+            <div id="draw_line" onclick="draw('line')" class="operateUi " title="线绘制">
+                <img src="../images/icon_draw_line.png" class="toolImg">
+            </div>
+            <div id="draw_polygon" onclick="draw('polygon')" class="operateUi" title="面绘制">
+                <img src="../images/icon_draw_polygon.png" class="toolImg">
+            </div>
+            <div onclick="completeDraw()" class="operateUi" title="完成">
+                <img src="../images/icon_ok.png" class="toolImg">
+            </div>
+            <div onclick="clearDraw()" class="operateUi" title="清除">
+                <img src="../images/icon_clear.png" class="toolImg">
+            </div>
+        </div>
+        <div onclick="drawToggle()" class="operateUi" title="绘制工具">
+            <img src="../images/icon_draw_tool.png" class="toolImg">
+        </div>
+    </div>
+
+    <script>
+    </script>
+
+    <script>
+        var savegeojson = {};
+        var viewer;
+        var drawTool;
+        var styleConfig = {
+            point: {
+                name: '点',
+                configs: [{
+                    type: 'color',
+                    name: 'color',
+                    cn: '颜色',
+                    defaultValue: '#b2ffc0'
+                }, {
+                    type: 'input',
+                    name: 'pixelSize',
+                    cn: '像素',
+                    defaultValue: 10
+                }, {
+                    type: 'input',
+                    name: 'outlineWidth',
+                    cn: '边框宽度',
+                    defaultValue: 3
+                }, {
+                    type: 'color',
+                    name: 'outlineColor',
+                    cn: '边框颜色',
+                    defaultValue: '#3388ff'
+                }]
+            },
+            billboard: {
+                name: '标注',
+                configs: [{
+                    type: 'image',
+                    name: 'image',
+                    cn: '标注图标',
+                    defaultValue: 'file/标注图/运动休闲.png'
+                }, ]
+            },
+        };
+        var init = function() {
+            var point = {
+                longitude: 112.23,
+                latitude: 30.43,
+                height: 20000
+            };
+            //building.geojson坐标117.29, 31.84
+            //文旅区行政村.geojson坐标112.23,30.43,
+            //zfjg.geojson坐标106.59, 26.84
+            //军营村坐标118.697549,39.747066
+            //兴业楼坐标114.401737,30.457009
+            viewer = zUtil.initCesium($, 'divCesiumContainer', {}, point);
+            locationUtil.initLocation(Cesium, viewer);
+            drawTool = new DrawTool({
+                Cesium: Cesium,
+                viewer: viewer,
+                hasEdit: false
+            });
+
+            layui.use(['colorpicker', 'xmSelect', 'form', 'slider', "okUtils", 'constantUrl', 'okLayer'], function() {
+
+            })
+
+            locationUtil.initLocation(Cesium, viewer);
+
+
+            //加载geojson显示point
+            Cesium.GeoJsonDataSource.load('./geojson/zfjg.geojson').then(function(dataSource) {
+                viewer.dataSources.add(dataSource);
+                var entities = dataSource.entities.values;
+                for (var i = 0; i < entities.length; i++) {
+                    var entity = entities[i];
+                    entity.billboard = undefined;
+                    entity.point = new Cesium.PointGraphics({
+                        color: Cesium.Color.YELLOW,
+                        outlineColor: Cesium.Color.BLUE.withAlpha(0.2),
+                        pixelSize: 3,
+                        outlineWidth: 1
+                    });
+                }
+            });
+            //加载geojson显示Polygon
+            Cesium.GeoJsonDataSource.load('./geojson/文旅区行政村.geojson').then(function(dataSource) {
+                viewer.dataSources.add(dataSource);
+                var entities = dataSource.entities.values;
+                for (var i = 0; i < entities.length; i++) {
+                    var entity = entities[i];
+                    entity.polygon.material = Cesium.Color.PINK.withAlpha(0.5);
+                    entity.polygon.outlineColor = Cesium.Color.HOTPINK;
+                    entity.polygon.outlineWidth = 2;
+                }
+            });
+        };
+
+        //工具栏滑动收缩
+        function measureToggle() {
+            $("#measure_tool").slideToggle('fast');
+        };
+
+        function drawToggle() {
+            $("#draw_tool").slideToggle('fast');
+        };
+
+        function draw(type) {
+            //获取点击事件
+            var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+            //鼠标左键点击事件
+            handler.setInputAction(function(movement) {
+                //获取点击事件世界坐标
+                var position = viewer.scene.camera.pickEllipsoid(movement.position, viewer.scene.globe.ellipsoid);
+
+                //将世界坐标转换成经纬度
+                var ellipsoid = viewer.scene.globe.ellipsoid;
+                var cartesian3 = position;
+                var cartographic = ellipsoid.cartesianToCartographic(cartesian3);
+                var lat = Cesium.Math.toDegrees(cartographic.latitude);
+                var lng = Cesium.Math.toDegrees(cartographic.longitude);
+                var alt = cartographic.height;
+
+                //在点击位置画点
+                var entity = dataSource.entities.add({
+                    position: Cesium.Cartesian3.fromDegrees(lng, lat, alt),
+                    point: {
+                        pixelSize: 10,
+                        color: Cesium.Color.RED
+                    }
+                });
+                // console.log(position);
+            }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+        }
+
+        //保存geojson到本地
+        function completeDraw() {
+            var time = new Date();
+            var times = time.getTime();
+            let data = {
+                name: "hanmeimei",
+                age: 88
+            }
+            var content = JSON.stringify(data);
+            var blob = new Blob([content], {
+                type: "text/plain;charset=utf-8"
+            });
+            saveAs(blob, `geojson${times}.geojson`);
+        }
+    </script>
+</body>
+
+</html>
