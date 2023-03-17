@@ -199,7 +199,7 @@ export default {
         return img11;
       } else if(val === "池州市急救中心建设项目") {
         return img12;
-      } else if (val === "池州港乌沙港区共用码头") {
+      } else if (val === "池州港乌沙港区公用码头工程项目") {
         return img15;
       } else if (val === "清溪大道改造工程") {
         return img14;
