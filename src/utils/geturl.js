@@ -11,13 +11,13 @@ import store from "../store";
   if (process.env.NODE_ENV === "development") {
     store.commit(
       "settings/SET_URL",
-      "http://192.168.2.144:8720/mong/preview?fileid="
+      "http://150.158.139.18:8901/mong/preview?fileid="
     );
   } else {
     //新生产
     store.commit(
       "settings/SET_URL",
-      "https://system.zlskkj.com:59031/ZhuJiRoad/mong/preview?fileid="
+      "http://150.158.139.18:8901/ZhuJiRoad/mong/preview?fileid="
     );
     //老生产
     // store.commit(
