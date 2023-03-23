@@ -67,6 +67,7 @@ import wendu from "@/assets/image/wendu.png";
 import pm from "@/assets/image/pm2.5.png";
 import zaoyin from "@/assets/image/zaoyin.png";
 import EZUIKit from "ezuikit-js";
+import {mapGetters} from "vuex";
 import { getEnvironmentVideo, getVideoToken } from "@/api/wisdomSite";
 
 let player = null;
@@ -95,16 +96,22 @@ export default {
       currentVideo: {},
     };
   },
+  computed: {
+    ...mapGetters(["project"])
+  },
   mounted() {
     this.initPlayer();
   },
   methods: {
     initPlayer() {
       getVideoToken().then((res) => {
+        const map = {
+          126: "K09696219"
+        }
         player = new EZUIKit.EZUIKitPlayer({
           id: "video-container", // 视频容器ID
           accessToken: res.data,
-          url: "ezopen://open.ys7.com/K91697586/1.hd.live",
+          url: `ezopen://open.ys7.com/${map[this.project.id] || "K09696219"}/1.hd.live`,
           width: 390,
           height: 190,
           audio: 0,

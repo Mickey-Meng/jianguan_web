@@ -13,7 +13,7 @@
       </div>
       <div class="main">
         <el-table
-          :data="minData.filter((e) => e.type === 2)"
+          :data="minData.filter((e) => e.type === 2 && e.project == project.id)"
           height="100%"
           border
           style="width: 100%"
@@ -44,6 +44,7 @@
 
 <script>
 import EZUIKit from "ezuikit-js";
+import {mapGetters} from "vuex";
 import { getVideoToken } from "@/api/wisdomSite";
 
 export default {
@@ -61,10 +62,13 @@ export default {
       videoArr: [],
     };
   },
+  computed: {
+    ...mapGetters(["project"])
+  },
   mounted() {},
   methods: {
     initVideo() {
-      this.videoArr = this.minData.filter((e) => e.type === 2);
+      this.videoArr = this.minData.filter((e) => e.type === 2 && e.project == this.project.id);
       getVideoToken().then((res) => {
         let token = res.data;
         this.$nextTick(() => {
