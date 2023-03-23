@@ -13,7 +13,7 @@ const api = {
     getProjectByArea: "/ZhuJiRoad/safe/getprojectBygongqu", //根据工区获取项目数据
     getCheckerByAreaId: "/ZhuJiRoad/safe/getPersonLiableByGroup", //根据工区获取施工人员数据
     getQiaoData: "/ZhuJiRoad/count/getQiaoData", // 获取桥数据
-    viewToken: "/ZhuJiRoad/user/viewToken", // 获取视频token，当视频token过期的时候请求这个接口
+    viewToken: "/ZhuJiRoad/user/viewToken/new", // 获取视频token，当视频token过期的时候请求这个接口
     getSupervisorMsg: "/ZhuJiRoad/message/getMessage1", //消息提示
     getConstructionMsg: "/ZhuJiRoad/message/getMessage2", //消息提示
     tellOnline: "/ZhuJiRoad/user/updateOnline", //上报在新
