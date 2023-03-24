@@ -106,12 +106,19 @@ export default {
     initPlayer() {
       getVideoToken().then((res) => {
         const map = {
-          126: "K09696219"
+          126: "K54134283",  //池州市急救中心建设项目
+          3: "K09696219",  //池州港乌沙港区公用码头工程项目
+          128: "K09696219",  //池州市平天湖东部区域棚户区改造建设工程EPC总承包
+          190: "L18119347",  //池州生态人文纪念园项目
+          130: "K54134316",  //池州职业技术学院实验实训南区EPC总承包项目
+          194: "K09696219",  //池州职业技术学院实验实训综合提升项目（二期）F+EPC
+          132: "K09696219",  //清溪大道改造工程
+          1: "K09696219"  //顶级
         }
         player = new EZUIKit.EZUIKitPlayer({
           id: "video-container", // 视频容器ID
           accessToken: res.data,
-          url: `ezopen://open.ys7.com/${map[this.project.id] || "K09696219"}/1.hd.live`,
+          url: `ezopen://open.ys7.com/${map[this.project.id] || "K54134283"}/1.hd.live`,
           width: 390,
           height: 190,
           audio: 0,

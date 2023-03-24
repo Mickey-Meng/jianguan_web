@@ -11,67 +11,211 @@
     
     {
       "id": 1,
-      "name": "实验实训南区项目1号",
+      "name": "池州市急救中心项目1号",
       "type": 2,
-      "url": "ezopen://open.ys7.com/K09696219/1.hd.live",
+      "url": "ezopen://open.ys7.com/K54134283/1.hd.live",
       "geom": [120.1567907, 29.8855307, 85],
       "project": 126
     },
     {
       "id": 2,
-      "name": "实验实训南区项目2号",
+      "name": "池州市急救中心项目2号",
       "type": 2,
-      "url": "ezopen://open.ys7.com/K09696219/2.hd.live",
+      "url": "ezopen://open.ys7.com/K54134283/2.hd.live",
       "geom": [120.1567907, 29.8855307, 85],
       "project": 126
     },
     {
       "id": 3,
-      "name": "实验实训南区项目3号",
+      "name": "池州市急救中心项目3号",
       "type": 2,
-      "url": "ezopen://open.ys7.com/K09696219/3.hd.live",
+      "url": "ezopen://open.ys7.com/K54134283/3.hd.live",
       "geom": [120.1567907, 29.8855307, 85],
       "project": 126
     },
     {
       "id": 4,
-      "name": "实验实训南区项目4号",
+      "name": "池州市急救中心项目4号",
       "type": 2,
-      "url": "ezopen://open.ys7.com/K09696219/4.hd.live",
+      "url": "ezopen://open.ys7.com/K54134283/4.hd.live",
       "geom": [120.1567907, 29.8855307, 85],
       "project": 126
     },
     {
       "id": 5,
-      "name": "实验实训南区项目5号",
+      "name": "池州市急救中心项目5号",
       "type": 2,
-      "url": "ezopen://open.ys7.com/K09696219/5.hd.live",
+      "url": "ezopen://open.ys7.com/K54134283/5.hd.live",
       "geom": [120.1567907, 29.8855307, 85],
       "project": 126
     },
     {
       "id": 6,
-      "name": "实验实训南区项目6号",
+      "name": "池州市急救中心项目6号",
       "type": 2,
-      "url": "ezopen://open.ys7.com/K09696219/6.hd.live",
+      "url": "ezopen://open.ys7.com/K54134283/6.hd.live",
       "geom": [120.1567907, 29.8855307, 85],
       "project": 126
     },
     {
       "id": 7,
-      "name": "实验实训南区项目7号",
+      "name": "池州市急救中心项目7号",
       "type": 2,
-      "url": "ezopen://open.ys7.com/K09696219/7.hd.live",
+      "url": "ezopen://open.ys7.com/K54134283/7.hd.live",
       "geom": [120.1567907, 29.8855307, 85],
       "project": 126
     },
     {
       "id": 8,
-      "name": "实验实训南区项目8号",
+      "name": "池州市急救中心项目8号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K54134283/8.hd.live",
+      "geom": [120.1567907, 29.8855307, 85],
+      "project": 126
+    },
+    {
+      "id": 9,
+      "name": "池州职业技术学院实验实训南区EPC总承包项目1号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K54134316/1.hd.live",
+      "geom": [120.1567907, 29.8855307, 85],
+      "project": 130
+    },
+    {
+      "id": 10,
+      "name": "池州职业技术学院实验实训南区EPC总承包项目2号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K54134316/2.hd.live",
+      "geom": [120.1567907, 29.8855307, 85],
+      "project": 130
+    },
+    {
+      "id": 11,
+      "name": "池州职业技术学院实验实训南区EPC总承包项目3号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K54134316/3.hd.live",
+      "geom": [120.1567907, 29.8855307, 85],
+      "project": 130
+    },
+    {
+      "id": 12,
+      "name": "池州职业技术学院实验实训南区EPC总承包项目4号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K54134316/4.hd.live",
+      "geom": [120.1567907, 29.8855307, 85],
+      "project": 130
+    },
+    {
+      "id": 13,
+      "name": "池州职业技术学院实验实训南区EPC总承包项目5号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K54134316/5.hd.live",
+      "geom": [120.1567907, 29.8855307, 85],
+      "project": 130
+    },
+    {
+      "id": 14,
+      "name": "池州职业技术学院实验实训南区EPC总承包项目6号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K54134316/6.hd.live",
+      "geom": [120.1567907, 29.8855307, 85],
+      "project": 130
+    },
+    {
+      "id": 15,
+      "name": "池州职业技术学院实验实训南区EPC总承包项目7号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K54134316/7.hd.live",
+      "geom": [120.1567907, 29.8855307, 85],
+      "project": 130
+    },
+    {
+      "id": 16,
+      "name": "池州职业技术学院实验实训南区EPC总承包项目8号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K54134316/8.hd.live",
+      "geom": [120.1567907, 29.8855307, 85],
+      "project": 130
+    },
+    {
+      "id": 17,
+      "name": "池州职业技术学院实验实训综合提升项目（二期）F+EPC 1号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K09696219/1.hd.live",
+      "geom": [120.1567907, 29.8855307, 85],
+      "project": 194
+    },
+    {
+      "id": 18,
+      "name": "池州职业技术学院实验实训综合提升项目（二期）F+EPC 2号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K09696219/2.hd.live",
+      "geom": [120.1567907, 29.8855307, 85],
+      "project": 194
+    },
+    {
+      "id": 19,
+      "name": "池州职业技术学院实验实训综合提升项目（二期）F+EPC 3号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K09696219/3.hd.live",
+      "geom": [120.1567907, 29.8855307, 85],
+      "project": 194
+    },
+    {
+      "id": 20,
+      "name": "池州职业技术学院实验实训综合提升项目（二期）F+EPC 4号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K09696219/4.hd.live",
+      "geom": [120.1567907, 29.8855307, 85],
+      "project": 194
+    },
+    {
+      "id": 21,
+      "name": "池州职业技术学院实验实训综合提升项目（二期）F+EPC 5号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K09696219/5.hd.live",
+      "geom": [120.1567907, 29.8855307, 85],
+      "project": 194
+    },
+    {
+      "id": 22,
+      "name": "池州职业技术学院实验实训综合提升项目（二期）F+EPC 6号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K09696219/6.hd.live",
+      "geom": [120.1567907, 29.8855307, 85],
+      "project": 194
+    },
+    {
+      "id": 23,
+      "name": "池州职业技术学院实验实训综合提升项目（二期）F+EPC 7号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K09696219/7.hd.live",
+      "geom": [120.1567907, 29.8855307, 85],
+      "project": 194
+    },
+    {
+      "id": 24,
+      "name": "池州职业技术学院实验实训综合提升项目（二期）F+EPC 8号",
       "type": 2,
       "url": "ezopen://open.ys7.com/K09696219/8.hd.live",
       "geom": [120.1567907, 29.8855307, 85],
-      "project": 126
+      "project": 194
+    },
+    {
+      "id": 25,
+      "name": "池州生态人文纪念园项目 1号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/L18119347/1.hd.live",
+      "geom": [120.1567907, 29.8855307, 85],
+      "project": 190
+    },
+    {
+      "id": 26,
+      "name": "池州生态人文纪念园项目 2号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/L18119347/2.hd.live",
+      "geom": [120.1567907, 29.8855307, 85],
+      "project": 190
     }
   ]
 }
