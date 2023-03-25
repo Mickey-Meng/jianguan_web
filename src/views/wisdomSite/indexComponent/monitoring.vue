@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper" style="display:none;">
     <div class="left">
       <div class="header">
         <div class="header-left">

@@ -85,6 +85,8 @@ import img12 from "@/assets/projectImg/池州市急救中心建设项目.jpg";
 import img13 from "@/assets/projectImg/池州职业技术学院实验实训南区EPC总承包项目.jpg";
 import img14 from "@/assets/projectImg/清溪大道改造工程.jpg";
 import img15 from "@/assets/projectImg/池州港乌沙港区共用码头.png";
+import img16 from "@/assets/projectImg/池州生态人文纪念园项目.png";
+import img17 from "@/assets/projectImg/池州职业技术学院实验实训综合提升项目（二期）F+EPC.png";
 
 
 import img1 from "@/assets/projectImg/图层0.png";
@@ -205,7 +207,11 @@ export default {
         return img14;
       } else if(val.indexOf("池州职业技术学院实验实训南区EPC总承包") > -1) {
         return img13;
-      }else {
+      } else if(val === "池州生态人文纪念园项目") {
+        return img16;
+      } else if(val === "池州职业技术学院实验实训综合提升项目（二期）F+EPC") {
+        return img17;
+      } else {
         return this.img1;
       }
     },

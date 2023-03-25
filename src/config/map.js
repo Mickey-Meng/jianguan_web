@@ -12,8 +12,8 @@ let tdtUrl = 'https://t{s}.tianditu.gov.cn/'
 
 export const earth = {
   init: {
-    lon: 120.1095329338229,
-    lat: 29.706018768457866,
+    lon: 117.48387645025284,
+    lat: 30.66751823064398,
     height: 5000,
     // lon: 120.10326899646911,
     // lat: 29.638086861129057,

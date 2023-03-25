@@ -96,7 +96,7 @@ export default {
   components: { monitoring, topVideo },
   data() {
     return {
-      isShow: false,
+      isShow: true,
       token: null,
       minData: [],
       playerData: [],
