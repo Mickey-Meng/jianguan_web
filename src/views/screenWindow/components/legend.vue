@@ -2,7 +2,7 @@
   <ul>
 <!--    <li class="item">交通（13）</li>-->
     <li class="item_1">
-      <div class="label">施工（5）</div>
+      <div class="label">施工（{{allProjects.length}}）</div>
       <img src="../../../assets/mapView/施工.png" alt="">
     </li>
     <li class="item_1">
@@ -20,8 +20,12 @@
 
 <script>
   export default {
-    props: [],
-    watch: {},
+    props: {
+      allProjects: {
+        type: Array,
+        default: () => [],
+      },
+    },
     data() {
       return {};
     },

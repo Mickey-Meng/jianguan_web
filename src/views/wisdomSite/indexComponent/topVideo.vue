@@ -89,8 +89,8 @@ export default {
               url: item.url,
               width: 600,
               height: 475,
-              autoplay: index < 2 ? true : false,
-              template: "security", //
+              autoplay: index < 1 ? true : false,
+              template: "standard", //
               splitBasis: 1, //设置窗口切割参数
             });
             this.playerArr.push(player);

@@ -6,7 +6,6 @@
 
 <script>
   import {earth} from "@/config/map";
-  import {getProjectsByUser} from "@/api/project";
   import {mapGetters, mapMutations} from "vuex";
   import redline_line from "@/config/redline_line.json";
 
@@ -21,17 +20,27 @@
     that.goSystem(id);
   };
   export default {
-    props: {},
-    watch: {},
+    props: {
+      allProjects: {
+        type: Array,
+        default: () => [],
+      },
+    },
+    watch:{
+      allProjects(newVal, oldVal) {
+        if( newVal.length > 0 ){
+          this.initData();
+        }
+      }
+    },
     data() {
       return {
-        allProjects: [],
         allPopupId: []
       };
     },
     created() {
       that = this;
-      this.initData();
+      // this.initData();
     },
     mounted() {
       this.initMap();
@@ -183,12 +192,8 @@
 
       },
       initData() {
-        getProjectsByUser().then(res => {
-          let data = res.data;
-          this.allProjects = data;
-          let img = require("@/assets/mapView/施工.png");
-          console.log(data);
-          data.forEach(item => {
+        let img = require("@/assets/mapView/施工.png");
+        this.allProjects.forEach(item => {
             let {introduction, name, projectpoint, id, projecttype} = item;
             projecttype = projecttype ? projecttype : "其他类";
             if (projectpoint) {
@@ -237,7 +242,6 @@
             }
 
           });
-        });
       },
       goSystem(id) {
         let obj = this.allProjects.find(e => e.id == id);
