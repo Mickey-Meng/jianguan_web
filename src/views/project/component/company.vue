@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import { getEngCompany } from '@/api/data'
 export default {
   name: "",
   data() {
@@ -51,8 +53,47 @@ export default {
       ],
     };
   },
-  created() {},
-  methods: {},
+  computed: {
+    ...mapGetters(["project"]),
+  },
+  created() {
+    this.getEngCompany(this.project.id)
+  },
+  methods: {
+    getEngCompany(id) {
+      getEngCompany(id).then((res) => {
+        const data = res.data;
+        const array = [];
+        array.push({
+          title: "管理单位",
+          name: data.managedpt,
+        })
+        array.push({
+          title: "建设单位",
+          name: data.builddpt,
+        })
+        array.push({
+          title: "审计单位",
+          name: data.auditUnit,
+        })
+        array.push({
+          title: "监理单位",
+          name: data.supervisordpt,
+        })
+        array.push({
+          title: "设计单位",
+          name: data.desgindpt,
+        })
+        array.push({
+          title: "施工单位",
+          name: data.constructdpt,
+        })
+
+        this.lists = array;
+
+      });
+    }
+  },
 };
 </script>
 

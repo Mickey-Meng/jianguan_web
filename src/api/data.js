@@ -11,10 +11,11 @@ import request from "@/utils/request";
  * @returns {}
  * @date 2021/7/22
  */
-export const getEngCompany = () => {
+export const getEngCompany = (projectId) => {
   return request({
     url: api.getEngCompany,
-    method: "get"
+    method: "get",
+    params: {projectId}
   });
 };
 
