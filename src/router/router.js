@@ -14,6 +14,11 @@ export const constantRoutes = [{
 		component: () => import("@/views/404"),
 		hidden: true
 	},
+  {
+    path: "/200",
+    component: () => import("@/views/200"),
+    hidden: true
+  },
 	// {
 	//   path: '/globalView',
 	//   component: () => import('@/views/screenWindow/index'),
@@ -1332,7 +1337,7 @@ export const asyncRoutes = [
 		]
 	},
 	{
-		path: "/study",
+		path: "/jiliang",
 		meta: {
 			title: "计量管理",
 			icon: "education",
@@ -1341,7 +1346,7 @@ export const asyncRoutes = [
 		alwaysShow: true,
 		component: Layout,
 		children: [{
-			path: "/teachingVideo",
+			path: "/200",
 			name: "teachingVideo",
 			component: () => import("@/views/study/index"),
 			meta: {
@@ -1354,7 +1359,139 @@ export const asyncRoutes = [
 			}
 		}]
 	},
-	{
+  {
+    path: "/jiliang1",
+    meta: {
+      title: "供应链管理",
+      icon: "education",
+      code: "gongyinglianguanli"
+    },
+    alwaysShow: true,
+    component: Layout,
+    children: [{
+      path: "/200",
+      name: "jiancaileibie",
+      component: () => import("@/views/200"),
+      meta: {
+        title: "建材类别",
+        code: "jiancaileibie",
+        icon: "circle",
+        allMap: false,
+        partMap: false,
+        noMap: true
+      }
+    },{
+      path: "/200",
+      name: "hetongguanli",
+      component: () => import("@/views/study/index"),
+      meta: {
+        title: "合同管理",
+        code: "hetongguanli",
+        icon: "circle",
+        allMap: false,
+        partMap: false,
+        noMap: true
+      }
+    },{
+      path: "/200",
+      name: "piaojuguanli",
+      component: () => import("@/views/study/index"),
+      meta: {
+        title: "票据管理",
+        code: "piaojuguanli",
+        icon: "circle",
+        allMap: false,
+        partMap: false,
+        noMap: true
+      }
+    },{
+      path: "/200",
+      name: "gongyingjihua",
+      component: () => import("@/views/study/index"),
+      meta: {
+        title: "供应计划",
+        code: "gongyingjihua",
+        icon: "circle",
+        allMap: false,
+        partMap: false,
+        noMap: true
+      }
+    },{
+      path: "/200",
+      name: "zijinguanli",
+      component: () => import("@/views/study/index"),
+      meta: {
+        title: "资金管理",
+        code: "zijinguanli",
+        icon: "circle",
+        allMap: false,
+        partMap: false,
+        noMap: true
+      }
+    },{
+      path: "/200",
+      name: "gongyingshangguanli",
+      component: () => import("@/views/study/index"),
+      meta: {
+        title: "供应商管理",
+        code: "gongyingshangguanli",
+        icon: "circle",
+        allMap: false,
+        partMap: false,
+        noMap: true
+      }
+    },{
+      path: "/200",
+      name: "wuliuguanli",
+      component: () => import("@/views/study/index"),
+      meta: {
+        title: "物流管理",
+        code: "wuliuguanli",
+        icon: "circle",
+        allMap: false,
+        partMap: false,
+        noMap: true
+      }
+    },{
+      path: "/200",
+      name: "jiagezhishu",
+      component: () => import("@/views/study/index"),
+      meta: {
+        title: "价格指数",
+        code: "jiagezhishu",
+        icon: "circle",
+        allMap: false,
+        partMap: false,
+        noMap: true
+      }
+    },{
+      path: "/200",
+      name: "kucunguanli",
+      component: () => import("@/views/study/index"),
+      meta: {
+        title: "库存管理",
+        code: "kucunguanli",
+        icon: "circle",
+        allMap: false,
+        partMap: false,
+        noMap: true
+      }
+    },{
+      path: "/200",
+      name: "baobiaofenxi",
+      component: () => import("@/views/study/index"),
+      meta: {
+        title: "报表分析",
+        code: "baobiaofenxi",
+        icon: "circle",
+        allMap: false,
+        partMap: false,
+        noMap: true
+      }
+    }]
+  },
+
+  {
 		path: 'contractManagement',
 		meta: {
 			title: "合同管理",
