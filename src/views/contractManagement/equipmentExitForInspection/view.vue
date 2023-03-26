@@ -54,7 +54,7 @@
 							</el-table-column>
 							<el-table-column prop="exitReason" width="120px" align="center" label="退场原因">
 							</el-table-column>
-							<el-table-column prop="techStatus" width="120px" align="center"
+							<el-table-column prop="techCondition" width="120px" align="center"
 								label="技术状态">
 							</el-table-column>
 						</el-table>
