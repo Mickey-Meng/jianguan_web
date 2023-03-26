@@ -17,7 +17,7 @@
         <img src="../../../assets/newUi/home1.png" alt="">
         <div class="text_value">
           <div class="value">{{ companyData.inputscale }}</div>
-          <div class="text">吞吐量(万吨)</div>
+          <div class="text">建筑面积（平方米）</div>
         </div>
       </div>
       <div class="item">

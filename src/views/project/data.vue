@@ -36,6 +36,7 @@ import newMsg from "@/views/project/component/newMsg";
 import safeStatistics from "@/views/project/component/safeStatistics";
 import progressCom from "./progress/index.vue";
 import indexSafeStatistics from "@/views/project/component/indexSafeStatistics";
+import { mapGetters } from "vuex";
 import * as api from "@/api/data";
 export default {
   name: "project",
@@ -60,10 +61,12 @@ export default {
     this.initData();
   },
   mounted() {},
-  computed: {},
+  computed: {
+    ...mapGetters(["project"]),
+  },
   methods: {
     initData() {
-      api.getEngCompany().then((res) => {
+      api.getEngCompany(this.project.id).then((res) => {
         this.companyData = res.data;
       });
     },
