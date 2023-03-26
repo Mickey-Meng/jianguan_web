@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <div class="header">池州职业技术学院实验实训南区EPC总承包项目</div>
+    <div class="header">{{data.projectName}}</div>
 <!--    <div class="header">池州港乌沙港区公用码头工程项目</div>-->
     <div class="content">
       <div class="content-left">
