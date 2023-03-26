@@ -16,8 +16,8 @@
                        ref="ruleForm"
                        label-width="80px">
                 <div class="form-title">
-                  <div class="title-big-bar"></div>
-                  <strong>退场设备报验单-浙公路（JL）011</strong>
+<!--                  <div class="title-big-bar"></div>-->
+<!--                  <strong>退场设备报验单-浙公路（JL）011</strong>-->
                   <drafthandle v-if="addOrModifyFlag"
                                @addOrModify="addOrModify"
                                @checkDraft="checkDraft"
@@ -376,7 +376,7 @@ export default {
     },
     getDetail(res) {
       let data = res || {}
-      
+
       //this.attachTable = data.attachment || []
       let infos = data.equipmentInfos || []
       infos.forEach((item) => {
@@ -387,7 +387,7 @@ export default {
       this.equipmentTable = data.equipmentInfos || []
 
       this.formData.equipmentInfo = this.equipmentTable
-      
+
       // api.getEquipmentExitDeatil(id).then((res) => {
       // 	let data = res['data'] || {};
       // 	this.formData = data;

@@ -3,10 +3,10 @@
 
 		<div class="form-content">
 			<el-form ref="form" label-width="80px">
-				<div class="form-title">
-					<div class="title-big-bar"></div>
-					<strong>施工技术交底-浙公路（JL）011</strong>
-				</div>
+<!--				<div class="form-title">-->
+<!--					<div class="title-big-bar"></div>-->
+<!--					<strong>施工技术交底-浙公路（JL）011</strong>-->
+<!--				</div>-->
 
 				<div class="form-block">
 					<div class="form-block-title">
@@ -50,7 +50,7 @@
 							<!-- <el-button size="small" type="primary">下载全部</el-button> -->
 						</div>
 					</div>
-					
+
 					<attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>
 				</div>
 
@@ -88,7 +88,7 @@
 		props: ['detailRow'],
 		data() {
 			return {
-				
+
 				baseInfo: {
 					buildSection: 1,
 					buildSectionName: '池州市平天湖东部区域棚户区改造建设工程EPC总承包',

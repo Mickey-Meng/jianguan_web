@@ -12,9 +12,9 @@
 						<div class="form-content">
 							<el-form :model="formData" :rules="rules" ref="ruleForm" label-width="80px">
 								<div class="form-title">
-									<div class="title-big-bar"></div>
-									<strong>施工技术交底-浙公路（JL）011</strong>
-									
+<!--									<div class="title-big-bar"></div>-->
+<!--									<strong>施工技术交底-浙公路（JL）011</strong>-->
+
 									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify"
 										@checkDraft="checkDraft" ref="drafthandle"></drafthandle>
 								</div>
@@ -102,7 +102,7 @@
 										</div>
 									</div>
 								</div> -->
-								
+
 								<approveuser v-if="approveVisible" :auditUser="auditUser"  :flowKey="flowKey">
 								</approveuser>
 								<div class="form-block">
@@ -165,7 +165,7 @@
 	import drafthandle from "../../../common/drafthandle.vue"
 	import approveuser from "../../../common/approveuser.vue"
 	import projectinfo from "../../../common/projectinfo.vue"
-	
+
 	export default {
 		data() {
 			return {
@@ -253,17 +253,17 @@
 			approveuser,
 			projectinfo,
 			constructionTechnologyDisclosure: () => import("../constructionTechnologyDisclosure.vue")
-		
+
 		},
 		computed: {},
 		mounted() {
 			this.getProjectInfoById();
 		},
 		watch: {
-			
+
 		},
 		methods: {
-			
+
 			changeVisible(obj,value) {
 				this.dialogFormVisible = value;
 				obj=obj||{};
@@ -380,7 +380,7 @@
 								}
 							});
 						}
-						
+
 					})
 				}
 			},
