@@ -539,6 +539,7 @@
               let userData = this.qz.concat(this.jsdw);
               obj.copyUsers = userData.join(",")
             }
+            obj.produceId = this.rowData.produceid;
             api.confirmReport(obj).then((res) => {
               this.dialogVisible = false;
               this.$message({
