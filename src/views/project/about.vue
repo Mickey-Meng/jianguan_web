@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <div class="header">池州职业技术学院实验实训南区EPC总承包项目</div>
+    <div class="header">{{data.projectName}}</div>
 <!--    <div class="header">池州港乌沙港区公用码头工程项目</div>-->
     <div class="content">
       <div class="content-left">
@@ -12,7 +12,7 @@
               ><img src="../../assets/image/sgawg.png" alt="" />
             </div>
             <div class="text">
-              季末累计完成：项目驻地建设完成并入住，项目中心试验室建设完成并投入使用。累计完成总项目进度的10%。计划投资2100万。            </div>
+              {{data.firstQuarter}}            </div>
           </li>
           <li>
             <div class="quarter">
@@ -20,7 +20,7 @@
               ><img src="../../assets/image/sgawg.png" alt="" />
             </div>
             <div class="text">
-              季末累计完成：累计完成总项目进度的30%，计划投资2582万元。
+              {{data.secondQuarter}}
             </div>
           </li>
           <li>
@@ -29,7 +29,7 @@
               ><img src="../../assets/image/sgawg.png" alt="" />
             </div>
             <div class="text">
-              季末累计完成：累计完成总项目进度的50%，计划投资3190万元。
+              {{data.thirdQuarter}}
             </div>
           </li>
           <li>
@@ -38,7 +38,7 @@
               ><img src="../../assets/image/sgawg.png" alt="" />
             </div>
             <div class="text">
-              季末累计完成：累计完成总项目进度的70%，计划投资2410万元。
+              {{data.fourthQuarter}}
             </div>
           </li>
         </ul>
@@ -50,7 +50,7 @@
             <div class="small-title">建设内容和开竣工时间</div>
             <div class="small-text about-text">
               <p style="line-height:30px;font-size: 18px;">
-                池州职业技术学院实训实验南区建设项目西至昭明大道，南邻建设西路，北靠百牙西路。项目建设内容包括旅游实训大楼、园林建筑实训大楼A、园林建筑实训大楼B、学术活动中心及相关配套设施等，建筑总面积29733 ㎡。其中旅游实训大楼地下一层面积2122㎡、地上六层面积11183㎡，共13305㎡，建筑高度23.1m；园林建筑实训大楼A地上六层，建筑面积5996㎡，高度22.35m；园林建筑实训大楼B地上六层，建筑面积3740㎡，高度22.2m；学术活动中心半地下一层，地上三层，建筑面积6281㎡，高度22.75m。
+                {{data.investmentProjectOverview}}
               </p>
 
             </div>
@@ -70,43 +70,43 @@
                 <li>
                   <span>建设单位:</span>
 <!--                  <span>池州乌沙港口运输有限公司</span>-->
-                  <span>池州建投清溪城镇化投资发展有限公司</span>
+                  <span>{{data.builddpt}}</span>
                 </li>
                 <li>
                   <span>设计单位:</span
-                  ><span>池州市规划勘测设计总院有限公司</span>
+                  ><span>{{data.desgindpt}}</span>
                 </li>
 
                 <li>
                   <span>管理单位:</span
-                  ><span>池州建设投资集团有限公司</span>
+                  ><span>{{data.managedpt}}</span>
                 </li>
                 <li>
                   <span>施工单位：</span
                   ><span
-                >池州宏展建筑有限公司</span
+                >{{data.constructdpt}}</span
                 >
                 </li>
                 <li>
                   <span>监理单位：</span>
-                  <span>池州建投工程管理有限公司</span>
+                  <span>{{data.supervisordpt}}</span>
                 </li>
                 <li>
                   <span>审计单位：</span>
-                  <span>安徽百恒工程咨询有限公司</span>
+                  <span>{{data.auditUnit}}</span>
                 </li>
               </ul>
             </div>
             <div>
               <div class="s-title">落实保障</div>
               <div class="s-content">
-                该项目主要功能有实验实训区、综合交流区、滨水景观区、校园生态区及其他公用设施。施工范围包含：主体结构、配套装饰装修、供配电、给排水、消防、建筑周边道路和景观绿化等辅助设施.
+                {{data.implementGuarantee}}
               </div>
             </div>
             <div>
               <div class="s-title">抓实进度</div>
               <div class="s-content">
-                由池州建设投资集团有限公司牵头，会同池州建投工程管理有限公司、池州建投清溪城镇化投资发展有限公司做好项目推进的协调、督查、检查工作；每季度评估、分析和通报，对滞后的节点进行预警、跟踪和协调，提出解决问题的措施，切实解决项目推进中存在的共性问题和突出问题，定时将周报、月报报送池州建投清溪城镇化投资发展有限公司。              </div>
+                {{data.graspTheProgress}}             </div>
             </div>
           </div>
         </div>
@@ -116,8 +116,28 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import { getEngCompany } from '@/api/data'
 export default {
   name: "",
+  data() {
+    return {
+      data: {}
+    }
+  },
+  computed: {
+    ...mapGetters(["project"]),
+  },
+  created() {
+    this.getEngCompany(this.project.id)
+  },
+  methods: {
+    getEngCompany(id) {
+      getEngCompany(id).then((res) => {
+        this.data = res.data;
+      });
+    }
+  },
 };
 </script>
 

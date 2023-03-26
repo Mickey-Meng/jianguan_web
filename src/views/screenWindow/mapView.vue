@@ -1,7 +1,7 @@
 <template>
   <div class="map_view_wrapper">
     <div class="earth">
-      <mapView ref="mapView"></mapView>
+      <mapView ref="mapView" :allProjects="allProjects"></mapView>
     </div>
     <div class="header_title">
       <headerTitle></headerTitle>
@@ -15,7 +15,7 @@
       <rightContainer></rightContainer>
     </div>
     <projectType @changeData="changeData"></projectType>
-    <legendView></legendView>
+    <legendView :allProjects="allProjects"></legendView>
     <projectImage></projectImage>
 
   </div>
@@ -29,18 +29,27 @@
   import projectType from "@/views/screenWindow/components/projectType";
   import legendView from "./components/legend";
   import projectImage from "./components/projectImage";
+  import {getProjectsByUser} from "@/api/project";
 
   export default {
     props: [],
     watch: {},
     data() {
-      return {};
+      return {
+        allProjects: []
+      };
     },
     created() {
+      this.initData();
     },
     mounted() {
     },
     methods: {
+      initData() {
+        getProjectsByUser().then(res => {
+          this.allProjects = res.data;
+        });
+      },
       changeData(name) {
         this.$refs.mapView.changeMarkerVisible(name);
       }

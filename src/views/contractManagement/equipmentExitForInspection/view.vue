@@ -3,10 +3,10 @@
 
 		<div class="form-content">
 			<el-form ref="form" label-width="80px">
-				<div class="form-title">
-					<div class="title-big-bar"></div>
-					<strong>退场设备报验单-浙公路（JL）011</strong>
-				</div>
+<!--				<div class="form-title">-->
+<!--					<div class="title-big-bar"></div>-->
+<!--					<strong>退场设备报验单-浙公路（JL）011</strong>-->
+<!--				</div>-->
 
 				<div class="form-block">
 					<div class="form-block-title">
@@ -14,7 +14,7 @@
 					</div>
 					<projectinfo></projectinfo>
 					<div class="block-line">
-				
+
 						<div class="block-item">
 							<div class="block-item-label">工程编号</div>
 							<div class="block-item-value">
@@ -64,10 +64,10 @@
 					<div class="form-block-title">
 						<div class="title-bar"></div><strong>附件清单</strong>
 					</div>
-				
+
 					<attachlist :editAble="false" ref="attachlist" :attachTable="attachTable">
 					</attachlist>
-				
+
 				</div> -->
 			</el-form>
 		</div>
@@ -83,12 +83,12 @@
 		getQueryVariable
 	} from "@/utils/format.js";
 	import projectinfo from "../../common/projectinfo.vue"
-	
+
 	export default {
 		props: ['detailRow'],
 		data() {
 			return {
-				
+
 				baseInfo: {
 					buildSection: 1,
 					buildSectionName: '池州市平天湖东部区域棚户区改造建设工程EPC总承包',
@@ -117,7 +117,7 @@
 		computed: {},
 		mounted() {
 			this.getProjectInfoById();
-			
+
 			setTimeout(() => {
 				var params = getQueryVariable();
 				if (params['processDefinitionId']) {

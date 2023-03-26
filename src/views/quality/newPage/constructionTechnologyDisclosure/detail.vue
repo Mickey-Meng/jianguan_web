@@ -11,11 +11,11 @@
 					<div class="form-bg">
 						<div class="form-content">
 							<el-form ref="form" label-width="80px">
-								<div class="form-title">
-									<div class="title-big-bar"></div>
-									<strong>施工技术交底-浙公路（JL）011</strong>
-								</div>
-		
+<!--								<div class="form-title">-->
+<!--									<div class="title-big-bar"></div>-->
+<!--									<strong>施工技术交底-浙公路（JL）011</strong>-->
+<!--								</div>-->
+
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
@@ -30,7 +30,7 @@
 										</div>
 									</div>
 									<div class="block-line">
-		
+
 										<div class="block-item">
 											<div class="block-item-label">施工技术交底概述</div>
 											<div class="block-item-value">
@@ -51,7 +51,7 @@
 										<span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
 											xisx xis pdf文件，且不超过100m</span>
 									</div>
-		
+
 									<div class="block-line">
 										<div class="block-table-title">附件</div>
 										<div class="block-table-btns">
@@ -60,7 +60,7 @@
 									</div>
 									<attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>
 								</div>
-		
+
 								<!-- <div class="form-title">
 									<div class="title-big-bar"></div><strong>审批信息</strong>
 								</div> -->

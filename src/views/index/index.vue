@@ -199,7 +199,7 @@ export default {
     projectImg(val) {
       if(val === "池州市平天湖东部区域棚户区改造建设工程EPC总承包") {
         return img11;
-      } else if(val === "池州市急救中心建设项目") {
+      } else if(val === "池州市急救中心建设项目(标段)") {
         return img12;
       } else if (val === "池州港乌沙港区公用码头工程项目") {
         return img15;
