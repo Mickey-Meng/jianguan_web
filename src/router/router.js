@@ -1382,11 +1382,11 @@ export const asyncRoutes = [
       }
     },{
       path: "/200",
-      name: "hetongguanli",
+      name: "gongyinglianhtgl",
       component: () => import("@/views/study/index"),
       meta: {
-        title: "合同管理",
-        code: "hetongguanli",
+        title: "供应链合同管理",
+        code: "gongyinglianhtgl",
         icon: "circle",
         allMap: false,
         partMap: false,
