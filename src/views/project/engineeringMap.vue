@@ -10,7 +10,7 @@
 
   <div class="wrapper">
     <div class="title">池州职业技术学院实验实训南区工程总体部署图</div>
-    <div class="content" :style="'background:url('+ data.engineeringLayoutImageUrl +') no-repeat'"></div>
+    <div class="content" :style="'background-image:url('+ data.engineeringLayoutImageUrl +');background-repeat: no-repeat;background-size: 100% 100%;'"></div>
 
   </div>
 </template>
