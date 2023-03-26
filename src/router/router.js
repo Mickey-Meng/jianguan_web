@@ -1351,7 +1351,7 @@ export const asyncRoutes = [
 			component: () => import("@/views/study/index"),
 			meta: {
 				title: "计量管理",
-				code: "jiaoxueshipin",
+				code: "jiliangtaizhang",
 				icon: "circle",
 				allMap: false,
 				partMap: false,
