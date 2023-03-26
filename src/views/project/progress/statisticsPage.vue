@@ -47,7 +47,7 @@
       </div>
       <div class="area_check">
         <el-radio v-model="radio" label="1">统计模式</el-radio>
-        <el-radio v-model="radio" label="2">报表模式</el-radio>
+<!--        <el-radio v-model="radio" label="2">报表模式</el-radio>-->
       </div>
     </div>
     <div class="progress_content">
