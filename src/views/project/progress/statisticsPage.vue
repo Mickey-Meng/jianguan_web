@@ -74,16 +74,16 @@ export default {
   data() {
     return {
       radio: "1",
-      currentView: "QL",
+      currentView: "LM",
       timeKey: 3,
       nav: [
         {
           name: "房建",
-          key: "QL"
+          key: "LM"
         },
         {
           name: "桥梁",
-          key: "LM"
+          key: "QL"
         },
         {
           name: "道路",
