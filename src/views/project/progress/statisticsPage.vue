@@ -86,7 +86,7 @@ export default {
           key: "QL"
         },
         {
-          name: "道路",
+          name: "隧道",
           key: "SD"
         },
         {
