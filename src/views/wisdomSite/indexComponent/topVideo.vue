@@ -11,7 +11,7 @@
         <el-button icon="el-icon-arrow-left" circle @mousedown.native="startCtrl(2)" @mouseup.native="stopCtrl"></el-button>
         <el-button icon="el-icon-arrow-right" circle @mousedown.native="startCtrl(3)" @mouseup.native="stopCtrl"></el-button>
         <el-button icon="el-icon-arrow-down" circle @mousedown.native="startCtrl(1)" @mouseup.native="stopCtrl"></el-button>
-        <el-button icon="el-icon-arrow-up" circle @mousedown.native="startCtrl(2)" @mouseup.native="stopCtrl"></el-button>
+        <el-button icon="el-icon-arrow-up" circle @mousedown.native="startCtrl(0)" @mouseup.native="stopCtrl"></el-button>
       </el-row>
 
       <div class="header" style="display:none;">
@@ -68,7 +68,8 @@ export default {
       playerArr: [],
       videoArr: [],
       selectedVideo: 0,
-      videoToken: ''
+      videoToken: '',
+      moveActive: false
     };
   },
   computed: {
@@ -117,34 +118,55 @@ export default {
     },
     startCtrl(direction) {
       const playerInfo = this.videoArr[this.selectedVideo];
-      // 准备一个对象，给接口传参用，参数说明在文档中有详细介绍
-      let obj = {
-        accessToken: "at.6i2pbipi5bc6cgc80kv7qif88wui5eo7-9rirnc32yg-1gusung-6gaolfzl9", // accessToken，相当于密钥
-        deviceSerial: playerInfo.deviceNo, // 设备的序列号
-        channelNo: parseInt(playerInfo.channelNo), // 设备通道号，文档中说要用int，所以我就加了个parseInt，估计不加也行
-        direction, // 代表需要怎样控制，这里就是拿的方法中传过来的参数0、1等
-        speed: 1 // 速度，0最慢，文档中也有说明
-      }
+      
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
-      // 调用萤石云提供的接口，本来我用是axios调用，但是一直报缺少accessToken的错，又不想用原生http请求了，就直接用jquery请求接口了
-      this.$axios.post("https://open.ys7.com/api/lapp/device/ptz/start", obj).then((res) => {
-        console.log(res)
-      });
+      var urlencoded = new URLSearchParams();
+      urlencoded.append("accessToken", "at.6i2pbipi5bc6cgc80kv7qif88wui5eo7-9rirnc32yg-1gusung-6gaolfzl9");
+      urlencoded.append("deviceSerial", playerInfo.deviceNo);
+      urlencoded.append("channelNo", playerInfo.channelNo);
+      urlencoded.append("direction", direction);
+      urlencoded.append("speed", "1");
+
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: urlencoded,
+        redirect: 'follow'
+      };
+
+      fetch("https://open.ys7.com/api/lapp/device/ptz/start", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+      
+      this.moveActive = true;
     },
     stopCtrl() {
       const playerInfo = this.videoArr[this.selectedVideo];
+      
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
-      // 准备请求参数，跟开始控制方法相比，少了direction与speed两个参数
-      let obj = {
-        accessToken: "at.6i2pbipi5bc6cgc80kv7qif88wui5eo7-9rirnc32yg-1gusung-6gaolfzl9", // 授权过程获取的access_token
-        deviceSerial: playerInfo.deviceNo, // 设备序列号
-        channelNo: parseInt(playerInfo.channelNo), // 通道号
-      }
+      var urlencoded = new URLSearchParams();
+      urlencoded.append("accessToken", "at.6i2pbipi5bc6cgc80kv7qif88wui5eo7-9rirnc32yg-1gusung-6gaolfzl9");
+      urlencoded.append("deviceSerial", playerInfo.deviceNo);
+      urlencoded.append("channelNo", playerInfo.channelNo);
 
-      // 调用萤石云提供的停止云台控制的方法，文档中有提供
-      this.$axios.post("https://open.ys7.com/api/lapp/device/ptz/stop", obj).then((res) => {
-        console.log(res)
-      });
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: urlencoded,
+        redirect: 'follow'
+      };
+
+      fetch("https://open.ys7.com/api/lapp/device/ptz/stop", requestOptions)
+        .then(response => response.text())
+        .then(result => {this.moveActive = false;})
+        .catch(error => console.log('error', error));
+
+      
     }
   },
   watch: {
