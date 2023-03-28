@@ -161,7 +161,11 @@ export default {
           allCount += count;
           this.dlNum = Math.floor((finish / count) * 10000)/100 + "%";
         }
-        let rate = Math.floor((allFinish / allCount) * 10000)/100;
+        let rate = 0;
+        // 解决allcount为0时，计算出来的结果时NaN
+        if(allCount != 0) {
+          rate = Math.floor((allFinish / allCount) * 10000)/100;
+        }
         let nFinish = 100 - rate;
         this.option.series[0].data[0].value = rate;
         this.option.series[0].data[1].value = nFinish;
