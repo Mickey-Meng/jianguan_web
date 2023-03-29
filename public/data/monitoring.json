@@ -266,6 +266,57 @@
       "channelNo": "2",
       "geom": [120.1567907, 29.8855307, 85],
       "project": 191
+    },
+    {
+      "id": 27,
+      "name": "池州港乌沙港区公用码头工程 1号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/L01047307/1.hd.live",
+      "deviceNo": "L01047307",
+      "channelNo": "1",
+      "geom": [120.1567907, 29.8855307, 85],
+      "project": 3
+    },
+    {
+      "id": 28,
+      "name": "池州港乌沙港区公用码头工程 2号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/L01047307/2.hd.live",
+      "deviceNo": "L01047307",
+      "channelNo": "2",
+      "geom": [120.1567907, 29.8855307, 85],
+      "project": 3
+    },
+    {
+      "id": 29,
+      "name": "池州港乌沙港区公用码头工程 3号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/L01047307/3.hd.live",
+      "deviceNo": "L01047307",
+      "channelNo": "3",
+      "geom": [120.1567907, 29.8855307, 85],
+      "project": 3
+    },
+    {
+      "id": 30,
+      "name": "池州港乌沙港区公用码头工程 4号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/L01047307/4.hd.live",
+      "deviceNo": "L01047307",
+      "channelNo": "4",
+      "geom": [120.1567907, 29.8855307, 85],
+      "project": 3
+    },
+    {
+      "id": 31,
+      "name": "池州港乌沙港区公用码头工程 5号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/L01047307/5.hd.live",
+      "deviceNo": "L01047307",
+      "channelNo": "5",
+      "geom": [120.1567907, 29.8855307, 85],
+      "project": 3
     }
+    
   ]
 }
