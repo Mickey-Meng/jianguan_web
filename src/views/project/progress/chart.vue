@@ -152,9 +152,9 @@ export default {
           allCount += count;
           this.sdNum = Math.floor((finish / count) * 10000)/100 + "%";
         }
-        if (LM) {
-          let finish = LM.finish || 0;
-          let count = LM.count || 0;
+        if (DL) {
+          let finish = DL.finish || 0;
+          let count = DL.count || 0;
           if (finish && count && finish === count) {
             this.dlFinish = true;
           }
