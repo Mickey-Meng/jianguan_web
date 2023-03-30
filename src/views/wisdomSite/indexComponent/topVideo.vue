@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class="right">
-      <el-row v-show="project.id == 191">
+      <el-row>
         <el-button icon="el-icon-arrow-left" circle @mousedown.native="startCtrl(2)" @mouseup.native="stopCtrl"></el-button>
         <el-button icon="el-icon-arrow-right" circle @mousedown.native="startCtrl(3)" @mouseup.native="stopCtrl"></el-button>
         <el-button icon="el-icon-arrow-down" circle @mousedown.native="startCtrl(1)" @mouseup.native="stopCtrl"></el-button>
