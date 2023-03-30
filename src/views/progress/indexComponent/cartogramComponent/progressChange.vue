@@ -43,7 +43,7 @@ export default {
           key: "SD",
         },
         {
-          name: "路面",
+          name: "房建",
           key: "LM",
         },
         {
@@ -51,7 +51,7 @@ export default {
           key: "other",
         },
       ],
-      type: "QL",
+      type: "LM",
       option: {
         legend: {
           show: true,
