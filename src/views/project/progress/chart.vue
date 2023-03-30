@@ -31,7 +31,7 @@
         </div>
         <div class="item item_dl">
           <div class="header_text">
-            <div class="text">房建进度</div>
+            <div class="text">桥梁进度</div>
             <div class="num dl">{{ dlNum }}</div>
           </div>
           <div class="line">
