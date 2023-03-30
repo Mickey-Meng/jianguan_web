@@ -23,10 +23,10 @@
         <div class="item">
           <div class="header_text">
             <div class="text">房建进度</div>
-            <div class="num ql">{{ qlNum }}</div>
+            <div class="num ql">{{ lmNum }}</div>
           </div>
           <div class="line">
-            <div class="actual_progress_ql" :style="{width:qlNum}" :class="{noBorderRadius:qlFinish}"></div>
+            <div class="actual_progress_ql" :style="{width:lmNum}" :class="{noBorderRadius:lmFinish}"></div>
           </div>
         </div>
         <div class="item item_dl">
@@ -128,7 +128,7 @@ export default {
   methods: {
     initData() {
       api.getMiddleData(this.project.id).then((res) => {
-        const {QL, SD, DL} = res.data;
+        const {QL, SD, DL, LM} = res.data; // LM代表房建
         let allCount = 0,
           allFinish = 0;
         if (QL) {
@@ -160,6 +160,16 @@ export default {
           allFinish += finish;
           allCount += count;
           this.dlNum = Math.floor((finish / count) * 10000)/100 + "%";
+        }
+        if (LM) { // LM代表房建
+          let finish = LM.finish || 0;
+          let count = LM.count || 0;
+          if (finish && count && finish === count) {
+            this.lmFinish = true;
+          }
+          allFinish += finish;
+          allCount += count;
+          this.lmNum = Math.floor((finish / count) * 10000)/100 + "%";
         }
         let rate = 0;
         // 解决allcount为0时，计算出来的结果时NaN
@@ -288,6 +298,10 @@ export default {
           }
 
           .actual_progress_ql {
+            background: linear-gradient(86deg, #5473E8 0%, #6F8DFB 100%);
+          }
+
+          .actual_progress_lm {
             background: linear-gradient(86deg, #5473E8 0%, #6F8DFB 100%);
           }
 
