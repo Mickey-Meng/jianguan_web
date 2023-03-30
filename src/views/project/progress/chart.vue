@@ -31,7 +31,7 @@
         </div>
         <div class="item item_dl">
           <div class="header_text">
-            <div class="text">桥梁进度</div>
+            <div class="text">房建进度</div>
             <div class="num dl">{{ dlNum }}</div>
           </div>
           <div class="line">
@@ -63,6 +63,7 @@ export default {
       qlNum: 0.00 + "%",
       dlNum: 0.00 + "%",
       sdNum: 0.00 + "%",
+      lmNum: 0.00 + "%",
       qlFinish: false,
       dlFinish: false,
       sdFinish: false,
@@ -151,9 +152,9 @@ export default {
           allCount += count;
           this.sdNum = Math.floor((finish / count) * 10000)/100 + "%";
         }
-        if (DL) {
-          let finish = DL.finish || 0;
-          let count = DL.count || 0;
+        if (LM) {
+          let finish = LM.finish || 0;
+          let count = LM.count || 0;
           if (finish && count && finish === count) {
             this.dlFinish = true;
           }

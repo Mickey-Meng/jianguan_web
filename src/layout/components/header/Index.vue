@@ -152,9 +152,9 @@
                 <i class="el-icon-caret-bottom" />
               </div>
               <el-dropdown-menu slot="dropdown" class="user-dropdown">
-                <el-dropdown-item @click.native="showCodeDialog">
-                  修改密码
-                </el-dropdown-item>
+<!--                <el-dropdown-item @click.native="showCodeDialog">-->
+<!--                  修改密码-->
+<!--                </el-dropdown-item>-->
                 <el-dropdown-item @click.native="systemManagement">
                   系统管理
                 </el-dropdown-item>
