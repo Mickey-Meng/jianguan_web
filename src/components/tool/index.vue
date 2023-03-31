@@ -1093,7 +1093,7 @@ export default {
       getComponentProgressByModel(obj).then((res) => {
         let { conponent, produceandrecodes, progressDetails, produces } =
           res.data;
-        let { conponentcode, pname } = conponent;
+        let { conponentcode, pname, conponenttypename, mouldid } = conponent;
         let {
           planStartTime,
           planEndTime,
@@ -1133,11 +1133,11 @@ export default {
         let base = [
           {
             title: "构件类型",
-            value: pname,
+            value: conponenttypename,
           },
           {
             title: "构件编码",
-            value: conponentcode,
+            value: mouldid,
           },
         ];
         let proArr = produces.map((item) => {
