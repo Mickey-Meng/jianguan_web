@@ -13,16 +13,16 @@
 							<el-form ref="form" label-width="80px">
 								<div class="form-title">
 									<div class="title-big-bar"></div>
-									<strong>施工方案-浙公路（JL）011</strong>
+									<strong>施工方案</strong>
 								</div>
-		
+
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
 									</div>
 									<projectinfo></projectinfo>
 									<div class="block-line">
-		
+
 										<div class="block-item">
 											<div class="block-item-label">工程编号</div>
 											<div class="block-item-value">
@@ -50,7 +50,7 @@
 										</div>
 									</div>
 								</div>
-								
+
 
 								<div class="form-block">
 									<div class="form-block-title">
@@ -58,7 +58,7 @@
 										<span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
 											xisx xis pdf文件，且不超过100m</span>
 									</div>
-									
+
 									<attachlist :editAble="false" ref="attachlist" :attachTable="buildPlanAttachTable"></attachlist>
 								</div>
 								<div class="form-block">
@@ -67,7 +67,7 @@
 										<span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
 											xisx xis pdf文件，且不超过100m</span>
 									</div>
-									
+
 									<attachlist :editAble="false" ref="attachlist" :attachTable="expertMeetingAttachTable"></attachlist>
 								</div>
 								<div class="form-block">
@@ -99,14 +99,14 @@
 										</div>
 									</div>
 								</div>
-								
+
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>整改回复</strong>
 										<span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
 											xisx xis pdf文件，且不超过100m</span>
 									</div>
-									
+
 									<attachlist :editAble="false" ref="attachlist" :attachTable="replyAttachTable"></attachlist>
 								</div>
 								<!-- <div class="form-block">
@@ -136,7 +136,7 @@
 										</div>
 									</div>
 								</div> -->
-		
+
 							</el-form>
 							<!-- <taskhandle :taskInfo="taskInfo"></taskhandle> -->
 						</div>
@@ -166,7 +166,7 @@
 	import taskhandle from '../../../common/taskhandle'
 	import attachlist from "../../../common/attachlist.vue"
 	import projectinfo from "../../../common/projectinfo.vue"
-	
+
 	export default {
 		props:['detailRow'],
 		data() {
