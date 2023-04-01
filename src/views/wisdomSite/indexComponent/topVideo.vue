@@ -123,7 +123,7 @@ export default {
       myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
       var urlencoded = new URLSearchParams();
-      urlencoded.append("accessToken", "at.6i2pbipi5bc6cgc80kv7qif88wui5eo7-9rirnc32yg-1gusung-6gaolfzl9");
+      urlencoded.append("accessToken", this.videoToken);
       urlencoded.append("deviceSerial", playerInfo.deviceNo);
       urlencoded.append("channelNo", playerInfo.channelNo);
       urlencoded.append("direction", direction);
@@ -150,7 +150,7 @@ export default {
       myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
       var urlencoded = new URLSearchParams();
-      urlencoded.append("accessToken", "at.6i2pbipi5bc6cgc80kv7qif88wui5eo7-9rirnc32yg-1gusung-6gaolfzl9");
+      urlencoded.append("accessToken", this.videoToken);
       urlencoded.append("deviceSerial", playerInfo.deviceNo);
       urlencoded.append("channelNo", playerInfo.channelNo);
 
