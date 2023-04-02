@@ -14,46 +14,82 @@
 
 								<div class="form-block">
 									<div class="form-block-title">
-										<div class="title-bar"></div><strong>基本信息</strong>
+										<div class="title-bar"></div><strong>计量管理</strong>
 									</div>
-									<projectinfo></projectinfo>
-									<!-- <div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">发起人</div>
-											<div class="block-item-value">
-												{{baseInfo.startupUser}}
+                  <div class="block-line">
+                    <div class="block-item">
+                      <div class="block-item-label">计量期数名称</div>
+                      <div class="block-item-value">
+                        {{formData.metrologyName}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="block-line">
+                    <div class="block-item">
+                      <div class="block-item-label">开始日期</div>
+                      <div class="block-item-value">
+                        {{formData.startDate}}
+                      </div>
+                    </div>
 
-											</div>
-										</div>
-									</div> -->
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">发起日期</div>
-											<div class="block-item-value">
-												{{formData.startDate}}
-											</div>
-										</div>
-									</div>
+                    <div class="block-item">
+                      <div class="block-item-label">结束日期</div>
+                      <div class="block-item-value">
+                        {{formData.endDate}}
+                      </div>
+                    </div>
+                  </div>
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
-										<div class="title-bar"></div><strong>合同信息</strong>
+										<div class="title-bar"></div><strong>计量信息管理</strong>
 									</div>
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">合同编号</div>
-											<div class="block-item-value">
-												{{formData.contractCode}}
+                  <div class="block-line">
+                    <div class="block-item">
+                      <div class="block-item-label">计量编号<i class="require-icon"></i></div>
+                      <div class="block-item-value">
+                        {{formData.metrologyNo}}
+                      </div>
+                    </div>
+                    <div class="block-item">
+                      <div class="block-item-label">申请日期</div>
+                      <div class="block-item-value">
+                        {{formData.applyDate}}
+                      </div>
+                    </div>
+                  </div>
 
-											</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">承包人</div>
-											<div class="block-item-value">
-												{{formData.contractUser}}
-											</div>
-										</div>
-									</div>
+                  <div class="block-line">
+                    <div class="block-item">
+                      <div class="block-item-label">申请单位</div>
+                      <div class="block-item-value">
+                        {{formData.applyUnit}}
+                      </div>
+                    </div>
+                    <div class="block-item">
+                      <div class="block-item-label">计量金额</div>
+                      <div class="block-item-value">
+                        {{formData.amount}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="block-line">
+                    <div class="block-item">
+                      <div class="block-item-label">计量内容</div>
+                      <div class="block-item-value">
+                        {{formData.content}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="block-line">
+                    <div class="block-item">
+                      <div class="block-item-label">申请依据</div>
+                      <div class="block-item-value">
+                        {{formData.applyCertificate}}
+                      </div>
+                    </div>
+                  </div>
+
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>合同附件</strong>
 										<span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
@@ -63,50 +99,7 @@
 									<attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>
 
 								</div>
-								<div class="form-block">
-									<div class="form-block-title">
-										<div class="title-bar"></div><strong>信息填报</strong>
-									</div>
-									<div class="block-table">
-										<el-table :data="contractTable" style="width: 100%" border
-											class="have_scrolling">
-											<el-table-column type="index" width="50" align="center" label="序号">
-											</el-table-column>
-											<el-table-column prop="buildProjectName" align="center" label="拟分包工程名称"
-												show-overflow-tooltip>
-											</el-table-column>
-											<el-table-column prop="buildProjectPartName" width="180px" align="center"
-												label="拟分包工程部位">
-											</el-table-column>
-											<el-table-column prop="contractUserName" width="120px" align="center"
-												label="承包人名称">
-											</el-table-column>
-											<el-table-column prop="contractChargeUserName" width="120px" align="center"
-												label="承包负责人">
-											</el-table-column>
-											<el-table-column prop="cardNum" width="120px" align="center" label="身份证号">
-											</el-table-column>
-											<el-table-column prop="contractNum" width="120px" align="center"
-												label="拟分包工程合同金额(元)">
-											</el-table-column>
-											<el-table-column prop="buildStartMonth" width="120px" align="center"
-												label="拟分包施工工期结束月份">
-											</el-table-column>
-											<el-table-column prop="buildEndMonth" width="120px" align="center"
-												label="拟分包施工工期开始月份">
-											</el-table-column>
-											<el-table-column prop="contractUserQualification" width="120px"
-												align="center" label="承包人专业分包资质">
-											</el-table-column>
-											<el-table-column prop="remark" width="120px" align="center" label="备注">
-											</el-table-column>
-
-										</el-table>
-									</div>
-								</div>
-
 							</el-form>
-							<!-- <taskhandle :taskInfo="taskInfo"></taskhandle> -->
 						</div>
 					</div>
 				</el-main>
@@ -126,7 +119,7 @@
 </template>
 
 <script>
-	import * as api from "@/api/contract";
+	import * as api from "@/api/metrology";
 	import { getUserInfo } from "@/api/user";
 	import tasklog from "../../common/tasklog.vue"
 	import taskhandle from '../../common/taskhandle'
@@ -204,7 +197,7 @@
 				this.dialogFormVisible=value;
 			},
 			getDetail(id){
-				api.getContractLaborDeatil(id).then((res) => {
+				api.getMetrologyDetail(id).then((res) => {
 					let data = res['data'] || {};
 					this.formData = data;
 					this.attachTable = data.attachment || [];
@@ -218,7 +211,7 @@
 						processDefinitionId: data['processDefinitionId'],
 						processInstanceId: data['processInstanceId'],
 						taskId: data['taskId'],
-				  flowKey:'jiliangshenpi'
+				  flowKey:'jiliangshenpiv3'
 					}
 					this.updateTaskLog();
 				});
@@ -233,5 +226,5 @@
 </script>
 
 <style scoped lang="scss">
-	@import "src/assets/css/dialog"
+	@import "src/assets/css/dialog";
 </style>

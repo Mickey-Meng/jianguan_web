@@ -49,3 +49,11 @@ export const exportMetrologyList = data => {
 		"responseType": 'blob'
 	});
 };
+
+export const getFlowAndTaskInfo = data => {
+  return request({
+    url: api.getFlowAndTaskInfo,
+    method: "get",
+    params: data
+  });
+};

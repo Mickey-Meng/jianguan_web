@@ -230,7 +230,7 @@ import projectinfo from "../../common/projectinfo.vue"
 					buildEndMonth: formatMonth(new Date())
 				},
 				auditUser: {},
-                approveVisible:true,
+        approveVisible:true,
 				flowKey:'jiliangshenpiv3'
 			};
 		},
@@ -324,60 +324,25 @@ import projectinfo from "../../common/projectinfo.vue"
 				});
 			},
 			addOrModify(isdraft) {
-				if(isdraft){
-					if (diffCompare([this.formData, this.attachTable, this.contractTable], [{
-								attachment: [],
-								contractCode: '',
-								information: [],
-								contractUser: '',
-								deletedFlag: 1,
-								draftFlag: 1,
-								buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
-								startDate:formatDate(new Date())
-							},
-							[],
-							[]
-						], ['startDate'])) {
-						this.$message({
-							type: 'warning',
-							message: '不能提交空白!'
-						});
-						return;
-					}
-					this.formData.attachment = this.attachTable;
-					this.formData.auditUser = this.auditUser;
-					api.addOrUpdateMetrology(this.formData).then((res) => {
-						if (res.data) {
-							this.$message({
-								type: 'success',
-								message: '提交成功!'
-							});
-							this.dialogFormVisible = false;
-							this.$emit("query");
-						}
-					});
-				}else{
-					this.$refs['ruleForm'].validate((valid) => {
-						if (valid) {
-							this.formData.attachment = this.attachTable;
-							this.formData.information = this.contractTable;
-							this.formData.auditUser = this.auditUser;
-							this.formData.draftFlag=1;
-							api.addOrUpdateContractLabor(this.formData).then((res) => {
-								if (res.data) {
-									this.$message({
-										type: 'success',
-										message: '提交成功!'
-									});
-									this.dialogFormVisible = false;
-									this.$emit("query");
-								}
-							});
-						}
+        this.$refs['ruleForm'].validate((valid) => {
+          if (valid) {
+            this.formData.attachment = this.attachTable;
+            this.formData.information = this.contractTable;
+            this.formData.auditUser = this.auditUser;
+            this.formData.draftFlag=1;
+            api.addOrUpdateMetrology(this.formData).then((res) => {
+              if (res.data) {
+                this.$message({
+                  type: 'success',
+                  message: '提交成功!'
+                });
+                this.dialogFormVisible = false;
+                this.$emit("query");
+              }
+            });
+          }
 
-					})
-				}
-
+        })
 			},
 
 			addContract() {

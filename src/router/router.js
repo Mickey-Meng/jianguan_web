@@ -126,7 +126,7 @@ export const constantRoutes = [{
 			}, {
         path: "/metrology_detail",
         name: "metrology_detail",
-        code: "jiliangshenpi",
+        code: "jiliangshenpiv3",
         component: () => import("@/views/metrology/ledger/view")
       }, {
 				path: "/entranceAndExitManagement_detail",
