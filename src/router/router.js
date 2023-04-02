@@ -124,6 +124,11 @@ export const constantRoutes = [{
 				code: "laowufenbaohetong",
 				component: () => import("@/views/contractManagement/laborSubcontract/view")
 			}, {
+        path: "/metrology_detail",
+        name: "metrology_detail",
+        code: "jiliangshenpiv3",
+        component: () => import("@/views/metrology/ledger/view")
+      }, {
 				path: "/entranceAndExitManagement_detail",
 				name: "entranceAndExitManagement_detail",
 				code: "jintuichangguanli",
@@ -1346,12 +1351,12 @@ export const asyncRoutes = [
 		alwaysShow: true,
 		component: Layout,
 		children: [{
-			path: "/200",
-			name: "teachingVideo",
-			component: () => import("@/views/study/index"),
+			path: "/metrology",
+			name: "metrology",
+			component: () => import("@/views/metrology/metrology"),
 			meta: {
 				title: "计量管理",
-				code: "jiliangtaizhang",
+				code: "jiliangshenpi",
 				icon: "circle",
 				allMap: false,
 				partMap: false,
