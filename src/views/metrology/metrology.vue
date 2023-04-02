@@ -11,12 +11,12 @@
 		<el-header>
 			<div class="input-box">
 				<div class="input-value">
-					<el-input v-model="queryData.buildSectionName" placeholder="标段"></el-input>
+					<el-input v-model="queryData.metrologyNo" placeholder="编号"></el-input>
 				</div>
 			</div>
 			<div class="input-box">
 				<div class="input-value">
-					<el-input v-model="queryData.laborContractProjectName" placeholder="拟劳务合作工程名称"></el-input>
+					<el-input v-model="queryData.applyUnit" placeholder="申请单位"></el-input>
 				</div>
 			</div>
 			<el-button type="primary" @click="query">搜索</el-button>
@@ -34,18 +34,31 @@
 					class="have_scrolling">
 					<el-table-column type="index" width="50" align="center" label="序号">
 					</el-table-column>
-					<el-table-column prop="metrologyNo" align="center" label="计量编号" show-overflow-tooltip>
-					</el-table-column>
-                    <el-table-column prop="metrologyName" align="center" label="计量期数" show-overflow-tooltip>
-					</el-table-column>
-					<el-table-column prop="startDate" align="center" label="计量开始时间" show-overflow-tooltip>
-					</el-table-column>
-					<el-table-column prop="endDate" align="center" label="计量结束时间" show-overflow-tooltip>
-					</el-table-column>
+					<el-table-column prop="metrologyNo" align="center" label="计量编号" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="metrologyName" align="center" label="计量期数" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="startDate" align="center" label="计量开始时间" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="endDate" align="center" label="计量结束时间" show-overflow-tooltip></el-table-column>
 					<el-table-column prop="applyUnit" align="center" label="申请单位" show-overflow-tooltip></el-table-column>
 					<el-table-column prop="content" align="center" label="计量内容" show-overflow-tooltip></el-table-column>
 					<el-table-column prop="amount" align="center" label="计量金额" show-overflow-tooltip></el-table-column>
-					<el-table-column prop="contractUser" align="center" label="审批状态" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="auditStatus" align="center" label="审批状态" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <el-tag
+                v-if="scope.row.auditStatus == 1"
+                size="mini"
+                type="success"
+              >
+                审批中
+              </el-tag>
+              <el-tag
+                v-if="scope.row.auditStatus == 2"
+                size="mini"
+                type="warning"
+              >
+                已审批
+              </el-tag>
+            </template>
+          </el-table-column>
 					<el-table-column fixed="right" width="120" align="center" label="操作">
 						<template slot-scope="{ row, $index }">
 							<el-button v-if="!isDraft"  type="text" size="mini" @click="modify(row)">修改</el-button>
@@ -104,6 +117,13 @@
 		},
 		created() {},
 		computed: {
+		  auditStatusDesc(auditStatus, a, b, c) {
+		    debugger;
+		    if(auditStatus === "1") {
+		      return "审批中";
+        }
+          return "已审批";
+      }
 		},
 		mounted() {
 			this.query();
