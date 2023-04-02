@@ -24,7 +24,7 @@
 				<div class="operate-btns" v-show="operateBtnsVisible">
 					<el-button size="small" @click="addNew">新增</el-button>
 					<el-button size="small" @click="exportData">导出</el-button>
-					<el-button size="small">批量操作</el-button>
+					<el-button size="small" v-show="false">批量操作</el-button>
 				</div>
 			</div>
 		</el-header>
@@ -34,17 +34,17 @@
 					class="have_scrolling">
 					<el-table-column type="index" width="50" align="center" label="序号">
 					</el-table-column>
-					<el-table-column prop="buildSectionName" align="center" label="计量编号" show-overflow-tooltip>
+					<el-table-column prop="metrologyNo" align="center" label="计量编号" show-overflow-tooltip>
 					</el-table-column>
-                    <el-table-column prop="contractCode" align="center" label="计量期数" show-overflow-tooltip>
+                    <el-table-column prop="metrologyName" align="center" label="计量期数" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="laborContractProjectName" align="center" label="计量开始时间" show-overflow-tooltip>
+					<el-table-column prop="startDate" align="center" label="计量开始时间" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="startDate" align="center" label="计量结束时间" show-overflow-tooltip>
+					<el-table-column prop="endDate" align="center" label="计量结束时间" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="contractUser" align="center" label="申请单位" show-overflow-tooltip></el-table-column>
-					<el-table-column prop="contractUser" align="center" label="计量内容" show-overflow-tooltip></el-table-column>
-					<el-table-column prop="contractUser" align="center" label="计量金额" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="applyUnit" align="center" label="申请单位" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="content" align="center" label="计量内容" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="amount" align="center" label="计量金额" show-overflow-tooltip></el-table-column>
 					<el-table-column prop="contractUser" align="center" label="审批状态" show-overflow-tooltip></el-table-column>
 					<el-table-column fixed="right" width="120" align="center" label="操作">
 						<template slot-scope="{ row, $index }">
@@ -71,8 +71,8 @@
 
 <script>
   import * as api from "@/api/metrology.js";
-	import edit from './edit.vue';
-	import detail from './detail';
+	import edit from './ledger/edit.vue';
+	import detail from './ledger/detail';
 
 	export default {
 		props:{

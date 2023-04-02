@@ -106,8 +106,8 @@
 <script>
 	import * as api from "@/api/contract";
 	import { getUserInfo } from "@/api/user";
-	import attachlist from "../common/attachlist"
-	import projectinfo from "../common/projectinfo.vue"
+	import attachlist from "../../common/attachlist"
+	import projectinfo from "../../common/projectinfo.vue"
 
 	import {
 		formatMonth,
@@ -177,5 +177,5 @@
 </script>
 
 <style scoped lang="scss">
-	@import "../../assets/css/dialog.scss"
+	@import "src/assets/css/dialog"
 </style>
