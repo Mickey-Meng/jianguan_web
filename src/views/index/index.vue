@@ -252,10 +252,10 @@ export default {
         aImg = document.getElementsByClassName("img_box");
       for (let i = 0; i < aImg.length; i++) {
         // 图片旋转分散 36°
-        aImg[i].style.transform =
-          "rotateY(" + (i * 360) / aImg.length + "deg) translateZ(300px)";
-        aImg[i].style.transition =
-          "transform 1s " + (aImg.length - i) * 0.1 + "s";
+        // aImg[i].style.transform =
+        //   "rotateY(" + (i * 360) / aImg.length + "deg) translateZ(300px)";
+        // aImg[i].style.transition =
+        //   "transform 1s " + (aImg.length - i) * 0.1 + "s";
       }
       let lastX = 0, // 前一次的坐标X
         lastY = 0,
@@ -279,8 +279,7 @@ export default {
           // 更新album的旋转角度，拖拽越快-> des变化大 -> roY变化大 -> 旋转快
           rotX -= desY * 0.1;
           rotY += desX * 0.2;
-          album.style.transform =
-            "rotateX(" + rotX + "deg) rotateY(" + rotY + "deg)";
+          // album.style.transform = "rotateX(" + rotX + "deg) rotateY(" + rotY + "deg)";
           lastX = nowX;
           lastY = nowY;
         };
@@ -291,8 +290,7 @@ export default {
             desY *= 0.95;
             rotX -= desY * 0.1;
             rotY += desX * 0.2;
-            album.style.transform =
-              "rotateX(" + rotX + "deg) rotateY(" + rotY + "deg)";
+            // album.style.transform = "rotateX(" + rotX + "deg) rotateY(" + rotY + "deg)";
 
             if (Math.abs(desX) < 0.5 && Math.abs(desY) < 0.5) {
               clearInterval(timer);
@@ -437,7 +435,7 @@ export default {
       .right_shift {
         position: absolute;
         top: 50%;
-        transform: translateY(-50%);
+        // transform: translateY(-50%);
         right: 20px;
         width: 30px;
         height: 30px;
@@ -454,27 +452,31 @@ export default {
       }
 
       #album {
-        width: 133px;
-        height: 200px;
+        width: 500px;
+        height: 400px;
         margin: auto;
         position: relative;
-        transform-style: preserve-3d;
-        transform: rotateX(-20deg);
+        // transform-style: preserve-3d;
+        // transform: rotateX(-20deg);
       }
       #album .img_box {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        // position: absolute;
+        // top: 0;
+        // left: 0;
+        cursor: pointer;
+        float: left;
+        width: 113px;
+        height: 200px;
+        margin-left: 5px;
+        margin-top: 5px;
         /* 反射倒影 距离下面5px  */
-        -webkit-box-reflect: below 5px -webkit-linear-gradient(top, rgba(
-                0,
-                0,
-                0,
-                0
-              )
-              40%, rgba(0, 0, 0, 0.5));
+        // -webkit-box-reflect: below 5px -webkit-linear-gradient(top, rgba(
+        //         0,
+        //         0,
+        //         0,
+        //         0
+        //       )
+        //       40%, rgba(0, 0, 0, 0.5));
         .img_box_wrapper {
           height: 100%;
           width: 100%;
