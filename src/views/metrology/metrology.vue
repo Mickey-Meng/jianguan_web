@@ -32,18 +32,20 @@
 			<div class="container">
 				<el-table :data="tableData" style="width: 100%" border height="calc(100% - 48px)"
 					class="have_scrolling">
-					<el-table-column type="index" width="50" align="center" label="序号3">
+					<el-table-column type="index" width="50" align="center" label="序号">
 					</el-table-column>
-					<el-table-column prop="buildSectionName" align="center" label="施工标段" show-overflow-tooltip>
+					<el-table-column prop="buildSectionName" align="center" label="计量编号" show-overflow-tooltip>
 					</el-table-column>
-                    <el-table-column prop="contractCode" align="center" label="合同编号" show-overflow-tooltip>
+                    <el-table-column prop="contractCode" align="center" label="计量期数" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="laborContractProjectName" align="center" label="拟劳务合作工程名称" show-overflow-tooltip>
+					<el-table-column prop="laborContractProjectName" align="center" label="计量开始时间" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="startDate" align="center" label="备案日期" show-overflow-tooltip>
+					<el-table-column prop="startDate" align="center" label="计量结束时间" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="contractUser" align="center" label="承包人" show-overflow-tooltip>
-					</el-table-column>
+					<el-table-column prop="contractUser" align="center" label="申请单位" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="contractUser" align="center" label="计量内容" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="contractUser" align="center" label="计量金额" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="contractUser" align="center" label="审批状态" show-overflow-tooltip></el-table-column>
 					<el-table-column fixed="right" width="120" align="center" label="操作">
 						<template slot-scope="{ row, $index }">
 							<el-button v-if="!isDraft"  type="text" size="mini" @click="modify(row)">修改</el-button>
@@ -68,7 +70,7 @@
 </template>
 
 <script>
-	import * as api from "@/api/contract.js";
+  import * as api from "@/api/metrology.js";
 	import edit from './edit.vue';
 	import detail from './detail';
 
@@ -109,7 +111,7 @@
 		methods: {
 			query() {
 				this.queryData.draftFlag=this.isDraft?0:1;
-				api.getContractLaborList(this.queryData).then((res) => {
+				api.getMetrologyList(this.queryData).then((res) => {
 					this.allData = res.data || {};
 					this.tableData = this.allData['list']||[];
 					this.queryData.pageNum = res.data.pageNum;
@@ -135,7 +137,7 @@
 					cancelButtonText: '取消',
 					type: 'warning'
 				}).then(() => {
-					api.deleteContractLabor(row['id']).then((res) => {
+					api.deleteMetrology(row['id']).then((res) => {
 						if (this.tableData.length == 1) {
 							this.queryData.pageNum = this.queryData.pageNum> 1 ? this.queryData.pageNum - 1 : 1
 						}
@@ -162,7 +164,7 @@
 			},
 			exportData() {
 				this.queryData.draftFlag = 1;
-				api.exportContractLaborList(this.queryData).then((res) => {
+				api.exportMetrologyList(this.queryData).then((res) => {
 					const reader = new FileReader();
 					reader.readAsDataURL(res);
 					reader.onload = (e) => {

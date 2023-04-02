@@ -322,7 +322,7 @@ const api = {
 	deleteContractLabor: "/ZhuJiApi/web/api/v1/laborContract/id",
 	getContractLaborList: "/ZhuJiApi/web/api/v1/laborContract/page",
 	exportContractLaborList: "/ZhuJiApi/web/api/v1/laborContract/export",
-    getContractLaborListNoPage: "/ZhuJiApi/web/api/v1/laborContract/list",
+  getContractLaborListNoPage: "/ZhuJiApi/web/api/v1/laborContract/list",
 
 	//施工专业分包合同
 	addOrUpdateContractBuild: "/ZhuJiApi/web/api/v1/buildContract/addOrUpdate",
@@ -426,7 +426,18 @@ const api = {
   getSupervisionOrderDeatil: "/ZhuJiApi/web/api/v1/supervisionOrder/detail/id",
   deleteSupervisionOrder: "/ZhuJiApi/web/api/v1/supervisionOrder/id",
   getSupervisionOrderList: "/ZhuJiApi/web/api/v1/supervisionOrder/page",
-  exportSupervisionOrderList: "/ZhuJiApi/web/api/v1/supervisionOrder/export"
+  exportSupervisionOrderList: "/ZhuJiApi/web/api/v1/supervisionOrder/export",
+
+
+  // 计量管理
+  addOrUpdateMetrology: "/ZhuJiApi/web/api/v1/metrology/addOrUpdate",
+  getMetrologyDetail: "/ZhuJiApi/web/api/v1/metrology/detail/id",
+  deleteMetrology: "/ZhuJiApi/web/api/v1/metrology/id",
+  getMetrologyList: "/ZhuJiApi/web/api/v1/metrology/page",
+  exportMetrologyList: "/ZhuJiApi/web/api/v1/metrology/export",
+  getMetrologyListNoPage: "/ZhuJiApi/web/api/v1/metrology/list",
+
+
 };
 
 export default api;
