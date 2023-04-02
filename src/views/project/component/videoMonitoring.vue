@@ -86,10 +86,10 @@ export default {
           name: "监控视频",
           key: 1,
         },
-        {
-          name: "环境监测",
-          key: 2,
-        },
+        // {
+        //   name: "环境监测",
+        //   key: 2,
+        // },
       ],
       videoData: [],
       videoId: "",
