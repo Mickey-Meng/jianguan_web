@@ -5,7 +5,7 @@
 			<el-form ref="form" label-width="80px">
 <!--				<div class="form-title">-->
 <!--					<div class="title-big-bar"></div>-->
-<!--					<strong>施工技术交底-浙公路（JL）011</strong>-->
+<!--					<strong>施工技术交底</strong>-->
 <!--				</div>-->
 
 				<div class="form-block">
