@@ -373,11 +373,11 @@ export default {
     background-color: #EAF0F9;
     pointer-events: auto;
     .top {
-      height: 65%;
+      height: 100%;
     }
     .bottom {
       border-top: 2px solid #ffffff;
-      height: 35%;
+      height: 0%;
     }
   }
   .show_page {
