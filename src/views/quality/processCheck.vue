@@ -67,6 +67,7 @@
             value-format="yyyy-MM-dd HH:mm:ss"
             type="datetime"
             placeholder="选择日期时间"
+            :picker-options="pickerOptions"
           />
         </el-form-item>
         <el-form-item label="问题描述">
@@ -311,6 +312,11 @@
       },
       options: [],
       tableData: [],
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() > Date.now();
+        }
+      },
       rules: {
         qualitysecond: [
           { required: true, message: "请选择质量小类", trigger: "blur" },
