@@ -520,7 +520,6 @@ export default {
     timeChange() {
     },
     nodeClick(node, b) {
-      debugger
       if (node.type !== "folder") {
         this.postData.type = node.type;
         this.postData.projectType = b.parent.data.code;
