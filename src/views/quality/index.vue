@@ -472,7 +472,7 @@ export default {
           let obj = {
             name: i,
             type: "folder",
-            code: i === "桥梁工程" ? "QL" : i === "道路工程" ? "LM" : i === "隧道工程" ? "SD" : "other",
+            code: i === "桥梁工程" ? "QL" : i === "房建工程" ? "LM" : i === "隧道工程" ? "SD" : "other",
             children: child
           };
           tree.push(obj);
@@ -520,6 +520,7 @@ export default {
     timeChange() {
     },
     nodeClick(node, b) {
+      debugger
       if (node.type !== "folder") {
         this.postData.type = node.type;
         this.postData.projectType = b.parent.data.code;
