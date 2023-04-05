@@ -195,7 +195,7 @@
             <el-button size="small" type="primary">点击上传</el-button>
           </el-upload>
         </el-form-item>
-        <el-form-item label="通知全咨" v-if="form.result ==1">
+<!--        <el-form-item label="通知全咨" v-if="form.result ==1">
           <el-select v-model="qz" multiple :disabled="true">
             <el-option
               v-for="item in clientCompany"
@@ -214,7 +214,7 @@
               :label="item.name"
             ></el-option>
           </el-select>
-        </el-form-item>
+        </el-form-item>-->
         <!-- <el-form-item label="旁站记录">
           <el-input
             type="textarea"

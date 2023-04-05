@@ -13,7 +13,7 @@
 							<el-form :model="formData" :rules="rules" ref="ruleForm" label-width="80px">
 								<div class="form-title">
 									<div class="title-big-bar"></div>
-									<strong>施工方案-浙公路（JL）011</strong>
+									<strong>施工方案</strong>
 									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify"
 										@checkDraft="checkDraft" ref="drafthandle"></drafthandle>
 								</div>
@@ -32,7 +32,7 @@
 													<el-input v-model="formData.projectCode"></el-input>
 												</el-form-item>
 											</div>
-											
+
 										</div>
 									</div>
 								</div>
@@ -114,7 +114,7 @@
 
 									<attachlist :editAble="true" ref="attachlist" :attachTable="replyAttachTable"></attachlist>
 								</div>
-								
+
 								<!-- <div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>审批意见</strong>
@@ -167,10 +167,10 @@
 										</div>
 									</div>
 								</div> -->
-								
+
 								<approveuser v-if="approveVisible" :auditUser="auditUser"  :flowKey="flowKey">
 								</approveuser>
-								
+
 								<div class="form-block">
 									<el-button @click="addOrModify()" class="submit-btn" size="small" type="primary">提交
 									</el-button>
@@ -447,7 +447,7 @@
 								message: '请检查必填项!'
 							});
 						}
-						
+
 					})
 				}
 			},

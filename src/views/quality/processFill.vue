@@ -868,6 +868,12 @@ export default {
 .finish {
   color: #05e600;
 }
+.reject {
+  color: blue;
+}
+.submit {
+  color: #e6c400;
+}
 .yes {
   color: #05e600;
 }

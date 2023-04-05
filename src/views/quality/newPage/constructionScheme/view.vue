@@ -5,7 +5,7 @@
 			<el-form ref="form" label-width="80px">
 				<div class="form-title">
 					<div class="title-big-bar"></div>
-					<strong>施工方案-浙公路（JL）011</strong>
+					<strong>施工方案</strong>
 				</div>
 
 				<div class="form-block">
@@ -42,7 +42,7 @@
 						</div>
 					</div>
 				</div>
-				
+
 
 				<div class="form-block">
 					<div class="form-block-title">
@@ -91,7 +91,7 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<div class="form-block">
 					<div class="form-block-title">
 						<div class="title-bar"></div><strong>整改回复</strong>
@@ -142,12 +142,12 @@
 	} from "@/utils/format.js";
 	import attachlist from "../../../common/attachlist.vue"
 	import projectinfo from "../../../common/projectinfo.vue"
-	
+
 	export default {
 		props: ['detailRow'],
 		data() {
 			return {
-				
+
 				baseInfo: {
 					buildSection: 1,
 					buildSectionName: '池州市平天湖东部区域棚户区改造建设工程EPC总承包',
