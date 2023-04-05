@@ -17,6 +17,7 @@ import store from "../index";
 const getDefaultState = () => {
   return {
     token: getToken("zj_token"),
+    authToken: getToken("auth_token"),
     name: getToken("userName"),
     avatar: "",
     ID: getToken("ID"),
@@ -36,6 +37,9 @@ const mutations = {
   },
   SET_TOKEN: (state, token) => {
     state.token = token;
+  },
+  SET_AUTH_TOKEN: (state, authToken) => {
+    state.authToken = authToken;
   },
   SET_NAME: (state, name) => {
     state.name = name;
@@ -84,11 +88,13 @@ const actions = {
           let {groupid, loginData} = res.data;
           if (loginData) {
             commit("SET_TOKEN", loginData.token);
+            commit("SET_AUTH_TOKEN", loginData.authToken);            
             commit("SET_NAME", loginData.name);
             commit("SET_ID", loginData.id);
             commit("SET_ROLE_ID", groupid);
             setToken("ID", loginData.id);
             setToken("zj_token", loginData.token);
+            setToken("auth_token", loginData.authToken);
             setToken("userName", loginData.name);
             setToken("groupId", groupid);
           }

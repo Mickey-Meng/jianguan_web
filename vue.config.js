@@ -28,8 +28,8 @@ module.exports = {
     open: true,
     proxy: {
       "/STSfmzj": {
-        // target: 'http://112.30.143.209:8901/STSfmzj',
-        target: 'http://127.0.0.1:9001/STSfmzj',
+        target: 'http://112.30.143.209:8901/STSfmzj',
+        //target: 'http://127.0.0.1:9001/STSfmzj',
         changeOrigin: true,
         //               secure:true          //https需要开启此配置
         //               ws: true,             //是否启用websockets
@@ -38,7 +38,8 @@ module.exports = {
         }
       },
       "/ZhuJiRoad": {
-        target: 'http://127.0.0.1:8720/ZhuJiRoad',
+        target: 'http://127.0.0.1:8088',
+        //target: 'http://127.0.0.1:8722/ZhuJiRoad',
         // target: 'http://112.30.143.209:8888/ZhuJiRoad',
         changeOrigin: true,
         pathRewrite: {
@@ -54,8 +55,9 @@ module.exports = {
         pathRewrite: {}
       },
       "/ZhuJiApi": {
-        target: "http://127.0.0.1:8876/ZhuJiApi",
+      //  target: "http://127.0.0.1:8876/ZhuJiApi",
         // target: "http://112.30.143.209:8888/ZhuJiApi",
+        target: "http://127.0.0.1:8088",
         changeOrigin: true,
         pathRewrite: {
           "^/ZhuJiApi": ""
