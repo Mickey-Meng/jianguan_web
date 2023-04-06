@@ -44,16 +44,23 @@
 					<el-table-column prop="auditStatus" align="center" label="审批状态" show-overflow-tooltip>
             <template slot-scope="scope">
               <el-tag
-                v-if="scope.row.auditStatus == 1"
+                v-if="scope.row.auditStatus == 'reject'"
                 size="mini"
-                type="success"
+                type="warning"
+              >
+                驳回
+              </el-tag>
+              <el-tag
+                v-if="scope.row.auditStatus == 'approving'"
+                size="mini"
+                type="default"
               >
                 审批中
               </el-tag>
               <el-tag
-                v-if="scope.row.auditStatus == 2"
+                v-if="scope.row.auditStatus == 'approved'"
                 size="mini"
-                type="warning"
+                type="success"
               >
                 已审批
               </el-tag>
@@ -61,12 +68,9 @@
           </el-table-column>
 					<el-table-column fixed="right" width="120" align="center" label="操作">
 						<template slot-scope="{ row, $index }">
-							<el-button v-if="!isDraft"  type="text" size="mini" @click="modify(row)">修改</el-button>
-							<el-button v-if="!isDraft"  type="text" size="mini" @click="viewDetail(row)">详情</el-button>
-
-							<el-button v-if="isDraft" type="text" size="mini" @click="checkDetail(row)">选择</el-button>
-
-							<el-button  type="text" size="mini" @click="deleteRow(row)">删除</el-button>
+							<el-button v-if="row.auditStatus == -1"  type="text" size="mini" @click="modify(row)">修改</el-button>
+							<el-button type="text" size="mini" @click="viewDetail(row)">详情</el-button>
+							<el-button v-if="row.auditStatus == -1" type="text" size="mini" @click="deleteRow(row)">删除</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -189,7 +193,7 @@
 					reader.readAsDataURL(res);
 					reader.onload = (e) => {
 						const a = document.createElement('a');
-						a.download = `劳务分包合同清单.xls`;
+						a.download = `计量台账.xls`;
 						a.href = e.target.result;
 						document.body.appendChild(a);
 						a.click();
