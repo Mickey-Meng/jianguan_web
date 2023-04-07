@@ -287,7 +287,8 @@ import projectinfo from "../../common/projectinfo.vue"
 				this.addOrModifyFlag = obj['id'] ? false : true;
 				if (obj['id']) {
 					this.getDetail(obj['id']);
-                    this.approveVisible=false;
+					// 修改和删除操作，都可以选择审批人
+					// this.approveVisible=false;
 				} else {
 					this.formData = {
 						attachment: [],

@@ -44,21 +44,21 @@
 					<el-table-column prop="auditStatus" align="center" label="审批状态" show-overflow-tooltip>
             <template slot-scope="scope">
               <el-tag
-                v-if="scope.row.auditStatus == 'reject'"
+                v-if="scope.row.auditStatus == 'REJECT'"
                 size="mini"
                 type="warning"
               >
                 驳回
               </el-tag>
               <el-tag
-                v-if="scope.row.auditStatus == 'approving'"
+                v-if="scope.row.auditStatus == 'APPROVING'"
                 size="mini"
                 type="default"
               >
                 审批中
               </el-tag>
               <el-tag
-                v-if="scope.row.auditStatus == 'approved'"
+                v-if="scope.row.auditStatus == 'APPROVED'"
                 size="mini"
                 type="success"
               >
@@ -68,9 +68,9 @@
           </el-table-column>
 					<el-table-column fixed="right" width="120" align="center" label="操作">
 						<template slot-scope="{ row, $index }">
-							<el-button v-if="row.auditStatus == 'reject'"  type="text" size="mini" @click="modify(row)">修改</el-button>
+							<el-button v-if="row.auditStatus == 'REJECT'"  type="text" size="mini" @click="modify(row)">修改</el-button>
 							<el-button type="text" size="mini" @click="viewDetail(row)">详情</el-button>
-							<el-button v-if="row.auditStatus == 'reject'" type="text" size="mini" @click="deleteRow(row)">删除</el-button>
+							<el-button v-if="row.auditStatus == 'REJECT'" type="text" size="mini" @click="deleteRow(row)">删除</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
