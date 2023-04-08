@@ -452,7 +452,7 @@ export default {
       }
 
       #album {
-        width: 500px;
+        width: 600px;
         height: 400px;
         margin: auto;
         position: relative;
@@ -466,9 +466,9 @@ export default {
         cursor: pointer;
         float: left;
         width: 113px;
-        height: 200px;
-        margin-left: 5px;
-        margin-top: 5px;
+        height: 113px;
+        margin-left: 15px;
+        margin-top: 15px;
         /* 反射倒影 距离下面5px  */
         // -webkit-box-reflect: below 5px -webkit-linear-gradient(top, rgba(
         //         0,
@@ -484,6 +484,7 @@ export default {
           img {
             width: 100%;
             height: 100%;
+            border-radius: 5px;
           }
 
           .pro_name {
