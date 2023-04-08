@@ -93,7 +93,7 @@
                       <div class="block-item-label">计量金额</div>
                       <div class="block-item-value">
                         <el-form-item prop="amount">
-                          <el-input v-model="formData.amount"></el-input>
+                          <el-input-number v-model="formData.amount" :precision="2"></el-input-number>
                         </el-form-item>
                       </div>
                     </div>
@@ -174,23 +174,11 @@ import projectinfo from "../../common/projectinfo.vue"
 						required: true,
 						message: '请填写合同编号',
 						trigger: 'blur'
-					}]
-				},
-				newrules:{
-					buildProjectName: [{
-						required: true,
-						message: '请填写拟分包工程名称',
-						trigger: 'blur'
 					}],
-					buildProjectPartName: [{
-						required: true,
-						message: '请选择拟分包工程部位',
-						trigger: 'blur'
-					}],
-					contractNum:[{
-						type: 'number',
-						message: '合同金额必须为数字'
-					}]
+          // amount:[{
+          //   type: 'number',
+          //   message: '计量金额必须为数字'
+          // }]
 				},
 				userInfo: {
 					userName: ''
@@ -211,8 +199,7 @@ import projectinfo from "../../common/projectinfo.vue"
 					deletedFlag: 1,
 					draftFlag: 1,
 					buildSection: this.$store.getters.project.id,
-					projectId:this.$store.getters.project['parentid'],
-					startDate:formatDate(new Date())
+					projectId:this.$store.getters.project['parentid']
 				},
 				attachTable: [], //附件
 				contractTable: [],
