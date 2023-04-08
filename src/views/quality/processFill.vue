@@ -46,11 +46,11 @@
                 <svg-icon
                   class="svg-class svg-btn"
                   :class="
-                    row.status === 3
+                    row.checkresult === 3
                       ? 'submit'
-                      : row.status === 2
+                      : row.checkresult === 2
                       ? 'reject'
-                      : row.status === 1
+                      : row.checkresult === 1
                       ? 'finish'
                       : 'error'
                   "
@@ -506,6 +506,7 @@ export default {
     getCheackDataById() {
       api.getCheckData(this.componentInfo.id).then((res) => {
         this.tableData = res.data.check;
+        console.log(this.tableData)
         this.submitDataInfo = res.data.data;
       });
       // let code = this.componentInfo.conponetcode.substring(0, 4);
