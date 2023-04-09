@@ -175,10 +175,10 @@ import projectinfo from "../../common/projectinfo.vue"
 						message: '请填写合同编号',
 						trigger: 'blur'
 					}],
-          // amount:[{
-          //   type: 'number',
-          //   message: '计量金额必须为数字'
-          // }]
+          amount:[{
+            required: true,
+            message: '请填写计量金额'
+          }]
 				},
 				userInfo: {
 					userName: ''
