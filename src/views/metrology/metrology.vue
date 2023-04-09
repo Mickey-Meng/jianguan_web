@@ -40,7 +40,13 @@
 					<el-table-column prop="endDate" align="center" label="计量结束时间" show-overflow-tooltip></el-table-column>
 					<el-table-column prop="applyUnit" align="center" label="申请单位" show-overflow-tooltip></el-table-column>
 					<el-table-column prop="content" align="center" label="计量内容" show-overflow-tooltip></el-table-column>
-					<el-table-column prop="amount" align="center" label="计量金额" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="amount" align="center" label="计量金额" show-overflow-tooltip>
+
+            <template slot-scope="scope">
+              {{toFixedAmount(scope.row)}}
+            </template>
+
+          </el-table-column>
 					<el-table-column prop="auditStatus" align="center" label="审批状态" show-overflow-tooltip>
             <template slot-scope="scope">
               <el-tag
@@ -121,7 +127,7 @@
 		},
 		created() {},
 		computed: {
-		  auditStatusDesc(auditStatus, a, b, c) {
+		  auditStatusDesc(auditStatus) {
 		    debugger;
 		    if(auditStatus === "1") {
 		      return "审批中";
@@ -133,6 +139,10 @@
 			this.query();
 		},
 		methods: {
+      toFixedAmount(row) {
+        console.log(row);
+        return row.amount.toFixed(2);
+      },
 			query() {
 				this.queryData.draftFlag=this.isDraft?0:1;
 				api.getMetrologyList(this.queryData).then((res) => {

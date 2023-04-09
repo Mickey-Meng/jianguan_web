@@ -69,7 +69,7 @@
                     <div class="block-item">
                       <div class="block-item-label">计量金额</div>
                       <div class="block-item-value">
-                        {{formData.amount}}
+                        {{toFixedAmount}}
                       </div>
                     </div>
                   </div>
@@ -171,7 +171,11 @@
 			attachlist,
 			projectinfo
 		},
-		computed: {},
+		computed: {
+      toFixedAmount(detail) {
+        return detail.formData.amount.toFixed(2);
+      }
+    },
 		watch:{
 			detailRow(obj){
 				if(obj['id']){
@@ -183,6 +187,7 @@
 
 		},
 		methods: {
+
 			getUserInfo(id) {
 				getUserInfo(id).then(res => {
 					this.baseInfo.startupUser = res.data.userInfo.NAME;
@@ -198,6 +203,7 @@
 			},
 			getDetail(id){
 				api.getMetrologyDetail(id).then((res) => {
+				  console.log(res);
 					let data = res['data'] || {};
 					this.formData = data;
 					this.attachTable = data.attachment || [];
@@ -208,7 +214,7 @@
 					console.log(res.data);
 					let data=res['data'];
 					this.taskInfo={
-						processDefinitionId: data['processDefinitionId'],
+		 				processDefinitionId: data['processDefinitionId'],
 						processInstanceId: data['processInstanceId'],
 						taskId: data['taskId'],
 				  flowKey:'jiliangshenpiv3'
