@@ -38,7 +38,13 @@
               align="center"
             >
               <template slot-scope="{ row }">
-                {{ row.finish ? row.finish : "未录入" }}
+                {{
+                  row.checkresult === 3
+                    ? "正在审核"
+                    : row.checkresult === 0
+                      ? '未录入'
+                      : row.finish
+                }}
               </template>
             </el-table-column>
             <el-table-column label="照片/附件" width="80px" align="center">
