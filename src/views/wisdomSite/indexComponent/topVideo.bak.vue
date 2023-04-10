@@ -1,17 +1,22 @@
 <template>
   <div class="wrapper">
     <div class="left">
-      <!-- <div v-for="(item, index) in videoArr" :key="index" class="video_box" @click="selectedVideo=index">
+      <div v-for="(item, index) in videoArr" :key="index" class="video_box" @click="selectedVideo=index">
         <div class="label">{{ item.name }}</div>
         <div :id="'video_line' + item.id" class="video"></div>
-      </div> -->
-      <div id="video_line" class="video"></div>
+      </div>
     </div>
     <div class="right">
+      <el-row>
+        <el-button icon="el-icon-arrow-left" circle @mousedown.native="startCtrl(2)" @mouseup.native="stopCtrl"></el-button>
+        <el-button icon="el-icon-arrow-right" circle @mousedown.native="startCtrl(3)" @mouseup.native="stopCtrl"></el-button>
+        <el-button icon="el-icon-arrow-down" circle @mousedown.native="startCtrl(1)" @mouseup.native="stopCtrl"></el-button>
+        <el-button icon="el-icon-arrow-up" circle @mousedown.native="startCtrl(0)" @mouseup.native="stopCtrl"></el-button>
+      </el-row>
 
       <div class="header">
         监控列表
-        <!-- <i class="el-icon-close" @click="closePanel"></i> -->
+        <i class="el-icon-close" @click="closePanel"></i>
       </div>
       <div class="main" >
         <el-table
@@ -35,17 +40,11 @@
           ></el-table-column>
           <el-table-column label="操作" align="center" width="80">
             <template slot-scope="{ row }">
-              <svg-icon icon-class="site" @click="initVideo(row)" />
+              <svg-icon icon-class="site" @click="flySite(row)" />
             </template>
           </el-table-column>
         </el-table>
       </div>
-      <el-row>
-        <el-button icon="el-icon-arrow-left" circle @mousedown.native="startCtrl(2)" @mouseup.native="stopCtrl"></el-button>
-        <el-button icon="el-icon-arrow-right" circle @mousedown.native="startCtrl(3)" @mouseup.native="stopCtrl"></el-button>
-        <el-button icon="el-icon-arrow-down" circle @mousedown.native="startCtrl(1)" @mouseup.native="stopCtrl"></el-button>
-        <el-button icon="el-icon-arrow-up" circle @mousedown.native="startCtrl(0)" @mouseup.native="stopCtrl"></el-button>
-      </el-row>
     </div>
   </div>
 </template>
@@ -67,9 +66,8 @@ export default {
     return {
       tableData: [],
       playerArr: [],
-      player: undefined,
       videoArr: [],
-      selectedVideo: {},
+      selectedVideo: 0,
       videoToken: '',
       moveActive: false
     };
@@ -79,30 +77,26 @@ export default {
   },
   mounted() {},
   methods: {
-    init() {
+    initVideo() {
       this.videoArr = this.minData.filter((e) => e.type === 2 && e.project == this.project.id);
       getVideoToken().then((res) => {
         let token = res.data;
         this.videoToken = token;
         this.$nextTick(() => {
-          this.initVideo(this.videoArr[0])
+          this.videoArr.forEach((item, index) => {
+            let player = new EZUIKit.EZUIKitPlayer({
+              id: `video_line${item.id}`, // 视频容器ID
+              accessToken: token,
+              url: item.url,
+              width: 600,
+              height: 475,
+              autoplay: index < 1 ? true : false,
+              template: "standard", //
+              splitBasis: 1, //设置窗口切割参数
+            });
+            this.playerArr.push(player);
+          });
         });
-      });
-    },
-    initVideo(item) {
-      if (this.player && this.player.params.url == item.url) return
-      this.player && this.player.stop()
-      this.selectedVideo = item;
-      document.getElementById(`video_line`).innerHTML="";
-      this.player = new EZUIKit.EZUIKitPlayer({
-        id: `video_line`, // 视频容器ID
-        accessToken: this.videoToken,
-        url: item.url,
-        width: 1200,
-        height: 800,
-        autoplay: true,
-        template: "standard", //
-        splitBasis: 1, //设置窗口切割参数
       });
     },
     left() {},
@@ -123,7 +117,7 @@ export default {
       }
     },
     startCtrl(direction) {
-      const playerInfo = this.selectedVideo;
+      const playerInfo = this.videoArr[this.selectedVideo];
       
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
@@ -150,7 +144,7 @@ export default {
       this.moveActive = true;
     },
     stopCtrl() {
-      const playerInfo = this.selectedVideo;
+      const playerInfo = this.videoArr[this.selectedVideo];
       
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
@@ -178,7 +172,7 @@ export default {
   watch: {
     minData: function (n) {
       if (n.length > 0) {
-        this.init();
+        this.initVideo();
       }
     },
   },
@@ -194,17 +188,16 @@ export default {
     display: flex;
     flex-wrap: wrap;
     overflow: auto;
-    .video {
-      width: 100%;
-      height: calc(100%-50px);
-    }
     .video_box {
-      width: 100%;
+      width: 50%;
       height: 500px;
       .label {
         height: 25px;
         text-align: center;
         line-height: 25px;
+      }
+      .video {
+        height: 475px;
       }
     }
   }
@@ -226,7 +219,7 @@ export default {
     }
 
     .main {
-      height: calc(100% - 180px);
+      height: calc(100% - 90px);
       margin-bottom: 5px;
     }
 
