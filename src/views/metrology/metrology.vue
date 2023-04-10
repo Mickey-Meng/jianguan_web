@@ -40,20 +40,33 @@
 					<el-table-column prop="endDate" align="center" label="计量结束时间" show-overflow-tooltip></el-table-column>
 					<el-table-column prop="applyUnit" align="center" label="申请单位" show-overflow-tooltip></el-table-column>
 					<el-table-column prop="content" align="center" label="计量内容" show-overflow-tooltip></el-table-column>
-					<el-table-column prop="amount" align="center" label="计量金额" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="amount" align="center" label="计量金额" show-overflow-tooltip>
+
+            <template slot-scope="scope">
+              {{toFixedAmount(scope.row)}}
+            </template>
+
+          </el-table-column>
 					<el-table-column prop="auditStatus" align="center" label="审批状态" show-overflow-tooltip>
             <template slot-scope="scope">
               <el-tag
-                v-if="scope.row.auditStatus == 1"
+                v-if="scope.row.auditStatus == 'REJECT'"
                 size="mini"
-                type="success"
+                type="warning"
+              >
+                驳回
+              </el-tag>
+              <el-tag
+                v-if="scope.row.auditStatus == 'APPROVING'"
+                size="mini"
+                type="default"
               >
                 审批中
               </el-tag>
               <el-tag
-                v-if="scope.row.auditStatus == 2"
+                v-if="scope.row.auditStatus == 'APPROVED'"
                 size="mini"
-                type="warning"
+                type="success"
               >
                 已审批
               </el-tag>
@@ -61,12 +74,9 @@
           </el-table-column>
 					<el-table-column fixed="right" width="120" align="center" label="操作">
 						<template slot-scope="{ row, $index }">
-							<el-button v-if="!isDraft"  type="text" size="mini" @click="modify(row)">修改</el-button>
-							<el-button v-if="!isDraft"  type="text" size="mini" @click="viewDetail(row)">详情</el-button>
-
-							<el-button v-if="isDraft" type="text" size="mini" @click="checkDetail(row)">选择</el-button>
-
-							<el-button  type="text" size="mini" @click="deleteRow(row)">删除</el-button>
+							<el-button v-if="row.auditStatus == 'REJECT'"  type="text" size="mini" @click="modify(row)">修改</el-button>
+							<el-button type="text" size="mini" @click="viewDetail(row)">详情</el-button>
+							<el-button v-if="row.auditStatus == 'REJECT'" type="text" size="mini" @click="deleteRow(row)">删除</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -117,7 +127,7 @@
 		},
 		created() {},
 		computed: {
-		  auditStatusDesc(auditStatus, a, b, c) {
+		  auditStatusDesc(auditStatus) {
 		    debugger;
 		    if(auditStatus === "1") {
 		      return "审批中";
@@ -129,6 +139,10 @@
 			this.query();
 		},
 		methods: {
+      toFixedAmount(row) {
+        console.log(row);
+        return row.amount.toFixed(2);
+      },
 			query() {
 				this.queryData.draftFlag=this.isDraft?0:1;
 				api.getMetrologyList(this.queryData).then((res) => {
@@ -189,7 +203,7 @@
 					reader.readAsDataURL(res);
 					reader.onload = (e) => {
 						const a = document.createElement('a');
-						a.download = `劳务分包合同清单.xls`;
+						a.download = `计量台账.xls`;
 						a.href = e.target.result;
 						document.body.appendChild(a);
 						a.click();
