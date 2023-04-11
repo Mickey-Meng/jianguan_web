@@ -38,7 +38,7 @@
 
 <script>
 import { getFile, deleteFile } from "@/api/file";
-import { downLoadFile } from "@/utils/download";
+import { download } from "@/utils/download";
 import {mapGetters} from "vuex";
 
 
@@ -85,7 +85,7 @@ export default {
       this.$emit("opdateInfo", { row, key: "policyfile" });
     },
     downLoadFile(row) {
-      downLoadFile(row.fileurl);
+      download(row.fileurl, row.uploadname);
     },
   },
   watch: {
