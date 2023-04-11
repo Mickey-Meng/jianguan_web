@@ -64,6 +64,7 @@ export default {
   },
   created() {
     this.header.token = getToken("zj_token");
+    this.header.Authorization ='Bearer ' + getToken("auth_token");
   },
   mounted() {},
   methods: {
