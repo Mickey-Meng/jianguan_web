@@ -24,7 +24,7 @@ export const updateOnline = () => {
 
 export function loginMap(username, pwd) {
   return request({
-    url: `/STSfmzj/userauth/login?username=${username}&pwd=${pwd}`,
+    url: `/index/loadMap`,
     method: "get"
   });
 }
@@ -39,7 +39,7 @@ export function login(data) {
 
 export function getUserInfo(id) {
   return request({
-    url: `/STSfmzj/userauth/getUserInfo?id=${id}&systemName=zhuji`,
+    url: `/index/loadMenuAndUserInfo`,
     method: "get"
   });
 }

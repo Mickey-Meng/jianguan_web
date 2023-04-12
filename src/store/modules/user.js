@@ -73,17 +73,8 @@ const actions = {
     return new Promise((resolve, reject) => {
       login(JSON.stringify(userInfo))
         .then(res => {
-          /**
-           * @Description: 诸暨用户登陆系统
-           * @author wangharry
-           * @param {}
-           * @returns {}
-           * @date 2021/7/21
-           */
           if (!res.data) {
-
             reject(res);
-
           }
           let {groupid, loginData} = res.data;
           if (loginData) {
@@ -100,14 +91,12 @@ const actions = {
           }
           /**
            * @Description: explorer 运维用户登陆获取地图图层信息 explorer 123456
-           * @author wangharry
-           * @param {}
-           * @returns {}
-           * @date 2021/7/21
            */
           loginMap(username, pwd).then(res1 => {
             setToken("explorerId", res1.data.ID);
             getUserInfo(res1.data.ID).then(res2 => {
+              console.log("getUserInfo:res2");
+              console.log(res2);
               let arr = [];
               const getRight = nodes => {
                 if (!nodes) {
@@ -122,12 +111,12 @@ const actions = {
                 }
                 return arr;
               };
-              let menuRights = res2.data.userAuth.menuCookie;
+              let menuRights = res2.data.menuTree;
               let rights = getRight(menuRights);
               setToken("explorerRoles", res2.data.roles);
               setToken("rights", rights);
               commit("SET_RIGHTS", rights);
-              if (!res2.data.userInfo.GROUPID) {
+              if (!res2.data.userInfo.deptId) {
                 Message({
                   message: "账户没有组织信息,请联系管理员",
                   type: "warning",
@@ -137,9 +126,9 @@ const actions = {
                 reject();
                 return false;
               }
-              commit("SET_GROUPID", res2.data.userInfo.GROUPID);
-              setToken("GROUPID", res2.data.userInfo.GROUPID);
-              setToken("name", res2.data.userInfo.USERNAME);
+              commit("SET_GROUPID", res2.data.userInfo.deptId);
+              setToken("GROUPID", res2.data.userInfo.deptId);
+              setToken("name", res2.data.userInfo.nickName);
               store.dispatch("user/getUserRights").then(res3 => {
                 resolve(res);
               });

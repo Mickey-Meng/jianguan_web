@@ -33,7 +33,7 @@
         <el-input
           :key="passwordType"
           ref="password"
-          v-model="loginForm.pwd"
+          v-model="loginForm.password"
           :type="passwordType"
           placeholder="请输入密码"
           name="password"
@@ -72,14 +72,16 @@ export default {
     };
     return {
       loginForm: {
-        username: "",
-        pwd: "",
+        username: "qxadmin",
+        password: "qxadmin123",
+        code: "",
+        uuid: ""
       },
       loginRules: {
         username: [
           { required: true, trigger: "blur", message: "请输入用户名" },
         ],
-        pwd: [{ required: true, trigger: "blur", validator: validatePassword }],
+        password: [{ required: true, trigger: "blur", validator: validatePassword }],
       },
       loading: false,
       passwordType: "password",
@@ -136,8 +138,8 @@ export default {
                   type: "warning",
                   customClass: "message_override"
                 });
-              this.loading = false;
             });
+            this.loading = false;
         } else {
           return false;
         }
