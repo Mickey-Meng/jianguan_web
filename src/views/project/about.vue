@@ -287,10 +287,10 @@ export default {
                 display: flex;
                 align-items: center;
                 span:first-of-type {
-                  width: 35%;
+                  width: 25%;
                 }
                 span:last-of-type {
-                  width: 65%;
+                  width: 75%;
                   line-height: 25px;
                 }
               }

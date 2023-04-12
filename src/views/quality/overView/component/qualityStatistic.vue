@@ -191,11 +191,9 @@ export default {
             if (isNaN(rate)) {
               rate = 0;
             }
-            if(finish && count){
-              obj.series[0].data[0].value= rate;
-              obj.series[0].data[1].value = 100 - rate;
-              obj.title[1].text = rate + "%";
-            }
+            obj.series[0].data[0].value = rate;
+            obj.series[0].data[1].value = 100 - rate;
+            obj.title[1].text = rate + "%";
             item.option = obj;
           });
         }

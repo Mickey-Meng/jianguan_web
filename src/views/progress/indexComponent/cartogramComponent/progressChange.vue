@@ -197,7 +197,7 @@ export default {
         for (let i in data) {
           let num = [];
           let lists = data[i];
-          lists.reverse();
+          // lists.reverse();
           if (lists && lists.length > 0) {
             lists.forEach((result) => {
               num.push(result.number);

@@ -61,7 +61,7 @@
             <div class="block-item">
               <div class="block-item-label">计量金额</div>
               <div class="block-item-value">
-                {{formData.amount}}
+                {{toFixedAmount}}
               </div>
             </div>
           </div>
@@ -142,7 +142,11 @@ export default {
     attachlist,
     projectinfo
   },
-  computed: {},
+  computed: {
+    toFixedAmount(detail) {
+      return detail.formData.amount.toFixed(2);
+    }
+  },
   watch: {
 
   },
