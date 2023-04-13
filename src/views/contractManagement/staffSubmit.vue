@@ -555,7 +555,7 @@
           });
           this.$refs.upload.clearFiles();
           this.currentRow.peoplePic = res.data;
-          this.currentRow.pic = '/ZhuJiRoad/mong/preview?fileid=' + res.data;
+          this.currentRow.pic = '/mong/preview?fileid=' + res.data;
           this.tableData.splice(this.currentRowIndex, 1, this.currentRow);
         });
       },
@@ -671,7 +671,7 @@
         if (data && data.length > 0) {
           this.tableData = data.map(item => {
             if (item.peoplePic) {
-              item.peoplePic = "/ZhuJiRoad/mong/preview?fileid=" + item.peoplePic;
+              item.peoplePic = "/mong/preview?fileid=" + item.peoplePic;
             }
             return item;
           });

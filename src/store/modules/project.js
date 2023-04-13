@@ -11,8 +11,8 @@ import { getToken, setToken } from "@/utils/auth";
 const getDefaultState = () => {
   return {
     project: getToken("project_info"),
-    uploadUrl: "/ZhuJiRoad/mong/upload",
-    lookUrl: "/ZhuJiRoad/mong/preview?fileid=",
+    uploadUrl: "/mong/upload",
+    lookUrl: "/mong/preview?fileid=",
     isMine: false
   };
 };

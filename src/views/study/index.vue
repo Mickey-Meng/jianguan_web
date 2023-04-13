@@ -59,7 +59,7 @@
           <el-upload
             class="upload-demo"
             :headers="header"
-            action="/ZhuJiRoad/mong/uploadVideo"
+            action="/mong/uploadVideo"
             multiple
             :limit="1"
             :before-upload="beforeUpload"
@@ -173,15 +173,15 @@
       },
       downLoadFile(row) {
         let link = document.createElement("a"); // 创建a标签
-        link.style.display = "none"; //ZhuJiRoad/mong/preview?fileid=
-        link.href = "/ZhuJiRoad/mong/downloadVideo?fileName=" + row.changereason + "&url=" + row.fileurl; // 设置下载地址
+        link.style.display = "none"; //mong/preview?fileid=
+        link.href = "/mong/downloadVideo?fileName=" + row.changereason + "&url=" + row.fileurl; // 设置下载地址
         link.setAttribute("download", ""); // 添加downLoad属性
         document.body.appendChild(link);
         link.click();
         link.remove();
       },
       playVideo(row) {
-        this.videoUrl = "/ZhuJiRoad/mong/previewVideo?url=" + row.fileurl;
+        this.videoUrl = "/mong/previewVideo?url=" + row.fileurl;
         this.dialogVideoVisible = true;
       },
       handleDelete(row, index) {

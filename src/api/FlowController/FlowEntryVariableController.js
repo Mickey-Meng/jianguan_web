@@ -3,7 +3,7 @@ export default class FlowEntryVariableController {
   static list (data) {
     // return sender.doUrl('/admin/flow/flowEntryVariable/list', 'post', params, axiosOption, httpOption);
     return request({
-      url: "/ZhuJiApi/admin/flow/flowEntryVariable/list",
+      url: "/admin/flow/flowEntryVariable/list",
       method: "post",
       data: data
     });
@@ -12,7 +12,7 @@ export default class FlowEntryVariableController {
   static add (data) {
     // return sender.doUrl('/admin/flow/flowEntryVariable/add', 'post', params, axiosOption, httpOption);
     return request({
-      url: "/ZhuJiApi/admin/flow/flowEntryVariable/add",
+      url: "/admin/flow/flowEntryVariable/add",
       method: "post",
       data: data
     });
@@ -21,7 +21,7 @@ export default class FlowEntryVariableController {
   static update (data) {
     // return sender.doUrl('/admin/flow/flowEntryVariable/update', 'post', params, axiosOption, httpOption);
     return request({
-      url: "/ZhuJiApi/admin/flow/flowEntryVariable/update",
+      url: "/admin/flow/flowEntryVariable/update",
       method: "post",
       data: data
     });
@@ -30,7 +30,7 @@ export default class FlowEntryVariableController {
   static delete (data) {
     // return sender.doUrl('/admin/flow/flowEntryVariable/delete', 'post', params, axiosOption, httpOption);
     return request({
-      url: "/ZhuJiApi/admin/flow/flowEntryVariable/delete",
+      url: "/admin/flow/flowEntryVariable/delete",
       method: "post",
       data: data
     });
@@ -39,7 +39,7 @@ export default class FlowEntryVariableController {
   static view (params) {
     // return sender.doUrl('/admin/flow/flowEntryVariable/view', 'get', params, axiosOption, httpOption);
     return request({
-      url: "/ZhuJiApi/admin/flow/flowEntryVariable/view",
+      url: "/admin/flow/flowEntryVariable/view",
       method: "get",
       params: params
     });

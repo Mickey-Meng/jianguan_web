@@ -263,8 +263,8 @@ export default {
     },
     downLoadFile(row) {
       let link = document.createElement("a"); // 创建a标签
-      link.style.display = "none"; //ZhuJiRoad/mong/preview?fileid=
-      link.href = "/ZhuJiRoad/mong/download?fileid=" + row.fileurl; // 设置下载地址
+      link.style.display = "none"; //mong/preview?fileid=
+      link.href = "/mong/download?fileid=" + row.fileurl; // 设置下载地址
       link.setAttribute("download", ""); // 添加downLoad属性
       document.body.appendChild(link);
       link.click();
@@ -297,7 +297,7 @@ export default {
       this.$nextTick(() => {
         var qrcode = new QRCode(this.$refs.qrCodeUrl, {
           text:
-            "https://system.zlskkj.com:59031/ZhuJiRoad/mong/download?fileid=" +
+            "https://system.zlskkj.com:59031/mong/download?fileid=" +
             row.fileurl, // 需要转换为二维码的内容
           width: 100,
           height: 100,

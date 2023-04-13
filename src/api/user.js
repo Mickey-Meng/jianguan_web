@@ -51,7 +51,7 @@ export const getServiceRoles = () =>{
 }
 export const getRoles = (id) => {
   return request({
-    url: `/ZhuJiRoad/projects/getRolesByProject?projectId=${id}`,
+    url: `/projects/getRolesByProject?projectId=${id}`,
     method: "post"
   });
 }
@@ -76,7 +76,7 @@ export const getUserByGroupId = (groupid, code, name = undefined) => {
 //根据角色id获取用户
 export const getUserByRoleId = (projectId, id) => {
   return request({
-    url: `/ZhuJiRoad/person/getUserByRole?roleid=${id}&projectId=${projectId}`,
+    url: `/person/getUserByRole?roleid=${id}&projectId=${projectId}`,
     method: "post"
   });
 };
@@ -90,7 +90,7 @@ export const getOrgInfo = () => {
 //huoquzuzhi
 export const getGroupInfo = (id = 0) => {
   return request({
-    url: `/ZhuJiRoad/user/getGroups`,
+    url: `/user/getGroups`,
     method: "post",
     params: {
       userId: id
@@ -100,7 +100,7 @@ export const getGroupInfo = (id = 0) => {
 //绑定用户与组织的关系
 export const bindUserToGroup = data => {
   return request({
-    url: `/ZhuJiRoad/user/addGroups`,
+    url: `/user/addGroups`,
     method: "post",
     data
   });
@@ -108,7 +108,7 @@ export const bindUserToGroup = data => {
 //修改用户密码
 export const updatePassword = data => {
   return request({
-    url: `/ZhuJiRoad/user/updatePwd`,
+    url: `/user/updatePwd`,
     method: "post",
     data
   });
@@ -127,7 +127,7 @@ export const getDic = (key) => {
  */
 export const getRolesByProject = (id) => {
   return request({
-    url: `/ZhuJiRoad/projects/getRolesByProject?projectId=${id}`,
+    url: `/projects/getRolesByProject?projectId=${id}`,
     method: "post"
   });
 }
@@ -140,7 +140,7 @@ export const getRolesByProject = (id) => {
 
 export const getDayOnLineData = (date) => {
   return request({
-    url: `/ZhuJiRoad/user/getOnlineCount?date=${date}`,
+    url: `/user/getOnlineCount?date=${date}`,
     method: "post"
   });
 };

@@ -77,8 +77,8 @@
           return false;
         }
         let link = document.createElement("a"); // 创建a标签
-        link.style.display = "none"; //ZhuJiRoad/mong/preview?fileid=
-        link.href = "/ZhuJiRoad/user/exportOnlineCount?date" + this.timeValue; // 设置下载地址
+        link.style.display = "none"; //mong/preview?fileid=
+        link.href = "/user/exportOnlineCount?date" + this.timeValue; // 设置下载地址
         link.setAttribute("download", ""); // 添加downLoad属性
         document.body.appendChild(link);
         link.click();

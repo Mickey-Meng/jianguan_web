@@ -181,7 +181,7 @@
             <el-upload
               class="upload-demo"
               :headers="header"
-              action="/ZhuJiRoad/mong/upload"
+              action="/mong/upload"
               multiple
               :limit="3"
               :before-upload="beforeUploadImage"
@@ -199,7 +199,7 @@
             <el-upload
               class="upload-demo"
               :headers="header"
-              action="/ZhuJiRoad/mong/upload"
+              action="/mong/upload"
               multiple
               :limit="1"
               :before-upload="beforeUpload"
@@ -216,7 +216,7 @@
             <el-upload
               class="upload-demo"
               :headers="header"
-              action="/ZhuJiRoad/hdfs/uploadFile"
+              action="/hdfs/uploadFile"
               multiple
               :limit="3"
               :on-success="goodSuccess"
@@ -230,7 +230,7 @@
             <el-upload
               class="upload-demo"
               :headers="header"
-              action="/ZhuJiRoad/hdfs/uploadFile"
+              action="/hdfs/uploadFile"
               multiple
               :limit="3"
               :on-success="testSuccess"

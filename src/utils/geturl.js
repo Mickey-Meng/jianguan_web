@@ -11,18 +11,18 @@ import store from "../store";
   if (process.env.NODE_ENV === "development") {
     store.commit(
       "settings/SET_URL",
-      "http://112.30.143.209:8888/ZhuJiRoad/mong/preview?fileid="
+      "http://112.30.143.209:8888/mong/preview?fileid="
     );
   } else {
     //新生产
     store.commit(
       "settings/SET_URL",
-      "http://112.30.143.209:8888/ZhuJiRoad/mong/preview?fileid="
+      "http://112.30.143.209:8888/mong/preview?fileid="
     );
     //老生产
     // store.commit(
     //   "settings/SET_URL",
-    //   "http://101.200.223.171:8085/ZhuJiRoad/mong/preview?fileid="
+    //   "http://101.200.223.171:8085/mong/preview?fileid="
     // );
   }
 })();

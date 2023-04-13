@@ -21,11 +21,11 @@
     props: {
       action: {
         type: String,
-        default: () => "/ZhuJiRoad/mong/upload"
+        default: () => "/mong/upload"
       },
       previewUrl: {
         type: String,
-        default: () => "/ZhuJiRoad/mong/preview?fileid="
+        default: () => "/mong/preview?fileid="
       },
       multiple: {
         type: Boolean,

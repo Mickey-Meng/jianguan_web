@@ -43,7 +43,7 @@
         <div id="album">
           <div class="img_box" v-for="(item, index) in listData" :key="index">
             <div class="img_box_wrapper" @mouseover="mouseOver(item)" @click.stop="seeProject(item)">
-<!--              <img :src="item.projectpic?'/ZhuJiRoad/mong/preview?fileid=' +item.projectpic :img1" alt="" :project="item.projectpic"/>-->
+<!--              <img :src="item.projectpic?'/mong/preview?fileid=' +item.projectpic :img1" alt="" :project="item.projectpic"/>-->
               <img :src="projectImg(item.name)" alt="" :projectName="item.name"/>
               <label class="pro_name">{{ item.name }}</label>
 <!--              <ul class="section_lists">-->

@@ -3,7 +3,7 @@ export default class FlowEntryController {
   static list (data) {
     // return sender.doUrl('/admin/flow/flowEntry/list', 'post', params, axiosOption, httpOption);
     return request({
-      url: "/ZhuJiApi/admin/flow/flowEntry/list",
+      url: "/admin/flow/flowEntry/list",
       method: "post",
       data: data
     });
@@ -12,7 +12,7 @@ export default class FlowEntryController {
   static view (params) {
     // return sender.doUrl('/admin/flow/flowEntry/view', 'get', params, axiosOption, httpOption);
     return request({
-      url: "/ZhuJiApi/admin/flow/flowEntry/view",
+      url: "/admin/flow/flowEntry/view",
       method: "get",
       params: params
     });
@@ -21,7 +21,7 @@ export default class FlowEntryController {
   static add (data) {
     // return sender.doUrl('/admin/flow/flowEntry/add', 'post', params, axiosOption, httpOption);
     return request({
-      url: "/ZhuJiApi/admin/flow/flowEntry/add",
+      url: "/admin/flow/flowEntry/add",
       method: "post",
       data: data
     });
@@ -30,7 +30,7 @@ export default class FlowEntryController {
   static update (data) {
     // return sender.doUrl('/admin/flow/flowEntry/update', 'post', params, axiosOption, httpOption);
     return request({
-      url: "/ZhuJiApi/admin/flow/flowEntry/update",
+      url: "/admin/flow/flowEntry/update",
       method: "post",
       data: data
     });
@@ -39,7 +39,7 @@ export default class FlowEntryController {
   static delete (data) {
     // return sender.doUrl('/admin/flow/flowEntry/delete', 'post', params, axiosOption, httpOption);
     return request({
-      url: "/ZhuJiApi/admin/flow/flowEntry/delete",
+      url: "/admin/flow/flowEntry/delete",
       method: "post",
       data: data
     });
@@ -48,7 +48,7 @@ export default class FlowEntryController {
   static publish (data) {
     // return sender.doUrl('/admin/flow/flowEntry/publish', 'post', params, axiosOption, httpOption);
     return request({
-      url: "/ZhuJiApi/admin/flow/flowEntry/publish",
+      url: "/admin/flow/flowEntry/publish",
       method: "post",
       data: data
     });
@@ -57,7 +57,7 @@ export default class FlowEntryController {
   static listFlowEntryPublish (params) {
     // return sender.doUrl('/admin/flow/flowEntry/listFlowEntryPublish', 'get', params, axiosOption, httpOption);
     return request({
-      url: "/ZhuJiApi/admin/flow/flowEntry/listFlowEntryPublish",
+      url: "/admin/flow/flowEntry/listFlowEntryPublish",
       method: "get",
       params: params
     });
@@ -66,7 +66,7 @@ export default class FlowEntryController {
   static updateMainVersion (data) {
     // return sender.doUrl('/admin/flow/flowEntry/updateMainVersion', 'post', params, axiosOption, httpOption);
     return request({
-      url: "/ZhuJiApi/admin/flow/flowEntry/updateMainVersion",
+      url: "/admin/flow/flowEntry/updateMainVersion",
       method: "post",
       data: data
     });
@@ -76,7 +76,7 @@ export default class FlowEntryController {
   static removeByFlowKey (params) {
     // return sender.doUrl('/admin/flow/flowEntry/updateMainVersion', 'post', params, axiosOption, httpOption);
     return request({
-      url: "/ZhuJiApi/web/api/v1/flowAuditEntry/removeByFlowKey",
+      url: "/web/api/v1/flowAuditEntry/removeByFlowKey",
       method: "get",
       params: params
     });
@@ -85,7 +85,7 @@ export default class FlowEntryController {
   static suspendFlowEntryPublish (data) {
     // return sender.doUrl('/admin/flow/flowEntry/suspendFlowEntryPublish', 'post', params, axiosOption, httpOption);
     return request({
-      url: "/ZhuJiApi/admin/flow/flowEntry/suspendFlowEntryPublish",
+      url: "/admin/flow/flowEntry/suspendFlowEntryPublish",
       method: "post",
       data: data
     });
@@ -94,7 +94,7 @@ export default class FlowEntryController {
   static activateFlowEntryPublish (data) {
     // return sender.doUrl('/admin/flow/flowEntry/activateFlowEntryPublish', 'post', params, axiosOption, httpOption);
     return request({
-      url: "/ZhuJiApi/admin/flow/flowEntry/activateFlowEntryPublish",
+      url: "/admin/flow/flowEntry/activateFlowEntryPublish",
       method: "post",
       data: data
     });

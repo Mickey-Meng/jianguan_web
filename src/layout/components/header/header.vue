@@ -215,7 +215,7 @@
           "ws://192.168.2.128:8720/imserver/" + getToken("zj_token");
       } else {
         this.websockLink =
-          "wss://system.zlskkj.com:59031/ZhuJiRoad/imserver/" +
+          "wss://system.zlskkj.com:59031/imserver/" +
           getToken("zj_token");
       }
       this.initMsg();

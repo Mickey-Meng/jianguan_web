@@ -165,7 +165,7 @@
           <el-upload
             class="upload-demo"
             :headers="header"
-            action="/ZhuJiRoad/mong/upload"
+            action="/mong/upload"
             multiple
             :limit="3"
             :before-upload="beforeUploadImage"
@@ -183,7 +183,7 @@
           <el-upload
             class="upload-demo"
             :headers="header"
-            action="/ZhuJiRoad/mong/upload"
+            action="/mong/upload"
             multiple
             :limit="1"
             :before-upload="beforeUpload"

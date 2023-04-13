@@ -2,10 +2,10 @@ import request from "@/utils/request";
 
 
 const api = {
-  getAllClockOut: "/ZhuJiRoad/count/getAllClockOut", //获取考勤统计列表、施工、监理、全咨
-  getPeopleProportion: "/ZhuJiRoad/count/getPeopleProportion", //统计人员占比
-  getTodayClockOut: "/ZhuJiRoad/count/getTodayClockOut", //获取今日考勤统计
-  getOnDutyOrNotCount: "/ZhuJiRoad/count/getOnDutyOrNotCount" //获取在岗/不在岗统计(只统计 施工,监理,全资)
+  getAllClockOut: "/count/getAllClockOut", //获取考勤统计列表、施工、监理、全咨
+  getPeopleProportion: "/count/getPeopleProportion", //统计人员占比
+  getTodayClockOut: "/count/getTodayClockOut", //获取今日考勤统计
+  getOnDutyOrNotCount: "/count/getOnDutyOrNotCount" //获取在岗/不在岗统计(只统计 施工,监理,全资)
 };
 
 

@@ -5,11 +5,11 @@
  */
 const apiUrl = {
   //首页数据和公共接口
-  getProjectAndSection: "/ZhuJiRoad/projects/getProjects",//获取项目和标段,
-  getAreaBySectionId: "/ZhuJiRoad/safe/getGroups",//根据标段ID和用户权限返回工区
-  getConstructionWorkersBySectionId: "/ZhuJiRoad/safe/getPersonLiableByGroup",//根据标段ID查询施工人员
+  getProjectAndSection: "/projects/getProjects",//获取项目和标段,
+  getAreaBySectionId: "/safe/getGroups",//根据标段ID和用户权限返回工区
+  getConstructionWorkersBySectionId: "/safe/getPersonLiableByGroup",//根据标段ID查询施工人员
   //用户、角色相关
-  getUserRoleAndCode: "/ZhuJiRoad/projects/getRoleByUser"
+  getUserRoleAndCode: "/projects/getRoleByUser"
 };
 
 import request from "@/utils/request";
