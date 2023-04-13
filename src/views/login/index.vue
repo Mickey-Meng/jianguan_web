@@ -118,8 +118,8 @@ export default {
           this.$store
             .dispatch("user/login", this.loginForm)
             .then((res) => {
-              let { groupid, loginData } = res.data;
-              if (loginData) {
+              let { userInfo } = res.data;
+              if (userInfo) {
                 this.loading = false;
                 this.$router.push("/home");
               } else {

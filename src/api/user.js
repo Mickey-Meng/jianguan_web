@@ -29,7 +29,7 @@ export function loginMap(username, pwd) {
   });
 }
 
-export function login(data) {
+export function doLogin(data) {
   return request({
     url: api.login,
     method: "post",

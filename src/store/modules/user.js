@@ -6,7 +6,7 @@
  * @LastEditors: WangHarry
  * @LastEditTime: 2022-03-15 11:49:23
  */
-import {login, getUserInfo, loginMap} from "@/api/user";
+import {doLogin, getUserInfo, loginMap} from "@/api/user";
 import {getToken, setToken} from "@/utils/auth";
 import {asyncRouters, resetRouter} from "../../router";
 import {MessageBox, Message} from "element-ui";
@@ -68,7 +68,62 @@ const mutations = {
 };
 
 const actions = {
-  login({ commit }, userInfo) {
+  // 登录
+  login({ commit }, loginForm) {
+    return new Promise((resolve, reject) => {
+      doLogin(JSON.stringify(loginForm)).then(res => {
+        if (!res.data) {
+          reject(res);
+        }
+        let { userInfo } = res.data;
+        if (!userInfo && !userInfo.deptId) {
+          Message({
+            message: "账户没有组织信息,请联系管理员",
+            type: "warning",
+            customClass: "message_override"
+          });
+          window.localStorage.clear();
+          reject(res);
+          return false;
+        }
+        // 设置store信息
+        commit("SET_TOKEN", res.data.jwtToken); //ZHU_ji原token，取消
+        commit("SET_AUTH_TOKEN", userInfo.token);            
+        commit("SET_NAME", userInfo.nickName);
+        commit("SET_ID", userInfo.userId);
+        commit("SET_ROLE_ID", userInfo.roleId);
+
+        setToken("ID", userInfo.userId);
+        setToken("zj_token", res.data.jwtToken); //ZHU_ji原token，取消
+        setToken("auth_token", userInfo.token);
+        setToken("userName", userInfo.nickName);
+        setToken("name", userInfo.nickName);
+
+
+        setToken("groupId", userInfo.deptId);
+        setToken("GROUPID", userInfo.deptId);
+        commit("SET_GROUPID", userInfo.deptId);
+
+        // TODO 地图信息
+        setToken("explorerId", "暂时不知道放什么");
+        setToken("explorerRoles", userInfo.roleIds);
+        // 菜单信息
+        let usermenuCodeList = userInfo.menuPermission;
+        commit("SET_RIGHTS", usermenuCodeList);
+        setToken("rights", usermenuCodeList);
+        
+        loginMap('', '').then(res1 => {
+          store.dispatch("user/getUserRights").then(res3 => {
+            resolve(res);
+          });
+        });
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+
+  login1({ commit }, userInfo) {
     let { username, pwd } = userInfo;
     return new Promise((resolve, reject) => {
       login(JSON.stringify(userInfo))
