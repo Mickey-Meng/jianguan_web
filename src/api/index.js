@@ -7,7 +7,8 @@
  * @LastEditTime: 2022-05-09 19:52:20
  */
 const api = {
-    login: "/user/login",
+    //login: "/user/login",
+    login: "/user/doLogin",
     getWorkArea: "/safe/uploadAddr", //获取工区数据，
     getAreaByAuthority: "/safe/getGroups", //根据用户权限返回对应的工区
     getProjectByArea: "/safe/getprojectBygongqu", //根据工区获取项目数据

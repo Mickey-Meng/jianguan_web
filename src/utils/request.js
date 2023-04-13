@@ -36,7 +36,7 @@ service.interceptors.request.use(
     if (config.url.indexOf("STSfmzj") != -1) {
     } else {
       if (store.getters.token) {
-        config.headers["token"] = getToken("zj_token");
+        //config.headers["token"] = getToken("zj_token");
         config.headers['Authorization'] = 'Bearer ' + getToken("auth_token"); // 让每个请求携带自定义token 请根据实际情况自行修改
       }
     }
