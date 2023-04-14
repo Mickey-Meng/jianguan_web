@@ -17,7 +17,7 @@ import api from "./index";
  */
 export const updateOnline = () => {
   return request({
-    url: api.tellOnline,
+    url: api.onlineStatus,
     method: "post"
   });
 }

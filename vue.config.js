@@ -46,7 +46,15 @@ module.exports = {
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''
         }
-      }
+      },
+      // 地图服务
+      "/zlsk_js_api": {
+        // target: 'http://150.158.139.18:8181/',
+        target: 'https://system.zlskkj.com:59031',
+        changeOrigin: true,
+        secure: true,
+        pathRewrite: {}
+      },
     },
     disableHostCheck: true
   },
