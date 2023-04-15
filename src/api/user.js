@@ -62,7 +62,7 @@ export const getMap = (ID, GROUPID, roles) => {
   }
   r = r.substring(0, r.length - 1);
   return request({
-    url: `/STSfmzj/mapConfig/getMyMap?type=2,3&userid=${ID}&groupId=${GROUPID}&rolesId=${r}`,
+    url: `/map/mapServerConfig/getMyMap?serverType=2,3&userId=${ID}&groupId=${GROUPID}&roleIds=${r}`,
     method: "get"
   });
 };

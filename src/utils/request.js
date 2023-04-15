@@ -69,7 +69,7 @@ service.interceptors.response.use(
     if (res.status === 200 || res.meow === 0 || res.status === 300 || res.success === true || (response.headers["content-type"].indexOf("excel") > -1)) {
       return Promise.resolve(res);
     } else {
-      return Promise.reject();
+      return Promise.reject(res);
     }
 
     // // if the custom code is not 20000, it is judged as an error.

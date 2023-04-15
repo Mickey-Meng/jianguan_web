@@ -72,8 +72,8 @@ export default {
     };
     return {
       loginForm: {
-        username: "qxadmin",
-        password: "qxadmin123",
+        username: "czadmin",
+        password: "czadmin123",
         code: "",
         uuid: ""
       },
@@ -118,6 +118,8 @@ export default {
           this.$store
             .dispatch("user/login", this.loginForm)
             .then((res) => {
+              console.log("handleLogin->then:");
+              console.log(res);
               let { userInfo } = res.data;
               if (userInfo) {
                 this.loading = false;
@@ -131,10 +133,12 @@ export default {
                 });
               }
             })
-            .catch((res) => {
-              if (res.message && !res.data)
+            .catch((errRes) => {
+              console.log("handleLogin->catch:");
+              console.log(errRes);
+              if (errRes.message)
                 this.$message({
-                  message: res.message,
+                  message: errRes.message,
                   type: "warning",
                   customClass: "message_override"
                 });

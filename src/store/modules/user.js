@@ -72,6 +72,8 @@ const actions = {
   login({ commit }, loginForm) {
     return new Promise((resolve, reject) => {
       doLogin(JSON.stringify(loginForm)).then(res => {
+        console.log("modules/user.login.doLogin->then:");
+        console.log(res);
         if (!res.data) {
           reject(res);
         }
@@ -118,6 +120,8 @@ const actions = {
           });
         });
       }).catch(error => {
+        console.log("modules/user.login.doLogin->catch:");
+        console.log(error);
         reject(error)
       })
     })
