@@ -18,6 +18,7 @@ const getDefaultState = () => {
   return {
     token: getToken("zj_token"),
     authToken: getToken("auth_token"),
+    rolePerms: getToken("role_perms"),
     name: getToken("userName"),
     avatar: "",
     ID: getToken("ID"),
@@ -40,6 +41,9 @@ const mutations = {
   },
   SET_AUTH_TOKEN: (state, authToken) => {
     state.authToken = authToken;
+  },
+  SET_ROLE_PERMS: (state, rolePerms) => {
+    state.rolePerms = rolePerms;
   },
   SET_NAME: (state, name) => {
     state.name = name;
@@ -94,17 +98,19 @@ const actions = {
         commit("SET_NAME", userInfo.nickName);
         commit("SET_ID", userInfo.userId);
         commit("SET_ROLE_ID", userInfo.roleId);
+        commit("SET_GROUPID", userInfo.deptId);
+        commit("SET_ROLE_PERMS", userInfo.rolePermission);
 
-        setToken("ID", userInfo.userId);
         setToken("zj_token", res.data.jwtToken); //ZHU_ji原token，取消
         setToken("auth_token", userInfo.token);
-        setToken("userName", userInfo.nickName);
         setToken("name", userInfo.nickName);
-
-
+        setToken("ID", userInfo.userId);
+        setToken("userName", userInfo.nickName);
+        setToken("role_perms", userInfo.rolePermission);
+        
         setToken("groupId", userInfo.deptId);
         setToken("GROUPID", userInfo.deptId);
-        commit("SET_GROUPID", userInfo.deptId);
+        
 
         // TODO 地图信息
         setToken("explorerId", "暂时不知道放什么");

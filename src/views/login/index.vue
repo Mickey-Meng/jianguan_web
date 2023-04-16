@@ -72,8 +72,8 @@ export default {
     };
     return {
       loginForm: {
-        username: "czadmin",
-        password: "czadmin123",
+        username: "",
+        password: "",
         code: "",
         uuid: ""
       },
