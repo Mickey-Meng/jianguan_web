@@ -24,7 +24,7 @@ export const updateOnline = () => {
 
 export function loginMap(username, pwd) {
   return request({
-    url: `/index/loadMap`,
+    url: `/sysManage/permission/loadMap`,
     method: "get"
   });
 }
@@ -73,6 +73,15 @@ export const getUserByGroupId = (groupid, code, name = undefined) => {
     method: "get"
   });
 };
+//根据部门ID获取用户
+export const getUserListByDeptId = (queryUserParams) => {
+  return request({
+    url: '/sysManage/permission/getUserListByDeptId',
+    method: "get",
+    params: queryUserParams
+  });
+};
+
 //根据角色id获取用户
 export const getUserByRoleId = (projectId, id) => {
   return request({
