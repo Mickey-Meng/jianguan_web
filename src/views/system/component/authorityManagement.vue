@@ -260,12 +260,17 @@
       })
         .then(() => {
           let userIds = this.selectUser.map((item) => {
-            return item.ID;
+            return item.userId;
           });
           let groupsIds = this.selectArea.map((item) => {
             return item.id;
           });
-          bindUserToGroup({userIds, groupsIds, projectId: this.sectionId}).then((res) => {
+          let data = {
+            projectId: this.sectionId,
+            userIds: userIds,
+            workAreaIds: groupsIds
+          }
+          bindUserToGroup(data).then((res) => {
             this.selectArea = [];
             this.selectUser = [];
             this.$refs.multipleTableUser.clearSelection();
@@ -286,11 +291,11 @@
     seeAuthority(row) {
       this.$refs.multipleTableArea.clearSelection();
       this.selectArea = [];
-      getGroupInfo(row.ID).then((res) => {
+      getGroupInfo(row.userId).then((res) => {
         if (res.data.length > 0) {
           this.$nextTick(() => {
             res.data.forEach((row) => {
-              let obj = this.areaData.find((e) => e.id === row.groupid);
+              let obj = this.areaData.find((e) => e.id === row.workAreaId);
               if (obj) {
                 this.$refs.multipleTableArea.toggleRowSelection(obj, true);
               }

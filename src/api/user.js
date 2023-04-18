@@ -89,7 +89,7 @@ export const getUserByRoleId = (projectId, id) => {
     method: "post"
   });
 };
-//获取组织信息
+//获取组织信息(废弃)
 export const getOrgInfo = () => {
   return request({
     url: `/STSfmzj/userauth/selectGroup`,
@@ -99,17 +99,16 @@ export const getOrgInfo = () => {
 //huoquzuzhi
 export const getGroupInfo = (id = 0) => {
   return request({
-    url: `/user/getGroups`,
-    method: "post",
-    params: {
-      userId: id
-    }
+    // url: `/user/getGroups`,
+    url: `/sysManage/permission/getWorkAreaByUserId/` + id,
+    method: "get"
   });
 };
 //绑定用户与组织的关系
 export const bindUserToGroup = data => {
   return request({
-    url: `/user/addGroups`,
+   // url: `/user/addGroups`,
+    url: `/sysManage/permission/addWorkArea`,
     method: "post",
     data
   });
