@@ -17,19 +17,19 @@ import api from "./index";
  */
 export const updateOnline = () => {
   return request({
-    url: api.tellOnline,
+    url: api.onlineStatus,
     method: "post"
   });
 }
 
 export function loginMap(username, pwd) {
   return request({
-    url: `/STSfmzj/userauth/login?username=${username}&pwd=${pwd}`,
+    url: `/sysManage/permission/loadMap`,
     method: "get"
   });
 }
 
-export function login(data) {
+export function doLogin(data) {
   return request({
     url: api.login,
     method: "post",
@@ -39,7 +39,7 @@ export function login(data) {
 
 export function getUserInfo(id) {
   return request({
-    url: `/STSfmzj/userauth/getUserInfo?id=${id}&systemName=zhuji`,
+    url: `/index/loadMenuAndUserInfo`,
     method: "get"
   });
 }
@@ -51,7 +51,7 @@ export const getServiceRoles = () =>{
 }
 export const getRoles = (id) => {
   return request({
-    url: `/ZhuJiRoad/projects/getRolesByProject?projectId=${id}`,
+    url: `/projects/getRolesByProject?projectId=${id}`,
     method: "post"
   });
 }
@@ -62,7 +62,7 @@ export const getMap = (ID, GROUPID, roles) => {
   }
   r = r.substring(0, r.length - 1);
   return request({
-    url: `/STSfmzj/mapConfig/getMyMap?type=2,3&userid=${ID}&groupId=${GROUPID}&rolesId=${r}`,
+    url: `/map/mapServerConfig/getMyMap?serverType=2,3&userId=${ID}&groupId=${GROUPID}&roleIds=${r}`,
     method: "get"
   });
 };
@@ -73,14 +73,23 @@ export const getUserByGroupId = (groupid, code, name = undefined) => {
     method: "get"
   });
 };
+//根据部门ID获取用户
+export const getUserListByDeptId = (queryUserParams) => {
+  return request({
+    url: '/sysManage/permission/getUserListByDeptId',
+    method: "get",
+    params: queryUserParams
+  });
+};
+
 //根据角色id获取用户
 export const getUserByRoleId = (projectId, id) => {
   return request({
-    url: `/ZhuJiRoad/person/getUserByRole?roleid=${id}&projectId=${projectId}`,
+    url: `/person/getUserByRole?roleid=${id}&projectId=${projectId}`,
     method: "post"
   });
 };
-//获取组织信息
+//获取组织信息(废弃)
 export const getOrgInfo = () => {
   return request({
     url: `/STSfmzj/userauth/selectGroup`,
@@ -90,17 +99,16 @@ export const getOrgInfo = () => {
 //huoquzuzhi
 export const getGroupInfo = (id = 0) => {
   return request({
-    url: `/ZhuJiRoad/user/getGroups`,
-    method: "post",
-    params: {
-      userId: id
-    }
+    // url: `/user/getGroups`,
+    url: `/sysManage/permission/getWorkAreaByUserId/` + id,
+    method: "get"
   });
 };
 //绑定用户与组织的关系
 export const bindUserToGroup = data => {
   return request({
-    url: `/ZhuJiRoad/user/addGroups`,
+   // url: `/user/addGroups`,
+    url: `/sysManage/permission/addWorkArea`,
     method: "post",
     data
   });
@@ -108,7 +116,7 @@ export const bindUserToGroup = data => {
 //修改用户密码
 export const updatePassword = data => {
   return request({
-    url: `/ZhuJiRoad/user/updatePwd`,
+    url: `/user/updatePwd`,
     method: "post",
     data
   });
@@ -127,7 +135,7 @@ export const getDic = (key) => {
  */
 export const getRolesByProject = (id) => {
   return request({
-    url: `/ZhuJiRoad/projects/getRolesByProject?projectId=${id}`,
+    url: `/projects/getRolesByProject?projectId=${id}`,
     method: "post"
   });
 }
@@ -140,7 +148,7 @@ export const getRolesByProject = (id) => {
 
 export const getDayOnLineData = (date) => {
   return request({
-    url: `/ZhuJiRoad/user/getOnlineCount?date=${date}`,
+    url: `/user/getOnlineCount?date=${date}`,
     method: "post"
   });
 };

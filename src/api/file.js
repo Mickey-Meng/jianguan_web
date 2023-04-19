@@ -13,7 +13,7 @@ const headers = {
 
 export const uploadFile = function (data) {
   return request({
-    url: "/ZhuJiRoad/mong/upload",
+    url: "/mong/upload",
     method: "post",
     headers,
     data
@@ -31,7 +31,7 @@ export const uploadFile = function (data) {
  */
 export const uploadF = data => {
   return request({
-    url: "/ZhuJiRoad/mong/fileStore",
+    url: "/mong/fileStore",
     method: 'post',
     data
   })
@@ -46,7 +46,7 @@ export const uploadF = data => {
  */
 export const updateFileInfo = data =>{
   return request({
-    url: '/ZhuJiRoad/mong/update',
+    url: '/mong/update',
     method: 'post',
     data
   })
@@ -60,7 +60,7 @@ export const updateFileInfo = data =>{
  */
 export const getFile = (id,projectId) => {
   return request({
-    url: '/ZhuJiRoad/mong/getStoreFileType?type=' + id + `&projectId=${projectId}`,
+    url: '/mong/getStoreFileType?type=' + id + `&projectId=${projectId}`,
     method: 'get'
   })
 }
@@ -74,7 +74,7 @@ export const getFile = (id,projectId) => {
  */
 export const deleteFile = id => {
   return request({
-    url: '/ZhuJiRoad/mong/delFile?id=' + id,
+    url: '/mong/delFile?id=' + id,
     method: 'get'
   })
 }

@@ -6,7 +6,7 @@
  * @LastEditors: WangHarry
  * @LastEditTime: 2022-03-15 11:49:23
  */
-import {login, getUserInfo, loginMap} from "@/api/user";
+import {doLogin, getUserInfo, loginMap} from "@/api/user";
 import {getToken, setToken} from "@/utils/auth";
 import {asyncRouters, resetRouter} from "../../router";
 import {MessageBox, Message} from "element-ui";
@@ -18,6 +18,7 @@ const getDefaultState = () => {
   return {
     token: getToken("zj_token"),
     authToken: getToken("auth_token"),
+    rolePerms: getToken("role_perms"),
     name: getToken("userName"),
     avatar: "",
     ID: getToken("ID"),
@@ -40,6 +41,9 @@ const mutations = {
   },
   SET_AUTH_TOKEN: (state, authToken) => {
     state.authToken = authToken;
+  },
+  SET_ROLE_PERMS: (state, rolePerms) => {
+    state.rolePerms = rolePerms;
   },
   SET_NAME: (state, name) => {
     state.name = name;
@@ -68,22 +72,74 @@ const mutations = {
 };
 
 const actions = {
-  login({ commit }, userInfo) {
+  // 登录
+  login({ commit }, loginForm) {
+    return new Promise((resolve, reject) => {
+      doLogin(JSON.stringify(loginForm)).then(res => {
+        console.log("modules/user.login.doLogin->then:");
+        console.log(res);
+        if (!res.data) {
+          reject(res);
+        }
+        let { userInfo } = res.data;
+        if (!userInfo && !userInfo.deptId) {
+          Message({
+            message: "账户没有组织信息,请联系管理员",
+            type: "warning",
+            customClass: "message_override"
+          });
+          window.localStorage.clear();
+          reject(res);
+          return false;
+        }
+        // 设置store信息
+        commit("SET_TOKEN", res.data.jwtToken); //ZHU_ji原token，取消
+        commit("SET_AUTH_TOKEN", userInfo.token);            
+        commit("SET_NAME", userInfo.nickName);
+        commit("SET_ID", userInfo.userId);
+        commit("SET_ROLE_ID", userInfo.roleId);
+        commit("SET_GROUPID", userInfo.deptId);
+        commit("SET_ROLE_PERMS", userInfo.rolePermission);
+
+        setToken("zj_token", res.data.jwtToken); //ZHU_ji原token，取消
+        setToken("auth_token", userInfo.token);
+        setToken("name", userInfo.nickName);
+        setToken("ID", userInfo.userId);
+        setToken("userName", userInfo.nickName);
+        setToken("role_perms", userInfo.rolePermission);
+        
+        setToken("groupId", userInfo.deptId);
+        setToken("GROUPID", userInfo.deptId);
+        
+
+        // TODO 地图信息
+        setToken("explorerId", "暂时不知道放什么");
+        setToken("explorerRoles", userInfo.roleIds);
+        // 菜单信息
+        let usermenuCodeList = userInfo.menuPermission;
+        commit("SET_RIGHTS", usermenuCodeList);
+        setToken("rights", usermenuCodeList);
+        
+        loginMap('', '').then(res1 => {
+          store.dispatch("user/getUserRights").then(res3 => {
+            resolve(res);
+          });
+        });
+      }).catch(error => {
+        console.log("modules/user.login.doLogin->catch:");
+        console.log(error);
+        reject(error)
+      })
+    })
+  },
+
+  login1({ commit }, userInfo) {
     let { username, pwd } = userInfo;
     return new Promise((resolve, reject) => {
       login(JSON.stringify(userInfo))
         .then(res => {
-          /**
-           * @Description: 诸暨用户登陆系统
-           * @author wangharry
-           * @param {}
-           * @returns {}
-           * @date 2021/7/21
-           */
           if (!res.data) {
-
             reject(res);
-
           }
           let {groupid, loginData} = res.data;
           if (loginData) {
@@ -100,14 +156,12 @@ const actions = {
           }
           /**
            * @Description: explorer 运维用户登陆获取地图图层信息 explorer 123456
-           * @author wangharry
-           * @param {}
-           * @returns {}
-           * @date 2021/7/21
            */
           loginMap(username, pwd).then(res1 => {
             setToken("explorerId", res1.data.ID);
             getUserInfo(res1.data.ID).then(res2 => {
+              console.log("getUserInfo:res2");
+              console.log(res2);
               let arr = [];
               const getRight = nodes => {
                 if (!nodes) {
@@ -122,12 +176,12 @@ const actions = {
                 }
                 return arr;
               };
-              let menuRights = res2.data.userAuth.menuCookie;
+              let menuRights = res2.data.menuTree;
               let rights = getRight(menuRights);
               setToken("explorerRoles", res2.data.roles);
               setToken("rights", rights);
               commit("SET_RIGHTS", rights);
-              if (!res2.data.userInfo.GROUPID) {
+              if (!res2.data.userInfo.deptId) {
                 Message({
                   message: "账户没有组织信息,请联系管理员",
                   type: "warning",
@@ -137,9 +191,9 @@ const actions = {
                 reject();
                 return false;
               }
-              commit("SET_GROUPID", res2.data.userInfo.GROUPID);
-              setToken("GROUPID", res2.data.userInfo.GROUPID);
-              setToken("name", res2.data.userInfo.USERNAME);
+              commit("SET_GROUPID", res2.data.userInfo.deptId);
+              setToken("GROUPID", res2.data.userInfo.deptId);
+              setToken("name", res2.data.userInfo.nickName);
               store.dispatch("user/getUserRights").then(res3 => {
                 resolve(res);
               });

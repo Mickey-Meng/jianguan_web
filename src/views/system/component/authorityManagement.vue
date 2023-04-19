@@ -14,7 +14,7 @@
     <el-main>
       <div class="organizational_tree">
         <el-tree
-          :data="tree"
+          :data="deptTreeData"
           :props="defaultProps"
           accordion
           @node-click="handleNodeClick"
@@ -55,11 +55,9 @@
               ref="multipleTableUser"
               @selection-change="handUserSelectionChange"
             >
-              <el-table-column type="selection" width="55"></el-table-column>
-              <el-table-column prop="NAME" label="姓名" align="center">
-              </el-table-column>
-              <el-table-column prop="NEWPOST" label="岗位" align="center">
-              </el-table-column>
+              <el-table-column type="selection" width="55"/>
+              <el-table-column prop="nickName" label="姓名" align="center"/>
+              <el-table-column prop="NEWPOST" label="岗位" align="center"/>
               <el-table-column label="操作" align="center">
                 <template slot-scope="{ row }">
                   <el-button type="primary" size="mini" @click="seeAuthority(row)"
@@ -70,6 +68,7 @@
               </el-table-column>
             </el-table>
           </div>
+
           <div class="u_table" style="margin-left: 10px">
             <el-table
               :data="areaData"
@@ -115,7 +114,8 @@
 
 <script>
   import {getWorkAreaByProjectId} from "@/api/workArea";
-  import {getGroupInfo, getUserByGroupId, bindUserToGroup, getOrgInfo} from "@/api/user";
+  import { getDeptTreeData } from "@/api/tree";
+  import {getGroupInfo, getUserListByDeptId, getUserByGroupId, bindUserToGroup, getOrgInfo} from "@/api/user";
   import {mapGetters} from "vuex";
   import {getAllProject} from "@/api/project";
 
@@ -125,12 +125,24 @@
         userData: [],
         areaData: [],
         tree: [],
+        // 机构树
+        deptTreeData: [],
         selectArea: [],
         selectUser: [],
         allUserData: [],
         defaultProps: {
           children: "children",
-          label: "NAME"
+          // label: "NAME"label
+          label: "label"
+        },
+        // 查询参数
+        queryUserParams: {
+          pageNum: 1,
+          pageSize: 10,
+          userName: undefined,
+          phonenumber: undefined,
+          deptId: undefined,
+          deptName: undefined
         },
         name: "",
         allSections: [],
@@ -154,6 +166,16 @@
           this.sectionId = this.project.id;
 
         });
+
+        /**
+         * 查询机构树
+         */
+        getDeptTreeData().then(res => {
+          console.log("initData->getDeptTreeData:res");
+          console.log(res);
+          this.deptTreeData = res.data
+        });
+
         getOrgInfo().then(res => {
           let data = res.data.getMe;
 
@@ -191,19 +213,38 @@
       handAreaSelectionChange(val) {
         this.selectArea = val;
       },
+      /**
+       * 
       handleNodeClick(row) {
         let {ID, CODE} = row;
         getUserByGroupId(ID, CODE).then((res) => {
-        if (res) {
-          let data = res.data.getMe;
-          let arr = data.filter((e) => ![1, 2, 3].includes(e.ID));
-          this.userData = arr;
-          this.allUserData = arr;
-        } else {
-          this.userData = [];
-        }
-      });
-    },
+          if (res) {
+            let data = res.data.getMe;
+            let arr = data.filter((e) => ![1, 2, 3].includes(e.ID));
+            this.userData = arr;
+            this.allUserData = arr;
+          } else {
+            this.userData = [];
+          }
+        });
+      },
+      */
+      // 节点单击事件
+      handleNodeClick(data) {
+        console.log("handleNodeClick");
+        console.log(data);
+        this.queryUserParams.deptId = data.id;
+        getUserListByDeptId(this.queryUserParams).then(res => {
+          console.log("handleNodeClick->getListUserByDeptId:res");
+          console.log(res);
+          this.userData = res.rows
+        }).catch((errRes) => {
+          console.log("handleNodeClick->getListUserByDeptId:errRes");
+          console.log(errRes);
+          this.userData = errRes.rows
+        });
+      },
+    
     submit() {
       if (this.selectUser.length === 0) {
         this.$message({
@@ -219,12 +260,17 @@
       })
         .then(() => {
           let userIds = this.selectUser.map((item) => {
-            return item.ID;
+            return item.userId;
           });
           let groupsIds = this.selectArea.map((item) => {
             return item.id;
           });
-          bindUserToGroup({userIds, groupsIds, projectId: this.sectionId}).then((res) => {
+          let data = {
+            projectId: this.sectionId,
+            userIds: userIds,
+            workAreaIds: groupsIds
+          }
+          bindUserToGroup(data).then((res) => {
             this.selectArea = [];
             this.selectUser = [];
             this.$refs.multipleTableUser.clearSelection();
@@ -245,11 +291,11 @@
     seeAuthority(row) {
       this.$refs.multipleTableArea.clearSelection();
       this.selectArea = [];
-      getGroupInfo(row.ID).then((res) => {
+      getGroupInfo(row.userId).then((res) => {
         if (res.data.length > 0) {
           this.$nextTick(() => {
             res.data.forEach((row) => {
-              let obj = this.areaData.find((e) => e.id === row.groupid);
+              let obj = this.areaData.find((e) => e.id === row.workAreaId);
               if (obj) {
                 this.$refs.multipleTableArea.toggleRowSelection(obj, true);
               }

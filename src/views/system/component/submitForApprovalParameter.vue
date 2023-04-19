@@ -268,7 +268,7 @@
               let {approvalTime, id} = person;
               personSubs.forEach(e => {
                 e.approvalTime = approvalTime;
-                e.newPeoplePic = "/ZhuJiRoad/mong/preview?fileid=" + e.peoplePic;
+                e.newPeoplePic = "/mong/preview?fileid=" + e.peoplePic;
                 e.staffId = id;
               });
               lists = lists.concat(personSubs);

@@ -210,14 +210,19 @@
       };
     },
     created() {
+      /**
+       * 
       if (process.env.NODE_ENV === "development") {
         this.websockLink =
           "ws://192.168.2.128:8720/imserver/" + getToken("zj_token");
       } else {
         this.websockLink =
-          "wss://system.zlskkj.com:59031/ZhuJiRoad/imserver/" +
+          "wss://system.zlskkj.com:59031/imserver/" +
           getToken("zj_token");
-      }
+      }**/
+
+      this.websockLink = process.env.WS_ADDRESS + getToken("auth_token");
+
       this.initMsg();
       this.initWebSocket();
       setInterval(() => {
@@ -290,8 +295,9 @@
         this.$router.push("/home");
       },
       systemManagement() {
-        let groupId = getToken("groupId");
-        if ([2].includes(groupId)) {
+        let rolePerms = getToken("role_perms");
+        console.log("systemManagement->rolePerms:" + rolePerms);
+        if (rolePerms.includes('admin')) {
           this.$refs.system.showDrawer();
         } else {
           this.$message({

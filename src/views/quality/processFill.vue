@@ -38,7 +38,13 @@
               align="center"
             >
               <template slot-scope="{ row }">
-                {{ row.finish ? row.finish : "未录入" }}
+                {{
+                  row.checkresult === 3
+                    ? "正在审核"
+                    : row.checkresult === 0
+                      ? '未录入'
+                      : row.finish
+                }}
               </template>
             </el-table-column>
             <el-table-column label="照片/附件" width="80px" align="center">
@@ -46,11 +52,11 @@
                 <svg-icon
                   class="svg-class svg-btn"
                   :class="
-                    row.status === 3
+                    row.checkresult === 3
                       ? 'submit'
-                      : row.status === 2
+                      : row.checkresult === 2
                       ? 'reject'
-                      : row.status === 1
+                      : row.checkresult === 1
                       ? 'finish'
                       : 'error'
                   "
@@ -175,7 +181,7 @@
             <el-upload
               class="upload-demo"
               :headers="header"
-              action="/ZhuJiRoad/mong/upload"
+              action="/mong/upload"
               multiple
               :limit="3"
               :before-upload="beforeUploadImage"
@@ -193,7 +199,7 @@
             <el-upload
               class="upload-demo"
               :headers="header"
-              action="/ZhuJiRoad/mong/upload"
+              action="/mong/upload"
               multiple
               :limit="1"
               :before-upload="beforeUpload"
@@ -210,7 +216,7 @@
             <el-upload
               class="upload-demo"
               :headers="header"
-              action="/ZhuJiRoad/hdfs/uploadFile"
+              action="/hdfs/uploadFile"
               multiple
               :limit="3"
               :on-success="goodSuccess"
@@ -224,7 +230,7 @@
             <el-upload
               class="upload-demo"
               :headers="header"
-              action="/ZhuJiRoad/hdfs/uploadFile"
+              action="/hdfs/uploadFile"
               multiple
               :limit="3"
               :on-success="testSuccess"
@@ -506,6 +512,7 @@ export default {
     getCheackDataById() {
       api.getCheckData(this.componentInfo.id).then((res) => {
         this.tableData = res.data.check;
+        console.log(this.tableData)
         this.submitDataInfo = res.data.data;
       });
       // let code = this.componentInfo.conponetcode.substring(0, 4);

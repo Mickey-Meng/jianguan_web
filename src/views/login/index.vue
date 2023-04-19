@@ -33,7 +33,7 @@
         <el-input
           :key="passwordType"
           ref="password"
-          v-model="loginForm.pwd"
+          v-model="loginForm.password"
           :type="passwordType"
           placeholder="请输入密码"
           name="password"
@@ -73,13 +73,15 @@ export default {
     return {
       loginForm: {
         username: "",
-        pwd: "",
+        password: "",
+        code: "",
+        uuid: ""
       },
       loginRules: {
         username: [
           { required: true, trigger: "blur", message: "请输入用户名" },
         ],
-        pwd: [{ required: true, trigger: "blur", validator: validatePassword }],
+        password: [{ required: true, trigger: "blur", validator: validatePassword }],
       },
       loading: false,
       passwordType: "password",
@@ -116,8 +118,10 @@ export default {
           this.$store
             .dispatch("user/login", this.loginForm)
             .then((res) => {
-              let { groupid, loginData } = res.data;
-              if (loginData) {
+              console.log("handleLogin->then:");
+              console.log(res);
+              let { userInfo } = res.data;
+              if (userInfo) {
                 this.loading = false;
                 this.$router.push("/home");
               } else {
@@ -129,15 +133,17 @@ export default {
                 });
               }
             })
-            .catch((res) => {
-              if (res.message && !res.data)
+            .catch((errRes) => {
+              console.log("handleLogin->catch:");
+              console.log(errRes);
+              if (errRes.message)
                 this.$message({
-                  message: res.message,
+                  message: errRes.message,
                   type: "warning",
                   customClass: "message_override"
                 });
-              this.loading = false;
             });
+            this.loading = false;
         } else {
           return false;
         }

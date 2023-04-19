@@ -36,7 +36,7 @@ service.interceptors.request.use(
     if (config.url.indexOf("STSfmzj") != -1) {
     } else {
       if (store.getters.token) {
-        config.headers["token"] = getToken("zj_token");
+        //config.headers["token"] = getToken("zj_token");
         config.headers['Authorization'] = 'Bearer ' + getToken("auth_token"); // 让每个请求携带自定义token 请根据实际情况自行修改
       }
     }
@@ -69,7 +69,7 @@ service.interceptors.response.use(
     if (res.status === 200 || res.meow === 0 || res.status === 300 || res.success === true || (response.headers["content-type"].indexOf("excel") > -1)) {
       return Promise.resolve(res);
     } else {
-      return Promise.reject();
+      return Promise.reject(res);
     }
 
     // // if the custom code is not 20000, it is judged as an error.

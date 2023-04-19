@@ -130,7 +130,7 @@ export default {
       let player1 = new EZUIKit.EZUIKitPlayer({
         id: `video1`, // 视频容器ID
         accessToken: this.token,
-        url: "ezopen://open.ys7.com/E61698613/1.hd.live",
+        url: "ezopen://open.ys7.com/E61698613/1.live",
         width: 350,
         height: 240,
         autoplay: false,
@@ -140,7 +140,7 @@ export default {
       let player2 = new EZUIKit.EZUIKitPlayer({
         id: `video2`, // 视频容器ID
         accessToken: this.token,
-        url: "ezopen://open.ys7.com/E58345532/1.hd.live",
+        url: "ezopen://open.ys7.com/E58345532/1.live",
         width: 350,
         height: 240,
         autoplay: false,
@@ -150,7 +150,7 @@ export default {
       let player3 = new EZUIKit.EZUIKitPlayer({
         id: `video3`, // 视频容器ID
         accessToken: this.token,
-        url: "ezopen://open.ys7.com/E60311014/1.hd.live",
+        url: "ezopen://open.ys7.com/E60311014/1.live",
         width: 350,
         height: 240,
         autoplay: false,
@@ -160,7 +160,7 @@ export default {
       let player4 = new EZUIKit.EZUIKitPlayer({
         id: `video4`, // 视频容器ID
         accessToken: this.token,
-        url: "ezopen://open.ys7.com/E32519666/1.hd.live",
+        url: "ezopen://open.ys7.com/E32519666/1.live",
         width: 350,
         height: 240,
         autoplay: false,

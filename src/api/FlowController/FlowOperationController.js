@@ -52,7 +52,7 @@ export default class FlowOperationController {
   static startOnly (data) {
     // return sender.doUrl('/admin/flow/flowOperation/startOnly', 'post', params, axiosOption, httpOption);
     return request({
-      url: "/ZhuJiApi/admin/flow/flowOperation/startOnly",
+      url: "/admin/flow/flowOperation/startOnly",
       method: "post",
       data: data
     });
@@ -61,7 +61,7 @@ export default class FlowOperationController {
   static viewInitialTaskInfo (params) {
     // return sender.doUrl('/admin/flow/flowOperation/viewInitialTaskInfo', 'get', params, axiosOption, httpOption);
     return request({
-      url: "/ZhuJiApi/admin/flow/flowOperation/viewInitialTaskInfo",
+      url: "/admin/flow/flowOperation/viewInitialTaskInfo",
       method: "get",
       params: params
     });
@@ -94,7 +94,7 @@ export default class FlowOperationController {
   static viewProcessBpmn (params) {
     // return sender.doUrl('/admin/flow/flowOperation/viewProcessBpmn', 'get', params, axiosOption, httpOption);
     return request({
-      url: "/ZhuJiApi/admin/flow/flowOperation/viewProcessBpmn",
+      url: "/admin/flow/flowOperation/viewProcessBpmn",
       method: "get",
       params: params
     });

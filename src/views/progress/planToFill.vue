@@ -39,7 +39,7 @@
             value-format="yyyy-MM-dd HH:mm:ss"
             type="datetime"
             placeholder="选择日期时间"
-            :disabled="isDisabled"
+            :disabled=true
           />
         </el-form-item>
         <el-form-item label="实际结束时间" prop="actulendtime">
@@ -49,7 +49,7 @@
             value-format="yyyy-MM-dd HH:mm:ss"
             type="datetime"
             placeholder="选择日期时间"
-            :disabled="isDisabled"
+            :disabled=true
           />
         </el-form-item>
       </el-form>

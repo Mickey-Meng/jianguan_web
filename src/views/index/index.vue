@@ -43,7 +43,7 @@
         <div id="album">
           <div class="img_box" v-for="(item, index) in listData" :key="index">
             <div class="img_box_wrapper" @mouseover="mouseOver(item)" @click.stop="seeProject(item)">
-<!--              <img :src="item.projectpic?'/ZhuJiRoad/mong/preview?fileid=' +item.projectpic :img1" alt="" :project="item.projectpic"/>-->
+<!--              <img :src="item.projectpic?'/mong/preview?fileid=' +item.projectpic :img1" alt="" :project="item.projectpic"/>-->
               <img :src="projectImg(item.name)" alt="" :projectName="item.name"/>
               <label class="pro_name">{{ item.name }}</label>
 <!--              <ul class="section_lists">-->
@@ -452,7 +452,7 @@ export default {
       }
 
       #album {
-        width: 500px;
+        width: 600px;
         height: 400px;
         margin: auto;
         position: relative;
@@ -466,9 +466,9 @@ export default {
         cursor: pointer;
         float: left;
         width: 113px;
-        height: 200px;
-        margin-left: 5px;
-        margin-top: 5px;
+        height: 113px;
+        margin-left: 15px;
+        margin-top: 15px;
         /* 反射倒影 距离下面5px  */
         // -webkit-box-reflect: below 5px -webkit-linear-gradient(top, rgba(
         //         0,
@@ -484,6 +484,7 @@ export default {
           img {
             width: 100%;
             height: 100%;
+            border-radius: 5px;
           }
 
           .pro_name {

@@ -19,3 +19,10 @@ export const getBridgeTree = (type, projectId) => {
     }
   });
 };
+
+export const getDeptTreeData = () => {
+  return request({
+    url: '/sysManage/permission/deptTree',
+    method: "get",
+  });
+};

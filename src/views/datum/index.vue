@@ -113,7 +113,7 @@
       // this.$axios({
       //   method: "get",
       //   responseType: "blob", // 设置响应文件格式
-      //   url: "/ZhuJiRoad/mong/preview?fileid=620da6edfe834755c49cf7b2",
+      //   url: "/mong/preview?fileid=620da6edfe834755c49cf7b2",
       // }).then((res) => {
       //   // console.log(new Blob(res.data));
       //   // docx.renderAsync(new Blob(res.data), this.$refs.file); // 渲染到页面预览

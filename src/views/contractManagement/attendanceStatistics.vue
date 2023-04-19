@@ -183,7 +183,7 @@
       },
       exportExcel() {
         let {projectId, date, type, unitType} = this.queryData;
-        let url = `/ZhuJiRoad/count/getAllClockOutExport?projectId=${projectId}&date=${date}&type=${type}&unitType=${unitType}`;
+        let url = `/count/getAllClockOutExport?projectId=${projectId}&date=${date}&type=${type}&unitType=${unitType}`;
         console.log(url);
         let link = document.createElement("a"); // 创建a标签
         link.style.display = "none";

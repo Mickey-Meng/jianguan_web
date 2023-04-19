@@ -54,7 +54,7 @@ export default {
   data() {
     return {
       header: { token: "" },
-      uploadUrl: "/ZhuJiRoad/mong/upload",
+      uploadUrl: "/mong/upload",
       attachment: this.inputValue,
       fileList: this.attachment,
       suffixName: "DOC,DOCX,XLS,XLSX,PPT,PDF,TXT,JPG,JPEG,PNG,BMP,GIF",

@@ -36,8 +36,8 @@ export function download(url, name) {
 
 export const downLoadFile = str => {
   let link = document.createElement("a"); // 创建a标签
-  link.style.display = "none"; //ZhuJiRoad/mong/preview?fileid=
-  link.href = "/ZhuJiRoad/mong/download?fileid=" + str; // 设置下载地址
+  link.style.display = "none"; //mong/preview?fileid=
+  link.href = "/mong/download?fileid=" + str; // 设置下载地址
   link.setAttribute("download", ""); // 添加downLoad属性
   document.body.appendChild(link);
   link.click();

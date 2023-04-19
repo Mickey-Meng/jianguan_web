@@ -285,7 +285,7 @@ export default {
         "ws://192.168.2.147:8720/imserver/" + getToken("zj_token");
     } else {
       this.websockLink =
-        "wss://system.zlskkj.com:59030/ZhuJiRoad/imserver/" +
+        "wss://system.zlskkj.com:59030/imserver/" +
         getToken("zj_token");
     }
     this.initWebSocket();
