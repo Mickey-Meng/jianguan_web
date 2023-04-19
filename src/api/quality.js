@@ -599,6 +599,30 @@ export const rejectRuntimeTask = data => {
 		data: data
 	});
 };
+export const rejectToStartUserTask = data => {
+  return request({
+    url: api.rejectToStartUserTask,
+    // url: api.stopProcessInstance,
+    method: "post",
+    data: data
+  });
+};
+export const revokeHistoricTask = data => {
+  return request({
+    url: api.revokeHistoricTask,
+    method: "post",
+    data: data
+  });
+};
+
+export const stopProcessInstance = data => {
+  return request({
+    url: api.stopProcessInstance,
+    method: "post",
+    data: data
+  });
+};
+
 /**
  * 获取流程列表
  */

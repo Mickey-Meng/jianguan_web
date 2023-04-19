@@ -246,6 +246,10 @@ const api = {
   submitUserTask: "/ZhuJiApi/admin/flow/flowStaticPage/submitUserTask",
   startAndTakeUserTask: "/ZhuJiApi/admin/flow/flowStaticPage/startAndTakeUserTask",//流程显示人员接口
   rejectRuntimeTask: "/ZhuJiApi/admin/flow/flowOperation/rejectRuntimeTask", //驳回
+  rejectToStartUserTask: "/ZhuJiApi/admin/flow/flowOperation/rejectToStartUserTask",
+  stopProcessInstance: "/ZhuJiApi/admin/flow/flowOperation/stopProcessInstance",
+  deleteProcessInstance: "/ZhuJiApi/admin/flow/flowOperation/deleteProcessInstance",
+  revokeHistoricTask: "/ZhuJiApi/admin/flow/flowOperation/revokeHistoricTask",
   viewTaskUserInfo: "/ZhuJiApi/admin/flow/flowOperation/viewTaskUserInfo", //审批人
   viewRuntimeTaskInfo: "/ZhuJiApi/admin/flow/flowOperation/viewRuntimeTaskInfo", //查询流程按钮
   viewHighlightFlowData: "/ZhuJiApi/admin/flow/flowOperation/viewHighlightFlowData", //高亮流程图

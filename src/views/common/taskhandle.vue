@@ -120,8 +120,10 @@
 					res = res || {}
 					res.data = res.data || {}
 					this.operationList = (res.data.operationList || []).filter(item => {
-						return item.type !== this.SysFlowTaskOperationType.CO_SIGN && item.type !== this
-							.SysFlowTaskOperationType.REVOKE;
+					  // 解决不显示撤销按钮
+						// return item.type !== this.SysFlowTaskOperationType.CO_SIGN && item.type !== this
+						// 	.SysFlowTaskOperationType.REVOKE;
+            return item.type !== this.SysFlowTaskOperationType.CO_SIGN;
 					})
 					let readOnly = false;
 					if (res.data.propertyList && res.data.propertyList.length > 0) {
@@ -238,7 +240,8 @@
 					api.rejectToStartUserTask({
 						processInstanceId: this.taskInfo.processInstanceId,
 						taskId: this.taskInfo.taskId,
-						comment: this.formData.comment
+						comment: this.formData.comment,
+            stopReason: ""
 					}).then(res => {
 						this.handlerClose();
 					}).catch(e => {});
@@ -246,11 +249,12 @@
 				}
 				// 撤销操作
 				if (operation.type === this.SysFlowTaskOperationType.REVOKE) {
-					this.$confirm('是否撤销此任务？').then(res => {
-						api.revokeHistoricTask({
-							pprocessInstanceId: this.taskInfo.processInstanceId,
+					this.$confirm('是否驳回此任务？').then(res => {
+						api.stopProcessInstance({
+							processInstanceId: this.taskInfo.processInstanceId,
 							taskId: this.taskInfo.taskId,
-							comment: '任务处理人撤销任务'
+							comment: '任务处理人驳回任务',
+              stopReason: '任务处理人驳回任务'
 						}).then(res => {
 							this.handlerClose();
 						}).catch(e => {});
