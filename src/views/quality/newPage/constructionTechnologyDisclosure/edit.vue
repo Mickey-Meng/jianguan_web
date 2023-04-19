@@ -319,7 +319,6 @@
 				});
 			},
 			addOrModify(isdraft) {
-				debugger
 				if (isdraft) {
 					if (diffCompare([this.formData, this.attachTable], [{
 								buildTechBottom: '', // 施工交底概述

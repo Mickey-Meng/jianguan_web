@@ -243,6 +243,7 @@ const api = {
   downloadFile: "/mong/download", //下载文件
   previewFile: "/mong/preview", //预览文件
   //任务
+
   listHandleTask: "/flow/flowOperation/listRuntimeTask", //待办
   listHistoricTask: "/flow/flowOperation/listHistoricTask", //已办
   listHistoricProcessInstance: "/flow/flowOperation/listHistoricProcessInstance", //历史任务
@@ -268,6 +269,7 @@ const api = {
   getFlowTypeDetail: "/web/api/v1/flowType/getAuditInfoByTypeId", //通过id获取一条流程类型数据
   flowAuditEntry: "/web/api/v1/flowAuditEntry/getAuditInfoByFlowKey",
   getCopyUserByFlowKey: "/web/api/v1/flowAuditEntry/getCopyUserByFlowKey",
+
   // 流程配置
   getFlowEntryList: "/admin/flow/flowEntry/list", // 获取所有流程列表
   getFlowCategoryListDict: "/admin/flow/flowCategory/listDict", // 获取流程分类

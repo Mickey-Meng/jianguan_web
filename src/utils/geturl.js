@@ -12,12 +12,14 @@ import store from "../store";
     store.commit(
       "settings/SET_URL",
       "http://112.30.143.209:8888/mong/preview?fileid="
+
     );
   } else {
     //新生产
     store.commit(
       "settings/SET_URL",
       "http://112.30.143.209:8888/mong/preview?fileid="
+
     );
     //老生产
     // store.commit(
