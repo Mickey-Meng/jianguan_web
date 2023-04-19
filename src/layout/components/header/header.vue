@@ -221,7 +221,7 @@
           getToken("zj_token");
       }**/
 
-      this.websockLink = process.env.WS_ADDRESS + getToken("auth_token");
+      this.websockLink = process.env.WS_ADDRESS + '/imserver/' + getToken("auth_token");
 
       this.initMsg();
       this.initWebSocket();

@@ -113,7 +113,7 @@ const actions = {
         
 
         // TODO 地图信息
-        setToken("explorerId", "暂时不知道放什么");
+        setToken("explorerId", userInfo.userId);
         setToken("explorerRoles", userInfo.roleIds);
         // 菜单信息
         let usermenuCodeList = userInfo.menuPermission;
