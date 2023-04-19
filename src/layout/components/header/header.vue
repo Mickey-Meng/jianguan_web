@@ -297,7 +297,7 @@
       systemManagement() {
         let rolePerms = getToken("role_perms");
         console.log("systemManagement->rolePerms:" + rolePerms);
-        if (rolePerms.includes('admin')) {
+        if (rolePerms.includes('admin') ||rolePerms.includes('gly')) {
           this.$refs.system.showDrawer();
         } else {
           this.$message({
