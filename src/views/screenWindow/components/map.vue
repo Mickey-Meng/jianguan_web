@@ -9,6 +9,8 @@
   import {mapGetters, mapMutations} from "vuex";
   import redline_line from "@/config/redline_line.json";
 
+  let viewer;
+
   const Cesium = window.Cesium;
   // let earth = {};
   let mapCtx = {};
@@ -40,7 +42,7 @@
     },
     created() {
       that = this;
-      // this.initData();
+      this.initData();
     },
     mounted() {
       this.initMap();
@@ -74,10 +76,48 @@
             clampToGround: true
           }
         ];
-        window.ddd = mapCtx.zlskEarthHelper = new ZlskEarthHelper("map", obj);
+        // window.ddd = mapCtx.zlskEarthHelper = new ZlskEarthHelper("map", obj);
+        viewer = new Cesium.Viewer("map", {
+          imageryProvider: new Cesium.UrlTemplateImageryProvider({
+            url: 'https://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}',
+            tilingScheme: new Cesium.WebMercatorTilingScheme(),
+            // maximumLevel: 5
+          }),
+          infoBox: false,
+          skyBox: false,
+          // globe: false,
+          skyAtmosphere: false,
+          selectionIndicator: false,
+          geocoder: false,
+          homeButton: false,
+          sceneModePicker: false,
+          baseLayerPicker: false,
+          animation: false,
+          navigationHelpButton: false,
+          timeline: false,
+          fullscreenButton: false,contextOptions: {
+              webgl: {
+                  alpha: true,
+              }
+          }
+        });
+        viewer.camera.flyTo({
+          destination : Cesium.Cartesian3.fromDegrees(117.46471434258237, 30.59982300620444, 3529.704298839902,),
+          orientation :{
+            heading : Cesium.Math.toRadians(16.196112994937916),
+            pitch : Cesium.Math.toRadians(-29.742000441177492),
+            roll : 0.0010975985507093802
+          }
+        })
+        // 添加白模
+        const tilesetModel = new Cesium.Cesium3DTileset({
+          url: "http://112.30.143.209:8888/data_zlsk/chizhoushi/jianzhu/tileset.json"
+        });
+        viewer.scene.primitives.add(tilesetModel);
+
         // mm = mapCtx.zlskEarthHelper.earth.createMarkerManager();
         this.addCityLine();
-        this.setColour();
+        // this.setColour();
         const handler = new Cesium.ScreenSpaceEventHandler(mapCtx.zlskEarthHelper.viewer.scene.canvas);
         handler.setInputAction(function (movement) {
             const camera = mapCtx.zlskEarthHelper.viewer.camera;
@@ -161,7 +201,7 @@
               }),
             }),
           });
-          mapCtx.zlskEarthHelper.viewer.scene.groundPrimitives.add(linePrimitive);
+          viewer.scene.groundPrimitives.add(linePrimitive);
 
 
         });

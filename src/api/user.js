@@ -39,13 +39,13 @@ export function doLogin(data) {
 
 export function getUserInfo(id) {
   return request({
-    url: `/index/loadMenuAndUserInfo`,
+    url: `/sysManage/permission/loadMenuAndUserInfo`,
     method: "get"
   });
 }
 export const getServiceRoles = () =>{
   return request({
-    url: `/STSfmzj/userauth/selectRole`,
+    url: `/userauth/selectRole`,
     method: "get"
   });
 }
@@ -69,7 +69,7 @@ export const getMap = (ID, GROUPID, roles) => {
 //根据组织id获取用户
 export const getUserByGroupId = (groupid, code, name = undefined) => {
   return request({
-    url: `/STSfmzj/userauth/selectByGroup?pageNumber=1&pageSize=1000&groupid=${groupid}&code=${code}&name1=`,
+    url: `/userauth/selectByGroup?pageNumber=1&pageSize=1000&groupid=${groupid}&code=${code}&name1=`,
     method: "get"
   });
 };
@@ -92,7 +92,7 @@ export const getUserByRoleId = (projectId, id) => {
 //获取组织信息(废弃)
 export const getOrgInfo = () => {
   return request({
-    url: `/STSfmzj/userauth/selectGroup`,
+    url: `/userauth/selectGroup`,
     method: "get"
   });
 };
@@ -123,7 +123,7 @@ export const updatePassword = data => {
 };
 export const getDic = (key) => {
   return request({
-    url: `/STSfmzj/userauth/selectDicByParentKey?keyStr=${key}`,
+    url: `/userauth/selectDicByParentKey?keyStr=${key}`,
     method: "get"
   });
 };

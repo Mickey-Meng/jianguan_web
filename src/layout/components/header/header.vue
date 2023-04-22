@@ -210,18 +210,16 @@
       };
     },
     created() {
-      /**
-       * 
+
       if (process.env.NODE_ENV === "development") {
         this.websockLink =
-          "ws://192.168.2.128:8720/imserver/" + getToken("zj_token");
+          "ws://127.0.0.1:8088/imserver/" + getToken("auth_token");
       } else {
         this.websockLink =
-          "wss://system.zlskkj.com:59031/imserver/" +
-          getToken("zj_token");
-      }**/
+          "wss://127.0.0.1:25555/prod-api/imserver/" + getToken("auth_token");
+      }
 
-      this.websockLink = process.env.WS_ADDRESS + '/imserver/' + getToken("auth_token");
+    //  this.websockLink = process.env.WS_ADDRESS + '/imserver/' + getToken("auth_token");
 
       this.initMsg();
       this.initWebSocket();

@@ -70,6 +70,12 @@
       ...mapGetters(["project", "rights"])
     },
     methods: {
+      imgSrc(src) {
+        if (process.env.NODE_ENV === "development") {
+          return src;
+        }
+        return process.env.VUE_APP_BASE_API + src;
+      },
       initData() {
         getTenNews(this.project.id).then((res) => {
           if (res.data && res.data.length > 0) {

@@ -118,7 +118,7 @@ export default {
         player = new EZUIKit.EZUIKitPlayer({
           id: "video-container", // 视频容器ID
           accessToken: res.data,
-          url: `ezopen://open.ys7.com/${map[this.project.id] || "K54134283"}/1.live`,
+          url: `ezopen://open.ys7.com/${map[this.project.id] || "K54134283"}/1.hd.live`,
           width: 390,
           height: 190,
           audio: 0,

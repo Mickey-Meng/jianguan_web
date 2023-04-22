@@ -18,7 +18,7 @@
       </el-tooltip>
     </div>
     <!-- <div v-if="haveLeft" class="handle-box"> -->
-    <mapTool ref="mapTool" v-if="isShow && haveLeft" />
+    <!-- <mapTool ref="mapTool" v-if="isShow && haveLeft" /> -->
     <!-- </div> -->
     <div class="mapCoordinate" v-show="mapCoordinate.longitude">
       <div class="longitude">经度:{{ mapCoordinate.longitude }}</div>
@@ -34,7 +34,7 @@ import { earth } from "@/config/map";
 import Bus from "@/assets/eventBus";
 import { mapGetters } from "vuex";
 import { getMap } from "@/api/user";
-import mapTool from "@/components/tool/index";
+// import mapTool from "@/components/tool/index";
 import { getToken } from "@/utils/auth";
 let zeh, em;
 const Cesium = window.Cesium;
@@ -87,45 +87,86 @@ export default {
     ).then((res) => {
       let obj = JSON.parse(JSON.stringify(earth))
       obj.layers = res.data.getMe;
-      zeh =
-        window.zeh =
-        earthCtx.zlskEarthHelper =
-          new ZlskEarthHelper("earth", obj);
-      em = zeh.earth.createMarkerManager({ clusterType: "dilute" });
-      em.beginCluster();
-      earthCtx.earth = earthCtx.zlskEarth = zeh.earth;
-      earthCtx.viewer = zeh.viewer;
-      earthCtx.zlshEarthHelper = zeh;
-      earthCtx.viewer.scene.globe.showSkirts = true;
-      earthCtx.viewer.scene.globe.depthTestAgainstTerrain = true; // 應針對地形表面對廣告牌，折線，標籤等圖元進行深度測試
-      earthCtx.viewer.scene.screenSpaceCameraController.minimumZoomDistance =
-        -4;
-      earthCtx.viewer.scene.screenSpaceCameraController.maximumZoomDistance =
-        40000 * 1000;
-      earthCtx.viewer.cesiumWidget.screenSpaceEventHandler.removeInputAction(
-        Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK
-      );
-      earthCtx.viewer.scene.skyBox.show = false; // 隐藏天空盒
-      earthCtx.viewer.scene.backgroundColor = new Cesium.Color(
-        0.0,
-        0.0,
-        0.0,
-        0.0
-      ); // 设置背景透明
-      earthCtx.viewer.scene.skyAtmosphere.show = false; // 隐藏大气圈
-      earthCtx.viewer.scene.sun.show = false; // 隐藏太阳
-      earthCtx.viewer.scene.moon.show = false; // 隐藏月亮
-      zeh.viewer.extend(Cesium.viewerCesiumNavigationMixin, {
-        enableCompass: true,
-        enableZoomControls: true,
-        enableDistanceLegend: true,
-        enableCompassOuterRing: true,
+      // zeh =
+      //   window.zeh =
+      //   earthCtx.zlskEarthHelper =
+      //     new ZlskEarthHelper("earth", obj);
+      const viewer = new Cesium.Viewer("earth", {
+        imageryProvider: new Cesium.TileMapServiceImageryProvider({
+            url: `http://112.30.143.209:8888/data_zlsk/chizhoushi`,
+            format: 'image/png',
+        }),
+        infoBox: false,
+        skyBox: false,
+        // globe: false,
+        skyAtmosphere: false,
+        selectionIndicator: false,
+        geocoder: false,
+        homeButton: false,
+        sceneModePicker: false,
+        baseLayerPicker: false,
+        animation: false,
+        navigationHelpButton: false,
+        timeline: false,
+        fullscreenButton: false,contextOptions: {
+            webgl: {
+                alpha: true,
+            }
+        }
       });
+    //   lon: 117.48387645025284,
+    // lat: 30.66751823064398,
+    // height: 5000,
+    // // lon: 120.10326899646911,
+    // // lat: 29.638086861129057,
+    // // height: 50,
+    // heading: 0,
+    // pitch: -90,
+    // roll: 0,
+    // duration: 3
+    viewer.camera.flyTo({
+      destination : Cesium.Cartesian3.fromDegrees(117.48387645025284,30.66751823064398,5000),
+      orientation :{
+        heading : 0,
+        pitch : Cesium.Math.toRadians(-90.0),
+        roll : 0.0
+      }
+    })
+      // em = zeh.earth.createMarkerManager({ clusterType: "dilute" });
+      // em.beginCluster();
+      // earthCtx.earth = earthCtx.zlskEarth = zeh.earth;
+      // earthCtx.viewer = zeh.viewer;
+      // earthCtx.zlshEarthHelper = zeh;
+      // earthCtx.viewer.scene.globe.showSkirts = true;
+      // earthCtx.viewer.scene.globe.depthTestAgainstTerrain = true; // 應針對地形表面對廣告牌，折線，標籤等圖元進行深度測試
+      // earthCtx.viewer.scene.screenSpaceCameraController.minimumZoomDistance =
+      //   -4;
+      // earthCtx.viewer.scene.screenSpaceCameraController.maximumZoomDistance =
+      //   40000 * 1000;
+      // earthCtx.viewer.cesiumWidget.screenSpaceEventHandler.removeInputAction(
+      //   Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK
+      // );
+      // earthCtx.viewer.scene.skyBox.show = false; // 隐藏天空盒
+      // earthCtx.viewer.scene.backgroundColor = new Cesium.Color(
+      //   0.0,
+      //   0.0,
+      //   0.0,
+      //   0.0
+      // ); // 设置背景透明
+      // earthCtx.viewer.scene.skyAtmosphere.show = false; // 隐藏大气圈
+      // earthCtx.viewer.scene.sun.show = false; // 隐藏太阳
+      // earthCtx.viewer.scene.moon.show = false; // 隐藏月亮
+      // zeh.viewer.extend(Cesium.viewerCesiumNavigationMixin, {
+      //   enableCompass: true,
+      //   enableZoomControls: true,
+      //   enableDistanceLegend: true,
+      //   enableCompassOuterRing: true,
+      // });
       let a = document.getElementsByClassName("compass")[0];
       let b = document.getElementsByClassName("compass-outer-ring")[0];
       a && a.setAttribute("title", "");
       b && b.setAttribute("title", "");
-      this.initHandler(); //实时监听更换左下经纬度等信息
+      // this.initHandler(); //实时监听更换左下经纬度等信息
       Bus.$emit("mapSucceed");
     });
   },
@@ -218,7 +259,7 @@ export default {
 
     // 工具条点击事件
   },
-  components: { mapTool },
+  // components: { mapTool },
 };
 </script>
 

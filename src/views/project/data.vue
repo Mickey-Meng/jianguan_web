@@ -58,6 +58,7 @@ export default {
     indexSafeStatistics
   },
   created() {
+    console.log("/data-created");
     this.initData();
   },
   mounted() {},

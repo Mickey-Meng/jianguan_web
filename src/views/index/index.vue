@@ -312,9 +312,17 @@ export default {
     seeProject(item) {
       if (item.id) {
         this.SET_PROJECT(item);
-        if (this.rights.includes("shujuzhongxin")) {
+        let isPass = this.rights.includes("shujuzhongxin");
+        console.log("isPass:" + isPass);
+        if (isPass) {
+          console.log("进入" + item.name + "项目主页");
           this.$router.push("/data");
           return false;
+        } else {
+          this.$message({
+            type: "warning",
+            message: "该用户角色无数据中心权限，请至运维后台授权后访问."
+          });
         }
         if (this.menus && this.menus.length > 0) {
           let item = this.menus[0];

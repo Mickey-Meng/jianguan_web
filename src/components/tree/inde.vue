@@ -103,12 +103,12 @@
     created() {
       this.initData("QL");
       Bus.$on("mapSucceed", () => {
-        em = window.zeh.earth.createEntityManager();
+        // em = window.zeh.earth.createEntityManager();
         Bus.$off("mapSucceed");
       });
       Bus.$on("clearEffect", () => {
         if (this.currentHlm) {
-          this.stopEffect(this.currentHlm);
+          // this.stopEffect(this.currentHlm);
         }
         this.currentHlm = null;
         this.currentVisualObj = {};
@@ -148,11 +148,11 @@
         let showEffetcsName = ["sceneOverview", "PlanToFill", "processFill"];
         if (showEffetcsName.includes(route.name)) {
           if (this.currentHlm && this.currentHlm !== node.mouldid) {
-            this.stopEffect(this.currentHlm);
-            this.showEffect(mouldid);
+            // this.stopEffect(this.currentHlm);
+            // this.showEffect(mouldid);
           } else if (this.currentHlm && this.currentHlm === node.mouldid) {
           } else if (!this.currentHlm) {
-            this.showEffect(mouldid);
+            // this.showEffect(mouldid);
           }
           this.currentHlm = mouldid;
         } else if (route.name === "visualProgress") {
@@ -167,8 +167,8 @@
               this.stopEffect(mid);
               this.showVisualEffect(mid, status, layername);
               //清除现在点击的再着色
-              this.stopEffect(mouldid);
-              this.showEffect(mouldid);
+              // this.stopEffect(mouldid);
+              // this.showEffect(mouldid);
               let obj = this.visualData.find(
                 (e) => e.mouldid.replace(/^\s+|\s+$/g, "") === mouldid
               );
@@ -177,8 +177,8 @@
               }
             }
           } else {
-            this.stopEffect(mouldid);
-            this.showEffect(mouldid);
+            // this.stopEffect(mouldid);
+            // this.showEffect(mouldid);
             let obj = this.visualData.find(
               (e) => e.mouldid.replace(/^\s+|\s+$/g, "") === mouldid
             );

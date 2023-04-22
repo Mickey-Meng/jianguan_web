@@ -66,6 +66,7 @@ export default {
       lmNum: 0.00 + "%",
       qlFinish: false,
       dlFinish: false,
+      lmFinish: false,
       sdFinish: false,
       option: {
         title: {

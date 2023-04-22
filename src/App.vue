@@ -23,9 +23,12 @@ export default {
   },
   mounted() {
     let whiteRouter = ["/home", "/pandect","/mapView"];
+    console.log(whiteRouter);
+    console.log(this.$route.path);
     if (whiteRouter.includes(this.$route.path)) {
     } else {
       let projectInfo = getToken("project_info");
+      console.log(projectInfo);
       if (projectInfo) {
         let menus = getToken("routerMenus");
         if (menus && menus.length > 0) {
