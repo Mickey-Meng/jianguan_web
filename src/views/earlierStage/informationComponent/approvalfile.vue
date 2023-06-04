@@ -42,7 +42,7 @@
           <el-button type="primary" size="small" class="primary_mini" @click="downLoadFile(row)">
             下载
           </el-button>
-          <el-button type="danger" size="small" @click="handleDelete(row, $index)" v-if="roleId ===2"
+          <el-button type="danger" size="small" @click="handleDelete(row, $index)" v-if="rolePerms[0] =='gly'"
           >删除
           </el-button
           >
@@ -75,7 +75,7 @@
       this.tableData = this.DataArr;
     },
     computed: {
-      ...mapGetters(["roleId"])
+      ...mapGetters(["rolePerms"])
     },
     mounted() {
     },

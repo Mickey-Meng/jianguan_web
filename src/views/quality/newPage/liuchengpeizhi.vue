@@ -68,9 +68,9 @@
 			edit
 		},
 		data() {
-			
+
 			return {
-				
+
 				examineResultOptions: [{
 					label: '全部',
 					value: null
@@ -147,5 +147,5 @@
 	};
 </script>
 <style scoped lang="scss">
-	@import "../../../assets/css/table.scss"
+	@import "../../../assets/css/table.scss";
 </style>

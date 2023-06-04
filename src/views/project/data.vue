@@ -80,6 +80,7 @@ export default {
   display: flex;
   justify-content: space-between;
   padding: 20px;
+  background: #F1F3F9;
 
   .index_left {
     width: 426px;
@@ -110,14 +111,14 @@ export default {
     justify-content: space-between;
 
     .news_box {
-      height: 50%;
+      height: 45%;
       margin-bottom: 20px;
     }
 
     .safe_box {
       //flex: 1;
       //height: 49%;
-      height: calc(50% - 20px);
+      height: calc(55% - 20px);
     }
   }
 }

@@ -42,11 +42,11 @@ export default {
     };
   },
   created() {
-    this.routes = this.menus;
+    this.routes = this.menu;
 
   },
   computed: {
-    ...mapGetters(["device", "avatar", "menus", "project", "name"]),
+    ...mapGetters(["device", "avatar", "menu", "project", "name"]),
     activeMenu() {
       const route = this.$route;
       const {meta, path} = route;
@@ -64,6 +64,11 @@ export default {
     },
     isCollapse() {
       // return !this.sidebar.opened
+    },
+  },
+  watch: {
+    menu: function(){
+      this.routes = this.menu;
     }
   },
   methods:{
@@ -98,40 +103,46 @@ export default {
 
       .el-scrollbar__view {
         .el-submenu__title {
-          padding-left: 40px !important;
+          padding-left: 20px !important;
+          padding-right: 0px !important;
           font-size: 16px;
 
           .nav_title_name {
             margin-left: 17px;
             letter-spacing: 3px;
             font-weight: bold;
+            color: #808C9A;
+            // color: rgb(129, 129, 129)
             //font-family: PingFang SC;
           }
 
           &:hover {
-            background-color: #fff !important;
+            background-color: #355DFF82 !important;
           }
         }
 
         .nest-menu {
           padding-left: 10px !important;
+          background: transparent;
 
           .el-menu-item {
-            padding-left: 64px !important;
+            padding-left: 34px !important;
+            padding-right: 0px !important;
             font-size: 14px;
 
             &:hover {
-              background-color: #fff !important;
+              background-color: #355DFF82 !important;
             }
 
             .nav_title_name {
-              margin-left: 17px;
+              margin-left: 10px;
               font-weight: 500;
               letter-spacing: 3px;
             }
           }
           .el-menu-item.is-active{
-            background-color: #EAF0F9 !important;
+            background-color: #355DFF4d !important;
+            color: #fff !important;
             border-radius: 24px 0px 0px 24px !important;
           }
         }
@@ -139,11 +150,11 @@ export default {
       }
 
     .el-submenu.is-active > .el-submenu__title {
-      color: #1E6EEB !important;
+            color: #fff !important;
     }
 
     .el-submenu.is-active > .el-submenu__title i {
-      color: #1E6EEB !important;
+            color: #fff !important;
     }
   }
 

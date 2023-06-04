@@ -4,11 +4,12 @@
                :fullscreen="true"
                :visible.sync="dialogFormVisible">
       <template slot="title">
-        {{dialogTitle}}
+        {{ dialogTitle }}
         <div class="logo-icon"></div>
       </template>
       <el-container>
-        <el-main style="background-color: rgba(0,0 0,0.5);height: calc(100vh - 96px); overflow-y: scroll;padding: 0px;margin: 0;">
+        <el-main
+          style="background-color: rgba(0,0 0,0.5);height: calc(100vh - 96px); overflow-y: scroll;padding: 0px;margin: 0;">
           <div class="form-bg">
             <div class="form-content">
               <el-form :model="formData"
@@ -16,8 +17,8 @@
                        ref="ruleForm"
                        label-width="80px">
                 <div class="form-title">
-<!--                  <div class="title-big-bar"></div>-->
-<!--                  <strong>到场设备报验单</strong>-->
+                  <!--                  <div class="title-big-bar"></div>-->
+                  <!--                  <strong>到场设备报验单</strong>-->
                   <drafthandle v-if="addOrModifyFlag"
                                @addOrModify="addOrModify"
                                @checkDraft="checkDraft"
@@ -26,7 +27,8 @@
 
                 <div class="form-block">
                   <div class="form-block-title">
-                    <div class="title-bar"></div><strong>基本信息</strong>
+                    <div class="title-bar"></div>
+                    <strong>基本信息</strong>
                   </div>
                   <projectinfo></projectinfo>
                   <div class="block-line">
@@ -41,7 +43,8 @@
                 </div>
                 <div class="form-block">
                   <div class="form-block-title">
-                    <div class="title-bar"></div><strong>进场设备信息</strong>
+                    <div class="title-bar"></div>
+                    <strong>进场设备信息</strong>
                   </div>
                   <div class="block-line">
                     <div class="block-item">
@@ -56,7 +59,8 @@
                   <div class="block-line">
                     <el-button size="small"
                                @click="addEquipment"
-                               type="primary">新增</el-button>
+                               type="primary">新增
+                    </el-button>
                   </div>
                   <div class="block-table">
                     <el-table :data="equipmentTable"
@@ -115,10 +119,12 @@
                         <template slot-scope="{ row, $index }">
                           <el-button type="text"
                                      size="mini"
-                                     @click="editEquipment(row, $index)">编辑</el-button>
+                                     @click="editEquipment(row, $index)">编辑
+                          </el-button>
                           <el-button type="text"
                                      size="mini"
-                                     @click="deleteEquipment(row, $index)">删除</el-button>
+                                     @click="deleteEquipment(row, $index)">删除
+                          </el-button>
                         </template>
                       </el-table-column>
                     </el-table>
@@ -126,7 +132,8 @@
                 </div>
                 <div class="form-block">
                   <div class="form-block-title">
-                    <div class="title-bar"></div><strong>附件清单</strong>
+                    <div class="title-bar"></div>
+                    <strong>附件清单</strong>
                     <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
                       xisx xis pdf文件，且不超过100m</span>
                   </div>
@@ -252,7 +259,8 @@
           <el-button @click="addEquipmentTable"
                      class="submit-btn"
                      size="small"
-                     type="primary">提交</el-button>
+                     type="primary">提交
+          </el-button>
         </div>
       </el-form>
     </el-dialog>
@@ -270,7 +278,7 @@
 
 <script>
 import * as api from '@/api/contract.js'
-import { getUserInfo } from '@/api/user'
+import {getUserInfo} from '@/api/user'
 import * as proapi from '@/api/project.js'
 import {
   formatDate,
@@ -351,7 +359,7 @@ export default {
         draftFlag: 1,
         projectCode: '',
         buildSection: this.$store.getters.project.id,
-        projectId: this.$store.getters.project['parentid'],
+        projectId: this.$store.getters.project['id'],
         supervisionBan: '',
       },
       attachTable: [], //附件
@@ -374,7 +382,8 @@ export default {
       flowKey: 'shebeijinchangbaoyan',
     }
   },
-  created() {},
+  created() {
+  },
   components: {
     attachlist,
     drafthandle,
@@ -404,7 +413,7 @@ export default {
           draftFlag: 1,
           projectCode: '',
           buildSection: this.$store.getters.project.id,
-          projectId: this.$store.getters.project['parentid'],
+          projectId: this.$store.getters.project['id'],
           supervisionBan: '监理办',
         }
         this.attachTable = []
@@ -416,7 +425,7 @@ export default {
     getProjectInfoById() {
       proapi
         .getProjectInfoById({
-          projectid: this.$store.getters.project['parentid'],
+          projectid: this.$store.getters.project['id'],
         })
         .then((res) => {
           let data = res['data'] || {}
@@ -425,8 +434,11 @@ export default {
             : ''
           let list = data['companys'] || []
           let info = createProjectInfo(list)
-          this.baseInfo['buildCompany'] = info['buildCompany']
-          this.baseInfo['supervisionUnit'] = info['supervisionUnit']
+
+          info = data['item'] || {}
+
+          this.baseInfo['buildCompany'] = info['constructdpt']
+          this.baseInfo['supervisionUnit'] = info['supervisordpt']
         })
     },
     formatEquType(data) {
@@ -467,7 +479,7 @@ export default {
                 draftFlag: 1,
                 projectCode: '',
                 buildSection: this.$store.getters.project.id,
-                projectId: this.$store.getters.project['parentid'],
+                projectId: this.$store.getters.project['id'],
                 supervisionBan: '',
               },
               [],
@@ -534,12 +546,12 @@ export default {
       this.$refs['newform'].validate((valid) => {
         if (valid) {
           if (this.editIndex > -1) {
-            this.equipmentTable[this.editIndex] = { ...this.equipmentInfo }
+            this.equipmentTable[this.editIndex] = {...this.equipmentInfo}
             this.$set(this.equipmentTable, this.editIndex, {
               ...this.equipmentInfo,
             })
           } else {
-            this.equipmentTable.push({ ...this.equipmentInfo })
+            this.equipmentTable.push({...this.equipmentInfo})
           }
           this.equipmentTable = this.formatEquType(this.equipmentTable)
           this.equipmentVisible = false
@@ -548,7 +560,7 @@ export default {
     },
     editEquipment(row, index) {
       this.editIndex = index
-      this.equipmentInfo = { ...row }
+      this.equipmentInfo = {...row}
       this.equipmentVisible = true
     },
     deleteEquipment(row, index) {

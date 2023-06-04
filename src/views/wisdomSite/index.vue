@@ -86,10 +86,12 @@
 
 <script>
 import EZUIKit from "ezuikit-js";
+import {mapGetters} from "vuex";
 
 import monitoring from "@/views/wisdomSite/indexComponent/monitoring";
 import topVideo from "@/views/wisdomSite/indexComponent/topVideo";
 import { getVideoToken } from "@/api/wisdomSite";
+import {getMonitoring} from "@/api/project";
 let zeh, em, player, popupId;
 export default {
   name: "",
@@ -103,10 +105,13 @@ export default {
       showVideoTable: false,
     };
   },
+  computed: {
+    ...mapGetters(["project"])
+  },
   created() {
     zeh = window.zeh;
-    em = zeh.earth.createMarkerManager({ clusterType: "dilute" });
-    em.beginCluster();
+    // em = zeh.earth.createMarkerManager({ clusterType: "dilute" });
+    // em.beginCluster();
   },
   mounted() {
     this.getToken();
@@ -179,11 +184,16 @@ export default {
       });
     },
     initData() {
+      console.log("getMonitoring...");
+      getMonitoring(this.project.id).then((res) => {
+        let data = res.data.monitorDevices;
+        console.log(res);
+      });
       this.$axios.get("./data/monitoring.json").then((res) => {
         let data = res.data.data;
         this.minData = data;
         if (data && data.length > 0) {
-          this.initMarker(data);
+          // this.initMarker(data);
         }
       });
     },

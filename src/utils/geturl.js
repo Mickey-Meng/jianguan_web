@@ -7,22 +7,7 @@
  * @LastEditTime: 2022-04-13 09:29:07
  */
 import store from "../store";
-(function() {
-  if (process.env.NODE_ENV === "development") {
-    store.commit(
-      "settings/SET_URL",
-      "http://150.158.139.18:25555/prod-api/mong/preview?fileid="
-    );
-  } else {
-    //新生产
-    store.commit(
-      "settings/SET_URL",
-      "http://127.0.0.1:25555/prod-api/mong/preview?fileid="
-    );
-    //老生产
-    // store.commit(
-    //   "settings/SET_URL",
-    //   "http://101.200.223.171:8085/ZhuJiRoad/mong/preview?fileid="
-    // );
-  }
+
+(function () {
+  store.commit("settings/SET_URL", process.env.VUE_APP_SERVER_ADDRESS + "/mong/preview?fileid=");
 })();

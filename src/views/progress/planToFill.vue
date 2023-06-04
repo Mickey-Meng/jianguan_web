@@ -100,12 +100,16 @@ export default {
   computed: {
     ...mapGetters(["userInfo"]),
   },
+  mounted() {
+    this.$nextTick(() => {
+      Bus.$on("getProcessById", (item) => {
+        this.conponetcode = item.conponetcode;
+        this.conponmentId = item.id;
+        this.getTime();
+      });
+    })
+  },
   created() {
-    Bus.$on("getProcessById", (item) => {
-      this.conponetcode = item.conponetcode;
-      this.conponmentId = item.id;
-      this.getTime();
-    });
     let groupId = getToken("groupId");
     if ([2].includes(groupId)) {
       this.isDisabled = false;

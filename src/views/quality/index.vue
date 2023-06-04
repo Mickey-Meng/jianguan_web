@@ -101,7 +101,7 @@
             <el-table-column
               label="操作"
               width="100"
-              v-if="[2].includes(groupId)"
+              v-if="rolePerms[0] =='gly'"
             >
               <template slot-scope="{ row }">
                 <el-button
@@ -339,7 +339,7 @@ export default {
   name: "",
   data() {
     return {
-      dynamicData: ["one", "two", "three", "four", "five", "six", "seven"],
+      dynamicData: ["P0", "P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8", "P9", "P10", "P11", "P12", "P13", "P14", "P15", "P16", "P17", "P18", "P19", "P20"],
       groupId: null,
       all: true,
       drawerVisible: false,
@@ -352,7 +352,7 @@ export default {
         list: [],
         projectId: null,
         sttime: "",
-        type: "ZJ",
+        type: "",
         projectType: "QL"
       },
       dialogVisible: false,
@@ -413,7 +413,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["userInfo", "getUrl", "project"])
+    ...mapGetters(["userInfo", "getUrl", "project", "rolePerms"])
   },
   created() {
     this.groupId = getToken("groupId");
@@ -428,28 +428,13 @@ export default {
           this.headerData = [];
           this.headerData = res.data.head;
           let lists = res.data.list;
+          const dec = ["P0_status", "P1_status", "P2_status", "P3_status", "P4_status", "P5_status", "P6_status", "P7_status", "P8_status", "P9_status", "P10_status", "P11_status", "P12_status", "P13_status", "P14_status", "P15_status", "P16_status", "P17_status", "P18_status", "P19_status", "P20_status"]
           lists.forEach((item) => {
-            if (item.one) {
-              item.one_status = item.one.split("_")[1];
-            }
-            if (item.two) {
-              item.two_status = item.two.split("_")[1];
-            }
-            if (item.three) {
-              item.three_status = item.three.split("_")[1];
-            }
-            if (item.four) {
-              item.four_status = item.four.split("_")[1];
-            }
-            if (item.five) {
-              item.five_status = item.five.split("_")[1];
-            }
-            if (item.six) {
-              item.six_status = item.six.split("_")[1];
-            }
-            if (item.seven) {
-              item.seven_status = item.seven.split("_")[1];
-            }
+            const produceRecordDetails = item.produceRecordDetails;
+            produceRecordDetails.forEach((detail, index) => {
+              item[dec[index]] = detail.produceRangee.split("_")[1] || undefined;
+              item[this.dynamicData[index]] = detail.produceRangee || undefined;
+            })
           });
           this.tableData = lists;
           this.rowdata = {};
@@ -478,8 +463,9 @@ export default {
           tree.push(obj);
         }
         this.treeData = tree;
+        this.postData.projectType = tree[0] && tree[0].code;
+        this.init();
       });
-      this.init();
       getProjectTypeData(this.project.id).then((res) => {
         let obj = {
           projectname: "所有工程",
@@ -675,8 +661,9 @@ export default {
             return item;
           }
         });
-        let { one, two, three } = row;
-        let info = { one, two, three };
+        
+        let { P0, P1, P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20} = row;
+        let info = { P0, P1, P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20 };
         options.forEach((e) => {
           e.recodeid = info[e.code];
           e.conponentid = row.conponentid;
@@ -909,7 +896,7 @@ export default {
     font-weight: 500;
     color: #4B5973;
     padding-right: 8px;
-    overflow: auto;
+    overflow: hidden;
     .svg-class {
       margin-right: 5px;
     }

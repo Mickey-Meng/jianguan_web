@@ -76,7 +76,7 @@
 						<template slot-scope="{ row, $index }">
 							<el-button v-if="row.auditStatus == 'REJECT'"  type="text" size="mini" @click="modify(row)">修改</el-button>
 							<el-button type="text" size="mini" @click="viewDetail(row)">详情</el-button>
-							<el-button v-if="row.auditStatus == 'REJECT'" type="text" size="mini" @click="deleteRow(row)">删除</el-button>
+							<el-button v-if="row.auditStatus == 'REJECT' && $store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'" type="text" size="mini" @click="deleteRow(row)">删除</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -128,7 +128,6 @@
 		created() {},
 		computed: {
 		  auditStatusDesc(auditStatus) {
-		    debugger;
 		    if(auditStatus === "1") {
 		      return "审批中";
         }

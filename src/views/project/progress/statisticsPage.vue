@@ -148,17 +148,21 @@ export default {
     display: flex;
     align-items: center;
     padding: 20px 0px 10px 20px;
+    background: #EAF1FF;
+    border-radius: 4px 4px 0px 0px;
 
     .left {
       display: flex;
       align-items: center;
 
       .header_line {
-        width: 4px;
-        height: 16px;
+        width: 24px;
+        height: 24px;
         background-color: #1E6EEB;
         margin-right: 8px;
         border-radius: 3px;
+        background: url(../../../assets/image/datacenter_headericon4.svg) no-repeat;
+        background-size: cover;
       }
 
       .header_text {
@@ -166,6 +170,9 @@ export default {
         font-size: 18px;
         font-weight: bold;
         font-family: PingFang SC;
+        font-size: 16px;
+        font-family: AlibabaPuHuiTiM;
+        color: #191919;
       }
     }
 
@@ -175,9 +182,9 @@ export default {
       li {
         text-align: center;
         margin-left: 20px;
-        width: 68px;
-        height: 28px;
-        line-height: 28px;
+        width: 50px;
+        height: 20px;
+        line-height: 20px;
         //border-radius: 20px;
         background: url("../../../assets/newUi/nav.png") no-repeat;
         cursor: pointer;
@@ -185,7 +192,9 @@ export default {
         font-size: 14px;
         font-family: PingFang SC;
         font-weight: 500;
-        color: #808EA9;
+        color: #355DFF;
+        background: white;
+        border-radius: 4px;
         //background-color: #FFFFFF;
         //border: 1px solid #E8E8E8;
       }
@@ -197,6 +206,8 @@ export default {
         background-size: 100%;
         font-weight: 500;
         color: #1E6EEB;
+        color: white;
+        background: #355DFF;
       }
     }
 
@@ -267,15 +278,19 @@ export default {
 
       li {
         background: url("../../../assets/newUi/area_bg.png") no-repeat;
-        width: 76px;
+        width: 60px;
         text-align: center;
         background-size: 100%;
-        height: 28px;
-        line-height: 28px;
+        height: 24px;
+        line-height: 24px;
         font-weight: 500;
         color: #808EA9;
         cursor: pointer;
         margin-right: 20px;
+        color: #355DFF;
+        background: white;
+        border-radius: 4px;
+        border: 1px solid #EEEEEE;
       }
 
       .active {
@@ -285,6 +300,8 @@ export default {
         background-size: 100%;
         font-weight: 500;
         color: #1E6EEB;
+        color: white;
+        background: #355DFF;
       }
     }
   }

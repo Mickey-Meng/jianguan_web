@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon</title>
+    <defs>
+        <filter id="filter-1">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0.207843 0 0 0 0 0.364706 0 0 0 0 1.000000 0 0 0 1.000000 0"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="项目总览" transform="translate(-236.000000, -803.000000)">
+            <g id="标题" transform="translate(224.000000, 790.000000)">
+                <g id="icon" transform="translate(12.000000, 13.000000)">
+                    <rect id="矩形" fill="#FFFFFF" opacity="0" x="0" y="0" width="24" height="24"></rect>
+                    <g filter="url(#filter-1)" id="80%">
+                        <g transform="translate(4.000000, 4.000000)" id="编组" fill="#658DE1" fill-rule="nonzero">
+                            <path d="M1.792,11.22716 L1.792,8.84716 L0,8.56345 L0,16.10014 L1.792,15.47665 L1.792,12.87076 L4.648,12.87076 L5.88,10.94436 L4.312,9.98116 L3.584,11.28414 L1.792,11.28414 L1.792,11.22814 L1.792,11.22716 Z M16.8,8.84716 L3.976,0.23345 L2.52,0.23345 L0.504,3.462781 L0.504,4.53985 L11.984,12.13345 L12.936,12.02054 L16.8,8.84716 Z M0.504,5.22025 L0.504,6.91985 L12.096,14.40054 L13.16,14.40054 L13.664,13.83305 L14.168,12.19036 C14.168,12.19036 12.712,13.26654 12.6,13.26654 C12.096,12.86985 0.504,5.22025 0.504,5.22025 Z" id="形状"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -40,7 +40,7 @@
             <el-button
               type="danger"
               size="small"
-              v-if="[2].includes(groupId)"
+              v-if="rolePerms[0] =='gly'"
               @click="handleDelete(row, $index)"
               >删除</el-button
             >
@@ -174,7 +174,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["userInfo", "uploadUrl", "project"])
+    ...mapGetters(["userInfo", "uploadUrl", "project", "rolePerms"])
   },
   created() {
     this.groupId = getToken("groupId");

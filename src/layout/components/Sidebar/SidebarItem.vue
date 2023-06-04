@@ -104,9 +104,9 @@
     position: relative;
 }
 .message-num{
-    position: absolute;
+    /* position: absolute;
     top: 16px;
-    right: 20px;
+    right: 20px; */
     background-color: #f56c6c;
     border-radius: 10px;
     color: #fff;
@@ -118,5 +118,12 @@
     text-align: center;
     white-space: nowrap;
     border: 1px solid #fff;
+}
+
+
+a {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 </style>

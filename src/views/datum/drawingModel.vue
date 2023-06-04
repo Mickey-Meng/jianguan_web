@@ -253,15 +253,15 @@ export default {
       typeText: "",
       typeArr: [
         {
-          name: "桥梁",
+          name: "桥梁图纸文件",
           key: 4,
         },
         {
-          name: "道路",
+          name: "道路图纸文件",
           key: 5,
         },
         {
-          name: "管线",
+          name: "管线图纸文件",
           key: 6,
         },
       ],

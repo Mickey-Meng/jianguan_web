@@ -54,6 +54,9 @@ const api = {
   getAllProject: "/projects/getAllProjects", //获取所有项目、后续根据用户查询有权限访问的数据
   getAllProjectsData: "/projects/getAll", //获取项目表所有数据
   getProjectsByUser: "/projects/getProjectByUser",//通过用户工区权限查询项目
+
+
+  getMonitoringByProjectId: "/system/jg/project/monitor",//通过项目查询监控列表
   /*
    * 工程统计
    * */

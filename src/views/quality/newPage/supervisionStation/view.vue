@@ -1399,7 +1399,7 @@
 					"exceptionCondition": "",
 					"problemDealCondition": "",
 					buildSection: this.$store.getters.project.id,
-					projectId:this.$store.getters.project['parentid'],
+					projectId:this.$store.getters.project['id'],
 					"projectPartDesc": "",
 					"projectPartId": null,
 					"projectPartStr":'',

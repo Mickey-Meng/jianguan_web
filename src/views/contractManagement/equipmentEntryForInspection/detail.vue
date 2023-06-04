@@ -167,7 +167,7 @@ export default {
         draftFlag: 1,
         projectCode: '',
         buildSection: this.$store.getters.project.id,
-        projectId: this.$store.getters.project['parentid'],
+        projectId: this.$store.getters.project['id'],
         supervisionBan: '',
       },
       attachTable: [], //附件
@@ -203,7 +203,7 @@ export default {
     getProjectInfoById() {
       proapi
         .getProjectInfoById({
-          projectid: this.$store.getters.project['parentid'],
+          projectid: this.$store.getters.project['id'],
         })
         .then((res) => {
           let data = res['data'] || {}
@@ -212,8 +212,11 @@ export default {
             : ''
           let list = data['companys'] || []
           let info = createProjectInfo(list)
-          this.baseInfo['buildCompany'] = info['buildCompany']
-          this.baseInfo['supervisionUnit'] = info['supervisionUnit']
+
+          info = data['item'] || {}
+          
+          this.baseInfo['buildCompany'] = info['constructdpt']
+          this.baseInfo['supervisionUnit'] = info['supervisordpt']
         })
     },
     changeVisible(value) {

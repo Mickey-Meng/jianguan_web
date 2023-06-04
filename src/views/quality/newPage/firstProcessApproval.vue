@@ -36,7 +36,7 @@
 				<div class="operate-btns" v-show="operateBtnsVisible">
 					<el-button size="small" @click="addNew">新增</el-button>
 					<el-button size="small" @click="exportData">导出</el-button>
-					<el-button size="small">批量操作</el-button>
+					<!-- <el-button size="small">批量操作</el-button> -->
 				</div>
 			</div>
 		</el-header>
@@ -66,10 +66,10 @@
 						<template slot-scope="{ row, $index }">
 							<el-button v-if="!isDraft"  type="text" size="mini" @click="modify(row)">修改</el-button>
 							<el-button v-if="!isDraft"  type="text" size="mini" @click="viewDetail(row)">详情</el-button>
-							
+
 							<el-button v-if="isDraft" type="text" size="mini" @click="checkDetail(row)">选择</el-button>
-							
-							<el-button  type="text" size="mini" @click="deleteRow(row)">删除</el-button>
+
+							<el-button  type="text" size="mini" v-if="$store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'" @click="deleteRow(row)">删除</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -116,7 +116,7 @@
 					buildDateStart: null,
 					firstProjectName: '',
 					subProjectDetail: '',
-					
+
 					draftFlag: 1,
 					pageNum: 1,
 					totalPage: 1,

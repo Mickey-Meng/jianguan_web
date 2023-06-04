@@ -1,8 +1,10 @@
 <template>
   <div class="login-container">
-    <img src="../../assets/image/logo.png" alt="logo" class="logo-box" />
+    <!-- <img src="../../assets/image/logo.png" alt="logo" class="logo-box" /> -->
     <div class="title-container">
-      <h3 class="title">全生命周期智慧建设管理平台</h3>
+      <h3 class="title"></h3>
+    </div>
+    <div class="title-loginForm">
     </div>
     <el-form
       ref="loginForm"
@@ -12,7 +14,7 @@
       auto-complete="on"
       label-position="left"
     >
-      <el-form-item prop="username">
+      <el-form-item prop="username" class="login-form-item" style="margin-top: 60px;">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
@@ -26,7 +28,7 @@
           auto-complete="off"
         />
       </el-form-item>
-      <el-form-item prop="password">
+      <el-form-item prop="password" class="login-form-item">
         <span class="svg-container">
           <svg-icon icon-class="password" />
         </span>
@@ -47,15 +49,15 @@
           />
         </span>
       </el-form-item>
-      <el-button
+      <el-button class="login-form-item"
         :loading="loading"
         type="primary"
-        style="width: 100%; margin-bottom: 30px"
+        style="width: 100%; margin-top: 26px;font-size: 18px; font-weight: 400;"
         @click.native.prevent="handleLogin"
         >登陆</el-button
       >
     </el-form>
-    <div class="company-name">池州建设投资集团有限公司</div>
+    <div class="company-name">池州建设投资集团有限公司 · 池州建投建筑科技有限公司</div>
   </div>
 </template>
 
@@ -180,12 +182,15 @@ $cursor: #fff;
     left: 0;
   }
   .company-name {
-    font-size: 20px;
     color: #88a2c5;
     position: absolute;
     bottom: 50px;
     left: 50%;
     transform: translateX(-50%);
+    font-size: 18px;
+    font-family: AlibabaPuHuiTiR;
+    color: #FFFFFF;
+    line-height: 25px;
   }
   .el-input {
     display: inline-block;
@@ -201,27 +206,6 @@ $cursor: #fff;
       color: $light_gray;
       height: 47px;
       //caret-color: $cursor;
-
-      &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px #00051D inset !important;
-        -webkit-text-fill-color: $cursor !important;
-      }
-    }
-    input:-webkit-autofill,
-    textarea:-webkit-autofill,
-    select:-webkit-autofill {
-      /*覆盖背景颜色*/
-      -webkit-box-shadow: 0 0 0px 1000px #00051D inset !important;
-      /*字体颜色重置*/
-      // -webkit-text-fill-color: #c62222 !important;
-    }
-    input:-internal-autofill-selected{
-      background-color: #00051D !important;
-    }
-    input[type="text"]:focus,
-    input[type="password"]:focus,
-    textarea:focus {
-      -webkit-box-shadow: 0 0 0 1000px #00051D inset !important;
     }
   }
 
@@ -232,6 +216,22 @@ $cursor: #fff;
     color: #454545;
   }
 }
+
+
+  input:-internal-autofill-selected {
+    appearance: menulist-button;
+    background-image: none !important;
+    background-color: transparent !important;
+    color: fieldtext !important;
+  }
+  .el-input__inner:-webkit-autofill,
+  .el-input__inner:-webkit-autofill:hover,
+  .el-input__inner:-webkit-autofill:focus,
+  .el-input__inner:-webkit-autofill:active {
+    -webkit-transition-delay: 99999s;
+    -webkit-transition: color 99999s ease-out,
+      background-color 99999s ease-out;
+  }
 </style>
 
 <style lang="scss" scoped>
@@ -247,11 +247,23 @@ $light_gray: #eee;
 
   .login-form {
     position: relative;
-    width: 520px;
+    width: 430px;
     max-width: 100%;
-    padding: 0 35px 0;
+    padding: 0 80px 0;
     margin: 0 auto;
     overflow: hidden;
+    height: 364px;
+    background: rgba(0,21,61,0.7);
+    // login_form_input
+    .login-form-item {
+      background: url(../../assets/image/login_form_input.png) no-repeat;
+      background-size: 100% 100%;
+      width: 270px;
+      height: 50px;
+      border: unset;
+      border-radius: unset;
+      margin-bottom: 24px;
+    }
   }
 
   .tips {
@@ -268,7 +280,7 @@ $light_gray: #eee;
 
   .svg-container {
     padding: 6px 5px 6px 15px;
-    color: $dark_gray;
+    color: $light_gray;
     vertical-align: middle;
     width: 30px;
     display: inline-block;
@@ -276,7 +288,11 @@ $light_gray: #eee;
 
   .title-container {
     position: relative;
-
+    background: url("../../assets/image/sys_title.png") no-repeat;
+    background-size: 100% 100%;
+    margin: 0 auto;
+    width: 344px;
+    height: 74px;
     .title {
       letter-spacing: 5px;
       font-size: 40px;
@@ -287,6 +303,14 @@ $light_gray: #eee;
     }
   }
 
+  .title-loginForm {
+    position: relative;
+    background: url("../../assets/image/title-loginForm.png") no-repeat;
+    background-size: 100% 100%;
+    margin: 0 auto;
+    width: 430px;
+    height: 40px;
+  }
   .show-pwd {
     position: absolute;
     right: 10px;

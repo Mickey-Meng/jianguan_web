@@ -1696,7 +1696,7 @@
 					"exceptionCondition": "",
 					"problemDealCondition": "",
 					buildSection: this.$store.getters.project.id,
-					projectId: this.$store.getters.project['parentid'],
+					projectId: this.$store.getters.project['id'],
 					"projectPartDesc": "",
 					"projectPartId": null,
 					"projectPartStr": '',
@@ -1789,7 +1789,7 @@
 			},
 			getChildProject() {
 				api.getChildProject({
-					projectid: this.$store.getters.project['parentid']
+					projectid: this.$store.getters.project['id']
 				}).then((res) => {
 					let options = res.data || [];
 					this.childOptions = convertOptions(options, 'name', 'id');
@@ -1828,7 +1828,7 @@
 						"exceptionCondition": "",
 						"problemDealCondition": "",
 						buildSection: this.$store.getters.project.id,
-						projectId: this.$store.getters.project['parentid'],
+						projectId: this.$store.getters.project['id'],
 						"projectPartDesc": "",
 						"projectPartId": null,
 						"projectPartStr": '',
@@ -1866,7 +1866,7 @@
 							"exceptionCondition": "",
 							"problemDealCondition": "",
 							buildSection: this.$store.getters.project.id,
-							projectId: this.$store.getters.project['parentid'],
+							projectId: this.$store.getters.project['id'],
 							"projectPartDesc": "",
 							"projectPartId": null,
 							"projectPartStr": '',

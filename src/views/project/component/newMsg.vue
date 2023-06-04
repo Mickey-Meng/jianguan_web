@@ -112,7 +112,7 @@
         }
       },
       goNewsPage() {
-        if (this.rights.includes("xinwenzhongxin")) {
+        if (this.rights.includes("/newsCenter")) {
           this.$router.push("/newsCenter");
         } else {
           this.$message({
@@ -140,6 +140,8 @@
     align-items: center;
     padding: 20px 0px 10px 20px;
     position: relative;
+    background: #EAF1FF;
+    border-radius: 4px 4px 0px 0px;
 
     .more_news {
       position: absolute;
@@ -149,11 +151,13 @@
     }
 
     .header_line {
-      width: 4px;
-      height: 16px;
+      width: 24px;
+      height: 24px;
       background-color: #1E6EEB;
       margin-right: 8px;
       border-radius: 3px;
+      background: url(../../../assets/image/datacenter_headericon4.svg) no-repeat;
+      background-size: cover;
     }
 
     .header_text {
@@ -161,6 +165,9 @@
       font-size: 18px;
       font-weight: bold;
       font-family: PingFang SC;
+      font-size: 16px;
+      font-family: AlibabaPuHuiTiM;
+      color: #191919;
     }
 
   }
@@ -186,7 +193,7 @@
         background-repeat: no-repeat;
         background-size: 100% 100%;
 
-        padding: 19px 0;
+        padding: 9px 0;
         cursor: pointer;
         border-bottom: 1px solid rgba(128, 142, 169, 0.3);
 
@@ -205,6 +212,9 @@
             font-family: PingFang SC;
             font-weight: 500;
             color: #2D405E;
+            font-size: 14px;
+            font-family: AlibabaPuHuiTiM;
+            color: #11142D;
           }
 
           div:last-of-type {

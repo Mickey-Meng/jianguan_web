@@ -4,11 +4,12 @@
                :fullscreen="true"
                :visible.sync="dialogFormVisible">
       <template slot="title">
-        {{dialogTitle}}
+        {{ dialogTitle }}
         <div class="logo-icon"></div>
       </template>
       <el-container>
-        <el-main style="background-color: rgba(0,0 0,0.5);height: calc(100vh - 96px); overflow-y: scroll;padding: 0px;margin: 0;">
+        <el-main
+          style="background-color: rgba(0,0 0,0.5);height: calc(100vh - 96px); overflow-y: scroll;padding: 0px;margin: 0;">
           <div class="form-bg">
             <div class="form-content">
               <el-form :model="formData"
@@ -16,8 +17,8 @@
                        ref="ruleForm"
                        label-width="80px">
                 <div class="form-title">
-<!--                  <div class="title-big-bar"></div>-->
-<!--                  <strong>退场设备报验单</strong>-->
+                  <!--                  <div class="title-big-bar"></div>-->
+                  <!--                  <strong>退场设备报验单</strong>-->
                   <drafthandle v-if="addOrModifyFlag"
                                @addOrModify="addOrModify"
                                @checkDraft="checkDraft"
@@ -26,7 +27,8 @@
 
                 <div class="form-block">
                   <div class="form-block-title">
-                    <div class="title-bar"></div><strong>基本信息</strong>
+                    <div class="title-bar"></div>
+                    <strong>基本信息</strong>
                   </div>
                   <projectinfo></projectinfo>
                   <div class="block-line">
@@ -41,7 +43,8 @@
                 </div>
                 <div class="form-block">
                   <div class="form-block-title">
-                    <div class="title-bar"></div><strong>退场设备信息</strong>
+                    <div class="title-bar"></div>
+                    <strong>退场设备信息</strong>
                   </div>
                   <div class="block-line">
                     <div class="block-item">
@@ -53,9 +56,12 @@
                       </div>
                     </div>
                   </div>
-                  <!-- <div class="block-line">
-										<el-button size="small" @click="addEquipment" type="primary">新增</el-button>
-									</div> -->
+                  <div class="block-line">
+                    <el-button size="small"
+                               @click="addEquipment"
+                               type="primary">新增
+                    </el-button>
+                  </div>
                   <div class="block-table">
                     <el-table :data="equipmentTable"
                               style="width: 100%"
@@ -108,16 +114,34 @@
                         <template slot-scope="{ row, $index }">
                           <el-button type="text"
                                      size="mini"
-                                     @click="editEquip(row)">编辑</el-button>
+                                     @click="editEquip(row)">编辑
+                          </el-button>
                           <el-button type="text"
                                      size="mini"
-                                     @click="deleteEquipment(row, $index)">删除</el-button>
+                                     @click="deleteEquipment(row, $index)">删除
+                          </el-button>
                         </template>
                       </el-table-column>
                     </el-table>
                   </div>
                 </div>
-                <approveuser :auditUser="auditUser"
+                <div class="form-block">
+                  <div class="form-block-title">
+                    <div class="title-bar"></div>
+                    <strong>附件清单</strong>
+                    <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
+                      xisx xis pdf文件，且不超过100m</span>
+                  </div>
+
+                  <attachlist :editAble="true"
+                              ref="attachlist"
+                              :attachTable="attachTable">
+                  </attachlist>
+
+                </div>
+
+                <approveuser v-if="approveVisible"
+                             :auditUser="auditUser"
                              :flowKey="flowKey">
                 </approveuser>
                 <div class="form-block">
@@ -216,7 +240,8 @@
           <el-button @click="addEquipmentTable"
                      class="submit-btn"
                      size="small"
-                     type="primary">提交</el-button>
+                     type="primary">提交
+          </el-button>
         </div>
       </el-form>
     </el-dialog>
@@ -234,7 +259,7 @@
 
 <script>
 import * as api from '@/api/contract.js'
-import { getUserInfo } from '@/api/user'
+import {getUserInfo} from '@/api/user'
 import * as proapi from '@/api/project.js'
 import {
   formatDate,
@@ -301,24 +326,26 @@ export default {
       },
       formData: {
         //表单参数
-        // attachment: [],
+        attachment: [],
         equipmentInfo: [],
         deletedFlag: 1,
         draftFlag: 1,
         projectCode: '',
         buildSection: this.$store.getters.project.id,
-        projectId: this.$store.getters.project['parentid'],
+        projectId: this.$store.getters.project['id'],
         supervisionBan: '',
       },
-      //   attachTable: [], //附件
+      attachTable: [], //附件
       equipmentTable: [],
       equipmentVisible: false,
       equipmentInfo: {},
       auditUser: {},
+      approveVisible: true,
       flowKey: 'shebeituichangbaoyan',
     }
   },
-  created() {},
+  created() {
+  },
   components: {
     attachlist,
     drafthandle,
@@ -330,26 +357,37 @@ export default {
   computed: {},
   mounted() {
     this.getProjectInfoById()
+    // this.getEquipmentEnterEnums()
   },
   watch: {},
   methods: {
-    changeVisible(obj, value) {
+    editStatus(row) {
+      if(row.status != 2 && row.createUserId == this.$store.getters.userInfo.ID) {
+        return true;
+      }
+      if(row.status != 2 && this.$store.getters.rolePerms[0] == 'gly') {
+        return true;
+      }
+      return false;
+    },
+    changeVisible(obj, value, isEdit) {
       this.dialogFormVisible = value
+      this.approveVisible = isEdit
       obj = obj || {}
       if (obj['id']) {
-        this.getDetail(obj)
+        this.getDetail(obj, isEdit)
       } else {
         this.formData = {
-          //   attachment: [],
+          attachment: [],
           equipmentInfo: [],
           deletedFlag: 1,
           draftFlag: 1,
           projectCode: '',
           buildSection: this.$store.getters.project.id,
-          projectId: this.$store.getters.project['parentid'],
-          supervisionBan: '',
+          projectId: this.$store.getters.project['id'],
+          supervisionBan: '监理办',
         }
-        // this.attachTable = []
+        this.attachTable = []
         this.equipmentTable = []
         // this.auditUser={};
       }
@@ -357,7 +395,7 @@ export default {
     getProjectInfoById() {
       proapi
         .getProjectInfoById({
-          projectid: this.$store.getters.project['parentid'],
+          projectid: this.$store.getters.project['id'],
         })
         .then((res) => {
           let data = res['data'] || {}
@@ -366,27 +404,40 @@ export default {
             : ''
           let list = data['companys'] || []
           let info = createProjectInfo(list)
-          this.baseInfo['buildCompany'] = info['buildCompany']
-          this.baseInfo['supervisionUnit'] = info['supervisionUnit']
+
+          info = data['item'] || {}
+
+          this.baseInfo['buildCompany'] = info['constructdpt']
+          this.baseInfo['supervisionUnit'] = info['supervisordpt']
         })
     },
     editEquip(row) {
       this.equipmentVisible = true
       this.equipmentInfo = JSON.parse(JSON.stringify(row))
     },
-    getDetail(res) {
-      let data = res || {}
+    getDetail(res, isEdit) {
+      if (isEdit) {
+        let data = res || {}
 
-      //this.attachTable = data.attachment || []
-      let infos = data.equipmentInfos || []
-      infos.forEach((item) => {
-        item['remark'] = ''
-        item['exitReason'] = ''
-        item['exitDate'] = formatDate(new Date())
-      })
-      this.equipmentTable = data.equipmentInfos || []
+        //this.attachTable = data.attachment || []
+        let infos = data.equipmentInfos || []
+        infos.forEach((item) => {
+          item['remark'] = ''
+          item['exitReason'] = ''
+          item['exitDate'] = formatDate(new Date())
+        })
+        this.equipmentTable = data.equipmentInfos || []
 
-      this.formData.equipmentInfo = this.equipmentTable
+        this.formData.equipmentInfo = this.equipmentTable
+      } else {
+        api.getEquipmentExitDeatil(id).then((res) => {
+          let data = res['data'] || {}
+          this.formData = data
+          this.attachTable = data.attachment || []
+          this.equipmentTable = data.equipmentInfo || []
+          // this.equipmentTable = this.formatEquType(data.equipmentInfo || [])
+        })
+      }
 
       // api.getEquipmentExitDeatil(id).then((res) => {
       // 	let data = res['data'] || {};
@@ -402,13 +453,13 @@ export default {
             [this.formData, this.equipmentTable],
             [
               {
-                // attachment: [],
+                attachment: [],
                 equipmentInfo: [],
                 deletedFlag: 1,
                 draftFlag: 1,
                 projectCode: '',
                 buildSection: this.$store.getters.project.id,
-                projectId: this.$store.getters.project['parentid'],
+                projectId: this.$store.getters.project['id'],
                 supervisionBan: '',
               },
 
@@ -423,7 +474,7 @@ export default {
           return
         }
         this.formData.draftFlag = isdraft ? 0 : 1
-        // this.formData.attachment = this.attachTable
+        this.formData.attachment = this.attachTable
         this.formData.equipmentInfo = this.equipmentTable
         this.formData.auditUser = this.auditUser
         this.formData.copyData = {}
@@ -440,7 +491,7 @@ export default {
       } else {
         this.$refs['ruleForm'].validate((valid) => {
           if (valid) {
-            // this.formData.attachment = this.attachTable
+            this.formData.attachment = this.attachTable
             this.formData.equipmentInfo = this.equipmentTable
             this.formData.auditUser = this.auditUser
             this.formData.copyData = {}
@@ -486,7 +537,7 @@ export default {
           let list = []
           this.equipmentTable.forEach((item, index) => {
             if (item['id'] == this.equipmentInfo['id']) {
-              list.push({ ...this.equipmentInfo })
+              list.push({...this.equipmentInfo})
             } else {
               list.push(item)
             }

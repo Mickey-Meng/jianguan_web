@@ -500,7 +500,7 @@
         });
       },
       getRecord() {
-        api.getAllcheckData(1).then((res) => {
+        api.getAllcheckData(1, this.project.id).then((res) => {
           this.recordsData = res.data.filter((e) => e.checkresult === 1);
         });
       },

@@ -17,9 +17,21 @@
         <div class="chart_box">
           <v-chart :options="option" autoresize class="v-chart-box"/>
         </div>
-        <div class="text">总体进度</div>
+        <div class="text" style="position: relative; top: -60px;">项目完成进度</div>
       </div>
-      <div class="right_process">
+      <div class="left_chart min" style="margin-right:10px;">
+        <div class="chart_box" style="width:254px;height:254px;">
+          <v-chart :options="option1" autoresize class="v-chart-box"/>
+        </div>
+        <div class="text">产值进度</div>
+      </div>
+      <div class="left_chart min" style="margin-left:10px;">
+        <div class="chart_box" style="width:154px;height:154px;">
+          <v-chart :options="option2" autoresize class="v-chart-box"/>
+        </div>
+        <div class="text">付款进度</div>
+      </div>
+      <div class="right_process" style="display:none;">
         <div class="item">
           <div class="header_text">
             <div class="text">房建进度</div>
@@ -70,7 +82,7 @@ export default {
       sdFinish: false,
       option: {
         title: {
-          text: "",
+          text: "0%",
           x: "center",
           y: "center",
           textStyle: {
@@ -84,7 +96,7 @@ export default {
           name: "",
           type: "pie",
           // clockWise: true,
-          radius: ["58%", "76%"],
+          radius: ["58%", "86%"],
           itemStyle: {
             normal: {
               label: {
@@ -113,6 +125,102 @@ export default {
           }, {
             name: "未完成",
             value: 0
+          }]
+        }]
+      },
+      option1: {
+        title: {
+          text: "0%",
+          x: "center",
+          y: "center",
+          textStyle: {
+            fontWeight: "normal",
+            color: "#1E6EEB",
+            fontSize: "18",
+          }
+        },
+        color: ["rgba(210,226,251, 1)"],
+        series: [{
+          name: "",
+          type: "pie",
+          // clockWise: true,
+          radius: ["70%", "80%"],
+          itemStyle: {
+            normal: {
+              label: {
+                show: false
+              },
+              labelLine: {
+                show: false
+              }
+            }
+          },
+          hoverAnimation: false,
+          data: [{
+            value: 4.6,
+            name: "完成",
+            itemStyle: {
+              normal: {
+                color: "#1E6EEB",
+                label: {
+                  show: false
+                },
+                labelLine: {
+                  show: false
+                }
+              }
+            }
+          }, {
+            name: "未完成",
+            value: 95.4
+          }]
+        }]
+      },
+      option2: {
+        title: {
+          text: "0%",
+          x: "center",
+          y: "center",
+          textStyle: {
+            fontWeight: "normal",
+            color: "#F5B544",
+            fontSize: "18",
+          }
+        },
+        color: ["#F5B5441a"],
+        series: [{
+          name: "",
+          type: "pie",
+          // clockWise: true,
+          radius: ["70%", "80%"],
+          itemStyle: {
+            normal: {
+              label: {
+                show: false
+              },
+              labelLine: {
+                show: false
+              }
+            }
+          },
+          hoverAnimation: false,
+          data: [{
+            value: 6.6,
+            name: "完成",
+            itemStyle: {
+              normal: {
+                color: "#F5B544",
+                label: {
+                  show: false
+                },
+                labelLine: {
+                  show: false
+                }
+              }
+            }
+          }, {
+            name: "未完成",
+            value: 93.4
           }]
         }]
       }
@@ -183,6 +291,21 @@ export default {
         this.option.series[0].data[1].value = nFinish;
         this.option.title.text = rate + "%";
       });
+      
+      api.getEngCompany(this.project.id).then((res) => {
+        let rate = res.data.productionProgress || 0
+        let nFinish = 100 - rate;
+        this.option1.series[0].data[0].value = rate;
+        this.option1.series[0].data[1].value = nFinish;
+        this.option1.title.text = rate + "%";
+
+        
+        rate = res.data.attachmentProgress || 0
+        nFinish = 100 - rate;
+        this.option2.series[0].data[0].value = rate;
+        this.option2.series[0].data[1].value = nFinish;
+        this.option2.title.text = rate + "%";
+      });
     },
   },
 };
@@ -197,14 +320,19 @@ export default {
   .new_ui_header {
     display: flex;
     align-items: center;
-    padding: 20px 0px 10px 20px;
+    padding: 10px 0px 10px 20px;
+    background: #EAF1FF;
+    border-radius: 4px 4px 0px 0px;
+    margin-bottom: 10px;
 
     .header_line {
-      width: 4px;
-      height: 16px;
+      width: 24px;
+      height: 24px;
       background-color: #1E6EEB;
       margin-right: 8px;
       border-radius: 3px;
+      background: url(../../../assets/image/datacenter_headericon3.svg) no-repeat;
+      background-size: cover;
     }
 
     .header_text {
@@ -212,6 +340,9 @@ export default {
       font-size: 18px;
       font-weight: bold;
       font-family: PingFang SC;
+      font-size: 16px;
+      font-family: AlibabaPuHuiTiM;
+      color: #191919;
     }
 
   }
@@ -222,8 +353,12 @@ export default {
     justify-content: space-between;
 
     .left_chart {
-      width: 214px;
+      width: 40%;
 
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
 
       .chart_box {
         width: 214px;
@@ -236,8 +371,16 @@ export default {
         font-family: PingFang SC;
         font-weight: 500;
         color: #2D405E;
+        font-size: 12px;
+        font-family: PingFangSC-Semibold, PingFang SC;
+        font-weight: 600;
+        color: #040415;
       }
 
+    }
+    .left_chart.min {
+      width: 20%;
+      margin: 30px;
     }
 
     .right_process {

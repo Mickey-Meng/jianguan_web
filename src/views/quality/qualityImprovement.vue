@@ -250,7 +250,7 @@ export default {
             }
             let deadline = addAnyDays(obj.delayday, overdueTime);
             let nowtime = getNowDate();
-            let num = diffDay(deadline, nowtime);
+            let num = diffDay(deadline, nowtime)+1;
             if (num > 0) {
               obj.modifydate = num;
             } else {

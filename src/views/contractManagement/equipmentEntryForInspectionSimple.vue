@@ -28,17 +28,17 @@
 					class="have_scrolling">
 					<el-table-column type="index" width="50" align="center" label="序号">
 					</el-table-column>
-					<el-table-column prop="projectName" align="center" label="项目名称" show-overflow-tooltip>
-					</el-table-column>
+					<!-- <el-table-column prop="projectName" align="center" label="项目名称" show-overflow-tooltip>
+					</el-table-column> -->
 					<el-table-column prop="projectCode" align="center" label="工程编号" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="buildUnits" align="center" label="施工单位" show-overflow-tooltip>
+					<el-table-column prop="constructdpts" align="center" label="施工单位" show-overflow-tooltip>
 					</el-table-column>
 					<!-- <el-table-column prop="contractCode" align="center" label="合同号" show-overflow-tooltip>
 					</el-table-column> -->
 					<el-table-column prop="supervisionBan" align="center" label="监理办" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="supervisorUnits" align="center" label="监理单位">
+					<el-table-column prop="supervisordpts" align="center" label="监理单位">
 					</el-table-column>
 					<!-- <el-table-column prop="contractCode" align="center" label="合同号">
 					</el-table-column> -->
@@ -78,7 +78,7 @@
 					totalPage: 1,
 					pageSize: 10,
 					buildSection: this.$store.getters.project.id,
-					projectId:this.$store.getters.project['parentid']
+					projectId:this.$store.getters.project['id']
 				},
 	
 			};

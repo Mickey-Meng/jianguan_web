@@ -42,10 +42,12 @@
     },
     created() {
       that = this;
-      this.initData();
     },
     mounted() {
-      this.initMap();
+      this.$nextTick(() => {
+        this.initMap();
+        this.initData();
+      })
     },
     computed: {
       ...mapGetters(["menus"])
@@ -72,7 +74,7 @@
           {
             name: "诸暨白模",
             type: "C3DTILES",
-            url: "http://150.158.139.18:8901/static/data_zlsk/chizhoushi/jianzhu/tileset.json",
+            url: "http://112.30.143.209:26666/data_zlsk/chizhoushi/jianzhu/tileset.json",
             clampToGround: true
           }
         ];
@@ -110,32 +112,34 @@
           }
         })
         // 添加白模
+        const host = window.location.host;
+        const URL = `http://112.30.143.209:26666/data_zlsk/chizhoushi/jianzhu/tileset.json`;
         const tilesetModel = new Cesium.Cesium3DTileset({
-          url: "http://112.30.143.209:8888/data_zlsk/chizhoushi/jianzhu/tileset.json"
+          url: URL
         });
         viewer.scene.primitives.add(tilesetModel);
 
         // mm = mapCtx.zlskEarthHelper.earth.createMarkerManager();
         this.addCityLine();
         // this.setColour();
-        const handler = new Cesium.ScreenSpaceEventHandler(mapCtx.zlskEarthHelper.viewer.scene.canvas);
+        const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
         handler.setInputAction(function (movement) {
-            const camera = mapCtx.zlskEarthHelper.viewer.camera;
-            const pitch = Cesium.Math.toDegrees(mapCtx.zlskEarthHelper.viewer.camera.pitch);
-            const heading = Cesium.Math.toDegrees(mapCtx.zlskEarthHelper.viewer.camera.heading);
-            const roll = Cesium.Math.toDegrees(mapCtx.zlskEarthHelper.viewer.camera.roll);
+            const camera = viewer.camera;
+            const pitch = Cesium.Math.toDegrees(viewer.camera.pitch);
+            const heading = Cesium.Math.toDegrees(viewer.camera.heading);
+            const roll = Cesium.Math.toDegrees(viewer.camera.roll);
 
-            
-            let scene = mapCtx.zlskEarthHelper.viewer.scene;
+
+            let scene = viewer.scene;
             let ellipsoid = scene.globe.ellipsoid;
-            const cartographic = mapCtx.zlskEarthHelper.viewer.scene.globe.ellipsoid.cartesianToCartographic(camera.position);
+            const cartographic = viewer.scene.globe.ellipsoid.cartesianToCartographic(camera.position);
 
-            let currentHeight = ellipsoid.cartesianToCartographic(mapCtx.zlskEarthHelper.viewer.camera.position).height;
+            let currentHeight = ellipsoid.cartesianToCartographic(viewer.camera.position).height;
             let longitude = Cesium.Math.toDegrees(cartographic.longitude);
             let latitude = Cesium.Math.toDegrees(cartographic.latitude);
 
-            const click_pos = mapCtx.zlskEarthHelper.viewer.scene.pickPosition(movement.position)
-            const cartographic_pos = mapCtx.zlskEarthHelper.viewer.scene.globe.ellipsoid.cartesianToCartographic(click_pos);
+            const click_pos = viewer.scene.pickPosition(movement.position)
+            const cartographic_pos = viewer.scene.globe.ellipsoid.cartesianToCartographic(click_pos);
             let longitude_pos = Cesium.Math.toDegrees(cartographic_pos.longitude);
             let latitude_pos = Cesium.Math.toDegrees(cartographic_pos.latitude);
 
@@ -155,12 +159,45 @@
                 roll
             })
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+        function computeScreenSpacePosition(scene, position, result) {
+          return Cesium.SceneTransforms.wgs84ToWindowCoordinates(
+            scene,
+            position,
+            result
+          );
+        }
+        viewer.clock.onTick.addEventListener(function() {
+          Object.keys(popupManagement).forEach(key => {
+            popupManagement[key].forEach(item => {
+              if (item.show) {
+                item.ele.style.display = ''
+                const screenPosition = computeScreenSpacePosition(viewer.scene, item.position, new Cesium.Cartesian2());
+                if (screenPosition) {
+                  const _height = Math.floor(item.ele.clientHeight);
+                  const _screenPositionY = Math.floor(screenPosition.y + 0.25) - _height;
+
+                  item.ele.style.position = "absolute"
+
+                  item.ele.style.left = `${
+                    Math.floor(screenPosition.x + 0.25)
+                  }px`;
+                  item.ele.style.top = `${
+                    _screenPositionY
+                  }px`;
+                }
+              } else {
+                item.ele.style.display = 'none'
+              }
+            })
+          })
+        });
       },
       getMm(type) {
-        if (!markerManagement[type]) {
-          markerManagement[type] = mapCtx.zlskEarthHelper.earth.createMarkerManager();
-          if (type != "建筑类") {
-            markerManagement[type].visible = false;
+        if (viewer && !markerManagement[type]) {
+          markerManagement[type] = new Cesium.CustomDataSource(type);
+          viewer.dataSources.add(markerManagement[type]);
+          if (type != "LM") {
+            markerManagement[type].show = false;
           }
         }
         return markerManagement[type];
@@ -240,36 +277,41 @@
               let mm = this.getMm(projecttype);
               let popup = this.getPopup(projecttype);
               let site = projectpoint.split(",");
-              let mmid = mm.add({
-                position: [Number(site[1]), Number(site[0]), 20],
-                image: img,
-                visibleRange: [600, 1e9],
-                imageScaleRange: [0, 1, 1e9, 0.5],
-                textVisibleRange: [600, 45000],
-                // textColor: textColor,
-                textOffset: [0, -45],
-                textBackground: true, // 可选，默认值: true
-                // textBgColor: textBgColor,
-                // handleLineColor: [255, 255, 0, 255],
-                onClick: function (id, b, c) {
-                }
+              let mmid = mm.entities.add({
+                position: new Cesium.Cartesian3.fromDegrees(Number(site[1]), Number(site[0]), 20),
+                billboard: {
+                  image: img,
+                  distanceDisplayCondition: new Cesium.DistanceDisplayCondition(600, 1e9),
+                  pixelOffsetScaleByDistance: new Cesium.NearFarScalar(0, 1, 1e9, 0.5)
+                },
               });
+
+              const _popup = {};
+              const ele = document.createElement("div");
+              ele.setAttribute("class", "map_view_popup");
+              document.getElementById("map").appendChild(ele)
+              _popup.ele = ele;
+              _popup.position = new Cesium.Cartesian3.fromDegrees(Number(site[1]), Number(site[0]), 20);
+              _popup.type = projecttype;
+              _popup.show = true;
+
               let html = `<div class='map_view_item'><div class='map_view_item_header'>${name}</div><div class='map_view_item_content'>项目基本简介:${introduction}</div>
                            <div class='map_view_item_footer' onclick="clickProject('${id}')">查看详情></div>
                 </div>`;
-              const a = mapCtx.zlskEarthHelper.openPopup({
-                position: [Number(site[1]), Number(site[0]), 0], // 必须 弹窗位置
-                visibleRange: [600, 45000],
-                offset: [0, -10], // 可选，弹窗是否偏移
-                width: 300, // 可选，默认值: 400
-                height: 140, // 可选，默认值: 240
-                content: html, // 弹框内容 可选，默认值: ''
-                class: "map_view_popup", // 可选，默认值:
-                closable: false, // 关闭按钮 可选，默认值: true
-                visible: projecttype === "建筑类" ? true : false
-              });
-              popup.push(a);
-              this.allPopupId.push(a);
+              ele.innerHTML = html;
+              // const a = mapCtx.zlskEarthHelper.openPopup({
+              //   position: [Number(site[1]), Number(site[0]), 0], // 必须 弹窗位置
+              //   visibleRange: [600, 45000],
+              //   offset: [0, -10], // 可选，弹窗是否偏移
+              //   width: 300, // 可选，默认值: 400
+              //   height: 140, // 可选，默认值: 240
+              //   content: html, // 弹框内容 可选，默认值: ''
+              //   class: "map_view_popup", // 可选，默认值:
+              //   closable: false, // 关闭按钮 可选，默认值: true
+              //   visible: projecttype === "建筑类" ? true : false
+              // });
+              popup.push(_popup);
+              // this.allPopupId.push(a);
               // mapCtx.zlskEarthHelper.earth.flytoLookat({
               //   longitude: Number(site[1]),
               //   latitude: Number(site[0]),
@@ -299,18 +341,22 @@
       changeMarkerVisible(type) {
         if (Object.keys(markerManagement).length > 0) {
           for (let i in markerManagement) {
-            markerManagement[i].visible = false;
+            markerManagement[i].show = false;
           }
         }
         if (markerManagement[type]) {
-          markerManagement[type].visible = true;
+          markerManagement[type].show = true;
         }
-        this.allPopupId.forEach(item => {
-          mapCtx.zlskEarthHelper.updatePopup(item, {visible: false});
-        });
+
+        Object.keys(popupManagement).forEach(key => {
+            popupManagement[key].forEach(item => {
+              item.show = false
+            })
+          })
+
         if (popupManagement[type]) {
           popupManagement[type].forEach(item => {
-            mapCtx.zlskEarthHelper.updatePopup(item, {visible: true});
+            item.show = true
           });
         }
         console.log(markerManagement);
@@ -318,6 +364,10 @@
     },
     components: {},
     beforeDestroy() {
+      viewer && viewer.destroy()
+      viewer = null
+      markerManagement = {};
+      popupManagement = {};
     }
 
   };
@@ -333,18 +383,16 @@
 
 <style lang="scss">
   .map_view_popup {
+    width: 300px;
+    height: 140px;
     background: url("../../../assets/mapView/气泡框.png") no-repeat;
     background-size: 100% 100%;
     border-radius: unset;
     box-shadow: unset;
     z-index: 990;
 
-    .sfm-m-popup-bg {
-      padding: 0 16px;
-
-      .sfm-m-popup-content-wrapper {
-        .sfm-m-popup-content {
-          .map_view_item {
+    .map_view_item {
+      padding: 10px;
             height: 100%;
 
             .map_view_item_header {
@@ -387,8 +435,5 @@
               cursor: pointer;
             }
           }
-        }
-      }
-    }
   }
 </style>

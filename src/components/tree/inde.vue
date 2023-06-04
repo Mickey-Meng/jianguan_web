@@ -290,7 +290,7 @@
 <style scoped lang="scss">
 .wrapper {
   height: 100%;
-  background-color: #FFFFFF;
+  background-color: #ffffffd1;
 
   .header {
     display: flex;
@@ -406,7 +406,7 @@
         font-weight: 500;
         color: #4B5973;
         padding-right: 8px;
-        overflow: auto;
+        overflow: hidden;
         .svg-class {
           margin-right: 5px;
         }

@@ -27,7 +27,7 @@
           <el-button type="primary" size="small" class="primary_mini"  @click="downLoadFile(row)">
             下载
           </el-button>
-          <el-button type="danger" size="small" @click="handleDelete(row, $index)" v-if="roleId ===2"
+          <el-button type="danger" size="small" @click="handleDelete(row, $index)" v-if="rolePerms[0] =='gly'"
             >删除</el-button
           >
         </template>
@@ -38,7 +38,8 @@
 
 <script>
 import { getFile, deleteFile } from "@/api/file";
-import { download } from "@/utils/download";
+import { downLoadFile } from "@/utils/download";
+import { downLoad } from "@/utils/download";
 import {mapGetters} from "vuex";
 
 
@@ -60,7 +61,7 @@ export default {
     this.tableData = this.DataArr;
   },
   computed: {
-    ...mapGetters(["roleId"])
+    ...mapGetters(["rolePerms"])
   },
   mounted() {},
   methods: {
@@ -85,7 +86,7 @@ export default {
       this.$emit("opdateInfo", { row, key: "policyfile" });
     },
     downLoadFile(row) {
-      download(row.fileurl, row.uploadname);
+      downLoadFile(row.fileurl);
     },
   },
   watch: {

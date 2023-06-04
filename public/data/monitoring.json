@@ -1,14 +1,5 @@
 {
-  "data": [{
-    "name": "实验实训南区项目扬尘",
-    "type": 1,
-    "geom": [
-      120.1119937,
-      29.6143535,
-      75
-    ]
-  },
-    
+  "data": [
     {
       "id": 1,
       "name": "池州市急救中心项目1号",
@@ -17,7 +8,7 @@
       "deviceNo": "K54134283",
       "channelNo": "1",
       "geom": [120.1567907, 29.8855307, 85],
-      "project": 126
+      "project": 25
     },
     {
       "id": 2,
@@ -27,7 +18,7 @@
       "deviceNo": "K54134283",
       "channelNo": "2",
       "geom": [120.1567907, 29.8855307, 85],
-      "project": 126
+      "project": 25
     },
     {
       "id": 3,
@@ -37,7 +28,7 @@
       "deviceNo": "K54134283",
       "channelNo": "3",
       "geom": [120.1567907, 29.8855307, 85],
-      "project": 126
+      "project": 25
     },
     {
       "id": 4,
@@ -47,8 +38,9 @@
       "deviceNo": "K54134283",
       "channelNo": "4",
       "geom": [120.1567907, 29.8855307, 85],
-      "project": 126
+      "project": 25
     },
+
     {
       "id": 5,
       "name": "池州市急救中心项目5号",
@@ -57,7 +49,7 @@
       "deviceNo": "K54134283",
       "channelNo": "5",
       "geom": [120.1567907, 29.8855307, 85],
-      "project": 126
+      "project": 25
     },
     {
       "id": 6,
@@ -67,7 +59,7 @@
       "deviceNo": "K54134283",
       "channelNo": "6",
       "geom": [120.1567907, 29.8855307, 85],
-      "project": 126
+      "project": 25
     },
     {
       "id": 7,
@@ -77,7 +69,7 @@
       "deviceNo": "K54134283",
       "channelNo": "7",
       "geom": [120.1567907, 29.8855307, 85],
-      "project": 126
+      "project": 25
     },
     {
       "id": 8,
@@ -87,238 +79,427 @@
       "deviceNo": "K54134283",
       "channelNo": "8",
       "geom": [120.1567907, 29.8855307, 85],
-      "project": 126
+      "project": 25
     },
     {
       "id": 9,
-      "name": "池州职业技术学院实验实训南区EPC总承包项目1号",
+      "name": "池州市急救中心项目9号",
       "type": 2,
-      "url": "ezopen://open.ys7.com/K54134316/1.hd.live",
-      "deviceNo": "K54134316",
-      "channelNo": "1",
+      "url": "ezopen://open.ys7.com/K54134283/9.hd.live",
+      "deviceNo": "K54134283",
+      "channelNo": "9",
       "geom": [120.1567907, 29.8855307, 85],
-      "project": 130
+      "project": 25
     },
     {
       "id": 10,
-      "name": "池州职业技术学院实验实训南区EPC总承包项目2号",
+      "name": "池州市急救中心项目10号",
       "type": 2,
-      "url": "ezopen://open.ys7.com/K54134316/2.hd.live",
-      "deviceNo": "K54134316",
-      "channelNo": "2",
+      "url": "ezopen://open.ys7.com/K54134283/10.hd.live",
+      "deviceNo": "K54134283",
+      "channelNo": "10",
       "geom": [120.1567907, 29.8855307, 85],
-      "project": 130
+      "project": 25
     },
     {
       "id": 11,
-      "name": "池州职业技术学院实验实训南区EPC总承包项目3号",
+      "name": "池州市急救中心项目11号",
       "type": 2,
-      "url": "ezopen://open.ys7.com/K54134316/3.hd.live",
-      "deviceNo": "K54134316",
-      "channelNo": "3",
+      "url": "ezopen://open.ys7.com/K54134283/11.hd.live",
+      "deviceNo": "K54134283",
+      "channelNo": "11",
       "geom": [120.1567907, 29.8855307, 85],
-      "project": 130
+      "project": 25
     },
     {
       "id": 12,
-      "name": "池州职业技术学院实验实训南区EPC总承包项目4号",
+      "name": "池州市急救中心项目12号",
       "type": 2,
-      "url": "ezopen://open.ys7.com/K54134316/4.hd.live",
-      "deviceNo": "K54134316",
-      "channelNo": "4",
+      "url": "ezopen://open.ys7.com/K54134283/12.hd.live",
+      "deviceNo": "K54134283",
+      "channelNo": "12",
       "geom": [120.1567907, 29.8855307, 85],
-      "project": 130
+      "project": 25
     },
     {
       "id": 13,
-      "name": "池州职业技术学院实验实训南区EPC总承包项目5号",
+      "name": "池州市急救中心项目13号",
       "type": 2,
-      "url": "ezopen://open.ys7.com/K54134316/5.hd.live",
-      "deviceNo": "K54134316",
-      "channelNo": "5",
+      "url": "ezopen://open.ys7.com/K54134283/13.hd.live",
+      "deviceNo": "K54134283",
+      "channelNo": "13",
       "geom": [120.1567907, 29.8855307, 85],
-      "project": 130
+      "project": 25
     },
     {
       "id": 14,
-      "name": "池州职业技术学院实验实训南区EPC总承包项目6号",
+      "name": "池州市急救中心项目14号",
       "type": 2,
-      "url": "ezopen://open.ys7.com/K54134316/6.hd.live",
-      "deviceNo": "K54134316",
-      "channelNo": "6",
+      "url": "ezopen://open.ys7.com/K54134283/14.hd.live",
+      "deviceNo": "K54134283",
+      "channelNo": "14",
       "geom": [120.1567907, 29.8855307, 85],
-      "project": 130
+      "project": 25
     },
     {
       "id": 15,
-      "name": "池州职业技术学院实验实训南区EPC总承包项目7号",
+      "name": "池州市急救中心项目15号",
       "type": 2,
-      "url": "ezopen://open.ys7.com/K54134316/7.hd.live",
-      "deviceNo": "K54134316",
-      "channelNo": "7",
-      "geom": [120.1567907, 29.8855307, 85],
-      "project": 130
+      "url": "ezopen://open.ys7.com/K54134283/15.hd.live",
+      "deviceNo": "K54134283",
+      "channelNo": "15",
+      "geom":[120.1567907, 29.8855307, 85],
+      "project": 25
     },
     {
       "id": 16,
-      "name": "池州职业技术学院实验实训南区EPC总承包项目8号",
+      "name": "(球机)池州市急救中心项目16号",
       "type": 2,
-      "url": "ezopen://open.ys7.com/K54134316/8.hd.live",
-      "deviceNo": "K54134316",
-      "channelNo": "8",
-      "geom": [120.1567907, 29.8855307, 85],
-      "project": 130
+      "url": "ezopen://open.ys7.com/K54134283/16.hd.live",
+      "deviceNo": "K54134283",
+      "channelNo": "16",
+      "geom":[120.1567907, 29.8855307, 85],
+      "project": 25
     },
     {
       "id": 17,
-      "name": "池州职业技术学院实验实训综合提升项目（二期）F+EPC 1号",
-      "type": 2,
-      "url": "ezopen://open.ys7.com/K09696219/1.hd.live",
-      "deviceNo": "K09696219",
-      "channelNo": "1",
-      "geom": [120.1567907, 29.8855307, 85],
-      "project": 195
-    },
-    {
-      "id": 18,
-      "name": "池州职业技术学院实验实训综合提升项目（二期）F+EPC 2号",
-      "type": 2,
-      "url": "ezopen://open.ys7.com/K09696219/2.hd.live",
-      "deviceNo": "K09696219",
-      "channelNo": "2",
-      "geom": [120.1567907, 29.8855307, 85],
-      "project": 195
-    },
-    {
-      "id": 19,
-      "name": "池州职业技术学院实验实训综合提升项目（二期）F+EPC 3号",
-      "type": 2,
-      "url": "ezopen://open.ys7.com/K09696219/3.hd.live",
-      "deviceNo": "K09696219",
-      "channelNo": "3",
-      "geom": [120.1567907, 29.8855307, 85],
-      "project": 195
-    },
-    {
-      "id": 20,
-      "name": "池州职业技术学院实验实训综合提升项目（二期）F+EPC 4号",
-      "type": 2,
-      "url": "ezopen://open.ys7.com/K09696219/4.hd.live",
-      "deviceNo": "K09696219",
-      "channelNo": "4",
-      "geom": [120.1567907, 29.8855307, 85],
-      "project": 195
-    },
-    {
-      "id": 21,
-      "name": "池州职业技术学院实验实训综合提升项目（二期）F+EPC 5号",
-      "type": 2,
-      "url": "ezopen://open.ys7.com/K09696219/5.hd.live",
-      "deviceNo": "K09696219",
-      "channelNo": "5",
-      "geom": [120.1567907, 29.8855307, 85],
-      "project": 195
-    },
-    {
-      "id": 22,
-      "name": "池州职业技术学院实验实训综合提升项目（二期）F+EPC 6号",
-      "type": 2,
-      "url": "ezopen://open.ys7.com/K09696219/6.hd.live",
-      "deviceNo": "K09696219",
-      "channelNo": "6",
-      "geom": [120.1567907, 29.8855307, 85],
-      "project": 195
-    },
-    {
-      "id": 23,
-      "name": "池州职业技术学院实验实训综合提升项目（二期）F+EPC 7号",
-      "type": 2,
-      "url": "ezopen://open.ys7.com/K09696219/7.hd.live",
-      "deviceNo": "K09696219",
-      "channelNo": "7",
-      "geom": [120.1567907, 29.8855307, 85],
-      "project": 195
-    },
-    {
-      "id": 24,
-      "name": "池州职业技术学院实验实训综合提升项目（二期）F+EPC 8号",
-      "type": 2,
-      "url": "ezopen://open.ys7.com/K09696219/8.hd.live",
-      "deviceNo": "K09696219",
-      "channelNo": "8",
-      "geom": [120.1567907, 29.8855307, 85],
-      "project": 195
-    },
-    {
-      "id": 25,
-      "name": "(球机)池州生态人文纪念园项目 1号",
-      "type": 2,
-      "url": "ezopen://open.ys7.com/L18119347/1.hd.live",
-      "deviceNo": "L18119347",
-      "channelNo": "1",
-      "geom": [120.1567907, 29.8855307, 85],
-      "project": 191
-    },
-    {
-      "id": 26,
-      "name": "(球机)池州生态人文纪念园项目 2号",
-      "type": 2,
-      "url": "ezopen://open.ys7.com/L18119347/2.hd.live",
-      "deviceNo": "L18119347",
-      "channelNo": "2",
-      "geom": [120.1567907, 29.8855307, 85],
-      "project": 191
-    },
-    {
-      "id": 27,
-      "name": "(球机)池州港乌沙港区公用码头工程 1号",
+      "name": "精神卫生福利设施建设项目1号",
       "type": 2,
       "url": "ezopen://open.ys7.com/L01047307/1.hd.live",
       "deviceNo": "L01047307",
       "channelNo": "1",
-      "geom": [120.1567907, 29.8855307, 85],
-      "project": 3
+      "geom":[120.1567907,29.8855307,85],
+      "project": 67
     },
     {
-      "id": 28,
-      "name": "(球机)池州港乌沙港区公用码头工程 2号",
+      "id": 18,
+      "name": "精神卫生福利设施建设项目2号",
       "type": 2,
       "url": "ezopen://open.ys7.com/L01047307/2.hd.live",
       "deviceNo": "L01047307",
       "channelNo": "2",
-      "geom": [120.1567907, 29.8855307, 85],
-      "project": 3
+      "geom":[120.1567907, 29.8855307, 85],
+      "project": 67
     },
     {
-      "id": 29,
-      "name": "(球机)池州港乌沙港区公用码头工程 3号",
+      "id": 19,
+      "name": "精神卫生福利设施建设项目3号",
       "type": 2,
       "url": "ezopen://open.ys7.com/L01047307/3.hd.live",
       "deviceNo": "L01047307",
       "channelNo": "3",
-      "geom": [120.1567907, 29.8855307, 85],
-      "project": 3
+      "geom":[120.1567907, 29.8855307, 85],
+      "project": 67
     },
     {
-      "id": 30,
-      "name": "(球机)池州港乌沙港区公用码头工程 4号",
+      "id": 20,
+      "name": "(球机)精神卫生福利设施建设项目4号",
       "type": 2,
       "url": "ezopen://open.ys7.com/L01047307/4.hd.live",
       "deviceNo": "L01047307",
       "channelNo": "4",
-      "geom": [120.1567907, 29.8855307, 85],
-      "project": 3
+      "geom":[120.1567907, 29.8855307, 85],
+      "project": 67
     },
     {
-      "id": 31,
-      "name": "(球机)池州港乌沙港区公用码头工程 5号",
+      "id": 21,
+      "name": "精神卫生福利设施建设项目5号",
       "type": 2,
       "url": "ezopen://open.ys7.com/L01047307/5.hd.live",
       "deviceNo": "L01047307",
       "channelNo": "5",
-      "geom": [120.1567907, 29.8855307, 85],
+      "geom":[120.1567907, 29.8855307, 85],
+      "project": 67
+    },
+    {
+      "id": 22,
+      "name": "精神卫生福利设施建设项目6号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/L01047307/6.hd.live",
+      "deviceNo": "L01047307",
+      "channelNo": "6",
+      "geom":[120.1567907, 29.8855307, 85],
+      "project": 67
+    },
+    {
+      "id": 23,
+      "name": "(球机)精神卫生福利设施建设项目7号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/L01047307/7.hd.live",
+      "deviceNo": "L01047307",
+      "channelNo": "7",
+      "geom":[120.1567907, 29.8855307, 85],
+      "project": 67
+    },
+    {
+      "id": 24,
+      "name": "(球机)精神卫生福利设施建设项目8号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/L01047307/8.hd.live",
+      "deviceNo": "L01047307",
+      "channelNo": "8",
+      "geom":[120.1567907, 29.8855307, 85],
+      "project": 67
+    },
+    {
+      "id": 25,
+      "name": "职业技术学院一期1号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K54134316/1.hd.live",
+      "deviceNo": "K54134316",
+      "channelNo": "1",
+      "geom":[120.1567907,29.8855307,85],
       "project": 3
+    },
+    {
+      "id": 26,
+      "name": "职业技术学院一期2号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K54134316/2.hd.live",
+      "deviceNo": "K54134316",
+      "channelNo": "2",
+      "geom":[120.1567907, 29.8855307, 85],
+      "project": 3
+    },
+    {
+      "id": 27,
+      "name": "(球机)职业技术学院一期3号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K54134316/3.hd.live",
+      "deviceNo": "K54134316",
+      "channelNo": "3",
+      "geom":[120.1567907, 29.8855307, 85],
+      "project": 3
+    },
+    {
+      "id": 28,
+      "name": "职业技术学院一期4号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K54134316/4.hd.live",
+      "deviceNo": "K54134316",
+      "channelNo": "4",
+      "geom":[120.1567907, 29.8855307, 85],
+      "project": 3
+    },
+    {
+      "id": 29,
+      "name": "职业技术学院一期5号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K54134316/5.hd.live",
+      "deviceNo": "K54134316",
+      "channelNo": "5",
+      "geom":[120.1567907, 29.8855307, 85],
+      "project": 3
+    },
+    {
+      "id": 30,
+      "name": "职业技术学院一期6号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K54134316/6.hd.live",
+      "deviceNo": "K54134316",
+      "channelNo": "6",
+      "geom":[120.1567907, 29.8855307, 85],
+      "project": 3
+    },
+    {
+      "id": 31,
+      "name": "职业技术学院一期7号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K54134316/7.hd.live",
+      "deviceNo": "K54134316",
+      "channelNo": "7",
+      "geom":[120.1567907, 29.8855307, 85],
+      "project": 3
+    },
+    {
+      "id": 32,
+      "name": "职业技术学院一期8号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K54134316/8.hd.live",
+      "deviceNo": "K54134316",
+      "channelNo": "8",
+      "geom":[120.1567907, 29.8855307, 85],
+      "project": 3
+    },
+    {
+      "id": 33,
+      "name": "职业技术学院一期9号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K54134316/9.hd.live",
+      "deviceNo": "K54134316",
+      "channelNo": "9",
+      "geom":[120.1567907, 29.8855307, 85],
+      "project": 3
+    },
+    {
+      "id": 34,
+      "name": "职业技术学院一期10号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K54134316/10.hd.live",
+      "deviceNo": "K54134316",
+      "channelNo": "10",
+      "geom":[120.1567907, 29.8855307, 85],
+      "project": 3
+    },
+    {
+      "id": 35,
+      "name": "职业技术学院一期11号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K54134316/11.hd.live",
+      "deviceNo": "K54134316",
+      "channelNo": "11",
+      "geom":[120.1567907, 29.8855307, 85],
+      "project": 3
+    },
+    {
+      "id": 36,
+      "name": "(球机)职业技术学院一期12号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K54134316/12.hd.live",
+      "deviceNo": "K54134316",
+      "channelNo": "12",
+      "geom":[120.1567907, 29.8855307, 85],
+      "project": 3
+    },
+    {
+      "id": 37,
+      "name": "(球机)职业技术学院一期13号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K54134316/13.hd.live",
+      "deviceNo": "K54134316",
+      "channelNo": "13",
+      "geom":[120.1567907, 29.8855307, 85],
+      "project": 3
+    },
+    {
+      "id": 38,
+      "name": "职业技术学院一期14号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K54134316/14.hd.live",
+      "deviceNo": "K54134316",
+      "channelNo": "14",
+      "geom":[120.1567907, 29.8855307, 85],
+      "project": 3
+    },
+    {
+      "id": 39,
+      "name": "职业技术学院一期16号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K54134316/16.hd.live",
+      "deviceNo": "K54134316",
+      "channelNo": "16",
+      "geom":[120.1567907, 29.8855307, 85],
+      "project": 3
+    },
+    {
+      "id": 40,
+      "name": "职业技术学院二期1号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K09696219/1.hd.live",
+      "deviceNo": "K09696219",
+      "channelNo": "1",
+      "geom":[120.1567907,29.8855307,85],
+      "project": 13
+    },
+    {
+      "id": 41,
+      "name": "职业技术学院二期2号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K09696219/2.hd.live",
+      "deviceNo": "K09696219",
+      "channelNo": "2",
+      "geom":[120.1567907, 29.8855307, 85],
+      "project": 13
+    },
+    {
+      "id": 42,
+      "name": "职业技术学院二期3号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K09696219/3.hd.live",
+      "deviceNo": "K09696219",
+      "channelNo": "3",
+      "geom":[120.1567907, 29.8855307, 85],
+      "project": 13
+    },
+    {
+      "id": 43,
+      "name": "职业技术学院二期4号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K09696219/4.hd.live",
+      "deviceNo": "K09696219",
+      "channelNo": "4",
+      "geom":[120.1567907, 29.8855307, 85],
+      "project": 13
+    },
+    {
+      "id": 44,
+      "name": "职业技术学院二期5号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K09696219/5.hd.live",
+      "deviceNo": "K09696219",
+      "channelNo": "5",
+      "geom":[120.1567907, 29.8855307, 85],
+      "project": 13
+    },
+    {
+      "id": 45,
+      "name": "职业技术学院二期6号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K09696219/6.hd.live",
+      "deviceNo": "K09696219",
+      "channelNo": "6",
+      "geom":[120.1567907, 29.8855307, 85],
+      "project": 13
+    },
+    {
+      "id": 46,
+      "name": "职业技术学院二期7号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K09696219/7.hd.live",
+      "deviceNo": "K09696219",
+      "channelNo": "7",
+      "geom":[120.1567907, 29.8855307, 85],
+      "project": 13
+    },
+    {
+      "id": 47,
+      "name": "职业技术学院二期8号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K09696219/8.hd.live",
+      "deviceNo": "K09696219",
+      "channelNo": "8",
+      "geom":[120.1567907, 29.8855307, 85],
+      "project": 13
+    },
+    {
+      "id": 48,
+      "name": "(球机)职业技术学院二期9号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/K09696219/9.hd.live",
+      "deviceNo": "K09696219",
+      "channelNo": "9",
+      "geom":[120.1567907, 29.8855307, 85],
+      "project": 13
+    },
+    {
+      "id": 49,
+      "name": "（球机）池州生态人文纪念园项目1号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/L18119347/1.hd.live",
+      "deviceNo": "L18119347",
+      "channelNo": "1",
+      "geom":[120.1567907, 29.8855307, 85],
+      "project":34
+    },
+    {
+      "id": 50,
+      "name": "（球机）池州生态人文纪念园项目2号",
+      "type": 2,
+      "url": "ezopen://open.ys7.com/L18119347/2.hd.live",
+      "deviceNo": "L18119347",
+      "channelNo": "2",
+      "geom":[120.1567907, 29.8855307, 85],
+      "project": 34
     }
-    
   ]
 }

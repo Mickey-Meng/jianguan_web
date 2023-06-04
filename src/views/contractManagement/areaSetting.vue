@@ -31,7 +31,7 @@
           <el-table-column label="操作">
             <template slot-scope="{ row, $index }">
               <el-button type="text" size="mini" @click="modify(row)">修改</el-button>
-              <el-button type="text" size="mini" @click="deleteRow(row)">删除</el-button>
+              <el-button type="text" size="mini" v-if="$store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'" @click="deleteRow(row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>

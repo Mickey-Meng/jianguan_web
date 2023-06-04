@@ -106,19 +106,20 @@ export default {
     initPlayer() {
       getVideoToken().then((res) => {
         const map = {
-          126: "K54134283",  //池州市急救中心建设项目
-          3: "L01047307",  //池州港乌沙港区公用码头工程项目
+          25: "K54134283",  //池州市急救中心建设项目
+          21: "L01047307",  //池州港乌沙港区公用码头工程项目
           128: "K09696219",  //池州市平天湖东部区域棚户区改造建设工程EPC总承包
-          190: "L18119347",  //池州生态人文纪念园项目
-          130: "K54134316",  //池州职业技术学院实验实训南区EPC总承包项目
-          195: "K09696219",  //池州职业技术学院实验实训综合提升项目（二期）F+EPC
+          34: "L18119347",  //池州生态人文纪念园项目
+          3: "K54134316",  //池州职业技术学院实验实训南区EPC总承包项目
+          13: "K09696219",  //池州职业技术学院实验实训综合提升项目（二期）F+EPC
           132: "K09696219",  //清溪大道改造工程
+          67: "L01047307",  //池州市精神卫生福利设施建设项目一标段
           1: "K09696219"  //顶级
         }
         player = new EZUIKit.EZUIKitPlayer({
           id: "video-container", // 视频容器ID
           accessToken: res.data,
-          url: `ezopen://open.ys7.com/${map[this.project.id] || "K54134283"}/1.hd.live`,
+          url: `ezopen://open.ys7.com/${map[this.project.id] || "K54134283"}/${this.project.id == 3 ? '9' : '1'}.hd.live`,
           width: 390,
           height: 190,
           audio: 0,
@@ -159,17 +160,22 @@ export default {
     display: flex;
     align-items: center;
     padding: 10px 0px 5px 20px;
+    background: #EAF1FF;
+    border-radius: 4px 4px 0px 0px;
+    margin-bottom: 5px;
 
     .left {
       display: flex;
       align-items: center;
 
       .header_line {
-        width: 4px;
-        height: 16px;
+        width: 24px;
+        height: 24px;
         background-color: #1E6EEB;
         margin-right: 8px;
         border-radius: 3px;
+        background: url(../../../assets/image/datacenter_headericon2.svg) no-repeat;
+        background-size: cover;
       }
 
       .header_text {
@@ -177,6 +183,9 @@ export default {
         font-size: 18px;
         font-weight: bold;
         font-family: PingFang SC;
+        font-size: 16px;
+        font-family: AlibabaPuHuiTiM;
+        color: #191919;
       }
     }
 

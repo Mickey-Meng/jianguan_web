@@ -70,7 +70,7 @@
           <template slot-scope="{row,$index}">
             <el-button type="text" size="mini" @click="seeDetail(row)">详情</el-button>
             <!--            <el-button type="text" size="mini">退场</el-button>-->
-            <el-button type="text" size="mini" v-if="roleId ===2" @click="deleteInfo(row,$index)">删除</el-button>
+            <el-button type="text" size="mini" v-if="rolePerms[0] =='gly'" @click="deleteInfo(row,$index)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -253,7 +253,7 @@
     mounted() {
     },
     computed: {
-      ...mapGetters(["project", "roleId"])
+      ...mapGetters(["project", "roleId", "rolePerms"])
     },
     methods: {
       init() {

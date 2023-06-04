@@ -45,7 +45,7 @@
 				<div class="operate-btns" v-show="operateBtnsVisible">
 					<el-button size="small" @click="addNew">新增</el-button>
 					<el-button size="small" @click="exportData">导出</el-button>
-					<el-button size="small">批量操作</el-button>
+					<!-- <el-button size="small">批量操作</el-button> -->
 				</div>
 			</div>
 		</el-header>
@@ -57,7 +57,7 @@
 					</el-table-column>
 					<el-table-column prop="buildSectionName" align="center" label="标段" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="buildUnits" align="center" label="施工单位" show-overflow-tooltip>
+					<el-table-column prop="constructdpts" align="center" label="施工单位" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="buildTechBottom" align="center" label="施工技术交底概述" show-overflow-tooltip>
 					</el-table-column>
@@ -73,7 +73,7 @@
 							<el-button v-if="!isDraft" type="text" size="mini" @click="viewDetail(row)">详情</el-button>
 
 							<el-button v-if="isDraft" type="text" size="mini" @click="checkDetail(row)">选择</el-button>
-							<el-button type="text" size="mini" @click="deleteRow(row)">删除</el-button>
+							<el-button type="text" size="mini" v-if="$store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'" @click="deleteRow(row)">删除</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -89,7 +89,7 @@
 </template>
 
 <script>
-	
+
 	import * as api from "@/api/quality";
 	import {
 		formatDate,
@@ -123,7 +123,7 @@
 					totalPage: 1,
 					pageSize: 10,
 					buildSection: this.$store.getters.project.id,
-					projectId:this.$store.getters.project['parentid']
+					projectId:this.$store.getters.project['id']
 				},
 				editRow:null,
 				detailRow:null

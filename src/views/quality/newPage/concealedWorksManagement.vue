@@ -29,7 +29,7 @@
 				<div class="operate-btns" v-show="operateBtnsVisible">
 					<el-button size="small" @click="addNew">新增</el-button>
 					<el-button size="small" @click="exportData">导出</el-button>
-					<el-button size="small">批量操作</el-button>
+					<!-- <el-button size="small">批量操作</el-button> -->
 				</div>
 			</div>
 		</el-header>
@@ -43,24 +43,47 @@
 					</el-table-column>
 					<el-table-column prop="buildSectionName" align="center" label="标段" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="buildUnit" align="center" label="施工单位" show-overflow-tooltip>
+					<el-table-column prop="constructdpts" align="center" label="施工单位" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="contractCode" align="center" label="合同号" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="supervisorUnit" align="center" label="监理单位" show-overflow-tooltip>
+					<el-table-column prop="supervisorDepts" align="center" label="监理单位" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="projectCode" align="center" label="工程编号" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="statusStr" align="center" label="状态描述">
+					<el-table-column prop="statusStr" align="center" label="状态">
+            <template slot-scope="scope">
+              <el-tag
+                v-if="scope.row.status == '2'"
+                size="mini"
+                type="warning"
+              >
+                驳回
+              </el-tag>
+              <el-tag
+                v-if="scope.row.status == '0'"
+                size="mini"
+                type="default"
+              >
+                审批中
+              </el-tag>
+              <el-tag
+                v-if="scope.row.status == '1'"
+                size="mini"
+                type="success"
+              >
+                已审批
+              </el-tag>
+            </template>
 					</el-table-column>
 					<el-table-column fixed="right" width="120" align="center" label="操作">
 						<template slot-scope="{ row, $index }">
-							<el-button v-if="!isDraft" type="text" size="mini" @click="modify(row)">修改</el-button>
+							<el-button v-if="editStatus(row)" type="text" size="mini" @click="modify(row)">修改</el-button>
 							<el-button v-if="!isDraft" type="text" size="mini" @click="viewDetail(row)">详情</el-button>
-							
+
 							<el-button v-if="isDraft" type="text" size="mini" @click="checkDetail(row)">选择</el-button>
-							
-							<el-button type="text" size="mini" @click="deleteRow(row)">删除</el-button>
+
+							<el-button type="text" size="mini" v-if="$store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'" @click="deleteRow(row)">删除</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -99,7 +122,8 @@
 					pageNum: 1,
 					totalPage: 1,
 					pageSize: 10,
-					buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid']
+					buildSection: this.$store.getters.project.id,
+					projectId:this.$store.getters.project['id']
 				},
 				editRow: null,
 				detailRow: null
@@ -115,6 +139,18 @@
 			this.query();
 		},
 		methods: {
+      editStatus(row) {
+        if(row.status != 2) {
+          return false;
+        }
+        if(row.createUserId == this.$store.getters.userInfo.ID) {
+          return true;
+        }
+        if(this.$store.getters.rolePerms[0] == 'gly') {
+          return true;
+        }
+        return false;
+      },
 			query() {
 				this.queryData.draftFlag=this.isDraft?0:1;
 				api.getHiddenProjectList(this.queryData).then((res) => {

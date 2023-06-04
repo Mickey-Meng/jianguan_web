@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <img :src="logo" alt="" />
+    <!-- <img :src="logo" alt="" /> -->
     <div class="header">全生命周期智慧建设管理平台</div>
     <div class="exit" @click="exitSys">返回登陆</div>
     <!-- <div class="main">
@@ -35,16 +35,22 @@
       </div>
     </div> -->
     <div class="main_container">
-      <div class="all-project">
-        <img :src="allView" alt="" @click="seeView" />
-        <label>多项目总览</label>
+      <div class="all-project-bi" @click="seeView1">
+        <div class="logo"></div>
+        <div class="label"></div>
+      </div>
+      <div class="all-project" @click="seeView">
+        <img :src="allView" alt="">
+        <div class="logo"></div>
+        <div class="label"></div>
       </div>
       <div class="project_lists">
         <div id="album">
           <div class="img_box" v-for="(item, index) in listData" :key="index">
             <div class="img_box_wrapper" @mouseover="mouseOver(item)" @click.stop="seeProject(item)">
 <!--              <img :src="item.projectpic?'/mong/preview?fileid=' +item.projectpic :img1" alt="" :project="item.projectpic"/>-->
-              <img :src="projectImg(item.name)" alt="" :projectName="item.name"/>
+              <img :src="item.projectpic" alt="" :projectName="item.name"/>
+              <div class="title"></div>
               <label class="pro_name">{{ item.name }}</label>
 <!--              <ul class="section_lists">-->
 <!--                <li v-for="section in item.child" v-show="currentProjectId === item.id"  @click.stop="seeProject(section)">{{ section.name }}</li>-->
@@ -55,7 +61,7 @@
         </div>
         <svg-icon
           icon-class="left"
-          v-if="currentPage < quotient"
+          v-if="currentPage > 1 && currentPage < quotient"
           class="right_shift"
           @click="addPage"
         />
@@ -67,7 +73,7 @@
         />
       </div>
     </div>
-    <div class="footer">池州建设投资集团有限公司</div>
+    <div class="footer">池州建设投资集团有限公司 · 池州建投建筑科技有限公司</div>
   </div>
 </template>
 
@@ -87,6 +93,13 @@ import img14 from "@/assets/projectImg/清溪大道改造工程.jpg";
 import img15 from "@/assets/projectImg/池州港乌沙港区共用码头.png";
 import img16 from "@/assets/projectImg/池州生态人文纪念园项目.png";
 import img17 from "@/assets/projectImg/池州职业技术学院实验实训综合提升项目（二期）F+EPC.png";
+import img18 from "@/assets/projectImg/蜀山区建筑业总部基地项目一标段.png";
+
+import img19 from "@/assets/projectImg/安徽智能软件园（三期）项目形象图.jpg";
+import img20 from "@/assets/projectImg/槐树湾路、春湾路（原银湾路）道路工程项目形象图.jpg";
+import img21 from "@/assets/projectImg/蜀山高科数字经济示范园项目形象图.jpg";
+import img22 from "@/assets/projectImg/西城大道（望江西路-蜀山大道）项目形象图.jpg";
+
 
 
 import img1 from "@/assets/projectImg/图层0.png";
@@ -142,7 +155,7 @@ export default {
       number: 3,
       startIndex: 0,
       currentPage: 1,
-      pageSize: 10,
+      pageSize: 12,
       quotient: null,
       timer: null,
     };
@@ -151,7 +164,7 @@ export default {
     this.init();
   },
   computed: {
-    ...mapGetters(["menus", "rights"])
+    ...mapGetters(["menus","menu", "rights"])
   },
   mounted() {
     document.onselectstart = function () {
@@ -199,18 +212,28 @@ export default {
     projectImg(val) {
       if(val === "池州市平天湖东部区域棚户区改造建设工程EPC总承包") {
         return img11;
-      } else if(val === "池州市急救中心建设项目（标段）") {
+      } else if(val === "池州市急救中心建设项目—标段") {
         return img12;
-      } else if (val === "池州港乌沙港区公用码头工程项目") {
+      } else if (val === "池州乌沙港项目标段") {
         return img15;
       } else if (val === "清溪大道改造工程") {
         return img14;
-      } else if(val.indexOf("池州职业技术学院实验实训南区EPC总承包") > -1) {
+      } else if(val.indexOf("池州职业技术学院1期一标段") > -1) {
         return img13;
-      } else if(val === "池州生态人文纪念园项目") {
+      } else if(val === "池州生态人文纪念园项目—标段") {
         return img16;
-      } else if(val === "池州职业技术学院实验实训综合提升项目（二期）F+EPC") {
+      } else if(val === "池州职业技术学院2期一标段") {
         return img17;
+      } else if(val === "蜀山区建筑业总部基地项目一标段") {
+        return img18;
+      } else if(val === "安徽智能软件园（三期）项目一标段") {
+        return img19;
+      } else if(val === "槐树湾路、春湾路（原银湾路）道路工程一标段") {
+        return img20;
+      } else if(val === "蜀山高科数字经济示范园一标段") {
+        return img21;
+      } else if(val === "西城大道（望江西路-蜀山大道）工程项目一标段") {
+        return img22;
       } else {
         return this.img1;
       }
@@ -230,12 +253,14 @@ export default {
         (this.currentPage - 1) * this.pageSize,
         this.currentPage * this.pageSize
       );
-      if (data.length === 10) {
-        this.listData = data;
-      } else {
-        let arr = this.lists.slice(-10);
-        this.listData = arr;
-      }
+      // if (data.length === 10) {
+      //   this.listData = data;
+      // } else {
+      //   let arr = this.lists.slice(-10);
+      //   this.listData = arr;
+      // }
+      
+      this.listData = data;
     },
     decPage() {
       if (this.currentPage > 1) {
@@ -309,13 +334,23 @@ export default {
       // this.$router.push("/pandect");
       this.$router.push("/mapView");
     },
+    seeView1() {
+      this.$message({
+        type: "warning",
+        message: "暂未开放！"
+      });
+    },
     seeProject(item) {
       if (item.id) {
         this.SET_PROJECT(item);
-        let isPass = this.rights.includes("shujuzhongxin");
+        let isPass = this.rights.includes("/data");
         console.log("isPass:" + isPass);
         if (isPass) {
           console.log("进入" + item.name + "项目主页");
+
+          const defaultIndex = localStorage.getItem('defaultIndex');
+
+          this.$store.state.user.menu = this.menus[defaultIndex].children || [];
           this.$router.push("/data");
           return false;
         } else {
@@ -381,14 +416,22 @@ export default {
   background-size: 100%;
   position: relative;
   overflow: hidden;
+  background-color: #03070A;
 
   .exit {
+    width: 80px;
+    text-align: right;
     position: fixed;
-    top: 12px;
-    right: 20px;
+    height: 24px;
+    line-height: 24px;
+    top: 46px;
+    right: 24px;
     font-size: 18px;
     cursor: pointer;
     color: #FFFFFF;
+    font-size: 14px;
+    font-family: AlibabaPuHuiTiR;
+    background: url("../../assets/image/exit_bg.png") no-repeat;
   }
 
   > img {
@@ -399,13 +442,21 @@ export default {
   }
   .header {
     width: 100%;
-    height: 120px;
-    line-height: 70px;
-    color: #04ffff;
+    height: 78px;
+    line-height: 78px;
     font-size: 36px;
     text-align: center;
     background: url("../../assets/image/bg.png") no-repeat;
     background-size: 100% 100%;
+
+    font-size: 34px;
+    font-family: CKTKingKong;
+    color: #FFFFFF;
+    // letter-spacing: 8px;
+    // text-shadow: 0px 8px 8px rgba(0,0,0,0.1);
+    // background: linear-gradient(180deg, #FFFFFF 0%, #D7E8FF 63%, #6FADFF 100%);
+    // -webkit-background-clip: text;
+    // -webkit-text-fill-color: transparent;
   }
   .main_container {
     width: 100%;
@@ -413,33 +464,87 @@ export default {
     // margin-top: 100px;
     display: flex;
     align-items: center;
-    .all-project {
-      width: 30%;
-      position: relative;
+    .all-project-bi {
+      width: 400px;
+      height: 278px;
+      position: absolute;
       text-align: center;
-      > img {
-        width: 70%;
-        &:hover {
-          cursor: pointer;
-          transform: scale(1.1);
-        }
+      background: url("../../assets/image/dbdzl.png") no-repeat;
+      left: 120px;
+      top: 179px;
+      &:hover {
+        cursor: pointer;
+        transform: scale(1.1);
       }
-      > label {
+      .logo {
         position: absolute;
-        bottom: 20px;
+        top: -14px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #04ffff;
+        background: url("../../assets/image/bi_logo.png") no-repeat;
+        background-size: 100% 100%;
+        width: 246px;
+        height: 246px;
+      }
+      .label {
+        position: absolute;
+        bottom: 14px;
         left: 50%;
         transform: translateX(-50%);
         font-size: 32px;
         color: #04ffff;
+        background: url("../../assets/image/bi_title.png") no-repeat;
+        background-size: 100% 100%;
+        width: 176px;
+        height: 74px;
+      }
+    }
+    .all-project {
+      width: 400px;
+      height: 278px;
+      position: absolute;
+      text-align: center;
+      background: url("../../assets/image/dbdzl.png") no-repeat;
+      left: 120px;
+      bottom: 162px;
+      &:hover {
+        cursor: pointer;
+        transform: scale(1.1);
+      }
+      .logo {
+        position: absolute;
+        top: -14px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #04ffff;
+        background: url("../../assets/image/dbdzl_logo.png") no-repeat;
+        background-size: 100% 100%;
+        width: 246px;
+        height: 246px;
+      }
+      .label {
+        position: absolute;
+        bottom: 14px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 32px;
+        color: #04ffff;
+        background: url("../../assets/image/dbdzl_title.png") no-repeat;
+        background-size: 100% 100%;
+        width: 176px;
+        height: 74px;
       }
     }
     .project_lists {
+      top: 164px;
       width: 70%;
-      height: 100%;
+      right: 0px;
+      height: 60%;
       overflow: hidden;
       display: flex;
-      align-items: center;
-      position: relative;
+      // align-items: center;
+      position: absolute;
       .right_shift {
         position: absolute;
         top: 50%;
@@ -460,21 +565,21 @@ export default {
       }
 
       #album {
-        width: 600px;
-        height: 400px;
-        margin: auto;
+        // margin: auto;
         position: relative;
+        padding-left: 60px;
         // transform-style: preserve-3d;
         // transform: rotateX(-20deg);
       }
+      //
       #album .img_box {
         // position: absolute;
         // top: 0;
         // left: 0;
         cursor: pointer;
         float: left;
-        width: 113px;
-        height: 113px;
+        height: 172px;
+        width: 288px;
         margin-left: 15px;
         margin-top: 15px;
         /* 反射倒影 距离下面5px  */
@@ -485,25 +590,48 @@ export default {
         //         0
         //       )
         //       40%, rgba(0, 0, 0, 0.5));
+
         .img_box_wrapper {
-          height: 100%;
-          width: 100%;
+          height: 172px;
+          width: 288px;
           position: relative;
+          background: url("../../assets/image/project_list_bg.png") no-repeat;
+          background-size: 100% 100%;
+          padding: 8px;
+          &:hover {
+            cursor: pointer;
+            transform: scale(1.1);
+            background: url("../../assets/image/project_list_bg_selected.png") no-repeat;
+            .title {
+              background: url("../../assets/image/project_list_title_bg_selected.png") no-repeat;
+            }
+          }
           img {
             width: 100%;
             height: 100%;
             border-radius: 5px;
           }
-
+          .title {
+            width: 272px;
+            height: 56px;
+            background: url("../../assets/image/project_list_title_bg.png") no-repeat;
+            background-size: 100% 100%;
+            bottom: 8px;
+            position: absolute;
+          }
           .pro_name {
-            width: 120px;
-            text-align: center;
+            width: 272px;
+            // text-align: center;
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
             bottom: 20px;
             z-index: 100;
             color: #FFFFFF;
+            font-size: 14px;
+            font-family: AlibabaPuHuiTiR;
+            padding: 0 6px;
+            font-weight: 100;
           }
 
           .section_lists {
@@ -622,9 +750,14 @@ export default {
     height: auto;
     color: #88a2c5;
     font-size: 20px;
+    font-size: 18px;
+    font-family: AlibabaPuHuiTiR;
+    color: #FFFFFF;
+    line-height: 25px;
     // -webkit-user-select: none;
     // -moz-user-select: none;
     // -ms-user-select: none;
   }
 }
 </style>
+

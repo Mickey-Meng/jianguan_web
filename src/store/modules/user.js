@@ -9,7 +9,11 @@
 import {doLogin, getUserInfo, loginMap} from "@/api/user";
 import {getToken, setToken} from "@/utils/auth";
 import {asyncRouters, resetRouter} from "../../router";
+// import {loadView} from "../../router/loadView";
+import ParentView from '@/components/ParentView'
 import {MessageBox, Message} from "element-ui";
+
+import Layout from '@/layout/index'
 
 
 import store from "../index";
@@ -25,6 +29,7 @@ const getDefaultState = () => {
     roles: getToken("roles"),
     GROUPID: getToken("GROUPID"),
     menus: [],
+    menu: [],
     roleId:getToken('groupId'),
     rights: getToken("rights") ? getToken("rights") : []
   };
@@ -64,7 +69,8 @@ const mutations = {
     state.roles = roles;
   },
   SET_MENUS: (state, menus) => {
-    state.menus = menus;
+    state.menus = menus.filRouters;
+    state.menu = menus.filRouters[menus.defaultIndex].children || [];
   },
   SET_RIGHTS: (state, rights) => {
     state.rights = rights;
@@ -117,17 +123,113 @@ const actions = {
         setToken("explorerRoles", userInfo.roleIds);
         // 菜单信息
         let usermenuCodeList = userInfo.menuPermission;
-        commit("SET_RIGHTS", usermenuCodeList);
-        setToken("rights", usermenuCodeList);
+
+        ////////////////////
+        // 目前菜单写死，且不返回1.0版本的code，所以这里根据返回菜单动态生成code
+        const rescode = []
+        function getMenuCode(asyncRoutersData, codesRights) {
+          asyncRoutersData.forEach(route => {
+            const tmp = { ...route };
+            rescode.push(tmp.path)
+            if (tmp.children) {
+              tmp.children = getMenuCode(tmp.children, codesRights);
+            }
+          });
+        }
+        getMenuCode(res.data.menus);
+        // console.log(rescode)
+        
+        commit("SET_RIGHTS", rescode);
+        setToken("rights", rescode);
+        ////////////////////
+        // commit("SET_RIGHTS", usermenuCodeList);
+        // setToken("rights", usermenuCodeList);
         
         loginMap('', '').then(res1 => {
           store.dispatch("user/getUserRights").then(res3 => {
+            console.log(res3)
             resolve(res);
           });
         });
+        
+        // 遍历后台传来的路由字符串，转换为组件对象
+        function filterAsyncRouter(asyncRouterMap, lastRouter = false, type = false) {
+          return asyncRouterMap.filter((route) => {
+            if (type && route.children) {
+              route.children = filterChildren(route.children);
+            }
+            if (route.component) {
+              // Layout ParentView 组件特殊处理
+              if (route.component === "Layout") {
+                route.component = Layout;
+              } else if (route.component === "ParentView") {
+                route.component = ParentView;
+              } else {
+                // route.component = route.component.replace("/views", "")
+                route.component = loadView(route.component);
+                // if (route.query) route.query.meta = {...route.query.meta, ...JSON.parse(route.query)}
+              }
+            }
+            if (route.children != null && route.children && route.children.length) {
+              route.children = filterAsyncRouter(route.children, route, type);
+            } else {
+              delete route["children"];
+              delete route["redirect"];
+            }
+            return true;
+          });
+        }
+
+        function filterChildren(childrenMap, lastRouter = false) {
+          var children = [];
+          childrenMap.forEach((el, index) => {
+            if (el.children && el.children.length) {
+              if (el.component === "ParentView") {
+                el.children.forEach((c) => {
+                  c.path = el.path + "/" + c.path;
+                  if (c.children && c.children.length) {
+                    children = children.concat(filterChildren(c.children, c));
+                    return;
+                  }
+                  children.push(c);
+                });
+                return;
+              }
+            }
+            if (lastRouter) {
+              el.path = lastRouter.path + "/" + el.path;
+            }
+            children = children.concat(el);
+          });
+          return children;
+        }
+        const loadView = (view) => {
+          console.log(`@${view}`)
+          if (process.env.NODE_ENV === 'development') {
+            debugger
+            return (resolve) => require([`@${view}.vue`], resolve)
+          } else {
+            // 使用 import 实现生产环境的路由懒加载
+            return () => import(`@${view}`)
+          }
+        }
+
+        // let filRouters = filterAsyncRouter(res.data.menus)
+        // let router = resetRouter();
+        // router.addRoutes(filRouters);
+        // commit("SET_MENUS", filRouters);
+        // setToken("routerMenus", filRouters);
+        // resolve(res);
+
       }).catch(error => {
         console.log("modules/user.login.doLogin->catch:");
         console.log(error);
+        
+        Message({
+          message: "用户名或密码错误！连续错误五次将锁定十分钟！",
+          type: "warning",
+          customClass: "message_override"
+        });
         reject(error)
       })
     })
@@ -209,9 +311,12 @@ const actions = {
     return new Promise((resolve, reject) => {
       function filterAsyncRouter(asyncRoutersData, codesRights) {
         const res = [];
-        asyncRoutersData.forEach(route => {
+        asyncRoutersData.forEach((route,index) => {
           const tmp = { ...route };
-          if (codesRights.indexOf(tmp.meta.code) !== -1) {
+          ////////////////////
+          // 目前菜单写死，且不返回1.0版本的code，所以这里根据返回菜单动态生成code
+          // if (codesRights.indexOf(tmp.meta.code) !== -1) {
+          if (codesRights.indexOf(tmp.path) !== -1) {
             if (tmp.children) {
               tmp.children = filterAsyncRouter(tmp.children, codesRights);
             }
@@ -222,12 +327,18 @@ const actions = {
       }
       let userId = store.getters.userInfo.ID;
       if (userId) {
+        let defaultIndex = 0;
         let routers = filterAsyncRouter(asyncRouters, state.rights);
-        let filRouters = routers.filter(e => e.children.length>0)
+        let filRouters = routers //.filter(e => e.children && e.children.length>0)
+
+        routers.forEach((item, index) => {
+          if (item.path == "/jianshezhuanti") defaultIndex = index;
+        })
 
         let router = resetRouter();
         router.addRoutes(filRouters);
-        commit("SET_MENUS", filRouters);
+        localStorage.setItem('defaultIndex', defaultIndex);
+        commit("SET_MENUS", {filRouters, defaultIndex} );
         setToken("routerMenus", filRouters);
         resolve(filRouters);
       } else {

@@ -109,7 +109,7 @@
 					projectChargeUser: 1,
 					projectCode: '',
 					buildSection: this.$store.getters.project.id,
-					projectId:this.$store.getters.project['parentid'],
+					projectId:this.$store.getters.project['id'],
 					qualityCheckUser: 1,
 					subProject: '',
 					supervisorEngineerUser: 1,

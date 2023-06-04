@@ -138,7 +138,7 @@
         // 查询参数
         queryUserParams: {
           pageNum: 1,
-          pageSize: 10,
+          pageSize: 100,
           userName: undefined,
           phonenumber: undefined,
           deptId: undefined,
@@ -238,10 +238,12 @@
           console.log("handleNodeClick->getListUserByDeptId:res");
           console.log(res);
           this.userData = res.rows
+          this.allUserData = res.rows;
         }).catch((errRes) => {
           console.log("handleNodeClick->getListUserByDeptId:errRes");
           console.log(errRes);
           this.userData = errRes.rows
+          this.allUserData = errRes.rows;
         });
       },
     
@@ -307,10 +309,10 @@
     searchUser() {
       if (this.name) {
         this.userData = this.allUserData.filter((e) => {
-          e.NAME = e.NAME ? e.NAME : "";
+          e.nickName = e.nickName ? e.nickName : "";
           e.NEWPOST = e.NEWPOST ? e.NEWPOST : "";
           return (
-            e.NAME.indexOf(this.name) != -1 ||
+            e.nickName.indexOf(this.name) != -1 ||
             e.NEWPOST.indexOf(this.name) != -1
           );
         });

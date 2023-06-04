@@ -54,8 +54,8 @@
         <span>编码：</span>
         <el-input placeholder="请输入编码" v-model="code" clearable></el-input>
         <el-button class="active" @click="search">搜索</el-button>
-        <el-button class="active" @click="exportTable">导出</el-button>
-        <el-button class="active" @click="exportBottomTable"
+        <el-button v-show="false" class="active" @click="exportTable">导出</el-button>
+        <el-button v-show="false" class="active" @click="exportBottomTable"
           >导出桥梁下部结构</el-button
         >
       </div>

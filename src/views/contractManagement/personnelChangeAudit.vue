@@ -29,7 +29,7 @@
         <div class="operate-btns">
           <!--        <el-button size="small" @click="openDialog">新增填报</el-button>-->
           <el-button size="small">导出</el-button>
-          <el-button size="small">批量操作</el-button>
+          <!-- <el-button size="small">批量操作</el-button> -->
         </div>
       </div>
     </el-header>

@@ -101,11 +101,24 @@ export const getProjectUserTree = params => {
  * @date
  */
 export const getConAndReferPerson = projectId => {
-  return request({
-    url: api.getConAndReferPerson,
-    method: "post",
-    data: {},
-    params: {projectId}
-  });
+	return request({
+	  url: api.getConAndReferPerson,
+	  method: "post",
+	  data: {},
+	  params: {projectId}
+	});
+  };
+/**
+ * @Description: 获取建设集团和全咨集团的人
+ * @author 王海林
+ * @date
+ */
+export const getMonitoring = projectId => {
+	return request({
+		url: api.getMonitoringByProjectId + "/" + projectId,
+		method: "get"
+	});
 };
+
+
 

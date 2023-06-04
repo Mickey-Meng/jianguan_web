@@ -4,16 +4,21 @@
       <div class="header_line"></div>
       <div class="header_text">关联单位</div>
     </div>
-    <div class="table-wrp">
-      <el-table :data="lists"  style="width: 100%" height="100%" :show-header="false">
+    <div class="table-wrp" style="padding: 10px;">
+      <!-- <el-table :data="lists"  style="width: 100%" height="100%" :show-header="false">
         <el-table-column
           prop="title"
           width="120">
         </el-table-column>
         <el-table-column
-          prop="name" show-overflow-tooltip>
+          prop="name">
         </el-table-column>
-      </el-table>
+      </el-table> -->
+      <div v-for="(item, index) in lists" v-show="item.name" v-bind:key="index" style="height: 48px;
+background: #E4E4E44f;line-height: 48px;padding-left: 14px;font-size: 16px;
+font-family: AlibabaPuHuiTiR;
+color: #11142D;margin-bottom: 8px;
+border-radius: 4px;" :title="item.name">{{item.title}}:{{item.name && item.name.slice(0, 20)}}</div>
     </div>
   </div>
 </template>
@@ -26,30 +31,6 @@ export default {
   data() {
     return {
       lists: [
-        {
-          title: "管理单位",
-          name: "池州建设投资集团有限公司",
-        },
-        {
-          title: "建设单位",
-          name: "池州乌沙港口运输有限公司",
-        },
-        {
-          title: "审计单位",
-          name: "江苏富华工程造价咨询有限公司",
-        },
-        {
-          title: "监理单位",
-          name: "安徽省科兴交通建设工程监理有限公司/池州建投工程管理有限公司",
-        },
-        {
-          title: "设计单位",
-          name: "安徽省交通勘察设计院有限公司",
-        },
-        {
-          title: "施工单位",
-          name: "中交上海航道局有限公司/中交第二航务工程勘察设计院有限公司",
-        }
       ],
     };
   },
@@ -64,30 +45,59 @@ export default {
       getEngCompany(id).then((res) => {
         const data = res.data;
         const array = [];
-        array.push({
-          title: "管理单位",
-          name: data.managedpt,
-        })
-        array.push({
-          title: "建设单位",
-          name: data.builddpt,
-        })
-        array.push({
-          title: "审计单位",
-          name: data.auditUnit,
-        })
-        array.push({
-          title: "监理单位",
-          name: data.supervisordpt,
-        })
-        array.push({
-          title: "设计单位",
-          name: data.desgindpt,
-        })
-        array.push({
-          title: "施工单位",
-          name: data.constructdpt,
-        })
+        data.managedpt = data.managedpt || "";
+        let _temp = data.managedpt.split(',');
+        _temp.forEach(item => {
+          array.push({
+            title: "管理单位",
+            name: item,
+          })
+        });
+        
+        data.builddpt = data.builddpt || "";
+        _temp = data.builddpt.split(',');
+        _temp.forEach(item => {
+          array.push({
+            title: "建设单位",
+            name: item,
+          })
+        });
+
+        data.auditUnit = data.auditUnit || "";
+        _temp = data.auditUnit.split(',');
+        _temp.forEach(item => {
+          array.push({
+            title: "审计单位",
+            name: item,
+          })
+        });
+
+        data.supervisordpt = data.supervisordpt || "";
+        _temp = data.supervisordpt.split(',');
+        _temp.forEach(item => {
+          array.push({
+            title: "监理单位",
+            name: item,
+          })
+        });
+
+        data.desgindpt = data.desgindpt || "";
+        _temp = data.desgindpt.split(',');
+        _temp.forEach(item => {
+          array.push({
+            title: "设计单位",
+            name: item,
+          })
+        });
+
+        data.constructdpt = data.constructdpt || "";
+        _temp = data.constructdpt.split(',');
+        _temp.forEach(item => {
+          array.push({
+            title: "施工单位",
+            name: item,
+          })
+        });
 
         this.lists = array;
 
@@ -109,13 +119,17 @@ export default {
     display: flex;
     align-items: center;
     padding: 20px 0px 10px 20px;
+    background: #EAF1FF;
+    border-radius: 4px 4px 0px 0px;
 
     .header_line {
-      width: 4px;
-      height: 16px;
+      width: 24px;
+      height: 24px;
       background-color: #1E6EEB;
       margin-right: 8px;
       border-radius: 3px;
+      background: url(../../../assets/image/datacenter_headericon1.svg) no-repeat;
+      background-size: cover;
     }
 
     .header_text {
@@ -123,6 +137,9 @@ export default {
       font-size: 18px;
       font-weight: bold;
       font-family: PingFang SC;
+      font-size: 16px;
+      font-family: AlibabaPuHuiTiM;
+      color: #191919;
     }
 
   }

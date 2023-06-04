@@ -109,7 +109,7 @@ export default {
         draftFlag: 1,
         payUnit: '',
         buildSection: this.$store.getters.project.id,
-        projectId: this.$store.getters.project['parentid'],
+        projectId: this.$store.getters.project['id'],
         payDate: formatDate(new Date()),
       },
       attachTable: [],

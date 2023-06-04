@@ -169,7 +169,7 @@
                 >详情</el-button
               >
               <el-button
-                v-if="[2].includes(groupId)"
+                v-if="rolePerms[0] =='gly'"
                 type="danger"
                 size="mini"
                 @click="deleteInfo(row, $index)"
@@ -325,7 +325,7 @@
       };
     },
     computed: {
-      ...mapGetters(["project"])
+      ...mapGetters(["project", "rolePerms"])
     },
     created() {
       this.groupId = getToken("groupId");
@@ -439,10 +439,12 @@
     },
     seeDetail(row) {
       this.detalRow = Object.assign({}, row);
+      let finalTime;
+      finalTime = addAnyDays(row.modifydate, row.uploadtime);
       if (row.delayday) {
-        this.detalRow.finalTime = addAnyDays(row.delayday, row.uploadtime);
-      } else {
-        this.detalRow.finalTime = addAnyDays(row.modifydate, row.uploadtime);
+        this.detalRow.finalTime = addAnyDays(row.delayday, finalTime);
+      }else {
+        this.detalRow.finalTime=finalTime
       }
       this.drawer = true;
     },

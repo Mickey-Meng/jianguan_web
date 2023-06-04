@@ -56,7 +56,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["userInfo"]),
+    ...mapGetters(["userInfo", "project"]),
   },
   watch: {
     $route(n, o) {
@@ -91,9 +91,12 @@ export default {
       //   window.zeh =
       //   earthCtx.zlskEarthHelper =
       //     new ZlskEarthHelper("earth", obj);
+      const url = this.project.mapUrl || window.location.href;
+      // const URL = `http://112.30.143.209:26666/data_zlsk/chizhoushi`;
+      // console.log(URL)
       const viewer = new Cesium.Viewer("earth", {
         imageryProvider: new Cesium.TileMapServiceImageryProvider({
-            url: `http://112.30.143.209:8888/data_zlsk/chizhoushi`,
+            url: url,
             format: 'image/png',
         }),
         infoBox: false,
@@ -108,12 +111,15 @@ export default {
         animation: false,
         navigationHelpButton: false,
         timeline: false,
+        msaaSamples: 8,
         fullscreenButton: false,contextOptions: {
             webgl: {
                 alpha: true,
             }
         }
       });
+      viewer.scene.msaaSamples = 8;
+      viewer.scene.globe.depthTestAgainstTerrain = true
     //   lon: 117.48387645025284,
     // lat: 30.66751823064398,
     // height: 5000,
@@ -132,6 +138,29 @@ export default {
         roll : 0.0
       }
     })
+
+
+        // 添加白模
+      const host = window.location.host;
+      const URL2 = `http://112.30.143.209:26666/data_zlsk/365330845/3dtiles/tileset.json`;
+      const URL3 = `http://112.30.143.209:26666/data_zlsk/365330846/3dtiles/tileset.json`;
+      const URL4 = `http://112.30.143.209:26666/data_zlsk/365330847/3dtiles/tileset.json`;
+        const tilesetModel = new Cesium.Cesium3DTileset({
+          url: URL2
+          // url: "http://localhost:8080/365330845/3dtiles/tileset.json"
+        });
+        viewer.scene.primitives.add(tilesetModel);
+        const tilesetModel1 = new Cesium.Cesium3DTileset({
+          url: URL3
+          // url: "http://localhost:8080/365330846/3dtiles/tileset.json"
+        });
+        viewer.scene.primitives.add(tilesetModel1);
+        const tilesetModel2 = new Cesium.Cesium3DTileset({
+          url: URL4
+          // url: "http://localhost:8080/365330847/3dtiles/tileset.json"
+        });
+        viewer.scene.primitives.add(tilesetModel2);
+
       // em = zeh.earth.createMarkerManager({ clusterType: "dilute" });
       // em.beginCluster();
       // earthCtx.earth = earthCtx.zlskEarth = zeh.earth;

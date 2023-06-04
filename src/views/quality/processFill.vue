@@ -52,11 +52,11 @@
                 <svg-icon
                   class="svg-class svg-btn"
                   :class="
-                    row.checkresult === 3
+                    row.status === 3
                       ? 'submit'
-                      : row.checkresult === 2
+                      : row.status === 2
                       ? 'reject'
-                      : row.checkresult === 1
+                      : row.status === 1
                       ? 'finish'
                       : 'error'
                   "
@@ -483,14 +483,18 @@ export default {
   computed: {
     ...mapGetters(["userInfo", "getUrl", "project"])
   },
+  mounted() {
+    this.$nextTick(() => {
+      Bus.$on("getProcessById", (data) => {
+        this.componentInfo = data;
+        this.name = "(" + data.pname + ":" + data.conponetcode + ")";
+        this.getCheackDataById();
+      });
+    })
+  },
   created() {
     this.header.token = getToken("zj_token");
     this.initData();
-    Bus.$on("getProcessById", (data) => {
-      this.componentInfo = data;
-      this.name = "(" + data.pname + ":" + data.conponetcode + ")";
-      this.getCheackDataById();
-    });
   },
   methods: {
     initData() {
@@ -505,7 +509,7 @@ export default {
       }
     },
     getRecord() {
-      api.getAllcheckData(2).then((res) => {
+      api.getAllcheckData(2, this.project.id).then((res) => {
         this.recordsData = res.data;
       });
     },

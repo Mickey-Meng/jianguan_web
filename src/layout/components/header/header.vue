@@ -3,7 +3,17 @@
     <div class="project_box">
       <div class="project_name">{{ project.name }}</div>
       <img src="../../../assets/newUi/return_home.png" alt="" @click="returnProjects">
-
+      
+    </div>
+    <div class="first_level_menus" :style="'width: '+140*7+'px;'">
+      <div class="menu_items" v-for="(item, index) in menus.slice(0,9)" v-bind:key="index" >
+        <div class="menu_item" @click="processRouterTree(item, index)" :style="index === 0 ? 'width: 140px;' : 'width: 135px;'" :class="activeMenu == index ? 'active' : ''" >
+          <div class="icon"></div>
+          <div class="text">{{ item.meta.title }}</div>
+          <div class="mytaskNum" v-if="index === 0">{{ agencytasknum }}</div>
+        </div>
+        <div class="split_line" v-if="index != menus.length-1"></div>
+      </div>
     </div>
     <div class="search"></div>
     <div class="info_box">
@@ -180,6 +190,8 @@
   import {mapGetters} from "vuex";
   import {getRolesByProject} from "@/api/user";
 
+  import store from '@/store'
+
   export default {
     props: [],
     watch: {},
@@ -206,21 +218,14 @@
           pwdsure: [
             {required: true, message: "请再次输入密码", trigger: "blur"}
           ]
-        }
+        },
+        firstLevelMenus: [],
+        activeMenu: localStorage.getItem('defaultIndex'),
       };
     },
     created() {
-
-      if (process.env.NODE_ENV === "development") {
-        this.websockLink =
-          "ws://127.0.0.1:8088/imserver/" + getToken("auth_token");
-      } else {
-        this.websockLink =
-          "wss://127.0.0.1:25555/prod-api/imserver/" + getToken("auth_token");
-      }
-
-    //  this.websockLink = process.env.WS_ADDRESS + '/imserver/' + getToken("auth_token");
-
+      console.log(process.env)
+      this.websockLink = process.env.VUE_APP_WS_ADDRESS + '/imserver/' + getToken("auth_token");
       this.initMsg();
       this.initWebSocket();
       setInterval(() => {
@@ -250,6 +255,8 @@
           this.nowday = "星期天";
           break;
       }
+
+      this.getFirstLevelMenus();
     },
     mounted() {
     },
@@ -404,11 +411,23 @@
       },
       returnProjects() {
         this.$router.push("/home");
+      },
+      getFirstLevelMenus() {
+        // firstLevelMenus
+        console.log(this.menus)
+      },
+      processRouterTree(row, index) {
+        this.activeMenu = index;
+        this.$store.state.user.menu = row.children;
+        this.$router.push(row.children[0].path)
       }
     },
     components: {system},
     computed: {
-      ...mapGetters(["device", "avatar", "menus", "project", "name"])
+      ...mapGetters(["device", "avatar", "menus", "menu", "project", "name"]),
+      agencytasknum() {
+          return store.state.task.agencytasknum;
+      },
     },
     beforeDestroy() {
     }
@@ -418,7 +437,7 @@
 
 <style lang='scss' scoped>
   .header_wrapper {
-    height: 76px;
+    height: 80px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -426,6 +445,7 @@
     .project_box {
       display: flex;
       align-items: center;
+      width: 400px;
 
       .project_name {
         height: 60px;
@@ -437,15 +457,76 @@
         font-size: 28px;
         font-family: ShiShangZhongHeiJianTi;
         font-weight: 400;
-        color: #211D1E;
+        color: #fff;
         margin-right: 20px;
-
       }
       img{
         cursor: pointer;
+        filter: invert(100%);
       }
     }
 
+    .first_level_menus {
+      display: flex;
+      align-items: center;
+      .menu_items {
+        display: flex;
+        align-items: center;
+        .menu_item {
+          cursor: pointer;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: row;
+          width: 115px;
+          height: 40px;
+          background: url("../../../assets/image/first_level_title.png") no-repeat;
+          background-size: 100% 100%;
+          .icon {
+            width: 24px;
+            height: 24px;
+            background: url("../../../assets/image/mytask.png") no-repeat;
+          }
+          .text {
+            font-size: 18px;
+            font-family: AlibabaPuHuiTiB;
+            color: #FFFFFF;
+            opacity: 0.5;
+          }
+          .mytaskNum {
+            height: 18px;
+            line-height: 18px;
+            font-size: 12px;
+            min-width: 12px;
+            margin-left: 10px;
+            background: #fff;
+            border-radius: 10px;
+            color: red;
+            text-align: center;
+            padding: 2px;
+          }
+          &:hover {
+            background: #ffffff4d;
+            border-radius: 5px;
+          }
+        }
+        .split_line {
+          width: 2px;
+          height: 18px;
+          background: #FFFFFF;
+          border-radius: 1px;
+          opacity: 0.5;
+        }
+        .menu_item.active {
+          background: url("../../../assets/image/first_level_title_selected.png") no-repeat;
+          background-size: 100% 100%;
+          color: #fff;
+          .text {
+            opacity: 1;
+          }
+        }
+      }
+    }
 
     .info_box {
       display: flex;
@@ -480,11 +561,15 @@
           font-family: DINPro;
           font-weight: 500;
           line-height: 62px;
+          color: #fff;
+          font-family: Furore;
+          font-size: 24px;
         }
 
         .shownowdate {
           font-size: 14px;
           font-family: Microsoft YaHei UI;
+          color: #fff;
           //font-weight: 300;
 
           div {
@@ -529,6 +614,7 @@
         height: 40px;
         vertical-align: middle;
         cursor: pointer;
+        color: #fff;
 
         &:focus {
           outline: none;
@@ -567,7 +653,7 @@
           align-items: center;
 
           .user_name {
-            color: #000000;
+            color: #fff;
           }
 
           .user-avatar {
@@ -584,6 +670,7 @@
             right: -20px;
             top: 25px;
             font-size: 12px;
+            color: #fff;
           }
         }
       }

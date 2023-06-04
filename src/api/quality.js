@@ -174,9 +174,9 @@ export const confirmReport = data => {
  * @returns {}
  * @date 2021/7/19
  */
-export const getAllcheckData = type => {
+export const getAllcheckData = (type, projectId) => {
 	return request({
-		url: api.getAllcheckData + `?type=${type}`,
+		url: api.getAllcheckData + `?type=${type}&projectId=${projectId}`,
 		method: "post"
 	});
 };

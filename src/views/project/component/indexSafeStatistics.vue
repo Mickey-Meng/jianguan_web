@@ -28,8 +28,16 @@
 
     </div>
     <ul class="nav_menu">
+      <li style="border:none;cursor:default;">
+      </li>
+      <li style="border:none;cursor:default;">
+      </li>
       <li v-for="(item) in lists" :key="item.gongquid" @click="initChart(item)"
           :class="{is_active_area:item.gongquid === currentAreaId}">{{ item.gongquname }}
+      </li>
+      <li style="border:none;cursor:default;">
+      </li>
+      <li style="border:none;cursor:default;">
       </li>
     </ul>
     <div class="chart_box">
@@ -39,16 +47,16 @@
 
     </div>
     <ul class="card_box">
-      <li style="background-color:rgba(253, 185, 42, .1) ">
-        <div class="value" style="color: #FDB92A">{{ count }}</div>
+      <li style="background: rgba(247,181,0,0.5); ">
+        <div class="value">{{ count }}</div>
         <div class="text">提出整改(起)</div>
       </li>
-      <li style="background-color:rgba(30, 110, 235, .1) ">
-        <div class="value" style="color: #1E6EEB">{{ finish }}</div>
+      <li style="background: rgba(109,212,0,0.5); ">
+        <div class="value">{{ finish }}</div>
         <div class="text">完成整改(起)</div>
       </li>
-      <li style="background-color:rgba(251, 98, 96, .1) ">
-        <div class="value" style="color: #FB6260">{{ overdue }}</div>
+      <li style="background: rgba(224,32,32,0.5);">
+        <div class="value">{{ overdue }}</div>
         <div class="text">已逾期(起)</div>
       </li>
     </ul>
@@ -208,18 +216,22 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 10px 0px 5px 20px;
+      padding: 20px 0px 10px 20px;
+      background: #EAF1FF;
+      border-radius: 4px 4px 0px 0px;
 
       .left {
         display: flex;
         align-items: center;
 
         .header_line {
-          width: 4px;
-          height: 16px;
+          width: 24px;
+          height: 24px;
           background-color: #1E6EEB;
           margin-right: 8px;
           border-radius: 3px;
+          background: url(../../../assets/image/datacenter_headericon5.svg) no-repeat;
+          background-size: cover;
         }
 
         .header_text {
@@ -227,6 +239,9 @@
           font-size: 18px;
           font-weight: bold;
           font-family: PingFang SC;
+          font-size: 16px;
+          font-family: AlibabaPuHuiTiM;
+          color: #191919;
         }
       }
 
@@ -255,14 +270,18 @@
 
     li {
       padding: 0 20px;
-      height: 28px;
-      line-height: 28px;
+      height: 24px;
+      line-height: 24px;
       background: url("../../../assets/newUi/area_bg.png") no-repeat;
       background-size: 100% 100%;
       font-family: PingFang SC;
       font-weight: 500;
       color: #808EA9;
       cursor: pointer;
+        color: #355DFF;
+        background: white;
+        border-radius: 4px;
+        border: 1px solid #EEEEEE;
     }
 
     .is_active_area {
@@ -272,11 +291,13 @@
       font-family: PingFang SC;
       font-weight: 500;
       color: #1E6EEB;
+        color: white;
+        background: #355DFF;
     }
   }
 
   .chart_box {
-    height: calc(100% - 210px);
+    height: calc(100% - 230px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -297,20 +318,25 @@
 
     li {
       //width: 33%;
-      width: 138px;
-      height: 106px;
+      width: 118px;
+      height: 126px;
       border-radius: 2px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       font-weight: 600;
+      border-radius: 16px;
 
       .value {
         margin-bottom: 10px;
         font-size: 24px;
         font-family: HuXiaoBo-NanShen;
         font-weight: 400;
+        font-size: 24px;
+        font-family: DINPro-Bold, DINPro;
+        font-weight: bold;
+        color: #11142D;
       }
 
       .text {
@@ -318,6 +344,9 @@
         font-family: PingFang SC;
         font-weight: 500;
         color: #2D405E;
+        font-size: 16px;
+        font-family: PingFangSC-Semibold, PingFang SC;
+        font-weight: 600;
       }
     }
   }

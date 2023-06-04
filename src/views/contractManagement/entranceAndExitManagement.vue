@@ -29,7 +29,7 @@
                            @click="addNew">新增</el-button>
                 <el-button size="small"
                            @click="exportData">导出</el-button>
-                <el-button size="small">批量操作</el-button>
+                <!-- <el-button size="small">批量操作</el-button> -->
               </div>
             </div>
           </el-header>
@@ -96,7 +96,7 @@
 
                     <el-button type="text"
                                size="mini"
-                               @click="deleteRow(row)">删除</el-button>
+                               v-if="$store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'" @click="deleteRow(row)">删除</el-button>
                   </template>
                 </el-table-column>
               </el-table>
@@ -298,7 +298,7 @@ export default {
         totalPage: 1,
         pageSize: 10,
         buildSection: this.$store.getters.project.id,
-        projectId: this.$store.getters.project['parentid'],
+        projectId: this.$store.getters.project['id'],
       },
       queryData_1: {
         //查询参数
@@ -310,7 +310,7 @@ export default {
         totalPage: 1,
         pageSize: 10,
         buildSection: this.$store.getters.project.id,
-        projectId: this.$store.getters.project['parentid'],
+        projectId: this.$store.getters.project['id'],
       },
       editRow: null,
       detailRow: null,

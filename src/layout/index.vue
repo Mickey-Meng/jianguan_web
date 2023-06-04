@@ -183,7 +183,9 @@ export default {
 }
 
 .top_header {
-  border-bottom: 1px solid #e8e8e8;
+  // border-bottom: 1px solid #e8e8e8;
+  background: url(../assets/image/project_name_bg.png) no-repeat;
+  background-size: cover;
 }
 
 .box {
@@ -195,19 +197,20 @@ export default {
   overflow: hidden;
 
   .wrapper {
-    height: calc(100% - 76px) !important;
+    height: calc(100% - 80px) !important;
     //height: 100%;
     position: relative;
     background-color: #fff;
     display: flex;
 
     .sidebar_container {
-      width: 280px;
-      background: #ffffff;
+      width: 200px;
+      background: url(../assets/image/tree_bg.png) no-repeat;
+      background-size: cover;
     }
 
     .main-container {
-      width: calc(100% - 280px);
+      width: calc(100% - 200px);
       padding: 2px;
       height: 100%;
       background-color: #eaf0f9;

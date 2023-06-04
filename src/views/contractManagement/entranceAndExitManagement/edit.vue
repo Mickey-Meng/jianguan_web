@@ -559,7 +559,7 @@
 			},
 			getChildProject() {
 				proapi.getChildProject({
-					projectid: this.$store.getters.project['parentid']
+					projectid: this.$store.getters.project['id']
 				}).then((res) => {
 					let options = res.data || [];
 					this.childOptions = convertOptions(options, 'name', 'id');

@@ -127,7 +127,7 @@
     width: 380px;
     z-index: 2001;
     height: 100%;
-    background: #060c26;
+    // background: #060c26;
   }
 }
 .app-main {
@@ -139,7 +139,7 @@
   -webkit-box-sizing: border-box; /* Safari */
 }
 .haveLeft {
-  padding-left: 380px;
+  // padding-left: 380px;
   .main-box {
     padding: 0 !important;
   }

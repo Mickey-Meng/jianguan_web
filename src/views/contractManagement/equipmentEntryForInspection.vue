@@ -27,7 +27,8 @@
               </div>
             </div>
             <el-button type="primary"
-                       @click="query()">搜索</el-button>
+                       @click="query()">搜索
+            </el-button>
 
             <div v-if="!isDraft"
                  class="right-btns">
@@ -37,10 +38,12 @@
               <div class="operate-btns"
                    v-show="operateBtnsVisible">
                 <el-button size="small"
-                           @click="addNew">新增</el-button>
+                           @click="addNew">新增
+                </el-button>
                 <el-button size="small"
-                           @click="exportData">导出</el-button>
-                <el-button size="small">批量操作</el-button>
+                           @click="exportData">导出
+                </el-button>
+                <!-- <el-button size="small">批量操作</el-button> -->
               </div>
             </div>
           </el-header>
@@ -56,17 +59,17 @@
                                  align="center"
                                  label="序号">
                 </el-table-column>
-                <el-table-column prop="projectName"
+                <!-- <el-table-column prop="projectName"
                                  align="center"
                                  label="项目名称"
                                  show-overflow-tooltip>
-                </el-table-column>
+                </el-table-column> -->
                 <el-table-column prop="projectCode"
                                  align="center"
                                  label="工程编号"
                                  show-overflow-tooltip>
                 </el-table-column>
-                <el-table-column prop="buildUnits"
+                <el-table-column prop="constructdpts"
                                  align="center"
                                  label="施工单位"
                                  show-overflow-tooltip>
@@ -78,38 +81,65 @@
                                  label="监理办"
                                  show-overflow-tooltip>
                 </el-table-column>
-                <el-table-column prop="supervisorUnits"
+                <el-table-column prop="supervisordpts"
                                  align="center"
                                  label="监理单位">
                 </el-table-column>
                 <!-- <el-table-column prop="contractCode" align="center" label="合同号">
 					</el-table-column> -->
-                <el-table-column prop="statusStr"
-                                 align="center"
-                                 label="状态描述">
+                <el-table-column prop="status" align="center" label="状态" show-overflow-tooltip>
+                  <template slot-scope="scope">
+                    <el-tag
+                      v-if="scope.row.status == '2'"
+                      size="mini"
+                      type="warning"
+                    >
+                      驳回
+                    </el-tag>
+                    <el-tag
+                      v-if="scope.row.status == '0'"
+                      size="mini"
+                      type="default"
+                    >
+                      审批中
+                    </el-tag>
+                    <el-tag
+                      v-if="scope.row.status == '1'"
+                      size="mini"
+                      type="success"
+                    >
+                      已审批
+                    </el-tag>
+                  </template>
                 </el-table-column>
+
                 <el-table-column fixed="right"
                                  width="120"
                                  align="center"
                                  label="操作">
                   <template slot-scope="{ row, $index }">
+                    <el-button v-if="editStatus(row)"
+                               type="text"
+                               size="mini"
+                               @click="modify(row)">修改
+                    </el-button>
                     <el-button v-if="!isDraft"
                                type="text"
                                size="mini"
-                               @click="modify(row)">修改</el-button>
-                    <el-button v-if="!isDraft"
-                               type="text"
-                               size="mini"
-                               @click="viewDetail(row)">详情</el-button>
+                               @click="viewDetail(row)">详情
+                    </el-button>
 
                     <el-button v-if="isDraft"
                                type="text"
                                size="mini"
-                               @click="checkDetail(row)">选择</el-button>
+                               @click="checkDetail(row)">选择
+                    </el-button>
 
                     <el-button type="text"
                                size="mini"
-                               @click="deleteRow(row)">删除</el-button>
+                               v-if="$store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'"
+                               @click="deleteRow(row)">删除
+                    </el-button>
                   </template>
                 </el-table-column>
               </el-table>
@@ -142,7 +172,7 @@
             <div class="input-box">
               <div class="input-value">
                 <el-select v-model="queryData_1.equipmentType"
-                            clearable
+                           clearable
                            placeholder="请选择">
                   <el-option v-for="item in equipmentOptions"
                              :key="item.value"
@@ -155,7 +185,8 @@
             <div class="input-box">
               <div class="input-value">
                 <el-button type="primary"
-                           @click="query_1">搜索</el-button>
+                           @click="query_1">搜索
+                </el-button>
               </div>
             </div>
           </el-header>
@@ -227,10 +258,11 @@
 </template>
 
 <script>
+
 import * as api from '@/api/contract'
 import edit from './equipmentEntryForInspection/edit'
 import detail from './equipmentEntryForInspection/detail'
-import { convertOptions } from '@/utils/format.js'
+import {convertOptions} from '@/utils/format.js'
 
 export default {
   props: {
@@ -256,7 +288,7 @@ export default {
         totalPage: 1,
         pageSize: 10,
         buildSection: this.$store.getters.project.id,
-        projectId: this.$store.getters.project['parentid'],
+        projectId: this.$store.getters.project['id'],
       },
       queryData_1: {
         //查询参数
@@ -267,25 +299,39 @@ export default {
         equipmentType: '',
         pageNum: 1,
         pageSize: 10,
-        projectId: this.$store.getters.project['parentid'],
+        projectId: this.$store.getters.project['id'],
       },
       editRow: null,
       detailRow: null,
       equipmentOptions: [],
     }
   },
-  created() {},
+  created() {
+  },
   components: {
     edit,
     detail,
   },
-  computed: {},
+  computed: {
+
+  },
   mounted() {
     this.getEquipmentEnterEnums()
     this.query()
-    
   },
   methods: {
+    editStatus(row) {
+      if(row.status != 2) {
+        return false;
+      }
+      if(row.createUserId == this.$store.getters.userInfo.ID) {
+        return true;
+      }
+      if(this.$store.getters.rolePerms[0] == 'gly') {
+        return true;
+      }
+      return false;
+    },
     query() {
       this.queryData.draftFlag = this.isDraft ? 0 : 1
       api.getEquipmentEnterList(this.queryData).then((res) => {
@@ -305,16 +351,16 @@ export default {
         this.queryData_1.pageSize = res.data.pageSize
       })
     },
-    formatEquType(data){
-        data=data||[]
-        data.forEach(item=>{
-            this.equipmentOptions.forEach(obj=>{
-                 if (item['equipmentType'].toString() == obj['value'].toString()) {
-                    item['equipmentTypeStr']=obj['label']
-                }
-            })
+    formatEquType(data) {
+      data = data || []
+      data.forEach(item => {
+        this.equipmentOptions.forEach(obj => {
+          if (item['equipmentType'].toString() == obj['value'].toString()) {
+            item['equipmentTypeStr'] = obj['label']
+          }
         })
-        return data;
+      })
+      return data;
     },
     getEquipmentEnterEnums() {
       api.getEquipmentEnterEnums().then((res) => {
@@ -327,12 +373,8 @@ export default {
     formateTableData(list) {
       list = list || []
       list.forEach((item) => {
-        item['buildUnits'] = item['buildUnits']
-          ? item['buildUnits'].join('、')
-          : ''
-        item['supervisorUnits'] = item['supervisorUnits']
-          ? item['supervisorUnits'].join('、')
-          : ''
+        item['buildUnits'] = item['buildUnits'] || ''
+        item['supervisorUnits'] = item['supervisorUnits'] || ''
       })
       return list
     },

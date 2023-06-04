@@ -183,7 +183,7 @@
 					// id: null,
 					projectCode: '',
 					buildSection: this.$store.getters.project.id,
-					projectId:this.$store.getters.project['parentid'],
+					projectId:this.$store.getters.project['id'],
 					subProject: '',
 					unit: ''
 				},
@@ -231,7 +231,7 @@
 						draftFlag: 1,
 						hiddenProject: '',
 						projectCode: '',
-						buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
+						buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['id'],
 						subProject: '',
 						unit: ''
 					}
@@ -242,14 +242,17 @@
 			},
 			getProjectInfoById() {
 				api.getProjectInfoById({
-					projectid: this.$store.getters.project['parentid']
+					projectid: this.$store.getters.project['id']
 				}).then((res) => {
 					let data = res['data'] || {};
 					this.baseInfo['buildSectionName'] = data['project'] ? data['project']['name'] : '';
 					let list = data['companys'] || [];
 					let info = createProjectInfo(list);
-					this.baseInfo['buildCompany'] = info['buildCompany'];
-					this.baseInfo['supervisionUnit'] = info['supervisionUnit'];
+
+					info = data['item'] || {}
+					
+					this.baseInfo['buildCompany'] = info['constructdpt']
+					this.baseInfo['supervisionUnit'] = info['supervisordpt']
 				});
 			},
 			getDetail(id) {
@@ -270,7 +273,7 @@
 								draftFlag: 1,
 								hiddenProject: '',
 								projectCode: '',
-								buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
+								buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['id'],
 								subProject: '',
 								unit: ''
 							},

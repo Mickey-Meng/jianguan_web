@@ -31,13 +31,13 @@
 					</el-date-picker>
 				</div>
 			</div>
-			
+
 			<el-button type="primary" @click="query">搜索</el-button>
 			<div v-if="!isDraft" class="right-btns">
 				<div class="operate-btns" v-show="operateBtnsVisible">
 					<el-button size="small" @click="addNew">新增</el-button>
 					<el-button size="small" @click="exportData">导出</el-button>
-					<el-button size="small">批量操作</el-button>
+					<!-- <el-button size="small">批量操作</el-button> -->
 				</div>
 			</div>
 		</el-header>
@@ -49,7 +49,7 @@
 					</el-table-column>
 					<el-table-column prop="buildSectionName" align="center" label="施工标段名称" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="buildUnits" align="center" label="施工单位" show-overflow-tooltip>
+					<el-table-column prop="constructdpts" align="center" label="施工单位" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="activityInfo" align="center" label="活动内容" show-overflow-tooltip>
 					</el-table-column>
@@ -63,10 +63,10 @@
 						<template slot-scope="{ row, $index }">
 							<el-button v-if="!isDraft"  type="text" size="mini" @click="modify(row)">修改</el-button>
 							<el-button v-if="!isDraft"  type="text" size="mini" @click="viewDetail(row)">详情</el-button>
-							
+
 							<el-button v-if="isDraft" type="text" size="mini" @click="checkDetail(row)">选择</el-button>
-							
-							<el-button  type="text" size="mini" @click="deleteRow(row)">删除</el-button>
+
+							<el-button  type="text" size="mini" v-if="$store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'" @click="deleteRow(row)">删除</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -113,7 +113,7 @@
 					createEndTime: null,
 					buildSectionName: '',
 					createUserName: '',
-					
+
 					draftFlag: 1,
 					pageNum: 1,
 					totalPage: 1,
