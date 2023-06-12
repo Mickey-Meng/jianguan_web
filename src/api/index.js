@@ -201,6 +201,7 @@ const api = {
   getStaffRecordsById: "/person/getContractStandingBook",//人员报审台账,
   deleteStaffRecord: "/person/delContract",//删除报审信息
   adminGetAllStaffRecord: "/person/getAllContract",//管理员获取报审台账
+  getPersonDetail: "/person/getPersonDetail",//管理员获取报审台账
   //----------------人员变更 -----------------
   addPersonChange: "/person/subPersonChange", //提交人员变更
   getPersonChange: "/person/getPersonChange", //获取人员变更信息
@@ -449,6 +450,13 @@ const api = {
   exportMetrologyList: "/web/api/v1/metrology/export",
   getMetrologyListNoPage: "/web/api/v1/metrology/list",
 
+
+  // 合同付款
+  addOrUpdateContractPayment: "/web/api/v1//contract/payment/addOrUpdate",
+  getContractPaymentDetail: "/web/api/v1//contract/payment/detail/id",
+  deleteContractPayment: "/web/api/v1//contract/payment/id",
+  getContractPaymentList: "/web/api/v1//contract/payment/page",
+  getContractPaymentListNoPage: "/web/api/v1//contract/payment/list",
 
 };
 

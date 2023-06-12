@@ -59,11 +59,34 @@
 					</el-table-column>
 					<el-table-column prop="sideDate" align="center" label="旁站时间">
 					</el-table-column>
-					<el-table-column prop="statusStr" align="center" label="状态">
-					</el-table-column>
+          <el-table-column prop="status" align="center" label="状态" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <el-tag
+                v-if="scope.row.status == '2'"
+                size="mini"
+                type="warning"
+              >
+                驳回
+              </el-tag>
+              <el-tag
+                v-if="scope.row.status == '0'"
+                size="mini"
+                type="default"
+              >
+                审批中
+              </el-tag>
+              <el-tag
+                v-if="scope.row.status == '1'"
+                size="mini"
+                type="success"
+              >
+                已审批
+              </el-tag>
+            </template>
+          </el-table-column>
 					<el-table-column fixed="right" width="120" align="center" label="操作">
 						<template slot-scope="{ row }">
-							<el-button v-if="!isDraft"  type="text" size="mini" @click="modify(row)">修改</el-button>
+							<el-button v-if="editStatus(row)"  type="text" size="mini" @click="modify(row)">修改</el-button>
 							<el-button v-if="!isDraft"  type="text" size="mini" @click="viewDetail(row)">详情</el-button>
 
 							<el-button v-if="isDraft" type="text" size="mini" @click="checkDetail(row)">选择</el-button>
@@ -136,6 +159,18 @@
 			this.query();
 		},
 		methods: {
+      editStatus(row) {
+        if(row.status != 2) {
+          return false;
+        }
+        if(row.createUserId == this.$store.getters.userInfo.ID) {
+          return true;
+        }
+        if(this.$store.getters.rolePerms[0] == 'gly') {
+          return true;
+        }
+        return false;
+      },
 			query() {
 				this.queryData.draftFlag=this.isDraft?0:1;
 				api.getSupervisionSideList(this.queryData).then((res) => {

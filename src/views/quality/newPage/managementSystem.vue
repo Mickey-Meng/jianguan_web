@@ -33,11 +33,11 @@
 					</el-table-column>
 					<el-table-column prop="updateTime" align="center" label="更新时间" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="deletedFlagStr" align="center" label="数据状态" show-overflow-tooltip>
+					<el-table-column prop="deletedFlagStr" align="center" label="数据状态" v-if="false" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column fixed="right" width="120" align="center" label="操作">
 						<template slot-scope="{ row, $index }">
-							<el-button v-if="!isDraft"  type="text" size="mini" @click="modify(row)">修改</el-button>
+							<el-button type="text" size="mini" v-if="!isDraft && $store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'" @click="modify(row)">修改</el-button>
 							<el-button v-if="!isDraft"  type="text" size="mini" @click="viewDetail(row)">详情</el-button>
 
 							<el-button v-if="isDraft" type="text" size="mini" @click="checkDetail(row)">选择</el-button>

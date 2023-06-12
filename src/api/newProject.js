@@ -9,7 +9,8 @@ const apiUrl = {
   getAreaBySectionId: "/safe/getGroups",//根据标段ID和用户权限返回工区
   getConstructionWorkersBySectionId: "/safe/getPersonLiableByGroup",//根据标段ID查询施工人员
   //用户、角色相关
-  getUserRoleAndCode: "/projects/getRoleByUser"
+  getUserRoleAndCode: "/projects/getRoleByUser",
+  getPersonDetail: "/projects/getPersonDetail"
 };
 
 import request from "@/utils/request";
@@ -73,3 +74,15 @@ export const getUserRoleAndCode = (id) => {
     }
   });
 };
+
+export const getUserRolesAndCodes = (id) => {
+  return request({
+    url: apiUrl.getUserRolesAndCodes,
+    method: "post",
+    data: {},
+    params: {
+      projectId: id
+    }
+  });
+};
+

@@ -137,7 +137,7 @@
 					deletedFlag: 1,
 					draftFlag: 1,
 					buildSection: this.$store.getters.project.id,
-					projectId:this.$store.getters.project['parentid'],
+					projectId:this.$store.getters.project['id'],
 					laborContractCode: null,
 					num: null,
 					type: 0

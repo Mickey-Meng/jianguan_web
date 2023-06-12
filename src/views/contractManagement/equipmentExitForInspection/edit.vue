@@ -430,7 +430,7 @@ export default {
 
         this.formData.equipmentInfo = this.equipmentTable
       } else {
-        api.getEquipmentExitDeatil(id).then((res) => {
+        api.getEquipmentExitDeatil(res['id']).then((res) => {
           let data = res['data'] || {}
           this.formData = data
           this.attachTable = data.attachment || []

@@ -365,6 +365,15 @@
 					for (let i = 1; i < 20; i++) {
 						if (conponent['w'+i]) {
 							data.subProjectStr += `/${conponent['w'+i]}`;
+							if (i == 3) {
+								this.baseInfo.unitProject=conponent['w'+i]
+							}
+							if (i == 4) {
+								this.baseInfo.parcelProject=conponent['w'+i]
+							}
+							if (i == 6) {
+								this.baseInfo.subitemProject=conponent['w'+i]
+							}
 						}
 						
 					}
@@ -378,9 +387,9 @@
 					// this.formData.subProjectStr=(treename?treename:[]).join('/');
 
 					if(treename.length>5){
-						this.baseInfo.unitProject=treename[2]
-						this.baseInfo.parcelProject=treename[3]
-						this.baseInfo.subitemProject=treename[5]
+						// this.baseInfo.unitProject=treename[2]
+						// this.baseInfo.parcelProject=treename[3]
+						// this.baseInfo.subitemProject=treename[5]
 					}
 
 				});

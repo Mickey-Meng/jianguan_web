@@ -1452,7 +1452,7 @@
 					this.formData.sideProjectStr=getOptionsLabel(this.sideOptions,this.formData.sideProjectId)
 					
 					let treename=getChidlren(this.treeData,this.formData.projectPartId,[]);
-					this.formData.projectPartStr=(treename?treename:[]).join('/');
+					// this.formData.projectPartStr=(treename?treename:[]).join('/');
 				});
 			},
 		},

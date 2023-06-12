@@ -15,7 +15,7 @@
       </div>
       <div class="main" >
         <el-table
-          :data="minData.filter((e) => e.type === 2 && e.project == project.id)"
+          :data="minData.filter((e) => e.type == 2 && e.projectId == project.id)"
           height="100%"
           border
           style="width: 100%"
@@ -80,7 +80,7 @@ export default {
   mounted() {},
   methods: {
     init() {
-      this.videoArr = this.minData.filter((e) => e.type === 2 && e.project == this.project.id);
+      this.videoArr = this.minData.filter((e) => e.type == 2 && e.projectId == this.project.id);
       getVideoToken().then((res) => {
         let token = res.data;
         this.videoToken = token;

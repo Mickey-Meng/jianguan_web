@@ -100,7 +100,7 @@ const actions = {
         }
         // 设置store信息
         commit("SET_TOKEN", res.data.jwtToken); //ZHU_ji原token，取消
-        commit("SET_AUTH_TOKEN", userInfo.token);            
+        commit("SET_AUTH_TOKEN", userInfo.token);
         commit("SET_NAME", userInfo.nickName);
         commit("SET_ID", userInfo.userId);
         commit("SET_ROLE_ID", userInfo.roleId);
@@ -113,10 +113,10 @@ const actions = {
         setToken("ID", userInfo.userId);
         setToken("userName", userInfo.nickName);
         setToken("role_perms", userInfo.rolePermission);
-        
+
         setToken("groupId", userInfo.deptId);
         setToken("GROUPID", userInfo.deptId);
-        
+
 
         // TODO 地图信息
         setToken("explorerId", userInfo.userId);
@@ -138,20 +138,20 @@ const actions = {
         }
         getMenuCode(res.data.menus);
         // console.log(rescode)
-        
+
         commit("SET_RIGHTS", rescode);
         setToken("rights", rescode);
         ////////////////////
         // commit("SET_RIGHTS", usermenuCodeList);
         // setToken("rights", usermenuCodeList);
-        
+
         loginMap('', '').then(res1 => {
           store.dispatch("user/getUserRights").then(res3 => {
             console.log(res3)
             resolve(res);
           });
         });
-        
+
         // 遍历后台传来的路由字符串，转换为组件对象
         function filterAsyncRouter(asyncRouterMap, lastRouter = false, type = false) {
           return asyncRouterMap.filter((route) => {
@@ -206,7 +206,6 @@ const actions = {
         const loadView = (view) => {
           console.log(`@${view}`)
           if (process.env.NODE_ENV === 'development') {
-            debugger
             return (resolve) => require([`@${view}.vue`], resolve)
           } else {
             // 使用 import 实现生产环境的路由懒加载
@@ -224,7 +223,7 @@ const actions = {
       }).catch(error => {
         console.log("modules/user.login.doLogin->catch:");
         console.log(error);
-        
+
         Message({
           message: "用户名或密码错误！连续错误五次将锁定十分钟！",
           type: "warning",
@@ -246,7 +245,7 @@ const actions = {
           let {groupid, loginData} = res.data;
           if (loginData) {
             commit("SET_TOKEN", loginData.token);
-            commit("SET_AUTH_TOKEN", loginData.authToken);            
+            commit("SET_AUTH_TOKEN", loginData.authToken);
             commit("SET_NAME", loginData.name);
             commit("SET_ID", loginData.id);
             commit("SET_ROLE_ID", groupid);

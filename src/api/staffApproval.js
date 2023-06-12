@@ -90,6 +90,17 @@ export const addPersonChange = (data) => {
     data
   });
 };
+
+
+export const getPersonDetail = (params) => {
+  return request({
+    url: api.getPersonDetail,
+    method: "post",
+    data: {},
+    params
+  });
+};
+
 export const getPersonChange = (id) => {
   return request({
     url: api.getPersonChange,

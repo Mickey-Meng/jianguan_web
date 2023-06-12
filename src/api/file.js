@@ -11,6 +11,13 @@ const headers = {
   'Content-Type': 'multipart/form-data'
 }
 
+
+const apiUrl = {
+  //首页数据和公共接口
+  getFileType: "/dataDictionary/dataDictionary/getFileTypesByPCode",
+};
+
+
 export const uploadFile = function (data) {
   return request({
     url: "/mong/upload",
@@ -64,7 +71,13 @@ export const getFile = (id,projectId) => {
     method: 'get'
   })
 }
-
+// 20230607  yangaogao  获取多类型文件数据
+export const getStoreFileByPcode = (pCode,projectId) => {
+  return request({
+    url: '/mong/getStoreFileByPcode?pCode=' + pCode + `&projectId=${projectId}`,
+    method: 'get'
+  })
+}
 /**
  * @des: 删除文件
  * @test:
@@ -78,3 +91,15 @@ export const deleteFile = id => {
     method: 'get'
   })
 }
+/*****
+ * 20230607 yangaogao
+ * 获取文件分类的数据字典
+ * pType: 父级数据字典id
+ */
+
+export const getFileDictByPCode = (pCode) => {
+  return request({
+    url: apiUrl.getFileType + '?pCode=' + pCode,
+    method: "get"
+  });
+};

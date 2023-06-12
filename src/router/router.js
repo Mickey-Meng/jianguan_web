@@ -131,6 +131,11 @@ export const constantRoutes = [{
       code: "jiliangshenpiv3",
       component: () => import("@/views/metrology/ledger/view")
     }, {
+      path: "/contractPayment_detail",
+      name: "contractPayment_detail",
+      code: "contractPayment",
+      component: () => import("@/views/contract/payment/view")
+    },{
       path: "/entranceAndExitManagement_detail",
       name: "entranceAndExitManagement_detail",
       code: "jintuichangguanli",
@@ -408,7 +413,19 @@ export const asyncRoutes = [
           partMap: false,
           noMap: true
         }
-      }]
+      },{
+        path: "/contractPayment",
+        name: "contractPayment",
+        component: () => import("@/views/contract/payment/contractPayment"),
+        meta: {
+          title: "合同付款",
+          code: "payment",
+          icon: "circle",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      },]
     }]
   },
 
@@ -1098,6 +1115,45 @@ export const asyncRoutes = [
           }
         },
         {
+          path: "/supervisordptFM",
+          name: "supervisordptFM",
+          component: () => import("@/views/datum/supervisordptFM"),
+          meta: {
+            title: "监理单位资料管理",
+            code: "supervisordptFM",
+            icon: "circle",
+            allMap: false,
+            partMap: false,
+            noMap: true
+          }
+        },
+        {
+          path: "/auditUnitdptFM",
+          name: "auditUnitdptFM",
+          component: () => import("@/views/datum/auditUnitdptFM"),
+          meta: {
+            title: "审计单位资料管理",
+            code: "auditUnitdptFM",
+            icon: "circle",
+            allMap: false,
+            partMap: false,
+            noMap: true
+          }
+        },
+        {
+          path: "/constructdptFM",
+          name: "constructdptFM",
+          component: () => import("@/views/datum/constructdptFM"),
+          meta: {
+            title: "施工单位资料管理",
+            code: "constructdptFM",
+            icon: "circle",
+            allMap: false,
+            partMap: false,
+            noMap: true
+          }
+        },
+        {
           path: "/safetyDocument",
           name: "safetyDocument",
           component: () => import("@/views/datum/safetyDocument"),
@@ -1140,8 +1196,7 @@ export const asyncRoutes = [
       alwaysShow: true,
       "component": ParentView,
       redirect: "/",
-    },
-      {
+    }, {
         path: "/jiliang",
         meta: {
           title: "计量管理",

@@ -11,14 +11,10 @@
     <el-header>
       <div class="input-box">
         <div class="input-value">
-          <el-input v-model="queryData.buildSectionName" placeholder="标段"></el-input>
+          <el-input v-model="queryData.contractCode" placeholder="合同号"></el-input>
         </div>
       </div>
-      <div class="input-box">
-        <div class="input-value">
-          <el-input v-model="queryData.laborContractProjectName" placeholder="拟劳务合作工程名称"></el-input>
-        </div>
-      </div>
+
       <el-button type="primary" @click="query">搜索</el-button>
       <div v-if="!isDraft" class="right-btns">
         <div class="operate-btns" v-show="operateBtnsVisible">

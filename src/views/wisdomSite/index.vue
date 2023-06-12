@@ -184,10 +184,8 @@ export default {
       });
     },
     initData() {
-      console.log("getMonitoring...");
       getMonitoring(this.project.id).then((res) => {
         let data = res.data.monitorDevices;
-        console.log(res);
       });
       this.$axios.get("./data/monitoring.json").then((res) => {
         let data = res.data.data;

@@ -17,7 +17,7 @@
         </div>
 
       </div>
-      <div class="input-box"  style="margin-left: 10px">
+      <div class="input-box" style="margin-left: 10px">
         <div class="input-value">
           <el-date-picker
             v-model="queryData.subDate"
@@ -31,9 +31,9 @@
 
       <div class="right-btns">
         <div class="operate-btns">
-          <el-button size="small" @click="openDialog">新增填报</el-button>
-<!--          <el-button size="small">导出</el-button>-->
-<!--          <el-button size="small">批量操作</el-button>-->
+          <el-button size="small" @click="openDialog(null)">新增填报</el-button>
+          <!--          <el-button size="small">导出</el-button>-->
+          <!--          <el-button size="small">批量操作</el-button>-->
         </div>
       </div>
     </el-header>
@@ -55,12 +55,37 @@
           </el-table-column>
           <!--          <el-table-column prop="uploadname" label="是否自管"></el-table-column>-->
           <!--          <el-table-column prop="uploadname" label="状态"></el-table-column>-->
+          <el-table-column prop="status" align="center" label="状态" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <el-tag
+                v-if="scope.row.status == '2'"
+                size="mini"
+                type="warning"
+              >
+                驳回
+              </el-tag>
+              <el-tag
+                v-if="scope.row.status == '0'"
+                size="mini"
+                type="default"
+              >
+                审批中
+              </el-tag>
+              <el-tag
+                v-if="scope.row.status == '1'"
+                size="mini"
+                type="success"
+              >
+                已审批
+              </el-tag>
+            </template>
+          </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="{row}">
               <!--              <el-button type="text" size="mini" @click="issueStep(row)">发布</el-button>-->
-              <!--              <el-button type="text" size="mini">修改</el-button>-->
+              <el-button v-if="editStatus(row)" type="text" size="mini" @click="openDialog(row)">修改</el-button>
               <el-button type="text" size="mini" @click="seeDetail(row)">详情</el-button>
-<!--              <el-button type="text" size="mini">删除</el-button>-->
+              <!--              <el-button type="text" size="mini">删除</el-button>-->
             </template>
           </el-table-column>
         </el-table>
@@ -363,7 +388,7 @@
             <el-aside
               style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);"
             >
-              <tasklog v-show="!isCreate" :taskInfo="taskInfo" ref="tasklog"></tasklog>
+              <tasklog v-show="showTaskLog" :taskInfo="taskInfo" ref="tasklog"></tasklog>
             </el-aside>
           </el-container>
 
@@ -382,307 +407,165 @@
 </template>
 
 <script>
-  import {getNowDate} from "@/utils/date";
-  import {mapGetters} from "vuex";
-  import {submitUserTask, listHandleTask} from "@/api/quality";
-  import uploadView from "@/views/common/upload";
-  // import * as api from "@/api/quality";
-  import {uploadFile} from "@/api/file";
-  import {formatDate} from "@/utils/date";
-  import {getOrgUser, addStaffApproval, getStaffApprovalBase} from "@/api/staffApproval";
-  import tasklog from "@/views/common/tasklog";
-  import {getUserRoleAndCode} from "@/api/newProject";
-  import approveuser from "@/views/common/approveuser.vue";
-  import {getFlowAuditEntry} from "@/api/quality";
-  import {getToken} from "@/utils/auth";
+import {formatDate, getNowDate} from "@/utils/date";
+import {mapGetters} from "vuex";
+import {getFlowAuditEntry, submitUserTask} from "@/api/quality";
+import uploadView from "@/views/common/upload";
+// import * as api from "@/api/quality";
+import {uploadFile} from "@/api/file";
+import {addStaffApproval, getOrgUser, getStaffApprovalBase, getPersonDetail} from "@/api/staffApproval";
+import tasklog from "@/views/common/tasklog";
+import {getUserRoleAndCode} from "@/api/newProject";
+import approveuser from "@/views/common/approveuser.vue";
+import {getToken} from "@/utils/auth";
 
 
-  export default {
-    name: "",
-    data() {
-      return {
-        form: {},//表单
-        taskInfo: {},
-        tableData: [],//填报的数据
-        listData: [],//报审数据
-        userOptions: [],
-        dialogFormVisible: false,
-        allFlowTypes: [
-          {
-            key: "shigongjihe",//施工单位合同人员报审
-            isContract: 1,
-            flowKey: "sgdwhtrybs"
-          },
-          {
-            key: "jianlijihe",//监理单位合同人员报审
-            isContract: 1,
-            flowKey: "jldwhtrybs"
-          },
-          {
-            key: "quanzijihe",//监理单位合同人员报审
-            isContract: 1,
-            flowKey: "qzdwhtrybs"
-          }
-        ],
-        userRoleParentCode: "",
-        // dialogPersonVisible: false,//控制选择人的弹框
-        queryData: {
-          projectCode: "",
-          subProject: "",
-          subName: "",
-          pageNum: 1,
-          pageSize: 10,
-          subDate: null
+export default {
+  name: "",
+  data() {
+    return {
+      form: {},//表单
+      taskInfo: {},
+      tableData: [],//填报的数据
+      listData: [],//报审数据
+      userOptions: [],
+      dialogFormVisible: false,
+      allFlowTypes: [
+        {
+          key: "shigongjihe",//施工单位合同人员报审
+          isContract: 1,
+          flowKey: "sgdwhtrybs"
         },
-        allData: [],
-        tableRowData: {
-          identityId: "",//身份证ID;
-          identityTime: "",//身份证有效时间
-          gender: 1,//性别 0女 1男
-          post: "",//角色
-          certificateName: "",//证件名称
-          certificateCode: "", //证件编号
-          issuer: "", //发证单位
-          effectiveTime: "", //证件有效期
-          education: "", //文化程度
-          peoplePic: "", //人脸照片
-          name: "", //用户名,
-          userId: null,//用户ID
-          roldid: null,//角色id
-          pic: ""//暂存的相片url，提交时删除
+        {
+          key: "jianlijihe",//监理单位合同人员报审
+          isContract: 1,
+          flowKey: "jldwhtrybs"
         },
-        selectUsers: [],//根据上报人员角色查询对应角色的人员
-        dialogTitle: "全生命周期智慧建设管理平台",
-        currentRow: {},
-        currentRowIndex: null,
-        disabledArr: [],
-        isShow: true,
-        isCreate: true,
-        auditUser: {},
-        approveVisible:true,
-        flowKey: ""
+        {
+          key: "quanzijihe",//监理单位合同人员报审
+          isContract: 1,
+          flowKey: "qzdwhtrybs"
+        }
+      ],
+      userRoleParentCode: "",
+      // dialogPersonVisible: false,//控制选择人的弹框
+      queryData: {
+        projectCode: "",
+        subProject: "",
+        subName: "",
+        pageNum: 1,
+        pageSize: 10,
+        subDate: null
+      },
+      allData: [],
+      tableRowData: {
+        identityId: "",//身份证ID;
+        identityTime: "",//身份证有效时间
+        gender: 1,//性别 0女 1男
+        post: "",//角色
+        certificateName: "",//证件名称
+        certificateCode: "", //证件编号
+        issuer: "", //发证单位
+        effectiveTime: "", //证件有效期
+        education: "", //文化程度
+        peoplePic: "", //人脸照片
+        name: "", //用户名,
+        userId: null,//用户ID
+        roldid: null,//角色id
+        pic: ""//暂存的相片url，提交时删除
+      },
+      selectUsers: [],//根据上报人员角色查询对应角色的人员
+      dialogTitle: "全生命周期智慧建设管理平台",
+      currentRow: {},
+      currentRowIndex: null,
+      disabledArr: [],
+      isShow: true,
+      isCreate: true,
+      showTaskLog: true,
+      auditUser: {},
+      approveVisible: true,
+      flowKey: ""
+    };
+  },
+  created() {
+    this.initForm();
+
+    this.initData();
+  },
+  computed: {
+    ...mapGetters(["userInfo", "name", "project", "roleId", "getUrl"])
+  },
+  components: {uploadView, tasklog, approveuser},
+  methods: {
+    editStatus(row) {
+      if (row.status != 2) {
+        return false;
+      }
+      if (row.createUserId == this.$store.getters.userInfo.ID) {
+        return true;
+      }
+      if (this.$store.getters.rolePerms[0] == 'gly') {
+        return true;
+      }
+      return false;
+    },
+    initForm() {
+      this.form = {
+        projectName: this.project.name,
+        recorder: this.name,
+        recordId: this.userInfo.ID,
+        subDate: getNowDate(),//填报时间
+        projectId: this.project.id,
+        isContract: 1
       };
     },
-    created() {
-      this.initForm();
-
-      this.initData();
+    //添加行数据
+    addRow() {
+      let obj = Object.assign({}, this.tableRowData);
+      this.tableData.push(obj);
     },
-    computed: {
-      ...mapGetters(["userInfo", "name", "project", "roleId", "getUrl"])
-    },
-    components: {uploadView, tasklog, approveuser},
-    methods: {
-      initForm() {
-        this.form = {
-          projectName: this.project.name,
-          recorder: this.name,
-          recordId: this.userInfo.ID,
-          subDate: getNowDate(),//填报时间
-          projectId: this.project.id,
-          isContract: 1
-        };
-      },
-      //添加行数据
-      addRow() {
-        let obj = Object.assign({}, this.tableRowData);
-        this.tableData.push(obj);
-      },
-      //新增
-      openDialog() {
-        if (!this.userRoleParentCode) {
-          this.$message({
-            type: "warning",
-            message: "配置错误、无法获取审批流程，请联系管理员！",
-            customClass: "message_override"
-          });
-          return false;
-        }
-        let flowObj = this.allFlowTypes.find(e => e.key === this.userRoleParentCode && e.isContract === this.form.isContract);
-        if (!flowObj) {
-          this.$message({
-            type: "warning",
-            message: "配置错误、无法获取审批流程，请联系管理员！",
-            customClass: "message_override"
-          });
-          return false;
-        }
-        this.flowKey = flowObj.flowKey;
-        this.disabledArr = [];
-        this.tableData = [];
-        this.initForm();
-        this.dialogFormVisible = true;
-        this.isCreate = true;
-      },
-      //删除行数据
-      deleteInfo(row, index) {
-        let a = this.disabledArr.findIndex(e => e === row.userId);
-        this.disabledArr.splice(a, 1);
-        this.tableData.splice(index, 1);
-      },
-      handleSizeChange(val) {
-        this.queryData.pageSize = val;
-      },
-      handleCurrentChange(val) {
-        this.queryData.pageNum = val;
-      },
-      queryClick() {
-        let {subDate, subName} = this.queryData;
-        if (!subDate && !subName) {
-          this.listData = this.allData;
-        } else if (!subDate && subName) {
-          this.listData = this.allData.filter(e => e.recorder.indexOf(subName )!== -1);
-        } else if (subDate && !subName) {
-          this.listData = this.allData.filter(e => e.uploadname.indexOf(subDate )!== -1);
-        } else {
-          this.listData = this.allData.filter(e => e.uploadname.indexOf(subDate )!== -1 && e.recorder.indexOf(subName) !== -1);
-        }
-      },
-      //暂存当前行数据
-      currentRowData(row, index) {
-        this.currentRow = Object.assign({}, row);
-        this.currentRowIndex = index;
-      },
-      //上传文件
-      importFile(params) {
-        let data = new FormData();
-        data.append("file", params.file);
-        uploadFile(data).then((res) => {
-          this.$message({
-            type: "success",
-            message: "上传成功!",
-            customClass: "message_override"
-          });
-          this.$refs.upload.clearFiles();
-          this.currentRow.peoplePic = res.data;
-          this.currentRow.pic = '/mong/preview?fileid=' + res.data;
-          this.tableData.splice(this.currentRowIndex, 1, this.currentRow);
+    //新增
+    openDialog(row) {
+      if (!this.userRoleParentCode) {
+        this.$message({
+          type: "warning",
+          message: "配置错误、无法获取审批流程，请联系管理员！",
+          customClass: "message_override"
         });
-      },
-
-      initData() {
-        //获取当前人员对应组织下所有用户
-        getOrgUser({projectid: this.project.id}).then(res => {
-          this.selectUsers = res.data || [];
+        return false;
+      }
+      let flowObj = this.allFlowTypes.find(e => e.key === this.userRoleParentCode && e.isContract === this.form.isContract);
+      if (!flowObj) {
+        this.$message({
+          type: "warning",
+          message: "配置错误、无法获取审批流程，请联系管理员！",
+          customClass: "message_override"
         });
-        //获取报审的数据
-        getStaffApprovalBase({projectid: this.project.id}).then(res => {
+        return false;
+      }
+      this.flowKey = flowObj.flowKey;
+      this.disabledArr = [];
+      //获取报审的数据
+      if (row && row['id']) {
+        getPersonDetail({personId: row.id}).then(res => {
           let data = res?.data || [];
-          this.allData = data;
-          if (data && data.length > 0) {
-            this.listData = data.map(item => {
-              let obj = Object.assign(item, item.person);
-              return obj;
+          if (data && data.personSubs && data.personSubs.length > 0) {
+            this.approveVisible = false;
+            this.tableData = data.personSubs.map(item => {
+              return Object.assign(item, item.personSubs);
             });
           } else {
-            this.listData = [];
+            this.tableData = [];
           }
         });
-        //获取用户角色
-        getUserRoleAndCode(this.project.id).then(res => {
-          if (res && res.data) {
-            this.userRoleParentCode = res.data.parentCode;
-          }
-        });
-      },
-      //选择填报人员事件
-      staffChange(val) {
-        this.disabledArr.push(val);
-        let tablerow = this.tableData.find(e => e.userId === val);
-        let info = this.selectUsers.find(e => e.id === val);
-        tablerow.post = info.rolename;
-        tablerow.roldId = info.roleid;
-        tablerow.name = info.name;
-      },
-      //提交表单
-      submitStaffInfo() {
-
-        if (this.tableData.length === 0) {
-          return false;
-        }
-        let data = this.tableData.map(item => {
-          let obj = Object.assign({}, item);
-          delete obj.pic;
-          if (obj.effectiveTime && obj.effectiveTime.length > 0) {
-            obj.effectiveTime = obj.effectiveTime[0] + "至" + obj.effectiveTime[1];
-          }
-          if (obj.identityTime && obj.identityTime.length > 0) {
-            obj.identityTime = obj.identityTime[0] + "至" + obj.identityTime[1];
-          }
-          return obj;
-        });
-        let form = Object.assign({}, this.form);
-        let dd = {
-          person: form,
-          personSubs: data,
-          processKey: this.flowKey
-        };
-        addStaffApproval(dd).then(res => {
-          this.issueStep(res);
-        });
-      },
-      issueStep(row) {
-        //查询人员
-        getFlowAuditEntry({
-          flowKey: this.flowKey,
-          buildSection: this.$store.getters.project.id,
-          projectId: this.$store.getters.project["parentid"] || 2
-        }).then(res => {
-          let arr = [];
-          let {data} = res;
-          for (let i in data) {
-            arr = arr.concat(data[i]);
-          }
-          let userMap = {};
-          arr.forEach(item => {
-            let value = item.entryUserVariable;
-            userMap[value] = item.userNames.toString();
-          });
-          userMap.startUserName = getToken("name");
-          let obj = {
-            copyData: {},
-            flowTaskCommentDto: {
-              approvalType: "",
-              comment: "",
-              delegateAssginee: ""
-            },
-            // auditUser: userMap,
-            masterData: {},
-            processInstanceId: row.data,
-            slaveData: {},
-            taskId: "",
-            taskVariableData: userMap
-          };
-          submitUserTask(obj).then(res1 => {
-            this.$message({
-              type: "success",
-              message: "填报成功!",
-              customClass: "message_override"
-            });
-            this.initData();
-            this.dialogFormVisible = false;
-          });
-        });
-      },
-      seeDetail(row) {
-        //查看详情
-        this.form = Object.assign({}, row.person);
-        let data = row.personSubs;
-        if (data && data.length > 0) {
-          this.tableData = data.map(item => {
-            if (item.peoplePic) {
-              item.peoplePic = "/mong/preview?fileid=" + item.peoplePic;
-            }
-            return item;
-          });
-        }
-        this.isCreate = false;
+        this.showTaskLog = true;
         let {maps} = row;
+        debugger;
         let {processDefinitionId, processInstanceId, taskId} = maps;
         if (processDefinitionId && processInstanceId && taskId) {
           let flowKey = processDefinitionId.split(":")[0];
           this.taskInfo = {
-            processDefinitionId, processInstanceId, taskId,flowKey
+            processDefinitionId, processInstanceId, taskId, flowKey
           };
         } else {
           this.taskInfo = {};
@@ -691,60 +574,248 @@
         this.$nextTick(() => {
           this.$refs["tasklog"].initData();
         });
+
+      } else {
+        this.tableData = [];
+        this.approveVisible = true;
+        this.showTaskLog = false;
+      }
+      this.initForm();
+      this.dialogFormVisible = true;
+      this.isCreate = true;
+    },
+    //删除行数据
+    deleteInfo(row, index) {
+      let a = this.disabledArr.findIndex(e => e === row.userId);
+      this.disabledArr.splice(a, 1);
+      this.tableData.splice(index, 1);
+    },
+    handleSizeChange(val) {
+      this.queryData.pageSize = val;
+    },
+    handleCurrentChange(val) {
+      this.queryData.pageNum = val;
+    },
+    queryClick() {
+      let {subDate, subName} = this.queryData;
+      if (!subDate && !subName) {
+        this.listData = this.allData;
+      } else if (!subDate && subName) {
+        this.listData = this.allData.filter(e => e.recorder.indexOf(subName) !== -1);
+      } else if (subDate && !subName) {
+        this.listData = this.allData.filter(e => e.uploadname.indexOf(subDate) !== -1);
+      } else {
+        this.listData = this.allData.filter(e => e.uploadname.indexOf(subDate) !== -1 && e.recorder.indexOf(subName) !== -1);
       }
     },
-    filters: {
-      getTime(val) {
-        if (val) {
-          return formatDate(val);
+    //暂存当前行数据
+    currentRowData(row, index) {
+      this.currentRow = Object.assign({}, row);
+      this.currentRowIndex = index;
+    },
+    //上传文件
+    importFile(params) {
+      let data = new FormData();
+      data.append("file", params.file);
+      uploadFile(data).then((res) => {
+        this.$message({
+          type: "success",
+          message: "上传成功!",
+          customClass: "message_override"
+        });
+        this.$refs.upload.clearFiles();
+        this.currentRow.peoplePic = res.data;
+        this.currentRow.pic = '/mong/preview?fileid=' + res.data;
+        this.tableData.splice(this.currentRowIndex, 1, this.currentRow);
+      });
+    },
+
+    initData() {
+      //获取当前人员对应组织下所有用户
+      getOrgUser({projectid: this.project.id}).then(res => {
+        this.selectUsers = res.data || [];
+      });
+      //获取报审的数据
+      getStaffApprovalBase({projectid: this.project.id}).then(res => {
+        let data = res?.data || [];
+        this.allData = data;
+        if (data && data.length > 0) {
+          this.listData = data.map(item => {
+            let obj = Object.assign(item, item.person);
+            return obj;
+          });
         } else {
-          return "";
+          this.listData = [];
         }
+      });
+      //获取用户角色
+      getUserRoleAndCode(this.project.id).then(res => {
+        if (res && res.data) {
+          this.userRoleParentCode = res.data.parentCode;
+        }
+      });
+    },
+    //选择填报人员事件
+    staffChange(val) {
+      this.disabledArr.push(val);
+      let tablerow = this.tableData.find(e => e.userId === val);
+      let info = this.selectUsers.find(e => e.id === val);
+      tablerow.post = info.rolename;
+      tablerow.roldId = info.roleid;
+      tablerow.name = info.name;
+    },
+    //提交表单
+    submitStaffInfo() {
+
+      if (this.tableData.length === 0) {
+        return false;
+      }
+      let data = this.tableData.map(item => {
+        let obj = Object.assign({}, item);
+        delete obj.pic;
+        if (obj.effectiveTime && obj.effectiveTime.length > 0) {
+          obj.effectiveTime = obj.effectiveTime[0] + "至" + obj.effectiveTime[1];
+        }
+        if (obj.identityTime && obj.identityTime.length > 0) {
+          obj.identityTime = obj.identityTime[0] + "至" + obj.identityTime[1];
+        }
+        return obj;
+      });
+      let form = Object.assign({}, this.form);
+      let dd = {
+        person: form,
+        personSubs: data,
+        processKey: this.flowKey
+      };
+      addStaffApproval(dd).then(res => {
+        this.issueStep(res);
+      });
+    },
+    issueStep(row) {
+      //查询人员
+      getFlowAuditEntry({
+        flowKey: this.flowKey,
+        buildSection: this.$store.getters.project.id,
+        projectId: this.$store.getters.project["parentid"] || 2
+      }).then(res => {
+        let arr = [];
+        let {data} = res;
+        for (let i in data) {
+          arr = arr.concat(data[i]);
+        }
+        let userMap = {};
+        arr.forEach(item => {
+          let value = item.entryUserVariable;
+          userMap[value] = item.userNames.toString();
+        });
+        userMap.startUserName = getToken("name");
+        let obj = {
+          copyData: {},
+          flowTaskCommentDto: {
+            approvalType: "",
+            comment: "",
+            delegateAssginee: ""
+          },
+          // auditUser: userMap,
+          masterData: {},
+          processInstanceId: row.data,
+          slaveData: {},
+          taskId: "",
+          taskVariableData: userMap
+        };
+        submitUserTask(obj).then(res1 => {
+          this.$message({
+            type: "success",
+            message: "填报成功!",
+            customClass: "message_override"
+          });
+          this.initData();
+          this.dialogFormVisible = false;
+        });
+      });
+    },
+    seeDetail(row) {
+      //查看详情
+      this.form = Object.assign({}, row.person);
+      let data = row.personSubs;
+      if (data && data.length > 0) {
+        this.tableData = data.map(item => {
+          if (item.peoplePic) {
+            item.peoplePic = "/mong/preview?fileid=" + item.peoplePic;
+          }
+          return item;
+        });
+      }
+      this.showTaskLog = true;
+      let {maps} = row;
+      debugger;
+      let {processDefinitionId, processInstanceId, taskId} = maps;
+      if (processDefinitionId && processInstanceId && taskId) {
+        let flowKey = processDefinitionId.split(":")[0];
+        this.taskInfo = {
+          processDefinitionId, processInstanceId, taskId, flowKey
+        };
+      } else {
+        this.taskInfo = {};
+      }
+      this.dialogFormVisible = true;
+      this.$nextTick(() => {
+        this.$refs["tasklog"].initData();
+      });
+    }
+  },
+  filters: {
+    getTime(val) {
+      if (val) {
+        return formatDate(val);
+      } else {
+        return "";
       }
     }
-  };
+  }
+};
 </script>
 
 <style scoped lang="scss">
-  @import "../../assets/css/table.scss";
-  @import "../../assets/css/dialog.scss";
+@import "../../assets/css/table.scss";
+@import "../../assets/css/dialog.scss";
 
-  .form-bg {
-    width: 90% !important;
+.form-bg {
+  width: 90% !important;
 
-    .form-block {
-      .el-date-editor {
-        width: 100% !important;
+  .form-block {
+    .el-date-editor {
+      width: 100% !important;
+    }
+  }
+}
+
+::v-deep.upload_box {
+  .upload-demo {
+    .el-upload {
+      .el-button {
+        padding: 7px 15px !important;
+        height: unset !important;
+        line-height: 1 !important;
+        font-size: 12px !important;
       }
     }
   }
+}
 
-  ::v-deep.upload_box {
-    .upload-demo {
-      .el-upload {
-        .el-button {
-          padding: 7px 15px !important;
-          height: unset !important;
-          line-height: 1 !important;
-          font-size: 12px !important;
-        }
-      }
-    }
+
+.user_select {
+  display: flex;
+  align-items: center;
+
+  i {
+    font-size: 28px;
+    cursor: pointer;
   }
 
-
-  .user_select {
-    display: flex;
-    align-items: center;
-
-    i {
-      font-size: 28px;
-      cursor: pointer;
-    }
-
-    .name {
-      font-size: 14px;
-    }
+  .name {
+    font-size: 14px;
   }
+}
 
 </style>

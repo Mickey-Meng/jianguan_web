@@ -37,7 +37,7 @@
 					<el-table-column fixed="right" width="120" align="center" label="操作">
 						<template slot-scope="{ row, $index }">
 							<el-button type="text" @click="viewDetail(row)">详情</el-button>
-							<el-button type="text" style="color: red;" @click="deleteManagementObject(row.id)">删除</el-button>
+							<el-button type="text" style="color: red;" v-if="$store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'"   @click="deleteManagementObject(row.id)">删除</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -85,7 +85,7 @@
 										</div>
 									</div>
 									<div class="block-line">
-										
+
 										<div class="block-item">
 											<div class="block-item-label">发布时间</div>
                       						<div class="block-item-value">
@@ -110,10 +110,10 @@
 										<div class="title-bar"></div><strong>文件</strong>
 										<span style="font-size: 12px;margin-left: 40px;" v-show="!previewMode">支持上传 jpg/jpeg png mp4 docx doc xlsx xls pdf 文件，且不超过 50M</span>
 									</div>
-									
-									
+
+
 									<attachlist :editAble="true" ref="attachlist" :attachTable="attachTable"></attachlist>
-									
+
 								</div>
 								<div class="form-block">
 									<el-button class="submit-btn" size="small" type="primary" @click="addManagedObject" v-show="!previewMode">提交</el-button>
@@ -122,7 +122,7 @@
 						</div>
 					</div>
 				</el-main>
-				
+
 			</el-container>
 		</el-dialog>
 	</el-container>
@@ -183,7 +183,7 @@
 					projectId:this.$store.getters.project['parentid'], // 项目id
 					userName: '',	// 登记人
 					groupName: '',	// 登记部门
-					projectName: '',// 项目名称 
+					projectName: '',// 项目名称
 				    attachment: [ // 附件
 					]
 				},
@@ -210,7 +210,7 @@
 				api.getManagementObjectList(this.queryData).then((res) => {
 				  this.tableData = res.data.list;
 				});
-				
+
 			},
 			getUserInfo() {
 				getUserInfo(localStorage.getItem('ID')).then(res => {
@@ -221,7 +221,7 @@
 				this.previewMode = false;
 				this.dialogFormVisible = true;
 				const hasGetUserInfo = store.getters.name;
-				
+
 				this.formData.userName = hasGetUserInfo;
 				this.formData.groupName = this.userInfo.GROUPNAME;
 				this.formData.id = '';
@@ -230,7 +230,7 @@
 			},
 			addManagedObject() {
 				if (this.formData.publishDate instanceof Date) this.formData.publishDate = this.formData.publishDate.format("yyyy-MM-dd");
-				
+
 				this.formData.attachment = this.attachTable;
 				api.addOrUpdateManagementObjectList(this.formData).then((res) => {
 				  	this.query();
@@ -418,7 +418,7 @@
 			background-repeat: no-repeat;
 			margin: 8px 8px 8px 0;
 		}
-		
+
 		.title-bar {
 			width: 4px;
 			height: 20px;
@@ -630,7 +630,7 @@
 		height: 36px;
 		border-radius: 0 0 0 50px;
 	}
-	
+
 	.full-dialog .el-dialog__close {
 		position: absolute;
 		right: 0px;
@@ -638,9 +638,9 @@
 		font-size: 20px;
 		font-weight: 600;
 		top: 4px;
-	
+
 	}
-	
+
 	.el-button--primary:hover {
 		color: #FFFFFF;
 		background-color: #409EFF;

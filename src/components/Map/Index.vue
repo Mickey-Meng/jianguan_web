@@ -130,8 +130,10 @@ export default {
     // pitch: -90,
     // roll: 0,
     // duration: 3
+    const point = this.project.projectpoint && this.project.projectpoint.split(",") || [];
+
     viewer.camera.flyTo({
-      destination : Cesium.Cartesian3.fromDegrees(117.48387645025284,30.66751823064398,5000),
+      destination : Cesium.Cartesian3.fromDegrees(point[1] || 117.48387645025284, point[0] || 30.66751823064398,5000),
       orientation :{
         heading : 0,
         pitch : Cesium.Math.toRadians(-90.0),
@@ -141,25 +143,24 @@ export default {
 
 
         // 添加白模
-      const host = window.location.host;
-      const URL2 = `http://112.30.143.209:26666/data_zlsk/365330845/3dtiles/tileset.json`;
-      const URL3 = `http://112.30.143.209:26666/data_zlsk/365330846/3dtiles/tileset.json`;
-      const URL4 = `http://112.30.143.209:26666/data_zlsk/365330847/3dtiles/tileset.json`;
-        const tilesetModel = new Cesium.Cesium3DTileset({
-          url: URL2
-          // url: "http://localhost:8080/365330845/3dtiles/tileset.json"
-        });
-        viewer.scene.primitives.add(tilesetModel);
-        const tilesetModel1 = new Cesium.Cesium3DTileset({
-          url: URL3
-          // url: "http://localhost:8080/365330846/3dtiles/tileset.json"
-        });
-        viewer.scene.primitives.add(tilesetModel1);
-        const tilesetModel2 = new Cesium.Cesium3DTileset({
-          url: URL4
-          // url: "http://localhost:8080/365330847/3dtiles/tileset.json"
-        });
-        viewer.scene.primitives.add(tilesetModel2);
+      let modelUrls = this.project.coordinate;
+      if (modelUrls) {
+        modelUrls = modelUrls.split(",");
+        modelUrls.forEach(url => {
+          const tilesetModel = new Cesium.Cesium3DTileset({
+            url: url
+          });
+          const tileset = viewer.scene.primitives.add(tilesetModel);
+
+          tileset.readyPromise
+          .then(function (tileset) {
+            var offset = Cesium.Cartesian3.fromDegrees(point[1] || 117.48387645025284, point[0] || 30.66751823064398,0.6287461962958634)
+            
+            tileset._root.transform = Cesium.Transforms.eastNorthUpToFixedFrame(offset)
+            
+          })
+        })
+      }
 
       // em = zeh.earth.createMarkerManager({ clusterType: "dilute" });
       // em.beginCluster();

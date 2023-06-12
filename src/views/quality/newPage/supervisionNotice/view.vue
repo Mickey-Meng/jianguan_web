@@ -10,12 +10,12 @@
 					</div>
 					<projectinfo></projectinfo>
 					<div class="block-line">
-						<div class="block-item">
+						<!-- <div class="block-item">
 							<div class="block-item-label">项目名称</div>
 							<div class="block-item-value">
 								{{baseInfo.buildSectionName}}
 							</div>
-						</div>
+						</div> -->
 						<div class="block-item">
 							<div class="block-item-label">编号</div>
 							<div class="block-item-value">

@@ -480,7 +480,7 @@
 					deletedFlag: 1,
 					draftFlag: 1,
 					buildSection: this.$store.getters.project.id,
-					projectId:this.$store.getters.project['parentid'],
+					projectId:this.$store.getters.project['id'],
 					laborContractId: null,
 					// num: null,
 					type: 0
@@ -544,7 +544,7 @@
 						deletedFlag: 1,
 						draftFlag: 1,
 						buildSection: this.$store.getters.project.id,
-						projectId:this.$store.getters.project['parentid'],
+						projectId:this.$store.getters.project['id'],
 						laborContractId: null,
 						num: null,
 						type: 0
@@ -580,7 +580,12 @@
 				});
 			},
             getContractLaborListNoPage(){
-                api.getContractLaborListNoPage().then((res) => {
+              let data = {
+                buildSection: this.$store.getters.project.id,
+                projectId:this.$store.getters.project['id'],
+              };
+
+                api.getContractLaborListNoPage(data).then((res) => {
 					let options = res.data || [];
 					this.contractOptions = convertOptions(options, 'contractCode', 'id');
 				});
@@ -595,7 +600,6 @@
 				if (isdraft) {
 					if (diffCompare([this.formData, this.inOutUserTable], [{
 								enterExitUsers: [],
-								deletedFlag: 1,
 								explaination: '',
 								deletedFlag: 1,
 								draftFlag: 1,

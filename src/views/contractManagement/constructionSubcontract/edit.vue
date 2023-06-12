@@ -149,11 +149,13 @@
 							<div class="block-item-label">拟分包工程部位<i class="require-icon"></i></div>
 							<div class="block-item-value">
 								<el-form-item prop="buildProjectPartName">
-									<el-select v-model="contractInfo.buildProjectPartName" placeholder="请选择">
+									<!-- <el-select v-model="contractInfo.buildProjectPartName" placeholder="请选择">
 										<el-option v-for="item in partOptions" :key="item.value" :label="item.label"
 											:value="item.value">
 										</el-option>
-									</el-select>
+									</el-select> -->
+									<el-input v-model="contractInfo.buildProjectPartName">
+									</el-input>
 								</el-form-item>
 							</div>
 						</div>
