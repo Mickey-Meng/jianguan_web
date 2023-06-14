@@ -202,6 +202,8 @@ const api = {
   deleteStaffRecord: "/person/delContract",//删除报审信息
   adminGetAllStaffRecord: "/person/getAllContract",//管理员获取报审台账
   getPersonDetail: "/person/getPersonDetail",//管理员获取报审台账
+  getPersonByBusinessKey: "/person/findPersonByBusinessKey",//管理员获取报审台账
+
   //----------------人员变更 -----------------
   addPersonChange: "/person/subPersonChange", //提交人员变更
   getPersonChange: "/person/getPersonChange", //获取人员变更信息

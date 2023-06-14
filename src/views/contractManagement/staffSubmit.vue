@@ -117,6 +117,7 @@
                         <div class="block-item-label">记录人</div>
                         <div class="block-item-value">
                           <el-input v-model="form.recorder" readonly></el-input>
+                          <el-input v-show="false" v-model="form.id" readonly></el-input>
                         </div>
                       </div>
                     </div>
@@ -516,6 +517,7 @@ export default {
         recordId: this.userInfo.ID,
         subDate: getNowDate(),//填报时间
         projectId: this.project.id,
+        id: null,
         isContract: 1
       };
     },
@@ -549,6 +551,7 @@ export default {
       if (row && row['id']) {
         getPersonDetail({personId: row.id}).then(res => {
           let data = res?.data || [];
+          this.form.id = data.person.id
           if (data && data.personSubs && data.personSubs.length > 0) {
             this.approveVisible = false;
             this.tableData = data.personSubs.map(item => {
@@ -560,7 +563,6 @@ export default {
         });
         this.showTaskLog = true;
         let {maps} = row;
-        debugger;
         let {processDefinitionId, processInstanceId, taskId} = maps;
         if (processDefinitionId && processInstanceId && taskId) {
           let flowKey = processDefinitionId.split(":")[0];
@@ -579,6 +581,7 @@ export default {
         this.tableData = [];
         this.approveVisible = true;
         this.showTaskLog = false;
+        this.form.id = null;
       }
       this.initForm();
       this.dialogFormVisible = true;
@@ -666,17 +669,17 @@ export default {
     },
     //提交表单
     submitStaffInfo() {
-
+debugger
       if (this.tableData.length === 0) {
         return false;
       }
       let data = this.tableData.map(item => {
         let obj = Object.assign({}, item);
-        delete obj.pic;
-        if (obj.effectiveTime && obj.effectiveTime.length > 0) {
+        // delete obj.pic;
+        if (obj.effectiveTime && Array.isArray(obj.effectiveTime) && obj.effectiveTime.length > 0) {
           obj.effectiveTime = obj.effectiveTime[0] + "至" + obj.effectiveTime[1];
         }
-        if (obj.identityTime && obj.identityTime.length > 0) {
+        if (obj.identityTime && Array.isArray(obj.identityTime) && obj.identityTime.length > 0) {
           obj.identityTime = obj.identityTime[0] + "至" + obj.identityTime[1];
         }
         return obj;
@@ -688,10 +691,12 @@ export default {
         processKey: this.flowKey
       };
       addStaffApproval(dd).then(res => {
-        this.issueStep(res);
+        this.issueStep(res, this.form.id);
+        this.initData();
+        this.dialogFormVisible = false;
       });
     },
-    issueStep(row) {
+    issueStep(row, id) {
       //查询人员
       getFlowAuditEntry({
         flowKey: this.flowKey,
@@ -723,18 +728,22 @@ export default {
           taskId: "",
           taskVariableData: userMap
         };
-        submitUserTask(obj).then(res1 => {
-          this.$message({
-            type: "success",
-            message: "填报成功!",
-            customClass: "message_override"
+        if(!id) {
+          submitUserTask(obj).then(res1 => {
+            this.$message({
+              type: "success",
+              message: "填报成功!",
+              customClass: "message_override"
+            });
+            // this.initData();
+            // this.dialogFormVisible = false;
           });
-          this.initData();
-          this.dialogFormVisible = false;
-        });
+        }
+
       });
     },
     seeDetail(row) {
+      this.isCreate = false;
       //查看详情
       this.form = Object.assign({}, row.person);
       let data = row.personSubs;
@@ -748,7 +757,6 @@ export default {
       }
       this.showTaskLog = true;
       let {maps} = row;
-      debugger;
       let {processDefinitionId, processInstanceId, taskId} = maps;
       if (processDefinitionId && processInstanceId && taskId) {
         let flowKey = processDefinitionId.split(":")[0];

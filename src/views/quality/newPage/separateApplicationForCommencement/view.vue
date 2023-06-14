@@ -47,13 +47,13 @@
 						<div class="block-item">
 							<div class="block-item-label">现场负责人<i class="require-icon"></i></div>
 							<div class="block-item-value">
-								{{formData.liveUser}}
+								{{formData.liveUserName}}
 							</div>
 						</div>
 						<div class="block-item">
 							<div class="block-item-label">施工员<i class="require-icon"></i></div>
 							<div class="block-item-value">
-								{{formData.buildUser}}
+								{{formData.buildUserName}}
 							</div>
 						</div>
 					</div>
@@ -61,7 +61,7 @@
 						<div class="block-item">
 							<div class="block-item-label">质检员<i class="require-icon"></i></div>
 							<div class="block-item-value">
-								{{formData.checkUser}}
+								{{formData.checkUserName}}
 							</div>
 						</div>
 					</div>
@@ -72,7 +72,7 @@
 								{{formData.buildPrepareExplain}}
 							</div>
 						</div>
-				
+
 					</div>
 				</div>
 				<div class="form-block">
@@ -277,7 +277,7 @@
 	} from "@/utils/format.js";
 	import attachlist from "../../../common/attachlist"
 	import projectinfo from "../../../common/projectinfo.vue"
-	
+
 	export default {
 		data() {
 			return {
@@ -338,7 +338,7 @@
 		},
 		computed: {},
 		watch: {
-			
+
 		},
 		mounted() {
 			this.getProjectInfoById();
@@ -354,7 +354,7 @@
 					let info = createProjectInfo(list);
 
 					info = data['item'] || {}
-					
+
 					this.baseInfo['buildCompany'] = info['constructdpt']
 					this.baseInfo['supervisionUnit'] = info['supervisordpt']
 				});

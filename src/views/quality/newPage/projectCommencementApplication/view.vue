@@ -236,7 +236,7 @@
 				api.getProjectOpenDeatil(id).then((res) => {
 					let data = res['data'] || {};
 					this.formData = data;
-					this.attachTable = data.otherAttachment || [];
+					this.attachTable = data.attachment || [];
 				});
 			},
 		},

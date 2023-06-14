@@ -152,7 +152,7 @@
 
 <script>
   import {mapGetters} from "vuex";
-  import {getStaffByProcessIdAndProjectId} from "@/api/staffApproval";
+  import {getStaffByProcessIdAndProjectId, getPersonByBusinessKey} from "@/api/staffApproval";
   import {getToken} from "@/utils/auth";
 
   export default {
@@ -180,22 +180,16 @@
     },
     methods: {
       getDetail(id) {
-        let type = getToken('taskType');
         let obj = {
-          projectid: this.project.id,
-          businessKey: id,
-          type
+          businessKey: id
         };
-        getStaffByProcessIdAndProjectId(obj).then((res) => {
+        getPersonByBusinessKey(obj).then((res) => {
           if (res) {
             this.form = Object.assign({}, res.data.person);
-            let data = res.data.personSub;
-            if (data && data.length > 0) {
-              this.tableData = data.map(item => {
-                if (item.peoplePic) {
-                  item.peoplePic = "/mong/preview?fileid=" + item.peoplePic;
-                }
-                return item;
+            let data = res.data.personSubs;
+            if (data && res.data.personSubs.length > 0) {
+              this.tableData = res.data.personSubs.map(item => {
+                return Object.assign(item, item.personSubs);
               });
             }
           }

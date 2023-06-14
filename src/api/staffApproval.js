@@ -327,3 +327,13 @@ export const startAndTakeUserTask = (key, data) => {
     data
   });
 };
+
+
+export const getPersonByBusinessKey = (params) => {
+  return request({
+    url: api.getPersonByBusinessKey,
+    method: "post",
+    data: {},
+    params
+  });
+};
