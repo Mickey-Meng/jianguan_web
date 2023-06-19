@@ -41,7 +41,7 @@
       <div class="container">
         <el-table :data="listData.slice((queryData.pageNum-1)*queryData.pageSize,queryData.pageNum*queryData.pageSize)"
                   style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
-          <el-table-column prop="projectName" label="标段"></el-table-column>
+<!--          <el-table-column prop="projectName" label="标段"></el-table-column>-->
           <el-table-column prop="recorder" label="记录人"></el-table-column>
           <el-table-column prop="uploadname" label="填报时间">
             <template slot-scope="{row}">
@@ -107,12 +107,12 @@
                       <strong>基本信息</strong>
                     </div>
                     <div class="block-line">
-                      <div class="block-item">
-                        <div class="block-item-label">标段</div>
-                        <div class="block-item-value">
-                          {{ form.projectName }}
-                        </div>
-                      </div>
+<!--                      <div class="block-item">-->
+<!--                        <div class="block-item-label">标段</div>-->
+<!--                        <div class="block-item-value">-->
+<!--                          {{ form.projectName }}-->
+<!--                        </div>-->
+<!--                      </div>-->
                       <div class="block-item">
                         <div class="block-item-label">记录人</div>
                         <div class="block-item-value">
@@ -669,7 +669,6 @@ export default {
     },
     //提交表单
     submitStaffInfo() {
-debugger
       if (this.tableData.length === 0) {
         return false;
       }

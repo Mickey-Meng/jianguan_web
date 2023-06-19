@@ -247,22 +247,30 @@
 				});
 			},
 			addOrModify() {
-				this.$refs['ruleForm'].validate((valid) => {
-					if (valid) {
-						this.formData.auditUser = this.auditUser;
-						this.formData.draftFlag = 1;
-						api.addOrUpdateSupervisionOrder(this.formData).then((res) => {
-							if (res.data) {
-								this.$message({
-									type: 'success',
-									message: '提交成功!'
-								});
-								// this.dialogFormVisible = false;
-								// this.$emit("query");
-							}
-						});
-					}
+				return new Promise((resolve, reject) => {
+					this.$refs['ruleForm'].validate((valid) => {
+						if (valid) {
+							this.formData.auditUser = this.auditUser;
+							this.formData.draftFlag = 1;
+							api.addOrUpdateSupervisionOrder(this.formData).then((res) => {
+								if (res.data) {
+									this.$message({
+										type: 'success',
+										message: '提交成功!'
+									});
+									// this.dialogFormVisible = false;
+									// this.$emit("query");
+								}
+							});
+						} else {
+							this.$message({
+								type: 'success',
+								message: '请填必填参数!'
+							});
+							reject()
+						}
 
+					})
 				})
 			},
 		},

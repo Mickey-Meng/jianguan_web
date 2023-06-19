@@ -56,7 +56,7 @@
 												<el-form-item prop="contractCode">
 													<el-input v-model="formData.contractCode"></el-input>
 												</el-form-item>
-												
+
 											</div>
 										</div>
 										<div class="block-item">
@@ -73,9 +73,9 @@
 										<span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
 											xisx xis pdf文件，且不超过100m</span>
 									</div>
-								
+
 									<attachlist :editAble="true" ref="attachlist" :attachTable="attachTable"></attachlist>
-									
+
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
@@ -119,7 +119,7 @@
 											</el-table-column>
 											<el-table-column fixed="right" width="120" align="center" label="操作">
 												<template slot-scope="{ row, $index }">
-													<el-button type="text" size="mini">预览</el-button>
+<!--													<el-button type="text" size="mini">预览</el-button>-->
 													<el-button type="text" size="mini"
 														@click="deleteContract(row, $index)">删除</el-button>
 												</template>
@@ -127,10 +127,10 @@
 										</el-table>
 									</div>
 								</div>
-								
+
 								<approveuser v-if="approveVisible" :auditUser="auditUser"  :flowKey="flowKey">
 								</approveuser>
-								
+
 								<div class="form-block">
 									<el-button @click="addOrModify()" class="submit-btn" size="small" type="primary">提交
 									</el-button>
@@ -360,7 +360,7 @@ import projectinfo from "../../common/projectinfo.vue"
 		},
 		computed: {},
 		mounted() {
-            
+
 			this.getContractBuildEnums();
 			this.getUserInfo();
 		},
@@ -390,7 +390,7 @@ import projectinfo from "../../common/projectinfo.vue"
 			}
 		},
 		methods: {
-			
+
 			getUserInfo() {
 				getUserInfo(localStorage.getItem('ID')).then(res => {
 					this.userInfo = res.data.userInfo;
@@ -431,7 +431,7 @@ import projectinfo from "../../common/projectinfo.vue"
 					this.contractTable = data.information || [];
 				});
 			},
-            
+
 			getContractBuildEnums() {
 				api.getContractBuildEnums().then((res) => {
 					let options = res.data || [];
@@ -492,12 +492,12 @@ import projectinfo from "../../common/projectinfo.vue"
 								}
 							});
 						}
-					
+
 					})
 				}
-				
+
 			},
-			
+
 			addContract() {
 				this.contractVisible = true;
 			},

@@ -156,7 +156,7 @@ export default {
           .then(function (tileset) {
             var offset = Cesium.Cartesian3.fromDegrees(point[1] || 117.48387645025284, point[0] || 30.66751823064398,0.6287461962958634)
             
-            tileset._root.transform = Cesium.Transforms.eastNorthUpToFixedFrame(offset)
+            // tileset._root.transform = Cesium.Transforms.eastNorthUpToFixedFrame(offset)
             
           })
         })

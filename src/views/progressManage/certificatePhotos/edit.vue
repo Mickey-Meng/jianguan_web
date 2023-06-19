@@ -151,7 +151,7 @@ export default {
     drafthandle,
     approveuser,
     projectinfo,
-    payment: () => import("./contractPayment.vue")
+    payment: () => import("./certificatePhotos.vue")
   },
   computed: {},
   mounted() {
@@ -216,7 +216,7 @@ export default {
       }
     },
     getDetail(id) {
-      api.getContractPaymentDetail(id).then((res) => {
+      api.getProgressCertificatePhotosDetail(id).then((res) => {
         let data = res['data'] || {};
         this.formData = data;
         this.attachTable = data.attachment || [];
@@ -234,7 +234,7 @@ export default {
               this.formData.type = item.name;
             }
           })
-          api.addOrUpdateContractPayment(this.formData).then((res) => {
+          api.addOrUpdateProgressCertificatePhotos(this.formData).then((res) => {
             if (res.data) {
               this.$message({
                 type: 'success',

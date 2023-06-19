@@ -2,24 +2,24 @@
  * @Descripttion:
  * @version:
  * @Author: WangHarry
- * @Date: 2021-09-08 09:11:27
+ * @Date: 2021-09-08 09:21:27
  * @LastEditors: WangHarry
  * @LastEditTime: 2022-02-18 14:18:52
 -->
 <template>
   <el-container class="container-box">
     <el-header>
-      <el-button type="primary" @click="showDialog">上传会议纪要</el-button>
+      <el-button type="primary" @click="showDialog">上传培训文档</el-button>
     </el-header>
     <el-main>
       <el-table :data="tableData" style="width: 100%" border height="100%">
         <el-table-column type="index" label="序号" width="60">
         </el-table-column>
-        <el-table-column prop="uploadname" label="会议名称"> </el-table-column>
-        <el-table-column prop="typename"   label="资料类型"  align="center"></el-table-column>
-        <el-table-column prop="calltime" label="会议时间"> </el-table-column>
-        <el-table-column prop="calladdr" label="会议地点"> </el-table-column>
-        <el-table-column prop="callunit" label="召集单位"> </el-table-column>
+        <el-table-column prop="distiancename" label="培训内容"> </el-table-column>
+        <el-table-column prop="calltime" label="培训日期"> </el-table-column>
+        <el-table-column prop="calladdr" label="培训地点"> </el-table-column>
+        <el-table-column prop="callunit" label="培训人"> </el-table-column>
+        <el-table-column prop="uploadname" label="文件名"> </el-table-column>
         <el-table-column prop="uploadtype" label="文件类型"></el-table-column>
         <el-table-column prop="uploadusername" label="上传人">
         </el-table-column>
@@ -44,7 +44,7 @@
     </el-main>
     <el-footer> </el-footer>
     <el-dialog
-      :title="isCreate ? '上传会议纪要' : '修改会议纪要'"
+      :title="isCreate ? '上传培训数据' : '修改培训数据'"
       :visible.sync="dialogVisible"
       destroy-on-close
       :close-on-click-modal="false"
@@ -59,13 +59,14 @@
         label-width="80px"
         :rules="rules"
       >
-        <el-form-item label="会议名称" prop="uploadname">
+        <el-form-item label="培训内容" prop="distiancename">
           <el-input
-            placeholder="请输入会议名称"
-            v-model="form.uploadname"
+            placeholder="请输入培训内容"
+            v-model="form.distiancename"
           ></el-input>
+          <el-input   v-model="form.uploadname" type="hidden"></el-input>
         </el-form-item>
-        <el-form-item label="会议时间">
+        <el-form-item label="培训日期">
           <el-date-picker
             type="date"
             placeholder="选择日期"
@@ -74,18 +75,19 @@
             style="width: 100%"
           ></el-date-picker>
         </el-form-item>
-        <el-form-item label="会议地点" prop="calladdr">
+        <el-form-item label="培训地点" prop="calladdr">
           <el-input
-            placeholder="请输入会议地点"
+            placeholder="请输入地点"
             v-model="form.calladdr"
           ></el-input>
         </el-form-item>
-        <el-form-item label="召集单位" prop="callunit">
+        <el-form-item label="培训人" prop="callunit">
           <el-input
-            placeholder="请输入召集单位"
+            placeholder="请输入培训人"
             v-model="form.callunit"
           ></el-input>
         </el-form-item>
+
         <el-form-item label="资料类型" prop="typeText">
           <el-select
             v-model="form.type"
@@ -101,6 +103,7 @@
             />
           </el-select>
         </el-form-item>
+
         <el-form-item label="上传文件" prop="fileurl" v-if="isCreate">
           <uploadFile
             ref="otherOrgAttachments"
@@ -148,11 +151,11 @@ export default {
         uploadname: [
           { required: true, message: "请输入文件名称", trigger: "blur" },
         ],
-        typeText: [
+       typeText: [
           { required: true, message: "请输入资料类型", trigger: "blur" },
         ],
         fileurl: [
-          { required: true, message: "请上传会议纪要文件", trigger: "blur" },
+          { required: true, message: "请上传培训文件", trigger: "blur" },
         ],
       },
     };
@@ -165,9 +168,10 @@ export default {
   },
   methods: {
     init() {
+
       this.functionary = [];
       this.tableData = [];
-      this.pCode = 'meetingSummary';
+      this.pCode = 'safeStudy';
       getFileDictByPCode(this.pCode).then((res) => {
         this.functionary = res.data;
       }).catch(function (error) {

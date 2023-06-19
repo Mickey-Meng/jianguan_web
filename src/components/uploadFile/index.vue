@@ -35,6 +35,7 @@
 </template>
 <script>
 import { getToken } from "@/utils/auth";
+import api from "@/api";
 export default {
   name: "UploadFile",
   props: {
@@ -54,7 +55,7 @@ export default {
   data() {
     return {
       header: { token: "" },
-      uploadUrl: "/mong/upload",
+      uploadUrl: process.env.VUE_APP_BASE_API+"/"+api.uploadFile,
       attachment: this.inputValue,
       fileList: this.attachment,
       suffixName: "DOC,DOCX,XLS,XLSX,PPT,PDF,TXT,JPG,JPEG,PNG,BMP,GIF",

@@ -39,10 +39,35 @@
         label="上传人"
         align="center"
       ></el-table-column>
+      <el-table-column v-if="fileType === 'DSFJCDWZLGL'" prop="status" align="center" label="审核状态" show-overflow-tooltip>
+        <template slot-scope="scope">
+          <el-tag
+            v-if="scope.row.status == '2'"
+            size="mini"
+            type="warning"
+          >
+            驳回
+          </el-tag>
+          <el-tag
+            v-if="scope.row.status == '0'"
+            size="mini"
+            type="default"
+          >
+            审批中
+          </el-tag>
+          <el-tag
+            v-if="scope.row.status == '1'"
+            size="mini"
+            type="success"
+          >
+            已审批
+          </el-tag>
+        </template>
+      </el-table-column>
 
       <el-table-column label="操作" align="center">
         <template slot-scope="{ row, $index }">
-          <el-button type="primary" size="small" class="primary_mini" @click="editInfo(row)">
+          <el-button v-if="editStatus(row)" type="primary" size="small" class="primary_mini" @click="editInfo(row)">
             编辑
           </el-button>
           <el-button type="primary" size="small" class="primary_mini" @click="downLoadFile(row)">
@@ -69,6 +94,10 @@
       DataArr: {
         type: Array,
         default: () => []
+      },
+      fileType: {
+        type: String,
+        default: () => ''
       }
     },
     components: {},
@@ -86,6 +115,21 @@
     mounted() {
     },
     methods: {
+      editStatus(row) {
+        if (this.fileType != 'DSFJCDWZLGL') {
+          return true;
+        }
+        if(row.status != 2) {
+          return false;
+        }
+        if(row.createUserId == this.$store.getters.userInfo.ID) {
+          return true;
+        }
+        if(this.$store.getters.rolePerms[0] == 'gly') {
+          return true;
+        }
+        return false;
+      },
       handleDelete(row, index) {
         this.$confirm("是否删除该文件?", "删除文件", {
           cancelButtonText: "取消",

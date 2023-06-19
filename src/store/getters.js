@@ -14,6 +14,7 @@ const getters = {
   avatar: state => state.user.avatar,
   name: state => state.user.name,
   userInfo: state => state.user,
+  deptName: state => state.user.deptName,
   menus: state => state.user.menus,
   menu: state => state.user.menu,
   project: state => state.project.project,

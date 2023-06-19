@@ -53,7 +53,7 @@
                                  label="施工标段"
                                  show-overflow-tooltip>
                 </el-table-column>
-                <el-table-column prop="buildUnitsStr"
+                <el-table-column prop="constructDept"
                                  align="center"
                                  label="施工单位"
                                  show-overflow-tooltip>

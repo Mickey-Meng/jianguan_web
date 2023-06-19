@@ -28,12 +28,12 @@
 					</el-table-column>
 					<el-table-column prop="title" align="center" label="标题" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="createName" align="center" label="登记人" show-overflow-tooltip>
+					<el-table-column prop="registrant" align="center" label="登记人" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="publishDate" align="center" label="发布时间" show-overflow-tooltip>
 					</el-table-column>
-					<!-- <el-table-column prop="uploadname" align="center" label="登记部门" show-overflow-tooltip>
-					</el-table-column> -->
+					 <el-table-column prop="registrationDepartment" align="center" label="登记部门" show-overflow-tooltip>
+					</el-table-column>
 					<el-table-column fixed="right" width="120" align="center" label="操作">
 						<template slot-scope="{ row, $index }">
 							<el-button type="text" @click="viewDetail(row)">详情</el-button>
@@ -77,11 +77,16 @@
 									<div class="block-line">
 										<div class="block-item">
 											<div class="block-item-label">登记部门<i class="require-icon"></i></div>
-											<div class="block-item-value">{{formData.groupName}}</div>
+											<div class="block-item-value">
+                        <el-input placeholder="请输入内容" v-model="formData.registrationDepartment" :disabled="previewMode"></el-input>
+                      </div>
 										</div>
 										<div class="block-item">
 											<div class="block-item-label">登记人<i class="require-icon"></i></div>
-											<div class="block-item-value">{{formData.userName}}</div>
+											<div class="block-item-value">
+                        <el-input placeholder="请输入内容" v-model="formData.registrant" :disabled="previewMode"></el-input>
+
+                      </div>
 										</div>
 									</div>
 									<div class="block-line">
@@ -92,8 +97,7 @@
 												<el-date-picker type="date" v-model="formData.publishDate" placeholder="选择日期" :disabled="previewMode"></el-date-picker>
 											</div>
 										</div>
-									</div>
-									<div class="block-line">
+
 										<div class="block-item">
 											<div class="block-item-label">标题<i class="require-icon"></i></div>
 											<div class="block-item-value">
@@ -112,7 +116,7 @@
 									</div>
 
 
-									<attachlist :editAble="true" ref="attachlist" :attachTable="attachTable"></attachlist>
+									<attachlist :editAble="!previewMode" ref="attachlist" :attachTable="attachTable"></attachlist>
 
 								</div>
 								<div class="form-block">
@@ -181,8 +185,8 @@
 					publishDate: '2022-05-06', // 发布时间
 					buildSection: this.$store.getters.project.id,
 					projectId:this.$store.getters.project['parentid'], // 项目id
-					userName: '',	// 登记人
-					groupName: '',	// 登记部门
+          registrant: '',	// 登记人
+          registrationDepartment: '',	// 登记部门
 					projectName: '',// 项目名称
 				    attachment: [ // 附件
 					]
@@ -221,9 +225,11 @@
 				this.previewMode = false;
 				this.dialogFormVisible = true;
 				const hasGetUserInfo = store.getters.name;
-
-				this.formData.userName = hasGetUserInfo;
-				this.formData.groupName = this.userInfo.GROUPNAME;
+				const hasGetdeptName = store.getters.deptName;
+        alert(hasGetdeptName)
+         debugger;
+				this.formData.registrant = hasGetUserInfo;
+				this.formData.registrationDepartment = hasGetdeptName;
 				this.formData.id = '';
 				this.formData.attachment = [];
 				this.attachTable = [];
@@ -276,11 +282,11 @@
 						}
 						this.formData = res.data;
 						this.attachTable = res.data.attachment;
-						getUserInfo(res.data.createUserId).then(res => {
-							that.formData.userName = res.data.userInfo.NAME;
-							that.formData.groupName = this.userInfo.GROUPNAME;
+				/*		getUserInfo(res.data.createUserId).then(res => {
+							that.formData.registrant = res.data.userInfo.NAME;
+							that.formData.registrationDepartment = this.userInfo.GROUPNAME;
 							that.$forceUpdate();
-						});
+						});*/
 					}
 				});
 			},

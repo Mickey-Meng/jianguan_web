@@ -22,16 +22,23 @@
               <strong>基本信息</strong>
             </div>
             <div class="block-line">
-              <div class="block-item">
-                <div class="block-item-label">标段</div>
-                <div class="block-item-value">
-                  {{ form.projectName }}
-                </div>
-              </div>
+<!--              <div class="block-item">-->
+<!--                <div class="block-item-label">标段</div>-->
+<!--                <div class="block-item-value">-->
+<!--                  {{ form.projectName }}-->
+<!--                </div>-->
+<!--              </div>-->
               <div class="block-item">
                 <div class="block-item-label">记录人</div>
                 <div class="block-item-value">
                   <el-input v-model="form.recorder" readonly></el-input>
+                </div>
+              </div>
+
+              <div class="block-item">
+                <div class="block-item-label">是否自管</div>
+                <div class="block-item-value">
+                  {{ project.isauto === 1 ? "自管" : "非自管" }}
                 </div>
               </div>
             </div>
@@ -59,12 +66,7 @@
               </div>
             </div>
             <div class="block-line">
-              <div class="block-item">
-                <div class="block-item-label">是否自管</div>
-                <div class="block-item-value">
-                  {{ project.isauto === 1 ? "自管" : "非自管" }}
-                </div>
-              </div>
+
             </div>
           </div>
           <div class="form-block">

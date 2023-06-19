@@ -6,6 +6,7 @@
  * @LastEditors: WangHarry
  * @LastEditTime: 2022-05-09 19:52:20
  */
+
 const api = {
     //login: "/user/login",
     login: "/user/doLogin",
@@ -248,6 +249,8 @@ const api = {
   getFileInfo: "/mong/findFile",
   downloadFile: "/mong/download", //下载文件
   previewFile: "/mong/preview", //预览文件
+  selectByPrimaryKey: "/mong/selectByPrimaryKey", //预览文件
+
   //任务
 
   listHandleTask: "/flow/flowOperation/listRuntimeTask", //待办
@@ -454,11 +457,28 @@ const api = {
 
 
   // 合同付款
-  addOrUpdateContractPayment: "/web/api/v1//contract/payment/addOrUpdate",
-  getContractPaymentDetail: "/web/api/v1//contract/payment/detail/id",
-  deleteContractPayment: "/web/api/v1//contract/payment/id",
-  getContractPaymentList: "/web/api/v1//contract/payment/page",
-  getContractPaymentListNoPage: "/web/api/v1//contract/payment/list",
+  addOrUpdateContractPayment: "/web/api/v1/contract/payment/addOrUpdate",
+  getContractPaymentDetail: "/web/api/v1/contract/payment/detail/id",
+  deleteContractPayment: "/web/api/v1/contract/payment/id",
+  getContractPaymentList: "/web/api/v1/contract/payment/page",
+  getContractPaymentListNoPage: "/web/api/v1/contract/payment/list",
+
+  // 计划管理-证照管理
+  addOrUpdatePlanCertificatePhotos: "/web/api/v1/certificate/plan/addOrUpdate",
+  getPlanCertificatePhotosDetail: "/web/api/v1/certificate/plan/detail/id",
+  deletePlanCertificatePhotos: "/web/api/v1/certificate/plan/id",
+  getPlanCertificatePhotosList: "/web/api/v1/certificate/plan/page",
+  getPlanCertificatePhotosListNoPage: "/web/api/v1/certificate/plan/list",
+
+  // 进度管理-证照管理
+  addOrUpdateProgressCertificatePhotos: "/web/api/v1/certificate/progress/addOrUpdate",
+  getProgressCertificatePhotosDetail: "/web/api/v1/certificate/progress/detail/id",
+  deleteProgressCertificatePhotos: "/web/api/v1/certificate/progress/id",
+  getProgressCertificatePhotosList: "/web/api/v1/certificate/progress/page",
+  getProgressCertificatePhotosListNoPage: "/web/api/v1/certificate/progress/list",
+
+  // 数据字典查询
+  findDataDictionaryList: "/dataDictionary/dataDictionary/list",
 
 };
 

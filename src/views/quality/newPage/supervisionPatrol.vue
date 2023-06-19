@@ -52,7 +52,7 @@
 					</el-table-column>
 					<el-table-column fixed="right" width="120" align="center" label="操作">
 						<template slot-scope="{ row, $index }">
-							<el-button v-if="!isDraft"  type="text" size="mini" @click="modify(row)">修改</el-button>
+							<el-button v-if="!isDraft && $store.getters.rolePerms[0] == 'gly'"  type="text" size="mini" @click="modify(row)">修改</el-button>
 							<el-button v-if="!isDraft"  type="text" size="mini" @click="viewDetail(row)">详情</el-button>
 
 							<el-button v-if="isDraft" type="text" size="mini" @click="checkDetail(row)">选择</el-button>

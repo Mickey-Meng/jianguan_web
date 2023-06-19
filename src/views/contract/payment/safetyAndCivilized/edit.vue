@@ -24,13 +24,9 @@
                     <div class="block-item">
                       <div class="block-item-label">款项类型</div>
                       <div class="block-item-value">
-                        <el-select v-model="formData.type" placeholder="请选择">
-                          <el-option v-for="item in dataDictionaryList" :key="item.id" :label="item.name" :value="item.id">
-                          </el-option>
-                        </el-select>
-<!--                        <el-form-item prop="type">-->
-<!--                          <el-input v-model="formData.type"></el-input>-->
-<!--                        </el-form-item>-->
+                        <el-form-item prop="type">
+                          <el-input v-model="typeName" disabled ></el-input>
+                        </el-form-item>
                       </div>
                     </div>
                     <div class="block-item">
@@ -96,11 +92,11 @@
 <script>
 import * as api from "@/api/contractPayment.js";
 import { getUserInfo } from "@/api/user";
-import upload from "../../common/upload.vue"
-import attachlist from "../../common/attachlist.vue"
-import drafthandle from "../../common/drafthandle.vue"
-import approveuser from "../../common/approveuser.vue"
-import projectinfo from "../../common/projectinfo.vue"
+import upload from "../../../common/upload.vue"
+import attachlist from "../../../common/attachlist.vue"
+import drafthandle from "../../../common/drafthandle.vue"
+import approveuser from "../../../common/approveuser.vue"
+import projectinfo from "../../../common/projectinfo.vue"
 import { findDataDictionaryList } from "@/api/dataDictionary"
 
 export default {
@@ -113,11 +109,6 @@ export default {
       dialogFormVisible: false,
       partOptions:[],
       rules: {
-        type: [{
-          required: true,
-          message: '请填款项类型',
-          trigger: 'blur'
-        }],
         amount:[{
           required: true,
           message: '请填写款项金额'
@@ -140,8 +131,9 @@ export default {
       contractVisible: false,
       auditUser: {},
       approveVisible:true,
-      flowKey:'contractPayment',
-      dataDictionaryList: []
+      flowKey:'AQWMCSF',
+      dataDictionaryList: [],
+      typeName: "安全文明措施费"
     };
   },
   created() {},
@@ -156,7 +148,6 @@ export default {
   computed: {},
   mounted() {
     this.getUserInfo();
-    this.findDataDictionarys();
   },
   watch: {
     editRow(obj) {
@@ -181,13 +172,6 @@ export default {
     }
   },
   methods: {
-    findDataDictionarys() {
-      findDataDictionaryList({"parentId": 50}).then((res)=>{
-        this.dataDictionaryList = res.data.filter(item=>{
-          return item.name != "安全文明措施费";
-        });
-      });
-    },
     getUserInfo() {
       getUserInfo(localStorage.getItem('ID')).then((res) => {
         this.userInfo = res.data.userInfo;
@@ -228,12 +212,8 @@ export default {
           this.formData.attachment = this.attachTable;
           this.formData.auditUser = this.auditUser;
           this.formData.draftFlag=1;
-          this.formData.typeCode = this.formData.type;
-          this.dataDictionaryList.forEach(item=> {
-            if(item.id === this.formData.type) {
-              this.formData.type = item.name;
-            }
-          })
+          this.formData.typeCode = 51;
+          this.formData.type = this.typeName;
           api.addOrUpdateContractPayment(this.formData).then((res) => {
             if (res.data) {
               this.$message({

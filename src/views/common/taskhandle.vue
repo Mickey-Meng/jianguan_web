@@ -268,19 +268,55 @@
 						user: this.auditUser.join(',')
 					}
 				}
-				api.submitUserTask({
-					copyData: coptdata,
-					flowTaskCommentDto: this.formData,
-					masterData: {},
-					processInstanceId: this.taskInfo.processInstanceId,
-					slaveData: {},
-					taskId: this.taskInfo.taskId,
-					taskVariableData: {}
-				}).then(res => {
-					this.handlerClose();
-					this.$message.success('提交成功！');
-				}).catch(e => {});
-				if (this.readOnly) this.addOrModify();
+				
+				if (this.readOnly) {
+					const addOrModify =  this.addOrModify();
+					if (addOrModify) {
+						addOrModify.then(res=> {
+							api.submitUserTask({
+								copyData: coptdata,
+								flowTaskCommentDto: this.formData,
+								masterData: {},
+								processInstanceId: this.taskInfo.processInstanceId,
+								slaveData: {},
+								taskId: this.taskInfo.taskId,
+								taskVariableData: {}
+							}).then(res => {
+								this.handlerClose();
+								this.$message.success('提交成功！');
+							}).catch(e => {});
+						})
+						.catch(e=>{
+
+						})
+					} else {
+						api.submitUserTask({
+							copyData: coptdata,
+							flowTaskCommentDto: this.formData,
+							masterData: {},
+							processInstanceId: this.taskInfo.processInstanceId,
+							slaveData: {},
+							taskId: this.taskInfo.taskId,
+							taskVariableData: {}
+						}).then(res => {
+							this.handlerClose();
+							this.$message.success('提交成功！');
+						}).catch(e => {});
+					}
+				} else {
+						api.submitUserTask({
+							copyData: coptdata,
+							flowTaskCommentDto: this.formData,
+							masterData: {},
+							processInstanceId: this.taskInfo.processInstanceId,
+							slaveData: {},
+							taskId: this.taskInfo.taskId,
+							taskVariableData: {}
+						}).then(res => {
+							this.handlerClose();
+							this.$message.success('提交成功！');
+						}).catch(e => {});
+					}
 			},
 			handlerClose() {
 				this.$router.go(-1);

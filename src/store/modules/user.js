@@ -25,6 +25,7 @@ const getDefaultState = () => {
     rolePerms: getToken("role_perms"),
     name: getToken("userName"),
     avatar: "",
+    deptName: "",
     ID: getToken("ID"),
     roles: getToken("roles"),
     GROUPID: getToken("GROUPID"),
@@ -52,6 +53,9 @@ const mutations = {
   },
   SET_NAME: (state, name) => {
     state.name = name;
+  },
+  SET_DEPTNAME: (state, deptName) => {
+    state.deptName = deptName;
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar;
@@ -102,6 +106,8 @@ const actions = {
         commit("SET_TOKEN", res.data.jwtToken); //ZHU_ji原token，取消
         commit("SET_AUTH_TOKEN", userInfo.token);
         commit("SET_NAME", userInfo.nickName);
+        debugger
+        commit("SET_DEPTNAME", userInfo.deptName);
         commit("SET_ID", userInfo.userId);
         commit("SET_ROLE_ID", userInfo.roleId);
         commit("SET_GROUPID", userInfo.deptId);

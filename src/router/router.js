@@ -135,6 +135,16 @@ export const constantRoutes = [{
       name: "contractPayment_detail",
       code: "contractPayment",
       component: () => import("@/views/contract/payment/view")
+    }, {
+      path: "/safetyAndCivilized_detail",
+      name: "safetyAndCivilized_detail",
+      code: "DSFJCDWZLGL", // 工作流key值相同
+      component: () => import("@/views/datum/thirdTestingUnitFM/view")
+    }, {
+      path: "/thirdTestingUnitFM_detail",
+      name: "thirdTestingUnitFM_detail",
+      code: "AQWMCSF", // 工作流key值相同
+      component: () => import("@/views/contract/payment/safetyAndCivilized/view")
     },{
       path: "/entranceAndExitManagement_detail",
       name: "entranceAndExitManagement_detail",
@@ -364,7 +374,63 @@ export const asyncRoutes = [
         partMap: false,
         noMap: true
       }
-    }]
+    },
+
+    {
+      path: "/planManage",
+      meta: {
+        title: "计划管理",
+        icon: "earlier",
+        code: "jihuaguanli"
+      },
+      alwaysShow: true,
+      "component": ParentView,
+      redirect: "/planCertificatePhotos",
+      children: [
+        {
+          path: "/planCertificatePhotos",
+		      name: "planCertificatePhotos",
+		      component: () => import ("@/views/planManage/certificatePhotos/certificatePhotos"),
+		      meta: {
+			      title: "证照管理",
+			      icon: "circle",
+			      code: "jh_zhengzhaoguanli",
+			      allMap: false,
+			      partMap: false,
+			      noMap: true
+		      }
+        }
+      ]
+    },
+
+    {
+      path: "/progressManage",
+      meta: {
+        title: "进度管理",
+        icon: "earlier",
+        code: "jinduguanli"
+      },
+      alwaysShow: true,
+      "component": ParentView,
+      redirect: "/progressCertificatePhotos",
+      children: [
+        {
+          path: "/progressCertificatePhotos",
+		      name: "progressCertificatePhotos",
+		      component: () => import ("@/views/progressManage/certificatePhotos/certificatePhotos"),
+		      meta: {
+			      title: "证照管理",
+			      icon: "circle",
+			      code: "jd_zhengzhaoguanli",
+			      allMap: false,
+			      partMap: false,
+			      noMap: true
+		      }
+        }
+      ]
+    }
+  
+  ]
   },
   {
     "component": Layout,
@@ -425,7 +491,19 @@ export const asyncRoutes = [
           partMap: false,
           noMap: true
         }
-      },]
+      },{
+        path: "/safetyAndCivilized",
+        name: "safetyAndCivilized",
+        component: () => import("@/views/contract/payment/safetyAndCivilized/contractPayment"),
+        meta: {
+          title: "安全文明措施费",
+          code: "payment",
+          icon: "circle",
+          allMap: false,
+          partMap: false,
+          noMap: true
+        }
+      }]
     }]
   },
 
@@ -1147,6 +1225,32 @@ export const asyncRoutes = [
           meta: {
             title: "施工单位资料管理",
             code: "constructdptFM",
+            icon: "circle",
+            allMap: false,
+            partMap: false,
+            noMap: true
+          }
+        },
+        {
+          path: "/thirdTestingUnitFM",
+          name: "thirdTestingUnitFM",
+          component: () => import("@/views/datum/thirdTestingUnitFM"),
+          meta: {
+            title: "第三方检测单位资料管理",
+            code: "thirdTestingUnitFM",
+            icon: "circle",
+            allMap: false,
+            partMap: false,
+            noMap: true
+          }
+        },
+        {
+          path: "/safeStudy",
+          name: "safeStudy",
+          component: () => import("@/views/datum/safeStudy"),
+          meta: {
+            title: "日常安全资料学习",
+            code: "safeStudy",
             icon: "circle",
             allMap: false,
             partMap: false,
