@@ -1,7 +1,7 @@
 <template>
   <div class="tool_container">
     <ul class="wrapper">
-      <li @click="controlLayer">{{ showLayer ? "收起图层" : "展开图层" }}</li>
+      <!-- <li @click="controlLayer">{{ showLayer ? "收起图层" : "展开图层" }}</li> -->
       <li @click="startAttrQuery" :class="{ is_active_attr: attributeQuery }">
         {{ attributeQuery ? "取消查询" : "属性查询" }}
       </li>
@@ -126,7 +126,7 @@
         </el-dropdown>
       </li>
     </ul>
-    <div v-show="showLayer" class="layer-manager" id="layer-manager">
+    <div v-show="false && showLayer" class="layer-manager" id="layer-manager">
       <div class="header" id="layer-manager-header">图层列表</div>
       <div class="tree">
         <el-tree
@@ -782,7 +782,14 @@ export default {
       }
     },
     modelChange(value) {
-      zeh.earth.setTerrainOpacity(value / 100);
+      // zeh.earth.setTerrainOpacity(value / 100);
+      this.setTerrainOpacity(value / 100)
+    },
+    setTerrainOpacity(value) {
+      // window.viewer.globe.translucency.enabled = viewModel.translucencyEnabled;
+      window.viewer.scene.globe.translucency.enabled = true;
+      window.viewer.scene.globe.translucency.frontFaceAlphaByDistance.nearValue = value;
+      window.viewer.scene.globe.translucency.frontFaceAlphaByDistance.farValue = value;
     },
     // 测算
     levelStart() {
@@ -1009,7 +1016,9 @@ export default {
     //关闭地形透明
     closeTransparent() {
       this.showTransparent = false;
-      zeh.earth.setTerrainOpacity(1);
+      // zeh.earth.setTerrainOpacity(1);
+      this.setTerrainOpacity(1);
+      window.viewer.scene.globe.translucency.enabled = false;
       this.transparentValue = 100;
     },
     //裁剪参数设置

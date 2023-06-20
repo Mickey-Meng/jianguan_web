@@ -51,7 +51,7 @@
     />
     <div class="video_table" v-show="showVideoTable && !isShow">
       <el-table
-        :data="minData.filter((e) => e.type === 2)"
+        :data="minData.filter((e) => e.type == 2)"
         height="100%"
         style="width: 100%"
         @row-click="rowClick"
@@ -186,14 +186,18 @@ export default {
     initData() {
       getMonitoring(this.project.id).then((res) => {
         let data = res.data.monitorDevices;
-      });
-      this.$axios.get("./data/monitoring.json").then((res) => {
-        let data = res.data.data;
         this.minData = data;
         if (data && data.length > 0) {
           // this.initMarker(data);
         }
       });
+      // this.$axios.get("./data/monitoring.json").then((res) => {
+      //   let data = res.data.data;
+      //   this.minData = data;
+      //   if (data && data.length > 0) {
+      //     // this.initMarker(data);
+      //   }
+      // });
     },
     initMarker(data) {
       let token = this.token;

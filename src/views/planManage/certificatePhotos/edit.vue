@@ -263,6 +263,7 @@ export default {
       this.$refs['ruleForm'].validate((valid) => {
         if (valid) {
           this.formData.attachment = this.attachTable;
+          debugger
           this.formData.auditUser = this.auditUser;
           this.formData.draftFlag=1;
           this.formData.typeCode = this.formData.type;

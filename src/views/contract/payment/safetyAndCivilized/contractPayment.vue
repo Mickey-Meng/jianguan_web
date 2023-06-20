@@ -104,6 +104,8 @@ export default {
       tableData: [],
       operateBtnsVisible: true,
       queryData: { //查询参数
+        includeTypeCodes: [],
+        excludeTypeCodes: [],
         recordTime: '',
         status: '',
         pageNum: 1,
@@ -137,6 +139,7 @@ export default {
     },
     query() {
       this.queryData.draftFlag=this.isDraft?0:1;
+      this.queryData.includeTypeCodes = ['51'];
       api.getContractPaymentList(this.queryData).then((res) => {
         this.allData = res.data || {};
         this.tableData = this.allData['list']||[];

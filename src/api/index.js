@@ -46,6 +46,7 @@ const api = {
     //
   bridgeTree: "/component/getTree",
   schedule: "/schedule/getScheuleAll",
+  getProgressWarningTableData: "/schedule/getProcessWarning",
   // 获取项目下拉选数据
   projectSelect: "/progress/projectSelect",
   getHomeChart: "/count/getpjFirst", //首页统计模式图表数据
@@ -462,6 +463,15 @@ const api = {
   deleteContractPayment: "/web/api/v1/contract/payment/id",
   getContractPaymentList: "/web/api/v1/contract/payment/page",
   getContractPaymentListNoPage: "/web/api/v1/contract/payment/list",
+
+
+  // 每日晨报
+  addOrUpdateDailyReport: "/web/api/v1/daily_report/addOrUpdate",
+  getDailyReportDetail: "/web/api/v1/daily_report/detail/id",
+  deleteDailyReport: "/web/api/v1/daily_report/id",
+  getDailyReportList: "/web/api/v1/daily_report/page",
+  getDailyReportListNoPage: "/web/api/v1/daily_report/list",
+
 
   // 计划管理-证照管理
   addOrUpdatePlanCertificatePhotos: "/web/api/v1/certificate/plan/addOrUpdate",

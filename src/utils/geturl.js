@@ -9,5 +9,5 @@
 import store from "../store";
 
 (function () {
-  store.commit("settings/SET_URL", process.env.VUE_APP_SERVER_ADDRESS + "/mong/preview?fileid=");
+  store.commit("settings/SET_URL", "/mong/preview?fileid=");
 })();

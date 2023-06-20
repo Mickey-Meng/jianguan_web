@@ -114,6 +114,19 @@ export const getProgressTableData = data => {
   });
 };
 /**
+ * @des: 进度预警
+ * @test:
+ * @msg:
+ * @param {*}
+ * @return {*}
+ */
+export const getProgressWarningTableData = data => {
+  return request({
+    url: api.getProgressWarningTableData,
+    method: "post",
+    data
+  });
+};/**
  * @des:删除工序
  * @test:
  * @msg:

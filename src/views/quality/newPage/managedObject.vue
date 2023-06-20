@@ -226,8 +226,6 @@
 				this.dialogFormVisible = true;
 				const hasGetUserInfo = store.getters.name;
 				const hasGetdeptName = store.getters.deptName;
-        alert(hasGetdeptName)
-         debugger;
 				this.formData.registrant = hasGetUserInfo;
 				this.formData.registrationDepartment = hasGetdeptName;
 				this.formData.id = '';

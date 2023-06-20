@@ -106,7 +106,6 @@ const actions = {
         commit("SET_TOKEN", res.data.jwtToken); //ZHU_ji原token，取消
         commit("SET_AUTH_TOKEN", userInfo.token);
         commit("SET_NAME", userInfo.nickName);
-        debugger
         commit("SET_DEPTNAME", userInfo.deptName);
         commit("SET_ID", userInfo.userId);
         commit("SET_ROLE_ID", userInfo.roleId);

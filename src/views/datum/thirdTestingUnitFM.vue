@@ -49,7 +49,7 @@
       >
 
 
-        <el-form-item label="资料类型" prop="typeText">
+        <el-form-item label="资料类型" prop="type">
           <el-select
             v-model="form.type"
             filterable
@@ -103,8 +103,7 @@ import {
   updateFileInfo,
   getFileByTypeList,
   getFileDictByPCode,
-  getStoreFileByPcode,
-  newUploadFile
+  getStoreFileByPcode
 } from "@/api/file";
 import {mapGetters} from "vuex";
 import {disposeUrl} from "@/utils/validate";
@@ -157,13 +156,17 @@ export default {
         callunit: "", //发布单位
         calladdr: "", //会议地点
         calltime: "",
-        fileType: "DSFJCDWZLGL"
+        fileType: "DSFJCDWZLGL",
+        filename: ""
       },
       tableData: [],
       functionary: [], // 文件分类字典
       rules: {
         filename: [
           { required: true, message: "请输入文件名称", trigger: "blur" },
+        ],
+        type: [
+          { required: true, message: "请输入资料类型", trigger: "blur" },
         ],
         fileurl: [{ required: false, message: "请上传文件", trigger: "blur" }],
       },
@@ -254,7 +257,7 @@ export default {
         this.$refs["form"].validate((valid) => {
           if (valid) {
             let obj = Object.assign({}, this.form);
-            uploadF(obj).then((res) => {
+            updateFileInfo(obj).then((res) => {
               this.init();
               this.$message({
                 message: "基本信息修改成功",
@@ -270,6 +273,7 @@ export default {
       }
     },
     opdateInfo(row) {
+      row.row.type = row.row.type.toString();
       this.approveVisible = false;
       this.form = Object.assign(this.form, row.row);
       this.isCreate = false;

@@ -17,9 +17,9 @@
         />
       </el-tooltip>
     </div>
-    <!-- <div v-if="haveLeft" class="handle-box"> -->
-    <!-- <mapTool ref="mapTool" v-if="isShow && haveLeft" /> -->
-    <!-- </div> -->
+    <div v-if="haveLeft" class="handle-box">
+      <mapTool ref="mapTool" v-if="isShow && haveLeft" />
+    </div>
     <div class="mapCoordinate" v-show="mapCoordinate.longitude">
       <div class="longitude">经度:{{ mapCoordinate.longitude }}</div>
       <div class="latitude">纬度:{{ mapCoordinate.latitude }}</div>
@@ -34,13 +34,14 @@ import { earth } from "@/config/map";
 import Bus from "@/assets/eventBus";
 import { mapGetters } from "vuex";
 import { getMap } from "@/api/user";
-// import mapTool from "@/components/tool/index";
+import mapTool from "@/components/tool/index";
 import { getToken } from "@/utils/auth";
 let zeh, em;
 const Cesium = window.Cesium;
 const earthCtx = {};
 
 export default {
+  components: {mapTool},
   data() {
     return {
       showMenu: true,
@@ -94,7 +95,7 @@ export default {
       const url = this.project.mapUrl || window.location.href;
       // const URL = `http://112.30.143.209:26666/data_zlsk/chizhoushi`;
       // console.log(URL)
-      const viewer = new Cesium.Viewer("earth", {
+      window.viewer = new Cesium.Viewer("earth", {
         imageryProvider: new Cesium.TileMapServiceImageryProvider({
             url: url,
             format: 'image/png',
@@ -120,6 +121,14 @@ export default {
       });
       viewer.scene.msaaSamples = 8;
       viewer.scene.globe.depthTestAgainstTerrain = true
+
+      window.viewer.scene.globe.translucency.frontFaceAlphaByDistance = new Cesium.NearFarScalar(
+        400.0,
+        0.0,
+        800.0,
+        1.0
+      );
+
     //   lon: 117.48387645025284,
     // lat: 30.66751823064398,
     // height: 5000,

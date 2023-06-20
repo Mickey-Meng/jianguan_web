@@ -131,6 +131,11 @@ export const constantRoutes = [{
       code: "jiliangshenpiv3",
       component: () => import("@/views/metrology/ledger/view")
     }, {
+      path: "/dailyReport_detail",
+      name: "dailyReport_detail",
+      code: "dailyReport",
+      component: () => import("@/views/dailyReport/view")
+    }, {
       path: "/contractPayment_detail",
       name: "contractPayment_detail",
       code: "contractPayment",
@@ -676,18 +681,31 @@ export const asyncRoutes = [
       "component": ParentView,
       redirect: "/planOverview",
       children: [{
-        path: "/planOverview",
-        name: "planOverview",
-        component: () => import("@/views/progress/index"),
+        path: "/progressWarning",
+        name: "progressWarning",
+        component: () => import("@/views/progress/progressWarning"),
         meta: {
-          title: "进度总览",
-          code: "jinduzonglan",
+          title: "进度预警",
+          code: "progressWarning",
           icon: "circle",
           allMap: false,
           partMap: false,
           noMap: true
         }
       },
+        {
+          path: "/planOverview",
+          name: "planOverview",
+          component: () => import("@/views/progress/index"),
+          meta: {
+            title: "进度总览",
+            code: "jinduzonglan",
+            icon: "circle",
+            allMap: false,
+            partMap: false,
+            noMap: true
+          }
+        },
         {
           path: "/visualProgress",
           name: "visualProgress",
@@ -1135,6 +1153,19 @@ export const asyncRoutes = [
           }
         },
         {
+          path: "/dailyReport",
+          name: "dailyReport",
+          component: () => import("@/views/dailyReport/dailyReport"),
+          meta: {
+            title: "每日晨检上报",
+            code: "dailyReport",
+            icon: "circle",
+            allMap: false,
+            partMap: false,
+            noMap: true
+          }
+        },
+        {
           path: "/securityCheck",
           name: "securityCheck",
           component: () => import("@/views/safetyCulture/securityCheck"),
@@ -1197,7 +1228,7 @@ export const asyncRoutes = [
           name: "supervisordptFM",
           component: () => import("@/views/datum/supervisordptFM"),
           meta: {
-            title: "监理单位资料管理",
+            title: "监理资料管理",
             code: "supervisordptFM",
             icon: "circle",
             allMap: false,
@@ -1210,7 +1241,7 @@ export const asyncRoutes = [
           name: "auditUnitdptFM",
           component: () => import("@/views/datum/auditUnitdptFM"),
           meta: {
-            title: "审计单位资料管理",
+            title: "审计资料管理",
             code: "auditUnitdptFM",
             icon: "circle",
             allMap: false,
@@ -1223,7 +1254,7 @@ export const asyncRoutes = [
           name: "constructdptFM",
           component: () => import("@/views/datum/constructdptFM"),
           meta: {
-            title: "施工单位资料管理",
+            title: "施工资料管理",
             code: "constructdptFM",
             icon: "circle",
             allMap: false,
@@ -1236,7 +1267,7 @@ export const asyncRoutes = [
           name: "thirdTestingUnitFM",
           component: () => import("@/views/datum/thirdTestingUnitFM"),
           meta: {
-            title: "第三方检测单位资料管理",
+            title: "第三方检测资料管理",
             code: "thirdTestingUnitFM",
             icon: "circle",
             allMap: false,

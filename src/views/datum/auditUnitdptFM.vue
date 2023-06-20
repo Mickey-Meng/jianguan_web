@@ -48,7 +48,7 @@
       >
 
 
-        <el-form-item label="资料类型" prop="typeText">
+        <el-form-item label="资料类型" prop="type">
           <el-select
             v-model="form.type"
             filterable
@@ -147,6 +147,9 @@ export default {
         filename: [
           { required: true, message: "请输入文件名称", trigger: "blur" },
         ],
+        type: [
+          { required: true, message: "请输入资料类型", trigger: "blur" },
+        ],
         fileurl: [{ required: false, message: "请上传文件", trigger: "blur" }],
       },
     };
@@ -197,7 +200,6 @@ export default {
         uploadtype: "",
         uploadusername: "",
         changereason: "",
-        // type: 12,
         distiancename: "",
         changecontent: "",
         isutf: "0",
@@ -249,6 +251,7 @@ export default {
       }
     },
     opdateInfo(row) {
+      row.row.type = row.row.type.toString();
       this.form = Object.assign(this.form, row.row);
       this.isCreate = false;
       this.dialogVisible = true;

@@ -1,78 +1,87 @@
 <template>
 	<div>
 		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible" :fullscreen="true">
-			<template slot="title">
-				{{dialogTitle}}
+			<template slot="title">{{dialogTitle}}
 				<div class="logo-icon"></div>
 			</template>
 			<el-container>
-				<el-main
-					style="background-color: rgba(0,0 0,0.5);height: calc(100vh - 96px); overflow-y: scroll;padding: 0px;margin: 0;">
+				<el-main style="background-color: rgba(0,0 0,0.5);height: calc(100vh - 96px); overflow-y: scroll;padding: 0px;margin: 0;">
 					<div class="form-bg">
 						<div class="form-content">
-							<el-form ref="form" label-width="80px">
 
-								<div class="form-block">
-									<div class="form-block-title">
-										<div class="title-bar"></div><strong>合同付款</strong>
-									</div>
-                  <div class="block-line">
-                    <div class="block-item">
-                      <div class="block-item-label">款项类型</div>
-                      <div class="block-item-value">
-                        {{formData.type}}
-                      </div>
-                    </div>
-                  </div>
-                  <div class="block-line">
-                    <div class="block-item">
-                      <div class="block-item-label">款项金额</div>
-                      <div class="block-item-value">
-                        {{formData.amount}}
-                      </div>
-                    </div>
-
-                    <div class="block-item">
-                      <div class="block-item-label">填报日期</div>
-                      <div class="block-item-value">
-                        {{formData.recordTime}}
-                      </div>
-                    </div>
-                    <div class="block-item">
-                      <div class="block-item-label">备注</div>
-                      <div class="block-item-value">
-                        {{formData.remark}}
-                      </div>
-                    </div>
-                  </div>
+							<el-form :model="formData" :rules="rules" ref="ruleForm" label-width="80px">
+								<div class="form-title">
+									<div class="title-big-bar"></div>
+									<strong>计划管理-证照管理</strong>
 								</div>
-								<div class="form-block">
 
+								<div class="form-block">
 									<div class="form-block-title">
-										<div class="title-bar"></div><strong>合同附件</strong>
-										<span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-											xisx xis pdf文件，且不超过100m</span>
+										<div class="title-bar"></div><strong>基本信息</strong>
 									</div>
 
-									<attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>
+									<div class="block-line">
+										<div class="block-item">
+											<div class="block-item-label">证照名称</div>
+											<div class="block-item-value">{{ formData.name }}</div>
+										</div>
 
+										<div class="block-item">
+											<div class="block-item-label">证照内容</div>
+											<div class="block-item-value">{{ formData.contents }}</div>
+										</div>
+									</div>
+
+
+									<div class="block-line">
+										<div class="block-item">
+											<div class="block-item-label">计划开始时间</div>
+											<div class="block-item-value">{{ formData.startTime }}</div>
+										</div>
+										<div class="block-item">
+											<div class="block-item-label">计划结束时间</div>
+											<div class="block-item-value">{{ formData.endTime }}</div>
+										</div>
+									</div>
+
+									<div class="block-line">
+										<div class="block-item">
+											<div class="block-item-label">上报时间</div>
+											<div class="block-item-value">{{ formData.reportTime }}</div>
+										</div>
+										<div class="block-item">
+											<div class="block-item-label">上报人</div>
+											<div class="block-item-value">{{ formData.reportUser }}</div>
+										</div>
+									</div>
+
+									<div class="block-line">
+										<div class="block-item">
+											<div class="block-item-label">责任人</div>
+											<div class="block-item-value">{{ formData.owner }}</div>
+										</div>
+
+										<div class="block-item">
+											<div class="block-item-label">备注</div>
+											<div class="block-item-value">{{ formData.remark }}</div>
+										</div>
+									</div>
 								</div>
 							</el-form>
 						</div>
 					</div>
 				</el-main>
+
 				<el-aside width="8px" class="close-wrapper">
 					<div class="close-wrap">
 						<i class="el-icon-caret-right"></i>
 					</div>
 				</el-aside>
-				<el-aside
-					style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
+				<el-aside style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
 					<tasklog :taskInfo="taskInfo" ref="tasklog"></tasklog>
 				</el-aside>
 			</el-container>
 		</el-dialog>
-
 	</div>
 </template>
 
@@ -83,11 +92,7 @@
 	import taskhandle from '../../common/taskhandle'
 	import attachlist from "../../common/attachlist"
 	import projectinfo from "../../common/projectinfo.vue"
-
-	import {
-		formatMonth,
-		formatDate,
-lo	} from "@/utils/format.js";
+	import { formatMonth, formatDate, lo } from "@/utils/format.js";
 
 	export default {
 		props:['detailRow'],
@@ -173,7 +178,7 @@ lo	} from "@/utils/format.js";
 		 				processDefinitionId: data['processDefinitionId'],
 						processInstanceId: data['processInstanceId'],
 						taskId: data['taskId'],
-				  flowKey:'contractPayment'
+				  flowKey:'planCertificatePhotos'
 					}
 					this.updateTaskLog();
 				});

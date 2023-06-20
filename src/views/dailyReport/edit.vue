@@ -10,76 +10,52 @@
           style="background-color: rgba(0,0 0,0.5);height: calc(100vh - 96px); overflow-y: scroll;padding: 0px;margin: 0;">
           <div class="form-bg">
             <div class="form-content">
-
               <el-form :model="formData" :rules="rules" ref="ruleForm" label-width="80px">
-								<div class="form-title">
-									<div class="title-big-bar"></div>
-									<strong>进度管理-证照管理</strong>
-								</div>
-
-								<div class="form-block">
-									<div class="form-block-title">
-										<div class="title-bar"></div><strong>基本信息</strong>
-									</div>
-
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">证照名称</div>
-											<div class="block-item-value">{{ formData.name }}</div>
-										</div>
-
-										<div class="block-item">
-											<div class="block-item-label">证照内容</div>
-											<div class="block-item-value">{{ formData.contents }}</div>
-										</div>
-									</div>
-
-
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">计划开始时间</div>
-											<div class="block-item-value">{{ formData.startTime }}</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">计划结束时间</div>
-											<div class="block-item-value">{{ formData.endTime }}</div>
-										</div>
-									</div>
-
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">上报时间</div>
-											<div class="block-item-value">{{ formData.reportTime }}</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">上报人</div>
-											<div class="block-item-value">{{ formData.reportUser }}</div>
-										</div>
-									</div>
-
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">责任人</div>
-											<div class="block-item-value">{{ formData.owner }}</div>
-										</div>
-
-										<div class="block-item">
-											<div class="block-item-label">备注</div>
-											<div class="block-item-value">{{ formData.remark }}</div>
-										</div>
-									</div>
-								</div>
-
                 <div class="form-block">
                   <div class="form-block-title">
-                    <div class="title-bar"></div><strong>证照附件</strong>
+                    <div class="title-bar"></div><strong>基本信息</strong>
+                  </div>
+                  <div class="block-line">
+                    <div class="block-item">
+                      <div class="block-item-label">晨检内容</div>
+                      <div class="block-item-value">
+                        <el-form-item prop="remark">
+                          <el-input v-model="formData.content"></el-input>
+                        </el-form-item>
+                      </div>
+                    </div>
+                    <div class="block-item">
+                      <div class="block-item-label">上报人</div>
+                      <div class="block-item-value">
+                        <el-form-item prop="remark">
+                          <el-input v-model="formData.reportPeople"></el-input>
+                        </el-form-item>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="block-line">
+                    <div class="block-item">
+                      <div class="block-item-label">上报日期</div>
+                      <div class="block-item-value">
+                        <el-form-item prop="reportTime">
+                          <el-date-picker value-format="yyyy-MM-dd" v-model="formData.reportTime" type="date" placeholder="请选择">
+                          </el-date-picker>
+                        </el-form-item>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-block">
+                  <div class="form-block-title">
+                    <div class="title-bar"></div><strong>附件</strong>
                     <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
 											xisx xis pdf文件，且不超过100m</span>
                   </div>
                   <attachlist :editAble="true" ref="attachlist" :attachTable="attachTable"></attachlist>
                 </div>
 
-                <approveuser v-if="approveVisible" :auditUser="auditUser"  :flowKey="flowKey"></approveuser>
+                <approveuser v-if="approveVisible" :auditUser="auditUser"  :flowKey="flowKey">
+                </approveuser>
 
                 <div class="form-block">
                   <el-button @click="addOrModify()" class="submit-btn" size="small" type="primary">提交
@@ -95,13 +71,13 @@
 </template>
 
 <script>
-import * as api from "@/api/certificate/progressCertificatePhotos.js";
+import * as api from "@/api/dailyReport.js";
 import { getUserInfo } from "@/api/user";
-import upload from "../../common/upload.vue"
-import attachlist from "../../common/attachlist.vue"
-import drafthandle from "../../common/drafthandle.vue"
-import approveuser from "../../common/approveuser.vue"
-import projectinfo from "../../common/projectinfo.vue"
+import upload from "../common/upload.vue"
+import attachlist from "../common/attachlist.vue"
+import drafthandle from "../common/drafthandle.vue"
+import approveuser from "../common/approveuser.vue"
+import projectinfo from "../common/projectinfo.vue"
 import { findDataDictionaryList } from "@/api/dataDictionary"
 
 export default {
@@ -114,11 +90,6 @@ export default {
       dialogFormVisible: false,
       partOptions:[],
       rules: {
-        attachment: [{
-          required: true,
-          message: '请上传附件',
-          trigger: 'blur'
-        }]
       },
       userInfo: {
         userName: ''
@@ -126,13 +97,17 @@ export default {
       baseInfo: {
       },
       formData: { //表单参数
-        id: undefined,
-        attachment: []
+        attachment: [],
+        content: '',
+        reportPeople: '',
+        reportTime: null
       },
       attachTable: [], //附件
+      contractTable: [],
+      contractVisible: false,
       auditUser: {},
       approveVisible:true,
-      flowKey:'progressCertificatePhotos',
+      flowKey:'dailyReport',
       dataDictionaryList: []
     };
   },
@@ -143,7 +118,7 @@ export default {
     drafthandle,
     approveuser,
     projectinfo,
-    payment: () => import("./certificatePhotos.vue")
+    payment: () => import("./dailyReport.vue")
   },
   computed: {},
   mounted() {
@@ -153,17 +128,21 @@ export default {
   watch: {
     editRow(obj) {
       obj=obj||{};
-      this.formData.id = obj['id'];
-      console.log("editRow..."+ this.formData.id);
-      if (this.formData.id) {
-        this.getDetail(this.formData.id);
-        // 修改和删除操作，都可以选择审批人
-        this.approveVisible=true;
+      if (obj['id']) {
+        this.getDetail(obj['id']);
+        this.approveVisible=false;
       } else {
-        this.$message({
-          type: 'error',
-          message: '操作数据ID为空,请检查!'
-        });
+        this.formData = {
+          attachment: [],
+          content: '',
+          reportPeople: '',
+          reportTime: null,
+          projectId:this.$store.getters.project['parentid']
+        }
+        this.attachTable = [];
+        this.contractTable = [];
+        // this.auditUser={};
+        this.approveVisible=true;
       }
     }
   },
@@ -184,21 +163,26 @@ export default {
       this.dialogFormVisible = value;
       obj = obj || {};
       this.addOrModifyFlag = obj['id'] ? false : true;
-      this.formData.id = obj['id'];
-      console.log("changeVisible..."+ this.formData.id);
-      if (this.formData.id) {
-        this.getDetail(this.formData.id);
+      if (obj['id']) {
+        this.getDetail(obj['id']);
         // 修改和删除操作，都可以选择审批人
-        this.approveVisible = obj['status'] === -1; // 只有在未发起流程的时候显示审批节点信息
+        this.approveVisible=false;
       } else {
-        this.$message({
-          type: 'error',
-          message: '操作数据ID为空,请检查!'
-        });
+        this.formData = {
+          attachment: [],
+          type: '',
+          amount: 0,
+          remark: '',
+          recordDate: null,
+          projectId:this.$store.getters.project['parentid'],
+        }
+        this.attachTable = [];
+        // this.auditUser={};
+        this.approveVisible=true;
       }
     },
     getDetail(id) {
-      api.getProgressCertificatePhotosDetail(id).then((res) => {
+      api.getDailyReportDetail(id).then((res) => {
         let data = res['data'] || {};
         this.formData = data;
         this.attachTable = data.attachment || [];
@@ -209,13 +193,14 @@ export default {
         if (valid) {
           this.formData.attachment = this.attachTable;
           this.formData.auditUser = this.auditUser;
-          this.formData.draftFlag = 1;
+          this.formData.draftFlag=1;
+          this.formData.typeCode = this.formData.type;
           this.dataDictionaryList.forEach(item=> {
             if(item.id === this.formData.type) {
               this.formData.type = item.name;
             }
           })
-          api.addOrUpdateProgressCertificatePhotos(this.formData).then((res) => {
+          api.addOrUpdateDailyReport(this.formData).then((res) => {
             if (res.data) {
               this.$message({
                 type: 'success',
@@ -240,5 +225,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "src/assets/css/dialog";
+@import "../../assets/css/dialog";
 </style>

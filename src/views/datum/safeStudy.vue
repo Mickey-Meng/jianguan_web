@@ -88,7 +88,7 @@
           ></el-input>
         </el-form-item>
 
-        <el-form-item label="资料类型" prop="typeText">
+        <el-form-item label="资料类型" prop="type">
           <el-select
             v-model="form.type"
             filterable
@@ -151,7 +151,7 @@ export default {
         uploadname: [
           { required: true, message: "请输入文件名称", trigger: "blur" },
         ],
-       typeText: [
+       type: [
           { required: true, message: "请输入资料类型", trigger: "blur" },
         ],
         fileurl: [
