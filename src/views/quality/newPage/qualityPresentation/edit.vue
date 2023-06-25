@@ -33,9 +33,9 @@
 											</div>
 										</div>
 									</div>
-									
+
 								</div>
-								
+
 
 								<div class="form-block">
 									<div class="form-block-title">
@@ -51,7 +51,7 @@
 								<approveuser v-if="approveVisible" :auditUser="auditUser"  :flowKey="flowKey">
 								</approveuser>
 								<div class="form-block">
-									<el-button class="submit-btn" size="small" type="primary" @click="addOrModify()">提交
+									<el-button class="submit-btn" size="small" type="primary" :disabled="disabledFlag" @click="addOrModify()">提交
 									</el-button>
 								</div>
 							</el-form>
@@ -98,6 +98,7 @@
 	export default {
 		data() {
 			return {
+        disabledFlag: false,
 				draftVisible: false,
 				addOrModifyFlag: true,
 				dialogFormVisible: false,
@@ -127,7 +128,7 @@
 						message: '必须项',
 						trigger: 'blur'
 					}],
-					
+
 				},
 				auditUser: {},
                 approveVisible:true,
@@ -144,7 +145,7 @@
 			qualityPresentation: () => import("../qualityPresentation.vue")
 		},
 		computed: {
-			
+
 		},
 		watch: {
 
@@ -198,9 +199,9 @@
 				});
 			},
 			addOrModify(isdraft) {
+        this.disabledFlag = true;
 				if (isdraft) {
 					if (diffCompare([this.formData], [{
-								buildSection:'',
 								deletedFlag: 1,
 								attachment: [],
 								draftFlag: 1,
@@ -208,7 +209,7 @@
 								reportAttachment:[],
 								buildSection: this.$store.getters.project.id,projectId:this.$store.getters.project['parentid'],
 							}
-							
+
 						])) {
 						this.$message({
 							type: 'warning',
@@ -225,6 +226,7 @@
 								message: '提交成功!'
 							});
 							this.dialogFormVisible = false;
+              this.disabledFlag = false;
 							this.$emit("query");
 						}
 					});
@@ -241,6 +243,7 @@
 										message: '提交成功!'
 									});
 									this.dialogFormVisible = false;
+                  this.disabledFlag = false;
 									this.$emit("query");
 								}
 							});

@@ -1,39 +1,51 @@
 <template>
   <div>
+
     <div class="form-content">
       <el-form ref="form" label-width="80px">
+
         <div class="form-block">
+          <div class="form-block-title">
+            <div class="title-bar"></div><strong>合同付款</strong>
+          </div>
           <div class="block-line">
             <div class="block-item">
-              <div class="block-item-label">晨检内容</div>
+              <div class="block-item-label">款项类型</div>
               <div class="block-item-value">
-                {{ formData.content }}
+                {{formData.type}}
               </div>
             </div>
           </div>
           <div class="block-line">
             <div class="block-item">
-              <div class="block-item-label">上报人</div>
+              <div class="block-item-label">款项金额</div>
               <div class="block-item-value">
-                {{ formData.reportPeople }}
+                {{formData.amount}}
               </div>
             </div>
 
             <div class="block-item">
-              <div class="block-item-label">上报时间</div>
+              <div class="block-item-label">填报日期</div>
               <div class="block-item-value">
-                {{ formData.reportTime }}
+                {{formData.recordTime}}
+              </div>
+            </div>
+            <div class="block-item">
+              <div class="block-item-label">备注</div>
+              <div class="block-item-value">
+                {{formData.remark}}
               </div>
             </div>
           </div>
         </div>
         <div class="form-block">
+
           <div class="form-block-title">
-            <div class="title-bar"></div>
-            <strong>附件</strong>
+            <div class="title-bar"></div><strong>合同附件</strong>
             <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
 							xisx xis pdf文件，且不超过100m</span>
           </div>
+
           <attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>
         </div>
       </el-form>
@@ -42,10 +54,10 @@
 </template>
 
 <script>
-import * as api from "@/api/dailyReport";
-import {getUserInfo} from "@/api/user";
-import attachlist from "../common/attachlist.vue"
-import projectinfo from "../common/projectinfo.vue"
+import * as api from "@/api/constructionDesign/progessConstructionDesign";
+import { getUserInfo } from "@/api/user";
+import attachlist from "../../common/attachlist"
+import projectinfo from "../../common/projectinfo.vue"
 
 import {
   formatMonth,
@@ -60,7 +72,7 @@ export default {
 
       baseInfo: {
         buildSection: 1,
-        projectName: '池州市平天湖东部区域棚户区改造建设工程EPC总承包',
+        projectName:'池州市平天湖东部区域棚户区改造建设工程EPC总承包',
         buildSectionName: '235国道项目部',
         contractCode: 'ORG_00004',
         startupUser: '赵赞文',
@@ -68,19 +80,20 @@ export default {
       },
       formData: { //表单参数
         attachment: [],
-        content: '',
-        reportPeople: '',
-        reportTime: null,
+        contractCode: '',
+        information: [],
+        contractUser: '',
+        deletedFlag: 1,
+        draftFlag: 1,
         buildSection: this.$store.getters.project.id,
-        projectId: this.$store.getters.project['parentid'],
-        startDate: formatDate(new Date())
+        projectId:this.$store.getters.project['parentid'],
+        startDate:formatDate(new Date())
       },
       attachTable: [], //附件
       contractTable: []
     };
   },
-  created() {
-  },
+  created() {},
   components: {
     attachlist,
     projectinfo
@@ -90,8 +103,11 @@ export default {
       return detail.formData.amount.toFixed(2);
     }
   },
-  watch: {},
+  watch: {
+
+  },
   mounted() {
+
   },
   methods: {
     getUserInfo(id) {
@@ -100,7 +116,7 @@ export default {
       });
     },
     getDetail(id) {
-      api.getDailyReportDetail(id).then((res) => {
+      api.getProgressConstructionDesignDetail(id).then((res) => {
         let data = res['data'] || {};
         this.formData = data;
         this.attachTable = data.attachment || [];
@@ -112,5 +128,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../../assets/css/dialog";
+@import "../../../assets/css/dialog.scss";
 </style>

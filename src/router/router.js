@@ -519,8 +519,65 @@ export const asyncRoutes = [
       "noCache": false,
       "title": "设计专题"
     },
+    alwaysShow: true,
+    redirect: "/noRedirect",
     "name": "Design",
-    "path": "/design"
+    "path": "/design",
+    children: [
+      {
+        path: "/planApplyReview",
+        meta: {
+          title: "计划报审",
+          icon: "earlier",
+          code: "jihuabaoshen"
+        },
+        alwaysShow: true,
+        "component": ParentView,
+        redirect: "/planConstructionDesign",
+        children: [
+          {
+            path: "/planConstructionDesign",
+            name: "planConstructionDesign",
+            component: () => import ("@/views/planApplyReview/constructionDesign/constructionDesign"),
+            meta: {
+              title: "施工图设计",
+              icon: "circle",
+              code: "jh_shigongsheji",
+              allMap: false,
+              partMap: false,
+              noMap: true
+            }
+          }
+        ]
+      },
+
+      {
+        path: "/progressApplyReview",
+        meta: {
+          title: "进度管理",
+          icon: "earlier",
+          code: "jhbs_jinduguanli"
+        },
+        alwaysShow: true,
+        "component": ParentView,
+        redirect: "/progressConstructionDesign",
+        children: [
+          {
+            path: "/progressConstructionDesign",
+            name: "progressConstructionDesign",
+            component: () => import ("@/views/progressApplyReview/constructionDesign/constructionDesign"),
+            meta: {
+              title: "施工图设计",
+              icon: "circle",
+              code: "jdbs_shigongsheji",
+              allMap: false,
+              partMap: false,
+              noMap: true
+            }
+          }
+        ]
+      }
+    ]
   },
 
   {

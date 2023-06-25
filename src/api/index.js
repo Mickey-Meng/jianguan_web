@@ -486,6 +486,20 @@ const api = {
   deleteProgressCertificatePhotos: "/web/api/v1/certificate/progress/id",
   getProgressCertificatePhotosList: "/web/api/v1/certificate/progress/page",
   getProgressCertificatePhotosListNoPage: "/web/api/v1/certificate/progress/list",
+  
+  // 计划申报-施工图设计
+  addOrUpdatePlanConstructionDesign: "/web/api/v1/constructionDesign/plan/addOrUpdate",
+  getPlanConstructionDesignDetail: "/web/api/v1/constructionDesign/plan/detail/id",
+  deletePlanConstructionDesign: "/web/api/v1/constructionDesign/plan/id",
+  getPlanConstructionDesignList: "/web/api/v1/constructionDesign/plan/page",
+  getPlanConstructionDesignListNoPage: "/web/api/v1/constructionDesign/plan/list",
+
+  // 进度管理-施工图设计
+  addOrUpdateProgressConstructionDesign: "/web/api/v1/constructionDesign/progress/addOrUpdate",
+  getProgressConstructionDesignDetail: "/web/api/v1/constructionDesign/progress/detail/id",
+  deleteProgressConstructionDesign: "/web/api/v1/constructionDesign/progress/id",
+  getProgressConstructionDesignList: "/web/api/v1/constructionDesign/progress/page",
+  getProgressConstructionDesignListNoPage: "/web/api/v1/constructionDesign/progress/list",
 
   // 数据字典查询
   findDataDictionaryList: "/dataDictionary/dataDictionary/list",

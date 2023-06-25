@@ -362,7 +362,7 @@
             flowKey: "jldwrybg"
           },
           {
-            key: "quanzijihe",//监理单位合同人员报审
+            key: "quanzijihe",//全咨单位人员请假
             flowKey: "qzdwrybg"
           }
         ],

@@ -227,7 +227,7 @@
 				const hasGetUserInfo = store.getters.name;
 				const hasGetdeptName = store.getters.deptName;
 				this.formData.registrant = hasGetUserInfo;
-				this.formData.registrationDepartment = hasGetdeptName;
+				// this.formData.registrationDepartment = hasGetdeptName;
 				this.formData.id = '';
 				this.formData.attachment = [];
 				this.attachTable = [];

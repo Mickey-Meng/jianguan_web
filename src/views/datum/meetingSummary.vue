@@ -191,6 +191,7 @@ export default {
     },
     showEdit(row) {
       this.isCreate = false;
+      row.type = row.type.toString();
       this.form = Object.assign({}, row);
       this.dialogVisible = true;
     },

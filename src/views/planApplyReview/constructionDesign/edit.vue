@@ -13,84 +13,110 @@
               <el-form :model="formData" :rules="rules" ref="ruleForm" label-width="80px">
                 <div class="form-title">
                   <div class="title-big-bar"></div>
-                  <strong>合同付款</strong>
+                  <strong>计划申报-施工图管理</strong>
                 </div>
 
                 <div class="form-block">
                   <div class="form-block-title">
-                    <div class="title-bar"></div><strong>付款基本信息</strong>
+                    <div class="title-bar"></div><strong>基本信息</strong>
                   </div>
                   <div class="block-line">
-                    <div class="block-item">
-                      <div class="block-item-label">款项类型</div>
-                      <div class="block-item-value">
-                        <el-select v-model="formData.type" placeholder="请选择">
-                          <el-option v-for="item in dataDictionaryList" :key="item.id" :label="item.name" :value="item.id">
-                          </el-option>
-                        </el-select>
-<!--                        <el-form-item prop="type">-->
-<!--                          <el-input v-model="formData.type"></el-input>-->
-<!--                        </el-form-item>-->
-                      </div>
-                    </div>
-<!--                    <el-form-item label="资料类型" prop="type">
-                      <el-select v-model="form.type"  filterable   clearable  placeholder="请选择资料类型">
-                        <el-option    v-for="item in functionary"  :key="item.id"                 :value="item.id"
-                          :label="item.name"
-                        />
-                      </el-select>
-                    </el-form-item>-->
 
                     <div class="block-item">
-                      <div class="block-item-label">款项金额</div>
+                      <div class="block-item-label">施工图名称<i class="require-icon"></i></div>
                       <div class="block-item-value">
-                        <el-form-item prop="amount">
-                          <el-input-number v-model="formData.amount" :precision="2"></el-input-number>
+                        <el-form-item prop="name">
+                          <el-input v-model="formData.name"></el-input>
                         </el-form-item>
                       </div>
                     </div>
+
+                    <div class="block-item">
+                      <div class="block-item-label">施工图内容<i class="require-icon"></i></div>
+                      <div class="block-item-value">
+                        <el-form-item prop="contents">
+                          <el-input v-model="formData.contents"></el-input>
+                        </el-form-item>
+                      </div>
+                    </div>
+
                   </div>
+
+
                   <div class="block-line">
                     <div class="block-item">
-                      <div class="block-item-label">填报日期</div>
+                      <div class="block-item-label">计划开始时间</div>
                       <div class="block-item-value">
-                        <el-form-item prop="startDate">
-                          <el-date-picker value-format="yyyy-MM-dd" v-model="formData.recordTime" type="date"
+                        <el-form-item prop="startTime">
+                          <el-date-picker value-format="yyyy-MM-dd" v-model="formData.startTime" type="date"
                                           placeholder="请选择">
                           </el-date-picker>
                         </el-form-item>
                       </div>
                     </div>
+
+                    <div class="block-item">
+                      <div class="block-item-label">计划结束时间</div>
+                      <div class="block-item-value">
+                        <el-form-item prop="endTime">
+                          <el-date-picker value-format="yyyy-MM-dd" v-model="formData.endTime" type="date"
+                                          placeholder="请选择">
+                          </el-date-picker>
+                        </el-form-item>
+                      </div>
+                    </div>
+
+                  </div>
+
+
+                  <div class="block-line">
+                    <div class="block-item">
+                      <div class="block-item-label">上报时间</div>
+                      <div class="block-item-value">
+                        <el-form-item prop="reportTime">
+                          <el-date-picker value-format="yyyy-MM-dd" v-model="formData.reportTime" type="date"
+                                          placeholder="请选择">
+                          </el-date-picker>
+                        </el-form-item>
+                      </div>
+                    </div>
+
+                    <div class="block-item">
+                      <div class="block-item-label">上报人<i class="require-icon"></i></div>
+                      <div class="block-item-value">
+                        <el-form-item prop="reportUser">
+                          <el-input v-model="formData.reportUser"></el-input>
+                        </el-form-item>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class="block-line">
+                    <div class="block-item">
+                      <div class="block-item-label">责任人<i class="require-icon"></i></div>
+                      <div class="block-item-value">
+                        <el-form-item prop="owner">
+                          <el-input v-model="formData.owner"></el-input>
+                        </el-form-item>
+                      </div>
+                    </div>
+
                     <div class="block-item">
                       <div class="block-item-label">备注<i class="require-icon"></i></div>
                       <div class="block-item-value">
                         <el-form-item prop="remark">
                           <el-input v-model="formData.remark"></el-input>
                         </el-form-item>
-
                       </div>
                     </div>
-
                   </div>
                 </div>
-                <div class="form-block">
 
-                  <div class="form-block-title">
-                    <div class="title-bar"></div><strong>合同附件</strong>
-                    <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-											xisx xis pdf文件，且不超过100m</span>
-                  </div>
-
-                  <attachlist :editAble="true" ref="attachlist" :attachTable="attachTable"></attachlist>
-
-                </div>
-
-                <approveuser v-if="approveVisible" :auditUser="auditUser"  :flowKey="flowKey">
-                </approveuser>
+                <approveuser v-if="approveVisible" :auditUser="auditUser"  :flowKey="flowKey"></approveuser>
 
                 <div class="form-block">
-                  <el-button @click="addOrModify()" class="submit-btn" size="small" type="primary">提交
-                  </el-button>
+                  <el-button @click="addOrModify()" class="submit-btn" size="small" type="primary">提交</el-button>
                 </div>
               </el-form>
             </div>
@@ -102,7 +128,7 @@
 </template>
 
 <script>
-import * as api from "@/api/contractPayment.js";
+import * as api from "@/api/constructionDesign/planConstructionDesign.js";
 import { getUserInfo } from "@/api/user";
 import upload from "../../common/upload.vue"
 import attachlist from "../../common/attachlist.vue"
@@ -110,7 +136,6 @@ import drafthandle from "../../common/drafthandle.vue"
 import approveuser from "../../common/approveuser.vue"
 import projectinfo from "../../common/projectinfo.vue"
 import { findDataDictionaryList } from "@/api/dataDictionary"
-import {getFileDictByPCode, getStoreFileByPcode} from "@/api/file";
 
 export default {
   props: ['editRow'],
@@ -122,14 +147,26 @@ export default {
       dialogFormVisible: false,
       partOptions:[],
       rules: {
-        type: [{
+        name: [{
           required: true,
-          message: '请填款项类型',
+          message: '请填写施工图名称',
           trigger: 'blur'
         }],
-        amount:[{
+        contents:[{
           required: true,
-          message: '请填写款项金额'
+          message: '请填写施工图内容'
+        }],
+        startTime:[{
+          required: true,
+          message: '请填写计划开始时间'
+        }],
+        endTime:[{
+          required: true,
+          message: '请填写计划结束时间'
+        }],
+        reportTime:[{
+          required: true,
+          message: '请填写上报时间'
         }]
       },
       userInfo: {
@@ -138,34 +175,33 @@ export default {
       baseInfo: {
       },
       formData: { //表单参数
-        attachment: [],
-        type: '',
-        amount: 0,
-        remark: '',
-        recordDate: null
+        name: '',
+        contents: '',
+        startTime: null,
+        endTime: null,
+        reportTime: null,
+        reportUser: '',
+        owner: '',
+        remark: ''
       },
-      attachTable: [], //附件
       contractTable: [],
       contractVisible: false,
       auditUser: {},
       approveVisible:true,
-      flowKey:'contractPayment',
+      flowKey:'planConstructionDesign',
       dataDictionaryList: []
     };
   },
   created() {},
   components: {
-    upload,
-    attachlist,
     drafthandle,
     approveuser,
     projectinfo,
-    payment: () => import("./contractPayment.vue")
+    payment: () => import("./constructionDesign.vue")
   },
   computed: {},
   mounted() {
     this.getUserInfo();
-    this.findDataDictionarys();
   },
   watch: {
     editRow(obj) {
@@ -174,14 +210,7 @@ export default {
         this.getDetail(obj['id']);
         this.approveVisible=false;
       } else {
-        this.formData = {
-          attachment: [],
-          type: '',
-          amount: 0,
-          remark: '',
-          recordDate: null,
-          projectId:this.$store.getters.project['parentid']
-        }
+        this.restForm();
         this.attachTable = [];
         this.contractTable = [];
         // this.auditUser={};
@@ -190,13 +219,18 @@ export default {
     }
   },
   methods: {
-     findDataDictionarys() {
-      this.dataDictionaryList = [];
-      this.pCode = 'FKLX';
-      getFileDictByPCode(this.pCode).then((res) => {
-        this.dataDictionaryList = res.data;
-      }).catch(function (error) {
-      });
+    restForm(){
+      this.formData = {
+          name: '',
+          contents: '',
+          startTime: null,
+          endTime: null,
+          reportTime: null,
+          reportUser: '',
+          owner: '',
+          remark: '',
+          projectId:this.$store.getters.project['parentid']
+        }
     },
     getUserInfo() {
       getUserInfo(localStorage.getItem('ID')).then((res) => {
@@ -212,21 +246,14 @@ export default {
         // 修改和删除操作，都可以选择审批人
         this.approveVisible=false;
       } else {
-        this.formData = {
-          attachment: [],
-          type: '',
-          amount: 0,
-          remark: '',
-          recordDate: null,
-          projectId:this.$store.getters.project['parentid'],
-        }
+        this.restForm();
         this.attachTable = [];
         // this.auditUser={};
         this.approveVisible=true;
       }
     },
     getDetail(id) {
-      api.getContractPaymentDetail(id).then((res) => {
+      api.getPlanConstructionDesignDetail(id).then((res) => {
         let data = res['data'] || {};
         this.formData = data;
         this.attachTable = data.attachment || [];
@@ -236,6 +263,7 @@ export default {
       this.$refs['ruleForm'].validate((valid) => {
         if (valid) {
           this.formData.attachment = this.attachTable;
+          debugger
           this.formData.auditUser = this.auditUser;
           this.formData.draftFlag=1;
           this.formData.typeCode = this.formData.type;
@@ -244,7 +272,7 @@ export default {
               this.formData.type = item.name;
             }
           })
-          api.addOrUpdateContractPayment(this.formData).then((res) => {
+          api.addOrUpdatePlanConstructionDesign(this.formData).then((res) => {
             if (res.data) {
               this.$message({
                 type: 'success',
@@ -269,5 +297,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "src/assets/css/dialog";
+  @import "src/assets/css/dialog";
 </style>
