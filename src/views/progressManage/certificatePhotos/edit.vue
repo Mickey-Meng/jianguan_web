@@ -58,10 +58,14 @@
 									</div>
 
 									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">责任人</div>
-											<div class="block-item-value">{{ formData.owner }}</div>
-										</div>
+                    <div class="block-item">
+                      <div class="block-item-label">责任人<i class="require-icon"></i></div>
+                      <div class="block-item-value">
+                        <el-form-item prop="owner">
+                          <el-input v-model="formData.owner"></el-input>
+                        </el-form-item>
+                      </div>
+                    </div>
 
 										<div class="block-item">
 											<div class="block-item-label">备注</div>
@@ -114,6 +118,11 @@ export default {
       dialogFormVisible: false,
       partOptions:[],
       rules: {
+        owner: [{
+          required: true,
+          message: '请输入责任人',
+          trigger: 'blur'
+        }],
         attachment: [{
           required: true,
           message: '请上传附件',
@@ -127,6 +136,7 @@ export default {
       },
       formData: { //表单参数
         id: undefined,
+        owner: undefined,
         attachment: []
       },
       attachTable: [], //附件
@@ -210,11 +220,12 @@ export default {
           this.formData.attachment = this.attachTable;
           this.formData.auditUser = this.auditUser;
           this.formData.draftFlag = 1;
+          /**
           this.dataDictionaryList.forEach(item=> {
             if(item.id === this.formData.type) {
               this.formData.type = item.name;
             }
-          })
+          }) **/
           api.addOrUpdateProgressCertificatePhotos(this.formData).then((res) => {
             if (res.data) {
               this.$message({

@@ -434,7 +434,7 @@ export const asyncRoutes = [
         }
       ]
     }
-  
+
   ]
   },
   {
@@ -836,6 +836,19 @@ export const asyncRoutes = [
           noMap: true
         }
       },
+        {
+          path: "/constructionPrototype",
+          name: "constructionPrototype",
+          component: () => import("@/views/constructionPrototype/constructionPrototype"),
+          meta: {
+            title: "施工样板",
+            code: "constructionPrototype",
+            icon: "circle",
+            allMap: false,
+            partMap: false,
+            noMap: true
+          }
+        },
         {
           path: "/processCheck",
           name: "processCheck",

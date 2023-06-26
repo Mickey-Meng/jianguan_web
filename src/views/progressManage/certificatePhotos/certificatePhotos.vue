@@ -121,8 +121,8 @@ export default {
   },
   methods: {
     editStatus(row) {
-      if(row.status && (row.status === 2 && row.status === -1)) {
-        return true;
+      if(row.status == 0 || row.status == 1) {
+        return false;
       }
       if(row.createUserId == this.$store.getters.userInfo.ID) {
         return true;

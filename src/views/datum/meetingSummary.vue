@@ -32,7 +32,7 @@
             <el-button size="mini" type="primary"  class="primary_mini"  @click="downFile(row)"
               >下载</el-button
             >
-            <el-button
+            <el-button v-if="$store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'"
               size="mini"
               type="danger"
               @click="handleDelete(row, $index)"

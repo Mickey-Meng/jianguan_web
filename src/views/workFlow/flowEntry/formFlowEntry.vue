@@ -16,7 +16,7 @@
 			</div>
 
 			<el-button type="primary" @click="refreshFormFlowEntry">搜索</el-button>
-      
+
 			<div class="right-btns">
 				<div class="operate-btns">
 					<el-button size="small" @click="onAddFlowEntryClick">新建</el-button>
@@ -102,7 +102,7 @@
 		</el-main>
 
 		<!-- <edit ref="edit" @refreshFormFlowEntry="refreshFormFlowEntry" :editRow="editRow"></edit> -->
-    
+
     <FormEditFlowEntry
       v-if="showFlowEntryDesign"
       :flowEntry="currentFlowEntry"
@@ -133,7 +133,7 @@ import { FlowEntryController, FlowOperationController } from '@/api/flowControll
 			FormEditFlowEntry
 		},
 		data() {
-			
+
 			return {
 				SysFlowTaskType: {
 					OTHER_TASK: {
@@ -188,7 +188,7 @@ import { FlowEntryController, FlowOperationController } from '@/api/flowControll
 				FlowEntryController.list(this.queryData).then((res) => {
 					this.allData = res.data || {};
 					this.tableData = res.data.dataList;
-          
+
 					this.queryData.pageParam.totalPage = res.data.totalCount;
 				});
 			},
@@ -264,7 +264,7 @@ import { FlowEntryController, FlowOperationController } from '@/api/flowControll
 		 * 发布
 		 */
 		onPublishedClick(row) {
-		this.$confirm('是否发布当前工作流设计？')
+		this.$confirm('重新发布工作流，会清理所有项目已经生成的节点和配置的审核人员，请谨慎操作！')
 			.then((res) => {
 			if (row.entryId == null) {
 				this.$message.error('请求失败，发现必填参数为空！');

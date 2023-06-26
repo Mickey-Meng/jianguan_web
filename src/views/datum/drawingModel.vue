@@ -15,16 +15,17 @@
           模型文件管理
         </div>
       </div>
-      <el-select
+      <el-select :default-first-option="true"
+        ref="optionRef"
         v-model="typeKey"
         v-if="currentView === 'paper'"
         @change="selectChange"
         style="width: 200px"
       >
         <el-option
-          v-for="item in typeArr"
-          :key="item.key"
-          :value="item.key"
+          v-for="item in functionary"
+          :key="item.id"
+          :value="item.id"
           :label="item.name"
         ></el-option>
       </el-select>
@@ -65,7 +66,7 @@
             <el-button size="mini" type="primary"  class="primary_mini"  @click="downFile(row)"
               >下载</el-button
             >
-            <el-button
+            <el-button v-if="$store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'"
               size="mini"
               type="danger"
               @click="handleDelete(row, $index)"
@@ -112,7 +113,7 @@
             <el-button size="mini" type="primary"  class="primary_mini"  @click="downFile(row)"
               >下载</el-button
             >
-            <el-button
+            <el-button v-if="$store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'"
               size="mini"
               type="danger"
               @click="handleDelete(row, $index)"
@@ -158,7 +159,7 @@
       </el-form>
       <div slot="footer">
         <el-button size="mini" @click="dialogVisible = false">取消</el-button>
-        <el-button size="mini" type="primary"  class="primary_mini"  @click="addFile">确定</el-button>
+        <el-button size="mini" type="primary"  class="primary_mini"  @click="addFile">确定1</el-button>
       </div>
     </el-dialog>
     <el-dialog
@@ -235,7 +236,7 @@
 </template>
 
 <script>
-import { uploadF, getFile, deleteFile, updateFileInfo } from "@/api/file";
+import {uploadF, getFile, deleteFile, updateFileInfo, getFileDictByPCode} from "@/api/file";
 import { downLoadFile } from "@/utils/download";
 import {mapGetters} from "vuex";
 export default {
@@ -245,33 +246,19 @@ export default {
       tableData: [],
       modelData: [],
       currentView: "paper", //model
-      typeKey: 4,
+      typeKey: "",
       diaTitle: "",
       dialogVisible: false,
       modelDialogVisible: false,
       isCreate: false,
       typeText: "",
-      typeArr: [
-        {
-          name: "桥梁图纸文件",
-          key: 4,
-        },
-        {
-          name: "道路图纸文件",
-          key: 5,
-        },
-        {
-          name: "管线图纸文件",
-          key: 6,
-        },
-      ],
       form: {
         fileurl: "", //文件url
         uploadname: "", //文件名称
         uploadtype: "", //文件类型
         uploadusername: "", //上传人
         changereason: "", //变更事由
-        type: 4, //类型
+        type: "", //类型
         distiancename: "", //标段名称
         changecontent: "", //更新内容
         isutf: "0", //是否编码
@@ -301,12 +288,20 @@ export default {
   },
   methods: {
     init() {
+      this.pCode = 'gclx';
+      getFileDictByPCode(this.pCode).then((res) => {
+        this.functionary = res.data;
+      }).catch(function (error) {
+      });
+
       getFile(this.typeKey,this.project.id).then((res) => {
         this.tableData = res.data;
       });
     },
     selectChange() {
-      this.init();
+      getFile(this.typeKey,this.project.id).then((res) => {
+        this.tableData = res.data;
+      });
     },
     downFile(row) {
       downLoadFile(row.fileurl);
@@ -332,18 +327,8 @@ export default {
     showEditPaper(row) {
       this.isCreate = false;
       this.form = Object.assign({}, row);
-      this.diaTitle =
-        this.typeKey === 4
-          ? "修改桥梁图纸文件"
-          : this.typeKey === 5
-          ? "修改道路图纸文件"
-          : "修改管线图纸文件";
-      this.typeText =
-        this.typeKey === 4
-          ? "桥梁图纸文件"
-          : this.typeKey === 5
-          ? "道路图纸文件"
-          : "管线图纸文件";
+      this.diaTitle = this.$refs.optionRef.selected.label
+      this.typeText = this.$refs.optionRef.selected.label
       this.dialogVisible = true;
     },
     showDialog() {
@@ -365,18 +350,9 @@ export default {
         projectId: this.project.id
       };
       this.dialogVisible = true;
-      this.diaTitle =
-        this.typeKey === 4
-          ? "上传桥梁图纸文件"
-          : this.typeKey === 5
-          ? "上传道路图纸文件"
-          : "上传管线图纸文件";
-      this.typeText =
-        this.typeKey === 4
-          ? "桥梁图纸文件"
-          : this.typeKey === 5
-          ? "道路图纸文件"
-          : "管线图纸文件";
+      this.diaTitle = this.$refs.optionRef.selected.label
+      this.typeText = this.$refs.optionRef.selected.label;
+
     },
 
     showModelDialog() {

@@ -1,40 +1,20 @@
-<!--
- * @Descripttion:进度管理-施工图管理
- * @version:
- * @Author: WangHarry
- * @Date: 2023-6-19 20:59:08
- * @LastEditors: mengzhengbin
- * @LastEditTime: 2023-6-19 20:59:16
--->
 <template>
   <el-container class="container-box">
     <el-header>
-      <div class="input-box">
-        <div class="input-value">
-          <el-input v-model="queryData.name" placeholder="施工图名称"></el-input>
+      <div v-if="!isDraft" class="left-btns">
+        <div class="operate-btns" v-show="operateBtnsVisible">
+          <el-button size="small" @click="addNew">新增</el-button>
         </div>
       </div>
-      <div class="input-box">
-        <div class="input-value">
-          <el-input v-model="queryData.status" placeholder="审核状态"></el-input>
-        </div>
-      </div>
-      <el-button type="primary" @click="query">搜索</el-button>      
     </el-header>
     <el-main>
       <div class="container">
-        <el-table :data="tableData" style="width: 100%" border height="calc(100% - 48px)"
-                  class="have_scrolling">
+        <el-table :data="tableData" style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
           <el-table-column type="index" width="50" align="center" label="序号">
           </el-table-column>
-          <el-table-column prop="name" align="center" label="施工图名称" show-overflow-tooltip></el-table-column>
-          <el-table-column prop="contents" align="center" label="施工图内容" show-overflow-tooltip></el-table-column>
-          <el-table-column prop="startTime" align="center" label="计划开始时间" show-overflow-tooltip></el-table-column>
-          <el-table-column prop="endTime" align="center" label="计划结束时间" show-overflow-tooltip></el-table-column>
-          <el-table-column prop="reportTime" align="center" label="上报时间" show-overflow-tooltip></el-table-column>
-          <el-table-column prop="reportUser" align="center" label="上报人" show-overflow-tooltip></el-table-column>
-          <el-table-column prop="owner" align="center" label="责任人" show-overflow-tooltip></el-table-column>
-          <el-table-column prop="attachment" align="center" label="附件" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="content" align="center" label="施工样板内容" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="reportPeople" align="center" label="上传人" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="reportTime" align="center" label="上传时间" show-overflow-tooltip></el-table-column>
           <el-table-column prop="status" align="center" label="审核状态" show-overflow-tooltip>
             <template slot-scope="scope">
               <el-tag
@@ -62,8 +42,9 @@
           </el-table-column>
           <el-table-column fixed="right" width="120" align="center" label="操作">
             <template slot-scope="{ row, $index }">
-              <el-button v-if="editStatus(row)"  type="text" size="mini" @click="modify(row)">上传附件</el-button>
+              <el-button v-if="editStatus(row)"  type="text" size="mini" @click="modify(row)">修改</el-button>
               <el-button type="text" size="mini" @click="viewDetail(row)">详情</el-button>
+              <el-button v-if="$store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'" type="text" size="mini" @click="deleteRow(row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -80,9 +61,9 @@
 </template>
 
 <script>
-import * as api from "@/api/constructionDesign/progressConstructionDesign";
-import edit from './edit.vue';
-import detail from './detail';
+import * as api from "@/api/constructionPrototype.js";
+import edit from '../dailyReport/edit.vue';
+import detail from '../dailyReport/detail.vue';
 
 export default {
   props:{
@@ -101,8 +82,6 @@ export default {
       tableData: [],
       operateBtnsVisible: true,
       queryData: { //查询参数
-        name: '',
-        status: '',
         pageNum: 1,
         totalPage: 1,
         pageSize: 10,
@@ -121,7 +100,7 @@ export default {
   },
   methods: {
     editStatus(row) {
-      if(row.status == 0 || row.status == 1) {
+      if(row.status != 2) {
         return false;
       }
       if(row.createUserId == this.$store.getters.userInfo.ID) {
@@ -134,7 +113,7 @@ export default {
     },
     query() {
       this.queryData.draftFlag=this.isDraft?0:1;
-      api.getProgressConstructionDesignList(this.queryData).then((res) => {
+      api.getConstructionPrototypeList(this.queryData).then((res) => {
         this.allData = res.data || {};
         this.tableData = this.allData['list']||[];
         this.queryData.pageNum = res.data.pageNum;
@@ -143,11 +122,9 @@ export default {
       });
     },
     addNew() {
-      // this.editRow = null;
       this.$refs.edit.changeVisible(null,true);
     },
     modify(row) {
-      // this.editRow = row;
       this.$refs.edit.changeVisible(row,true);
     },
     viewDetail(row) {
@@ -160,7 +137,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        api.deleteProgressConstructionDesign(row['id']).then((res) => {
+        api.deleteConstructionPrototype(row['id']).then((res) => {
           if (this.tableData.length == 1) {
             this.queryData.pageNum = this.queryData.pageNum> 1 ? this.queryData.pageNum - 1 : 1
           }
@@ -189,5 +166,5 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@import "../../../assets/css/table.scss"
+@import "../../assets/css/table"
 </style>
