@@ -159,7 +159,7 @@
       </el-form>
       <div slot="footer">
         <el-button size="mini" @click="dialogVisible = false">取消</el-button>
-        <el-button size="mini" type="primary"  class="primary_mini"  @click="addFile">确定1</el-button>
+        <el-button size="mini" type="primary"  class="primary_mini"  @click="addFile">确定</el-button>
       </div>
     </el-dialog>
     <el-dialog

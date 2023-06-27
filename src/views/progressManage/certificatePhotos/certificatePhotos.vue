@@ -16,7 +16,15 @@
       </div>
       <div class="input-box">
         <div class="input-value">
-          <el-input v-model="queryData.status" placeholder="审核状态"></el-input>
+          <el-select v-model="queryData.status" placeholder="请选择审核状态">
+            <el-option 
+              v-for="item in statusOptions"
+              :key="item.value"
+              :value="item.value"
+              :label="item.label"
+            >
+            </el-option>
+          </el-select>
         </div>
       </div>
       <el-button type="primary" @click="query">搜索</el-button>      
@@ -97,6 +105,11 @@ export default {
   },
   data() {
     return {
+      statusOptions: [
+        { value: "0", label: "审批中" },
+        { value: "1", label: "已审批" },
+        { value: "2", label: "驳回" },
+      ],
       allData: [],
       tableData: [],
       operateBtnsVisible: true,

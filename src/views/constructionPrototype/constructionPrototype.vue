@@ -62,8 +62,8 @@
 
 <script>
 import * as api from "@/api/constructionPrototype.js";
-import edit from '../dailyReport/edit.vue';
-import detail from '../dailyReport/detail.vue';
+import edit from '../constructionPrototype/edit.vue';
+import detail from '../constructionPrototype/detail.vue';
 
 export default {
   props:{

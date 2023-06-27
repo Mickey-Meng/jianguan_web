@@ -96,9 +96,15 @@
                     <div class="block-item">
                       <div class="block-item-label">责任人<i class="require-icon"></i></div>
                       <div class="block-item-value">
-                        <el-form-item prop="owner">
-                          <el-input v-model="formData.owner"></el-input>
-                        </el-form-item>
+                        <el-select v-model="formData.owner" placeholder="请选择责任人">
+                          <el-option 
+                            v-for="item in ownerOptions"
+                            :key="item.nickName"
+                            :value="item.nickName"
+                            :label="item.nickName"
+                          >
+                          </el-option>
+                        </el-select>
                       </div>
                     </div>
 
@@ -129,7 +135,7 @@
 
 <script>
 import * as api from "@/api/certificate/planCertificatePhotos.js";
-import { getUserInfo } from "@/api/user";
+import { getUserInfo, getUsersByProjectId } from "@/api/user";
 import upload from "../../common/upload.vue"
 import attachlist from "../../common/attachlist.vue"
 import drafthandle from "../../common/drafthandle.vue"
@@ -184,6 +190,8 @@ export default {
         owner: '',
         remark: ''
       },
+      // 责任人下拉选项值
+      ownerOptions: [],
       contractTable: [],
       contractVisible: false,
       auditUser: {},
@@ -251,6 +259,10 @@ export default {
         // this.auditUser={};
         this.approveVisible=true;
       }
+      // 根据项目ID查询其下属工区对应的所有用户信息
+      getUsersByProjectId(this.formData.projectId).then((res) => {
+        this.ownerOptions = res.data;
+      });
     },
     getDetail(id) {
       api.getPlanCertificatePhotosDetail(id).then((res) => {

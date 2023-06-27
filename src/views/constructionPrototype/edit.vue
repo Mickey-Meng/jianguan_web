@@ -17,7 +17,7 @@
                   </div>
                   <div class="block-line">
                     <div class="block-item">
-                      <div class="block-item-label">晨检内容</div>
+                      <div class="block-item-label">施工样板内容</div>
                       <div class="block-item-value">
                         <el-form-item prop="remark">
                           <el-input v-model="formData.content"></el-input>
@@ -25,7 +25,7 @@
                       </div>
                     </div>
                     <div class="block-item">
-                      <div class="block-item-label">上报人</div>
+                      <div class="block-item-label">上传人</div>
                       <div class="block-item-value">
                         <el-form-item prop="remark">
                           <el-input v-model="formData.reportPeople"></el-input>
@@ -35,7 +35,7 @@
                   </div>
                   <div class="block-line">
                     <div class="block-item">
-                      <div class="block-item-label">上报日期</div>
+                      <div class="block-item-label">上传时间</div>
                       <div class="block-item-value">
                         <el-form-item prop="reportTime">
                           <el-date-picker value-format="yyyy-MM-dd" v-model="formData.reportTime" type="date" placeholder="请选择">
@@ -71,14 +71,13 @@
 </template>
 
 <script>
-import * as api from "@/api/ConstructionPrototype.js";
+import * as api from "@/api/constructionPrototype.js";
 import { getUserInfo } from "@/api/user";
 import upload from "../common/upload.vue"
 import attachlist from "../common/attachlist.vue"
 import drafthandle from "../common/drafthandle.vue"
 import approveuser from "../common/approveuser.vue"
 import projectinfo from "../common/projectinfo.vue"
-import { findDataDictionaryList } from "@/api/dataDictionary"
 
 export default {
   props: ['editRow'],
@@ -107,7 +106,7 @@ export default {
       contractVisible: false,
       auditUser: {},
       approveVisible:true,
-      flowKey:'ConstructionPrototype',
+      flowKey:'constructionPrototype',
       dataDictionaryList: []
     };
   },
@@ -118,7 +117,7 @@ export default {
     drafthandle,
     approveuser,
     projectinfo,
-    payment: () => import("../dailyReport/constructionPrototype.vue")
+    payment: () => import("../constructionPrototype/constructionPrototype.vue")
   },
   computed: {},
   mounted() {
@@ -190,6 +189,7 @@ export default {
     },
     addOrModify(isdraft) {
       this.$refs['ruleForm'].validate((valid) => {
+        debugger
         if (valid) {
           this.formData.attachment = this.attachTable;
           this.formData.auditUser = this.auditUser;

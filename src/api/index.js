@@ -472,6 +472,12 @@ const api = {
   getDailyReportList: "/web/api/v1/daily_report/page",
   getDailyReportListNoPage: "/web/api/v1/daily_report/list",
 
+  // ConstructionPrototype
+  addOrUpdateConstructionPrototype: "/web/api/v1/construction_prototype/addOrUpdate",
+  getConstructionPrototypeDetail: "/web/api/v1/construction_prototype/detail/id",
+  deleteConstructionPrototype: "/web/api/v1/construction_prototype/id",
+  getConstructionPrototypeList: "/web/api/v1/construction_prototype/page",
+  getConstructionPrototypeListNoPage: "/web/api/v1/construction_prototype/list",
 
   // 计划管理-证照管理
   addOrUpdatePlanCertificatePhotos: "/web/api/v1/certificate/plan/addOrUpdate",
@@ -486,7 +492,7 @@ const api = {
   deleteProgressCertificatePhotos: "/web/api/v1/certificate/progress/id",
   getProgressCertificatePhotosList: "/web/api/v1/certificate/progress/page",
   getProgressCertificatePhotosListNoPage: "/web/api/v1/certificate/progress/list",
-  
+
   // 计划申报-施工图设计
   addOrUpdatePlanConstructionDesign: "/web/api/v1/constructionDesign/plan/addOrUpdate",
   getPlanConstructionDesignDetail: "/web/api/v1/constructionDesign/plan/detail/id",

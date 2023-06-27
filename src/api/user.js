@@ -152,3 +152,10 @@ export const getDayOnLineData = (date) => {
     method: "post"
   });
 };
+
+export const getUsersByProjectId = (projectId) => {
+  return request({
+    url: `/userProject/getUsersByProjectId/` + projectId,
+    method: "get"
+  });
+}

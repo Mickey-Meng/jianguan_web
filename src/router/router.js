@@ -183,6 +183,35 @@ export const constantRoutes = [{
         name: "applicationForLeave_detail",
         code: "qingjiashenqing,sgdwryqj,jldwryqj,qzdwryqj",
         component: () => import("@/views/contractManagement/leave/view")
+      },
+
+      // 计划管理-证照管理 流程审批界面
+      {
+        path: "/planCertificatePhotos_detail",
+        name: "planCertificatePhotos_detail",
+        code: "planCertificatePhotos",
+        component: () => import ("@/views/planManage/certificatePhotos/view")
+      },
+      // 进度管理-证照管理 流程审批界面
+      {
+        path: "/progressCertificatePhotos_detail",
+        name: "progressCertificatePhotos_detail",
+        code: "progressCertificatePhotos",
+        component: () => import ("@/views/progressManage/certificatePhotos/view")
+      },
+      // 计划申报-施工图设计 流程审批界面
+      {
+        path: "/planConstructionDesign_detail",
+        name: "planConstructionDesign_detail",
+        code: "planConstructionDesign",
+        component: () => import ("@/views/planApplyReview/constructionDesign/view")
+      },
+      // 进度管理-施工图设计 流程审批界面
+      {
+        path: "/progressConstructionDesign_detail",
+        name: "progressConstructionDesign_detail",
+        code: "progressConstructionDesign",
+        component: () => import ("@/views/progressApplyReview/constructionDesign/view")
       }
     ]
   },
