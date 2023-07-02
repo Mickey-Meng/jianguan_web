@@ -11,121 +11,93 @@
           <div class="form-bg">
             <div class="form-content">
               <el-form :model="formData" :rules="rules" ref="ruleForm" label-width="80px">
-                <div class="form-title">
-                  <div class="title-big-bar"></div>
-                  <strong>计划申报-施工图管理</strong>
-                </div>
-
                 <div class="form-block">
                   <div class="form-block-title">
                     <div class="title-bar"></div><strong>基本信息</strong>
                   </div>
                   <div class="block-line">
-
                     <div class="block-item">
-                      <div class="block-item-label">施工图名称<i class="require-icon"></i></div>
+                      <div class="block-item-label">施工方案名称</div>
                       <div class="block-item-value">
-                        <el-form-item prop="name">
+                        <el-form-item prop="remark">
                           <el-input v-model="formData.name"></el-input>
                         </el-form-item>
                       </div>
                     </div>
-
                     <div class="block-item">
-                      <div class="block-item-label">施工图内容<i class="require-icon"></i></div>
+                      <div class="block-item-label">施工方案内容</div>
                       <div class="block-item-value">
-                        <el-form-item prop="contents">
-                          <el-input v-model="formData.contents"></el-input>
+                        <el-form-item prop="remark">
+                          <el-input v-model="formData.content"></el-input>
                         </el-form-item>
                       </div>
                     </div>
-
                   </div>
-
-
                   <div class="block-line">
                     <div class="block-item">
                       <div class="block-item-label">计划开始时间</div>
                       <div class="block-item-value">
-                        <el-form-item prop="startTime">
-                          <el-date-picker value-format="yyyy-MM-dd" v-model="formData.startTime" type="date"
-                                          placeholder="请选择">
+                        <el-form-item prop="plainStartTime">
+                          <el-date-picker value-format="yyyy-MM-dd" v-model="formData.plainStartTime" type="date" placeholder="请选择">
                           </el-date-picker>
                         </el-form-item>
                       </div>
                     </div>
-
                     <div class="block-item">
                       <div class="block-item-label">计划结束时间</div>
                       <div class="block-item-value">
-                        <el-form-item prop="endTime">
-                          <el-date-picker value-format="yyyy-MM-dd" v-model="formData.endTime" type="date"
-                                          placeholder="请选择">
+                        <el-form-item prop="plainEndTime">
+                          <el-date-picker value-format="yyyy-MM-dd" v-model="formData.plainEndTime" type="date" placeholder="请选择">
                           </el-date-picker>
                         </el-form-item>
                       </div>
                     </div>
-
                   </div>
-
-
                   <div class="block-line">
                     <div class="block-item">
                       <div class="block-item-label">上报时间</div>
                       <div class="block-item-value">
                         <el-form-item prop="reportTime">
-                          <el-date-picker value-format="yyyy-MM-dd" v-model="formData.reportTime" type="date"
-                                          placeholder="请选择">
+                          <el-date-picker value-format="yyyy-MM-dd" v-model="formData.reportTime" type="date" placeholder="请选择">
                           </el-date-picker>
                         </el-form-item>
                       </div>
                     </div>
-
                     <div class="block-item">
-                      <div class="block-item-label">上报人<i class="require-icon"></i></div>
+                      <div class="block-item-label">上报人</div>
                       <div class="block-item-value">
-                        <el-form-item prop="reportUser">
-                          <el-input v-model="formData.reportUser"></el-input>
+                        <el-form-item prop="remark">
+                          <el-input v-model="formData.reportPeople"></el-input>
                         </el-form-item>
                       </div>
                     </div>
-
                   </div>
-
                   <div class="block-line">
                     <div class="block-item">
-                      <div class="block-item-label">责任人<i class="require-icon"></i></div>
-                      <div class="block-item-value">
-                        <el-select v-model="formData.owner"
-                          filterable
-                          clearable
-                          placeholder="请选择责任人">
-                          <el-option
-                            v-for="item in ownerOptions"
-                            :key="item.userId"
-                            :value="item.userId + '&' + item.nickName"
-                            :label="item.nickName + '(' + item.roleName + ')'"
-                          >
-                          </el-option>
-                        </el-select>
-                      </div>
-                    </div>
-
-                    <div class="block-item">
-                      <div class="block-item-label">备注<i class="require-icon"></i></div>
+                      <div class="block-item-label">责任人</div>
                       <div class="block-item-value">
                         <el-form-item prop="remark">
-                          <el-input v-model="formData.remark"></el-input>
+                          <el-input v-model="formData.responsiblePerson"></el-input>
                         </el-form-item>
                       </div>
                     </div>
                   </div>
                 </div>
+                <div class="form-block">
+<!--                  <div class="form-block-title">-->
+<!--                    <div class="title-bar"></div><strong>附件</strong>-->
+<!--                    <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc-->
+<!--											xisx xis pdf文件，且不超过100m</span>-->
+<!--                  </div>-->
+<!--                  <attachlist :editAble="true" ref="attachlist" :attachTable="attachTable"></attachlist>-->
+                </div>
 
-                <approveuser v-if="approveVisible" :auditUser="auditUser"  :flowKey="flowKey"></approveuser>
+                <approveuser v-if="approveVisible" :auditUser="auditUser"  :flowKey="flowKey">
+                </approveuser>
 
                 <div class="form-block">
-                  <el-button @click="addOrModify()" class="submit-btn" size="small" type="primary">提交</el-button>
+                  <el-button @click="addOrModify()" class="submit-btn" size="small" type="primary">提交
+                  </el-button>
                 </div>
               </el-form>
             </div>
@@ -137,15 +109,13 @@
 </template>
 
 <script>
-import * as api from "@/api/constructionDesign/planConstructionDesign.js";
-import { mapGetters } from "vuex";
-import { getUserInfo, getUsersByProjectId } from "@/api/user";
-import upload from "../../common/upload.vue"
-import attachlist from "../../common/attachlist.vue"
-import drafthandle from "../../common/drafthandle.vue"
-import approveuser from "../../common/approveuser.vue"
-import projectinfo from "../../common/projectinfo.vue"
-import { findDataDictionaryList } from "@/api/dataDictionary"
+import * as api from "@/api/constructionPlan.js";
+import { getUserInfo } from "@/api/user";
+import upload from "../common/upload.vue"
+import attachlist from "../common/attachlist.vue"
+import drafthandle from "../common/drafthandle.vue"
+import approveuser from "../common/approveuser.vue"
+import projectinfo from "../common/projectinfo.vue"
 
 export default {
   props: ['editRow'],
@@ -157,27 +127,6 @@ export default {
       dialogFormVisible: false,
       partOptions:[],
       rules: {
-        name: [{
-          required: true,
-          message: '请填写施工图名称',
-          trigger: 'blur'
-        }],
-        contents:[{
-          required: true,
-          message: '请填写施工图内容'
-        }],
-        startTime:[{
-          required: true,
-          message: '请填写计划开始时间'
-        }],
-        endTime:[{
-          required: true,
-          message: '请填写计划结束时间'
-        }],
-        reportTime:[{
-          required: true,
-          message: '请填写上报时间'
-        }]
       },
       userInfo: {
         userName: ''
@@ -185,37 +134,36 @@ export default {
       baseInfo: {
       },
       formData: { //表单参数
-        name: '',
-        contents: '',
-        startTime: null,
-        endTime: null,
-        reportTime: null,
-        reportUser: '',
-        owner: '',
-        remark: ''
+        content: '',
+        name:'',
+        plainStartTime:'',
+        plainEndTime:'',
+        responsiblePerson:'',
+        reportPeople: '',
+        reportTime: null
       },
-      // 责任人下拉选项值
-      ownerOptions: [],
+      attachTable: [], //附件
       contractTable: [],
       contractVisible: false,
       auditUser: {},
       approveVisible:true,
-      flowKey:'planConstructionDesign',
+      flowKey:'constructionPlan',
       dataDictionaryList: []
     };
   },
   created() {},
   components: {
+    upload,
+    attachlist,
     drafthandle,
     approveuser,
     projectinfo,
-    payment: () => import("./constructionDesign.vue")
+    payment: () => import("../constructionPlan/constructionPlan.vue")
   },
-  computed: {
-    ...mapGetters(["userInfo", "name", "project", "roleId", "getUrl"])
-  },
+  computed: {},
   mounted() {
     this.getUserInfo();
+    this.findDataDictionarys();
   },
   watch: {
     editRow(obj) {
@@ -224,7 +172,13 @@ export default {
         this.getDetail(obj['id']);
         this.approveVisible=false;
       } else {
-        this.restForm();
+        this.formData = {
+          attachment: [],
+          content: '',
+          reportPeople: '',
+          reportTime: null,
+          projectId:this.$store.getters.project['parentid']
+        }
         this.attachTable = [];
         this.contractTable = [];
         // this.auditUser={};
@@ -233,18 +187,12 @@ export default {
     }
   },
   methods: {
-    restForm(){
-      this.formData = {
-          name: '',
-          contents: '',
-          startTime: null,
-          endTime: null,
-          reportTime: null,
-          reportUser: '',
-          owner: '',
-          remark: '',
-          projectId:this.$store.getters.project['parentid']
-        }
+    findDataDictionarys() {
+      findDataDictionaryList({"parentId": 50}).then((res)=>{
+        this.dataDictionaryList = res.data.filter(item=>{
+          return item.name != "安全文明措施费";
+        });
+      });
     },
     getUserInfo() {
       getUserInfo(localStorage.getItem('ID')).then((res) => {
@@ -260,18 +208,22 @@ export default {
         // 修改和删除操作，都可以选择审批人
         this.approveVisible=false;
       } else {
-        this.restForm();
+        this.formData = {
+          content: '',
+          name:'',
+          plainStartTime:'',
+          responsiblePerson:'',
+          reportPeople: '',
+          reportTime: null,
+          projectId:this.$store.getters.project['parentid'],
+        }
         this.attachTable = [];
         // this.auditUser={};
         this.approveVisible=true;
       }
-      // 根据项目ID查询其下属工区对应的所有用户信息
-      getUsersByProjectId(this.project.id).then((res) => {
-        this.ownerOptions = res.data;
-      });
     },
     getDetail(id) {
-      api.getPlanConstructionDesignDetail(id).then((res) => {
+      api.getConstructionPlanDetail(id).then((res) => {
         let data = res['data'] || {};
         this.formData = data;
         this.attachTable = data.attachment || [];
@@ -289,7 +241,7 @@ export default {
               this.formData.type = item.name;
             }
           })
-          api.addOrUpdatePlanConstructionDesign(this.formData).then((res) => {
+          api.addOrUpdateConstructionPlan(this.formData).then((res) => {
             if (res.data) {
               this.$message({
                 type: 'success',
@@ -314,5 +266,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  @import "src/assets/css/dialog";
+@import "../../assets/css/dialog";
 </style>

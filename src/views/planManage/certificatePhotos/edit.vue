@@ -96,12 +96,15 @@
                     <div class="block-item">
                       <div class="block-item-label">责任人<i class="require-icon"></i></div>
                       <div class="block-item-value">
-                        <el-select v-model="formData.owner" placeholder="请选择责任人">
-                          <el-option 
+                        <el-select v-model="formData.owner"
+                          filterable
+                          clearable
+                          placeholder="请选择责任人">
+                          <el-option
                             v-for="item in ownerOptions"
-                            :key="item.nickName"
-                            :value="item.nickName"
-                            :label="item.nickName"
+                            :key="item.userId"
+                            :value="item.userId + '&' + item.nickName"
+                            :label="item.nickName + '(' + item.roleName + ')'"
                           >
                           </el-option>
                         </el-select>
@@ -135,6 +138,7 @@
 
 <script>
 import * as api from "@/api/certificate/planCertificatePhotos.js";
+import { mapGetters } from "vuex";
 import { getUserInfo, getUsersByProjectId } from "@/api/user";
 import upload from "../../common/upload.vue"
 import attachlist from "../../common/attachlist.vue"
@@ -207,7 +211,9 @@ export default {
     projectinfo,
     payment: () => import("./certificatePhotos.vue")
   },
-  computed: {},
+  computed: {
+    ...mapGetters(["userInfo", "name", "project", "roleId", "getUrl"])
+  },
   mounted() {
     this.getUserInfo();
   },
@@ -260,7 +266,7 @@ export default {
         this.approveVisible=true;
       }
       // 根据项目ID查询其下属工区对应的所有用户信息
-      getUsersByProjectId(this.formData.projectId).then((res) => {
+      getUsersByProjectId(this.project.id).then((res) => {
         this.ownerOptions = res.data;
       });
     },
@@ -275,7 +281,6 @@ export default {
       this.$refs['ruleForm'].validate((valid) => {
         if (valid) {
           this.formData.attachment = this.attachTable;
-          debugger
           this.formData.auditUser = this.auditUser;
           this.formData.draftFlag=1;
           this.formData.typeCode = this.formData.type;

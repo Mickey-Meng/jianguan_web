@@ -41,14 +41,15 @@ export const getStaffByProcessIdAndProjectId = (params) => {
     params
   });
 };
-export const getStaffRecordsById = (projectId, roleType = undefined) => {
+export const getStaffRecordsById = (projectId, roleType = undefined,subName) => {
   return request({
     url: api.getStaffRecordsById,
     method: "post",
     data: {},
     params: {
       projectId,
-      roleType
+      roleType,
+      subName
     }
   });
 };

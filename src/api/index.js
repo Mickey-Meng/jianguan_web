@@ -247,9 +247,9 @@ const api = {
   getUserByRoleId: "/projects/getUserByRoleId", //通过角色id获取用户信息
   //上传文件接口
   uploadFile: "/mong/newUpload",
-  getFileInfo: "/mong/findFile",
-  downloadFile: "/mong/download", //下载文件
-  previewFile: "/mong/preview", //预览文件
+  getFileInfo: process.env.VUE_APP_BASE_API + "/mong/findFile",
+  downloadFile: process.env.VUE_APP_BASE_API + "/mong/download", //下载文件
+  previewFile: process.env.VUE_APP_BASE_API + "/mong/preview", //预览文件
   selectByPrimaryKey: "/mong/selectByPrimaryKey", //预览文件
 
   //任务
@@ -262,6 +262,7 @@ const api = {
   rejectRuntimeTask: "/admin/flow/flowOperation/rejectRuntimeTask", //驳回
   rejectToStartUserTask: "/admin/flow/flowOperation/rejectToStartUserTask",
   stopProcessInstance: "/admin/flow/flowOperation/stopProcessInstance",
+  handDeleteProcessInstance: "/admin/flow/flowOperation/handDeleteProcessInstance",
   deleteProcessInstance: "/admin/flow/flowOperation/deleteProcessInstance",
   revokeHistoricTask: "/admin/flow/flowOperation/revokeHistoricTask",
   viewTaskUserInfo: "/admin/flow/flowOperation/viewTaskUserInfo", //审批人
@@ -478,6 +479,13 @@ const api = {
   deleteConstructionPrototype: "/web/api/v1/construction_prototype/id",
   getConstructionPrototypeList: "/web/api/v1/construction_prototype/page",
   getConstructionPrototypeListNoPage: "/web/api/v1/construction_prototype/list",
+
+  // ConstructionPlan
+  addOrUpdateConstructionPlan: "/web/api/v1/construction_plan/addOrUpdate",
+  getConstructionPlanDetail: "/web/api/v1/construction_plan/detail/id",
+  deleteConstructionPlan: "/web/api/v1/construction_plan/id",
+  getConstructionPlanList: "/web/api/v1/construction_plan/page",
+  getConstructionPlanListNoPage: "/web/api/v1/construction_plan/list",
 
   // 计划管理-证照管理
   addOrUpdatePlanCertificatePhotos: "/web/api/v1/certificate/plan/addOrUpdate",

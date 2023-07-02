@@ -25,7 +25,13 @@
 					<el-input v-model="queryData.taskName" placeholder="请输入任务名称"></el-input>
 				</div>
 			</div>
-			<el-button type="primary" @click="query">搜索</el-button>
+      <div class="input-box" v-if="$store.getters.rolePerms[0] == 'gly'">
+        <div class="input-value">
+          <el-input v-model="processInstanceIdList" placeholder="输入流程id"></el-input>
+        </div>
+      </div>
+      <el-button type="primary" @click="query">搜索</el-button>
+      <el-button v-if="$store.getters.rolePerms[0] == 'gly'" type="primary" @click="deleteProcess">删除</el-button>
 		</el-header>
 		<el-main>
 			<div class="container">
@@ -73,6 +79,7 @@
 	export default {
 		data() {
 			return {
+        processInstanceIdList: "",
 				tableData: [],
 				queryData: {
 					processDefinitionName: "",
@@ -106,6 +113,14 @@
 			this.listHandleTask();
 		},
 		methods: {
+      deleteProcess() {
+        api.handDeleteProcessInstance({
+          processInstanceId: this.processInstanceIdList,
+          stopReason: '手动删除'
+        }).then(res => {
+          this.handlerClose();
+        }).catch(e => {});
+      },
 			query(page) {
                 setToken("historyData", null);
                 page= page||1;

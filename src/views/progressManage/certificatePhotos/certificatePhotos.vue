@@ -41,8 +41,8 @@
           <el-table-column prop="endTime" align="center" label="计划结束时间" show-overflow-tooltip></el-table-column>
           <el-table-column prop="reportTime" align="center" label="上报时间" show-overflow-tooltip></el-table-column>
           <el-table-column prop="reportUser" align="center" label="上报人" show-overflow-tooltip></el-table-column>
-          <el-table-column prop="owner" align="center" label="责任人" show-overflow-tooltip></el-table-column>
-          <el-table-column prop="attachment" align="center" label="附件" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="ownerName" align="center" label="责任人" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="attachmentNames" align="center" label="附件" show-overflow-tooltip></el-table-column>
           <el-table-column prop="status" align="center" label="审核状态" show-overflow-tooltip>
             <template slot-scope="scope">
               <el-tag
@@ -70,7 +70,7 @@
           </el-table-column>
           <el-table-column fixed="right" width="120" align="center" label="操作">
             <template slot-scope="{ row, $index }">
-              <el-button v-if="editStatus(row)"  type="text" size="mini" @click="modify(row)">上传附件</el-button>
+              <el-button v-if="uploadRowFile(row)"  type="text" size="mini" @click="modify(row)">上传附件</el-button>
               <el-button type="text" size="mini" @click="viewDetail(row)">详情</el-button>
             </template>
           </el-table-column>
@@ -133,14 +133,11 @@ export default {
     this.query();
   },
   methods: {
-    editStatus(row) {
+    uploadRowFile(row) {
       if(row.status == 0 || row.status == 1) {
         return false;
       }
-      if(row.createUserId == this.$store.getters.userInfo.ID) {
-        return true;
-      }
-      if(this.$store.getters.rolePerms[0] == 'gly') {
+      if(row.ownerId == this.$store.getters.userInfo.ID) {
         return true;
       }
       return false;

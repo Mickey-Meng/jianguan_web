@@ -323,6 +323,7 @@ const actions = {
           if (codesRights.indexOf(tmp.path) !== -1) {
             if (tmp.children) {
               tmp.children = filterAsyncRouter(tmp.children, codesRights);
+              if (tmp.children.length > 0) tmp.redirect = tmp.children[0].path; // 默认重定向到筛选后的第一个子节点路由
             }
             res.push(tmp);
           }

@@ -623,6 +623,23 @@ export const stopProcessInstance = data => {
   });
 };
 
+export const deleteProcessInstance = data => {
+  return request({
+    url: api.deleteProcessInstance,
+    method: "post",
+    data: data
+  });
+};
+
+export const handDeleteProcessInstance = data => {
+  return request({
+    url: api.handDeleteProcessInstance,
+    method: "post",
+    data: data
+  });
+};
+
+
 /**
  * 获取流程列表
  */

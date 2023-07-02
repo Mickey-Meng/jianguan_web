@@ -61,15 +61,7 @@
                     <div class="block-item">
                       <div class="block-item-label">责任人<i class="require-icon"></i></div>
                       <div class="block-item-value">
-                        <el-select v-model="formData.owner" placeholder="请选择责任人">
-                          <el-option 
-                            v-for="item in ownerOptions"
-                            :key="item.nickName"
-                            :value="item.nickName"
-                            :label="item.nickName"
-                          >
-                          </el-option>
-                        </el-select>
+                        <div class="block-item-value">{{ formData.ownerName }}</div>
                       </div>
                     </div>
 
@@ -106,6 +98,7 @@
 
 <script>
 import * as api from "@/api/constructionDesign/progressConstructionDesign.js";
+import { mapGetters } from "vuex";
 import { getUserInfo, getUsersByProjectId } from "@/api/user";
 import upload from "../../common/upload.vue"
 import attachlist from "../../common/attachlist.vue"
@@ -163,7 +156,9 @@ export default {
     projectinfo,
     payment: () => import("./constructionDesign.vue")
   },
-  computed: {},
+  computed: {
+    ...mapGetters(["userInfo", "name", "project", "roleId", "getUrl"])
+  },
   mounted() {
     this.getUserInfo();
     this.findDataDictionarys();
@@ -215,7 +210,7 @@ export default {
         });
       }
       // 根据项目ID查询其下属工区对应的所有用户信息
-      getUsersByProjectId(this.formData.projectId).then((res) => {
+      getUsersByProjectId(this.project.id).then((res) => {
         this.ownerOptions = res.data;
       });
     },

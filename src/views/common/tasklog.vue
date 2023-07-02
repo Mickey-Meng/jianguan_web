@@ -2,8 +2,8 @@
 	<div>
 		<div class="log-btns">
 			<el-button size="medium" @click="createFlow">流程图</el-button>
-			<el-button class="print-btn" size="medium" type="primary">打印预览</el-button>
-			<el-button class="print-select-btn" size="medium" type="primary" icon="el-icon-arrow-down">
+			<el-button v-if="false" class="print-btn" size="medium" type="primary">打印预览</el-button>
+			<el-button v-if="false" class="print-select-btn" size="medium" type="primary" icon="el-icon-arrow-down">
 			</el-button>
 		</div>
 		<div class="log-content">

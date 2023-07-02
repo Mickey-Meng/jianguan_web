@@ -51,7 +51,7 @@
           <div class="block-line">
             <div class="block-item">
               <div class="block-item-label">责任人</div>
-              <div class="block-item-value">{{ formData.owner }}</div>
+              <div class="block-item-value">{{ formData.ownerName }}</div>
             </div>
 
             <div class="block-item">

@@ -65,7 +65,7 @@
           <el-table-column prop="identityId" label="身份证号"></el-table-column>
           <el-table-column prop="certificateName" label="证件名称"></el-table-column>
           <el-table-column prop="approvalTime" label="进场时间"></el-table-column>
-          <el-table-column label="退场时间"></el-table-column>
+<!--          <el-table-column label="退场时间"></el-table-column>-->
           <el-table-column label="脸部照片">
             <template slot-scope="{row}">
               <img-viewer :img-list="[row.newPeoplePic]" v-if="row.peoplePic"></img-viewer>
@@ -80,7 +80,7 @@
           <el-table-column label="操作">
             <template slot-scope="{row,$index}">
               <el-button type="text" size="mini" @click="seeDetail(row)">详情</el-button>
-              <el-button type="text" size="mini">退场</el-button>
+<!--              <el-button type="text" size="mini">退场</el-button>-->
               <el-button type="text" size="mini" v-if="rolePerms[0] =='gly'" @click="deleteInfo(row,$index)">删除</el-button>
             </template>
           </el-table-column>
@@ -244,11 +244,11 @@
           {
             name: "监理单位",
             value: 2
-          },
+          }/*,
           {
             name: "全咨单位",
             value: 3
-          }
+          }*/
         ],
         dialogTitle: "全生命周期智慧建设管理平台",
         dialogFormVisible: false,
@@ -277,7 +277,7 @@
       init() {
         let {selectValue, subDate, subName} = this.queryData;
         let type = selectValue === 10 ? undefined : selectValue;
-        getStaffRecordsById(this.project.id, type).then(res => {
+        getStaffRecordsById(this.project.id, type,subName).then(res => {
           let lists = [];
           let data = res?.data || [];
           if (data && data.length > 0) {

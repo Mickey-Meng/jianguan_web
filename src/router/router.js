@@ -135,7 +135,18 @@ export const constantRoutes = [{
       name: "dailyReport_detail",
       code: "dailyReport",
       component: () => import("@/views/dailyReport/view")
-    }, {
+    },
+      {
+        path: "/constructionPrototype_detail",
+        name: "constructionPrototype_detail",
+        code: "constructionPrototype",
+        component: () => import("@/views/constructionPrototype/view")
+      }, {
+        path: "/constructionPlan_detail",
+        name: "constructionPlan_detail",
+        code: "constructionPlan",
+        component: () => import("@/views/constructionPlan/view")
+      },{
       path: "/contractPayment_detail",
       name: "contractPayment_detail",
       code: "contractPayment",
@@ -879,6 +890,19 @@ export const asyncRoutes = [
           }
         },
         {
+          path: "/constructionPlan",
+          name: "constructionPlan",
+          component: () => import("@/views/constructionPlan/constructionPlan"),
+          meta: {
+            title: "施工方案计划",
+            code: "constructionPlan",
+            icon: "circle",
+            allMap: false,
+            partMap: false,
+            noMap: true
+          }
+        },
+        {
           path: "/processCheck",
           name: "processCheck",
           component: () => import("@/views/quality/processCheck"),
@@ -1323,58 +1347,6 @@ export const asyncRoutes = [
           }
         },
         {
-          path: "/supervisordptFM",
-          name: "supervisordptFM",
-          component: () => import("@/views/datum/supervisordptFM"),
-          meta: {
-            title: "监理资料管理",
-            code: "supervisordptFM",
-            icon: "circle",
-            allMap: false,
-            partMap: false,
-            noMap: true
-          }
-        },
-        {
-          path: "/auditUnitdptFM",
-          name: "auditUnitdptFM",
-          component: () => import("@/views/datum/auditUnitdptFM"),
-          meta: {
-            title: "审计资料管理",
-            code: "auditUnitdptFM",
-            icon: "circle",
-            allMap: false,
-            partMap: false,
-            noMap: true
-          }
-        },
-        {
-          path: "/constructdptFM",
-          name: "constructdptFM",
-          component: () => import("@/views/datum/constructdptFM"),
-          meta: {
-            title: "施工资料管理",
-            code: "constructdptFM",
-            icon: "circle",
-            allMap: false,
-            partMap: false,
-            noMap: true
-          }
-        },
-        {
-          path: "/thirdTestingUnitFM",
-          name: "thirdTestingUnitFM",
-          component: () => import("@/views/datum/thirdTestingUnitFM"),
-          meta: {
-            title: "第三方检测资料管理",
-            code: "thirdTestingUnitFM",
-            icon: "circle",
-            allMap: false,
-            partMap: false,
-            noMap: true
-          }
-        },
-        {
           path: "/safeStudy",
           name: "safeStudy",
           component: () => import("@/views/datum/safeStudy"),
@@ -1529,6 +1501,69 @@ export const asyncRoutes = [
           // }
         ]
       }, {
+        path: "/dailyFileManager",
+        meta: {
+          title: "日常资料管理",
+          icon: "education",
+          code: "dailyManagerFile"
+        },
+        redirect: "/supervisordptFM",
+        alwaysShow: true,
+        "component": ParentView,
+        children: [
+          {
+            path: "/supervisordptFM",
+            name: "supervisordptFM",
+            component: () => import("@/views/datum/supervisordptFM"),
+            meta: {
+              title: "监理资料管理",
+              code: "supervisordptFM",
+              icon: "circle",
+              allMap: false,
+              partMap: false,
+              noMap: true
+            }
+          },
+          {
+            path: "/auditUnitdptFM",
+            name: "auditUnitdptFM",
+            component: () => import("@/views/datum/auditUnitdptFM"),
+            meta: {
+              title: "审计资料管理",
+              code: "auditUnitdptFM",
+              icon: "circle",
+              allMap: false,
+              partMap: false,
+              noMap: true
+            }
+          },
+          {
+            path: "/constructdptFM",
+            name: "constructdptFM",
+            component: () => import("@/views/datum/constructdptFM"),
+            meta: {
+              title: "施工资料管理",
+              code: "constructdptFM",
+              icon: "circle",
+              allMap: false,
+              partMap: false,
+              noMap: true
+            }
+          },
+          {
+            path: "/thirdTestingUnitFM",
+            name: "thirdTestingUnitFM",
+            component: () => import("@/views/datum/thirdTestingUnitFM"),
+            meta: {
+              title: "第三方检测资料管理",
+              code: "thirdTestingUnitFM",
+              icon: "circle",
+              allMap: false,
+              partMap: false,
+              noMap: true
+            }
+          }]
+      },{
         path: "/datum",
         meta: {
           title: "档案管理",

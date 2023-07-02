@@ -596,13 +596,13 @@ export default {
     zeh = window.zeh;
     // am = zeh.earth.createEntityManager();
     // bm = zeh.earth.createEntityManager();
-    em = zeh.earth.createEntityManager();
-    dm = zeh.earth.createEntityManager();
-    drawTool = zeh.drawTool;
+    // em = zeh.earth.createEntityManager();
+    // dm = zeh.earth.createEntityManager();
+    // drawTool = zeh.drawTool;
 
     // zeh.viewer.scene.postRender.addEventListener(this.mapChange);
-    terrain = zeh.layers.getLayerByName("诸暨地形");
-    this.initData();
+    // terrain = zeh.layers.getLayerByName("诸暨地形");
+    // this.initData();
     Bus.$on("getComponentProgress", (id) => {
       let route = this.$route;
       if (route.name === "sceneOverview") {

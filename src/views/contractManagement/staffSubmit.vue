@@ -120,10 +120,16 @@
                           <el-input v-show="false" v-model="form.id" readonly></el-input>
                         </div>
                       </div>
+                      <div class="block-item">
+                        <div class="block-item-label">是否自管</div>
+                        <div class="block-item-value">
+                          {{ project.isauto === 1 ? "自管" : "非自管" }}
+                        </div>
+                      </div>
                     </div>
                     <div class="block-line">
                       <div class="block-item">
-                        <div class="block-item-label">报审日期</div>
+                        <div class="block-item-label">进场时间</div>
                         <div class="block-item-value">
                           <el-date-picker
                             v-model="form.subDate"
@@ -147,14 +153,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="block-line">
-                      <div class="block-item">
-                        <div class="block-item-label">是否自管</div>
-                        <div class="block-item-value">
-                          {{ project.isauto === 1 ? "自管" : "非自管" }}
-                        </div>
-                      </div>
-                    </div>
+
                   </div>
                   <div class="form-block">
                     <div class="form-block-title">

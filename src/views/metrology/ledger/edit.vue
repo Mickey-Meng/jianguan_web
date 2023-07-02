@@ -241,7 +241,7 @@ import projectinfo from "../../common/projectinfo.vue"
 				obj=obj||{};
 				if (obj['id']) {
 					this.getDetail(obj['id']);
-                    this.approveVisible=false;
+          this.approveVisible=false;
 				} else {
 					this.formData = {
 						attachment: [],
@@ -275,7 +275,7 @@ import projectinfo from "../../common/projectinfo.vue"
 				if (obj['id']) {
 					this.getDetail(obj['id']);
 					// 修改和删除操作，都可以选择审批人
-					// this.approveVisible=false;
+					this.approveVisible=false;
 				} else {
 					this.formData = {
 						attachment: [],

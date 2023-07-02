@@ -189,7 +189,6 @@ export default {
     },
     addOrModify(isdraft) {
       this.$refs['ruleForm'].validate((valid) => {
-        debugger
         if (valid) {
           this.formData.attachment = this.attachTable;
           this.formData.auditUser = this.auditUser;

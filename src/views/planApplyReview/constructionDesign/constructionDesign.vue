@@ -47,7 +47,7 @@
           <el-table-column prop="endTime" align="center" label="计划结束时间" show-overflow-tooltip></el-table-column>
           <el-table-column prop="reportTime" align="center" label="上报时间" show-overflow-tooltip></el-table-column>
           <el-table-column prop="reportUser" align="center" label="上报人" show-overflow-tooltip></el-table-column>
-          <el-table-column prop="owner" align="center" label="责任人" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="ownerName" align="center" label="责任人" show-overflow-tooltip></el-table-column>
           <el-table-column prop="status" align="center" label="审核状态" show-overflow-tooltip>
             <template slot-scope="scope">
               <el-tag
@@ -77,7 +77,7 @@
             <template slot-scope="{ row, $index }">
               <el-button v-if="editStatus(row)" type="text" size="mini" @click="modify(row)">修改</el-button>
               <el-button type="text" size="mini" @click="viewDetail(row)">详情</el-button>
-              <el-button v-if="editStatus(row)" type="text" size="mini" @click="deleteRow(row)">删除</el-button>
+              <el-button v-if="$store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'" type="text" size="mini" @click="deleteRow(row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>

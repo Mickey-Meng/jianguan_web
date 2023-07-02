@@ -1,53 +1,24 @@
-<!--
- * @Descripttion:计划管理-证照管理
- * @version:
- * @Author: WangHarry
- * @Date: 2023-6-19 20:59:08
- * @LastEditors: mengzhengbin
- * @LastEditTime: 2023-6-19 20:59:16
--->
 <template>
   <el-container class="container-box">
     <el-header>
-      <div class="input-box">
-        <div class="input-value">
-          <el-input v-model="queryData.name" placeholder="证照名称"></el-input>
-        </div>
-      </div>
-      <div class="input-box">
-        <div class="input-value">
-          <el-select v-model="queryData.status" placeholder="请选择审核状态">
-            <el-option 
-              v-for="item in statusOptions"
-              :key="item.value"
-              :value="item.value"
-              :label="item.label"
-            >
-            </el-option>
-          </el-select>
-        </div>
-      </div>
-      <el-button type="primary" @click="query">搜索</el-button>
-      <div v-if="!isDraft" class="right-btns">
+      <div v-if="!isDraft" class="left-btns">
         <div class="operate-btns" v-show="operateBtnsVisible">
           <el-button size="small" @click="addNew">新增</el-button>
-          <el-button size="small" v-show="false">批量操作</el-button>
         </div>
       </div>
     </el-header>
     <el-main>
       <div class="container">
-        <el-table :data="tableData" style="width: 100%" border height="calc(100% - 48px)"
-                  class="have_scrolling">
+        <el-table :data="tableData" style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
           <el-table-column type="index" width="50" align="center" label="序号">
           </el-table-column>
-          <el-table-column prop="name" align="center" label="证照名称" show-overflow-tooltip></el-table-column>
-          <el-table-column prop="contents" align="center" label="证照内容" show-overflow-tooltip></el-table-column>
-          <el-table-column prop="startTime" align="center" label="计划开始时间" show-overflow-tooltip></el-table-column>
-          <el-table-column prop="endTime" align="center" label="计划结束时间" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="name" align="center" label="施工方案名称" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="content" align="center" label="施工方案内容" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="plainStartTime" align="center" label="计划开始时间" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="plainEndTime" align="center" label="计划结束时间" show-overflow-tooltip></el-table-column>
           <el-table-column prop="reportTime" align="center" label="上报时间" show-overflow-tooltip></el-table-column>
-          <el-table-column prop="reportUser" align="center" label="上报人" show-overflow-tooltip></el-table-column>
-          <el-table-column prop="ownerName" align="center" label="责任人" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="reportPeople" align="center" label="上报人" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="responsiblePerson" align="center" label="责任人" show-overflow-tooltip></el-table-column>
           <el-table-column prop="status" align="center" label="审核状态" show-overflow-tooltip>
             <template slot-scope="scope">
               <el-tag
@@ -75,7 +46,7 @@
           </el-table-column>
           <el-table-column fixed="right" width="120" align="center" label="操作">
             <template slot-scope="{ row, $index }">
-              <el-button v-if="editStatus(row)" type="text" size="mini" @click="modify(row)">修改</el-button>
+              <el-button v-if="editStatus(row)"  type="text" size="mini" @click="modify(row)">修改</el-button>
               <el-button type="text" size="mini" @click="viewDetail(row)">详情</el-button>
               <el-button v-if="$store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'" type="text" size="mini" @click="deleteRow(row)">删除</el-button>
             </template>
@@ -94,9 +65,9 @@
 </template>
 
 <script>
-import * as api from "@/api/certificate/planCertificatePhotos";
-import edit from './edit.vue';
-import detail from './detail';
+import * as api from "@/api/constructionPlan.js";
+import edit from '../constructionPlan/edit.vue';
+import detail from '../constructionPlan/detail.vue';
 
 export default {
   props:{
@@ -111,17 +82,10 @@ export default {
   },
   data() {
     return {
-      statusOptions: [
-        { value: "0", label: "审批中" },
-        { value: "1", label: "已审批" },
-        { value: "2", label: "驳回" },
-      ],
       allData: [],
       tableData: [],
       operateBtnsVisible: true,
       queryData: { //查询参数
-        name: '',
-        status: '',
         pageNum: 1,
         totalPage: 1,
         pageSize: 10,
@@ -140,7 +104,7 @@ export default {
   },
   methods: {
     editStatus(row) {
-      if(row.status == 0 || row.status == 1) {
+      if(row.status != 2) {
         return false;
       }
       if(row.createUserId == this.$store.getters.userInfo.ID) {
@@ -153,7 +117,7 @@ export default {
     },
     query() {
       this.queryData.draftFlag=this.isDraft?0:1;
-      api.getPlanCertificatePhotosList(this.queryData).then((res) => {
+      api.getConstructionPlanList(this.queryData).then((res) => {
         this.allData = res.data || {};
         this.tableData = this.allData['list']||[];
         this.queryData.pageNum = res.data.pageNum;
@@ -162,11 +126,9 @@ export default {
       });
     },
     addNew() {
-      // this.editRow = null;
       this.$refs.edit.changeVisible(null,true);
     },
     modify(row) {
-      // this.editRow = row;
       this.$refs.edit.changeVisible(row,true);
     },
     viewDetail(row) {
@@ -179,7 +141,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        api.deletePlanCertificatePhotos(row['id']).then((res) => {
+        api.deleteConstructionPlan(row['id']).then((res) => {
           if (this.tableData.length == 1) {
             this.queryData.pageNum = this.queryData.pageNum> 1 ? this.queryData.pageNum - 1 : 1
           }
@@ -208,5 +170,5 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@import "../../../assets/css/table.scss"
+@import "../../assets/css/table"
 </style>
