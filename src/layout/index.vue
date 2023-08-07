@@ -90,12 +90,14 @@ export default {
       updateOnline().then((res) => {
         let { isChange } = res.data
         if (isChange === 'true') {
-          this.$message({
-            type: 'info',
-            message: '用户角色改变,请重新登录',
+          MessageBox.confirm('用户角色改变,请重新登录', '系统提示', {
+            confirmButtonText: '重新登录',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            window.localStorage.clear();
+            this.$router.push(`/login`);
           })
-          window.localStorage.clear()
-          this.$router.push(`/login`)
         }
       })
     },
@@ -107,6 +109,7 @@ export default {
           processDefinitionKey: '',
           taskName: '',
           taskHandleStatus: 1,
+          projectId: this.$store.getters.project.parentid,
           pageParam: {
             pageNum: 1,
             totalPage: 1,

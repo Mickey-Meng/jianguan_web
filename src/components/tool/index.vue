@@ -18,7 +18,7 @@
           </el-dropdown-menu>
         </el-dropdown>
       </li> -->
-      <li>
+      <!-- <li>
         <el-dropdown trigger="click">
           <span class="el-dropdown-link">
             标注管理<i class="el-icon-arrow-down el-icon--right" />
@@ -66,7 +66,7 @@
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-      </li>
+      </li> -->
       <li>
         <el-dropdown trigger="click">
           <span class="el-dropdown-link">
@@ -101,16 +101,16 @@
             <el-dropdown-item @click.native="areaStart"
               >面积量测</el-dropdown-item
             >
-            <el-dropdown-item @click.native="slopeStart"
-              >斜率量测</el-dropdown-item
-            >
+            <!-- <el-dropdown-item @click.native="slopeStart"
+              >斜率量测</el-dropdown-item -->
+            
             <el-dropdown-item @click.native="clearMeasure"
               >清除结果</el-dropdown-item
             >
           </el-dropdown-menu>
         </el-dropdown>
       </li>
-      <li>
+      <!-- <li>
         <el-dropdown trigger="click">
           <span class="el-dropdown-link">
             空间分析<i class="el-icon-arrow-down el-icon--right" />
@@ -124,7 +124,7 @@
             >
           </el-dropdown-menu>
         </el-dropdown>
-      </li>
+      </li> -->
     </ul>
     <div v-show="false && showLayer" class="layer-manager" id="layer-manager">
       <div class="header" id="layer-manager-header">图层列表</div>
@@ -1102,7 +1102,7 @@ export default {
       getComponentProgressByModel(obj).then((res) => {
         let { conponent, produceandrecodes, progressDetails, produces } =
           res.data;
-        let { conponentcode, pname, conponenttypename, mouldid } = conponent;
+        let { conponentcode, pname, conponenttypename, mouldid,conponenttype } = conponent;
         let {
           planStartTime,
           planEndTime,
@@ -1142,7 +1142,7 @@ export default {
         let base = [
           {
             title: "构件类型",
-            value: conponenttypename,
+            value: conponenttype,
           },
           {
             title: "构件编码",
@@ -1267,18 +1267,19 @@ export default {
   height: 100%;
   pointer-events: none;
   color: #ffffff;
+  display: flex;
+  justify-content: center;
 }
 .wrapper {
-  position: absolute;
-  top: 0;
-  left: 50px;
   pointer-events: auto;
   padding: 5px;
   display: flex;
   background-color: rgba(38, 38, 38, 0.5);
   z-index: 2001;
+  height: 40px;
   li {
     line-height: 30px;
+    height: 32px;
     text-align: center;
     width: 88px;
     border: 1px solid #333;

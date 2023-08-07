@@ -1,26 +1,27 @@
 <template>
   <div class="form-single-fragment" style="position: relative;">
-    <el-form ref="form" :model="formData" class="full-width-input" :rules="rules" style="width: 100%;"
-      label-width="100px" size="mini" label-position="right" @submit.native.prevent>
+    <el-form ref="form" :model="formData" class="full-width-input" :rules="rules" style="width: 100%;" label-width="100px"
+      size="mini" label-position="right" @submit.native.prevent>
       <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item label="按钮类型" prop="type">
-            <el-select class="input-item" v-model="formData.type"
-              :clearable="true" placeholder="按钮类型" @change="onOperationTypeChange">
-              <el-option v-for="item in SysFlowTaskOperationType.getList().filter(item => item.id !== SysFlowTaskOperationType.STOP)"
+            <el-select class="input-item" v-model="formData.type" :clearable="true" placeholder="按钮类型"
+              @change="onOperationTypeChange">
+              <el-option
+                v-for="item in SysFlowTaskOperationType.getList().filter(item => item.id !== SysFlowTaskOperationType.STOP)"
                 :key="item.id" :label="item.name" :value="item.id" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="24">
           <el-form-item label="按钮名称" prop="label">
-            <el-input class="input-item" v-model="formData.label"
-              :clearable="true" placeholder="按钮名称" />
+            <el-input class="input-item" v-model="formData.label" :clearable="true" placeholder="按钮名称" />
           </el-form-item>
         </el-col>
         <el-col :span="24" v-if="formData.type === SysFlowTaskOperationType.MULTI_SIGN">
           <el-form-item label="会签用户类型">
-            <el-select v-model="multiSignAssignee.assigneeType" placeholder="" @change="multiSignAssignee.assigneeList = []">
+            <el-select v-model="multiSignAssignee.assigneeType" placeholder=""
+              @change="multiSignAssignee.assigneeList = []">
               <el-option label="用户" value="USER_GROUP" />
               <el-option label="角色" value="ROLE_GROUP" />
               <el-option label="部门" value="DEPT_GROUP" />
@@ -31,48 +32,38 @@
         </el-col>
         <el-col :span="24" v-if="formData.type === SysFlowTaskOperationType.MULTI_SIGN">
           <el-form-item label="会签用户选择">
-            <el-select class="assignee-select"
-              v-if="
-                multiSignAssignee.assigneeType === 'USER_GROUP' ||
-                multiSignAssignee.assigneeType === 'ROLE_GROUP' ||
-                multiSignAssignee.assigneeType === 'POST_GROUP'
-              "
-              v-model="multiSignAssignee.assigneeList" placeholder="" :multiple="true">
+            <el-select class="assignee-select" v-if="multiSignAssignee.assigneeType === 'USER_GROUP' ||
+              multiSignAssignee.assigneeType === 'ROLE_GROUP' ||
+              multiSignAssignee.assigneeType === 'POST_GROUP'
+              " v-model="multiSignAssignee.assigneeList" placeholder="" :multiple="true">
               <el-option v-for="item in multiSignGroupList" :key="item.id" :label="item.name" :value="item.id" />
             </el-select>
-            <el-cascader v-if="multiSignAssignee.assigneeType === 'DEPT_GROUP'"
-              v-model="multiSignAssignee.assigneeList" :options="multiSignGroupList" key="dept_select"
-              :props="{
+            <el-cascader v-if="multiSignAssignee.assigneeType === 'DEPT_GROUP'" v-model="multiSignAssignee.assigneeList"
+              :options="multiSignGroupList" key="dept_select" :props="{
                 multiple: true,
                 checkStrictly: true,
                 value: 'id',
                 label: 'name'
-              }"
-            />
+              }" />
             <el-cascader v-if="multiSignAssignee.assigneeType === 'DEPT_POST_GROUP'"
-              v-model="multiSignAssignee.assigneeList" :options="multiSignGroupList" key="dept_post_select"
-              :props="{
+              v-model="multiSignAssignee.assigneeList" :options="multiSignGroupList" key="dept_post_select" :props="{
                 multiple: true,
                 value: 'id',
                 label: 'name'
-              }"
-            />
+              }" />
           </el-form-item>
         </el-col>
         <el-col :span="24">
           <el-form-item label="显示顺序">
-            <el-input-number class="input-item" v-model="formData.showOrder"
-              :clearable="true" placeholder="显示顺序" />
+            <el-input-number class="input-item" v-model="formData.showOrder" :clearable="true" placeholder="显示顺序" />
           </el-form-item>
         </el-col>
         <el-col :span="24">
           <el-row class="no-scroll flex-box" type="flex" justify="end">
-            <el-button type="primary" size="mini" :plain="true"
-              @click="onCancel(false)">
+            <el-button type="primary" size="mini" :plain="true" @click="onCancel(false)">
               取消
             </el-button>
-            <el-button type="primary" size="mini"
-              @click="onSubmit()">
+            <el-button type="primary" size="mini" @click="onSubmit()">
               保存
             </el-button>
           </el-row>
@@ -84,15 +75,14 @@
 
 <script>
 import { findTreeNodePath, treeDataTranslate } from '@/utils';
-import { SystemController, DictionaryController, SysPostController } from '@/api';
-
+import { SystemController, DictionaryController, SysPostController } from '@/api/user';
 export default {
   props: {
     rowData: {
       type: Object
     }
   },
-  data () {
+  data() {
     return {
       formData: {
         id: undefined,
@@ -116,12 +106,12 @@ export default {
     }
   },
   methods: {
-    onCancel (isSuccess) {
+    onCancel(isSuccess) {
       if (this.observer != null) {
         this.observer.cancel(isSuccess, this.formData);
       }
     },
-    onSubmit () {
+    onSubmit() {
       this.$refs.form.validate(valid => {
         if (valid) {
           if (this.formData.type === this.SysFlowTaskOperationType.MULTI_SIGN &&
@@ -146,14 +136,14 @@ export default {
         }
       });
     },
-    onOperationTypeChange (type) {
+    onOperationTypeChange(type) {
       if (type == null || type === '') {
         this.formData.label = undefined;
       } else {
         this.formData.label = this.SysFlowTaskOperationType.getValue(type);
       }
     },
-    loadGroupList (type) {
+    loadGroupList(type) {
       return new Promise((resolve, reject) => {
         if (type === 'USER_GROUP') {
           SystemController.getUserList(this, {}).then(res => {
@@ -226,7 +216,7 @@ export default {
     }
   },
   computed: {
-    multiSignGroupList () {
+    multiSignGroupList() {
       let tempList;
       switch (this.multiSignAssignee.assigneeType) {
         case 'USER_GROUP': return this.userList;
@@ -241,13 +231,13 @@ export default {
   },
   watch: {
     multiSignGroupList: {
-      handler (newValue) {
-        if (newValue == null) this.loadGroupList(this.multiSignAssignee.assigneeType).catch(e => {});
+      handler(newValue) {
+        if (newValue == null) this.loadGroupList(this.multiSignAssignee.assigneeType).catch(e => { });
       },
       immediate: true
     }
   },
-  mounted () {
+  mounted() {
     if (this.rowData) {
       this.formData = {
         ...this.rowData
@@ -266,7 +256,7 @@ export default {
               return nodePath;
             });
           }
-        }).catch(e => {});
+        }).catch(e => { });
       }
     }
   }
@@ -274,7 +264,7 @@ export default {
 </script>
 
 <style scoped>
-  .assignee-select >>> .el-input__inner {
-    min-height: 28px!important;
-  }
+.assignee-select>>>.el-input__inner {
+  min-height: 28px !important;
+}
 </style>

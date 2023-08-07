@@ -8,7 +8,8 @@
   import {earth} from "@/config/map";
   import {mapGetters, mapMutations} from "vuex";
   import redline_line from "@/config/redline_line.json";
-
+  import { getCityLineAddr } from "@/api/system";
+  
   let viewer;
 
   const Cesium = window.Cesium;
@@ -103,13 +104,11 @@
               }
           }
         });
-        viewer.camera.flyTo({
-          destination : Cesium.Cartesian3.fromDegrees(117.46471434258237, 30.59982300620444, 3529.704298839902,),
-          orientation :{
-            heading : Cesium.Math.toRadians(16.196112994937916),
-            pitch : Cesium.Math.toRadians(-29.742000441177492),
-            roll : 0.0010975985507093802
-          }
+        
+        getCityLineAddr(13)
+        .then(res => {
+          const obj = JSON.parse(res.data.configValue) || {     "destination": {         "x": -2535573.1245030025,         "y": 4878123.197625096,         "z": 3229581.67023411     },     "orientation": {         "direction": {             "x": 0.17780452138982003,             "y": -0.8671847735572358,             "z": 0.46516246697667135         },         "up": {             "x": -0.35662117672783494,             "y": 0.3837804114659521,             "z": 0.8517827963068278         }     } }
+          this.flyToCamera(obj)
         })
         // 添加白模
         const host = window.location.host;
@@ -158,6 +157,13 @@
                 heading,
                 roll
             })
+            console.log({
+                destination: Cesium.Cartesian3.clone(camera.position),
+                orientation: {
+                  direction: Cesium.Cartesian3.clone(camera.direction),
+                  up: Cesium.Cartesian3.clone(camera.up),
+                }
+            })
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
         function computeScreenSpacePosition(scene, position, result) {
           return Cesium.SceneTransforms.wgs84ToWindowCoordinates(
@@ -202,6 +208,25 @@
         }
         return markerManagement[type];
       },
+      getCamera() {
+          const camera = viewer.camera
+          console.log({
+              destination: Cesium.Cartesian3.clone(camera.position),
+              orientation: {
+                  direction: Cesium.Cartesian3.clone(camera.direction),
+                  up: Cesium.Cartesian3.clone(camera.up),
+              }
+          })
+      },
+      flyToCamera(obj) {
+        viewer.camera.flyTo({
+          destination : new Cesium.Cartesian3(obj.destination.x, obj.destination.y, obj.destination.z),
+          orientation :{
+            direction: new Cesium.Cartesian3(obj.orientation.direction.x, obj.orientation.direction.y, obj.orientation.direction.z),
+            up: new Cesium.Cartesian3(obj.orientation.up.x, obj.orientation.up.y, obj.orientation.up.z),
+          }
+        })
+      },
       getPopup(type) {
         if (!popupManagement[type]) {
           popupManagement[type] = [];
@@ -209,39 +234,45 @@
         return popupManagement[type];
       },
       addCityLine() {
-        this.$axios.get("./data/池州市_市界.json").then(res => {
-          console.log(res);
-          let features = res.data.geometries[0].coordinates;
-          let Cartesian3 = features.map((item) => {
-            return Cesium.Cartesian3.fromDegrees(item[0], item[1], 10);
-          });
+        // local/system/config/12
+        getCityLineAddr(12)
+        .then(res => {
+          const url = res.data.configValue || "./data/池州市_市界.json";
+          
+          this.$axios.get(url).then(res => {
+            console.log(res);
+            let features = res.data.geometries[0].coordinates;
+            let Cartesian3 = features.map((item) => {
+              return Cesium.Cartesian3.fromDegrees(item[0], item[1], 10);
+            });
 
 
-          let ins = new Cesium.GeometryInstance({
-            geometry: new Cesium.GroundPolylineGeometry({
-              positions: Cartesian3,
-              width: 2
-            })
-          });
-         let linePrimitive = new Cesium.GroundPolylinePrimitive({
-            show: true,
-            geometryInstances: ins,
-            appearance: new Cesium.PolylineMaterialAppearance({
-              closed: true,
-              material: new Cesium.Material({
-                fabric: {
-                  type: "Color",
-                  uniforms: {
-                    color: Cesium.Color.AQUA,
+            let ins = new Cesium.GeometryInstance({
+              geometry: new Cesium.GroundPolylineGeometry({
+                positions: Cartesian3,
+                width: 2
+              })
+            });
+          let linePrimitive = new Cesium.GroundPolylinePrimitive({
+              show: true,
+              geometryInstances: ins,
+              appearance: new Cesium.PolylineMaterialAppearance({
+                closed: true,
+                material: new Cesium.Material({
+                  fabric: {
+                    type: "Color",
+                    uniforms: {
+                      color: Cesium.Color.AQUA,
+                    },
                   },
-                },
+                }),
               }),
-            }),
+            });
+            viewer.scene.groundPrimitives.add(linePrimitive);
+
+
           });
-          viewer.scene.groundPrimitives.add(linePrimitive);
-
-
-        });
+        })
       },
       setColour() {
         let ffectOptions = {
@@ -326,16 +357,19 @@
           });
       },
       goSystem(id) {
+        console.log(id)
         let obj = this.allProjects.find(e => e.id == id);
         if (obj) {
           this.SET_PROJECT(obj);
-          if (this.menus && this.menus.length > 0) {
-            let item = this.menus[0];
-            if (item.children && item.children.length > 0) {
-              let path = item.children[0];
-              this.$router.push(path.path);
-            }
-          }
+          // 默认直接跳转到数据中心
+          this.$router.push("/data");
+          // if (this.menus && this.menus.length > 0) {
+          //   let item = this.menus[0];
+          //   if (item.children && item.children.length > 0) {
+          //     let path = item.children[0];
+          //     // this.$router.push(path.path);
+          //   }
+          // }
         }
       },
       changeMarkerVisible(type) {

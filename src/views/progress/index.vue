@@ -150,6 +150,7 @@ export default {
         let data = res.data || [];
         data.unshift(obj);
         this.typeArr = data;
+        this.typeKey = data[0].projectid;
       });
     },
     exportTable() {

@@ -14,7 +14,7 @@
         <!-- <i class="el-icon-close" @click="closePanel"></i> -->
       </div>
       <div class="main" >
-        <el-table
+        <el-table highlight-current-row
           :data="minData.filter((e) => e.type == 2 && e.projectId == project.id)"
           height="100%"
           border
@@ -240,5 +240,20 @@ export default {
       }
     }
   }
+}
+
+
+.el-button {
+  // 因为el-button默认有focus状态，我们复制它的属性或者自定义下面三条属性就可以取消focus状态了
+  // 但是hover也会被取消，所以得再写一个hover
+  color: #606266;
+  border-color: #DCDFE6;
+  background-color: #fff;
+}
+
+.el-button:hover {
+  color: #409EFF;
+  border-color: #c6e2ff;
+  background-color: #ecf5ff;
 }
 </style>

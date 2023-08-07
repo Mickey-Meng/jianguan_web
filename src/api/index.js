@@ -28,7 +28,8 @@ const api = {
     getWorkAreaByProjectId: "/projects/getGongQu", //根据项目id获取下面的工区
     getRolesByProject: "/projects/getRolesByProject?projectId=3",
 
-
+    // 获取到期提醒数据
+    getExpiryRemindersList:"/message/getExpiryRemindersList",
     /*
      * 数据中心首页接口
      * */
@@ -59,6 +60,12 @@ const api = {
 
 
   getMonitoringByProjectId: "/system/jg/project/monitor",//通过项目查询监控列表
+  getDictDataByType: "/system/dict/data/list",//通过项目查询监控列表
+  getDicts:"/system/dict/data/type", //lrj #426
+
+
+  getCityLineAddr: "/system/config",//查询描边地址
+
   /*
    * 工程统计
    * */
@@ -263,6 +270,7 @@ const api = {
   rejectToStartUserTask: "/admin/flow/flowOperation/rejectToStartUserTask",
   stopProcessInstance: "/admin/flow/flowOperation/stopProcessInstance",
   handDeleteProcessInstance: "/admin/flow/flowOperation/handDeleteProcessInstance",
+  handDeleteCopyProcessInstance: "/admin/flow/flowOperation/handDeleteCopyProcessInstance",
   deleteProcessInstance: "/admin/flow/flowOperation/deleteProcessInstance",
   revokeHistoricTask: "/admin/flow/flowOperation/revokeHistoricTask",
   viewTaskUserInfo: "/admin/flow/flowOperation/viewTaskUserInfo", //审批人
@@ -486,6 +494,36 @@ const api = {
   deleteConstructionPlan: "/web/api/v1/construction_plan/id",
   getConstructionPlanList: "/web/api/v1/construction_plan/page",
   getConstructionPlanListNoPage: "/web/api/v1/construction_plan/list",
+
+
+  // MaterialBrandReport
+  addOrUpdateMaterialBrandReport: "/web/api/v1/material_brand_report/addOrUpdate",
+  getMaterialBrandReportDetail: "/web/api/v1/material_brand_report/detail/id",
+  deleteMaterialBrandReport: "/web/api/v1/material_brand_report/id",
+  getMaterialBrandReportList: "/web/api/v1/material_brand_report/page",
+  getMaterialBrandReportListNoPage: "/web/api/v1/material_brand_report/list",
+
+  addOrUpdateMaterialSampleConfirmation: "/web/api/v1/material_sample_confirmation/addOrUpdate",
+  getMaterialSampleConfirmationDetail: "/web/api/v1/material_sample_confirmation/detail/id",
+  deleteMaterialSampleConfirmation: "/web/api/v1/material_sample_confirmation/id",
+  getMaterialSampleConfirmationList: "/web/api/v1/material_sample_confirmation/page",
+  getMaterialSampleConfirmationListNoPage: "/web/api/v1/material_sample_confirmation/list",
+
+  addOrUpdateMaterialAcceptance: "/web/api/v1/material_acceptance/addOrUpdate",
+  getMaterialAcceptanceDetail: "/web/api/v1/material_acceptance/detail/id",
+  deleteMaterialAcceptance: "/web/api/v1/material_acceptance/id",
+  getMaterialAcceptanceList: "/web/api/v1/material_acceptance/page",
+  getMaterialAcceptanceListNoPage: "/web/api/v1/material_acceptance/list",
+
+
+
+  // constructionPlanReport
+  addOrUpdateconstructionPlanReport: "/web/api/v1/construction_plan_report/addOrUpdate",
+  getconstructionPlanReportDetail: "/web/api/v1/construction_plan_report/detail/id",
+  deleteconstructionPlanReport: "/web/api/v1/construction_plan_report/id",
+  getconstructionPlanReportList: "/web/api/v1/construction_plan_report/page",
+  getconstructionPlanReportListNoPage: "/web/api/v1/construction_plan_report/list",
+
 
   // 计划管理-证照管理
   addOrUpdatePlanCertificatePhotos: "/web/api/v1/certificate/plan/addOrUpdate",

@@ -108,17 +108,17 @@ export const getConAndReferPerson = projectId => {
 	  params: {projectId}
 	});
   };
-/**
- * @Description: 获取建设集团和全咨集团的人
- * @author 王海林
- * @date
- */
-export const getMonitoring = projectId => {
-	return request({
-		url: api.getMonitoringByProjectId + "/" + projectId,
-		method: "get"
-	});
-};
+  /**
+   * @Description: 获取建设集团和全咨集团的人
+   * @author 王海林
+   * @date
+   */
+  export const getMonitoring = projectId => {
+	  return request({
+		  url: api.getMonitoringByProjectId + "/" + projectId,
+		  method: "get"
+	  });
+  };
 
 
 

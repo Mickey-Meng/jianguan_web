@@ -1,3 +1,4 @@
+import { isJSON } from '@/utils/index.js'
 /*
  * @Descripttion:
  * @version:
@@ -35,9 +36,15 @@ export function download(url, name) {
 }
 
 export const downLoadFile = str => {
+  console.log(str);
+  let fileId = str;
+  if (isJSON(str)) {
+    fileId = JSON.parse(str).fileId;
+  }
+  console.log("fileId:" + fileId);
   let link = document.createElement("a"); // 创建a标签
   link.style.display = "none"; //mong/preview?fileid=
-  link.href = "/mong/download?fileid=" + JSON.parse(str).fileId; // 设置下载地址
+  link.href = "/mong/download?fileid=" + fileId; // 设置下载地址
   link.setAttribute("download", ""); // 添加downLoad属性
   document.body.appendChild(link);
   console.log(link);

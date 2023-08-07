@@ -22,6 +22,12 @@ export const getTodayWeather = () => {
   });
 };
 
+export const getCityLineAddr = (id) => {
+  return request({
+    url: api.getCityLineAddr + "/" + id,
+    method: "get",
+  });
+};
 
 export const getWorkPoint = (projectId) => {
   return request({

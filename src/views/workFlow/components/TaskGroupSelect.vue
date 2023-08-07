@@ -3,21 +3,15 @@
     <el-form label-width="100px" size="mini" label-position="right" @submit.native.prevent>
       <el-row type="flex" justify="end">
         <el-button type="primary" size="mini" @click="onSubmit" :disabled="!canCommit">
-            添加分组
-          </el-button>
+          添加分组
+        </el-button>
       </el-row>
     </el-form>
     <el-row style="margin-top: 18px;">
       <el-col :span="24">
-        <el-table :data="allGroupList" size="mini" height="452px"
-          header-cell-class-name="table-header-gray"
-          row-key="id" :default-expand-all="true"
-          @selection-change="handleSelectionChange"
-        >
-          <el-table-column type="selection" width="50px"
-            header-align="center" align="center"
-            :selectable="canSelect"
-          />
+        <el-table :data="allGroupList" size="mini" height="452px" header-cell-class-name="table-header-gray" row-key="id"
+          :default-expand-all="true" @selection-change="handleSelectionChange">
+          <el-table-column type="selection" width="50px" header-align="center" align="center" :selectable="canSelect" />
           <el-table-column label="部门名称" prop="name" />
         </el-table>
       </el-col>
@@ -28,7 +22,7 @@
 <script>
 /* eslint-disable-next-line */
 import { TableWidget } from '@/utils/widget.js';
-import { DictionaryController } from '@/api';
+import { DictionaryController } from '@/api/user';
 
 export default {
   name: 'taskGroupSelect',
@@ -42,32 +36,32 @@ export default {
       type: Array
     }
   },
-  data () {
+  data() {
     return {
       multiSelectGroup: [],
       taskGroupListWidget: new TableWidget(this.loadSysDeptData, this.loadSysDeptVerify, false, false, 'createTime', 1)
     }
   },
   methods: {
-    onCancel (isSuccess, data) {
+    onCancel(isSuccess, data) {
       if (this.observer != null) {
         this.observer.cancel(isSuccess, data);
       }
     },
-    canSelect (row) {
+    canSelect(row) {
       if (Array.isArray(this.usedIdList) && this.usedIdList.length > 0) {
         return this.usedIdList.indexOf(row.id) === -1;
       } else {
         return true;
       }
     },
-    onSubmit () {
+    onSubmit() {
       this.onCancel(true, this.multiSelectGroup);
     },
-    handleSelectionChange (values) {
+    handleSelectionChange(values) {
       this.multiSelectGroup = values;
     },
-    loadSysDeptData (params) {
+    loadSysDeptData(params) {
       return new Promise((resolve, reject) => {
         DictionaryController.dictSysDeptByParentId(this, {}).then(res => {
           resolve({
@@ -79,10 +73,10 @@ export default {
         });
       });
     },
-    loadSysDeptVerify () {
+    loadSysDeptVerify() {
       return true;
     },
-    refresh (reloadData = false) {
+    refresh(reloadData = false) {
       // 重新获取数据组件的数据
       if (reloadData) {
         this.taskGroupListWidget.refreshTable(true, 1);
@@ -92,15 +86,14 @@ export default {
     }
   },
   computed: {
-    canCommit () {
+    canCommit() {
       return this.multiSelectGroup.length > 0;
     }
   },
-  mounted () {
+  mounted() {
     this.refresh();
   }
 }
 </script>
 
-<style>
-</style>
+<style></style>

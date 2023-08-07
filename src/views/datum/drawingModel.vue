@@ -291,12 +291,15 @@ export default {
       this.pCode = 'gclx';
       getFileDictByPCode(this.pCode).then((res) => {
         this.functionary = res.data;
+
+        this.typeKey = res.data[0].id;
+
+        getFile(this.typeKey,this.project.id).then((res) => {
+          this.tableData = res.data;
+        });
       }).catch(function (error) {
       });
 
-      getFile(this.typeKey,this.project.id).then((res) => {
-        this.tableData = res.data;
-      });
     },
     selectChange() {
       getFile(this.typeKey,this.project.id).then((res) => {

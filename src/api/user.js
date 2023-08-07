@@ -37,15 +37,16 @@ export function doLogin(data) {
   });
 }
 
+
 export function getUserInfo(id) {
   return request({
     url: `/sysManage/permission/loadMenuAndUserInfo`,
     method: "get"
   });
 }
-export const getServiceRoles = () =>{
+export const getServiceRoles = (id) =>{
   return request({
-    url: `/userauth/selectRole`,
+    url: `/userauth/selectRole?projectId=${id}`,
     method: "get"
   });
 }
@@ -158,4 +159,17 @@ export const getUsersByProjectId = (projectId) => {
     url: `/userProject/getUsersByProjectId/` + projectId,
     method: "get"
   });
+}
+//lrj 
+export function DictionaryController() {
+  return 
+}
+
+
+
+export function SysPostController() {
+  return 
+}
+export function SystemController() {
+  return 
 }

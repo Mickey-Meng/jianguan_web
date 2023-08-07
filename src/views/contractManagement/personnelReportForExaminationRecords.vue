@@ -64,7 +64,7 @@
           <el-table-column prop="post" label="岗位"></el-table-column>
           <el-table-column prop="identityId" label="身份证号"></el-table-column>
           <el-table-column prop="certificateName" label="证件名称"></el-table-column>
-          <el-table-column prop="approvalTime" label="进场时间"></el-table-column>
+          <el-table-column prop="createTime" label="进场时间"></el-table-column>
 <!--          <el-table-column label="退场时间"></el-table-column>-->
           <el-table-column label="脸部照片">
             <template slot-scope="{row}">
@@ -283,11 +283,12 @@
           if (data && data.length > 0) {
             data.forEach(item => {
               let {person, personSubs} = item;
-              let {approvalTime, id} = person;
+              let {approvalTime, id, createTime} = person;
               personSubs.forEach(e => {
                 e.approvalTime = approvalTime;
                 e.newPeoplePic = "/mong/preview?fileid=" + e.peoplePic;
                 e.staffId = id;
+                e.createTime = createTime;
               });
               lists = lists.concat(personSubs);
             });

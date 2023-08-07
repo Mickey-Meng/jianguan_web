@@ -122,6 +122,7 @@
 				this.listHistoricProcessInstance();
 			},
             listHistoricProcessInstance(){
+              this.queryData.projectId = this.$store.getters.project.parentid;
                 api.listHistoricProcessInstance(this.queryData).then((res) => {
 					this.allData = res.data || {};
 					this.tableData = this.allData.list || [];
@@ -138,7 +139,7 @@
 				//row['taskFormKey']=(typeof row['taskFormKey'])=='string'?JSON.parse(row['taskFormKey']):row['taskFormKey'];
 				let key = row["processDefinitionKey"];
 				let router = this.detailRouters.find(e => e.code.indexOf(key) !== -1);
-				let hiddenEdit = ["sgdwhtrybs", "jldwhtrybs", "qzdwhtrybs", "sgdwrybg", "jldwrybg", "qzdwrybg", "sgdwryqj",
+				let hiddenEdit = ["sgdwhtrybs", "jldwhtrybs", "qzdwhtrybs", "sgdwrybg", "jldwrybg", "qzdwrybg", "sgdwryqj1",
 					"jldwryqj", "qzdwryqj"
 				];
 				if (router) {

@@ -165,9 +165,9 @@
           <el-upload
             class="upload-demo"
             :headers="header"
-            action="/mong/upload"
+            :action="uploadFileUrl"
             multiple
-            :limit="3"
+            :limit="10"
             :before-upload="beforeUploadImage"
             :on-success="uploadSuccess"
             :on-remove="handleRemove"
@@ -183,9 +183,9 @@
           <el-upload
             class="upload-demo"
             :headers="header"
-            action="/mong/upload"
+            :action="uploadFileUrl"
             multiple
-            :limit="1"
+            :limit="10"
             :before-upload="beforeUpload"
             :on-success="uploadPdfSuccess"
             :on-remove="handlePdfRemove"
@@ -419,6 +419,7 @@
     name: "",
     data() {
       return {
+        uploadFileUrl: process.env.VUE_APP_BASE_API + "/mong/upload",
         value: "",
         timeValue: "",
         inputValue: "",

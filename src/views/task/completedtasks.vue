@@ -122,6 +122,7 @@
 				this.listHistoricTask();
 			},
             listHistoricTask(){
+              this.queryData.projectId = this.$store.getters.project.parentid;
                 api.listHistoricTask(this.queryData).then((res) => {
 					this.allData = res.data || {};
 					this.tableData = this.allData.list || [];
@@ -137,7 +138,7 @@
 				row['formKey'] = (typeof row['formKey']) == 'string' ? JSON.parse(row['formKey']) : row['formKey'];
 				let key = row["formKey"]["routerName"];
 				let router = this.detailRouters.find(e => e.code.indexOf(key) !== -1);
-				let hiddenEdit = ["sgdwhtrybs", "jldwhtrybs", "qzdwhtrybs", "sgdwrybg", "jldwrybg", "qzdwrybg", "sgdwryqj",
+				let hiddenEdit = ["sgdwhtrybs", "jldwhtrybs", "qzdwhtrybs", "sgdwrybg", "jldwrybg", "qzdwrybg", "sgdwryqj1",
 					"jldwryqj", "qzdwryqj"
 				];
 				if (router) {

@@ -36,6 +36,23 @@ import "@/components/Dialog";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
+// import { message } from '@/utils/message'
+
+import { getDicts } from "@/api/progress";
+// 字典标签组件
+import DictTag from '@/components/DictTag'
+// 字典数据组件
+import DictData from '@/components/DictData'
+ 
+ 
+
+ 
+ 
+
+ 
+ 
+DictData.install()
+ 
 
 /**
  * If you don't want to use mock-server
@@ -49,9 +66,15 @@ import "quill/dist/quill.bubble.css";
 Vue.use(ElementUI);
 Vue.use(dataV);
 
+// Vue.prototype.$message = message
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;
+Vue.prototype.getDicts = getDicts
 
+
+// 全局组件挂载
+Vue.component('DictTag', DictTag)
+DictData.install()
 new Vue({
   el: "#app",
   router,

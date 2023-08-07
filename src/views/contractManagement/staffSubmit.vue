@@ -85,7 +85,7 @@
               <!--              <el-button type="text" size="mini" @click="issueStep(row)">发布</el-button>-->
               <el-button v-if="editStatus(row)" type="text" size="mini" @click="openDialog(row)">修改</el-button>
               <el-button type="text" size="mini" @click="seeDetail(row)">详情</el-button>
-              <!--              <el-button type="text" size="mini">删除</el-button>-->
+              <el-button v-if="$store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'" type="text" size="mini" @click="deleteRow(row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -413,7 +413,7 @@ import {getFlowAuditEntry, submitUserTask} from "@/api/quality";
 import uploadView from "@/views/common/upload";
 // import * as api from "@/api/quality";
 import {uploadFile} from "@/api/file";
-import {addStaffApproval, getOrgUser, getStaffApprovalBase, getPersonDetail} from "@/api/staffApproval";
+import {addStaffApproval, getOrgUser, getStaffApprovalBase, getPersonDetail, deleteStaffRecord} from "@/api/staffApproval";
 import tasklog from "@/views/common/tasklog";
 import {getUserRoleAndCode} from "@/api/newProject";
 import approveuser from "@/views/common/approveuser.vue";
@@ -497,6 +497,26 @@ export default {
   },
   components: {uploadView, tasklog, approveuser},
   methods: {
+    deleteRow(row) {
+      this.$confirm('确认是否删除?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deleteStaffRecord(row['id'], this.project.id).then((res) => {
+          this.initData()
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          });
+        }).catch(error => {
+          this.$message({
+            type: 'fail',
+            message: '删除失败!'
+          });
+        });
+      });
+    },
     editStatus(row) {
       if (row.status != 2) {
         return false;
@@ -724,7 +744,8 @@ export default {
           processInstanceId: row.data,
           slaveData: {},
           taskId: "",
-          taskVariableData: userMap
+          taskVariableData: userMap,
+          projectId: this.$store.getters.project.parentid
         };
         if(!id) {
           submitUserTask(obj).then(res1 => {

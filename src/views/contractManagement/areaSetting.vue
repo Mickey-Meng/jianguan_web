@@ -103,7 +103,7 @@
               </div>
               <div class="form-block">
                 <div id="map">
-                  <mapView @clearStr="clearStr" @setStr="setStr" :siteStr="siteStr" :centerPointer="centerPointer"
+                  <mapView @clearStr="clearStr" @setCenter="setCenter" @setStr="setStr" :siteStr="siteStr" :centerPointer="centerPointer"
                            :name="clockName"
                            v-if="dialogFormVisible"></mapView>
                 </div>
@@ -208,22 +208,25 @@
       setStr(val) {
         this.form.coordinate = val;
       },
+      setCenter(val) {
+        this.form.centerPoint = val;
+      },
       submitInfo() {
         this.$refs['form'].validate((valid) => {
           if (valid) {
             let obj = Object.assign({}, this.form);
-            let info = JSON.parse(JSON.stringify(obj));
-            let sites = JSON.parse(info.coordinate);
-            let points = sites.map(item => {
-              return turf.point(item.reverse());
-            });
-            let features = turf.featureCollection(points);
-            let center = turf.center(features);
-            if (center) {
-              let point = center.geometry.coordinates.reverse();
-              obj.centerPoint = JSON.stringify(point);
+            // let info = JSON.parse(JSON.stringify(obj));
+            // let sites = JSON.parse(info.coordinate);
+            // let points = sites.map(item => {
+            //   return turf.point(item.reverse());
+            // });
+            // let features = turf.featureCollection(points);
+            // let center = turf.center(features);
+            // if (center) {
+            //   let point = center.geometry.coordinates.reverse();
+            //   obj.centerPoint = JSON.stringify(point);
 
-            }
+            // }
             if (this.isCreate) {
               addFence(obj).then(res => {
                 this.$message({

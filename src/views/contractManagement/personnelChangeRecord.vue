@@ -22,22 +22,14 @@
       </div>
       <div class="input-box" style="margin-left: 10px">
         <div class="input-value">
-          <el-date-picker
-            v-model="queryData.subDate"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择录入时间">
+          <el-date-picker v-model="queryData.subDate" type="date" value-format="yyyy-MM-dd" placeholder="请选择录入时间">
           </el-date-picker>
         </div>
       </div>
       <div class="input-box" style="margin-left: 10px">
         <div class="input-value">
           <el-select v-model="queryData.selectValue" placeholder="请选择">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.name"
-              :value="item.value">
+            <el-option v-for="item in options" :key="item.value" :label="item.name" :value="item.value">
             </el-option>
           </el-select>
         </div>
@@ -53,8 +45,8 @@
     </el-header>
     <el-main>
       <div class="container">
-        <el-table :data="tableDta.slice((queryData.pageNum-1)*queryData.pageSize,queryData.pageNum*queryData.pageSize)"
-                  style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
+        <el-table :data="tableDta.slice((queryData.pageNum - 1) * queryData.pageSize, queryData.pageNum * queryData.pageSize)"
+          style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
           <el-table-column prop="projectChildName" label="标段"></el-table-column>
           <el-table-column prop="changeTypeName" label="人员变更类型"></el-table-column>
           <el-table-column prop="changePostName" label="变更岗位"></el-table-column>
@@ -68,14 +60,14 @@
           <el-table-column label="操作">
             <template slot-scope="{row,$index}">
               <el-button type="text" size="mini" @click="seeDetail(row)">详情</el-button>
-              <el-button type="text" size="mini" v-if="rolePerms[0] =='gly'" @click="deleteInfo(row,$index)">删除</el-button>
+              <el-button type="text" size="mini" v-if="rolePerms[0] == 'gly'"
+                @click="deleteInfo(row, $index)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                       :current-page="queryData.pageNum" :page-size="queryData.pageSize"
-                       layout="total, sizes, prev, pager, next, jumper"
-                       :total="tableDta.length">
+          :current-page="queryData.pageNum" :page-size="queryData.pageSize"
+          layout="total, sizes, prev, pager, next, jumper" :total="tableDta.length">
         </el-pagination>
       </div>
     </el-main>
@@ -213,7 +205,7 @@
                   <div class="title-bar"></div>
                   <strong>附件</strong>
                   <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-											xisx xis pdf文件，且不超过100m</span>
+                    xisx xis pdf文件，且不超过100m</span>
                 </div>
                 <div class="block-line" style="height: 35px;">
                   <div class="block-table-btns">
@@ -269,8 +261,7 @@
             <i class="el-icon-caret-right"></i>
           </div>
         </el-aside>
-        <el-aside
-          style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
+        <el-aside style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
           <tasklog :taskInfo="taskInfo" ref="tasklog"></tasklog>
         </el-aside>
       </el-container>
@@ -280,158 +271,156 @@
 </template>
 
 <script>
-  import {getPersonChangeRecords, deleteChangeRecord, deleteStaffRecord} from "@/api/staffApproval";
-  import {mapGetters} from "vuex";
-  import {formatDate} from "@/utils/date";
-  import tasklog from "@/views/common/tasklog";
-  import {downLoadFile} from "@/utils/download";
+import { getPersonChangeRecords, deleteChangeRecord, deleteStaffRecord } from "@/api/staffApproval";
+import { mapGetters } from "vuex";
+import { formatDate } from "@/utils/date";
+import tasklog from "@/views/common/tasklog";
+import { downLoadFile } from "@/utils/download";
 
-  export default {
-    data() {
-      return {
-        tableDta: [],
-        fileData: [],//上传的附件
-        form: {},
-        taskInfo: {},
-        dialogFormVisible: false,
-        dialogTitle: "全生命周期智慧建设管理平台",
-        allData: [],
-        options: [
-          {
-            name: "所有单位",
-            value: 10
-          },
-          {
-            name: "施工单位",
-            value: 1
-          },
-          {
-            name: "监理单位",
-            value: 2
-          },
-          {
-            name: "全咨单位",
-            value: 3
-          }
-        ],
-        queryData: {
-          beforeName: "",
-          afterName: "",
-          subDate: null,
-          pageNum: 1,
-          totalPage: 1,
-          pageSize: 10,
-          selectValue: 10
+export default {
+  data() {
+    return {
+      tableDta: [],
+      fileData: [],//上传的附件
+      form: {},
+      taskInfo: {},
+      dialogFormVisible: false,
+      dialogTitle: "全生命周期智慧建设管理平台",
+      allData: [],
+      options: [
+        {
+          name: "所有单位",
+          value: 10
+        },
+        {
+          name: "施工单位",
+          value: 1
+        },
+        {
+          name: "监理单位",
+          value: 2
+        },
+        {
+          name: "全咨单位",
+          value: 3
         }
-      };
+      ],
+      queryData: {
+        beforeName: "",
+        afterName: "",
+        subDate: null,
+        pageNum: 1,
+        totalPage: 1,
+        pageSize: 10,
+        selectValue: 10
+      }
+    };
+  },
+  created() {
+    this.init();
+  },
+  components: { tasklog },
+  computed: {
+    ...mapGetters(["project", "roleId", "rolePerms"])
+  },
+  methods: {
+    init() {
+      let { selectValue, afterName, beforeName, subDate } = this.queryData;
+      let type = selectValue === 10 ? undefined : selectValue;
+      getPersonChangeRecords(this.project.id, type).then(res => {
+        let data = res.data;
+        if (!subDate && !afterName && !beforeName) {
+          this.tableDta = data;
+        } else if (!subDate && afterName && !beforeName) {
+          this.tableDta = data.filter(e => e.afterPerson.indexOf(afterName) !== -1);
+        } else if (!subDate && !afterName && beforeName) {
+          this.tableDta = data.filter(e => e.beforePerson.indexOf(beforeName) !== -1);
+        } else if (subDate && !afterName && !beforeName) {
+          this.tableDta = data.filter(e => e.subDate.indexOf(subDate) !== -1);
+        } else {
+          this.tableDta = data.filter(e => e.subDate.indexOf(subDate) !== -1 && e.beforePerson.indexOf(afterName) !== -1 && e.afterPerson.indexOf(afterName) !== -1);
+        }
+
+      });
     },
-    created() {
+    seeDetail(row) {
+      this.form = Object.assign({}, row);
+      this.fileData = row.files;
+      this.isCreate = false;
+      let { processDefinitionId, processInstanceId, taskId } = row;
+      if (processDefinitionId && processInstanceId && taskId) {
+        let flowKey = processDefinitionId.split(":")[0];
+        this.taskInfo = {
+          processDefinitionId, processInstanceId, taskId, flowKey
+        };
+
+      } else {
+        this.taskInfo = {};
+      }
+      this.dialogFormVisible = true;
+      this.$nextTick(() => {
+        this.$refs["tasklog"].initData();
+      });
+    },
+    queryClick() {
       this.init();
     },
-    components: {tasklog},
-    computed: {
-      ...mapGetters(["project", "roleId", "rolePerms"])
-    },
-    methods: {
-      init() {
-        let {selectValue, afterName, beforeName, subDate} = this.queryData;
-        let type = selectValue === 10 ? undefined : selectValue;
-        getPersonChangeRecords(this.project.id, type).then(res => {
-          let data = res.data;
-          if (!subDate && !afterName && !beforeName) {
-            this.tableDta = data;
-          } else if (!subDate && afterName && !beforeName) {
-            this.tableDta = data.filter(e => e.afterPerson.indexOf(afterName) !== -1);
-          } else if (!subDate && !afterName && beforeName) {
-            this.tableDta = data.filter(e => e.beforePerson.indexOf(beforeName) !== -1);
-          } else if (subDate && !afterName && !beforeName) {
-            this.tableDta = data.filter(e => e.subDate.indexOf(subDate) !== -1);
-          } else {
-            this.tableDta = data.filter(e => e.subDate.indexOf(subDate) !== -1 && e.beforePerson.indexOf(afterName) !== -1 && e.afterPerson.indexOf(afterName) !== -1);
-          }
-
-        });
-      },
-      seeDetail(row) {
-        this.form = Object.assign({}, row);
-        this.fileData = row.files;
-        this.isCreate = false;
-        let {processDefinitionId, processInstanceId, taskId} = row;
-        if (processDefinitionId && processInstanceId && taskId) {
-          let flowKey = processDefinitionId.split(":")[0];
-          this.taskInfo = {
-            processDefinitionId, processInstanceId, taskId, flowKey
-          };
-
-        } else {
-          this.taskInfo = {};
-        }
-        this.dialogFormVisible = true;
-        this.$nextTick(() => {
-          this.$refs["tasklog"].initData();
-        });
-      },
-      queryClick() {
-        this.init();
-      },
-      deleteInfo(row, index) {
-        this.$confirm("确定删除该变更信息?", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(() => {
-          deleteChangeRecord(row.id, this.project.id).then(() => {
-            // this.init();
-            let ind = this.tableData.findIndex(e => e.id === row.id);
-            this.tableData.splice(ind, 1);
-            this.$message.success("删除成功");
-          }).catch(()=>{
-            this.$message.info("删除失败");
-          });
+    deleteInfo(row, index) {
+      this.$confirm("确定删除该变更信息?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(() => {
+        deleteChangeRecord(row.id, this.project.id).then(() => {
+          this.init();
+          // let ind = this.tableData.findIndex(e => e.id === row.id);
+          // this.tableData.splice(ind, 1);
+          this.$message.success("删除成功");
         }).catch(() => {
-          this.$message.info("取消删除");
+          this.$message.info("删除失败");
         });
-      },
-      handleSizeChange(val) {
-        this.queryData.pageSize = val;
-      },
-      handleCurrentChange(val) {
-        this.queryData.pageNum = val;
-      },
-      downloadFileEvent() {
-        if (this.fileData && this.fileData.length > 0) {
-          this.fileData.forEach(item => {
-            downLoadFile(item.fileId);
-          });
-        }
-      }
+      }).catch(() => {
+        this.$message.info("取消删除");
+      });
     },
-    filters: {
-      formatTime(val) {
-        return formatDate(val);
+    handleSizeChange(val) {
+      this.queryData.pageSize = val;
+    },
+    handleCurrentChange(val) {
+      this.queryData.pageNum = val;
+    },
+    downloadFileEvent() {
+      if (this.fileData && this.fileData.length > 0) {
+        this.fileData.forEach(item => {
+          downLoadFile(item.fileId);
+        });
       }
     }
-  };
-</script>
-<style lang='scss' scoped>
-  @import "../../assets/css/table.scss";
-  @import "../../assets/css/dialog.scss";
-
-  .form-bg {
-    .form-block {
-      .block-item-label {
-        width: 180px !important;
-      }
-
-      .block-item-value {
-        width: calc(100% - 200px) !important;
-      }
-
-      .el-date-editor {
-        width: 100% !important;
-      }
+  },
+  filters: {
+    formatTime(val) {
+      return formatDate(val);
     }
   }
+};
+</script>
+<style lang='scss' scoped>
+@import "../../assets/css/table.scss";
+@import "../../assets/css/dialog.scss";
 
+.form-bg {
+  .form-block {
+    .block-item-label {
+      width: 180px !important;
+    }
 
+    .block-item-value {
+      width: calc(100% - 200px) !important;
+    }
+
+    .el-date-editor {
+      width: 100% !important;
+    }
+  }
+}
 </style>

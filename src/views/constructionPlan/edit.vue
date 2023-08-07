@@ -73,14 +73,23 @@
                     </div>
                   </div>
                   <div class="block-line">
-                    <div class="block-item">
-                      <div class="block-item-label">责任人</div>
-                      <div class="block-item-value">
-                        <el-form-item prop="remark">
-                          <el-input v-model="formData.responsiblePerson"></el-input>
-                        </el-form-item>
-                      </div>
+                  <div class="block-item">
+                    <div class="block-item-label">责任人<i class="require-icon"></i></div>
+                    <div class="block-item-value">
+                      <el-select v-model="formData.responsiblePerson"
+                                 filterable
+                                 clearable
+                                 placeholder="请选择责任人">
+                        <el-option
+                          v-for="item in ownerOptions"
+                          :key="item.userId"
+                          :value="item.userId + '&' + item.nickName"
+                          :label="item.nickName + '(' + item.roleName + ')'"
+                        >
+                        </el-option>
+                      </el-select>
                     </div>
+                  </div>
                   </div>
                 </div>
                 <div class="form-block">
@@ -96,7 +105,7 @@
                 </approveuser>
 
                 <div class="form-block">
-                  <el-button @click="addOrModify()" class="submit-btn" size="small" type="primary">提交
+                  <el-button @click="addOrModify()" class="submit-btn" size="small" type="primary" :loading="submitDisable">提交
                   </el-button>
                 </div>
               </el-form>
@@ -110,12 +119,13 @@
 
 <script>
 import * as api from "@/api/constructionPlan.js";
-import { getUserInfo } from "@/api/user";
+import {getUserInfo, getUsersByProjectId} from "@/api/user";
 import upload from "../common/upload.vue"
 import attachlist from "../common/attachlist.vue"
 import drafthandle from "../common/drafthandle.vue"
 import approveuser from "../common/approveuser.vue"
 import projectinfo from "../common/projectinfo.vue"
+import {mapGetters} from "vuex";
 
 export default {
   props: ['editRow'],
@@ -142,13 +152,17 @@ export default {
         reportPeople: '',
         reportTime: null
       },
+      // 责任人下拉选项值
+      ownerOptions: [],
       attachTable: [], //附件
       contractTable: [],
       contractVisible: false,
       auditUser: {},
       approveVisible:true,
       flowKey:'constructionPlan',
-      dataDictionaryList: []
+      dataDictionaryList: [],
+
+      submitDisable: false
     };
   },
   created() {},
@@ -160,7 +174,9 @@ export default {
     projectinfo,
     payment: () => import("../constructionPlan/constructionPlan.vue")
   },
-  computed: {},
+  computed: {
+    ...mapGetters(["userInfo", "name", "project", "roleId", "getUrl"])
+  },
   mounted() {
     this.getUserInfo();
     this.findDataDictionarys();
@@ -221,6 +237,10 @@ export default {
         // this.auditUser={};
         this.approveVisible=true;
       }
+      // 根据项目ID查询其下属工区对应的所有用户信息
+      getUsersByProjectId(this.project.id).then((res) => {
+        this.ownerOptions = res.data;
+      });
     },
     getDetail(id) {
       api.getConstructionPlanDetail(id).then((res) => {
@@ -230,6 +250,9 @@ export default {
       });
     },
     addOrModify(isdraft) {
+      if (this.submitDisable) return;
+      
+      this.submitDisable = true;
       this.$refs['ruleForm'].validate((valid) => {
         if (valid) {
           this.formData.attachment = this.attachTable;
@@ -248,9 +271,16 @@ export default {
                 message: '提交成功!'
               });
               this.dialogFormVisible = false;
+              setTimeout(()=> {
+                this.submitDisable = false;
+              }, 500)
               this.$emit("query");
             }
           });
+        } else {
+          setTimeout(()=> {
+            this.submitDisable = false;
+          }, 500)
         }
 
       })

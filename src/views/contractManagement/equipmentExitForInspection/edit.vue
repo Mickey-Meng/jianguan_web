@@ -342,6 +342,8 @@ export default {
       auditUser: {},
       approveVisible: true,
       flowKey: 'shebeituichangbaoyan',
+
+      submitDisable: false
     }
   },
   created() {
@@ -447,6 +449,9 @@ export default {
       // });
     },
     addOrModify(isdraft) {
+      if (this.submitDisable) return;
+      
+      this.submitDisable = true;
       if (isdraft) {
         if (
           diffCompare(
@@ -485,6 +490,9 @@ export default {
               message: '提交成功!',
             })
             this.dialogFormVisible = false
+              setTimeout(()=> {
+                this.submitDisable = false;
+              }, 500)
             this.$emit('query')
           }
         })
@@ -505,10 +513,17 @@ export default {
                   message: '提交成功!',
                 })
                 this.dialogFormVisible = false
+              setTimeout(()=> {
+                this.submitDisable = false;
+              }, 500)
                 this.$emit('query')
               }
             })
-          }
+          } else {
+          setTimeout(()=> {
+            this.submitDisable = false;
+          }, 500)
+        }
         })
       }
     },

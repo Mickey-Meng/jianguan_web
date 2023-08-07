@@ -21,7 +21,7 @@ export const getWorkArea = id => {
     url: api.getWorkArea,
     method: "get",
     params: {
-      id: id || undefined
+      projectId: id || undefined
     }
   });
 };

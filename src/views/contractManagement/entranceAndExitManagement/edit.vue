@@ -147,7 +147,7 @@
 								<approveuser v-if="approveVisible" :auditUser="auditUser" :flowKey="flowKey">
 								</approveuser>
 								<div class="form-block">
-									<el-button @click="addOrModify()" class="submit-btn" size="small" type="primary">提交
+									<el-button @click="addOrModify()" class="submit-btn" size="small" type="primary" :loading="submitDisable">提交
 									</el-button>
 								</div>
 							</el-form>
@@ -507,7 +507,9 @@
 				},
 				auditUser: {},
                 approveVisible:true,
-				flowKey: 'jintuichangguanli'
+				flowKey: 'jintuichangguanli',
+
+      submitDisable: false
 			};
 		},
 		created() {},
@@ -597,6 +599,9 @@
 			// 	});
 			// },
 			addOrModify(isdraft) {
+      if (this.submitDisable) return;
+      
+      this.submitDisable = true;
 				if (isdraft) {
 					if (diffCompare([this.formData, this.inOutUserTable], [{
 								enterExitUsers: [],
@@ -636,6 +641,9 @@
 								message: '提交成功!'
 							});
 							this.dialogFormVisible = false;
+              setTimeout(()=> {
+                this.submitDisable = false;
+              }, 500)
 							this.$emit("query");
 						}
 					});
@@ -660,10 +668,17 @@
 										message: '提交成功!'
 									});
 									this.dialogFormVisible = false;
+              setTimeout(()=> {
+                this.submitDisable = false;
+              }, 500)
 									this.$emit("query");
 								}
 							});
-						}
+						} else {
+          setTimeout(()=> {
+            this.submitDisable = false;
+          }, 500)
+        }
 
 					})
 				}

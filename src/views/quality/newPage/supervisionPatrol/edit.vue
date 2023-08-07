@@ -120,7 +120,7 @@
 								</approveuser>
 
 								<div class="form-block">
-									<el-button class="submit-btn" size="small" type="primary" @click="addOrModify()">提交
+									<el-button class="submit-btn" size="small" type="primary" @click="addOrModify()" :loading="submitDisable">提交
 									</el-button>
 								</div>
 							</el-form>
@@ -227,7 +227,9 @@
 				},
 				auditUser: {},
                 approveVisible:true,
-				flowKey: 'jianlixunshi'
+				flowKey: 'jianlixunshi',
+
+      submitDisable: false
 			};
 		},
 		created() {},
@@ -301,6 +303,9 @@
 				});
 			},
 			addOrModify(isdraft) {
+      if (this.submitDisable) return;
+      
+      this.submitDisable = true;
 				if (isdraft) {
 					if (diffCompare([this.formData], [{
 							"address": {},
@@ -333,6 +338,9 @@
 								message: '提交成功!'
 							});
 							this.dialogFormVisible = false;
+              setTimeout(()=> {
+                this.submitDisable = false;
+              }, 500)
 							this.$emit("query");
 						}
 					});
@@ -349,10 +357,17 @@
 										message: '提交成功!'
 									});
 									this.dialogFormVisible = false;
+              setTimeout(()=> {
+                this.submitDisable = false;
+              }, 500)
 									this.$emit("query");
 								}
 							});
-						}
+						} else {
+          setTimeout(()=> {
+            this.submitDisable = false;
+          }, 500)
+        }
 
 					})
 				}

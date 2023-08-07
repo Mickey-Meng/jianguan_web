@@ -61,7 +61,7 @@
         </div>
         <svg-icon
           icon-class="left"
-          v-if="currentPage > 1 && currentPage < quotient"
+          v-if="currentPage < quotient"
           class="right_shift"
           @click="addPage"
         />
@@ -243,7 +243,7 @@ export default {
         (this.currentPage - 1) * this.pageSize,
         this.currentPage * this.pageSize
       );
-      this.quotient = Math.ceil(this.lists.length / 10);
+      this.quotient = Math.ceil(this.lists.length / 12);
     },
     addPage() {
       if (this.currentPage <= this.quotient) {

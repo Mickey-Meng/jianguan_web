@@ -2,7 +2,7 @@
 	<div>
 		<el-dialog class="full-dialog defined-dialog" :visible.sync="dialogFormVisible" :fullscreen="true">
 			<template slot="title">
-				{{dialogTitle}}
+				{{ dialogTitle }}
 				<div class="logo-icon"></div>
 			</template>
 			<el-container>
@@ -14,8 +14,8 @@
 								<div class="form-title">
 									<div class="title-big-bar"></div>
 									<strong>监理指令</strong>
-									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify"
-										@checkDraft="checkDraft" ref="drafthandle"></drafthandle>
+									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify" @checkDraft="checkDraft"
+										ref="drafthandle"></drafthandle>
 								</div>
 
 								<div class="form-block">
@@ -32,13 +32,13 @@
 										<div class="block-item">
 											<div class="block-item-label">发起人</div>
 											<div class="block-item-value">
-												{{baseInfo.userName}}
+												{{ baseInfo.userName }}
 											</div>
 										</div>
 										<div class="block-item">
 											<div class="block-item-label">发起时间</div>
 											<div class="block-item-value">
-												{{baseInfo.startDate}}
+												{{ baseInfo.startDate }}
 											</div>
 										</div>
 									</div>
@@ -78,8 +78,8 @@
 											<div class="block-item-label">回复期限<i class="require-icon"></i></div>
 											<div class="block-item-value">
 												<el-form-item prop="orderDate">
-													<el-date-picker value-format="yyyy-MM-dd"
-														v-model="formData.orderDate" type="date" placeholder="请选择">
+													<el-date-picker value-format="yyyy-MM-dd" v-model="formData.orderDate"
+														type="date" placeholder="请选择">
 													</el-date-picker>
 												</el-form-item>
 											</div>
@@ -189,7 +189,8 @@
 								</approveuser>
 
 								<div class="form-block">
-									<el-button class="submit-btn" size="small" type="primary" @click="addOrModify()">提交
+									<el-button class="submit-btn" size="small" type="primary" @click="addOrModify()"
+										:loading="submitDisable">提交
 									</el-button>
 								</div>
 							</el-form>
@@ -209,52 +210,154 @@
 		</el-dialog>
 
 		<el-dialog width="80%" class="little-container" :visible.sync="draftVisible">
-			<supervisionOfInstruction @hideDraft="hideDraft" @getDetail="getDetail" :isDraft="draftVisible" v-if="draftVisible">
+			<supervisionOfInstruction @hideDraft="hideDraft" @getDetail="getDetail" :isDraft="draftVisible"
+				v-if="draftVisible">
 			</supervisionOfInstruction>
 		</el-dialog>
 	</div>
 </template>
 
 <script>
-	import {mapGetters} from "vuex";
-	import * as api from "@/api/quality";
-	import {
-		getUserInfo
-	} from "@/api/user";
-	import {
-		convertOptions,
-		formatDate,
-		formatDateTime,
-		getDaysBetween,
-		diffCompare
-	} from "@/utils/format.js";
+import { mapGetters } from "vuex";
+import * as api from "@/api/quality";
+import {
+	getUserInfo
+} from "@/api/user";
+import {
+	convertOptions,
+	formatDate,
+	formatDateTime,
+	getDaysBetween,
+	diffCompare
+} from "@/utils/format.js";
 
-	import upload from "../../../common/upload.vue"
-	import attachlist from "../../../common/attachlist.vue"
-	import drafthandle from "../../../common/drafthandle.vue"
-	import approveuser from "../../../common/approveuser.vue"
-	import projectinfo from "../../../common/projectinfo.vue"
-	import locationmap from "../../../common/locationmap.vue"
+import upload from "../../../common/upload.vue"
+import attachlist from "../../../common/attachlist.vue"
+import drafthandle from "../../../common/drafthandle.vue"
+import approveuser from "../../../common/approveuser.vue"
+import projectinfo from "../../../common/projectinfo.vue"
+import locationmap from "../../../common/locationmap.vue"
 
-	export default {
-		data() {
-			return {
-				draftVisible: false,
-				addOrModifyFlag: true,
-				dialogFormVisible: false,
-				dialogTitle: '全生命周期智慧建设管理平台',
-				levelOptions: [{
-					label: '一般',
-					value: 0
-				}, {
-					label: '严重',
-					value: 1
+export default {
+	data() {
+		return {
+			draftVisible: false,
+			addOrModifyFlag: true,
+			dialogFormVisible: false,
+			dialogTitle: '全生命周期智慧建设管理平台',
+			levelOptions: [{
+				label: '一般',
+				value: 0
+			}, {
+				label: '严重',
+				value: 1
+			}],
+			baseInfo: {
+				userName: this.$store.getters.userInfo.name,
+				startDate: formatDate(new Date()),
+			},
+			formData: { //表单参数
+				"address": {},
+				"auditUser": {},
+				"copy": "",
+				"deletedFlag": 1,
+				"draftFlag": 1,
+				"orderCode": "",
+				"orderContent": "",
+				"orderDate": formatDate(new Date()),
+				"orderTitle": "",
+				"otherAttachment": [],
+				"problemPhotoAttachment": [],
+				"buildSection": this.$store.getters.project.id,
+				"projectId": this.$store.getters.project['parentid'],
+				"projectPart": "",
+				"replyCode": "",
+				"replyContent": "",
+				"replyDate": formatDate(new Date()),
+				"replyOtherAttachment": [],
+				"replyPhotoAttachment": [],
+				"reviewDirector": "",
+				"reviewSupervision": "",
+				"seriousLevel": 0
+			},
+			rules: {
+				orderCode: [{
+					required: true,
+					message: '必须项',
+					trigger: 'blur'
 				}],
-				baseInfo: {
-					userName:this.$store.getters.userInfo.name,
-					startDate:formatDate(new Date()),
-				},
-				formData: { //表单参数
+				orderTitle: [{
+					required: true,
+					message: '必须项',
+					trigger: 'blur'
+				}],
+				orderDate: [{
+					required: true,
+					message: '必须项',
+					trigger: 'blur'
+				}],
+				projectPart: [{
+					required: true,
+					message: '必须项',
+					trigger: 'blur'
+				}],
+				seriousLevel: [{
+					required: true,
+					message: '必须项',
+					trigger: 'blur'
+				}],
+				orderContent: [{
+					required: true,
+					message: '必须项',
+					trigger: 'blur'
+				}],
+				replyCode: [{
+					required: true,
+					message: '必须项',
+					trigger: 'blur'
+				}],
+				replyContent: [{
+					required: true,
+					message: '必须项',
+					trigger: 'blur'
+				}]
+			},
+			auditUser: {},
+			approveVisible: true,
+			flowKey: 'jianlizhiling',
+
+			submitDisable: false
+		};
+	},
+	created() { },
+	components: {
+		upload,
+		attachlist,
+		drafthandle,
+		approveuser,
+		projectinfo,
+		locationmap,
+		supervisionOfInstruction: () => import("../supervisionOfInstruction.vue")
+	},
+	watch: {
+
+	},
+	computed: {
+		...mapGetters(["userInfo", "name", "project", "roleId", "getUrl"])
+	},
+	mounted() {
+	},
+	methods: {
+
+		changeVisible(obj, value) {
+			this.dialogFormVisible = value;
+			obj = obj || {};
+			this.addOrModifyFlag = obj['id'] ? false : true;
+			if (obj['id']) {
+				this.getDetail(obj['id']);
+				this.approveVisible = false;
+			} else {
+				this.formData = {
 					"address": {},
 					"auditUser": {},
 					"copy": "",
@@ -267,7 +370,47 @@
 					"otherAttachment": [],
 					"problemPhotoAttachment": [],
 					"buildSection": this.$store.getters.project.id,
-					"projectId":this.$store.getters.project['parentid'],
+					"projectId": this.$store.getters.project['parentid'],
+					"projectPart": "",
+					"replyCode": "",
+					"replyContent": "",
+					"replyDate": formatDate(new Date()),
+					"replyOtherAttachment": [],
+					"replyPhotoAttachment": [],
+					"reviewDirector": "",
+					"reviewSupervision": "",
+					"seriousLevel": 0
+				}
+				// this.auditUser={};
+				this.approveVisible = true;
+			}
+		},
+
+		getDetail(id) {
+			api.getSupervisionOrderDeatil(id).then((res) => {
+				let data = res['data'] || {};
+				this.formData = data;
+			});
+		},
+		addOrModify(isdraft) {
+			if (this.submitDisable) return;
+
+			this.submitDisable = true;
+			if (isdraft) {
+				if (diffCompare([this.formData], [{
+					"address": {},
+					"auditUser": {},
+					"copy": "",
+					"deletedFlag": 1,
+					"draftFlag": 1,
+					"orderCode": "",
+					"orderContent": "",
+					"orderDate": formatDate(new Date()),
+					"orderTitle": "",
+					"otherAttachment": [],
+					"problemPhotoAttachment": [],
+					"buildSection": this.$store.getters.project.id,
+					"projectId": this.$store.getters.project['parentid'],
 					"projectPart": "",
 					"replyCode": "",
 					"replyContent": "",
@@ -278,193 +421,67 @@
 					"reviewSupervision": "",
 					"seriousLevel": 0
 				},
-				rules: {
-					orderCode: [{
-						required: true,
-						message: '必须项',
-						trigger: 'blur'
-					}],
-					orderTitle: [{
-						required: true,
-						message: '必须项',
-						trigger: 'blur'
-					}],
-					orderDate: [{
-						required: true,
-						message: '必须项',
-						trigger: 'blur'
-					}],
-					projectPart: [{
-						required: true,
-						message: '必须项',
-						trigger: 'blur'
-					}],
-					seriousLevel: [{
-						required: true,
-						message: '必须项',
-						trigger: 'blur'
-					}],
-					orderContent: [{
-						required: true,
-						message: '必须项',
-						trigger: 'blur'
-					}],
-					replyCode: [{
-						required: true,
-						message: '必须项',
-						trigger: 'blur'
-					}],
-					replyContent: [{
-						required: true,
-						message: '必须项',
-						trigger: 'blur'
-					}]
-				},
-				auditUser: {},
-                approveVisible:true,
-				flowKey: 'jianlizhiling'
-			};
-		},
-		created() {},
-		components: {
-			upload,
-			attachlist,
-			drafthandle,
-			approveuser,
-			projectinfo,
-			locationmap,
-			supervisionOfInstruction: () => import("../supervisionOfInstruction.vue")
-		},
-		watch: {
 
-		},
-		computed: {
-		  ...mapGetters(["userInfo", "name", "project", "roleId", "getUrl"])
-		},
-		mounted() {
-		},
-		methods: {
-
-			changeVisible(obj, value) {
-				this.dialogFormVisible = value;
-				obj = obj || {};
-				this.addOrModifyFlag = obj['id'] ? false : true;
-				if (obj['id']) {
-					this.getDetail(obj['id']);
-                    this.approveVisible=false;
-				} else {
-					this.formData = {
-						"address": {},
-						"auditUser": {},
-						"copy": "",
-						"deletedFlag": 1,
-						"draftFlag": 1,
-						"orderCode": "",
-						"orderContent": "",
-						"orderDate": formatDate(new Date()),
-						"orderTitle": "",
-						"otherAttachment": [],
-						"problemPhotoAttachment": [],
-						"buildSection": this.$store.getters.project.id,
-						"projectId":this.$store.getters.project['parentid'],
-						"projectPart": "",
-						"replyCode": "",
-						"replyContent": "",
-						"replyDate": formatDate(new Date()),
-						"replyOtherAttachment": [],
-						"replyPhotoAttachment": [],
-						"reviewDirector": "",
-						"reviewSupervision": "",
-						"seriousLevel": 0
-					}
-					// this.auditUser={};
-					this.approveVisible=true;
-				}
-			},
-
-			getDetail(id) {
-				api.getSupervisionOrderDeatil(id).then((res) => {
-					let data = res['data'] || {};
-					this.formData = data;
-				});
-			},
-			addOrModify(isdraft) {
-				if (isdraft) {
-					if (diffCompare([this.formData], [{
-								"address": {},
-								"auditUser": {},
-								"copy": "",
-								"deletedFlag": 1,
-								"draftFlag": 1,
-								"orderCode": "",
-								"orderContent": "",
-								"orderDate": formatDate(new Date()),
-								"orderTitle": "",
-								"otherAttachment": [],
-								"problemPhotoAttachment": [],
-								"buildSection": this.$store.getters.project.id,
-								"projectId":this.$store.getters.project['parentid'],
-								"projectPart": "",
-								"replyCode": "",
-								"replyContent": "",
-								"replyDate": formatDate(new Date()),
-								"replyOtherAttachment": [],
-								"replyPhotoAttachment": [],
-								"reviewDirector": "",
-								"reviewSupervision": "",
-								"seriousLevel": 0
-							},
-
-						])) {
-						this.$message({
-							type: 'warning',
-							message: '不能提交空白!'
-						});
-						return;
-					}
-					this.formData.draftFlag = isdraft ? 0 : 1;
-					this.formData.auditUser = this.auditUser;
-					api.addOrUpdateSupervisionOrder(this.formData).then((res) => {
-						if (res.data) {
-							this.$message({
-								type: 'success',
-								message: '提交成功!'
-							});
-							this.dialogFormVisible = false;
-							this.$emit("query");
-						}
+				])) {
+					this.$message({
+						type: 'warning',
+						message: '不能提交空白!'
 					});
-
-				} else {
-					this.$refs['ruleForm'].validate((valid) => {
-						if (valid) {
-							this.formData.auditUser = this.auditUser;
-							this.formData.draftFlag = 1;
-							api.addOrUpdateSupervisionOrder(this.formData).then((res) => {
-								if (res.data) {
-									this.$message({
-										type: 'success',
-										message: '提交成功!'
-									});
-									this.dialogFormVisible = false;
-									this.$emit("query");
-								}
-							});
-						}
-
-					})
+					return;
 				}
-			},
-			hideDraft() {
-				this.draftVisible = false;
-			},
-			checkDraft() {
-				this.draftVisible = true;
+				this.formData.draftFlag = isdraft ? 0 : 1;
+				this.formData.auditUser = this.auditUser;
+				api.addOrUpdateSupervisionOrder(this.formData).then((res) => {
+					if (res.data) {
+						this.$message({
+							type: 'success',
+							message: '提交成功!'
+						});
+						this.dialogFormVisible = false;
+						setTimeout(() => {
+							this.submitDisable = false;
+						}, 500)
+						this.$emit("query");
+					}
+				});
+
+			} else {
+				this.$refs['ruleForm'].validate((valid) => {
+					if (valid) {
+						this.formData.auditUser = this.auditUser;
+						this.formData.draftFlag = 1;
+						api.addOrUpdateSupervisionOrder(this.formData).then((res) => {
+							if (res.data) {
+								this.$message({
+									type: 'success',
+									message: '提交成功!'
+								});
+								this.dialogFormVisible = false;
+								setTimeout(() => {
+									this.submitDisable = false;
+								}, 500)
+								this.$emit("query");
+							}
+						});
+					} else {
+						setTimeout(() => {
+							this.submitDisable = false;
+						}, 500)
+					}
+
+				})
 			}
 		},
-	};
+		hideDraft() {
+			this.draftVisible = false;
+		},
+		checkDraft() {
+			this.draftVisible = true;
+		}
+	},
+};
 </script>
 
 <style scoped lang="scss">
-	@import "../../../../assets/css/dialog.scss"
+@import "../../../../assets/css/dialog.scss"
 </style>

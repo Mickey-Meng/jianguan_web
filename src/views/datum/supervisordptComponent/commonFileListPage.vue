@@ -39,27 +39,21 @@
         label="上传人"
         align="center"
       ></el-table-column>
-      <el-table-column v-if="fileType === 'DSFJCDWZLGL'" prop="status" align="center" label="审核状态" show-overflow-tooltip>
+      <el-table-column
+        v-if="fileType === 'DSFJCDWZLGL'"
+        prop="status"
+        align="center"
+        label="审核状态"
+        show-overflow-tooltip
+      >
         <template slot-scope="scope">
-          <el-tag
-            v-if="scope.row.status == '2'"
-            size="mini"
-            type="warning"
-          >
+          <el-tag v-if="scope.row.status == '2'" size="mini" type="warning">
             驳回
           </el-tag>
-          <el-tag
-            v-if="scope.row.status == '0'"
-            size="mini"
-            type="default"
-          >
+          <el-tag v-if="scope.row.status == '0'" size="mini" type="default">
             审批中
           </el-tag>
-          <el-tag
-            v-if="scope.row.status == '1'"
-            size="mini"
-            type="success"
-          >
+          <el-tag v-if="scope.row.status == '1'" size="mini" type="success">
             已审批
           </el-tag>
         </template>
@@ -67,16 +61,30 @@
 
       <el-table-column label="操作" align="center">
         <template slot-scope="{ row, $index }">
-          <el-button v-if="editStatus(row)" type="primary" size="small" class="primary_mini" @click="editInfo(row)">
+          <el-button
+            v-if="editStatus(row)"
+            type="primary"
+            size="small"
+            class="primary_mini"
+            @click="editInfo(row, editStatus(row))"
+          >
             编辑
           </el-button>
-          <el-button type="primary" size="small" class="primary_mini" @click="downLoadFile(row)">
+          <el-button
+            type="primary"
+            size="small"
+            class="primary_mini"
+            @click="downLoadFile(row)"
+          >
             下载
           </el-button>
-          <el-button type="danger" size="small" @click="handleDelete(row, $index)" v-if="rolePerms[0] =='gly'"
-          >删除
-          </el-button
-          >
+          <el-button
+            type="danger"
+            size="small"
+            @click="handleDelete(row, $index)"
+            v-if="rolePerms[0] == 'gly'"
+            >删除
+          </el-button>
         </template></el-table-column
       >
     </el-table>
@@ -84,61 +92,60 @@
 </template>
 
 <script>
-  import {getFile, deleteFile} from "@/api/file";
-  import {downLoadFile} from "@/utils/download";
-  import {mapGetters} from "vuex";
+import { getFile, deleteFile } from "@/api/file";
+import { downLoadFile } from "@/utils/download";
+import { mapGetters } from "vuex";
 
-  export default {
-    name: "",
-    props: {
-      DataArr: {
-        type: Array,
-        default: () => []
-      },
-      fileType: {
-        type: String,
-        default: () => ''
+export default {
+  name: "",
+  props: {
+    DataArr: {
+      type: Array,
+      default: () => [],
+    },
+    fileType: {
+      type: String,
+      default: () => "",
+    },
+  },
+  components: {},
+  data() {
+    return {
+      tableData: [],
+    };
+  },
+  created() {
+    this.tableData = this.DataArr;
+  },
+  computed: {
+    ...mapGetters(["rolePerms"]),
+  },
+  mounted() {},
+  methods: {
+    editStatus(row) {
+      if (this.fileType != "DSFJCDWZLGL") {
+        return true;
       }
-    },
-    components: {},
-    data() {
-      return {
-        tableData: []
-      };
-    },
-    created() {
-      this.tableData = this.DataArr;
-    },
-    computed: {
-      ...mapGetters(["rolePerms"])
-    },
-    mounted() {
-    },
-    methods: {
-      editStatus(row) {
-        if (this.fileType != 'DSFJCDWZLGL') {
-          return true;
-        }
-        if(row.status != 2) {
-          return false;
-        }
-        if(row.createUserId == this.$store.getters.userInfo.ID) {
-          return true;
-        }
-        if(this.$store.getters.rolePerms[0] == 'gly') {
-          return true;
-        }
+      if (row.status != 2) {
         return false;
-      },
-      handleDelete(row, index) {
-        this.$confirm("是否删除该文件?", "删除文件", {
-          cancelButtonText: "取消",
-          confirmButtonText: "确定",
-          customClass: "ceshi",
-          type: "warning"
-        }).then(() => {
-          deleteFile(row.id).then((res) => {
-            this.$message({
+      }
+      if (row.createUserId == this.$store.getters.userInfo.ID) {
+        return true;
+      }
+      if (this.$store.getters.rolePerms[0] == "gly") {
+        return true;
+      }
+      return false;
+    },
+    handleDelete(row, index) {
+      this.$confirm("是否删除该文件?", "删除文件", {
+        cancelButtonText: "取消",
+        confirmButtonText: "确定",
+        customClass: "ceshi",
+        type: "warning",
+      }).then(() => {
+        deleteFile(row.id).then((res) => {
+          this.$message({
             message: "删除成功",
             type: "success",
             customClass: "message_override",
@@ -147,7 +154,8 @@
         });
       });
     },
-    editInfo(row) {
+    editInfo(row, isEdit) {
+      row.isEdit = isEdit;
       this.$emit("opdateInfo", { row, key: "approvalfile" });
     },
     downLoadFile(row) {
@@ -162,7 +170,7 @@
 };
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
 .wrapper {
   height: 100%;
   //padding: 5px;

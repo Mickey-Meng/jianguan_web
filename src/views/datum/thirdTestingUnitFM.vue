@@ -47,8 +47,6 @@
         label-width="80px"
         :rules="rules"
       >
-
-
         <el-form-item label="资料类型" prop="type">
           <el-select
             v-model="form.type"
@@ -65,23 +63,25 @@
           </el-select>
         </el-form-item>
 
-
         <el-form-item label="资料名称" prop="filename">
           <el-input
             placeholder="请输入文件名称"
             v-model="form.filename"
           ></el-input>
         </el-form-item>
-        <el-form-item label="上传文件" prop="fileurl" v-if="isCreate">
+        <el-form-item label="上传文件" prop="fileurl" v-if="uploadFileFlag">
           <uploadFile
             ref="otherOrgAttachments"
             @changeValue="changeValue"
           ></uploadFile>
         </el-form-item>
 
-        <approveuser v-if="approveVisible" :auditUser="auditUser"  :flowKey="flowKey">
+        <approveuser
+          v-if="approveVisible"
+          :auditUser="auditUser"
+          :flowKey="flowKey"
+        >
         </approveuser>
-
       </el-form>
 
       <div slot="footer">
@@ -103,41 +103,46 @@ import {
   updateFileInfo,
   getFileByTypeList,
   getFileDictByPCode,
-  getStoreFileByPcode
+  getStoreFileByPcode,
 } from "@/api/file";
-import {mapGetters} from "vuex";
-import {disposeUrl} from "@/utils/validate";
+import { mapGetters } from "vuex";
+import { disposeUrl } from "@/utils/validate";
 import approveuser from "@/views/common/approveuser.vue";
 
 export default {
   name: "",
-  components: {approveuser, commonFile_day,commonFile_week,commonFile_month},
+  components: {
+    approveuser,
+    commonFile_day,
+    commonFile_week,
+    commonFile_month,
+  },
   data() {
     return {
       auditUser: {},
-      approveVisible:true,
-      flowKey:'DSFJCDWZLGL',
+      approveVisible: true,
+      flowKey: "DSFJCDWZLGL",
       currentView: "commonFile_day",
       dialogVisible: false,
       isCreate: false,
       fileType: "DSFJCDWZLGL",
+      uploadFileFlag: true,
       options: [
         {
           name: "commonFile_day",
           title: "日",
-          key: 'dsfjcdwzlgl-day',
+          key: "dsfjcdwzlgl-day",
         },
         {
           name: "commonFile_week",
           title: "周",
-          key: 'dsfjcdwzlgl-week',
+          key: "dsfjcdwzlgl-week",
         },
         {
           name: "commonFile_month",
           title: "月",
-          key: 'dsfjcdwzlgl-month',
+          key: "dsfjcdwzlgl-month",
         },
-
       ],
       // type: 12,
       // typeText: "日",
@@ -157,7 +162,7 @@ export default {
         calladdr: "", //会议地点
         calltime: "",
         fileType: "DSFJCDWZLGL",
-        filename: ""
+        filename: "",
       },
       tableData: [],
       functionary: [], // 文件分类字典
@@ -165,15 +170,13 @@ export default {
         filename: [
           { required: true, message: "请输入文件名称", trigger: "blur" },
         ],
-        type: [
-          { required: true, message: "请输入资料类型", trigger: "blur" },
-        ],
+        type: [{ required: true, message: "请输入资料类型", trigger: "blur" }],
         fileurl: [{ required: false, message: "请上传文件", trigger: "blur" }],
       },
     };
   },
   computed: {
-    ...mapGetters(["project"])
+    ...mapGetters(["project"]),
   },
   mounted() {},
   created() {
@@ -183,16 +186,17 @@ export default {
     init() {
       this.functionary = [];
       this.tableData = [];
-      if(typeof this.pCode === 'undefined'  ){
-        this.pCode = 'dsfjcdwzlgl-day';
+      if (typeof this.pCode === "undefined") {
+        this.pCode = "dsfjcdwzlgl-day";
       }
-      getFileDictByPCode(this.pCode).then((res) => {
-        this.functionary = res.data;
-      }).catch(function (error) {
-      });
+      getFileDictByPCode(this.pCode)
+        .then((res) => {
+          this.functionary = res.data;
+        })
+        .catch(function (error) {});
 
       //获取已上传的附件清单
-      getStoreFileByPcode(this.pCode,this.project.id).then((res) => {
+      getStoreFileByPcode(this.pCode, this.project.id).then((res) => {
         this.tableData = res.data;
       });
     },
@@ -227,7 +231,7 @@ export default {
         callunit: "",
         calladdr: "",
         calltime: "",
-        projectId: this.project.id
+        projectId: this.project.id,
       };
       this.isCreate = true;
       this.dialogVisible = true;
@@ -273,17 +277,26 @@ export default {
       }
     },
     opdateInfo(row) {
+      this.uploadFileFlag = row.row.isEdit;
       row.row.type = row.row.type.toString();
       this.approveVisible = false;
       this.form = Object.assign(this.form, row.row);
       this.isCreate = false;
       this.dialogVisible = true;
+      setTimeout(() => {
+        const fileurl = row.row.fileurl
+          ? JSON.parse(row.row.fileurl).fileName
+          : "";
+        this.$refs.otherOrgAttachments.fileList = fileurl
+          ? [{ name: fileurl, url: "" }]
+          : [];
+      }, 200);
     },
   },
 };
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
 .con_wrapper {
   height: 100%;
   // padding: 10px;

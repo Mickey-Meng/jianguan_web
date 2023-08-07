@@ -44,6 +44,7 @@ let map;
 let L = window.L;
 let featureGroup;
 let workDraw = null;
+let source = null;
 let key = ["49ea1deec0ffd88ef13a3f69987e9a63"];
 export default {
   props: ["siteStr", "centerPointer", "name"],
@@ -92,7 +93,7 @@ export default {
         }),
       });
       const layers = [taindiLayer];
-      let map = new ol.Map({
+      map = new ol.Map({
         layers: layers,
         target: "l_map",
         view: new ol.View({
@@ -100,57 +101,44 @@ export default {
           zoom: 12,
         }),
       });
+      that.initDrawer();
     },
     initDrawer() {
-      let that = this;
-      workDraw = new L.zlskmap.Draw({
-        map: map,
-        hasDel: false,
-        isOnly: true,
-        onCreate: function (e) {
-          if (e.layer._latlngs[0].length < 4) {
-            that.$message({
-              type: "warning",
-              message: "请重新绘制。注意:至少绘制三个点",
-              customClass: "message_override",
-            });
-            workDraw.clearDraw();
-            workDraw.stopDraw();
-            this.$emit("clearStr");
-          } else {
-            workDraw.stopDraw();
-            that.disposeStr(e.layer._latlngs[0]);
-          }
-        },
-        onChange: function (e) {
-          that.disposeStr(e.layer._latlngs[0]);
-        },
+      source = new ol.source.Vector({wrapX: false});
+      const vector = new ol.layer.Vector({
+        source: source,
       });
-      workDraw.hasEdit(true);
+
+      map.addLayer(vector)
     },
     startDraw() {
       this.$emit("clearStr");
-      featureGroup && featureGroup.remove();
-      workDraw && workDraw.clearDraw();
-      workDraw.startDraw("polygon", {
-        style: {
-          color: "#3388ff",
-          weight: 3,
-          opacity: 1,
-          dashArray: "",
-        },
-      });
+      source.clear();
+      if (!workDraw) {
+        workDraw = new ol.interaction.Draw({
+          source: source,
+          type: "Polygon",
+        });
+        workDraw.on('drawend', (data) => {
+          this.$emit("clearStr");
+          data.feature.getGeometry().transform('EPSG:3857','EPSG:4326'); // 坐标转换
+          let extent = data.feature.getGeometry().getExtent();
+          // extent = new ol.Extent(extent);
+          const centerPoint = ol.extent.getCenter(extent);
+          this.$emit("setStr", JSON.stringify(data.feature.getGeometry().getCoordinates()[0]));
+          this.$emit("setCenter", JSON.stringify(centerPoint));
+        })
+        map.addInteraction(workDraw);
+      }
     },
     reViewSite() {
       if (map) {
-        map.setView([29.706018768457866, 120.1095329338229], 14);
+        map.setView(new ol.View({center: ol.proj.fromLonLat([117.46471434258237, 30.63982300620444]), zoom: 12}));
       }
     },
     clearFeature() {
       this.$emit("clearStr");
-      featureGroup && featureGroup.remove();
-      workDraw && workDraw.clearDraw();
-      workDraw && workDraw.stopDraw();
+      if (source) source.clear()
     },
     disposeStr(arr) {
       if (arr && arr.length > 0) {

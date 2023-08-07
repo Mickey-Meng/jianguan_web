@@ -15,18 +15,14 @@
         </div>
 
       </div>
-      <div class="input-box"  style="margin-left: 10px">
+      <div class="input-box" style="margin-left: 10px">
         <div class="input-value">
           <el-input v-model="queryData.afterName" clearable placeholder="请输入变更后人员"></el-input>
         </div>
       </div>
       <div class="input-box" style="margin-left: 10px">
         <div class="input-value">
-          <el-date-picker
-            v-model="queryData.subDate"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择录入时间">
+          <el-date-picker v-model="queryData.subDate" type="date" value-format="yyyy-MM-dd" placeholder="请选择录入时间">
           </el-date-picker>
         </div>
       </div>
@@ -45,7 +41,9 @@
     </el-header>
     <el-main>
       <div class="container">
-        <el-table :data="tableDta.slice((queryData.pageNum-1)*queryData.pageSize,queryData.pageNum*queryData.pageSize)" style="width: 100%" height="calc(100% - 48px)" class="have_scrolling" border>
+        <el-table
+          :data="tableDta.slice((queryData.pageNum - 1) * queryData.pageSize, queryData.pageNum * queryData.pageSize)"
+          style="width: 100%" height="calc(100% - 48px)" class="have_scrolling" border>
           <el-table-column prop="projectChildName" label="标段"></el-table-column>
           <el-table-column prop="changeTypeName" label="人员变更类型"></el-table-column>
           <el-table-column prop="changePostName" label="变更岗位"></el-table-column>
@@ -56,17 +54,41 @@
               {{ row.subDate | formatTime }}
             </template>
           </el-table-column>
+          <el-table-column prop="status" align="center" label="审核状态" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <el-tag
+                v-if="scope.row.status == '2'"
+                size="mini"
+                type="warning"
+              >
+                驳回
+              </el-tag>
+              <el-tag
+                v-if="scope.row.status == '0'"
+                size="mini"
+                type="default"
+              >
+                审批中
+              </el-tag>
+              <el-tag
+                v-if="scope.row.status == '1'"
+                size="mini"
+                type="success"
+              >
+                已审批
+              </el-tag>
+            </template>
+          </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="{row}">
               <el-button type="text" size="mini" @click="seeDetail(row)">详情</el-button>
-              <el-button type="text" size="mini">删除</el-button>
+              <el-button v-if="$store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'" type="text" size="mini" @click="deleteRow(row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                       :current-page="queryData.pageNum" :page-size="queryData.pageSize"
-                       layout="total, sizes, prev, pager, next, jumper"
-                       :total="tableDta.length">
+          :current-page="queryData.pageNum" :page-size="queryData.pageSize"
+          layout="total, sizes, prev, pager, next, jumper" :total="tableDta.length">
         </el-pagination>
       </div>
     </el-main>
@@ -106,14 +128,8 @@
                     <div class="block-item-label">填报日期<i class="require-icon"></i></div>
                     <div class="block-item-value">
                       <el-form-item prop="subDate" v-if="isCreate">
-                        <el-date-picker
-                          v-model="form.subDate"
-                          type="datetime"
-                          :clearable="false"
-                          placeholder="选择日期时间"
-                          value-format="yyyy-MM-dd HH:mm:ss"
-
-                        >
+                        <el-date-picker v-model="form.subDate" type="datetime" :clearable="false" placeholder="选择日期时间"
+                          value-format="yyyy-MM-dd HH:mm:ss">
                         </el-date-picker>
                       </el-form-item>
                       <div v-else>{{ form.subDate }}</div>
@@ -150,10 +166,7 @@
                     <div class="block-item-value">
                       <el-form-item prop="changeType">
                         <el-select placeholder="请选择" v-model="form.changeType" @change="changeValue" v-if="isCreate">
-                          <el-option
-                            v-for="item in roleType"
-                            :key="item.roleid"
-                            :label="item.rolename"
+                          <el-option v-for="item in roleType" :key="item.roleid" :label="item.rolename"
                             :value="item.roleid">
                           </el-option>
                         </el-select>
@@ -166,10 +179,7 @@
                     <div class="block-item-value">
                       <el-form-item prop="changePost">
                         <el-select placeholder="请选择" disabled v-model="form.changePost" v-if="isCreate">
-                          <el-option
-                            v-for="item in roleType"
-                            :key="item.roleid"
-                            :label="item.rolename"
+                          <el-option v-for="item in roleType" :key="item.roleid" :label="item.rolename"
                             :value="item.roleid">
                           </el-option>
                         </el-select>
@@ -185,11 +195,7 @@
                     <div class="block-item-value">
                       <el-form-item prop="beforePersonId">
                         <el-select placeholder="请选择" v-model="form.beforePersonId" v-if="isCreate">
-                          <el-option
-                            v-for="item in beforeUsers"
-                            :key="item.id"
-                            :label="item.name"
-                            :value="item.id">
+                          <el-option v-for="item in beforeUsers" :key="item.id" :label="item.name" :value="item.id">
                           </el-option>
                         </el-select>
                         <div v-else>{{ form.beforePerson }}</div>
@@ -211,11 +217,7 @@
                     <div class="block-item-value">
                       <el-form-item prop="afterPersonId">
                         <el-select placeholder="请选择" v-model="form.afterPersonId" v-if="isCreate">
-                          <el-option
-                            v-for="item in afterUsers"
-                            :key="item.id"
-                            :label="item.name"
-                            :value="item.id">
+                          <el-option v-for="item in afterUsers" :key="item.id" :label="item.name" :value="item.id">
                           </el-option>
                         </el-select>
                         <div v-else>{{ form.afterPerson }}</div>
@@ -241,36 +243,35 @@
                     </div>
                   </div>
                 </div>
-
-
               </div>
               <div class="form-block">
                 <div class="form-block-title">
-                  <div class="title-bar"></div>
-                  <strong>附件</strong>
-                  <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-											xisx xis pdf文件，且不超过100m</span>
+                  <div class="title-bar"></div><strong>其他附件</strong>
+                  <span style="font-size: 12px;margin-left: 40px;">支持上传 jpg/jpeg png mp4 docx
+                    doc xlsx xls pdf 文件，且不超过 100M</span>
                 </div>
+
                 <div class="block-line" style="height: 35px">
-                  <!--                  <el-button size="small" type="primary">上传附件</el-button>-->
-                  <upload @afterUp="afterUp($event)" v-if="isCreate"></upload>
-                  <!-- <div class="block-table-title">附件</div> -->
+
+                  <!--  lrj #473 <upload @afterUp="afterUp($event)" v-if="isCreate"></upload> -->
                   <div class="block-table-btns">
                     <el-button size="small" type="primary" v-if="!isCreate" @click="downLoadEvent">下载全部</el-button>
                   </div>
                 </div>
-                <div class="block-table">
-                  <el-table :data="fileData" border style="width: 100%;">-->
+                <attachlist :editAble="true" :attachTable="fileData">
+                </attachlist>
+                <!-- lrj #473 <div class="block-table">
+                  <el-table :data="fileData" border style="width: 100%;">
                     <el-table-column prop="fileName" label="附件"></el-table-column>
                     <el-table-column prop="uploadTime" label="上传日期"></el-table-column>
                     <el-table-column prop="uploadPerson" label="上传人"></el-table-column>
                     <el-table-column label="操作">
                       <template slot-scope="{row,$index}">
-                        <el-button type="danger" size="mini" @click="deleteInfo(row,$index)">删除</el-button>
+                        <el-button type="danger" size="mini" @click="deleteInfo(row, $index)">删除</el-button>
                       </template>
                     </el-table-column>
                   </el-table>
-                </div>
+                </div> -->
                 <div class="block-line">
                   <p>
                     <span style="font-family: FangSong, FangSong_GB2312; font-size: 14px;">
@@ -294,8 +295,7 @@
             <i class="el-icon-caret-right"></i>
           </div>
         </el-aside>
-        <el-aside
-          style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
+        <el-aside style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
           <tasklog v-if="!isCreate" :taskInfo="taskInfo" ref="tasklog"></tasklog>
         </el-aside>
       </el-container>
@@ -305,355 +305,393 @@
 </template>
 
 <script>
-  import {mapGetters} from "vuex";
-  import upload from "@/views/common/upload";
-  import tasklog from "@/views/common/tasklog";
-  import {getAllProjectsData} from "@/api/project";
-  import {getNowDate} from "@/utils/date";
-  import {getRoleInfoByUserId} from "@/api/system";
-  import {getUserByRoleId} from "@/api/quality";
-  import {getOrgUser, addPersonChange, getPersonChange} from "@/api/staffApproval";
-  import {getOrgInfo} from "@/api/user";
-  import {submitUserTask} from "@/api/quality";
-  import {downLoadFile} from "@/utils/download";
-  import {getUserRoleAndCode} from "@/api/newProject";
-  import {formatDate} from "@/utils/date";
-  import approveuser from "@/views/common/approveuser.vue";
-  import {getFlowAuditEntry} from "@/api/quality";
-  import {getToken} from "@/utils/auth";
+import { mapGetters } from "vuex";
+import upload from "@/views/common/upload";
+import tasklog from "@/views/common/tasklog";
+import { getAllProjectsData } from "@/api/project";
+import {dateFormat, getCurrentDate, getNowDate} from "@/utils/date";
+import { getRoleInfoByUserId } from "@/api/system";
+import { getUserByRoleId } from "@/api/quality";
+import {getOrgUser, addPersonChange, getPersonChange, deleteStaffRecord, deleteChangeRecord} from "@/api/staffApproval";
+import { getOrgInfo } from "@/api/user";
+import { submitUserTask } from "@/api/quality";
+import { downLoadFile } from "@/utils/download";
+import { getUserRoleAndCode } from "@/api/newProject";
+import { formatDate } from "@/utils/date";
+import approveuser from "@/views/common/approveuser.vue";
+import { getFlowAuditEntry } from "@/api/quality";
+import { getToken } from "@/utils/auth";
+import attachlist from "@/views/common/attachlist"
 
 
 
-
-  export default {
-    data() {
-      return {
-        tableDta: [],
-        fileData: [],//上传的附件
-        form: {
-          projectName: "",
-          projectId: ""
+export default {
+  data() {
+    return {
+      tableDta: [],
+      fileData: [],//上传的附件
+      form: {
+        projectName: "",
+        projectId: ""
+      },
+      taskInfo: {},
+      dialogTitle: "全生命周期智慧建设管理平台",
+      dialogFormVisible: false,
+      queryData: {
+        beforeName: "",
+        afterName: "",
+        subDate: null,
+        pageNum: 1,
+        totalPage: 1,
+        pageSize: 10
+      },
+      roleType: [],//人员变更类型
+      beforeUsers: [],//变更前人员
+      afterUsers: [],//变更后人员
+      currentOrgUsers: [],//当前用户组织下的所有用户信息
+      orgInfo: {},//当前用户的组织信息
+      projectInfo: {},
+      allData: [],//暂存做搜索的数据
+      flowTypes: [
+        {
+          key: "shigongjihe",//施工单位人员变更
+          flowKey: "sgdwrybg"
         },
-        taskInfo: {},
-        dialogTitle: "全生命周期智慧建设管理平台",
-        dialogFormVisible: false,
-        queryData: {
-          beforeName: "",
-          afterName: "",
-          subDate: null,
-          pageNum: 1,
-          totalPage: 1,
-          pageSize: 10
+        {
+          key: "jianlijihe",//监理单位合同人员报审
+          flowKey: "jldwrybg"
         },
-        roleType: [],//人员变更类型
-        beforeUsers: [],//变更前人员
-        afterUsers: [],//变更后人员
-        currentOrgUsers: [],//当前用户组织下的所有用户信息
-        orgInfo: {},//当前用户的组织信息
-        projectInfo: {},
-        allData: [],//暂存做搜索的数据
-        flowTypes: [
-          {
-            key: "shigongjihe",//施工单位人员变更
-            flowKey: "sgdwrybg"
-          },
-          {
-            key: "jianlijihe",//监理单位合同人员报审
-            flowKey: "jldwrybg"
-          },
-          {
-            key: "quanzijihe",//全咨单位人员请假
-            flowKey: "qzdwrybg"
-          }
+        {
+          key: "quanzijihe",//全咨单位人员请假
+          flowKey: "qzdwrybg"
+        }
+      ],
+      userRoleParentCode: "",
+      isCreate: true,
+      rules: {
+        changeType: [
+          { required: true, message: "请选择人员变更类型", trigger: "blur" }
         ],
-        userRoleParentCode: "",
-        isCreate: true,
-        rules: {
-          changeType: [
-            {required: true, message: "请选择人员变更类型", trigger: "blur"}
-          ],
-          beforePersonId: [
-            {required: true, message: "请选择变更前人员", trigger: "blur"}
-          ],
-          afterPersonId: [
-            {required: true, message: "请选择变更后人员", trigger: "blur"}
-          ]
-        },
-        auditUser: {},
-        approveVisible:true,
-        flowKey: ""
-      };
-    },
-    created() {
-      this.form = {};
-      this.init();
-      this.initData();
-    },
-    components: {upload, tasklog, approveuser},
-    computed: {
-      ...mapGetters(["project", "name", "userInfo"])
-    },
-    methods: {
-      openDialog() {
-        if (!this.userRoleParentCode) {
+        beforePersonId: [
+          { required: true, message: "请选择变更前人员", trigger: "blur" }
+        ],
+        afterPersonId: [
+          { required: true, message: "请选择变更后人员", trigger: "blur" }
+        ]
+      },
+      auditUser: {},
+      approveVisible: true,
+      flowKey: ""
+    };
+  },
+  created() {
+    this.form = {};
+    this.init();
+    this.initData();
+  },
+  components: { upload, tasklog, attachlist, approveuser },
+  computed: {
+    ...mapGetters(["project", "name", "userInfo"])
+  },
+  methods: {
+    deleteRow(row) {
+      this.$confirm('确认是否删除?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deleteChangeRecord(row['id'], this.project.id).then((res) => {
+          // if (this.tableData.length == 1) {
+          //   this.queryData.pageNum = this.queryData.pageNum> 1 ? this.queryData.pageNum - 1 : 1
+          // }
+          this.initData();
+          // getPersonChange(this.project.id).then(res => {
+          //   this.tableDta = res.data;
+          //   this.allData = res.data;
+          // });
           this.$message({
-            type: "warning",
-            message: "配置错误、无法获取审批流程，请联系管理员！",
-            customClass: "message_override"
+            type: 'success',
+            message: '删除成功!'
           });
-          return false;
-        }
-        let flowObj = this.flowTypes.find(e => e.key === this.userRoleParentCode);
-        if (!flowObj) {
+        }).catch(error => {
           this.$message({
-            type: "warning",
-            message: "配置错误、无法获取审批流程，请联系管理员！",
-            customClass: "message_override"
-          });
-          return false;
-        }
-        this.flowKey = flowObj.flowKey;
-        this.dialogFormVisible = true;
-        this.isCreate = true;
-        this.initForm();
-        this.fileData = [];
-      },
-      handleSizeChange() {
-      },
-      handleCurrentChange() {
-      },
-      initData() {
-        getPersonChange(this.project.id).then(res => {
-          this.tableDta = res.data;
-          this.allData = res.data;
-        });
-      },
-      init() {
-        getAllProjectsData().then(res => {
-          let obj = res.data.find(e => e.id === this.project.parentid);
-          this.projectInfo = obj;
-          getOrgInfo().then(res1 => {
-            let data = res1.data.getMe;
-            let info = data.find(e => e.ID === this.userInfo.GROUPID);
-            this.orgInfo = info;
-            this.initForm();
+            type: 'fail',
+            message: '删除失败!'
           });
         });
-        getRoleInfoByUserId(this.project.id).then(res => {
-          let data = res.data;
-          if (data && data.length > 0) {
-            for (let i = 0; i < data.length; i++) {
-              for (let j = i + 1; j < data.length; j++) {
-                if (data[i].roleid === data[j].roleid) {
-                  data.splice(j, 1);
-                  j--;
-                }
+      });
+    },
+    openDialog() {
+      if (!this.userRoleParentCode) {
+        this.$message({
+          type: "warning",
+          message: "配置错误、无法获取审批流程，请联系管理员！",
+          customClass: "message_override"
+        });
+        return false;
+      }
+      let flowObj = this.flowTypes.find(e => e.key === this.userRoleParentCode);
+      if (!flowObj) {
+        this.$message({
+          type: "warning",
+          message: "配置错误、无法获取审批流程，请联系管理员！",
+          customClass: "message_override"
+        });
+        return false;
+      }
+      this.flowKey = flowObj.flowKey;
+      this.dialogFormVisible = true;
+      this.isCreate = true;
+      this.initForm();
+      this.fileData = [];
+    },
+    handleSizeChange() {
+    },
+    handleCurrentChange() {
+    },
+    initData() {
+      getPersonChange(this.project.id).then(res => {
+        for (let i = 0; i < res.data.length; i++) {
+          for (let j = 0; j < res.data[i].changeFiles.length; j++) {
+            res.data[i].changeFiles[j].creatorName = res.data[i].changeFiles[j].uploadPerson;
+          }
+        }
+        this.tableDta = res.data;
+        this.allData = res.data;
+      });
+    },
+    init() {
+      getAllProjectsData().then(res => {
+        let obj = res.data.find(e => e.id === this.project.parentid);
+        this.projectInfo = obj;
+        getOrgInfo().then(res1 => {
+          let data = res1.data.getMe;
+          let info = data.find(e => e.id === this.userInfo.GROUPID);
+          this.orgInfo = info;
+          this.initForm();
+        });
+      });
+      getRoleInfoByUserId(this.project.id).then(res => {
+        let data = res.data;
+        if (data && data.length > 0) {
+          for (let i = 0; i < data.length; i++) {
+            for (let j = i + 1; j < data.length; j++) {
+              if (data[i].roleid === data[j].roleid) {
+                data.splice(j, 1);
+                j--;
               }
             }
           }
-          this.roleType = data;
-        });
-        getOrgUser({projectid: this.project.id}).then(res => {
-          this.currentOrgUsers = res.data;
-        });
-        //获取用户角色
-        getUserRoleAndCode(this.project.id).then(res => {
-          if (res && res.data) {
-            this.userRoleParentCode = res.data.parentCode;
+        }
+        this.roleType = data;
+      });
+      getOrgUser({ projectid: this.project.id }).then(res => {
+        this.currentOrgUsers = res.data;
+      });
+      //获取用户角色
+      getUserRoleAndCode(this.project.id).then(res => {
+        if (res && res.data) {
+          this.userRoleParentCode = res.data.parentCode;
+        }
+      });
+    },
+    initForm() {
+      this.form = {
+        afterCode: "",//变更后（执业）资格证书号
+        afterPerson: "",//变更后人员名
+        afterPersonId: null,//变更后人员id
+        beforeCode: "",//变更前（执业）资格证书号
+        beforePerson: "",//变更前人员名
+        beforePersonId: null,//变更前人员id
+        changePost: null,//变更岗位id
+        changePostName: "",//变更岗位名
+        changeReason: "",//变更原因
+        changeType: null,//角色id
+        changeTypeName: "",//角色名
+        changeUnit: this.orgInfo.id,//组织id
+        changeUnitName: this.orgInfo.name,//组织名
+        projectChildId: this.project.id,//项目标段id
+        projectChildName: this.project.name,//项目标段名
+        projectId: this.projectInfo.id,//项目id
+        projectName: this.projectInfo.name,//项目名
+        recordId: this.userInfo.ID,//变更发起人id
+        recorder: this.name,//变更发起人名
+        subDate: getNowDate()//变更发起时间
+      };
+    },
+    afterUp(data) {
+      let obj = {
+        fileName: data.fileName,
+        fileId: data.fileId,
+        uploadPerson: this.name,
+        uploadPersonId: this.userInfo.ID,
+        uploadTime: getCurrentDate(dateFormat.DATE_PATTERN_FLAT1)
+      };
+      this.fileData.push(obj);
+    },
+    //人员变更类型选择变更事件
+    changeValue(val) {
+      this.form.changePost = val;
+      let obj = this.roleType.find(e => e.roleid == val);
+      this.form.changePostName = obj.rolename;
+      this.form.changeTypeName = obj.rolename;
+      this.afterPersonId = null;
+      this.beforePersonId = null;
+      this.beforeUsers = this.currentOrgUsers.filter(e => e.roleid === val);
+      this.afterUsers = this.currentOrgUsers.filter(e => e.roleid !== val);
+    },
+    //删除文件
+    deleteInfo(row, index) {
+      this.fileData.splice(index, 1);
+    },
+    //提交事件
+    submitInfo() {
+
+      this.$refs["form"].validate((valid) => {
+        if (valid) {
+          let obj = Object.assign({}, this.form);
+          //获取变更前人员姓名
+          let beforeInfo = this.beforeUsers.find(e => e.id === obj.beforePersonId);
+          obj.beforePerson = beforeInfo.name;
+          //获取变更后人员姓名
+          let afterInfo = this.afterUsers.find(e => e.id === obj.afterPersonId);
+          obj.afterPerson = afterInfo.name;
+          //获取人员变更类型
+          let info = this.roleType.find(e => e.roleid === obj.changeType);
+          obj.changeTypeName = info.rolename;
+          if (this.fileData.length > 0) {
+            this.fileData.forEach(item => {
+              item.uploadTime = getCurrentDate();
+            });
+            obj.files = this.fileData;
+            obj.changeFiles = this.fileData;
+            obj.changeFiles.forEach(item => {
+              item.uploadPerson = this.name
+            })
           }
+          obj.processDefinitionKey = this.flowKey;
+          //提交
+          addPersonChange(obj).then(res => {
+            this.issueStep(res);
+          });
+        } else {
+          return false;
+        }
+      });
+
+    },
+    issueStep(row) {
+      //查询人员
+      getFlowAuditEntry({
+        flowKey: this.flowKey,
+        buildSection: this.$store.getters.project.id,
+        projectId: this.$store.getters.project["parentid"] || 2
+      }).then(res => {
+        let arr = [];
+        let { data } = res;
+        for (let i in data) {
+          arr = arr.concat(data[i]);
+        }
+        let userMap = {};
+        arr.forEach(item => {
+          let value = item.entryUserVariable;
+          userMap[value] = item.userNames.toString();
         });
-      },
-      initForm() {
-        this.form = {
-          afterCode: "",//变更后（执业）资格证书号
-          afterPerson: "",//变更后人员名
-          afterPersonId: null,//变更后人员id
-          beforeCode: "",//变更前（执业）资格证书号
-          beforePerson: "",//变更前人员名
-          beforePersonId: null,//变更前人员id
-          changePost: null,//变更岗位id
-          changePostName: "",//变更岗位名
-          changeReason: "",//变更原因
-          changeType: null,//角色id
-          changeTypeName: "",//角色名
-          changeUnit: this.orgInfo.ID,//组织id
-          changeUnitName: this.orgInfo.NAME,//组织名
-          projectChildId: this.project.id,//项目标段id
-          projectChildName: this.project.name,//项目标段名
-          projectId: this.projectInfo.id,//项目id
-          projectName: this.projectInfo.name,//项目名
-          recordId: this.userInfo.ID,//变更发起人id
-          recorder: this.name,//变更发起人名
-          subDate: getNowDate()//变更发起时间
-        };
-      },
-      afterUp(data) {
+        userMap.startUserName = getToken("name");
         let obj = {
-          fileName: data.fileName,
-          fileId: data.fileId,
-          uploadPerson: this.name,
-          uploadPersonId: this.userInfo.ID,
-          uploadTime: formatDate(data.uploadTime)
+          copyData: {},
+          flowTaskCommentDto: {
+            approvalType: "",
+            comment: "",
+            delegateAssginee: ""
+          },
+          // auditUser: userMap,
+          masterData: {},
+          processInstanceId: row.data,
+          slaveData: {},
+          taskId: "",
+          taskVariableData: userMap
         };
-        this.fileData.push(obj);
-      },
-      //人员变更类型选择变更事件
-      changeValue(val) {
-        this.form.changePost = val;
-        let obj = this.roleType.find(e => e.roleid == val);
-        this.form.changePostName = obj.rolename;
-        this.form.changeTypeName = obj.rolename;
-        this.afterPersonId = null;
-        this.beforePersonId = null;
-        this.beforeUsers = this.currentOrgUsers.filter(e => e.roleid === val);
-        this.afterUsers = this.currentOrgUsers.filter(e => e.roleid !== val);
-      },
-      //删除文件
-      deleteInfo(row, index) {
-        this.fileData.splice(index, 1);
-      },
-      //提交事件
-      submitInfo() {
-
-        this.$refs["form"].validate((valid) => {
-          if (valid) {
-            let obj = Object.assign({}, this.form);
-            //获取变更前人员姓名
-            let beforeInfo = this.beforeUsers.find(e => e.id === obj.beforePersonId);
-            obj.beforePerson = beforeInfo.name;
-            //获取变更后人员姓名
-            let afterInfo = this.afterUsers.find(e => e.id === obj.afterPersonId);
-            obj.afterPerson = afterInfo.name;
-            //获取人员变更类型
-            let info = this.roleType.find(e => e.roleid === obj.changeType);
-            obj.changeTypeName = info.rolename;
-            if (this.fileData.length > 0) {
-              obj.files = this.fileData;
-            }
-            obj.processDefinitionKey = this.flowKey;
-            //提交
-            addPersonChange(obj).then(res => {
-              this.issueStep(res);
-            });
-          } else {
-            return false;
-          }
-        });
-
-      },
-      issueStep(row) {
-        //查询人员
-        getFlowAuditEntry({
-          flowKey: this.flowKey,
-          buildSection: this.$store.getters.project.id,
-          projectId: this.$store.getters.project["parentid"] || 2
-        }).then(res => {
-          let arr = [];
-          let {data} = res;
-          for (let i in data) {
-            arr = arr.concat(data[i]);
-          }
-          let userMap = {};
-          arr.forEach(item => {
-            let value = item.entryUserVariable;
-            userMap[value] = item.userNames.toString();
+        submitUserTask(obj).then(res1 => {
+          this.$message({
+            type: "success",
+            message: "填报成功!",
+            customClass: "message_override"
           });
-          userMap.startUserName = getToken("name");
-          let obj = {
-            copyData: {},
-            flowTaskCommentDto: {
-              approvalType: "",
-              comment: "",
-              delegateAssginee: ""
-            },
-            // auditUser: userMap,
-            masterData: {},
-            processInstanceId: row.data,
-            slaveData: {},
-            taskId: "",
-            taskVariableData: userMap
-          };
-          submitUserTask(obj).then(res1 => {
-            this.$message({
-              type: "success",
-              message: "填报成功!",
-              customClass: "message_override"
-            });
-            this.initData();
-            this.dialogFormVisible = false;
-          });
+          this.initData();
+          this.dialogFormVisible = false;
         });
-      },
-      //sousuo
-      queryClick() {
-        let {afterName, beforeName, subDate} = this.queryData;
-        if (!subDate && !afterName && !beforeName) {
-          this.tableDta = this.allData;
-        } else if (!subDate && afterName && !beforeName) {
-          this.tableDta = this.allData.filter(e => e.afterPerson.indexOf(afterName) !== -1);
-        } else if (!subDate && !afterName && beforeName) {
-          this.tableDta = this.allData.filter(e => e.beforePerson.indexOf(beforeName) !== -1);
-        } else if (subDate && !afterName && !beforeName) {
-          this.tableDta = this.allData.filter(e => e.subDate.indexOf(subDate) !== -1);
-        } else {
-          this.tableDta = this.allData.filter(e => e.subDate.indexOf(subDate) !== -1 && e.beforePerson.indexOf(afterName) !== -1 && e.afterPerson.indexOf(afterName) !== -1);
-        }
-      },
-      //查看详情
-      seeDetail(row) {
-        this.form = Object.assign({}, row);
-        this.fileData = row.files;
-        this.isCreate = false;
-        let {processDefinitionId, processInstanceId, taskId} = row;
-        if (processDefinitionId && processInstanceId && taskId) {
-          let flowKey = processDefinitionId.split(":")[0];
-          this.taskInfo = {
-            processDefinitionId, processInstanceId, taskId, flowKey
-          };
-
-        } else {
-          this.taskInfo = {};
-        }
-        this.dialogFormVisible = true;
-        this.$nextTick(() => {
-          this.$refs["tasklog"].initData();
-        });
-      },
-      //下载文件
-      downLoadEvent() {
-        if (this.fileData && this.fileData.length > 0) {
-          this.fileData.forEach(item => {
-            downLoadFile(item.fileId);
-          });
-
-        }
+      });
+    },
+    //sousuo
+    queryClick() {
+      let { afterName, beforeName, subDate } = this.queryData;
+      if (!subDate && !afterName && !beforeName) {
+        this.tableDta = this.allData;
+      } else if (!subDate && afterName && !beforeName) {
+        this.tableDta = this.allData.filter(e => e.afterPerson.indexOf(afterName) !== -1);
+      } else if (!subDate && !afterName && beforeName) {
+        this.tableDta = this.allData.filter(e => e.beforePerson.indexOf(beforeName) !== -1);
+      } else if (subDate && !afterName && !beforeName) {
+        this.tableDta = this.allData.filter(e => e.subDate.indexOf(subDate) !== -1);
+      } else {
+        this.tableDta = this.allData.filter(e => e.subDate.indexOf(subDate) !== -1 && e.beforePerson.indexOf(afterName) !== -1 && e.afterPerson.indexOf(afterName) !== -1);
       }
     },
-    filters: {
-      formatTime(val) {
-        return formatDate(val);
+    //查看详情
+    seeDetail(row) {
+      this.form = Object.assign({}, row);
+      this.fileData = row.changeFiles;
+      this.isCreate = false;
+      let { processDefinitionId, processInstanceId, taskId } = row;
+      if (processDefinitionId && processInstanceId && taskId) {
+        let flowKey = processDefinitionId.split(":")[0];
+        this.taskInfo = {
+          processDefinitionId, processInstanceId, taskId, flowKey
+        };
+
+      } else {
+        this.taskInfo = {};
+      }
+      this.dialogFormVisible = true;
+      this.$nextTick(() => {
+        this.$refs["tasklog"].initData();
+      });
+    },
+    //下载文件
+    downLoadEvent() {
+      if (this.fileData && this.fileData.length > 0) {
+        this.fileData.forEach(item => {
+          downLoadFile(item.fileId);
+        });
+
       }
     }
-  };
-</script>
-<style lang='scss' scoped>
-  @import "../../assets/css/table.scss";
-  @import "../../assets/css/dialog.scss";
-
-  .form-bg {
-    .form-block {
-      .block-item-label {
-        width: 180px !important;
-      }
-
-      .block-item-value {
-        width: calc(100% - 200px) !important;
-      }
-
-      .el-date-editor {
-        width: 100% !important;
-      }
+  },
+  filters: {
+    formatTime(val) {
+      return formatDate(val);
     }
   }
+};
+</script>
+<style lang='scss' scoped>
+@import "../../assets/css/table.scss";
+@import "../../assets/css/dialog.scss";
 
+.form-bg {
+  .form-block {
+    .block-item-label {
+      width: 180px !important;
+    }
+
+    .block-item-value {
+      width: calc(100% - 200px) !important;
+    }
+
+    .el-date-editor {
+      width: 100% !important;
+    }
+  }
+}
 </style>

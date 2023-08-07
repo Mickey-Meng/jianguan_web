@@ -639,6 +639,14 @@ export const handDeleteProcessInstance = data => {
   });
 };
 
+export const handDeleteCopyProcessInstance = data => {
+  return request({
+    url: api.handDeleteCopyProcessInstance,
+    method: "post",
+    data: data
+  });
+};
+
 
 /**
  * 获取流程列表

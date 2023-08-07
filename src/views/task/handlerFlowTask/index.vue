@@ -1,8 +1,9 @@
 <template>
 	<div>
-		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible" :fullscreen="true">
+		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible"
+			:fullscreen="true">
 			<template slot="title">
-				{{dialogTitle}}
+				{{ dialogTitle }}
 				<div class="logo-icon"></div>
 			</template>
 			<el-container>
@@ -12,7 +13,7 @@
 						<div class="form-content">
 							<div v-if="isUnEdit" class="form-title">
 								<div class="title-big-bar"></div>
-								<strong>{{menuTitle}}</strong>
+								<strong>{{ menuTitle }}</strong>
 								<div class="form-btns">
 									<el-button size="medium">暂存</el-button>
 									<el-button size="medium">保存草稿</el-button>
@@ -23,14 +24,16 @@
 							<router-view ref="routerview" :detailRow="detailRow" :readOnly="readOnly"></router-view>
 						</div>
 					</div>
-					<taskhandle v-if="isHandleVisible" :taskInfo="taskInfo" @updateReadOnly="updateReadOnly" @addOrModify="addOrModify" ref="taskhandle"></taskhandle>
+					<taskhandle v-if="isHandleVisible" :taskInfo="taskInfo" @updateReadOnly="updateReadOnly"
+						@addOrModify="addOrModify" ref="taskhandle"></taskhandle>
 				</el-main>
 				<el-aside width="8px" class="close-wrapper">
 					<div class="close-wrap">
 						<i class="el-icon-caret-right"></i>
 					</div>
 				</el-aside>
-				<el-aside style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
+				<el-aside
+					style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
 					<tasklog v-if="isInfoVisible" :taskInfo="taskInfo" ref="tasklog"></tasklog>
 				</el-aside>
 			</el-container>
@@ -39,96 +42,97 @@
 </template>
 
 <script>
-	import * as api from "@/api/quality";
-	import {
-		convertOptions,
-		getQueryVariable
-	} from "@/utils/format.js";
-	import tasklog from "../../common/tasklog.vue"
-	import taskhandle from '../../common/taskhandle'
-	export default {
-		// props:['dialogTitle','menuTitle'],
-		data() {
-			return {
-				dialogFormVisible:true,
-				dialogTitle:'全生命周期智慧建设管理平台',
-				menuTitle:'流程审批',
-				detailRow:{},
-				taskInfo:{},
-				isUnEdit:false,
-				isHandleVisible:false,
-				isInfoVisible:false,
-				readOnly: false,
-			}
-		},
-		components: {
-			taskhandle,
-			tasklog
-		},
-		mounted() {
-			var params = getQueryVariable();
-			if (params['businessKey']) {
-				this.detailRow = {
-					id:params['businessKey']
+import * as api from "@/api/quality";
+import {
+	convertOptions,
+	getQueryVariable
+} from "@/utils/format.js";
+import tasklog from "../../common/tasklog.vue"
+import taskhandle from '../../common/taskhandle'
+export default {
+	// props:['dialogTitle','menuTitle'],
+	data() {
+		return {
+			dialogFormVisible: true,
+			dialogTitle: '全生命周期智慧建设管理平台',
+			menuTitle: '流程审批',
+			detailRow: {},
+			taskInfo: {},
+			isUnEdit: false,
+			isHandleVisible: false,
+			isInfoVisible: false,
+			readOnly: false,
+		}
+	},
+	components: {
+		taskhandle,
+		tasklog
+	},
+	mounted() {
+		var params = getQueryVariable();
+		if (params['businessKey']) {
+			this.detailRow = {
+				id: params['businessKey']
+			};
+			this.updateView();
+			if (params['processDefinitionId']) {
+				this.taskInfo = {
+					processDefinitionId: params['processDefinitionId'],
+					processInstanceId: params['processInstanceId'],
+					taskId: params['taskId'],
+					flowKey: params['processDefinitionKey'],
+					entryKey: params['taskKey']
 				};
-				this.updateView();
-				if(params['processDefinitionId']){
-					this.taskInfo={
-						processDefinitionId: params['processDefinitionId'],
-						processInstanceId: params['processInstanceId'],
-						taskId: params['taskId'],
-						flowKey:params['processDefinitionKey'],
-						entryKey:params['taskKey']
-					};
-					if(params['taskId']){
-						this.isHandleVisible=true;
-						this.isUnEdit=true;
+				if (params['taskId']) {
+					this.isHandleVisible = true;
+					this.isUnEdit = true;
 
-						this.updateTaskHandle();
-						this.updateTaskLog();
-					}
-					this.isInfoVisible=true;
-
-				}else{
-					this.isUnEdit=false;
+					this.updateTaskHandle();
+					this.updateTaskLog();
 				}
-			}else{
-				this.isUnEdit=false;
+				this.isInfoVisible = true;
+
+			} else {
+				this.isUnEdit = false;
 			}
-			if(params['isHiddenEdit'] === 'true'){
-			  this.isUnEdit = false
-      }
+		} else {
+			this.isUnEdit = false;
+		}
+		if (params['isHiddenEdit'] === 'true') {
+			this.isUnEdit = false
+		}
+	},
+	methods: {
+		updateView() {
+			setTimeout(() => {
+				this.$refs['routerview'].getDetail(this.detailRow['id']);
+			}, 100)
 		},
-		methods:{
-			updateView(){
-				setTimeout(()=>{
-					this.$refs['routerview'].getDetail(this.detailRow['id']);
-				},100)
-			},
-			updateTaskHandle(){
-				setTimeout(()=>{
-					 this.$refs['taskhandle'] && this.$refs['taskhandle'].initData();
-				},100)
-			},
-			updateTaskLog(){
-				setTimeout(()=>{
-					this.$refs['tasklog'].initData();
-				},100)
-			},
-			closeDialog(){
-				// this.$router.go(-1);
-                window.history.back();
-			},
-			updateReadOnly(e){
-				this.readOnly = e;
-			},
-			addOrModify() {
-				this.$refs['routerview'].addOrModify();
-			}
+		updateTaskHandle() {
+			setTimeout(() => {
+				this.$refs['taskhandle'] && this.$refs['taskhandle'].initData();
+			}, 100)
+		},
+		updateTaskLog() {
+			setTimeout(() => {
+				this.$refs['tasklog'].initData();
+			}, 100)
+		},
+		closeDialog() {
+			// this.$router.go(-1);
+			window.history.back();
+		},
+		updateReadOnly(e) {
+			this.readOnly = e;
+		},
+		addOrModify(type, val) {
+
+			this.$refs['routerview'].addOrModify(type, val);
 		}
 	}
+}
 </script>
 
 <style scoped lang="scss">
-	@import "../../../assets/css/dialog.scss"
+@import "../../../assets/css/dialog.scss"
 </style>

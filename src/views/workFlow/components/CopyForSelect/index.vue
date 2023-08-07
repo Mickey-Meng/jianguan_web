@@ -4,22 +4,19 @@
       <el-table-column label="操作" width="45px">
         <template slot-scope="scope">
           <el-button class="table-btn delete" type="text" icon="el-icon-remove-outline"
-            @click="onDeleteCopyItem(scope.row)"
-          />
+            @click="onDeleteCopyItem(scope.row)" />
         </template>
       </el-table-column>
       <el-table-column label="抄送类型" width="150px">
         <template slot-scope="scope">
-          <span>{{SysFlowCopyForType.getValue(scope.row.type)}}</span>
+          <span>{{ SysFlowCopyForType.getValue(scope.row.type) }}</span>
         </template>
       </el-table-column>
       <el-table-column label="抄送对象">
         <template slot-scope="scope">
-          <el-tag size="mini" type="primary" effect="dark"
-            v-for="item in scope.row.showNameList" :key="item.id"
-            closable @close="onCloseSubItem(scope.row, item)"
-          >
-            {{item.name}}
+          <el-tag size="mini" type="primary" effect="dark" v-for="item in scope.row.showNameList" :key="item.id" closable
+            @close="onCloseSubItem(scope.row, item)">
+            {{ item.name }}
           </el-tag>
         </template>
       </el-table-column>
@@ -30,7 +27,7 @@
 
 <script>
 import { treeDataTranslate } from '@/utils';
-import { SysPostController, DictionaryController } from '@/api';
+import { SysPostController, DictionaryController } from '@/api/user';
 import addCopyForItem from './addCopyForItem';
 
 export default {
@@ -41,7 +38,7 @@ export default {
       default: () => []
     }
   },
-  data () {
+  data() {
     return {
       isInit: false,
       roleList: [],
@@ -55,15 +52,15 @@ export default {
     }
   },
   methods: {
-    onDeleteCopyItem (row) {
+    onDeleteCopyItem(row) {
       this.$confirm('是否删除此抄送人？').then(res => {
         let temp = (this.value || []).filter(item => {
           return row.type !== item.type;
         });
         this.$emit('input', temp);
-      }).catch(e => {});
+      }).catch(e => { });
     },
-    onCloseSubItem (row, item) {
+    onCloseSubItem(row, item) {
       this.$confirm('是否移除此抄送人？').then(res => {
         let temp = (this.value || []).filter(copyItem => {
           if (row.type === copyItem.type) {
@@ -83,9 +80,9 @@ export default {
           }
         });
         this.$emit('input', temp);
-      }).catch(e => {});
+      }).catch(e => { });
     },
-    onEditCopyForItem () {
+    onEditCopyForItem() {
       this.$dialog.show('添加抄送人', addCopyForItem, {
         area: '600px'
       }, {
@@ -123,9 +120,9 @@ export default {
           });
         }
         this.$emit('input', temp);
-      }).catch(e => {});
+      }).catch(e => { });
     },
-    loadSysDeptList () {
+    loadSysDeptList() {
       return new Promise((resolve, reject) => {
         DictionaryController.dictSysDept(this, {}).then(res => {
           res.getList().forEach(item => {
@@ -138,7 +135,7 @@ export default {
         });
       });
     },
-    loadDeptPostList () {
+    loadDeptPostList() {
       return new Promise((resolve, reject) => {
         DictionaryController.dictDeptPost(this, {}).then(res => {
           res.forEach(item => {
@@ -153,7 +150,7 @@ export default {
         });
       });
     },
-    loadSysPostList () {
+    loadSysPostList() {
       this.postMap = new Map();
       return new Promise((resolve, reject) => {
         SysPostController.list(this, {}).then(res => {
@@ -167,7 +164,7 @@ export default {
         });
       });
     },
-    loadSysRoleList () {
+    loadSysRoleList() {
       return new Promise((resolve, reject) => {
         DictionaryController.dictSysRole(this, {}).then(res => {
           this.roleList = res.getList();
@@ -182,7 +179,7 @@ export default {
     }
   },
   computed: {
-    tableDataList () {
+    tableDataList() {
       if (this.isInit && Array.isArray(this.value)) {
         return this.value.map(item => {
           let showNameList = (item.id || '').split(',');
@@ -247,7 +244,7 @@ export default {
       return [];
     }
   },
-  mounted () {
+  mounted() {
     let httpCalls = [
       this.loadSysDeptList(),
       this.loadSysPostList(),
@@ -256,9 +253,9 @@ export default {
     ];
     Promise.all(httpCalls).then(res => {
       this.isInit = true;
-    }).catch(e => {});
+    }).catch(e => { });
   },
-  beforeDestroy () {
+  beforeDestroy() {
     this.roleMap = null;
     this.deptMap = null;
     this.postMap = null;
@@ -268,13 +265,13 @@ export default {
 </script>
 
 <style scoped>
-  .full-line-btn {
-    width: 100%;
-    margin: 10px 0px;
-    border: 1px dashed #EBEEF5;
-  }
+.full-line-btn {
+  width: 100%;
+  margin: 10px 0px;
+  border: 1px dashed #EBEEF5;
+}
 
-  .copy-select >>> .el-tag {
-    margin-right: 10px;
-  }
+.copy-select>>>.el-tag {
+  margin-right: 10px;
+}
 </style>

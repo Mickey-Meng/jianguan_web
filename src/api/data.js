@@ -178,3 +178,10 @@ export const getConstructionMsg = () => {
     data: {}
   });
 };
+
+export const getExpiryRemindersList = () => {
+  return request({
+    url: api.getExpiryRemindersList,
+    method: "get"
+  });
+};

@@ -137,6 +137,24 @@ export const constantRoutes = [{
       component: () => import("@/views/dailyReport/view")
     },
       {
+        path: "/materialBrandReport_detail",
+        name: "materialBrandReport_detail",
+        code: "materialBrandReport",
+        component: () => import("@/views/materialBrandReport/view")
+      },
+      {
+        path: "/materialSampleConfirmation_detail",
+        name: "materialSampleConfirmation_detail",
+        code: "materialSampleConfirmation",
+        component: () => import("@/views/materialSampleConfirmation/view")
+      },
+      {
+        path: "/materialAcceptance_detail",
+        name: "materialAcceptance_detail",
+        code: "materialAcceptance",
+        component: () => import("@/views/materialAcceptance/view")
+      },
+      {
         path: "/constructionPrototype_detail",
         name: "constructionPrototype_detail",
         code: "constructionPrototype",
@@ -146,7 +164,13 @@ export const constantRoutes = [{
         name: "constructionPlan_detail",
         code: "constructionPlan",
         component: () => import("@/views/constructionPlan/view")
-      },{
+      }, {
+        path: "/constructionPlanReport_detail",
+        name: "constructionPlanReport_detail",
+        code: "constructionPlanReport",
+        component: () => import("@/views/constructionPlanReport/view")
+      },
+      {
       path: "/contractPayment_detail",
       name: "contractPayment_detail",
       code: "contractPayment",
@@ -192,7 +216,7 @@ export const constantRoutes = [{
       {
         path: "/applicationForLeave_detail",
         name: "applicationForLeave_detail",
-        code: "qingjiashenqing,sgdwryqj,jldwryqj,qzdwryqj",
+        code: "qingjiashenqing,sgdwryqj1,jldwryqj,qzdwryqj",
         component: () => import("@/views/contractManagement/leave/view")
       },
 
@@ -221,7 +245,7 @@ export const constantRoutes = [{
       {
         path: "/progressConstructionDesign_detail",
         name: "progressConstructionDesign_detail",
-        code: "progressConstructionDesign",
+        code: "progressConstructionDesign1",
         component: () => import ("@/views/progressApplyReview/constructionDesign/view")
       }
     ]
@@ -629,7 +653,8 @@ export const asyncRoutes = [
     },
     "name": "jianshezhuanti",
     "path": "/jianshezhuanti",
-    children: [{
+    children: [
+      {
       path: "/guanlidanao",
       "component": ParentView,
       meta: {
@@ -767,7 +792,60 @@ export const asyncRoutes = [
             noMap: true
           }
         },]
-    }, {
+    },
+      {
+        path: "/cailiaoguanli",
+        "component": ParentView,
+        meta: {
+          title: "材料管理",
+          icon: "home",
+          code: "cailiaoguanli"
+        },
+        alwaysShow: true,
+        redirect: "/materialBrandReport",
+        children: [
+          {
+            path: "/materialBrandReport",
+            name: "materialBrandReport",
+            component: () => import("@/views/materialBrandReport/materialBrandReport"),
+            meta: {
+              title: "材料品牌报审",
+              code: "materialBrandReport",
+              icon: "circle",
+              allMap: false,
+              partMap: false,
+              noMap: true
+            }
+          },
+          {
+            path: "/materialSampleConfirmation",
+            name: "materialSampleConfirmation",
+            component: () => import("@/views/materialSampleConfirmation/materialSampleConfirmation"),
+            meta: {
+              title: "材料样板确认",
+              code: "materialSampleConfirmation",
+              icon: "circle",
+              allMap: false,
+              partMap: false,
+              noMap: true
+            }
+          },
+          {
+            path: "/materialAcceptance",
+            name: "materialAcceptance",
+            component: () => import("@/views/materialAcceptance/materialAcceptance"),
+            meta: {
+              title: "材料进场验收",
+              code: "materialAcceptance",
+              icon: "circle",
+              allMap: false,
+              partMap: false,
+              noMap: true
+            }
+          },
+        ]
+      },
+      {
       path: "/progress",
       meta: {
         title: "进度管理",
@@ -896,6 +974,19 @@ export const asyncRoutes = [
           meta: {
             title: "施工方案计划",
             code: "constructionPlan",
+            icon: "circle",
+            allMap: false,
+            partMap: false,
+            noMap: true
+          }
+        },
+        {
+          path: "/constructionPlanReport",
+          name: "constructionPlanReport",
+          component: () => import("@/views/constructionPlanReport/constructionPlanReport"),
+          meta: {
+            title: "施工方案计划上报",
+            code: "constructionPlanReport",
             icon: "circle",
             allMap: false,
             partMap: false,

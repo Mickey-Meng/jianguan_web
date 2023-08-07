@@ -46,9 +46,8 @@
           <el-table-column prop="uploadname" label="操作"></el-table-column>
         </el-table>
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                       :current-page="queryData.pageNum" :page-size="queryData.pageSize"
-                       layout="total, sizes, prev, pager, next, jumper"
-                       :total="queryData.totalPage">
+          :current-page="queryData.pageNum" :page-size="queryData.pageSize"
+          layout="total, sizes, prev, pager, next, jumper" :total="queryData.totalPage">
         </el-pagination>
       </div>
 
@@ -88,13 +87,8 @@
                   <div class="block-item">
                     <div class="block-item-label">填报日期</div>
                     <div class="block-item-value">
-                      <el-date-picker
-                        v-model="form.time"
-                        type="datetime"
-                        :clearable="false"
-                        placeholder="选择日期时间"
-                        value-format="yyyy-MM-dd HH:mm:ss"
-                      >
+                      <el-date-picker v-model="form.time" type="datetime" :clearable="false" placeholder="选择日期时间"
+                        value-format="yyyy-MM-dd HH:mm:ss">
                       </el-date-picker>
                     </div>
                   </div>
@@ -256,8 +250,7 @@
             <i class="el-icon-caret-right"></i>
           </div>
         </el-aside>
-        <el-aside
-          style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
+        <el-aside style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
           <!--              <tasklog></tasklog>-->
         </el-aside>
       </el-container>
@@ -267,53 +260,52 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        tableDta: [],
-        fileData: [],//上传的附件
-        form: {},
-        dialogFormVisible: true,
-        dialogTitle: "全生命周期智慧建设管理平台",
-        queryData: {
-          projectCode: "",
-          subProject: "",
-          pageNum: 1,
-          totalPage: 1,
-          pageSize: 10
-        }
-      };
+export default {
+  data() {
+    return {
+      tableDta: [],
+      fileData: [],//上传的附件
+      form: {},
+      dialogFormVisible: true,
+      dialogTitle: "全生命周期智慧建设管理平台",
+      queryData: {
+        projectCode: "",
+        subProject: "",
+        pageNum: 1,
+        totalPage: 1,
+        pageSize: 10
+      }
+    };
+  },
+  created() {
+  },
+  components: {},
+  computed: {},
+  methods: {
+    handleSizeChange() {
     },
-    created() {
-    },
-    components: {},
-    computed: {},
-    methods: {
-      handleSizeChange() {
-      },
-      handleCurrentChange() {
-      }
-    }
-  };
-</script>
-<style lang='scss' scoped>
-  @import "../../assets/css/table.scss";
-  @import "../../assets/css/dialog.scss";
-  .form-bg {
-    .form-block {
-      .block-item-label {
-        width: 180px !important;
-      }
-
-      .block-item-value {
-        width: calc(100% - 200px) !important;
-      }
-
-      .el-date-editor {
-        width: 100% !important;
-      }
+    handleCurrentChange() {
     }
   }
+};
+</script>
+<style lang='scss' scoped>
+@import "../../assets/css/table.scss";
+@import "../../assets/css/dialog.scss";
 
+.form-bg {
+  .form-block {
+    .block-item-label {
+      width: 180px !important;
+    }
 
+    .block-item-value {
+      width: calc(100% - 200px) !important;
+    }
+
+    .el-date-editor {
+      width: 100% !important;
+    }
+  }
+}
 </style>

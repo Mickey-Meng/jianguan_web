@@ -11,6 +11,8 @@ const JSONbig = require('@/utils/json-bigint');
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
+import { message } from '@/utils/message'
+import router from '@/router';
 
 // create an axios instance
 const service = axios.create({
@@ -66,8 +68,17 @@ service.interceptors.response.use(
    */
   response => {
     const res = response.data
-    if (res.status === 200 || res.code === 200 || res.meow === 0 || res.status === 300 || res.success === true || (response.headers["content-type"].indexOf("excel") > -1)) {
+    if (res.status === 200 || 
+          res.code === 200 || 
+            res.meow === 0 || 
+              res.status === 300 || 
+                res.success === true || 
+                  (response.headers["content-type"].indexOf("excel") > -1)) {
       return Promise.resolve(res);
+    } else if(res.status === 401 || res.code === 401) {
+      message.error( { message:  "无效会话或会话已过期，请重新登录" });
+      window.localStorage.clear();
+      router.push("/login");
     } else {
       return Promise.reject(res);
     }
@@ -106,7 +117,7 @@ service.interceptors.response.use(
       type: 'error',
       duration: 1 * 1000
     })
-    return Promise.reject(error)
+    return Promise.reject(new Error(res.message || 'Error'))
   }
 )
 

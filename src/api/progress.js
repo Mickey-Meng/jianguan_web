@@ -182,3 +182,18 @@ export const getCopyInfos = data => {
     data
   });
 };
+
+export const getDictDataByType = params => {
+  return request({
+    url: api.getDictDataByType,
+    method: "get",
+    params: params
+  });
+};
+export const getDicts =(type) => {
+  return request({
+    url: api.getDicts+'/'+type,
+    method: "get",
+  });
+};
+

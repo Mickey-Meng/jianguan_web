@@ -195,7 +195,7 @@
         };
       },
       initData() {
-        getServiceRoles().then(res => {
+        getServiceRoles(this.project.id).then(res => {
           function getTree(ary, pid = -1) {
             if (!pid) {
               // 如果没有父id（第一次递归的时候）将所有父级查询出来
@@ -212,9 +212,8 @@
               });
             }
           }
-
           let filterId = [2, 3];
-          let data = res.data.getMe.filter(e => !filterId.includes(e.ID));
+          let data = res.getMe;//.filter(e => !filterId.includes(e.ID));
           this.allRoles = data;
           let tree = getTree(data);
           this.treeData = tree;

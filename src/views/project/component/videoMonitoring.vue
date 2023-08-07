@@ -67,6 +67,7 @@ import wendu from "@/assets/image/wendu.png";
 import pm from "@/assets/image/pm2.5.png";
 import zaoyin from "@/assets/image/zaoyin.png";
 import EZUIKit from "ezuikit-js";
+import {getMonitoring} from "@/api/project";
 import {mapGetters} from "vuex";
 import { getEnvironmentVideo, getVideoToken } from "@/api/wisdomSite";
 
@@ -105,27 +106,45 @@ export default {
   methods: {
     initPlayer() {
       getVideoToken().then((res) => {
-        const map = {
-          25: "K54134283",  //池州市急救中心建设项目
-          21: "L01047307",  //池州港乌沙港区公用码头工程项目
-          128: "K09696219",  //池州市平天湖东部区域棚户区改造建设工程EPC总承包
-          34: "L18119347",  //池州生态人文纪念园项目
-          3: "K54134316",  //池州职业技术学院实验实训南区EPC总承包项目
-          13: "K09696219",  //池州职业技术学院实验实训综合提升项目（二期）F+EPC
-          132: "K09696219",  //清溪大道改造工程
-          67: "L01047307",  //池州市精神卫生福利设施建设项目一标段
-          1: "K09696219"  //顶级
-        }
-        player = new EZUIKit.EZUIKitPlayer({
-          id: "video-container", // 视频容器ID
-          accessToken: res.data,
-          url: `ezopen://open.ys7.com/${map[this.project.id] || "K54134283"}/${this.project.id == 3 ? '9' : '1'}.hd.live`,
-          width: 390,
-          height: 190,
-          audio: 0,
-          autoplay: false,
-          template: "standard" //
+        
+        getMonitoring(this.project.id).then((res1) => {
+          let data = res1.data.monitorDevices;
+          // this.minData = data;
+          if (data && data.length > 0) {
+            // this.initMarker(data);
+            player = new EZUIKit.EZUIKitPlayer({
+              id: "video-container", // 视频容器ID
+              accessToken: res.data,
+              url: `ezopen://open.ys7.com/${data[0]["deviceNo"] || "K54134283"}/${data[0]["channelNo"] || 1}.hd.live`,
+              width: 390,
+              height: 190,
+              audio: 0,
+              autoplay: false,
+              template: "standard" //
+            });
+          }
         });
+        // const map = {
+        //   25: "K54134283",  //池州市急救中心建设项目
+        //   21: "L01047307",  //池州港乌沙港区公用码头工程项目
+        //   128: "K09696219",  //池州市平天湖东部区域棚户区改造建设工程EPC总承包
+        //   34: "L18119347",  //池州生态人文纪念园项目
+        //   3: "K54134316",  //池州职业技术学院实验实训南区EPC总承包项目
+        //   13: "K09696219",  //池州职业技术学院实验实训综合提升项目（二期）F+EPC
+        //   132: "K09696219",  //清溪大道改造工程
+        //   67: "L01047307",  //池州市精神卫生福利设施建设项目一标段
+        //   1: "K09696219"  //顶级
+        // }
+        // player = new EZUIKit.EZUIKitPlayer({
+        //   id: "video-container", // 视频容器ID
+        //   accessToken: res.data,
+        //   url: `ezopen://open.ys7.com/${map[this.project.id] || "K54134283"}/${this.project.id == 3 ? '9' : '1'}.hd.live`,
+        //   width: 390,
+        //   height: 190,
+        //   audio: 0,
+        //   autoplay: false,
+        //   template: "standard" //
+        // });
       });
     },
     changeValue(val) {

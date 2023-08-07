@@ -17,8 +17,7 @@
       <div class="input-box">
         <div class="input-value">
           <!-- <el-form-item> -->
-          <el-date-picker value-format="yyyy-MM-dd" v-model="queryData.createStartTime" type="date"
-                          placeholder="创建开始时间">
+          <el-date-picker value-format="yyyy-MM-dd" v-model="queryData.createStartTime" type="date" placeholder="创建开始时间">
           </el-date-picker>
           <!-- </el-form-item> -->
         </div>
@@ -26,8 +25,7 @@
       <div class="input-box">
         <div class="input-value">
           <!-- <el-form-item> -->
-          <el-date-picker value-format="yyyy-MM-dd" v-model="queryData.createEndTime" type="date"
-                          placeholder="创建结束时间">
+          <el-date-picker value-format="yyyy-MM-dd" v-model="queryData.createEndTime" type="date" placeholder="创建结束时间">
           </el-date-picker>
           <!-- </el-form-item> -->
         </div>
@@ -44,8 +42,7 @@
     </el-header>
     <el-main>
       <div class="container">
-        <el-table :data="tableData" style="width: 100%" border height="calc(100% - 48px)"
-                  class="have_scrolling">
+        <el-table :data="tableData" style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
           <el-table-column type="index" width="50" align="center" label="序号">
           </el-table-column>
           <!-- <el-table-column prop="projectName" align="center" label="项目名称" show-overflow-tooltip>
@@ -62,25 +59,13 @@
           </el-table-column>
           <el-table-column prop="status" align="center" label="状态" show-overflow-tooltip>
             <template slot-scope="scope">
-              <el-tag
-                v-if="scope.row.status == '2'"
-                size="mini"
-                type="warning"
-              >
+              <el-tag v-if="scope.row.status == '2'" size="mini" type="warning">
                 驳回
               </el-tag>
-              <el-tag
-                v-if="scope.row.status == '0'"
-                size="mini"
-                type="default"
-              >
+              <el-tag v-if="scope.row.status == '0'" size="mini" type="default">
                 审批中
               </el-tag>
-              <el-tag
-                v-if="scope.row.status == '1'"
-                size="mini"
-                type="success"
-              >
+              <el-tag v-if="scope.row.status == '1'" size="mini" type="success">
                 已审批
               </el-tag>
             </template>
@@ -93,14 +78,13 @@
               <el-button v-if="isDraft" type="text" size="mini" @click="checkDetail(row)">选择</el-button>
 
               <el-button type="text" size="mini" v-if="$store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'"
-                         @click="deleteRow(row)">删除
+                @click="deleteRow(row)">删除
               </el-button>
             </template>
           </el-table-column>
         </el-table>
         <el-pagination @current-change="handleCurrentChange" :current-page="queryData.pageNum"
-                       :page-size="queryData.pageSize" layout="total, prev, pager, next, jumper"
-                       :total="queryData.totalPage">
+          :page-size="queryData.pageSize" layout="total, prev, pager, next, jumper" :total="queryData.totalPage">
         </el-pagination>
       </div>
     </el-main>

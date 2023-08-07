@@ -22,6 +22,9 @@
         <indexSafeStatistics></indexSafeStatistics>
       </div>
     </div>
+    
+    <Notification ref="notification" placement="bottomRight" :duration="null" :top="30" @close="onClose" />
+
   </div>
 </template>
 
@@ -38,6 +41,7 @@ import progressCom from "./progress/index.vue";
 import indexSafeStatistics from "@/views/project/component/indexSafeStatistics";
 import { mapGetters } from "vuex";
 import * as api from "@/api/data";
+import Notification from "@/components/Notification/Notification";
 export default {
   name: "project",
   data() {
@@ -55,7 +59,8 @@ export default {
     newMsg,
     safeStatistics,
     progressCom,
-    indexSafeStatistics
+    indexSafeStatistics,
+    Notification
   },
   created() {
     console.log("/data-created");
@@ -70,7 +75,34 @@ export default {
       api.getEngCompany(this.project.id).then((res) => {
         this.companyData = res.data;
       });
-    },
+      // 加载未处理的待审批流程
+      api.getExpiryRemindersList().then((res) => {
+        var description = '如下任务即将在5天后到期,请尽快处理。\n';
+        if (res.data.certificatePhotosCount > 0 ) {
+          description += "证照管理:" + res.data.certificatePhotos + ";\n";
+        }
+        if (res.data.constructionDesignCount > 0 ) {
+          description += "施工图设计:" + res.data.constructionDesign + ";";
+        }
+        console.log(res);
+        console.log(description);
+        if(res.data.certificatePhotosCount > 0 &&  
+            res.data.constructionDesignCount > 0) {
+          setTimeout(() => {
+            this.$refs.notification.info(
+              {
+                title: '到期任务提醒',
+                description: description
+              }
+            ) // 默认使用
+            // this.$refs.notification.info(notification) // info调用
+            // this.$refs.notification.success(notification) // success调用
+            // this.$refs.notification.error(notification) // error调用
+            // this.$refs.notification.warn(notification) // warning调用
+          }, 200);
+        }
+      });
+    }
   },
 };
 </script>

@@ -162,6 +162,7 @@
 					let data = res['data'] || {};
 					this.formData = data;
 					this.inOutUserTable = data.enterExitUsers || [];
+					this.formData.num = this.inOutUserTable.length;
 				});
 			},
 		},

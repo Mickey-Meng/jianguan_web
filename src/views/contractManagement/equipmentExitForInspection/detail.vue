@@ -11,14 +11,14 @@
 					<div class="form-bg">
 						<div class="form-content">
 							<el-form ref="form" label-width="80px">
-								
+
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
 									</div>
 									<projectinfo></projectinfo>
 									<div class="block-line">
-								
+
 										<div class="block-item">
 											<div class="block-item-label">工程编号</div>
 											<div class="block-item-value">
@@ -64,16 +64,16 @@
 										</el-table>
 									</div>
 								</div>
-								<!-- <div class="form-block">
+								 <div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>附件清单</strong>
 									</div>
-								
+
 									<attachlist :editAble="false" ref="attachlist" :attachTable="attachTable">
 									</attachlist>
-								
-								</div> -->
-								
+
+								</div>
+
 							</el-form>
 							<!-- <taskhandle :taskInfo="taskInfo"></taskhandle> -->
 						</div>
@@ -90,7 +90,7 @@
 				</el-aside>
 			</el-container>
 		</el-dialog>
-		
+
 	</div>
 </template>
 
@@ -101,7 +101,7 @@
 	import taskhandle from '../../common/taskhandle'
 	import attachlist from "../../common/attachlist"
 	import projectinfo from "../../common/projectinfo.vue"
-	
+
 	import {
 		formatMonth,
 		formatDate,
@@ -173,7 +173,7 @@
 					let info = createProjectInfo(list);
 
 					info = data['item'] || {}
-					
+
 					this.baseInfo['buildCompany'] = info['constructdpt']
 					this.baseInfo['supervisionUnit'] = info['supervisordpt']
 				});
