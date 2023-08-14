@@ -40,6 +40,21 @@
                     </div>
                   </div>
                 </div>
+                  <div class="block-line">
+                    <div class="block-item">
+                      <div class="block-item-label">材料进场内容</div>
+                      <div class="block-item-value">
+                        {{formData.materialApproachContent}}
+                      </div>
+                    </div>
+                    <div class="block-item">
+                      <div class="block-item-label">材料进场数量</div>
+                      <div class="block-item-value">
+                        {{formData.materialApproachQuantity}}
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
                 <div class="form-block">
 
@@ -76,6 +91,7 @@ import tasklog from "../common/tasklog.vue"
 import taskhandle from '../common/taskhandle'
 import attachlist from "../common/attachlist"
 import projectinfo from "../common/projectinfo.vue"
+import {getMaterialSampleConfirmationDetail} from "@/api/materialSampleConfirmation";
 
 
 export default {
@@ -133,7 +149,7 @@ export default {
       this.dialogFormVisible=value;
     },
     getDetail(id){
-      api.getMaterialAcceptanceDetail(id).then((res) => {
+      api.getMaterialSampleConfirmationDetail(id).then((res) => {
         console.log(res);
         let data = res['data'] || {};
         this.formData = data;

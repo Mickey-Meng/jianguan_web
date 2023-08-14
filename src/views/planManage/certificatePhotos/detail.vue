@@ -171,7 +171,7 @@
 					this.contractTable = data.information || [];
 					this.getUserInfo(data.createUserId)
 				});
-				api.getFlowAndTaskInfo({businessKey: id}).then((res) => {
+				api.getFlowAndTaskInfo({businessKey: id + "_planCertificatePhotos"}).then((res) => {
 					console.log(res.data);
 					let data=res['data'];
 					this.taskInfo={

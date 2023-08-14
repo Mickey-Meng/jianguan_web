@@ -42,7 +42,7 @@
         </el-pagination>
       </div>
     </el-main>
-    <el-dialog class="full-dialog defined-dialog" :fullscreen="true" :destroy-on-close="true"
+    <el-dialog class="full-dialog defined-dialog" :fullscreen="true" :destroy-on-close="true" @close="closeDialog"
                :visible.sync="dialogFormVisible">
       <template slot="title">
         {{ dialogTitle }}
@@ -103,7 +103,7 @@
               </div>
               <div class="form-block">
                 <div id="map">
-                  <mapView @clearStr="clearStr" @setCenter="setCenter" @setStr="setStr" :siteStr="siteStr" :centerPointer="centerPointer"
+                  <mapView ref="mapView" @clearStr="clearStr" @setCenter="setCenter" @setStr="setStr" :siteStr="siteStr" :centerPointer="centerPointer"
                            :name="clockName"
                            v-if="dialogFormVisible"></mapView>
                 </div>
@@ -210,6 +210,9 @@
       },
       setCenter(val) {
         this.form.centerPoint = val;
+      },
+      closeDialog() {
+        this.$refs['mapView'].closeDialog();
       },
       submitInfo() {
         this.$refs['form'].validate((valid) => {

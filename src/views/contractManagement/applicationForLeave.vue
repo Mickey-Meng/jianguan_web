@@ -114,7 +114,7 @@
                           :value="item.dictCode">
                         </el-option>
                       </el-select>
-                      <div v-else>{{ form.leaverType }}</div>
+                      <div v-else>{{ transferData(form.leaverType) }}</div>
                     </div>
                   </div>
                 </div>
@@ -207,7 +207,7 @@ import {
   getLeave,
   startAndTakeUserTask,
   deleteChangeRecord,
-  getPersonChange
+  getPersonChange, deleteLeaveRecord
 } from "@/api/staffApproval";
 import { getDictDataByType, getDicts } from "@/api/progress";
 import { submitUserTask } from "@/api/quality";
@@ -276,30 +276,47 @@ export default {
   },
   components: { tasklog, approveuser },
   methods: {
+    transferData(val) {
+      let data = this.eventType || []
+      return data.find(res => res.dictCode == val).dictLabel
+    },
     deleteRow(row) {
       this.$confirm('确认是否删除?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteChangeRecord(row['id'], this.project.id).then((res) => {
-          // if (this.tableData.length == 1) {
-          //   this.queryData.pageNum = this.queryData.pageNum> 1 ? this.queryData.pageNum - 1 : 1
-          // }
-          getPersonChange(this.project.id).then(res => {
-            this.tableDta = res.data;
-            this.allData = res.data;
+
+        deleteLeaveRecord(row.id, this.project.id).then(() => {
+          // let ind = this.tableData.findIndex(e => e.id === row.id);
+          // this.tableData.splice(ind, 1);
+          getLeave(this.project.id).then(res => {
+            this.tableData = res.data;
           });
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          });
-        }).catch(error => {
-          this.$message({
-            type: 'fail',
-            message: '删除失败!'
-          });
+          this.$message.success("删除成功");
+        }).catch(() => {
+          this.$message.info("删除失败");
         });
+
+
+        // deleteChangeRecord(row['id'], this.project.id).then((res) => {
+        //   // if (this.tableData.length == 1) {
+        //   //   this.queryData.pageNum = this.queryData.pageNum> 1 ? this.queryData.pageNum - 1 : 1
+        //   // }
+        //   getPersonChange(this.project.id).then(res => {
+        //     this.tableDta = res.data;
+        //     this.allData = res.data;
+        //   });
+        //   this.$message({
+        //     type: 'success',
+        //     message: '删除成功!'
+        //   });
+        // }).catch(error => {
+        //   this.$message({
+        //     type: 'fail',
+        //     message: '删除失败!'
+        //   });
+        // });
       });
     },
     transferData(val) {

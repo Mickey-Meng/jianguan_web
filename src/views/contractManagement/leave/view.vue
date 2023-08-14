@@ -30,7 +30,7 @@
             <div class="block-item">
               <div class="block-item-label">请假类型</div>
               <div class="block-item-value">
-                {{ form.leaverType }}
+                {{ transferData(form.leaverType) }}
               </div>
             </div>
           </div>
@@ -79,78 +79,85 @@
             </div>
           </div>
         </div>
-<!--        <div class="form-block">-->
-<!--          <div class="form-block-title">-->
-<!--            <div class="title-bar"></div>-->
-<!--            <strong>待处理人</strong>-->
-<!--          </div>-->
-<!--          <div class="block-line">-->
-<!--            <div class="block-item">-->
-<!--              <div class="block-item-label">施工经理-->
-<!--                &lt;!&ndash;                      <i class="require-icon"></i>&ndash;&gt;-->
-<!--              </div>-->
-<!--              <div class="block-item-value">-->
-<!--                <el-form-item prop="qualityCheckUser">-->
-<!--                  <el-select v-model="form.qualityCheckUser" placeholder="请选择">-->
-<!--                    <el-option v-for="item in userOptions" :key="item.value"-->
-<!--                               :label="item.label" :value="item.value">-->
-<!--                    </el-option>-->
-<!--                  </el-select>-->
-<!--                </el-form-item>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
+        <!--        <div class="form-block">-->
+        <!--          <div class="form-block-title">-->
+        <!--            <div class="title-bar"></div>-->
+        <!--            <strong>待处理人</strong>-->
+        <!--          </div>-->
+        <!--          <div class="block-line">-->
+        <!--            <div class="block-item">-->
+        <!--              <div class="block-item-label">施工经理-->
+        <!--                &lt;!&ndash;                      <i class="require-icon"></i>&ndash;&gt;-->
+        <!--              </div>-->
+        <!--              <div class="block-item-value">-->
+        <!--                <el-form-item prop="qualityCheckUser">-->
+        <!--                  <el-select v-model="form.qualityCheckUser" placeholder="请选择">-->
+        <!--                    <el-option v-for="item in userOptions" :key="item.value"-->
+        <!--                               :label="item.label" :value="item.value">-->
+        <!--                    </el-option>-->
+        <!--                  </el-select>-->
+        <!--                </el-form-item>-->
+        <!--              </div>-->
+        <!--            </div>-->
+        <!--          </div>-->
+        <!--        </div>-->
       </el-form>
     </div>
   </div>
 </template>
 
 <script>
-  import {mapGetters} from "vuex";
-  import {getLeaveByProcessId} from "@/api/staffApproval";
-  import {getToken} from "@/utils/auth";
-
-  export default {
-    props: [],
-    watch: {},
-    data() {
-      return {
-        form: {},
-        userOptions: []
+import { mapGetters } from "vuex";
+import { getLeaveByProcessId } from "@/api/staffApproval";
+import { getToken } from "@/utils/auth";
+import { getDicts } from "@/api/progress";
+export default {
+  props: [],
+  watch: {},
+  data() {
+    return {
+      form: {},
+      userOptions: [],
+      eventType: [],
+    };
+  },
+  created() {
+    getDicts('jg_ask_for_leave_type').then(res => {
+      this.eventType = res.data || [];
+    })
+  },
+  computed: {
+    ...mapGetters(["project"])
+  },
+  mounted() {
+  },
+  methods: {
+    transferData(val) {
+      let data = this.eventType || []
+      return data.find(res => res.dictCode == val).dictLabel
+    },
+    getDetail(id) {
+      let type = getToken('taskType');
+      let obj = {
+        projectId: this.project.id,
+        businessKey: id,
+        type
       };
-    },
-    created() {
-    },
-    computed: {
-      ...mapGetters(["project"])
-    },
-    mounted() {
-    },
-    methods: {
-      getDetail(id) {
-        let type = getToken('taskType');
-        let obj = {
-          projectId: this.project.id,
-          businessKey: id,
-          type
-        };
-        getLeaveByProcessId(obj).then((res) => {
-          if (res) {
-            this.form = res.data.ZjPersonLeave;
-          }
-        });
-      }
-    },
-    components: {},
-    beforeDestroy() {
+      getLeaveByProcessId(obj).then((res) => {
+        if (res) {
+          this.form = res.data.ZjPersonLeave;
+        }
+      });
     }
+  },
+  components: {},
+  beforeDestroy() {
+  }
 
-  };
+};
 </script>
 
 <style lang='scss' scoped>
-  @import "../../../assets/css/table.scss";
-  @import "../../../assets/css/dialog.scss";
-
+@import "../../../assets/css/table.scss";
+@import "../../../assets/css/dialog.scss";
 </style>

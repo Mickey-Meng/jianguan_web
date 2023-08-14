@@ -127,7 +127,7 @@ export default {
       });
     },
     getDetail(id) {
-      api.getPlanConstructionDesignDetail(id).then((res) => {
+      api.getPlanConstructionDesignDetail(id.indexOf("_") > 0 ? id.substring(0, id.indexOf("_")) : id).then((res) => {
         let data = res['data'] || {};
         this.formData = data;
         this.attachTable = data.attachment || [];

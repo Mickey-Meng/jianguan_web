@@ -92,7 +92,14 @@ export default {
           url: "http://t4.tianditu.com/DataServer?T=vec_w&tk=49ea1deec0ffd88ef13a3f69987e9a63&x={x}&y={y}&l={z}",
         }),
       });
-      const layers = [taindiLayer];
+      var taindiLayer_annotation = new ol.layer.Tile({
+        title: "天地图文字标注",
+        source: new ol.source.XYZ({
+          // url: "https://t0.tianditu.gov.cn/cva_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=49ea1deec0ffd88ef13a3f69987e9a63",
+          url: "https://t6.tianditu.gov.cn/cva_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=cva&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}&tk=91132fd9920e45ec3408d3080d391831"
+        }),
+      });
+      const layers = [taindiLayer, taindiLayer_annotation];
       map = new ol.Map({
         layers: layers,
         target: "l_map",
@@ -130,6 +137,9 @@ export default {
         })
         map.addInteraction(workDraw);
       }
+    },
+    closeDialog() {
+      workDraw = undefined;
     },
     reViewSite() {
       if (map) {

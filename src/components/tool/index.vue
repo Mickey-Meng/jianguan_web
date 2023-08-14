@@ -2,6 +2,9 @@
   <div class="tool_container">
     <ul class="wrapper">
       <!-- <li @click="controlLayer">{{ showLayer ? "收起图层" : "展开图层" }}</li> -->
+      <li @click="showConstrol" :class="{ is_active_attr: attributeQuery }">
+        操作说明
+      </li>
       <li @click="startAttrQuery" :class="{ is_active_attr: attributeQuery }">
         {{ attributeQuery ? "取消查询" : "属性查询" }}
       </li>
@@ -619,10 +622,32 @@ export default {
   mounted() {
     moveDiv("layer-manager", "layer-manager-header");
     moveDiv("component_info", "component_info_header");
+
+    if (localStorage.getItem("showConstrol") != 2) {
+      this.$confirm(`
+      地图操作说明
+【1】按住鼠标左键，可进行地图平移；
+【2】滑动鼠标滚轮，可进行地图缩放，向上滑动放大，向下滑动缩小；
+【3】按住鼠标中键并移动，可进行地图旋转和俯仰，按住向上正视，按住向下俯视，按住向左顺时针旋转，按住向右逆时针旋转`)
+      .then(_ => {
+        localStorage.setItem("showConstrol", 2)
+      })
+      .catch(_ => {});
+    }
   },
   methods: {
     controlLayer() {
       this.showLayer = !this.showLayer;
+    },
+    showConstrol() {
+      this.$confirm(`
+      地图操作说明
+【1】按住鼠标左键，可进行地图平移；
+【2】滑动鼠标滚轮，可进行地图缩放，向上滑动放大，向下滑动缩小；
+【3】按住鼠标中键并移动，可进行地图旋转和俯仰，按住向上正视，按住向下俯视，按住向左顺时针旋转，按住向右逆时针旋转`)
+      .then(_ => {
+      })
+      .catch(_ => {});
     },
     mapChange() {
       const height = zeh.viewer.camera.positionCartographic.height;

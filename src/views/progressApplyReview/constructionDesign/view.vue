@@ -135,7 +135,7 @@ export default {
       });
     },
     getDetail(id) {
-      api.getProgressConstructionDesignDetail(id).then((res) => {
+      api.getProgressConstructionDesignDetail(id.indexOf("_") > 0 ? id.substring(0, id.indexOf("_")) : id).then((res) => {
         let data = res['data'] || {};
         this.formData = data;
         this.attachTable = data.attachment || [];

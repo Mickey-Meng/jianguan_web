@@ -233,6 +233,7 @@
 					let data = res['data'] || {};
 					this.formData = data;
 					this.inOutUserTable = data.enterExitUsers || [];
+					this.formData.num = this.inOutUserTable.length;
 				});
 				api.getFlowAndTaskInfo({businessKey: id}).then((res) => {
 					console.log(res.data);
