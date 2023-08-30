@@ -185,14 +185,14 @@ lo	} from "@/utils/format.js";
 					this.contractTable = data.information || [];
 					this.getUserInfo(data.createUserId)
 				});
-				api.getFlowAndTaskInfo({businessKey: id + "_progressConstructionDesign1"}).then((res) => {
+				api.getFlowAndTaskInfo({businessKey: id + "_progressConstructionDesign"}).then((res) => {
 					console.log(res.data);
 					let data=res['data'];
 					this.taskInfo={
 		 				processDefinitionId: data['processDefinitionId'],
 						processInstanceId: data['processInstanceId'],
 						taskId: data['taskId'],
-				  flowKey:'progressConstructionDesign1'
+				  flowKey:'progressConstructionDesign'
 					}
 					this.updateTaskLog();
 				});

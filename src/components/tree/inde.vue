@@ -56,6 +56,7 @@
   import {xyToLonlat} from "@/utils/site";
   import {getWorkArea} from "@/api/workArea";
   import {mapGetters} from "vuex";
+  import { getProgressWarningTableData, getProjectTypeData, getDictDataByType  } from "@/api/progress";
 
   export default {
     name: "",
@@ -68,7 +69,7 @@
             key: "QL"
           },
           {
-            name: "房建",
+            name: "房建1",
             key: "LM"
           },
           {
@@ -101,7 +102,10 @@
       ...mapGetters(["project"])
     },
     created() {
-      this.initData("QL");
+      this.getDictDataByType()
+      .then(() => {
+        this.initData(this.lists[0]["key"]);
+      })
       Bus.$on("mapSucceed", () => {
         // em = window.zeh.earth.createEntityManager();
         Bus.$off("mapSucceed");
@@ -123,6 +127,21 @@
         if (val === "QL" || val === "SD" || val === "LM") {
           this.initData(val);
         }
+      },
+      getDictDataByType (){
+        return new Promise((resolve, reject) => {
+          getDictDataByType({pageNum:1,pageSize:999,dictType:"jg_project_type"}).then((res) => {
+            let data = res.rows || [];
+            const array = [];
+            data.forEach(item => {
+              array.push({name: item.dictLabel, key: item.dictValue})
+            });
+            this.lists = array;
+            this.currentKey = array[0]["key"];
+            console.log(array)
+            resolve()
+          })
+        })
       },
       initData(key) {
         if (this.treeInfo[key] && this.treeInfo[key].length === 0) {

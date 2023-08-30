@@ -109,11 +109,12 @@
 									</div>
 									<div class="form-block">
 										<div class="form-block-title">
-											<div class="title-bar"></div><strong>问题照片</strong>
+											<div class="title-bar"></div><strong>问题照片3</strong>
 											<span style="font-size: 12px;margin-left: 40px;">支持上传 jpg/jpeg png 文件，且不超过
 												100M</span>
 										</div>
-										<attachlist :editAble="true" :attachTable="formData.problemPhotoAttachment">
+										<attachlist :editAble="true" :attachTable="formData.problemPhotoAttachment"
+											acceptList=".jpg,.jpeg,.png">
 										</attachlist>
 
 									</div>
@@ -232,11 +233,11 @@ import {
 } from "@/utils/format.js";
 
 import upload from "../../../common/upload.vue"
-import attachlist from "../../../common/attachlist.vue"
-import drafthandle from "../../../common/drafthandle.vue"
-import approveuser from "../../../common/approveuser.vue"
-import projectinfo from "../../../common/projectinfo.vue"
-import locationmap from "../../../common/locationmap.vue"
+import attachlist from "@/views/common/attachlist.vue"
+import drafthandle from "@/views/common/drafthandle.vue"
+import approveuser from "@/views/common/approveuser.vue"
+import projectinfo from "@/views/common/projectinfo.vue"
+import locationmap from "@/views/common/locationmap.vue"
 
 export default {
 	data() {

@@ -22,7 +22,7 @@
         <indexSafeStatistics></indexSafeStatistics>
       </div>
     </div>
-    
+
     <Notification ref="notification" placement="bottomRight" :duration="null" :top="30" @close="onClose" />
 
   </div>
@@ -66,7 +66,7 @@ export default {
     console.log("/data-created");
     this.initData();
   },
-  mounted() {},
+  mounted() { },
   computed: {
     ...mapGetters(["project"]),
   },
@@ -77,17 +77,20 @@ export default {
       });
       // 加载未处理的待审批流程
       api.getExpiryRemindersList().then((res) => {
-        var description = '如下任务即将在5天后到期,请尽快处理。\n';
-        if (res.data.certificatePhotosCount > 0 ) {
-          description += "证照管理:" + res.data.certificatePhotos + ";\n";
+        var description = '如下任务即将在5天后到期,请尽快处理。<br/>';
+        if (res.data.certificatePhotosCount > 0) {
+          description += "证照管理:" + res.data.certificatePhotos + ";<br/>";
         }
-        if (res.data.constructionDesignCount > 0 ) {
-          description += "施工图设计:" + res.data.constructionDesign + ";";
+        if (res.data.constructionDesignCount > 0) {
+          description += "施工图设计:" + res.data.constructionDesign + ";<br/>";
+        }
+        if (res.data.constructionPlanCount > 0) {
+          description += "施工方案设计:" + res.data.constructionPlan + ";";
         }
         console.log(res);
         console.log(description);
-        if(res.data.certificatePhotosCount > 0 &&  
-            res.data.constructionDesignCount > 0) {
+        if (res.data.certificatePhotosCount > 0 &&
+          res.data.constructionDesignCount > 0) {
           setTimeout(() => {
             this.$refs.notification.info(
               {
@@ -128,10 +131,12 @@ export default {
       height: 35%;
       margin: 20px 0;
     }
+
     .video {
       height: calc(35% - 40px);
     }
   }
+
   .index_center {
     width: 640px;
   }

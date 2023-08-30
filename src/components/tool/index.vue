@@ -89,7 +89,7 @@
           </el-dropdown-menu>
         </el-dropdown>
       </li>
-      <li>
+      <!-- <li>
         <el-dropdown trigger="click">
           <span class="el-dropdown-link">
             空间量测<i class="el-icon-arrow-down el-icon--right" />
@@ -104,15 +104,15 @@
             <el-dropdown-item @click.native="areaStart"
               >面积量测</el-dropdown-item
             >
-            <!-- <el-dropdown-item @click.native="slopeStart"
-              >斜率量测</el-dropdown-item -->
-            
+            <el-dropdown-item @click.native="slopeStart"
+              >斜率量测</el-dropdown-item
+            >
             <el-dropdown-item @click.native="clearMeasure"
               >清除结果</el-dropdown-item
             >
           </el-dropdown-menu>
         </el-dropdown>
-      </li>
+      </li> -->
       <!-- <li>
         <el-dropdown trigger="click">
           <span class="el-dropdown-link">
@@ -504,6 +504,8 @@ const getTreeData = (nodes) => {
   }
   return na;
 };
+
+let handler;
 export default {
   name: "",
   data() {
@@ -955,46 +957,68 @@ export default {
     //出图
     exportImage() {
       var filename = "高清地图.png";
-      var data = zeh.earth.screenShot();
-      var alink = document.createElementNS("http://www.w3.org/1999/xhtml", "a");
-      alink.href = data;
-      alink.download = filename;
-      var event = document.createEvent("MouseEvents");
-      event.initMouseEvent(
-        "click",
-        true,
-        false,
-        window,
-        0,
-        0,
-        0,
-        0,
-        0,
-        false,
-        false,
-        false,
-        false,
-        0,
-        null
-      );
-      alink.dispatchEvent(event);
+      // var data = zeh.earth.screenShot();
+      // var alink = document.createElementNS("http://www.w3.org/1999/xhtml", "a");
+      // alink.href = data;
+      // alink.download = filename;
+      // var event = document.createEvent("MouseEvents");
+      // event.initMouseEvent(
+      //   "click",
+      //   true,
+      //   false,
+      //   window,
+      //   0,
+      //   0,
+      //   0,
+      //   0,
+      //   0,
+      //   false,
+      //   false,
+      //   false,
+      //   false,
+      //   0,
+      //   null
+      // );
+      // alink.dispatchEvent(event);
+
+      const canvas = document.getElementById('earth').getElementsByTagName("canvas");
+      var dataURL = canvas[0].toDataURL();
+      //url就是base64格式的图片
+      const link=document.createElement('a')
+      link.style.display='none'
+      //设置下载的图片名称
+      link.download = new Date().valueOf() + '.jpg'
+      link.href = dataURL
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
     },
     //拾取位置
     pickPosition() {
       let that = this;
-      zeh.beginPickPosition(function (res) {
-        let { height, latitude, longitude } = res;
-        that.lat = latitude.toFixed(6);
-        that.lon = longitude.toFixed(6);
-        that.height = height.toFixed(6);
-      });
+      // zeh.beginPickPosition(function (res) {
+      //   let { height, latitude, longitude } = res;
+      //   that.lat = latitude.toFixed(6);
+      //   that.lon = longitude.toFixed(6);
+      //   that.height = height.toFixed(6);
+      // });
+      handler = new Cesium.ScreenSpaceEventHandler(window.viewer.scene.canvas);
+      handler.setInputAction(function (movement) {
+          // 位置拾取
+          let pos = viewer.scene.pickPosition(movement.position)
+          const cartographic = Cesium.Cartographic.fromCartesian(pos)
+          console.log('点击位置的三维坐标是:', pos);
+          that.lat = Cesium.Math.toDegrees(cartographic.latitude).toFixed(6);
+          that.lon = Cesium.Math.toDegrees(cartographic.longitude).toFixed(6);
+          that.height = cartographic.height.toFixed(2);
+      }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
     },
     //关闭拾取动作 隐藏面板
     closePosition() {
       this.lon = null;
       this.lat = null;
       this.height = null;
-      zeh.exitPickPosition();
+      handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK)
     },
     //开挖参数面板
     showExcavation() {

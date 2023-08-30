@@ -245,7 +245,7 @@ export const constantRoutes = [{
       {
         path: "/progressConstructionDesign_detail",
         name: "progressConstructionDesign_detail",
-        code: "progressConstructionDesign1",
+        code: "progressConstructionDesign",
         component: () => import ("@/views/progressApplyReview/constructionDesign/view")
       }
     ]

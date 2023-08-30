@@ -3,68 +3,27 @@
     <el-header>
       <div class="title">事件记录</div>
       <el-select v-model="typeKey" @change="changeValue" style="width: 300px">
-        <el-option
-          v-for="item in typeArr"
-          :key="item.projectid"
-          :value="item.groupid"
-          :label="item.projectname"
-        ></el-option>
+        <el-option v-for="item in typeArr" :key="item.projectid" :value="item.groupid"
+          :label="item.projectname"></el-option>
       </el-select>
     </el-header>
     <el-main>
       <!-- <div class="filter"></div> -->
       <div class="container">
-        <el-table
-          :data="tableData"
-          style="width: 100%"
-          border
-          height="100%"
-          class="have_scrolling"
-        >
+        <el-table :data="tableData" style="width: 100%" border height="100%" class="have_scrolling">
           <el-table-column type="index" width="50" align="center" label="序号">
           </el-table-column>
-          <el-table-column
-            prop="gq"
-            align="center"
-            label="工区"
-            show-overflow-tooltip
-          >
+          <el-table-column prop="gq" align="center" label="工区" show-overflow-tooltip>
           </el-table-column>
-          <el-table-column
-            prop="pro"
-            align="center"
-            label="单位工程"
-            show-overflow-tooltip
-          >
+          <el-table-column prop="pro" align="center" label="单位工程" show-overflow-tooltip>
           </el-table-column>
-          <el-table-column
-            prop="safefirstname"
-            align="center"
-            label="检查大项"
-            show-overflow-tooltip
-          >
+          <el-table-column prop="safefirstname" align="center" label="检查大项" show-overflow-tooltip>
           </el-table-column>
-          <el-table-column
-            prop="safesecondname"
-            align="center"
-            label="检查小项"
-            show-overflow-tooltip
-          >
+          <el-table-column prop="safesecondname" align="center" label="检查小项" show-overflow-tooltip>
           </el-table-column>
-          <el-table-column
-            prop="uploadname"
-            align="center"
-            label="检查人员"
-            show-overflow-tooltip
-          >
+          <el-table-column prop="uploadname" align="center" label="检查人员" show-overflow-tooltip>
           </el-table-column>
-          <el-table-column
-            prop="uploadtime"
-            align="center"
-            sortable
-            label="检查日期"
-            show-overflow-tooltip
-          >
+          <el-table-column prop="uploadtime" align="center" sortable label="检查日期" show-overflow-tooltip>
           </el-table-column>
           <!-- <el-table-column
             prop="uploadremark"
@@ -84,18 +43,9 @@
               <span v-else>无照片</span>
             </template>
           </el-table-column> -->
-          <el-table-column
-            prop="modifyname"
-            align="center"
-            label="整改人员"
-            show-overflow-tooltip
-          >
+          <el-table-column prop="modifyname" align="center" label="整改人员" show-overflow-tooltip>
           </el-table-column>
-          <el-table-column
-            prop="modifydate"
-            align="center"
-            label="整改期限(天)"
-          >
+          <el-table-column prop="modifydate" align="center" label="整改期限(天)">
           </el-table-column>
           <!-- <el-table-column
             prop="delayday"
@@ -111,12 +61,7 @@
             show-overflow-tooltip
           >
           </el-table-column> -->
-          <el-table-column
-            prop="modifytime"
-            align="center"
-            label="整改日期"
-            show-overflow-tooltip
-          >
+          <el-table-column prop="modifytime" align="center" label="整改日期" show-overflow-tooltip>
           </el-table-column>
           <!-- <el-table-column
             prop="modifyremark"
@@ -132,17 +77,11 @@
             show-overflow-tooltip
           >
           </el-table-column> -->
-          <el-table-column
-            align="center"
-            label="事件状态"
-            show-overflow-tooltip
-            :filters="[
-              { text: '待审核', value: '1' },
-              { text: '待整改', value: '2' },
-              { text: '确认整改', value: '3' },
-            ]"
-            :filter-method="filterTag"
-          >
+          <el-table-column align="center" label="事件状态" show-overflow-tooltip :filters="[
+            { text: '待审核', value: '1' },
+            { text: '待整改', value: '2' },
+            { text: '确认整改', value: '3' },
+          ]" :filter-method="filterTag">
             <template slot-scope="{ row }">
               <span>{{ row.status | getStatus }}</span>
             </template>
@@ -160,20 +99,9 @@
           </el-table-column> -->
           <el-table-column align="center" label="操作" width="150px">
             <template slot-scope="{ row, $index }">
-              <el-button
-                type="primary"
-                class="primary_mini"
-                size="mini"
-                @click="seeDetail(row, $index)"
-                >详情</el-button
-              >
-              <el-button
-                type="danger"
-                size="mini"
-                v-if="rolePerms[0] =='gly'"
-                @click="deleteInfo(row, $index)"
-                >删除</el-button
-              >
+              <el-button type="primary" class="primary_mini" size="mini" @click="seeDetail(row, $index)">详情</el-button>
+              <el-button type="danger" size="mini" v-if="rolePerms[0] == 'gly'"
+                @click="deleteInfo(row, $index)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -185,11 +113,7 @@
         <img v-if="src" :src="src" :key="src" />
       </template>
     </div>
-    <eventDetail
-      :drawer="drawer"
-      @closeDrawer="drawer = false"
-      :detalRow="detalRow"
-    >
+    <eventDetail :drawer="drawer" @closeDrawer="drawer = false" :detalRow="detalRow">
       <div class="detail_div">
         <label>基本信息</label>
         <ul class="base_info">
@@ -240,24 +164,14 @@
           </li>
           <li class="event_photo">
             <div class="title">问题照片:</div>
-            <el-button type="primary" size="mini" @click="downLoadAll(1)"
-              >下载全部</el-button
-            >
+            <el-button type="primary" size="mini" @click="downLoadAll(1)">下载全部</el-button>
           </li>
         </ul>
         <div class="event_photo_box">
           <div v-for="(item, index) in detalRow.uploadurl" :key="index">
             <img :src="item" alt="" />
-            <svg-icon
-              icon-class="blowup"
-              class="blowup"
-              @click="preview(item)"
-            ></svg-icon>
-            <svg-icon
-              icon-class="download"
-              class="download"
-              @click="downLoadImage(item)"
-            ></svg-icon>
+            <svg-icon icon-class="blowup" class="blowup" @click="preview(item)"></svg-icon>
+            <svg-icon icon-class="download" class="download" @click="downLoadImage(item)"></svg-icon>
           </div>
         </div>
         <label>问题处理</label>
@@ -272,24 +186,14 @@
           </li>
           <li class="event_photo">
             <div class="title">整改照片:</div>
-            <el-button type="primary" size="mini" @click="downLoadAll(2)"
-              >下载全部</el-button
-            >
+            <el-button type="primary" size="mini" @click="downLoadAll(2)">下载全部</el-button>
           </li>
         </ul>
         <div class="event_photo_box">
           <div v-for="(item, index) in detalRow.modifyurl" :key="index">
             <img :src="item" alt="" />
-            <svg-icon
-              icon-class="blowup"
-              class="blowup"
-              @click="preview(item)"
-            ></svg-icon>
-            <svg-icon
-              icon-class="download"
-              class="download"
-              @click="downLoadImage(item)"
-            ></svg-icon>
+            <svg-icon icon-class="blowup" class="blowup" @click="preview(item)"></svg-icon>
+            <svg-icon icon-class="download" class="download" @click="downLoadImage(item)"></svg-icon>
           </div>
         </div>
       </div>
@@ -298,66 +202,66 @@
 </template>
 
 <script>
-  import {
-    getDoneSafeEvent,
-    getAllSafeEvents,
-    deleteSafeEvent
-  } from "@/api/safe";
-  import {validPicurl} from "@/utils/validate";
-  import {getProjectTypeData} from "@/api/progress";
-  import {getWorkArea} from "@/api/workArea";
-  import {getToken} from "@/utils/auth";
-  import eventDetail from "@/components/detail/eventDetail";
-  import {downLoadFile} from "@/utils/download";
-  import {addAnyDays} from "@/utils/date";
-  import {getAreaBySectionId} from "@/api/newProject";
+import {
+  getDoneSafeEvent,
+  getAllSafeEvents,
+  deleteSafeEvent
+} from "@/api/safe";
+import { validPicurl } from "@/utils/validate";
+import { getProjectTypeData } from "@/api/progress";
+import { getWorkArea } from "@/api/workArea";
+import { getToken } from "@/utils/auth";
+import eventDetail from "@/components/detail/eventDetail";
+import { downLoadFile } from "@/utils/download";
+import { addAnyDays } from "@/utils/date";
+import { getAreaBySectionId } from "@/api/newProject";
 
-  import {mapGetters} from "vuex";
+import { mapGetters } from "vuex";
 
-  export default {
-    name: "",
-    data() {
-      return {
-        tableData: [],
-        typeKey: "",
-        typeArr: [],
-        area: [],
-        groupId: null,
-        photoLists: [],
-        detalRow: {},
-        drawer: false
-      };
-    },
-    created() {
-      this.groupId = getToken("groupId");
-      this.initData();
-    },
-    computed: {
-      ...mapGetters(["project", "rolePerms"])
-    },
-    components: {eventDetail},
-    methods: {
-      initData() {
-        getProjectTypeData(this.project.id).then((res) => {
-          let obj = {
-            projectname: "所有工程",
-            groupid: "all"
-          };
-          let data = res.data || [];
-          data.unshift(obj);
-          this.typeArr = data;
+export default {
+  name: "",
+  data() {
+    return {
+      tableData: [],
+      typeKey: "",
+      typeArr: [],
+      area: [],
+      groupId: null,
+      photoLists: [],
+      detalRow: {},
+      drawer: false
+    };
+  },
+  created() {
+    this.groupId = getToken("groupId");
+    this.initData();
+  },
+  computed: {
+    ...mapGetters(["project", "rolePerms"])
+  },
+  components: { eventDetail },
+  methods: {
+    initData() {
+      getProjectTypeData(this.project.id).then((res) => {
+        let obj = {
+          projectname: "所有工程",
+          groupid: "all"
+        };
+        let data = res.data || [];
+        data.unshift(obj);
+        this.typeArr = data;
         this.typeKey = "all";
-          getAreaBySectionId(this.project.id).then((res1) => {
-            this.area = res1.data;
-            getAllSafeEvents(this.project.id).then((res3) => {
-              if (res3.data) {
-                let data = res3.data;
-                data.forEach((item) => {
-                  let gq = this.area.find((e) => e.sort === item.gongquid);
-                  let pro = this.typeArr.find(
-                    (e) => e.groupid === item.singleProjectId
-                  );
-                  item.modifyurl = validPicurl(item.modifyurl);
+        getAreaBySectionId(this.project.id).then((res1) => {
+          this.area = res1.data;
+          getAllSafeEvents(this.project.id).then((res3) => {
+            if (res3.data) {
+              let data = res3.data;
+              data.forEach((item) => {
+                let gq = this.area.find((e) => e.sort === item.gongquid);
+                let pro = this.typeArr.find(
+                  (e) => e.groupid === item.singleProjectId
+                );
+                item.modifyurl = validPicurl(item.modifyurl);
                 item.uploadurl = validPicurl(item.uploadurl);
                 item.gq = gq?.name;
                 item.pro = pro?.projectname;
@@ -441,8 +345,8 @@
       finalTime = addAnyDays(row.modifydate, row.uploadtime);
       if (row.delayday) {
         this.detalRow.finalTime = addAnyDays(row.delayday, finalTime);
-      }else {
-        this.detalRow.finalTime=finalTime
+      } else {
+        this.detalRow.finalTime = finalTime
       }
       this.drawer = true;
     },
@@ -508,10 +412,12 @@
 .container-box {
   background-color: #ebecee;
   padding: 0 5px 20px 5px;
+
   .el-header {
     background-color: #ffffff;
     display: flex;
     align-items: center;
+
     .title {
       width: 106px;
       height: 44px;
@@ -527,15 +433,18 @@
       color: #FFFFFF;
     }
   }
+
   .el-main {
     padding: 0;
     margin-top: 5px;
     background-color: #ffffff;
     display: flex;
     flex-direction: column;
+
     .filter {
       height: 40px;
     }
+
     .container {
       flex: 1;
     }

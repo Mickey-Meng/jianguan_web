@@ -228,9 +228,12 @@ const actions = {
       }).catch(error => {
         console.log("modules/user.login.doLogin->catch:");
         console.log(error);
-
+        var errorMsg = error.msg;
+        if (errorMsg.indexOf('密码输入错误') != -1) {
+          errorMsg = errorMsg + '，连续错误五次将锁定十分钟!';
+        }
         Message({
-          message: "用户名或密码错误！连续错误五次将锁定十分钟！",
+          message: errorMsg,
           type: "warning",
           customClass: "message_override"
         });

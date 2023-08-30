@@ -26,21 +26,25 @@
                     </div>
 
                   <div class="block-item">
-                    <el-form-item  class="block-item-label" label="材料类型" prop="type">
-                      <el-select
-                        v-model="formData.materialCategory"
-                        filterable
-                        clearable
-                        placeholder="请选择材料类型"
-                      >
-                        <el-option
-                          v-for="item in functionary"
-                          :key="item.id"
-                          :value="item.id+','+item.name"
-                          :label="item.name"
-                        />
-                      </el-select>
-                    </el-form-item>
+                    <div class="block-item-label">材料类型</div>
+                      <div class="block-item-value">
+                        <el-form-item prop="type">
+                        <el-select
+                          v-model="formData.materialCategory"
+                          filterable
+                          clearable
+                          placeholder="请选择材料类型"
+                        >
+                          <el-option
+                            v-for="item in functionary"
+                            :key="item.id"
+                            :value="item.id+','+item.name"
+                            :label="item.name"
+                          />
+                        </el-select>
+                      </el-form-item>
+                      </div>
+                    
                   </div>
                   </div>
                 </div>

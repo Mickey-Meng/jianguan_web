@@ -25,9 +25,9 @@
 					</div>
 					<attachlist :editAble="false" ref="attachlist" :attachTable="formData.reportAttachment">
 					</attachlist>
-				
+
 				</div>
-				
+
 				<div class="form-block">
 					<div class="form-block-title">
 						<div class="title-bar"></div><strong>整改内容</strong>
@@ -41,7 +41,7 @@
 					</div>
 					<attachlist :editAble="readOnly" :attachTable="formData.replyPhotoAttachment">
 					</attachlist>
-			
+
 				</div>
 			</el-form>
 		</div>
@@ -58,7 +58,7 @@
 	} from "@/utils/format.js";
 	import attachlist from "../../../common/attachlist"
 	import projectinfo from "../../../common/projectinfo.vue"
-	
+
 	export default {
 		data() {
 			return {
@@ -95,13 +95,13 @@
 			projectinfo
 		},
 		computed: {
-			
+
 		},
 		watch: {
-			
+
 		},
 		mounted() {
-			
+
 		},
 		methods: {
 			getDetail(id) {
@@ -110,20 +110,20 @@
 					this.formData = data;
 				});
 			},
-			addOrModify() {
-				// this.formData.auditUser = this.auditUser;
-				this.formData.draftFlag = 1;
-				api.addOrUpdateQualityReport(this.formData).then((res) => {
-					if (res.data) {
-						this.$message({
-							type: 'success',
-							message: '提交成功!'
-						});
-						// this.dialogFormVisible = false;
-						// this.$emit("query");
-					}
-				});
-			},
+			// addOrModify() {
+			// 	// this.formData.auditUser = this.auditUser;
+			// 	this.formData.draftFlag = 1;
+			// 	api.addOrUpdateQualityReport(this.formData).then((res) => {
+			// 		if (res.data) {
+			// 			this.$message({
+			// 				type: 'success',
+			// 				message: '提交成功!'
+			// 			});
+			// 			// this.dialogFormVisible = false;
+			// 			// this.$emit("query");
+			// 		}
+			// 	});
+			// },
 		},
 	};
 </script>

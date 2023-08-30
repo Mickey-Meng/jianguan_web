@@ -25,60 +25,73 @@
                       </div>
                     </div>
 
-                  <div class="block-item">
-                    <el-form-item eclass="block-item-label" label="材料类型" prop="type">
-                      <el-select
-                        disabled
-                        v-model="formData.materialCategory"
-                        filterable
-                        clearable
-                        placeholder="请选择材料类型"
-                      >
-                        <el-option
-                          v-for="item in functionary"
-                          :key="item.id"
-                          :value="item.id+','+item.name"
-                          :label="item.name"
-                        />
-                      </el-select>
-                    </el-form-item>
-                  </div>
+                    <div class="block-item">
+                      <div class="block-item-label">材料类型</div>
+                        <div class="block-item-value">
+                          <el-form-item prop="type">
+                          <el-select
+                            v-model="formData.materialCategory"
+                            filterable
+                            clearable
+                            placeholder="请选择材料类型"
+                          >
+                            <el-option
+                              v-for="item in functionary"
+                              :key="item.id"
+                              :value="item.id+','+item.name"
+                              :label="item.name"
+                            />
+                          </el-select>
+                        </el-form-item>
+                        </div>
+                      
+                    </div>
                   </div>
                   <div class="block-line">
                     <div class="block-item">
                       <div class="block-item-label">样板照片</div>
                       <div class="block-item-value">
-                        <el-input readonly  v-model="formData.samplePhoto"></el-input>
+                        <el-form-item prop="samplePhoto">
+                          <el-input readonly  v-model="formData.samplePhoto"></el-input>
+                        </el-form-item>
                       </div>
                     </div>
                     <div class="block-item">
                       <div class="block-item-label">样板内容</div>
                       <div class="block-item-value">
-                        <el-input readonly  v-model="formData.sampleContent"></el-input>
+                        <el-form-item prop="samplePhoto">
+                          <el-input readonly  v-model="formData.sampleContent"></el-input>
+                        </el-form-item>
                       </div>
                     </div>
                   </div>
 
-                <div class="block-line">
-                  <div class="block-item">
-                    <div class="block-item-label">材料进场照片</div>
-                    <div class="block-item-value">
-                      <el-input  v-model="formData.materialApproachPhoto"></el-input>
+                  <div class="block-line">
+                    <div class="block-item">
+                      <div class="block-item-label">材料进场照片</div>
+                      <div class="block-item-value">
+                        <el-form-item prop="samplePhoto">
+                          <el-input  v-model="formData.materialApproachPhoto"></el-input>
+                        </el-form-item>
+                      </div>
+                    </div>
+                    <div class="block-item">
+                      <div class="block-item-label">材料进场内容</div>
+                      <div class="block-item-value">
+                        <el-form-item prop="samplePhoto">
+                          <el-input  v-model="formData.materialApproachContent"></el-input>
+                        </el-form-item>
+                      </div>
+                    </div>
+                    <div class="block-item">
+                      <div class="block-item-label">材料进场数量</div>
+                      <div class="block-item-value">
+                        <el-form-item prop="samplePhoto">
+                          <el-input  v-model="formData.materialApproachQuantity"></el-input>
+                        </el-form-item>
+                      </div>
                     </div>
                   </div>
-                  <div class="block-item">
-                    <div class="block-item-label">材料进场内容</div>
-                    <div class="block-item-value">
-                      <el-input  v-model="formData.materialApproachContent"></el-input>
-                    </div>
-                  </div>
-                  <div class="block-item">
-                    <div class="block-item-label">材料进场数量</div>
-                    <div class="block-item-value">
-                      <el-input  v-model="formData.materialApproachQuantity"></el-input>
-                    </div>
-                  </div>
-                </div>
 
             </div>
                 <div class="form-block">

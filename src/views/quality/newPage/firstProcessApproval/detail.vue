@@ -11,7 +11,7 @@
 					<div class="form-bg">
 						<div class="form-content">
 							<el-form ref="form" label-width="80px">
-								
+
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
@@ -139,7 +139,7 @@
 										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 											文件，且不超过 200M</span>
 									</div>
-									
+
 									<attachlist :editAble="false" ref="attachlist" :attachTable="formData.measureAttachment">
 									</attachlist>
 								</div>
@@ -239,7 +239,7 @@
 				</el-aside>
 			</el-container>
 		</el-dialog>
-		
+
 	</div>
 </template>
 
@@ -253,15 +253,15 @@
 		getChidlren
 	} from "@/utils/format.js";
 	import tasklog from "../../../common/tasklog.vue"
-	
+
 	import taskhandle from '../../../common/taskhandle'
 	import attachlist from "../../../common/attachlist"
 	import projectinfo from "../../../common/projectinfo.vue"
-	
+
 	import {
 		getBridgeTree
 	} from "@/api/tree";
-	
+
 	import simpleData from '../../../common/simdata.js'
 
 	export default {
@@ -317,7 +317,7 @@
 			projectinfo
 		},
 		computed: {
-			
+
 		},
 		watch:{
 			detailRow(obj){
@@ -336,7 +336,7 @@
 			// 		this.getDetail(params['businessKey']);
 			// 	}
 			// },500)
-			
+
 			this.treeData = [simpleData.data];
 			// getBridgeTree('QL', null).then((res) => {
 			//   const arr = [];
@@ -346,7 +346,7 @@
 		},
 		methods: {
 			initData(){
-				
+
 			},
 			closeDialog(){
 				// if(this.taskInfo['processDefinitionId']){
@@ -359,12 +359,15 @@
 			getDetail(id){
 				api.getFirstAcceptDeatil(id).then((res) => {
 					let data=res['data']||{};
-					
+
 					const conponent = data.conponent;
 					data.subProjectStr = '';
 					for (let i = 1; i < 20; i++) {
 						if (conponent['w'+i]) {
-							data.subProjectStr += `/${conponent['w'+i]}`;
+              if (i<9){ // add by yangaogao 20230824 功能 #645
+                data.subProjectStr += `/${conponent['w'+i]}`;
+              }
+
 							if (i == 3) {
 								this.baseInfo.unitProject=conponent['w'+i]
 							}
@@ -375,14 +378,14 @@
 								this.baseInfo.subitemProject=conponent['w'+i]
 							}
 						}
-						
+
 					}
 					data.subProjectStr = data.subProjectStr.replace('/','');
 
 					this.formData=data;
 					this.attachTable=data.otherAttachment||[];
 					// let treename=(data['subProject']||'').split('/');
-					
+
 					let treename=getChidlren(this.treeData,this.formData.subProject,[]);
 					// this.formData.subProjectStr=(treename?treename:[]).join('/');
 

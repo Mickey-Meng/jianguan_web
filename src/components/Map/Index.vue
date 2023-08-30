@@ -113,9 +113,11 @@ export default {
         navigationHelpButton: false,
         timeline: false,
         msaaSamples: 8,
-        fullscreenButton: false,contextOptions: {
+        fullscreenButton: false,
+        contextOptions: {
             webgl: {
                 alpha: true,
+                preserveDrawingBuffer: true // 保存截图需要使用此选项
             }
         }
       });

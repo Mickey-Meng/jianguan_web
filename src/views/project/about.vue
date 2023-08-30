@@ -283,14 +283,15 @@ export default {
       ul {
         background-color: #fff;
         padding: 16px;
+        height: calc(100% - 54px);
         li {
           display: flex;
           // width: 100%;
           justify-content: space-between;
           margin: 15px 0;
-          height: 120px; 
+          height: 120px;
+          height: calc(25% - 20px);
           flex-direction: column;
-          padding: 10px;
           .quarter {
             // width: 100%;
             display: flex;
@@ -325,7 +326,7 @@ export default {
           }
           .text {
             width: 100%;
-            display: flex;
+            // display: flex;
             align-items: center;
             line-height: 25px;
             font-size: 16px;
@@ -333,7 +334,9 @@ export default {
             color: #11142D;
             background-color: #ebecee;
             border-radius: 5px;
-            padding: 15px 10px;
+            padding: 3px 10px;
+            overflow: auto;
+            height: calc(100% - 39px);
 
           }
         }
@@ -400,7 +403,7 @@ export default {
             text-indent: 2em;
           }
           .about-text {
-            height: 120px;
+            height: calc(100% - 30px);
             font-size: 16px;
             font-family: AlibabaPuHuiTiR;
             color: #11142D;

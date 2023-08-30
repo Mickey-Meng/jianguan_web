@@ -143,7 +143,7 @@ export default {
       attachTable: [], //附件
       auditUser: {},
       approveVisible:true,
-      flowKey:'progressConstructionDesign1',
+      flowKey:'progressConstructionDesign',
       dataDictionaryList: [],
 
       submitDisable: false

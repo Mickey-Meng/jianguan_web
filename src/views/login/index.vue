@@ -49,6 +49,20 @@
           />
         </span>
       </el-form-item>
+      <el-form-item prop="code" v-if="captchaEnabled">
+        <el-input
+          v-model="loginForm.code"
+          auto-complete="off"
+          placeholder="验证码"
+          style="width: 63%"
+          @keyup.enter.native="handleLogin"
+        >
+          <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon" />
+        </el-input>
+        <div class="login-code">
+          <img :src="codeUrl" @click="getCode" class="login-code-img"/>
+        </div>
+      </el-form-item>
       <el-button class="login-form-item"
         :loading="loading"
         type="primary"
@@ -62,6 +76,7 @@
 </template>
 
 <script>
+import { getCodeImg } from "@/api/user";
 export default {
   name: "Login",
   data() {
@@ -84,7 +99,11 @@ export default {
           { required: true, trigger: "blur", message: "请输入用户名" },
         ],
         password: [{ required: true, trigger: "blur", validator: validatePassword }],
+        code: [{ required: true, trigger: "change", message: "请输入验证码" }]
       },
+      codeUrl: "",
+      // 验证码开关
+      captchaEnabled: true,
       loading: false,
       passwordType: "password",
       redirect: undefined,
@@ -101,7 +120,19 @@ export default {
     //   immediate: true
     // }
   },
+  created() {
+    this.getCode();
+  },
   methods: {
+    getCode() {
+      getCodeImg().then(res => {
+        this.captchaEnabled = res.data.captchaEnabled === undefined ? true : res.data.captchaEnabled;
+        if (this.captchaEnabled) {
+          this.codeUrl = "data:image/gif;base64," + res.data.img;
+          this.loginForm.uuid = res.data.uuid;
+        }
+      });
+    },
     showPwd() {
       if (this.passwordType === "password") {
         this.passwordType = "";
@@ -138,14 +169,17 @@ export default {
             .catch((errRes) => {
               console.log("handleLogin->catch:");
               console.log(errRes);
+              if (this.captchaEnabled) {
+                this.getCode();
+              }
               if (errRes.message)
                 this.$message({
                   message: errRes.message,
                   type: "warning",
                   customClass: "message_override"
                 });
-            });
-            this.loading = false;
+              });
+              this.loading = false;
         } else {
           return false;
         }
@@ -320,5 +354,19 @@ $light_gray: #eee;
     cursor: pointer;
     // user-select: none;
   }
+}
+
+.login-code {
+  width: 33%;
+  height: 38px;
+  float: right;
+  img {
+    cursor: pointer;
+    vertical-align: middle;
+  }
+}
+
+.login-code-img {
+  height: 38px;
 }
 </style>
