@@ -48,7 +48,11 @@
         :data="tableData.slice((queryData.pageNum - 1) * queryData.pageSize, queryData.pageNum * queryData.pageSize)"
         style="width: 100%" border height="100%" class="have_scrolling">
         <el-table-column prop="leaverPersonName" label="请假人"></el-table-column>
-        <el-table-column prop="leaverType" label="请假类型"></el-table-column>
+        <el-table-column label="请假类型">
+          <template slot-scope="scope">
+            <el-tag size="mini">{{ transferData(scope.row.leaverType) }}</el-tag>
+          </template>
+        </el-table-column>
         <el-table-column prop="startTime" label="开始时间"></el-table-column>
         <el-table-column prop="endTime" label="结束时间"></el-table-column>
         <el-table-column prop="leaveDay" label="请假天数"></el-table-column>
@@ -105,7 +109,12 @@
                   <div class="block-item">
                     <div class="block-item-label">请假类型</div>
                     <div class="block-item-value">
-                      {{ form.leaverType }}
+                      <el-select placeholder="请选择" v-model="form.leaverType" v-if="isCreate">
+                        <el-option v-for="(item, i) in eventType" :key="ii" :label="item.dictLabel"
+                          :value="item.dictCode">
+                        </el-option>
+                      </el-select>
+                      <div v-else>{{ form.leaverType === '105'? "病假":(form.leaverType === '106'? "事假":form.leaverType) }}</div>
                     </div>
                   </div>
                 </div>
@@ -175,6 +184,7 @@
 
 <script>
 import { getNowDate, checkAuditTime } from "@/utils/date";
+import { getDictDataByType, getDicts } from "@/api/progress";
 import { mapGetters } from "vuex";
 import { getLeaveRecordsById, getAllLeaveRecords, deleteLeaveRecord, deleteChangeRecord } from "@/api/staffApproval";
 import tasklog from "@/views/common/tasklog";
@@ -189,6 +199,17 @@ export default {
       tableData: [],
       taskInfo: {},
       dialogFormVisible: false,
+      eventType: [
+        {
+          dictCode:"105",
+          dictLabel:'病假'
+        },
+
+        {
+          dictCode:"106",
+          dictLabel:'事假'
+        }
+      ],
       allData: [],
       options: [
         {
@@ -235,6 +256,11 @@ export default {
     };
   },
   created() {
+    /**
+     getDicts('jg_ask_for_leave_type').then(res => {
+      this.eventType = res.data || [];
+    }) 
+     */
     this.init();
     this.projectName = this.project.name;
     this.form = {
@@ -318,6 +344,10 @@ export default {
     },
     handleCurrentChange(val) {
       this.queryData.pageNum = val;
+    },
+    transferData(val) {
+      let data = this.eventType || []
+      return data.find(res => res.dictCode == val).dictLabel
     },
     queryClick() {
       this.init();

@@ -94,7 +94,7 @@ export const getUserListByDeptId = (queryUserParams) => {
   });
 };
 
-//根据角色id获取用户
+//根据角色key获取用户 20230829 yangaogao
 export const getUserByRoleId = (projectId, id) => {
   return request({
     url: `/person/getUserByRole?roleid=${id}&projectId=${projectId}`,
@@ -171,16 +171,16 @@ export const getUsersByProjectId = (projectId) => {
     method: "get"
   });
 }
-//lrj 
+//lrj
 export function DictionaryController() {
-  return 
+  return
 }
 
 
 
 export function SysPostController() {
-  return 
+  return
 }
 export function SystemController() {
-  return 
+  return
 }

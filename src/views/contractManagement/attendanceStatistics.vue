@@ -60,7 +60,7 @@
           style="width: 100%">
           <el-table-column
             label="姓名"
-            prop="userName"
+            prop="nickName"
           >
           </el-table-column>
           <el-table-column
