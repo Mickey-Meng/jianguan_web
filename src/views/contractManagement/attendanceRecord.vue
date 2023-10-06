@@ -17,24 +17,15 @@
       </div>
       <div class="input-box" style="margin-left: 10px">
         <div class="input-value">
-          <el-date-picker
-            v-model="queryData.subDate"
-            type="daterange"
-            value-format="yyyy-MM-dd"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期">
+          <el-date-picker v-model="queryData.subDate" type="daterange" value-format="yyyy-MM-dd" range-separator="至"
+            start-placeholder="开始日期" end-placeholder="结束日期">
           </el-date-picker>
         </div>
       </div>
       <div class="input-box" style="margin-left: 10px">
         <div class="input-value">
           <el-select v-model="queryData.selectValue" placeholder="请选择">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.name"
-              :value="item.value">
+            <el-option v-for="item in options" :key="item.value" :label="item.name" :value="item.value">
             </el-option>
           </el-select>
         </div>
@@ -55,7 +46,7 @@
     <el-main>
       <div class="container">
         <el-table :data="tableData.slice((queryData.pageNum-1)*queryData.pageSize,queryData.pageNum*queryData.pageSize)"
-                  style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
+          style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
           <el-table-column prop="attendancePersonName" label="打卡人" width="130"></el-table-column>
           <el-table-column label="图片" width="120">
             <template slot-scope="{row}">
@@ -72,9 +63,8 @@
           <el-table-column prop="clockAddr" label="打卡位置" show-overflow-tooltip></el-table-column>
         </el-table>
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                       :current-page="queryData.pageNum" :page-size="queryData.pageSize"
-                       layout="total, sizes, prev, pager, next, jumper"
-                       :total="tableData.length">
+          :current-page="queryData.pageNum" :page-size="queryData.pageSize"
+          layout="total, sizes, prev, pager, next, jumper" :total="tableData.length">
         </el-pagination>
       </div>
     </el-main>
@@ -121,7 +111,7 @@
             value: 3
           }
         ],
-        dialogTitle: "全生命周期智慧建设管理平台"
+        dialogTitle: "项目全生命周期数字管理平台"
       };
     },
     created() {
@@ -172,45 +162,46 @@
 </script>
 
 <style scoped lang="scss">
-  @import "../../assets/css/table.scss";
-  @import "../../assets/css/dialog.scss";
-  .container-box{
-    .el-header{
-      display: flex;
-      align-items: center;
-      .input-value{
-        .el-date-editor{
-          display: flex;
-          align-items: center;
-          margin-right: 10px;
-        }
-      }
-    }
-  }
+@import "../../assets/css/table.scss";
+@import "../../assets/css/dialog.scss";
 
-  .form-bg {
-    width: 90% !important;
-
-    .form-block {
-      .el-date-editor {
-        width: 100% !important;
-      }
-    }
-  }
-
-
-  .user_select {
+.container-box {
+  .el-header {
     display: flex;
     align-items: center;
 
-    i {
-      font-size: 28px;
-      cursor: pointer;
-    }
-
-    .name {
-      font-size: 14px;
+    .input-value {
+      .el-date-editor {
+        display: flex;
+        align-items: center;
+        margin-right: 10px;
+      }
     }
   }
+}
 
+.form-bg {
+  width: 90% !important;
+
+  .form-block {
+    .el-date-editor {
+      width: 100% !important;
+    }
+  }
+}
+
+
+.user_select {
+  display: flex;
+  align-items: center;
+
+  i {
+    font-size: 28px;
+    cursor: pointer;
+  }
+
+  .name {
+    font-size: 14px;
+  }
+}
 </style>

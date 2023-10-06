@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible"
-               :fullscreen="true">
+      :fullscreen="true">
       <template slot="title">
         {{ dialogTitle }}
         <div class="logo-icon"></div>
@@ -91,10 +91,9 @@
                     <div class="title-bar"></div>
                     <strong>标准试验审批表</strong>
                     <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-											xisx xis pdf文件，且不超过100m</span>
+                      xisx xis pdf文件，且不超过100m</span>
                   </div>
-                  <attachlist :editAble="false" ref="attachlist"
-                              :attachTable="formData.experimentAttachment">
+                  <attachlist :editAble="false" ref="attachlist" :attachTable="formData.experimentAttachment">
                   </attachlist>
                   <div class="block-line">
                     <div class="block-item">
@@ -110,10 +109,9 @@
                     <div class="title-bar"></div>
                     <strong>专项施工方案审批表</strong>
                     <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-											xisx xis pdf文件，且不超过100m</span>
+                      xisx xis pdf文件，且不超过100m</span>
                   </div>
-                  <attachlist :editAble="false" ref="attachlist"
-                              :attachTable="formData.buildAttachment">
+                  <attachlist :editAble="false" ref="attachlist" :attachTable="formData.buildAttachment">
                   </attachlist>
                   <div class="block-line">
                     <div class="block-item">
@@ -129,10 +127,9 @@
                     <div class="title-bar"></div>
                     <strong>工艺试验审批表</strong>
                     <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-											xisx xis pdf文件，且不超过100m</span>
+                      xisx xis pdf文件，且不超过100m</span>
                   </div>
-                  <attachlist :editAble="false" ref="attachlist"
-                              :attachTable="formData.processAttachment">
+                  <attachlist :editAble="false" ref="attachlist" :attachTable="formData.processAttachment">
                   </attachlist>
                   <div class="block-line">
                     <div class="block-item">
@@ -148,10 +145,9 @@
                     <div class="title-bar"></div>
                     <strong>到场材料审批表</strong>
                     <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-											xisx xis pdf文件，且不超过100m</span>
+                      xisx xis pdf文件，且不超过100m</span>
                   </div>
-                  <attachlist :editAble="false" ref="attachlist"
-                              :attachTable="formData.materialAttachment">
+                  <attachlist :editAble="false" ref="attachlist" :attachTable="formData.materialAttachment">
                   </attachlist>
                   <div class="block-line">
                     <div class="block-item">
@@ -167,10 +163,9 @@
                     <div class="title-bar"></div>
                     <strong>到场设备审批表（含特种设备检测报告）</strong>
                     <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-											xisx xis pdf文件，且不超过100m</span>
+                      xisx xis pdf文件，且不超过100m</span>
                   </div>
-                  <attachlist :editAble="false" ref="attachlist"
-                              :attachTable="formData.equipmentAttachment">
+                  <attachlist :editAble="false" ref="attachlist" :attachTable="formData.equipmentAttachment">
                   </attachlist>
                   <div class="block-line">
                     <div class="block-item">
@@ -186,10 +181,9 @@
                     <div class="title-bar"></div>
                     <strong>到场技术、质量、安全、环保管理人员及主要操人员、特种作业人员情况及证件复印件</strong>
                     <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-											xisx xis pdf文件，且不超过100m</span>
+                      xisx xis pdf文件，且不超过100m</span>
                   </div>
-                  <attachlist :editAble="false" ref="attachlist"
-                              :attachTable="formData.techAttachment">
+                  <attachlist :editAble="false" ref="attachlist" :attachTable="formData.techAttachment">
                   </attachlist>
                   <div class="block-line">
                     <div class="block-item">
@@ -205,10 +199,9 @@
                     <div class="title-bar"></div>
                     <strong>施工方案</strong>
                     <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-											xisx xis pdf文件，且不超过100m</span>
+                      xisx xis pdf文件，且不超过100m</span>
                   </div>
-                  <attachlist :editAble="false" ref="attachlist"
-                              :attachTable="formData.buildPlanAttachment">
+                  <attachlist :editAble="false" ref="attachlist" :attachTable="formData.buildPlanAttachment">
                   </attachlist>
                   <div class="block-line">
                     <div class="block-item">
@@ -224,10 +217,9 @@
                     <div class="title-bar"></div>
                     <strong>安全技术措施</strong>
                     <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-											xisx xis pdf文件，且不超过100m</span>
+                      xisx xis pdf文件，且不超过100m</span>
                   </div>
-                  <attachlist :editAble="false" ref="attachlist"
-                              :attachTable="formData.securityAttachment">
+                  <attachlist :editAble="false" ref="attachlist" :attachTable="formData.securityAttachment">
                   </attachlist>
                   <div class="block-line">
                     <div class="block-item">
@@ -243,10 +235,9 @@
                     <div class="title-bar"></div>
                     <strong>危险性较大项目安全专项施工方案审查记录</strong>
                     <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-											xisx xis pdf文件，且不超过100m</span>
+                      xisx xis pdf文件，且不超过100m</span>
                   </div>
-                  <attachlist :editAble="false" ref="attachlist"
-                              :attachTable="formData.riskAttachment">
+                  <attachlist :editAble="false" ref="attachlist" :attachTable="formData.riskAttachment">
                   </attachlist>
                   <div class="block-line">
                     <div class="block-item">
@@ -262,10 +253,9 @@
                     <div class="title-bar"></div>
                     <strong>环境保护措施</strong>
                     <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-											xisx xis pdf文件，且不超过100m</span>
+                      xisx xis pdf文件，且不超过100m</span>
                   </div>
-                  <attachlist :editAble="false" ref="attachlist"
-                              :attachTable="formData.environmentAttachment">
+                  <attachlist :editAble="false" ref="attachlist" :attachTable="formData.environmentAttachment">
                   </attachlist>
                   <div class="block-line">
                     <div class="block-item">
@@ -281,10 +271,9 @@
                     <div class="title-bar"></div>
                     <strong>环保、安全、质量、技术交底材料</strong>
                     <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-											xisx xis pdf文件，且不超过100m</span>
+                      xisx xis pdf文件，且不超过100m</span>
                   </div>
-                  <attachlist :editAble="false" ref="attachlist"
-                              :attachTable="formData.bottomAttachment">
+                  <attachlist :editAble="false" ref="attachlist" :attachTable="formData.bottomAttachment">
                   </attachlist>
                   <div class="block-line">
                     <div class="block-item">
@@ -305,8 +294,7 @@
             <i class="el-icon-caret-right"></i>
           </div>
         </el-aside>
-        <el-aside
-          style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
+        <el-aside style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
           <tasklog :taskInfo="taskInfo" ref="tasklog"></tasklog>
         </el-aside>
       </el-container>
@@ -338,7 +326,7 @@ export default {
   data() {
     return {
       dialogFormVisible: false,
-      dialogTitle: '全生命周期智慧建设管理平台',
+      dialogTitle: '项目全生命周期数字管理平台',
       buildUserOptions: [{
         label: '洪涛',
         value: '148'
@@ -488,9 +476,10 @@ export default {
       api.getSubitemOpenDeatil(id).then((res) => {
         let data = res['data'] || {};
         this.formData = data;
-        this.formData.buildUserName = getOptionsLabel(this.buildUserOptions, this.formData.buildUser)
-        this.formData.liveUserName = getOptionsLabel(this.liveUserOptions, this.formData.liveUser)
-        this.formData.checkUserName = getOptionsLabel(this.checkUserOptions, this.formData.checkUser)
+        //#647 lrj
+        // this.formData.buildUserName = getOptionsLabel(this.buildUserOptions, this.formData.buildUser)
+        // this.formData.liveUserName = getOptionsLabel(this.liveUserOptions, this.formData.liveUser)
+        // this.formData.checkUserName = getOptionsLabel(this.checkUserOptions, this.formData.checkUser)
       });
       api.getFlowAndTaskInfo({
         businessKey: id

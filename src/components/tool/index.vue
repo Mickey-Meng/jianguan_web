@@ -1,10 +1,8 @@
 <template>
-  <div class="tool_container">
+  <div class="tool_container" :style="offsetToRight ? 'left: 200px' : ''">
     <ul class="wrapper">
-      <!-- <li @click="controlLayer">{{ showLayer ? "收起图层" : "展开图层" }}</li> -->
-      <li @click="showConstrol" :class="{ is_active_attr: attributeQuery }">
-        操作说明
-      </li>
+      <li @click="controlLayer">{{ showLayer ? "收起图层" : "展开图层" }}</li>
+      <li @click="showConstrol">操作说明</li>
       <li @click="startAttrQuery" :class="{ is_active_attr: attributeQuery }">
         {{ attributeQuery ? "取消查询" : "属性查询" }}
       </li>
@@ -21,7 +19,7 @@
           </el-dropdown-menu>
         </el-dropdown>
       </li> -->
-      <!-- <li>
+      <li>
         <el-dropdown trigger="click">
           <span class="el-dropdown-link">
             标注管理<i class="el-icon-arrow-down el-icon--right" />
@@ -69,7 +67,7 @@
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-      </li> -->
+      </li>
       <li>
         <el-dropdown trigger="click">
           <span class="el-dropdown-link">
@@ -89,31 +87,28 @@
           </el-dropdown-menu>
         </el-dropdown>
       </li>
-      <!-- <li>
+      <li>
         <el-dropdown trigger="click">
           <span class="el-dropdown-link">
             空间量测<i class="el-icon-arrow-down el-icon--right" />
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item @click.native="levelStart"
-              >水平量测</el-dropdown-item
+              >距离量测</el-dropdown-item
             >
             <el-dropdown-item @click.native="verticalStart"
-              >垂直量测</el-dropdown-item
+              >三角量测</el-dropdown-item
             >
             <el-dropdown-item @click.native="areaStart"
               >面积量测</el-dropdown-item
-            >
-            <el-dropdown-item @click.native="slopeStart"
-              >斜率量测</el-dropdown-item
             >
             <el-dropdown-item @click.native="clearMeasure"
               >清除结果</el-dropdown-item
             >
           </el-dropdown-menu>
         </el-dropdown>
-      </li> -->
-      <!-- <li>
+      </li>
+      <li>
         <el-dropdown trigger="click">
           <span class="el-dropdown-link">
             空间分析<i class="el-icon-arrow-down el-icon--right" />
@@ -127,9 +122,9 @@
             >
           </el-dropdown-menu>
         </el-dropdown>
-      </li> -->
+      </li>
     </ul>
-    <div v-show="false && showLayer" class="layer-manager" id="layer-manager">
+    <div v-show="showLayer" class="layer-manager" id="layer-manager">
       <div class="header" id="layer-manager-header">图层列表</div>
       <div class="tree">
         <el-tree
@@ -150,7 +145,11 @@
             <span>
               <svg-icon
                 class="svg-class"
-                :icon-class="data.children.length > 0 ? 'folder' : 'coverage'"
+                :icon-class="
+                  data.children && data.children.length > 0
+                    ? 'folder'
+                    : 'coverage'
+                "
               />{{ node.label }}
             </span>
           </span>
@@ -472,6 +471,8 @@ let mileageEm,
   linePrimitive,
   shlm,
   cth;
+
+  let measure;
 //cth地形开挖
 //linePrimitive为红线
 //dm 点线面标注集合
@@ -508,10 +509,16 @@ const getTreeData = (nodes) => {
 let handler;
 export default {
   name: "",
+  props: {
+    offsetToRight: {
+      type: Boolean,
+      default: false,
+    }
+  }, 
   data() {
     return {
       currentComponentId: null,
-      showLayer: true, //
+      showLayer: false, //
       attributeQuery: false,
       redline: false, // 红线
       intersection: false, // 路口
@@ -533,9 +540,27 @@ export default {
       zjLayer: null,
       defaultProps: {
         children: "children",
-        label: "name",
+        label: "label",
       },
-      mapData: [],
+      mapData: [{
+          id: 1,
+          label: '诸暨',
+          children: [{
+            id: 4,
+            label: '桥梁图层',
+            children: [{"createtime":"2021-07-20 13:40:50","visiable":1,"label":"桥","ststate":1,"ID":7,"id":7,"type":"C3DTILES","url":"https://system.zlskkj.com:59030/data_zlsk/zhujishi/model/tileset.json","attrbuites":"","layerId":0},{"createtime":"2021-07-20 13:46:35","visiable":1,"label":"次坞大桥桥面","ststate":1,"ID":11,"id":11,"type":"C3DTILES","url":"https://system.zlskkj.com:59030/data_zlsk/zhujishi/model_CW/tileset.json","attrbuites":"","layerId":1},{"createtime":"2021-07-20 13:46:50","visiable":1,"label":"次坞大桥桩基","ststate":1,"ID":12,"id":12,"type":"C3DTILES","url":"https://system.zlskkj.com:59030/data_zlsk/zhujishi/model_CW_Z/tileset.json","attrbuites":"","layerId":2},{"createtime":"2022-02-05 19:30:53","visiable":1,"label":"草塔1&2桥桥面","ststate":1,"ID":13,"id":13,"type":"C3DTILES","url":"https://system.zlskkj.com:59030/data_zlsk/zhujishi/model_CT1&2/tileset.json","attrbuites":"","layerId":3},{"createtime":"2022-02-05 19:31:50","visiable":1,"label":"草塔1&2桥桩基","ststate":1,"ID":14,"id":14,"type":"C3DTILES","url":"https://system.zlskkj.com:59030/data_zlsk/zhujishi/model_CT1&2_Z/tileset.json","attrbuites":"","layerId":4},{"createtime":"2022-02-05 19:33:11","visiable":1,"label":"草塔南互通桥面","ststate":1,"ID":15,"id":15,"type":"C3DTILES","url":"https://system.zlskkj.com:59030/data_zlsk/zhujishi/model_CTNHT/tileset.json","attrbuites":"","layerId":5},{"createtime":"2022-02-05 19:33:41","visiable":1,"label":"草塔南互通桩基","ststate":1,"ID":16,"id":16,"type":"C3DTILES","url":"https://system.zlskkj.com:59030/data_zlsk/zhujishi/model_CTNHT_Z/tileset.json","attrbuites":"","layerId":6},{"createtime":"2022-02-05 19:34:23","visiable":1,"label":"杭金衢大桥桥面","ststate":1,"ID":17,"id":17,"type":"C3DTILES","url":"https://system.zlskkj.com:59030/data_zlsk/zhujishi/model_HJH/tileset.json","attrbuites":"","layerId":7},{"createtime":"2022-02-05 19:34:45","visiable":1,"label":"杭金衢大桥桩基","ststate":1,"ID":18,"id":18,"type":"C3DTILES","url":"https://system.zlskkj.com:59030/data_zlsk/zhujishi/model_HJH_Z/tileset.json","attrbuites":"","layerId":8},{"createtime":"2022-02-05 19:35:25","visiable":1,"label":"进水村大桥桥面","ststate":1,"ID":19,"id":19,"type":"C3DTILES","url":"https://system.zlskkj.com:59030/data_zlsk/zhujishi/model_JSC/tileset.json","attrbuites":"","layerId":9},{"createtime":"2022-02-05 19:35:46","visiable":1,"label":"进水村大桥桩基","ststate":1,"ID":20,"id":20,"type":"C3DTILES","url":"https://system.zlskkj.com:59030/data_zlsk/zhujishi/model_JSC_Z/tileset.json","attrbuites":"","layerId":10},{"createtime":"2022-02-05 19:36:25","visiable":1,"label":"灵山坞1号桥面","ststate":1,"ID":21,"id":21,"type":"C3DTILES","url":"https://system.zlskkj.com:59030/data_zlsk/zhujishi/model_LSW1H/tileset.json","attrbuites":"","layerId":11},{"createtime":"2022-02-05 19:36:49","visiable":1,"label":"灵山坞1号桩基","ststate":1,"ID":22,"id":22,"type":"C3DTILES","url":"https://system.zlskkj.com:59030/data_zlsk/zhujishi/model_LSW1H_Z/tileset.json","attrbuites":"{'projectid':'QL07Y-QL07Z'}","layerId":12},{"createtime":"2022-02-05 19:37:26","visiable":1,"label":"桃树坞大桥桥面","ststate":1,"ID":23,"id":23,"type":"C3DTILES","url":"https://system.zlskkj.com:59030/data_zlsk/zhujishi/model_TSW/tileset.json","attrbuites":"","layerId":13},{"createtime":"2022-02-05 19:37:50","visiable":1,"label":"桃树坞大桥桩基","ststate":1,"ID":24,"id":24,"type":"C3DTILES","url":"https://system.zlskkj.com:59030/data_zlsk/zhujishi/model_TSW_Z/tileset.json","attrbuites":"","layerId":14},{"createtime":"2022-02-05 19:38:19","visiable":1,"label":"溪口大桥桥面","ststate":1,"ID":25,"id":25,"type":"C3DTILES","url":"https://system.zlskkj.com:59030/data_zlsk/zhujishi/model_XK/tileset.json","attrbuites":"","layerId":15},{"createtime":"2022-02-05 19:38:38","visiable":1,"label":"溪口大桥桩基","ststate":1,"ID":26,"id":26,"type":"C3DTILES","url":"https://system.zlskkj.com:59030/data_zlsk/zhujishi/model_XK_Z/tileset.json","attrbuites":"","layerId":16},{"createtime":"2022-02-05 19:39:15","visiable":1,"label":"应店街主线桥桥面","ststate":1,"ID":27,"id":27,"type":"C3DTILES","url":"https://system.zlskkj.com:59030/data_zlsk/zhujishi/model_YDJZX/tileset.json","attrbuites":"","layerId":17},{"createtime":"2022-02-05 19:39:35","visiable":1,"label":"应店街主线桥桩基","ststate":1,"ID":28,"id":28,"type":"C3DTILES","url":"https://system.zlskkj.com:59030/data_zlsk/zhujishi/model_YDJZX_Z/tileset.json","attrbuites":"{'projectid':'QL05Z-QL05Y'}","layerId":18},{"createtime":"2022-02-05 19:40:07","visiable":1,"label":"尖山隧道","ststate":1,"ID":29,"id":29,"type":"C3DTILES","url":"https://system.zlskkj.com:59030/data_zlsk/zhujishi/model_JSSD/tileset.json","attrbuites":"","layerId":19},{"createtime":"2022-02-05 19:40:33","visiable":1,"label":"李家磨隧道","ststate":1,"ID":30,"id":30,"type":"C3DTILES","url":"https://system.zlskkj.com:59030/data_zlsk/zhujishi/model_LJMSD/tileset.json","attrbuites":"","layerId":20},{"createtime":"2022-02-05 19:40:56","visiable":1,"label":"前塘坞隧道","ststate":1,"ID":31,"id":31,"type":"C3DTILES","url":"https://system.zlskkj.com:59030/data_zlsk/zhujishi/model_QTWSD/tileset.json","attrbuites":"","layerId":21},{"createtime":"2022-02-05 19:41:17","visiable":1,"label":"檀树山隧道","ststate":1,"ID":32,"id":32,"type":"C3DTILES","url":"https://system.zlskkj.com:59030/data_zlsk/zhujishi/model_TSSSD/tileset.json","attrbuites":"","layerId":22}]
+          },{
+            id: 4,
+            label: '基础图层',
+            children: [{
+              id: 9,
+              label: '诸暨影像'
+            }, {
+              id: 10,
+              label: '诸暨地形'
+            }]
+          }]
+        }],
       mapTreeData: [],
       treeDefaults: [],
       componentProgressInfo: {
@@ -607,7 +632,8 @@ export default {
 
     // zeh.viewer.scene.postRender.addEventListener(this.mapChange);
     // terrain = zeh.layers.getLayerByName("诸暨地形");
-    // this.initData();
+    this.initData();
+    this.initMeasure();
     Bus.$on("getComponentProgress", (id) => {
       let route = this.$route;
       if (route.name === "sceneOverview") {
@@ -665,6 +691,9 @@ export default {
         }
       }
     },
+    initMeasure() {
+      measure = new Cesium.Measure(viewer)
+    },
     initData() {
       //转换红线坐标
       redline_line.features.forEach((item) => {
@@ -703,11 +732,11 @@ export default {
       //初始化整百里程
       this.initBestMileage();
 
-      this.zjLayer = zeh.layers.getLayerByName("诸暨地形");
-      //图层控件数据处理
-      let layers = zeh.layers.getLayerTree();
-      this.mapData = getTreeData(layers);
-      this.treeDefaults = checkedId;
+      // this.zjLayer = zeh.layers.getLayerByName("诸暨地形");
+      // //图层控件数据处理
+      // let layers = zeh.layers.getLayerTree();
+      // this.mapData = getTreeData(layers);
+      // this.treeDefaults = checkedId;
     },
     initRedLine() {
       let instances = redline_line.features.map((item) => {
@@ -738,40 +767,50 @@ export default {
           }),
         }),
       });
-      zeh.viewer.scene.groundPrimitives.add(linePrimitive);
+      window.viewer.scene.groundPrimitives.add(linePrimitive);
     },
     initBestMileage() {
-      bestMileageEm = zeh.earth.createMarkerManager({ clusterType: "dilute" });
-      bestMileageEm.beginCluster();
-      bestMileageEm.visible = false;
+      bestMileageEm = new Cesium.CustomDataSource('myData1');
+      bestMileageEm.show = false;
+      viewer.dataSources.add(bestMileageEm);
+      
       this.bestMileageData.forEach((item) => {
-        bestMileageEm.add({
-          position: item.Cartesian3,
-          text: item.name,
-          textOffset: [0, -40],
-          textVisibleRange: [10, 35000],
-          textBackground: true, // 可选，默认值: true
-          handleLineColor: [255, 255, 0, 255],
-          // edata: info ? info : null,
-          onClick: function (id, info) {},
+        bestMileageEm.entities.add({
+          position : item.Cartesian3,
+          label: {
+            text: item.name,
+            showBackground: true,
+            font: "14px sans-serif"
+          }
         });
       });
     },
     initMileage() {
-      mileageEm = zeh.earth.createMarkerManager({ clusterType: "dilute" });
-      mileageEm.beginCluster();
+
+      mileageEm = new Cesium.CustomDataSource('myData');
+      mileageEm.show = false;
+      viewer.dataSources.add(mileageEm);
+      
       mileageEm.visible = false;
       this.mileageData.forEach((item) => {
-        mileageEm.add({
-          position: item.Cartesian3,
-          text: item.properties.name,
-          textOffset: [0, -40],
-          textVisibleRange: [10, 35000],
-          textBackground: true, // 可选，默认值: true
-          handleLineColor: [255, 255, 0, 255],
-          // edata: info ? info : null,
-          onClick: function (id, info) {},
+        mileageEm.entities.add({
+          position : item.Cartesian3,
+          label: {
+            text: item.properties.name,
+            showBackground: true,
+            font: "14px sans-serif"
+          }
         });
+        // mileageEm.add({
+        //   position: item.Cartesian3,
+        //   text: item.properties.name,
+        //   textOffset: [0, -40],
+        //   textVisibleRange: [10, 35000],
+        //   textBackground: true, // 可选，默认值: true
+        //   handleLineColor: [255, 255, 0, 255],
+        //   // edata: info ? info : null,
+        //   onClick: function (id, info) {},
+        // });
       });
     },
     redlineChange(val) {
@@ -783,22 +822,22 @@ export default {
     },
     mileageChange(val) {
       if (val) {
-        mileageEm.visible = true;
+        mileageEm.show = true;
       } else {
-        mileageEm.visible = false;
+        mileageEm.show = false;
       }
     },
     bestMileageChange(val) {
       if (val) {
-        bestMileageEm.visible = true;
+        bestMileageEm.show = true;
       } else {
-        bestMileageEm.visible = false;
+        bestMileageEm.show = false;
       }
     },
     nodeClick(row) {
       if (row.layerId) {
-        let hlm = zeh.earth.getDefaultLayerManager();
-        hlm.viewLayerById(row.layerId);
+        const layer = window.viewer.scene.primitives.get(row.layerId)
+        layer && window.viewer.flyTo(layer)
       }
     },
     checkNode(node, select) {
@@ -820,13 +859,16 @@ export default {
     },
     // 测算
     levelStart() {
-      zeh.measureTool.measureHDistance(() => {});
+      measure.drawLineMeasureGraphics({ clampToGround: true, callback: () => { } });
+      // zeh.measureTool.measureHDistance(() => {});
     },
     verticalStart() {
-      zeh.measureTool.measureVDistance(() => {});
+      measure.drawTrianglesMeasureGraphics({ callback: () => { } });
+      // zeh.measureTool.measureVDistance(() => {});
     },
     areaStart() {
-      zeh.measureTool.measureArea(() => {});
+      measure.drawAreaMeasureGraphics({ clampToGround: true, callback: () => { } });
+      // zeh.measureTool.measureArea(() => {});
     },
     slopeStart() {
       zeh.measureTool.measureHvDistance(null, {
@@ -834,7 +876,8 @@ export default {
       });
     },
     clearMeasure() {
-      zeh.measureTool.clear();
+      measure._drawLayer.entities.removeAll();
+      // zeh.measureTool.clear();
     },
     // 点线面标注
     drawPoint() {
@@ -1074,37 +1117,55 @@ export default {
     showTailor() {},
     //属性查询
     startAttrQuery() {
+      const that = this;
       //清除构件树点击渲染的着色
-      this.stopEvent();
+      // this.stopEvent();
+      // if (this.attributeQuery) {
+      //   this.attributeQuery = false;
+      //   zeh.endPick();
+      //   this.stopEffect(this.currentComponentId);
+      //   this.currentComponentId = null;
+      // } else {
+      //   this.attributeQuery = true;
+      //   zeh.beginPickInfo((a, b, c) => {
+      //     let obj = a.find((e) => e.key === "name");
+      //     if (obj) {
+      //       let myReg = /^[^\u4e00-\u9fa5]+$/;
+      //       let id = obj.value.replace(/^\s+|\s+$/g, "");
+      //       if (myReg.test(id)) {
+      //         this.getComponentData({ mouldid: id });
+      //         Bus.$emit("clearEffect");
+      //         if (this.currentComponentId) {
+      //           this.stopEffect(this.currentComponentId);
+      //         }
+      //         this.showEffect(id);
+      //         this.currentComponentId = id;
+      //       } else {
+      //         this.$message({
+      //           message: "构件ID不符合规则",
+      //           type: "warning",
+      //           customClass: "message_override",
+      //         });
+      //       }
+      //     }
+      //   });
+      // }
       if (this.attributeQuery) {
         this.attributeQuery = false;
-        zeh.endPick();
-        this.stopEffect(this.currentComponentId);
-        this.currentComponentId = null;
+        viewer.attributeQueryCallback = undefined;
       } else {
         this.attributeQuery = true;
-        zeh.beginPickInfo((a, b, c) => {
-          let obj = a.find((e) => e.key === "name");
-          if (obj) {
-            let myReg = /^[^\u4e00-\u9fa5]+$/;
-            let id = obj.value.replace(/^\s+|\s+$/g, "");
-            if (myReg.test(id)) {
-              this.getComponentData({ mouldid: id });
-              Bus.$emit("clearEffect");
-              if (this.currentComponentId) {
-                this.stopEffect(this.currentComponentId);
-              }
-              this.showEffect(id);
-              this.currentComponentId = id;
-            } else {
-              this.$message({
+        viewer.attributeQueryCallback = function (id) {
+          if (id) {
+            that.getComponentData({ mouldid: id });
+          } else {
+            that.$message({
                 message: "构件ID不符合规则",
                 type: "warning",
                 customClass: "message_override",
               });
-            }
           }
-        });
+        }
       }
     },
     stopEffect(mouldid) {
@@ -1350,7 +1411,7 @@ export default {
 .layer-manager {
   position: absolute;
   top: 52px;
-  left: 50px;
+  left: 350px;
   z-index: 2001;
   width: 240px;
   background-color: rgba(38, 38, 38, 0.5) !important;

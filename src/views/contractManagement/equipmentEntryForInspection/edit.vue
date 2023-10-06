@@ -1,8 +1,6 @@
 <template>
   <div>
-    <el-dialog class="full-dialog defined-dialog"
-               :fullscreen="true"
-               :visible.sync="dialogFormVisible">
+    <el-dialog class="full-dialog defined-dialog" :fullscreen="true" :visible.sync="dialogFormVisible">
       <template slot="title">
         {{ dialogTitle }}
         <div class="logo-icon"></div>
@@ -12,17 +10,13 @@
           style="background-color: rgba(0,0 0,0.5);height: calc(100vh - 96px); overflow-y: scroll;padding: 0px;margin: 0;">
           <div class="form-bg">
             <div class="form-content">
-              <el-form :model="formData"
-                       :rules="rules"
-                       ref="ruleForm"
-                       label-width="80px">
+              <el-form :model="formData" :rules="rules" ref="ruleForm" label-width="80px">
                 <div class="form-title">
                   <!--                  <div class="title-big-bar"></div>-->
-                  <!--                  <strong>到场设备报验单</strong>-->
-                  <drafthandle v-if="addOrModifyFlag"
-                               @addOrModify="addOrModify"
-                               @checkDraft="checkDraft"
-                               ref="drafthandle"></drafthandle>
+                  <!-- #773 lrj 20230913 -->
+                  <strong>到场设备报验单-浙公路(JL)014</strong>
+                  <drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify" @checkDraft="checkDraft"
+                    ref="drafthandle"></drafthandle>
                 </div>
 
                 <div class="form-block">
@@ -57,73 +51,34 @@
                     </div>
                   </div>
                   <div class="block-line">
-                    <el-button size="small"
-                               @click="addEquipment"
-                               type="primary">新增
+                    <el-button size="small" @click="addEquipment" type="primary">新增
                     </el-button>
                   </div>
                   <div class="block-table">
-                    <el-table :data="equipmentTable"
-                              style="width: 100%"
-                              border
-                              class="have_scrolling">
-                      <el-table-column type="index"
-                                       width="50"
-                                       align="center"
-                                       label="序号">
+                    <el-table :data="equipmentTable" style="width: 100%" border class="have_scrolling">
+                      <el-table-column type="index" width="50" align="center" label="序号">
                       </el-table-column>
-                      <el-table-column prop="equipmentTypeStr"
-                                       align="center"
-                                       label="设备类型"
-                                       show-overflow-tooltip>
+                      <el-table-column prop="equipmentTypeStr" align="center" label="设备类型" show-overflow-tooltip>
                       </el-table-column>
-                      <el-table-column prop="equipmentName"
-                                       width="180px"
-                                       align="center"
-                                       label="设备名称">
+                      <el-table-column prop="equipmentName" width="180px" align="center" label="设备名称">
                       </el-table-column>
-                      <el-table-column prop="specification"
-                                       width="120px"
-                                       align="center"
-                                       label="规格型号">
+                      <el-table-column prop="specification" width="120px" align="center" label="规格型号">
                       </el-table-column>
-                      <el-table-column prop="num"
-                                       width="120px"
-                                       align="center"
-                                       label="数量">
+                      <el-table-column prop="num" width="120px" align="center" label="数量">
                       </el-table-column>
-                      <el-table-column prop="enterDate"
-                                       width="120px"
-                                       align="center"
-                                       label="进场日期">
+                      <el-table-column prop="enterDate" width="120px" align="center" label="进场日期">
                       </el-table-column>
-                      <el-table-column prop="techCondition"
-                                       width="120px"
-                                       align="center"
-                                       label="技术状况">
+                      <el-table-column prop="techCondition" width="120px" align="center" label="技术状况">
                       </el-table-column>
-                      <el-table-column prop="useWhere"
-                                       width="120px"
-                                       align="center"
-                                       label="拟用何处">
+                      <el-table-column prop="useWhere" width="120px" align="center" label="拟用何处">
                       </el-table-column>
-                      <el-table-column prop="remark"
-                                       width="120px"
-                                       align="center"
-                                       label="备注">
+                      <el-table-column prop="remark" width="120px" align="center" label="备注">
                       </el-table-column>
-                      <el-table-column fixed="right"
-                                       width="120"
-                                       align="center"
-                                       label="操作">
+                      <el-table-column fixed="right" width="120" align="center" label="操作">
                         <template slot-scope="{ row, $index }">
-                          <el-button type="text"
-                                     size="mini"
-                                     @click="editEquipment(row, $index)">编辑
+                          <el-button type="text" size="mini" @click="editEquipment(row, $index)">编辑
                           </el-button>
-                          <el-button type="text"
-                                     size="mini"
-                                     @click="deleteEquipment(row, $index)">删除
+                          <el-button type="text" size="mini" @click="deleteEquipment(row, $index)">删除
                           </el-button>
                         </template>
                       </el-table-column>
@@ -138,22 +93,15 @@
                       xisx xis pdf文件，且不超过100m</span>
                   </div>
 
-                  <attachlist :editAble="true"
-                              ref="attachlist"
-                              :attachTable="attachTable">
+                  <attachlist :editAble="true" ref="attachlist" :attachTable="attachTable">
                   </attachlist>
 
                 </div>
 
-                <approveuser v-if="approveVisible"
-                             :auditUser="auditUser"
-                             :flowKey="flowKey">
+                <approveuser v-if="approveVisible" :auditUser="auditUser" :flowKey="flowKey">
                 </approveuser>
                 <div class="form-block">
-                  <el-button @click="addOrModify()"
-                             class="submit-btn"
-                             size="small"
-                             type="primary">提交
+                  <el-button @click="addOrModify()" class="submit-btn" size="small" type="primary">提交
                   </el-button>
                 </div>
               </el-form>
@@ -162,25 +110,16 @@
         </el-main>
       </el-container>
     </el-dialog>
-    <el-dialog class="defined-dialog"
-               title="新增"
-               :visible.sync="equipmentVisible">
-      <el-form ref="newform"
-               label-width="80px"
-               :rules="newrules"
-               :model="equipmentInfo">
+    <el-dialog class="defined-dialog" title="新增" :visible.sync="equipmentVisible">
+      <el-form ref="newform" label-width="80px" :rules="newrules" :model="equipmentInfo">
         <div class="form-block">
           <div class="block-line">
             <div class="block-item">
               <div class="block-item-label">设备类型<i class="require-icon"></i></div>
               <div class="block-item-value">
                 <el-form-item prop="equipmentType">
-                  <el-select v-model="equipmentInfo.equipmentType"
-                             placeholder="请选择">
-                    <el-option v-for="item in equipmentOptions"
-                               :key="item.value"
-                               :label="item.label"
-                               :value="item.value">
+                  <el-select v-model="equipmentInfo.equipmentType" placeholder="请选择">
+                    <el-option v-for="item in equipmentOptions" :key="item.value" :label="item.label" :value="item.value">
                     </el-option>
                   </el-select>
                 </el-form-item>
@@ -218,10 +157,8 @@
               <div class="block-item-label">进场日期<i class="require-icon"></i></div>
               <div class="block-item-value">
                 <el-form-item prop="enterDate">
-                  <el-date-picker value-format="yyyy-MM-dd"
-                                  v-model="equipmentInfo.enterDate"
-                                  type="date"
-                                  placeholder="请选择">
+                  <el-date-picker value-format="yyyy-MM-dd" v-model="equipmentInfo.enterDate" type="date"
+                    placeholder="请选择">
                   </el-date-picker>
                 </el-form-item>
               </div>
@@ -256,21 +193,14 @@
           </div>
         </div>
         <div class="form-block">
-          <el-button @click="addEquipmentTable"
-                     class="submit-btn"
-                     size="small"
-                     type="primary">提交
+          <el-button @click="addEquipmentTable" class="submit-btn" size="small" type="primary">提交
           </el-button>
         </div>
       </el-form>
     </el-dialog>
-    <el-dialog width="80%"
-               class="little-container"
-               :visible.sync="draftVisible">
-      <equipmentEntryForInspection @hideDraft="hideDraft"
-                                   @getDetail="getDetail"
-                                   :isDraft="draftVisible"
-                                   v-if="draftVisible">
+    <el-dialog width="80%" class="little-container" :visible.sync="draftVisible">
+      <equipmentEntryForInspection @hideDraft="hideDraft" @getDetail="getDetail" :isDraft="draftVisible"
+        v-if="draftVisible">
       </equipmentEntryForInspection>
     </el-dialog>
   </div>
@@ -278,7 +208,7 @@
 
 <script>
 import * as api from '@/api/contract.js'
-import {getUserInfo} from '@/api/user'
+import { getUserInfo } from '@/api/user'
 import * as proapi from '@/api/project.js'
 import {
   formatDate,
@@ -298,7 +228,7 @@ export default {
     return {
       draftVisible: false,
       addOrModifyFlag: true,
-      dialogTitle: '全生命周期智慧建设管理平台',
+      dialogTitle: '项目全生命周期数字管理平台',
       dialogFormVisible: false,
       equipmentOptions: [],
       rules: {
@@ -470,7 +400,7 @@ export default {
     },
     addOrModify(isdraft) {
       if (this.submitDisable) return;
-      
+
       this.submitDisable = true;
       if (isdraft) {
         if (
@@ -509,9 +439,9 @@ export default {
               message: '提交成功!',
             })
             this.dialogFormVisible = false
-              setTimeout(()=> {
-                this.submitDisable = false;
-              }, 500)
+            setTimeout(() => {
+              this.submitDisable = false;
+            }, 500)
             this.$emit('query')
           }
         })
@@ -529,17 +459,17 @@ export default {
                   message: '提交成功!',
                 })
                 this.dialogFormVisible = false
-              setTimeout(()=> {
-                this.submitDisable = false;
-              }, 500)
+                setTimeout(() => {
+                  this.submitDisable = false;
+                }, 500)
                 this.$emit('query')
               }
             })
           } else {
-          setTimeout(()=> {
-            this.submitDisable = false;
-          }, 500)
-        }
+            setTimeout(() => {
+              this.submitDisable = false;
+            }, 500)
+          }
         })
       }
     },
@@ -561,12 +491,12 @@ export default {
       this.$refs['newform'].validate((valid) => {
         if (valid) {
           if (this.editIndex > -1) {
-            this.equipmentTable[this.editIndex] = {...this.equipmentInfo}
+            this.equipmentTable[this.editIndex] = { ...this.equipmentInfo }
             this.$set(this.equipmentTable, this.editIndex, {
               ...this.equipmentInfo,
             })
           } else {
-            this.equipmentTable.push({...this.equipmentInfo})
+            this.equipmentTable.push({ ...this.equipmentInfo })
           }
           this.equipmentTable = this.formatEquType(this.equipmentTable)
           this.equipmentVisible = false
@@ -575,7 +505,7 @@ export default {
     },
     editEquipment(row, index) {
       this.editIndex = index
-      this.equipmentInfo = {...row}
+      this.equipmentInfo = { ...row }
       this.equipmentVisible = true
     },
     deleteEquipment(row, index) {

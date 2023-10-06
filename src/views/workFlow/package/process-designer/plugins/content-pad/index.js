@@ -1,3 +1,4 @@
+// lrj 注释
 import CustomContextPadProvider from "./contentPadProvider";
 
 export default {

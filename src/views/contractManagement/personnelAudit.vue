@@ -52,9 +52,8 @@
           </el-table-column>
         </el-table>
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                       :current-page="queryData.pageNum" :page-size="queryData.pageSize"
-                       layout="total, sizes, prev, pager, next, jumper"
-                       :total="queryData.totalPage">
+          :current-page="queryData.pageNum" :page-size="queryData.pageSize"
+          layout="total, sizes, prev, pager, next, jumper" :total="queryData.totalPage">
         </el-pagination>
       </div>
     </el-main>
@@ -93,13 +92,8 @@
                   <div class="block-item">
                     <div class="block-item-label">报审日期</div>
                     <div class="block-item-value">
-                      <el-date-picker
-                        v-model="form.time"
-                        type="datetime"
-                        :clearable="false"
-                        placeholder="选择日期时间"
-                        value-format="yyyy-MM-dd HH:mm:ss"
-                      >
+                      <el-date-picker v-model="form.time" type="datetime" :clearable="false" placeholder="选择日期时间"
+                        value-format="yyyy-MM-dd HH:mm:ss">
                       </el-date-picker>
                     </div>
                   </div>
@@ -126,13 +120,8 @@
                   <strong>报审信息</strong>
                 </div>
                 <div class="block-table">
-                  <el-table
-                    :data="tableData"
-                    border
-                    style="width: 100%">
-                    <el-table-column
-                      label="姓名"
-                      width="120">
+                  <el-table :data="tableData" border style="width: 100%">
+                    <el-table-column label="姓名" width="120">
                       <template slot-scope="{row}">
                         <div class="user_select">
                           <div class="name">{{ row.name }}</div>
@@ -140,48 +129,34 @@
                       </template>
                     </el-table-column>
 
-                    <el-table-column
-                      label="岗位"
-                      width="120">
+                    <el-table-column label="岗位" width="120">
                       <template slot-scope="{row}">
                         <el-input v-model="row.name"></el-input>
                       </template>
                     </el-table-column>
-                    <el-table-column
-                      label="证件名称">
+                    <el-table-column label="证件名称">
                       <template slot-scope="{row}">
                         <el-input v-model="row.name"></el-input>
                       </template>
                     </el-table-column>
-                    <el-table-column
-                      label="证件编号">
+                    <el-table-column label="证件编号">
                       <template slot-scope="{row}">
                         <el-input v-model="row.name"></el-input>
                       </template>
                     </el-table-column>
-                    <el-table-column
-                      label="发证单位">
+                    <el-table-column label="发证单位">
                       <template slot-scope="{row}">
                         <el-input v-model="row.name"></el-input>
                       </template>
                     </el-table-column>
-                    <el-table-column
-                      label="有效期"
-                      width="320">
+                    <el-table-column label="有效期" width="320">
                       <template slot-scope="{row}">
-                        <el-date-picker
-                          v-model="row.time"
-                          type="daterange"
-                          value-format="yyyy-MM-dd"
-                          range-separator="至"
-                          start-placeholder="开始日期"
-                          end-placeholder="结束日期">
+                        <el-date-picker v-model="row.time" type="daterange" value-format="yyyy-MM-dd" range-separator="至"
+                          start-placeholder="开始日期" end-placeholder="结束日期">
                         </el-date-picker>
                       </template>
                     </el-table-column>
-                    <el-table-column
-                      label="操作"
-                      width="80">
+                    <el-table-column label="操作" width="80">
                       <template slot-scope="{$index}">
                         <el-button type="danger" size="mini" @click="deleteInfo($index)">删除</el-button>
                       </template>
@@ -189,26 +164,26 @@
                   </el-table>
                 </div>
               </div>
-<!--              <div class="form-block">-->
-<!--                <div class="form-block-title">-->
-<!--                  <div class="title-bar"></div>-->
-<!--                  <strong>待处理人</strong>-->
-<!--                </div>-->
-<!--                <div class="block-line">-->
-<!--                  <div class="block-item">-->
-<!--                    <div class="block-item-label">待处理人<i class="require-icon"></i></div>-->
-<!--                    <div class="block-item-value">-->
-<!--                      <el-form-item prop="qualityCheckUser">-->
-<!--                        <el-select v-model="form.qualityCheckUser" placeholder="请选择">-->
-<!--                          <el-option v-for="item in userOptions" :key="item.value"-->
-<!--                                     :label="item.label" :value="item.value">-->
-<!--                          </el-option>-->
-<!--                        </el-select>-->
-<!--                      </el-form-item>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
+              <!--              <div class="form-block">-->
+              <!--                <div class="form-block-title">-->
+              <!--                  <div class="title-bar"></div>-->
+              <!--                  <strong>待处理人</strong>-->
+              <!--                </div>-->
+              <!--                <div class="block-line">-->
+              <!--                  <div class="block-item">-->
+              <!--                    <div class="block-item-label">待处理人<i class="require-icon"></i></div>-->
+              <!--                    <div class="block-item-value">-->
+              <!--                      <el-form-item prop="qualityCheckUser">-->
+              <!--                        <el-select v-model="form.qualityCheckUser" placeholder="请选择">-->
+              <!--                          <el-option v-for="item in userOptions" :key="item.value"-->
+              <!--                                     :label="item.label" :value="item.value">-->
+              <!--                          </el-option>-->
+              <!--                        </el-select>-->
+              <!--                      </el-form-item>-->
+              <!--                    </div>-->
+              <!--                  </div>-->
+              <!--                </div>-->
+              <!--              </div>-->
               <div class="form-block">
                 <el-button class="submit-btn" size="small" type="primary">提交
                 </el-button>
@@ -221,8 +196,7 @@
             <i class="el-icon-caret-right"></i>
           </div>
         </el-aside>
-        <el-aside
-          style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
+        <el-aside style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
           <!--              <tasklog></tasklog>-->
         </el-aside>
       </el-container>
@@ -245,7 +219,7 @@
           isContract: true,
           autogestion: true
         },
-        dialogTitle: "全生命周期智慧建设管理平台",
+        dialogTitle: "项目全生命周期数字管理平台",
         dialogFormVisible: true,
         queryData: {
           projectCode: "",
@@ -274,16 +248,16 @@
   };
 </script>
 <style lang='scss' scoped>
-  @import "../../assets/css/table.scss";
-  @import "../../assets/css/dialog.scss";
-  .form-bg {
-    width: 80% !important;
+@import "../../assets/css/table.scss";
+@import "../../assets/css/dialog.scss";
 
-    .form-block {
-      .el-date-editor {
-        width: 100% !important;
-      }
+.form-bg {
+  width: 80% !important;
+
+  .form-block {
+    .el-date-editor {
+      width: 100% !important;
     }
   }
-
+}
 </style>

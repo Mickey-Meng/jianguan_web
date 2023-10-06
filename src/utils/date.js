@@ -162,7 +162,9 @@ export function subtractDaysBefore(any, date = getNowDate()) {
  * @param date 当前日期
  * @returns {string} 返回YYYY-MM-DD HH:mm:ss形式日期
  */
-export function addAnyDays(any, date = getNowDate()) {
+//#781 lrj 20230916 any= 0加默认值
+//date表示一个日期， any表示需要在date上加的天数数字，返回date加any天的日期
+export function addAnyDays(any= 0, date = getNowDate()) {
   return dayjs(handleType(date))
     .add(any, "day")
     .format(dateFormat.DATE_PATTERN_FLAT);

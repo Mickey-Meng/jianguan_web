@@ -93,7 +93,7 @@
 
 <script>
 import { getFile, deleteFile } from "@/api/file";
-import { downLoadFile } from "@/utils/download";
+import {downLoadFile, downLoadRowFile} from "@/utils/download";
 import { mapGetters } from "vuex";
 
 export default {
@@ -159,8 +159,15 @@ export default {
       this.$emit("opdateInfo", { row, key: "approvalfile" });
     },
     downLoadFile(row) {
-      downLoadFile(row.fileurl);
-    },
+      let fileNameBase64 = btoa(unescape(encodeURIComponent(row.uploadname+"."+row.uploadtype)))
+      let update = fileNameBase64.replace(/\+/g, '-').replace(/\//g, '_')
+      const myObject = {};
+      myObject.fileId=row.fileurl;
+      myObject.uploadname=update;
+      myObject.uploadtype=row.uploadtype;
+      const myString = JSON.stringify(myObject);
+      downLoadRowFile(myString);
+    }
   },
   watch: {
     DataArr(n) {

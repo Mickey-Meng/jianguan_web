@@ -22,12 +22,12 @@
               <strong>基本信息</strong>
             </div>
             <div class="block-line">
-<!--              <div class="block-item">-->
-<!--                <div class="block-item-label">标段</div>-->
-<!--                <div class="block-item-value">-->
-<!--                  {{ form.projectName }}-->
-<!--                </div>-->
-<!--              </div>-->
+              <!--              <div class="block-item">-->
+              <!--                <div class="block-item-label">标段</div>-->
+              <!--                <div class="block-item-value">-->
+              <!--                  {{ form.projectName }}-->
+              <!--                </div>-->
+              <!--              </div>-->
               <div class="block-item">
                 <div class="block-item-label">记录人</div>
                 <div class="block-item-value">
@@ -46,13 +46,8 @@
               <div class="block-item">
                 <div class="block-item-label">报审日期</div>
                 <div class="block-item-value">
-                  <el-date-picker
-                    v-model="form.subDate"
-                    type="datetime"
-                    :clearable="false"
-                    placeholder="选择日期时间"
-                    value-format="yyyy-MM-dd HH:mm:ss"
-                  >
+                  <el-date-picker v-model="form.subDate" type="datetime" :clearable="false" placeholder="选择日期时间"
+                    value-format="yyyy-MM-dd HH:mm:ss">
                   </el-date-picker>
                 </div>
               </div>
@@ -75,70 +70,34 @@
               <strong>报审信息</strong>
             </div>
             <div class="block-table">
-              <el-table
-                :data="tableData"
-                border
-                class="have_scrolling"
-                style="width: 100%">
-                <el-table-column
-                  label="姓名"
-                  prop="name"
-                  width="160">
+              <el-table :data="tableData" border class="have_scrolling" style="width: 100%">
+                <el-table-column label="姓名" prop="name" width="160">
                 </el-table-column>
 
-                <el-table-column
-                  label="身份证号"
-                  width="220"
-                  prop="identityId">
+                <el-table-column label="身份证号" width="220" prop="identityId">
                 </el-table-column>
-                <el-table-column
-                  label="有效期"
-                  width="320"
-                  prop="identityTime">
+                <el-table-column label="有效期" width="320" prop="identityTime">
                 </el-table-column>
-                <el-table-column
-                  label="性别"
-                  width="120">
+                <el-table-column label="性别" width="120">
                   <template slot-scope="{row}">
                     {{ row.gender == 1 ? "男" : "女" }}
 
                   </template>
                 </el-table-column>
-                <el-table-column
-                  label="岗位"
-                  width="150"
-                  prop="post">
+                <el-table-column label="岗位" width="150" prop="post">
                 </el-table-column>
-                <el-table-column
-                  label="证件名称"
-                  width="250"
-                  prop="certificateName">
+                <el-table-column label="证件名称" width="250" prop="certificateName">
                 </el-table-column>
-                <el-table-column
-                  label="证件编号"
-                  width="250"
-                  prop="certificateCode">
+                <el-table-column label="证件编号" width="250" prop="certificateCode">
                 </el-table-column>
-                <el-table-column
-                  label="发证单位"
-                  width="250"
-                  prop="issuer">
+                <el-table-column label="发证单位" width="250" prop="issuer">
                 </el-table-column>
-                <el-table-column
-                  label="有效期"
-                  width="320"
-                  prop="effectiveTime">
+                <el-table-column label="有效期" width="320" prop="effectiveTime">
 
                 </el-table-column>
-                <el-table-column
-                  label="文化程度"
-                  width="120"
-                  prop="education">
+                <el-table-column label="文化程度" width="120" prop="education">
                 </el-table-column>
-                <el-table-column
-                  label="脸部照片"
-                  width="120"
-                  align="center">
+                <el-table-column label="脸部照片" width="120" align="center">
                   <template slot-scope="{row}">
                     <img-viewer :img-list="[row.peoplePic]"></img-viewer>
                   </template>
@@ -160,7 +119,7 @@
   export default {
     data() {
       return {
-        dialogTitle: "全生命周期智慧建设管理平台",
+        dialogTitle: "项目全生命周期数字管理平台",
         dialogFormVisible: false,
         form: { //基础信息
 
@@ -202,5 +161,5 @@
 </script>
 
 <style scoped lang="scss">
-  @import "../../../assets/css/dialog.scss"
+@import "../../../assets/css/dialog.scss"
 </style>

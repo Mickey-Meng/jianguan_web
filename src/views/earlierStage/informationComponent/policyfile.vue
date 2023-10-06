@@ -21,15 +21,14 @@
       </el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="{ row, $index }">
-          <el-button type="primary" size="small" class="primary_mini"  @click="editInfo(row)">
+          <el-button type="primary" size="small" class="primary_mini" @click="editInfo(row)">
             编辑
           </el-button>
-          <el-button type="primary" size="small" class="primary_mini"  @click="downLoadFile(row)">
+          <el-button type="primary" size="small" class="primary_mini" @click="downLoadFile(row)">
             下载
           </el-button>
-          <el-button type="danger" size="small" @click="handleDelete(row, $index)" v-if="rolePerms[0] =='gly'"
-            >删除</el-button
-          >
+          <el-button type="danger" size="small" @click="handleDelete(row, $index)"
+            v-if="rolePerms[0] == 'gly'">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -38,9 +37,9 @@
 
 <script>
 import { getFile, deleteFile } from "@/api/file";
-import { downLoadFile } from "@/utils/download";
+import { downLoadFile, downLocaRowFile } from "@/utils/download";
 import { downLoad } from "@/utils/download";
-import {mapGetters} from "vuex";
+import { mapGetters } from "vuex";
 
 
 export default {
@@ -63,7 +62,7 @@ export default {
   computed: {
     ...mapGetters(["rolePerms"])
   },
-  mounted() {},
+  mounted() { },
   methods: {
     handleDelete(row, index) {
       this.$confirm("是否删除该文件?", "删除文件", {
@@ -86,8 +85,17 @@ export default {
       this.$emit("opdateInfo", { row, key: "policyfile" });
     },
     downLoadFile(row) {
-      downLoadFile(row.fileurl);
-    },
+      //lrj 20230926
+      downLoadFile(row.fileurl)
+      // let fileNameBase64 = btoa(unescape(encodeURIComponent(row.uploadname+"."+row.uploadtype)))
+      // let update = fileNameBase64.replace(/\+/g, '-').replace(/\//g, '_')
+      // const myObject = {};
+      // myObject.fileId=row.fileurl;
+      // myObject.uploadname=update;
+      // myObject.uploadtype=row.uploadtype;
+      // const myString = JSON.stringify(myObject);
+      // downLoadRowFile(myString);
+    }
   },
   watch: {
     DataArr(n) {

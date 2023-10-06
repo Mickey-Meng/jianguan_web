@@ -1,6 +1,7 @@
 <template>
 	<div>
-		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible" :fullscreen="true">
+		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible"
+			:fullscreen="true">
 			<template slot="title">
 				{{dialogTitle}}
 				<div class="logo-icon"></div>
@@ -16,35 +17,35 @@
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>合同付款</strong>
 									</div>
-                  <div class="block-line">
-                    <div class="block-item">
-                      <div class="block-item-label">款项类型</div>
-                      <div class="block-item-value">
-                        {{formData.type}}
-                      </div>
-                    </div>
-                  </div>
-                  <div class="block-line">
-                    <div class="block-item">
-                      <div class="block-item-label">款项金额</div>
-                      <div class="block-item-value">
-                        {{formData.amount}}
-                      </div>
-                    </div>
+									<div class="block-line">
+										<div class="block-item">
+											<div class="block-item-label">款项类型</div>
+											<div class="block-item-value">
+												{{formData.type}}
+											</div>
+										</div>
+									</div>
+									<div class="block-line">
+										<div class="block-item">
+											<div class="block-item-label">款项金额</div>
+											<div class="block-item-value">
+												{{formData.amount}}
+											</div>
+										</div>
 
-                    <div class="block-item">
-                      <div class="block-item-label">填报日期</div>
-                      <div class="block-item-value">
-                        {{formData.recordTime}}
-                      </div>
-                    </div>
-                    <div class="block-item">
-                      <div class="block-item-label">备注</div>
-                      <div class="block-item-value">
-                        {{formData.remark}}
-                      </div>
-                    </div>
-                  </div>
+										<div class="block-item">
+											<div class="block-item-label">填报日期</div>
+											<div class="block-item-value">
+												{{formData.recordTime}}
+											</div>
+										</div>
+										<div class="block-item">
+											<div class="block-item-label">备注</div>
+											<div class="block-item-value">
+												{{formData.remark}}
+											</div>
+										</div>
+									</div>
 								</div>
 								<div class="form-block">
 
@@ -93,7 +94,7 @@ lo	} from "@/utils/format.js";
 		props:['detailRow'],
 		data() {
 			return {
-				dialogTitle: '全生命周期智慧建设管理平台',
+				dialogTitle: '项目全生命周期数字管理平台',
 				dialogFormVisible: false,
 
 				baseInfo: {
@@ -188,5 +189,5 @@ lo	} from "@/utils/format.js";
 </script>
 
 <style scoped lang="scss">
-	@import "src/assets/css/dialog";
+@import "src/assets/css/dialog";
 </style>

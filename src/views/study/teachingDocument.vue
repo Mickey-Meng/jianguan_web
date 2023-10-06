@@ -24,50 +24,28 @@
             <el-button type="primary" size="small" @click="downLoadFile(row)" class="primary_mini">
               下载
             </el-button>
-            <el-button
-              type="danger"
-              size="small"
-              @click="handleDelete(row, $index)"
-            >删除
-            </el-button
-            >
+            <el-button v-if="$store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'" type="danger" size="small"
+              @click="handleDelete(row, $index)">删除
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
     </el-main>
     <el-footer> </el-footer>
-    <el-dialog
-      title="上传教学文档"
-      :visible.sync="dialogVisible"
-      destroy-on-close
-      :close-on-click-modal="false"
-      :append-to-body="true"
-    >
-      <el-form
-        :model="form"
-        v-if="dialogVisible"
-        ref="form"
-        size="small"
-        label-position="right"
-        label-width="80px"
-        :rules="rules"
-      >
+    <el-dialog title="上传教学文档" :visible.sync="dialogVisible" destroy-on-close :close-on-click-modal="false"
+      :append-to-body="true">
+      <el-form :model="form" v-if="dialogVisible" ref="form" size="small" label-position="right" label-width="80px"
+        :rules="rules">
         <el-form-item label="文件名称" prop="uploadname">
-          <el-input
-            placeholder="请输入文件名称"
-            v-model="form.uploadname"
-          ></el-input>
+          <el-input placeholder="请输入文件名称" v-model="form.uploadname"></el-input>
         </el-form-item>
         <el-form-item label="上传文件" prop="fileurl">
-          <uploadFile
-            ref="otherOrgAttachments"
-            @changeValue="changeValue"
-          ></uploadFile>
+          <uploadFile ref="otherOrgAttachments" @changeValue="changeValue"></uploadFile>
         </el-form-item>
       </el-form>
       <div slot="footer">
         <el-button size="mini" @click="dialogVisible = false">取消</el-button>
-        <el-button size="mini" type="primary" class="primary_mini"  @click="addFile">确定</el-button>
+        <el-button size="mini" type="primary" class="primary_mini" @click="addFile">确定</el-button>
       </div>
     </el-dialog>
   </el-container>
@@ -75,8 +53,8 @@
 
 <script>
 import { uploadF, getFile, deleteFile, updateFileInfo } from "@/api/file";
-import { downLoadFile } from "@/utils/download";
-import {mapGetters} from "vuex";
+import { downLoadFile, downLoadRowFile } from "@/utils/download";
+import { mapGetters } from "vuex";
 export default {
   name: "",
   data() {
@@ -115,7 +93,7 @@ export default {
   },
   methods: {
     init() {
-      getFile(16,this.project.id).then((res) => {
+      getFile(16, this.project.id).then((res) => {
         this.tableData = res.data;
       });
     },
@@ -184,11 +162,19 @@ export default {
       });
     },
     downLoadFile(row) {
-      downLoadFile(row.fileurl);
+      //lrj 20230927
+      downLoadFile(row.fileurl)
+      // let fileNameBase64 = btoa(unescape(encodeURIComponent(row.uploadname + "." + row.uploadtype)))
+      // let update = fileNameBase64.replace(/\+/g, '-').replace(/\//g, '_')
+      // const myObject = {};
+      // myObject.fileId = row.fileurl;
+      // myObject.uploadname = update;
+      // myObject.uploadtype = row.uploadtype;
+      // const myString = JSON.stringify(myObject);
+      // downLoadRowFile(myString);
     }
   },
 };
 </script>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

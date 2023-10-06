@@ -1,45 +1,28 @@
 <template>
   <div class="wrapper">
     <div class="header">
-<!--      <el-select v-model="projectId">-->
-<!--        <el-option-->
-<!--          v-for="item in projects"-->
-<!--          :key="item.key"-->
-<!--          :value="item.key"-->
-<!--          :label="item.name"-->
-<!--        />-->
-<!--      </el-select>-->
-<!--      <el-button size="mini">导出数据</el-button>-->
+      <!--      <el-select v-model="projectId">-->
+      <!--        <el-option-->
+      <!--          v-for="item in projects"-->
+      <!--          :key="item.key"-->
+      <!--          :value="item.key"-->
+      <!--          :label="item.name"-->
+      <!--        />-->
+      <!--      </el-select>-->
+      <!--      <el-button size="mini">导出数据</el-button>-->
     </div>
     <ul class="center">
-      <li
-        v-for="(item, index) in lists"
-        :key="index"
-        :class="{ active: item.key === currentKey }"
-        @click="changeData(item.key)"
-      >
+      <li v-for="(item, index) in lists" :key="index" :class="{ active: item.key === currentKey }"
+        @click="changeData(item.key)">
         {{ item.name }}
       </li>
     </ul>
     <div class="main">
-      <el-tree
-        ref="tree"
-        :data="treeInfo[currentKey]"
-        accordion
-        class="tree-box"
-        highlight-current
-        node-key="id"
-        :default-expanded-keys="[2]"
-        :expand-on-click-node="true"
-        :props="defaultProps"
-        @node-click="nodeClick"
-      >
+      <el-tree ref="tree" :data="treeInfo[currentKey]" accordion class="tree-box" highlight-current node-key="id"
+        :default-expanded-keys="[2]" :expand-on-click-node="true" :props="defaultProps" @node-click="nodeClick">
         <span slot-scope="{ node, data }" class="custom-tree-node">
           <span>
-            <svg-icon
-              class="svg-class"
-              :icon-class="data.child.length > 0 ? 'folder' : 'coverage'"
-            />{{ node.label }}
+            <svg-icon class="svg-class" :icon-class="data.child.length > 0 ? 'folder' : 'coverage'" />{{ node.label }}
           </span>
           <svg-icon v-if="data.mouldid" class="svg-class" icon-class="model" />
         </span>
@@ -49,118 +32,119 @@
 </template>
 
 <script>
-  const Cesium = window.Cesium;
-  let hlm, layer, em, am;
-  import {getBridgeTree} from "@/api/tree";
-  import Bus from "@/assets/eventBus";
-  import {xyToLonlat} from "@/utils/site";
-  import {getWorkArea} from "@/api/workArea";
-  import {mapGetters} from "vuex";
-  import { getProgressWarningTableData, getProjectTypeData, getDictDataByType  } from "@/api/progress";
+const Cesium = window.Cesium;
+let hlm, layer, em, am;
+import { getBridgeTree } from "@/api/tree";
+import Bus from "@/assets/eventBus";
+import { xyToLonlat } from "@/utils/site";
+import { getWorkArea } from "@/api/workArea";
+import { mapGetters } from "vuex";
+import { getProgressWarningTableData, getProjectTypeData, getDictDataByType } from "@/api/progress";
 
-  export default {
-    name: "",
-    data() {
-      return {
-        currentHlm: null,
-        lists: [
-          {
-            name: "桥梁",
-            key: "QL"
-          },
-          {
-            name: "房建1",
-            key: "LM"
-          },
-          {
-            name: "隧道",
-            key: "SD"
-          },
-          {
-            name: "其他",
-            key: "QT"
-          }
-        ],
-        defaultProps: {
-          children: "child",
-          label: "name"
+export default {
+  name: "",
+  data() {
+    return {
+      currentHlm: null,
+      lists: [
+        {
+          name: "桥梁",
+          key: "QL"
         },
-        treeInfo: {
-          SD: [],
-          QL: [],
-          LM: [],
-          QT: []
+        {
+          name: "道路1",
+          key: "LM"
         },
-        projects: [],
-        projectId: "",
-        currentKey: "QL",
-        visualData: [], //形象进度数据
-        currentVisualObj: {}
-      };
-    },
-    computed: {
-      ...mapGetters(["project"])
-    },
-    created() {
-      this.getDictDataByType()
+        {
+          name: "隧道",
+          key: "SD"
+        },
+        {
+          name: "其他",
+          key: "QT"
+        }
+      ],
+      defaultProps: {
+        children: "child",
+        label: "name"
+      },
+      treeInfo: {
+        SD: [],
+        QL: [],
+        LM: [],
+        QT: []
+      },
+      projects: [],
+      projectId: "",
+      currentKey: "QL",
+      visualData: [], //形象进度数据
+      currentVisualObj: {}
+    };
+  },
+  computed: {
+    ...mapGetters(["project"])
+  },
+  created() {
+    this.getDictDataByType()
       .then(() => {
         this.initData(this.lists[0]["key"]);
       })
-      Bus.$on("mapSucceed", () => {
-        // em = window.zeh.earth.createEntityManager();
-        Bus.$off("mapSucceed");
-      });
-      Bus.$on("clearEffect", () => {
-        if (this.currentHlm) {
-          // this.stopEffect(this.currentHlm);
-        }
-        this.currentHlm = null;
-        this.currentVisualObj = {};
-      });
-      Bus.$on("getVisualData", (data) => {
-        this.visualData = data;
-      });
+    Bus.$on("mapSucceed", () => {
+      // em = window.zeh.earth.createEntityManager();
+      Bus.$off("mapSucceed");
+    });
+    Bus.$on("clearEffect", () => {
+      if (this.currentHlm) {
+        // this.stopEffect(this.currentHlm);
+      }
+      this.currentHlm = null;
+      this.currentVisualObj = {};
+    });
+    Bus.$on("getVisualData", (data) => {
+      this.visualData = data;
+    });
+  },
+  methods: {
+    changeData(val) {
+      this.currentKey = val;
+      // lrj 2023-09-02
+      // if (val === "QL" || val === "SD" || val === "LM") {
+      this.initData(val);
+      // }
     },
-    methods: {
-      changeData(val) {
-        this.currentKey = val;
-        if (val === "QL" || val === "SD" || val === "LM") {
-          this.initData(val);
-        }
-      },
-      getDictDataByType (){
-        return new Promise((resolve, reject) => {
-          getDictDataByType({pageNum:1,pageSize:999,dictType:"jg_project_type"}).then((res) => {
-            let data = res.rows || [];
-            const array = [];
-            data.forEach(item => {
-              array.push({name: item.dictLabel, key: item.dictValue})
-            });
-            this.lists = array;
-            this.currentKey = array[0]["key"];
-            console.log(array)
-            resolve()
-          })
-        })
-      },
-      initData(key) {
-        if (this.treeInfo[key] && this.treeInfo[key].length === 0) {
-          getBridgeTree(key, this.project.id).then((res) => {
-            const arr = [];
-            arr.push(res.data);
-            this.treeInfo[key] = arr;
+    getDictDataByType() {
+      return new Promise((resolve, reject) => {
+        getDictDataByType({ pageNum: 1, pageSize: 999, dictType: "jg_gclx_all" }).then((res) => {
+          let data = res.rows || [];
+          const array = [];
+          data.forEach(item => {
+            array.push({ name: item.dictLabel, key: item.dictValue })
           });
-        }
-      },
-      nodeClick(node, data) {
-        if (node.conponetcode) {
-          Bus.$emit("getProcessById", node);
-          Bus.$emit("getComponentProgress", node.id);
-          Bus.$emit("toolClearEffect");
-        }
-        let route = this.$route;
-        if (node.mouldid && node.x && node.y) {
-          const x = parseFloat(node.x);
+          this.lists = array;
+          this.currentKey = array[0]["key"];
+          console.log(array)
+          resolve()
+        })
+      })
+    },
+    initData(key) {
+      if (this.treeInfo[key] && this.treeInfo[key].length === 0) {
+        getBridgeTree(key, this.project.id).then((res) => {
+          const arr = [];
+          arr.push(res.data);
+          this.treeInfo[key] = arr;
+        });
+      }
+    },
+    nodeClick(node, data) {
+      if (node.conponetcode) {
+        Bus.$emit("getProcessById", node);
+        Bus.$emit("getComponentProgress", node.id);
+        Bus.$emit("toolClearEffect");
+      }
+      let route = this.$route;
+      if (node.mouldid && node.x && node.y) {
+        const x = parseFloat(node.x);
         const y = parseFloat(node.y);
         const z = parseFloat(node.z) || 65;
         let mouldid = node.mouldid.replace(/^\s+|\s+$/g, "");
@@ -183,8 +167,8 @@
             if (mid) {
               mid = mid.replace(/^\s+|\s+$/g, "");
               //清除上一个的着色再着色
-              this.stopEffect(mid);
-              this.showVisualEffect(mid, status, layername);
+              // this.stopEffect(mid);
+              // this.showVisualEffect(mid, status, layername);
               //清除现在点击的再着色
               // this.stopEffect(mouldid);
               // this.showEffect(mouldid);
@@ -207,9 +191,25 @@
           }
         }
 
+        const length = viewer.scene.primitives.length;
+        for (let i = 0; i < length; i++) {
+          const layer = viewer.scene.primitives.get(i);
+          
+          let conditions = [];
+          if (viewer.styleConditions && viewer.styleConditions[layer.name]) {
+            conditions = JSON.parse(JSON.stringify(viewer.styleConditions[layer.name]));
+          }
+          conditions.unshift(["${name} === '" + mouldid + "'", "rgba(25, 248, 250, 1)"])
+          layer.style = new Cesium.Cesium3DTileStyle({
+            color: {
+                conditions: conditions
+            }
+          });
+        }
+
         const lonLat = xyToLonlat([x, y]);
         const lon = lonLat[0] - 0.00045;
-        window.zeh.viewer.camera.flyTo({
+        window.viewer.camera.flyTo({
           destination: Cesium.Cartesian3.fromDegrees(lon, lonLat[1], z),
           orientation: {
             heading: Cesium.Math.toRadians(85),
@@ -332,9 +332,11 @@
           color: #2D405E;
           border: none;
         }
+
         input {
           background: transparent;
         }
+
         .el-input__suffix {
           .el-input__icon {
             line-height: 35px;
@@ -343,6 +345,7 @@
         }
       }
     }
+
     .el-button {
       align-items: center;
       background-color: #1E6EEB;
@@ -354,6 +357,7 @@
       border: none;
     }
   }
+
   .center {
     display: flex;
     justify-content: space-around;
@@ -381,6 +385,7 @@
       color: #1E6EEB;
     }
   }
+
   .main {
     height: calc(100% - 135px);
     padding-bottom: 10px;
@@ -388,6 +393,7 @@
     // border-top: 1px solid #1E374B;
     // border-bottom: 1px solid #1E374B;
     overflow: scroll;
+
     ::v-deep .tree-box {
       background-color: #FFFFFF;
       //color: #ffffff;
@@ -408,8 +414,9 @@
       }
 
       .is-current {
+
         //当前选中的节点
-        > .el-tree-node__content {
+        >.el-tree-node__content {
           //border: 1px solid #1e374b;
           //background-color: #1e374b;
         }
@@ -426,6 +433,7 @@
         color: #4B5973;
         padding-right: 8px;
         overflow: hidden;
+
         .svg-class {
           margin-right: 5px;
         }
@@ -434,7 +442,7 @@
           font-size: 12px;
           color: #3995fb;
 
-          + .el-button {
+          +.el-button {
             margin-left: 10px;
           }
         }
@@ -442,6 +450,7 @@
     }
   }
 }
+
 .open-close {
   position: absolute;
   top: 50%;
@@ -456,6 +465,7 @@
   transform: translateY(-50%);
   cursor: pointer;
   vertical-align: middle;
+
   i {
     font-size: 35px;
   }

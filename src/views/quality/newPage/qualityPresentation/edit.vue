@@ -14,8 +14,8 @@
 								<div class="form-title">
 									<div class="title-big-bar"></div>
 									<strong>质量简报</strong>
-									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify"
-										@checkDraft="checkDraft" ref="drafthandle"></drafthandle>
+									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify" @checkDraft="checkDraft"
+										ref="drafthandle"></drafthandle>
 								</div>
 
 								<div class="form-block">
@@ -48,10 +48,11 @@
 
 								</div>
 
-								<approveuser v-if="approveVisible" :auditUser="auditUser"  :flowKey="flowKey">
+								<approveuser v-if="approveVisible" :auditUser="auditUser" :flowKey="flowKey">
 								</approveuser>
 								<div class="form-block">
-									<el-button class="submit-btn" size="small" type="primary" :disabled="disabledFlag" @click="addOrModify()" :loading="submitDisable">提交
+									<el-button class="submit-btn" size="small" type="primary" :disabled="disabledFlag"
+										@click="addOrModify()" :loading="submitDisable">提交
 									</el-button>
 								</div>
 							</el-form>
@@ -103,7 +104,7 @@
 				addOrModifyFlag: true,
 				dialogFormVisible: false,
 				childOptions:[],
-				dialogTitle: '全生命周期智慧建设管理平台',
+				dialogTitle: '项目全生命周期数字管理平台',
 				baseInfo: {
 					buildSection: 1,
 					buildSectionName: '',
@@ -278,5 +279,5 @@
 </script>
 
 <style scoped lang="scss">
-	@import "../../../../assets/css/dialog.scss"
+@import "../../../../assets/css/dialog.scss"
 </style>

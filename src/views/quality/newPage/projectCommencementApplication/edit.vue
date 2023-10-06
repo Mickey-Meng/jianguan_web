@@ -14,8 +14,8 @@
 								<div class="form-title">
 									<div class="title-big-bar"></div>
 									<strong>项目开工申请</strong>
-									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify"
-										@checkDraft="checkDraft" ref="drafthandle"></drafthandle>
+									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify" @checkDraft="checkDraft"
+										ref="drafthandle"></drafthandle>
 								</div>
 
 								<div class="form-block">
@@ -55,8 +55,7 @@
 											<div class="block-item-value">
 												<el-form-item prop="contractOpenDate">
 													<el-date-picker value-format="yyyy-MM-dd"
-														v-model="formData.contractOpenDate" type="date"
-														placeholder="请选择">
+														v-model="formData.contractOpenDate" type="date" placeholder="请选择">
 													</el-date-picker>
 												</el-form-item>
 											</div>
@@ -66,8 +65,7 @@
 											<div class="block-item-value">
 												<el-form-item prop="contractEndDate">
 													<el-date-picker value-format="yyyy-MM-dd"
-														v-model="formData.contractEndDate" type="date"
-														placeholder="请选择">
+														v-model="formData.contractEndDate" type="date" placeholder="请选择">
 													</el-date-picker>
 												</el-form-item>
 											</div>
@@ -207,12 +205,13 @@
 									</attachlist>
 
 								</div>
-								
-								<approveuser v-if="approveVisible" :auditUser="auditUser"  :flowKey="flowKey">
+
+								<approveuser v-if="approveVisible" :auditUser="auditUser" :flowKey="flowKey">
 								</approveuser>
-								
+
 								<div class="form-block">
-									<el-button class="submit-btn" size="small" type="primary" @click="addOrModify()" :loading="submitDisable">提交
+									<el-button class="submit-btn" size="small" type="primary" @click="addOrModify()"
+										:loading="submitDisable">提交
 									</el-button>
 								</div>
 							</el-form>
@@ -232,7 +231,8 @@
 		</el-dialog>
 
 		<el-dialog width="80%" class="little-container" :visible.sync="draftVisible">
-			<projectCommencementApplication @hideDraft="hideDraft" @getDetail="getDetail" :isDraft="draftVisible" v-if="draftVisible">
+			<projectCommencementApplication @hideDraft="hideDraft" @getDetail="getDetail" :isDraft="draftVisible"
+				v-if="draftVisible">
 			</projectCommencementApplication>
 		</el-dialog>
 	</div>
@@ -262,7 +262,7 @@
 				draftVisible: false,
 				addOrModifyFlag: true,
 				dialogFormVisible: false,
-				dialogTitle: '全生命周期智慧建设管理平台',
+				dialogTitle: '项目全生命周期数字管理平台',
 				// intervalPlan: '',
 				// intervalContract: '',
 				baseInfo: {
@@ -528,5 +528,5 @@
 </script>
 
 <style scoped lang="scss">
-	@import "../../../../assets/css/dialog.scss"
+@import "../../../../assets/css/dialog.scss"
 </style>

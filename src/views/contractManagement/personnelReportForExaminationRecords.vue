@@ -17,22 +17,14 @@
       </div>
       <div class="input-box" style="margin-left: 10px">
         <div class="input-value">
-          <el-date-picker
-            v-model="queryData.subDate"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择进场时间">
+          <el-date-picker v-model="queryData.subDate" type="date" value-format="yyyy-MM-dd" placeholder="请选择进场时间">
           </el-date-picker>
         </div>
       </div>
       <div class="input-box" style="margin-left: 10px">
         <div class="input-value">
           <el-select v-model="queryData.selectValue" placeholder="请选择">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.name"
-              :value="item.value">
+            <el-option v-for="item in options" :key="item.value" :label="item.name" :value="item.value">
             </el-option>
           </el-select>
         </div>
@@ -53,8 +45,8 @@
     <el-main>
       <div class="container">
         <el-table border
-                  :data="tableData.slice((queryData.pageNum-1)*queryData.pageSize,queryData.pageNum*queryData.pageSize)"
-                  style="width: 100%" height="calc(100% - 48px)" class="have_scrolling">
+          :data="tableData.slice((queryData.pageNum-1)*queryData.pageSize,queryData.pageNum*queryData.pageSize)"
+          style="width: 100%" height="calc(100% - 48px)" class="have_scrolling">
           <el-table-column prop="name" label="姓名"></el-table-column>
           <el-table-column label="性别">
             <template slot-scope="{row}">
@@ -65,7 +57,7 @@
           <el-table-column prop="identityId" label="身份证号"></el-table-column>
           <el-table-column prop="certificateName" label="证件名称"></el-table-column>
           <el-table-column prop="createTime" label="进场时间"></el-table-column>
-<!--          <el-table-column label="退场时间"></el-table-column>-->
+          <!--          <el-table-column label="退场时间"></el-table-column>-->
           <el-table-column label="脸部照片">
             <template slot-scope="{row}">
               <img-viewer :img-list="[row.newPeoplePic]" v-if="row.peoplePic"></img-viewer>
@@ -80,15 +72,15 @@
           <el-table-column label="操作">
             <template slot-scope="{row,$index}">
               <el-button type="text" size="mini" @click="seeDetail(row)">详情</el-button>
-<!--              <el-button type="text" size="mini">退场</el-button>-->
-              <el-button type="text" size="mini" v-if="rolePerms[0] =='gly'" @click="deleteInfo(row,$index)">删除</el-button>
+              <!--              <el-button type="text" size="mini">退场</el-button>-->
+              <el-button type="text" size="mini" v-if="rolePerms[0] =='gly'"
+                @click="deleteInfo(row,$index)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                       :current-page="queryData.pageNum" :page-size="queryData.pageSize"
-                       layout="total, sizes, prev, pager, next, jumper"
-                       :total="tableData.length">
+          :current-page="queryData.pageNum" :page-size="queryData.pageSize"
+          layout="total, sizes, prev, pager, next, jumper" :total="tableData.length">
         </el-pagination>
       </div>
 
@@ -135,7 +127,7 @@
                   <div class="block-item">
                     <div class="block-item-label">性别</div>
                     <div class="block-item-value">
-                        {{ form.gender == 1 ? "男" : "女" }}
+                      {{ form.gender == 1 ? "男" : "女" }}
                     </div>
                   </div>
                 </div>
@@ -250,7 +242,7 @@
             value: 3
           }*/
         ],
-        dialogTitle: "全生命周期智慧建设管理平台",
+        dialogTitle: "项目全生命周期数字管理平台",
         dialogFormVisible: false,
         taskInfo: {},
         queryData: {
@@ -344,22 +336,20 @@
 </script>
 
 <style lang='scss' scoped>
-  @import "../../assets/css/table.scss";
-  @import "../../assets/css/dialog.scss";
+@import "../../assets/css/table.scss";
+@import "../../assets/css/dialog.scss";
 
-  .form-bg {
-    width: 60% !important;
+.form-bg {
+  width: 60% !important;
 
-    .form-block {
-      .el-date-editor {
-        width: 100% !important;
-      }
+  .form-block {
+    .el-date-editor {
+      width: 100% !important;
     }
   }
+}
 
-  ::v-deep.full-dialog .el-dialog__headerbtn{
-    background: #FFFFFF;
-  }
-
-
+::v-deep.full-dialog .el-dialog__headerbtn {
+  background: #FFFFFF;
+}
 </style>

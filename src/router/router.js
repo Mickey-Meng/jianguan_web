@@ -216,7 +216,7 @@ export const constantRoutes = [{
       {
         path: "/applicationForLeave_detail",
         name: "applicationForLeave_detail",
-        code: "qingjiashenqing,sgdwryqj1,jldwryqj,qzdwryqj",
+        code: "qingjiashenqing,sgdwryqj,jldwryqj,qzdwryqj",
         component: () => import("@/views/contractManagement/leave/view")
       },
 
@@ -926,6 +926,7 @@ export const asyncRoutes = [
             noMap: false,
             left: true,
             right: true,
+            offsetToRight: true, // 三维地图工具栏向右偏移200px
             open: true
           }
         }
@@ -1006,6 +1007,7 @@ export const asyncRoutes = [
             noMap: false,
             left: true,
             right: true,
+            offsetToRight: true, // 三维地图工具栏向右偏移200px
             open: true
           }
         },
@@ -1035,6 +1037,7 @@ export const asyncRoutes = [
             noMap: false,
             left: true,
             right: true,
+            offsetToRight: true, // 三维地图工具栏向右偏移200px
             open: true
           }
         },
@@ -1051,6 +1054,7 @@ export const asyncRoutes = [
             noMap: false,
             left: true,
             right: true,
+            offsetToRight: true, // 三维地图工具栏向右偏移200px
             open: true
           }
         },
@@ -1080,6 +1084,7 @@ export const asyncRoutes = [
             noMap: false,
             left: true,
             right: true,
+            offsetToRight: true, // 三维地图工具栏向右偏移200px
             open: true
           }
         },
@@ -1096,6 +1101,7 @@ export const asyncRoutes = [
             noMap: false,
             left: true,
             right: true,
+            offsetToRight: true, // 三维地图工具栏向右偏移200px
             open: true
           }
         },
@@ -1391,6 +1397,7 @@ export const asyncRoutes = [
             partMap: false,
             noMap: false,
             left: true,
+            offsetToRight: true, // 三维地图工具栏向右偏移200px
             right: true
           }
         },
@@ -1406,6 +1413,7 @@ export const asyncRoutes = [
             partMap: false,
             noMap: false,
             left: true,
+            offsetToRight: true, // 三维地图工具栏向右偏移200px
             right: true
           }
         },
@@ -1421,6 +1429,7 @@ export const asyncRoutes = [
             partMap: false,
             noMap: false,
             left: true,
+            offsetToRight: true, // 三维地图工具栏向右偏移200px
             right: true
           }
         },
@@ -1527,9 +1536,22 @@ export const asyncRoutes = [
         "component": ParentView,
         redirect: "/videoEnvironment",
         children: [{
+          path: "/videoMonitor",
+          name: "videoMonitor",
+          component: () => import("@/views/wisdomSite/index"),
+          meta: {
+            title: "视频监控",
+            code: "shipinjiankong",
+            icon: "circle",
+            allMap: true,
+            partMap: false,
+            noMap: false,
+            cover: true
+          }
+        },{
           path: "/videoEnvironment",
           name: "videoEnvironment",
-          component: () => import("@/views/wisdomSite/index"),
+          component: () => import("@/views/wisdomSiteEnvironment/environment"),
           meta: {
             title: "视频环境",
             code: "shipinhuanjing",

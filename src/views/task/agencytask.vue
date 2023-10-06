@@ -153,7 +153,7 @@ export default {
 				"taskFormKey"];
 			let key = row["taskFormKey"]["routerName"];
 			let router = this.detailRouters.find(e => e.code.indexOf(key) !== -1);
-			let hiddenEdit = ["sgdwhtrybs", "jldwhtrybs", "qzdwhtrybs", "sgdwrybg", "jldwrybg", "qzdwrybg", "sgdwryqj1",
+			let hiddenEdit = ["sgdwhtrybs", "jldwhtrybs", "qzdwhtrybs", "sgdwrybg", "jldwrybg", "qzdwrybg", "sgdwryqj",
 				"jldwryqj", "qzdwryqj"
 			];
 			if (router) {

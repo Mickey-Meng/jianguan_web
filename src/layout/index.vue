@@ -15,7 +15,7 @@
           <map-container />
         </div>
       </div>
-      <div class="company-name">池州建设投资集团有限公司</div>
+      <div class="company-name">诸暨市建设集团有限公司</div>
     </div>
   </div>
 </template>
@@ -24,7 +24,7 @@
 import { Navbar, Sidebar, AppMain } from './components'
 import Header from './components/header/Index'
 import MapContainer from './components/MapContainer'
-import { updateOnline } from '@/api/user'
+import { updateOnline, tellOnline } from '@/api/user'
 
 import * as api from '@/api/quality'
 
@@ -47,7 +47,7 @@ export default {
   data() {
     return {
       timer: null,
-      tasktimer:null
+      tasktimer: null
     }
   },
   // mixins: [ResizeMixin],
@@ -87,6 +87,7 @@ export default {
       this.showMap = this.$route.meta.showMap
     },
     upInlineStatus() {
+      tellOnline();
       updateOnline().then((res) => {
         let { isChange } = res.data
         if (isChange === 'true') {
@@ -119,7 +120,7 @@ export default {
         .then((res) => {
           res.data = res.data || {}
           let agencyNum = res.data.total || 0
-        //   console.log('待办任务条数：'+agencyNum);
+          //   console.log('待办任务条数：'+agencyNum);
           store.dispatch('task/updateAgencyNum', agencyNum)
         })
       //抄送
@@ -135,8 +136,8 @@ export default {
         })
         .then((res) => {
           res.data = res.data || {}
-          let copyNum =res.data.total || 0
-        //   console.log('抄送任务条数：'+copyNum);
+          let copyNum = res.data.total || 0
+          //   console.log('抄送任务条数：'+copyNum);
           store.dispatch('task/updateCopyNum', copyNum)
         })
     },
@@ -145,7 +146,7 @@ export default {
       this.upInlineStatus()
       this.updateTaskNum()
       that.timer = setInterval(() => {
-        this.upInlineStatus()
+        // this.upInlineStatus()
       }, 1000 * 60 * 3)
 
       that.tasktimer = setInterval(() => {
@@ -169,6 +170,7 @@ export default {
   position: relative;
   height: 100%;
   width: 100%;
+
   &.mobile.openSidebar {
     position: fixed;
     top: 0;

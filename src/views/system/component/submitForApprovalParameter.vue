@@ -15,22 +15,14 @@
         </div>
         <div class="input-box" style="margin-left: 10px">
           <div class="input-value">
-            <el-date-picker
-              v-model="queryData.subDate"
-              type="date"
-              value-format="yyyy-MM-dd"
-              placeholder="请选择进场时间">
+            <el-date-picker v-model="queryData.subDate" type="date" value-format="yyyy-MM-dd" placeholder="请选择进场时间">
             </el-date-picker>
           </div>
         </div>
         <div class="input-box" style="margin-left: 10px">
           <div class="input-value">
             <el-select v-model="queryData.selectValue" placeholder="请选择">
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.name"
-                :value="item.value">
+              <el-option v-for="item in options" :key="item.value" :label="item.name" :value="item.value">
               </el-option>
             </el-select>
           </div>
@@ -42,8 +34,8 @@
     </el-header>
     <el-main class="submit">
       <el-table border
-                :data="tableData.slice((queryData.pageNum-1)*queryData.pageSize,queryData.pageNum*queryData.pageSize)"
-                style="width: 100%" height="100%" class="have_scrolling">
+        :data="tableData.slice((queryData.pageNum-1)*queryData.pageSize,queryData.pageNum*queryData.pageSize)"
+        style="width: 100%" height="100%" class="have_scrolling">
         <el-table-column prop="name" label="姓名"></el-table-column>
         <el-table-column label="性别">
           <template slot-scope="{row}">
@@ -77,9 +69,8 @@
     </el-main>
     <el-footer>
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                     :current-page="queryData.pageNum" :page-size="queryData.pageSize"
-                     layout="total, sizes, prev, pager, next, jumper"
-                     :total="tableData.length">
+        :current-page="queryData.pageNum" :page-size="queryData.pageSize" layout="total, sizes, prev, pager, next, jumper"
+        :total="tableData.length">
       </el-pagination>
     </el-footer>
     <el-dialog class="full-dialog defined-dialog" :fullscreen="true" :visible.sync="dialogFormVisible">
@@ -213,7 +204,7 @@
     data() {
       return {
         dialogFormVisible: false,
-        dialogTitle: "全生命周期智慧建设管理平台",
+        dialogTitle: "项目全生命周期数字管理平台",
         tableData: [],
         form: {},
         options: [
@@ -325,32 +316,33 @@
 </script>
 
 <style lang='scss' scoped>
-  @import "../../../assets/css/table.scss";
-  @import "../../../assets/css/dialog.scss";
-  .el-header {
-    > div {
-      display: flex;
+@import "../../../assets/css/table.scss";
+@import "../../../assets/css/dialog.scss";
+
+.el-header {
+  >div {
+    display: flex;
+  }
+}
+
+.submit {
+  padding: 20px 0 0 0 !important;
+}
+
+//@import "@/assets/css/table.scss";
+//@import "@/assets/css/dialog.scss";
+
+.form-bg {
+  width: 60% !important;
+
+  .form-block {
+    .el-date-editor {
+      width: 100% !important;
     }
   }
+}
 
-  .submit {
-    padding: 20px 0 0 0 !important;
-  }
-
-  //@import "@/assets/css/table.scss";
-  //@import "@/assets/css/dialog.scss";
-
-  .form-bg {
-    width: 60% !important;
-
-    .form-block {
-      .el-date-editor {
-        width: 100% !important;
-      }
-    }
-  }
-
-  ::v-deep.full-dialog .el-dialog__headerbtn {
-    background: #FFFFFF;
-  }
+::v-deep.full-dialog .el-dialog__headerbtn {
+  background: #FFFFFF;
+}
 </style>

@@ -133,8 +133,14 @@ export default {
   },
   methods: {
     transferData(val) {
-      let data = this.eventType || []
-      return data.find(res => res.dictCode == val).dictLabel
+      if(!isNaN(parseFloat(val)) && isFinite(val)) {
+        let data = this.eventType || []
+        return data.find(res => res.dictCode == val).dictLabel
+      } else {
+        return val;
+      }
+      debugger
+
     },
     getDetail(id) {
       let type = getToken('taskType');

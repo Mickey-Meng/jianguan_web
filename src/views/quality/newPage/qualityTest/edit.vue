@@ -14,8 +14,8 @@
 								<div class="form-title">
 									<div class="title-big-bar"></div>
 									<strong>质量检测</strong>
-									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify"
-										@checkDraft="checkDraft" ref="drafthandle"></drafthandle>
+									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify" @checkDraft="checkDraft"
+										ref="drafthandle"></drafthandle>
 								</div>
 
 								<div class="form-block">
@@ -55,33 +55,26 @@
 										<el-button size="small" @click="addExamine" type="primary">新增</el-button>
 									</div>
 									<div class="block-table">
-										<el-table :data="examineTable" style="width: 100%" border
-											class="have_scrolling">
+										<el-table :data="examineTable" style="width: 100%" border class="have_scrolling">
 											<el-table-column type="index" width="50" align="center" label="序号">
 											</el-table-column>
-											<el-table-column prop="name" align="center" label="材料名称"
-												show-overflow-tooltip>
+											<el-table-column prop="name" align="center" label="材料名称" show-overflow-tooltip>
 											</el-table-column>
-											<el-table-column prop="addressStr" width="180px" align="center"
-												label="材料来源">
+											<el-table-column prop="addressStr" width="180px" align="center" label="材料来源">
 											</el-table-column>
-											<el-table-column prop="specification" width="120px" align="center"
-												label="材料规格">
+											<el-table-column prop="specification" width="120px" align="center" label="材料规格">
 											</el-table-column>
-											<el-table-column prop="projectPart" width="120px" align="center"
-												label="工程部位">
+											<el-table-column prop="projectPart" width="120px" align="center" label="工程部位">
 											</el-table-column>
 											<el-table-column prop="num" width="120px" align="center" label="材料数量(吨)">
 											</el-table-column>
-											<el-table-column prop="takeAddress" width="120px" align="center"
-												label="取样地点">
+											<el-table-column prop="takeAddress" width="120px" align="center" label="取样地点">
 											</el-table-column>
 											<el-table-column prop="testDate" width="120px" align="center" label="试验日期">
 											</el-table-column>
 											<el-table-column prop="testNum" width="120px" align="center" label="实验数量">
 											</el-table-column>
-											<el-table-column prop="qualifiedNum" width="120px" align="center"
-												label="合格数量">
+											<el-table-column prop="qualifiedNum" width="120px" align="center" label="合格数量">
 											</el-table-column>
 											<el-table-column prop="qualifiedRate" width="120px" align="center"
 												label="总合格率(%)">
@@ -93,8 +86,7 @@
 													<template v-else-if="scope.row.detectionResult==1">不合格</template>
 												</template>
 											</el-table-column>
-											<el-table-column prop="reportCode" width="120px" align="center"
-												label="报告编号">
+											<el-table-column prop="reportCode" width="120px" align="center" label="报告编号">
 											</el-table-column>
 											<el-table-column fixed="right" width="120" align="center" label="操作">
 												<template slot-scope="{ row, $index }">
@@ -154,7 +146,8 @@
 								<approveuser v-if="approveVisible" :auditUser="auditUser" :flowKey="flowKey">
 								</approveuser>
 								<div class="form-block">
-									<el-button class="submit-btn" size="small" type="primary" @click="addOrModify()" :loading="submitDisable">提交
+									<el-button class="submit-btn" size="small" type="primary" @click="addOrModify()"
+										:loading="submitDisable">提交
 									</el-button>
 								</div>
 							</el-form>
@@ -268,8 +261,8 @@
 							<div class="block-item-label">检测结果</div>
 							<div class="block-item-value">
 								<el-select v-model="examineInfo.detectionResult" placeholder="请选择">
-									<el-option v-for="item in examineResultOptions1" :key="item.value"
-										:label="item.label" :value="item.value">
+									<el-option v-for="item in examineResultOptions1" :key="item.value" :label="item.label"
+										:value="item.value">
 									</el-option>
 								</el-select>
 							</div>
@@ -360,7 +353,7 @@
 					label: '不合格',
 					value: 1
 				}],
-				dialogTitle: '全生命周期智慧建设管理平台',
+				dialogTitle: '项目全生命周期数字管理平台',
 				annexTableData: [],
 				activeName: 'first',
 				waitTableData: [],
@@ -751,5 +744,5 @@
 </script>
 
 <style scoped lang="scss">
-	@import "../../../../assets/css/dialog.scss"
+@import "../../../../assets/css/dialog.scss"
 </style>

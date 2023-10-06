@@ -14,8 +14,8 @@
 								<div class="form-title">
 									<div class="title-big-bar"></div>
 									<strong>监理旁站</strong>
-									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify"
-										@checkDraft="checkDraft" ref="drafthandle"></drafthandle>
+									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify" @checkDraft="checkDraft"
+										ref="drafthandle"></drafthandle>
 								</div>
 
 								<div class="form-block">
@@ -586,8 +586,8 @@
 											</el-row>
 											<el-row>
 												<el-col :span="12">
-													<el-form-item label="施工现场质量措施落实情况">
-														<el-input v-model="sideInfo.a17" placeholder="请输入桩位设计值">
+													<el-form-item label="桩位设计值">
+														<el-input v-model="sideInfo.a17" placeholder="桩位设计值">
 														</el-input>
 													</el-form-item>
 												</el-col>
@@ -817,8 +817,7 @@
 											<el-row>
 												<el-col :span="12">
 													<el-form-item label="钢筋笼主筋间距设计值(mm)">
-														<el-input v-model="sideInfo.a95"
-															placeholder="请输入钢筋笼主筋间距设计值(mm)">
+														<el-input v-model="sideInfo.a95" placeholder="请输入钢筋笼主筋间距设计值(mm)">
 														</el-input>
 													</el-form-item>
 												</el-col>
@@ -846,8 +845,7 @@
 											<el-row>
 												<el-col :span="12">
 													<el-form-item label="钢筋笼长度(直径)设计值(mm)">
-														<el-input v-model="sideInfo.a99"
-															placeholder="请输入钢筋笼长度(直径)设计值(mm)">
+														<el-input v-model="sideInfo.a99" placeholder="请输入钢筋笼长度(直径)设计值(mm)">
 														</el-input>
 													</el-form-item>
 												</el-col>
@@ -875,8 +873,7 @@
 											<el-row>
 												<el-col :span="12">
 													<el-form-item label="钢筋笼接头扭矩规定值(Nm)">
-														<el-input v-model="sideInfo.a103"
-															placeholder="请输入钢筋笼接头扭矩规定值(Nm)">
+														<el-input v-model="sideInfo.a103" placeholder="请输入钢筋笼接头扭矩规定值(Nm)">
 														</el-input>
 													</el-form-item>
 												</el-col>
@@ -1401,7 +1398,7 @@
 													<el-radio v-model="sideInfo.a171" label="否">否</el-radio>
 												</el-form-item>
 											</el-row>
-											
+
 											<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">主要数据记录
 											</el-row>
 											<el-row>
@@ -1413,8 +1410,7 @@
 												</el-col>
 												<el-col :span="12">
 													<el-form-item label="宽度">
-														<el-input v-model="sideInfo.a173"
-															placeholder="请输入宽度"></el-input>
+														<el-input v-model="sideInfo.a173" placeholder="请输入宽度"></el-input>
 													</el-form-item>
 												</el-col>
 											</el-row>
@@ -1425,9 +1421,9 @@
 														</el-input>
 													</el-form-item>
 												</el-col>
-												
+
 											</el-row>
-											
+
 										</el-collapse-item>
 										<el-collapse-item v-if="formData.sideProjectId==10" title="嵌入表单" name="10">
 											<el-row
@@ -1512,7 +1508,7 @@
 													<el-radio v-model="sideInfo.a185" label="否">否</el-radio>
 												</el-form-item>
 											</el-row>
-											
+
 											<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">主要数据记录
 											</el-row>
 											<el-row>
@@ -1524,8 +1520,7 @@
 												</el-col>
 												<el-col :span="12">
 													<el-form-item label="宽度">
-														<el-input v-model="sideInfo.a187"
-															placeholder="请输入宽度"></el-input>
+														<el-input v-model="sideInfo.a187" placeholder="请输入宽度"></el-input>
 													</el-form-item>
 												</el-col>
 											</el-row>
@@ -1536,11 +1531,11 @@
 														</el-input>
 													</el-form-item>
 												</el-col>
-												
+
 											</el-row>
-											
+
 										</el-collapse-item>
-										
+
 									</el-collapse>
 
 
@@ -1609,7 +1604,8 @@
 								</approveuser>
 
 								<div class="form-block">
-									<el-button class="submit-btn" size="small" type="primary" @click="addOrModify()" :loading="submitDisable">提交
+									<el-button class="submit-btn" size="small" type="primary" @click="addOrModify()"
+										:loading="submitDisable">提交
 									</el-button>
 								</div>
 							</el-form>
@@ -1629,8 +1625,7 @@
 		</el-dialog>
 
 		<el-dialog width="80%" class="little-container" :visible.sync="draftVisible">
-			<supervisionStation @hideDraft="hideDraft" @getDetail="getDetail" :isDraft="draftVisible"
-				v-if="draftVisible">
+			<supervisionStation @hideDraft="hideDraft" @getDetail="getDetail" :isDraft="draftVisible" v-if="draftVisible">
 			</supervisionStation>
 		</el-dialog>
 
@@ -1674,7 +1669,7 @@
 				draftVisible: false,
 				addOrModifyFlag: true,
 				dialogFormVisible: false,
-				dialogTitle: '全生命周期智慧建设管理平台',
+				dialogTitle: '项目全生命周期数字管理平台',
 				childOptions: [],
 				partOptions: [],
 				sideOptions: [],
@@ -1857,7 +1852,7 @@
 			},
 			addOrModify(isdraft) {
       if (this.submitDisable) return;
-      
+
       this.submitDisable = true;
 				if (isdraft) {
 					this.formData.sideInfo = JSON.stringify(this.sideInfo);
@@ -1944,11 +1939,11 @@
 </script>
 
 <style scoped lang="scss">
-	.el-collapse-item {
-		.el-input {
-			width: calc(100% - 200px) !important
-		}
+.el-collapse-item {
+	.el-input {
+		width: calc(100% - 200px) !important
 	}
+}
 
-	@import "../../../../assets/css/dialog.scss"
+@import "../../../../assets/css/dialog.scss"
 </style>

@@ -56,9 +56,17 @@
           <el-table-column prop="handoffPerson" label="工作交接人"></el-table-column>
           <el-table-column prop="remark" label="请假原因"></el-table-column>
           <!--          <el-table-column prop="uploadname" label="备注"></el-table-column>-->
-          <el-table-column label="状态">
-            <template slot-scope="{row,$index}">
-              <span>{{ row.status === 2 ? "审核完成" : "审核中" }}</span>
+          <el-table-column label="审核状态">
+            <template slot-scope="scope">
+              <el-tag v-if="scope.row.status == '2'" size="mini" type="warning">
+                驳回
+              </el-tag>
+              <el-tag v-if="scope.row.status == '0'" size="mini" type="default">
+                审批中
+              </el-tag>
+              <el-tag v-if="scope.row.status == '1'" size="mini" type="success">
+                已审批
+              </el-tag>
             </template>
           </el-table-column>
           <el-table-column label="操作">
@@ -216,7 +224,7 @@ export default {
         pageSize: 10,
         selectValue: 10
       },
-      dialogTitle: "全生命周期智慧建设管理平台"
+      dialogTitle: "项目全生命周期数字管理平台"
     };
   },
   created() {

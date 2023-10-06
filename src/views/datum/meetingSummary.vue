@@ -16,7 +16,7 @@
         <el-table-column type="index" label="序号" width="60">
         </el-table-column>
         <el-table-column prop="uploadname" label="会议名称"> </el-table-column>
-        <el-table-column prop="typename"   label="资料类型"  align="center"></el-table-column>
+        <el-table-column prop="typename" label="资料类型" align="center"></el-table-column>
         <el-table-column prop="calltime" label="会议时间"> </el-table-column>
         <el-table-column prop="calladdr" label="会议地点"> </el-table-column>
         <el-table-column prop="callunit" label="召集单位"> </el-table-column>
@@ -26,100 +26,53 @@
         <el-table-column prop="uploadtime" label="上传时间"> </el-table-column>
         <el-table-column label="操作" width="270px">
           <template slot-scope="{ row, $index }">
-            <el-button size="mini" type="primary"  class="primary_mini"  @click="showEdit(row)"
-              >编辑</el-button
-            >
-            <el-button size="mini" type="primary"  class="primary_mini"  @click="downFile(row)"
-              >下载</el-button
-            >
-            <el-button v-if="$store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'"
-              size="mini"
-              type="danger"
-              @click="handleDelete(row, $index)"
-              >删除</el-button
-            >
+            <el-button size="mini" type="primary" class="primary_mini" @click="showEdit(row)">编辑</el-button>
+            <el-button size="mini" type="primary" class="primary_mini" @click="downFile(row)">下载</el-button>
+            <el-button v-if="$store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'" size="mini" type="danger"
+              @click="handleDelete(row, $index)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
     </el-main>
     <el-footer> </el-footer>
-    <el-dialog
-      :title="isCreate ? '上传会议纪要' : '修改会议纪要'"
-      :visible.sync="dialogVisible"
-      destroy-on-close
-      :close-on-click-modal="false"
-      :append-to-body="true"
-    >
-      <el-form
-        :model="form"
-        v-if="dialogVisible"
-        ref="form"
-        size="small"
-        label-position="right"
-        label-width="80px"
-        :rules="rules"
-      >
+    <el-dialog :title="isCreate ? '上传会议纪要' : '修改会议纪要'" :visible.sync="dialogVisible" destroy-on-close
+      :close-on-click-modal="false" :append-to-body="true">
+      <el-form :model="form" v-if="dialogVisible" ref="form" size="small" label-position="right" label-width="80px"
+        :rules="rules">
         <el-form-item label="会议名称" prop="uploadname">
-          <el-input
-            placeholder="请输入会议名称"
-            v-model="form.uploadname"
-          ></el-input>
+          <el-input placeholder="请输入会议名称" v-model="form.uploadname"></el-input>
         </el-form-item>
         <el-form-item label="会议时间">
-          <el-date-picker
-            type="date"
-            placeholder="选择日期"
-            value-format="yyyy-MM-dd"
-            v-model="form.calltime"
-            style="width: 100%"
-          ></el-date-picker>
+          <el-date-picker type="date" placeholder="选择日期" value-format="yyyy-MM-dd" v-model="form.calltime"
+            style="width: 100%"></el-date-picker>
         </el-form-item>
         <el-form-item label="会议地点" prop="calladdr">
-          <el-input
-            placeholder="请输入会议地点"
-            v-model="form.calladdr"
-          ></el-input>
+          <el-input placeholder="请输入会议地点" v-model="form.calladdr"></el-input>
         </el-form-item>
         <el-form-item label="召集单位" prop="callunit">
-          <el-input
-            placeholder="请输入召集单位"
-            v-model="form.callunit"
-          ></el-input>
+          <el-input placeholder="请输入召集单位" v-model="form.callunit"></el-input>
         </el-form-item>
         <el-form-item label="资料类型" prop="type">
-          <el-select
-            v-model="form.type"
-            filterable
-            clearable
-            placeholder="请选择资料类型"
-          >
-            <el-option
-              v-for="item in functionary"
-              :key="item.id"
-              :value="item.id"
-              :label="item.name"
-            />
+          <el-select v-model="form.type" filterable clearable placeholder="请选择资料类型">
+            <el-option v-for="item in functionary" :key="item.id" :value="item.id" :label="item.name" />
           </el-select>
         </el-form-item>
         <el-form-item label="上传文件" prop="fileurl" v-if="isCreate">
-          <uploadFile
-            ref="otherOrgAttachments"
-            @changeValue="changeValue"
-          ></uploadFile>
+          <uploadFile ref="otherOrgAttachments" @changeValue="changeValue"></uploadFile>
         </el-form-item>
       </el-form>
       <div slot="footer">
         <el-button size="mini" @click="dialogVisible = false">取消</el-button>
-        <el-button size="mini" type="primary"  class="primary_mini"  @click="addFile">确定</el-button>
+        <el-button size="mini" type="primary" class="primary_mini" @click="addFile">确定</el-button>
       </div>
     </el-dialog>
   </el-container>
 </template>
 
 <script>
-import {uploadF, getFile, deleteFile, updateFileInfo, getFileDictByPCode, getStoreFileByPcode} from "@/api/file";
-import { downLoadFile } from "@/utils/download";
-import {mapGetters} from "vuex";
+import { uploadF, getFile, deleteFile, updateFileInfo, getFileDictByPCode, getStoreFileByPcode } from "@/api/file";
+import { downLoadFile, downLocaRowFile } from "@/utils/download";
+import { mapGetters } from "vuex";
 
 export default {
   name: "",
@@ -174,7 +127,7 @@ export default {
       });
 
       //获取已上传的附件清单
-      getStoreFileByPcode(this.pCode,this.project.id).then((res) => {
+      getStoreFileByPcode(this.pCode, this.project.id).then((res) => {
         this.tableData = res.data;
       });
     },
@@ -187,7 +140,16 @@ export default {
       }
     },
     downFile(row) {
-      downLoadFile(row.fileurl);
+      //lrj 20230926
+      downLoadFile(row.fileurl)
+      // let fileNameBase64 = btoa(unescape(encodeURIComponent(row.uploadname + "." + row.uploadtype)))
+      // let update = fileNameBase64.replace(/\+/g, '-').replace(/\//g, '_')
+      // const myObject = {};
+      // myObject.fileId = row.fileurl;
+      // myObject.uploadname = update;
+      // myObject.uploadtype = row.uploadtype;
+      // const myString = JSON.stringify(myObject);
+      // downLoadRowFile(myString);
     },
     showEdit(row) {
       this.isCreate = false;
@@ -274,5 +236,4 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

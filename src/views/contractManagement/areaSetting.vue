@@ -23,7 +23,7 @@
     <el-main>
       <div class="container">
         <el-table :data="tableData.slice((queryData.pageNum-1)*queryData.pageSize,queryData.pageNum*queryData.pageSize)"
-                  style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
+          style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
           <el-table-column prop="title" label="标题"></el-table-column>
           <el-table-column prop="clockAddrName" label="打卡点名称"></el-table-column>
           <el-table-column prop="coordinate" label="坐标" show-overflow-tooltip></el-table-column>
@@ -31,19 +31,19 @@
           <el-table-column label="操作">
             <template slot-scope="{ row, $index }">
               <el-button type="text" size="mini" @click="modify(row)">修改</el-button>
-              <el-button type="text" size="mini" v-if="$store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'" @click="deleteRow(row)">删除</el-button>
+              <el-button type="text" size="mini" v-if="$store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'"
+                @click="deleteRow(row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                       :current-page="queryData.pageNum" :page-size="queryData.pageSize"
-                       layout="total, sizes, prev, pager, next, jumper"
-                       :total="tableData.length">
+          :current-page="queryData.pageNum" :page-size="queryData.pageSize"
+          layout="total, sizes, prev, pager, next, jumper" :total="tableData.length">
         </el-pagination>
       </div>
     </el-main>
     <el-dialog class="full-dialog defined-dialog" :fullscreen="true" :destroy-on-close="true" @close="closeDialog"
-               :visible.sync="dialogFormVisible">
+      :visible.sync="dialogFormVisible">
       <template slot="title">
         {{ dialogTitle }}
       </template>
@@ -103,14 +103,13 @@
               </div>
               <div class="form-block">
                 <div id="map">
-                  <mapView ref="mapView" @clearStr="clearStr" @setCenter="setCenter" @setStr="setStr" :siteStr="siteStr" :centerPointer="centerPointer"
-                           :name="clockName"
-                           v-if="dialogFormVisible"></mapView>
+                  <mapView ref="mapView" @clearStr="clearStr" @setCenter="setCenter" @setStr="setStr" :siteStr="siteStr"
+                    :centerPointer="centerPointer" :name="clockName" v-if="dialogFormVisible"></mapView>
                 </div>
               </div>
               <div class="form-block">
                 <el-button style="margin: 20px 0 20px 160px;padding: 0 70px" size="small" type="primary"
-                           @click="submitInfo">提交
+                  @click="submitInfo">提交
                 </el-button>
               </div>
             </el-form>
@@ -153,7 +152,7 @@
           totalPage: 1,
           pageSize: 10
         },
-        dialogTitle: "全生命周期智慧建设管理平台",
+        dialogTitle: "项目全生命周期数字管理平台",
         isCreate: false,
         siteStr: "",
         centerPointer: "",
@@ -299,45 +298,43 @@
 </script>
 
 <style scoped lang="scss">
-  @import "../../assets/css/table.scss";
-  @import "../../assets/css/dialog.scss";
+@import "../../assets/css/table.scss";
+@import "../../assets/css/dialog.scss";
 
-  .container-box{
-    .el-header {
-      display: flex;
-      align-items: center;
+.container-box {
+  .el-header {
+    display: flex;
+    align-items: center;
 
-      .input-value {
-        .el-date-editor {
-          display: flex;
-          align-items: center;
-          margin-right: 10px;
-        }
-      }
-    }
-  }
-
-  ::v-deep.full-dialog {
-    .el-dialog__headerbtn {
-      background: #FFFFFF;
-    }
-  }
-
-  .form-bg {
-    width: 70% !important;
-
-    .form-block {
+    .input-value {
       .el-date-editor {
-        width: 100% !important;
-      }
-
-      #map {
-        margin-top: 10px;
-        width: 100%;
-        height: 500px;
+        display: flex;
+        align-items: center;
+        margin-right: 10px;
       }
     }
   }
+}
 
+::v-deep.full-dialog {
+  .el-dialog__headerbtn {
+    background: #FFFFFF;
+  }
+}
 
+.form-bg {
+  width: 70% !important;
+
+  .form-block {
+    .el-date-editor {
+      width: 100% !important;
+    }
+
+    #map {
+      margin-top: 10px;
+      width: 100%;
+      height: 500px;
+    }
+  }
+}
 </style>

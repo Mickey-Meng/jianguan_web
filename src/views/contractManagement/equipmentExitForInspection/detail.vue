@@ -1,8 +1,9 @@
 <template>
 	<div>
-		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible" :fullscreen="true">
+		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible"
+			:fullscreen="true">
 			<template slot="title">
-				{{dialogTitle}}
+				{{ dialogTitle }}
 				<div class="logo-icon"></div>
 			</template>
 			<el-container>
@@ -10,6 +11,10 @@
 					style="background-color: rgba(0,0 0,0.5);height: calc(100vh - 96px); overflow-y: scroll;padding: 0px;margin: 0;">
 					<div class="form-bg">
 						<div class="form-content">
+							<!-- #773 lrj 20230913 -->
+							<div class="form-title">
+								<strong>退场设备报验单-浙公路(JL)015</strong>
+							</div>
 							<el-form ref="form" label-width="80px">
 
 								<div class="form-block">
@@ -22,7 +27,7 @@
 										<div class="block-item">
 											<div class="block-item-label">工程编号</div>
 											<div class="block-item-value">
-												{{formData.projectCode}}
+												{{ formData.projectCode }}
 											</div>
 										</div>
 									</div>
@@ -35,20 +40,17 @@
 										<div class="block-item">
 											<div class="block-item-label">监理办<i class="require-icon"></i></div>
 											<div class="block-item-value">
-												{{formData.supervisionBan}}
+												{{ formData.supervisionBan }}
 											</div>
 										</div>
 									</div>
 									<div class="block-table">
-										<el-table :data="equipmentTable" style="width: 100%" border
-											class="have_scrolling">
+										<el-table :data="equipmentTable" style="width: 100%" border class="have_scrolling">
 											<el-table-column type="index" width="50" align="center" label="序号">
 											</el-table-column>
-											<el-table-column prop="equipmentName" width="180px" align="center"
-												label="设备名称">
+											<el-table-column prop="equipmentName" width="180px" align="center" label="设备名称">
 											</el-table-column>
-											<el-table-column prop="specification" width="120px" align="center"
-												label="规格型号">
+											<el-table-column prop="specification" width="120px" align="center" label="规格型号">
 											</el-table-column>
 											<el-table-column prop="num" width="120px" align="center" label="数量">
 											</el-table-column>
@@ -58,13 +60,12 @@
 											</el-table-column>
 											<el-table-column prop="exitReason" width="120px" align="center" label="退场原因">
 											</el-table-column>
-											<el-table-column prop="techCondition" width="120px" align="center"
-												label="技术状态">
+											<el-table-column prop="techCondition" width="120px" align="center" label="技术状态">
 											</el-table-column>
 										</el-table>
 									</div>
 								</div>
-								 <div class="form-block">
+								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>附件清单</strong>
 									</div>
@@ -95,120 +96,120 @@
 </template>
 
 <script>
-	import * as api from "@/api/contract";
-	import * as proapi from "@/api/project.js";
-	import tasklog from "../../common/tasklog.vue"
-	import taskhandle from '../../common/taskhandle'
-	import attachlist from "../../common/attachlist"
-	import projectinfo from "../../common/projectinfo.vue"
+import * as api from "@/api/contract";
+import * as proapi from "@/api/project.js";
+import tasklog from "../../common/tasklog.vue"
+import taskhandle from '../../common/taskhandle'
+import attachlist from "../../common/attachlist"
+import projectinfo from "../../common/projectinfo.vue"
 
-	import {
-		formatMonth,
-		formatDate,
-		formatDateTime,
-		convertOptions,
-		createProjectInfo
-	} from "@/utils/format.js";
+import {
+	formatMonth,
+	formatDate,
+	formatDateTime,
+	convertOptions,
+	createProjectInfo
+} from "@/utils/format.js";
 
-	export default {
-		props:['detailRow'],
-		data() {
-			return {
-				dialogTitle: '全生命周期智慧建设管理平台',
-				dialogFormVisible: false,
-				baseInfo: {
-					buildSection: 1,
-					projectName:'池州市平天湖东部区域棚户区改造建设工程EPC总承包',
-					buildSectionName: '235国道项目部',
-					contractCode: 'ORG_00004',
-					startupUser: '赵赞文',
-					startupDate: formatMonth(new Date()),
-				},
-				formData: { //表单参数
-					attachment: [],
-					equipmentInfo:[],
-					deletedFlag: 1,
-					draftFlag: 1,
-					projectCode: '',
-					buildSection: this.$store.getters.project.id,
-					projectId:this.$store.getters.project['id'],
-					supervisionBan: ''
-				},
-				attachTable: [], //附件
-				equipmentTable: [],
-				taskInfo:{}
-			};
-		},
-		created() {},
-		components: {
-			tasklog,
-			taskhandle,
-			attachlist,
-			projectinfo
-		},
-		computed: {},
-		watch:{
-			detailRow(obj){
-				if(obj['id']){
-					this.getDetail(obj['id']);
-				}
+export default {
+	props: ['detailRow'],
+	data() {
+		return {
+			dialogTitle: '项目全生命周期数字管理平台',
+			dialogFormVisible: false,
+			baseInfo: {
+				buildSection: 1,
+				projectName: '池州市平天湖东部区域棚户区改造建设工程EPC总承包',
+				buildSectionName: '235国道项目部',
+				contractCode: 'ORG_00004',
+				startupUser: '赵赞文',
+				startupDate: formatMonth(new Date()),
+			},
+			formData: { //表单参数
+				attachment: [],
+				equipmentInfo: [],
+				deletedFlag: 1,
+				draftFlag: 1,
+				projectCode: '',
+				buildSection: this.$store.getters.project.id,
+				projectId: this.$store.getters.project['id'],
+				supervisionBan: ''
+			},
+			attachTable: [], //附件
+			equipmentTable: [],
+			taskInfo: {}
+		};
+	},
+	created() { },
+	components: {
+		tasklog,
+		taskhandle,
+		attachlist,
+		projectinfo
+	},
+	computed: {},
+	watch: {
+		detailRow(obj) {
+			if (obj['id']) {
+				this.getDetail(obj['id']);
 			}
+		}
+	},
+	mounted() {
+		this.getProjectInfoById();
+	},
+	methods: {
+		closeDialog() {
+			// if(this.taskInfo['processDefinitionId']){
+			// 	this.$router.go(-1);
+			// }
 		},
-		mounted() {
-			this.getProjectInfoById();
-		},
-		methods: {
-			closeDialog(){
-				// if(this.taskInfo['processDefinitionId']){
-				// 	this.$router.go(-1);
-				// }
-			},
-			getProjectInfoById() {
-				proapi.getProjectInfoById({
-					projectid: this.$store.getters.project['id']
-				}).then((res) => {
-					let data = res['data'] || {};
-					this.baseInfo['buildSectionName'] = data['project'] ? data['project']['name'] : '';
-					let list = data['companys'] || [];
-					let info = createProjectInfo(list);
+		getProjectInfoById() {
+			proapi.getProjectInfoById({
+				projectid: this.$store.getters.project['id']
+			}).then((res) => {
+				let data = res['data'] || {};
+				this.baseInfo['buildSectionName'] = data['project'] ? data['project']['name'] : '';
+				let list = data['companys'] || [];
+				let info = createProjectInfo(list);
 
-					info = data['item'] || {}
+				info = data['item'] || {}
 
-					this.baseInfo['buildCompany'] = info['constructdpt']
-					this.baseInfo['supervisionUnit'] = info['supervisordpt']
-				});
-			},
-			changeVisible(value){
-				this.dialogFormVisible=value;
-			},
-			getDetail(id){
-				api.getEquipmentExitDeatil(id).then((res) => {
-					let data = res['data'] || {};
-					this.formData = data;
-					this.attachTable = data.attachment || [];
-					this.equipmentTable = data.equipmentInfo || [];
-				});
-				api.getFlowAndTaskInfo({businessKey: id}).then((res) => {
-					console.log(res.data);
-					let data=res['data'];
-					this.taskInfo={
-						processDefinitionId: data['processDefinitionId'],
-						processInstanceId: data['processInstanceId'],
-						taskId: data['taskId'],
-						flowKey:'shebeituichangbaoyan'
-					}
-					this.updateTaskLog();
-				});
-			},
-			updateTaskLog(){
-				setTimeout(()=>{
-					this.$refs['tasklog'].initData();
-				},100)
-			},
+				this.baseInfo['buildCompany'] = info['constructdpt']
+				this.baseInfo['supervisionUnit'] = info['supervisordpt']
+			});
 		},
-	};
+		changeVisible(value) {
+			this.dialogFormVisible = value;
+		},
+		getDetail(id) {
+			api.getEquipmentExitDeatil(id).then((res) => {
+				let data = res['data'] || {};
+				this.formData = data;
+				this.attachTable = data.attachment || [];
+				this.equipmentTable = data.equipmentInfo || [];
+			});
+			api.getFlowAndTaskInfo({ businessKey: id }).then((res) => {
+				console.log(res.data);
+				let data = res['data'];
+				this.taskInfo = {
+					processDefinitionId: data['processDefinitionId'],
+					processInstanceId: data['processInstanceId'],
+					taskId: data['taskId'],
+					flowKey: 'shebeituichangbaoyan'
+				}
+				this.updateTaskLog();
+			});
+		},
+		updateTaskLog() {
+			setTimeout(() => {
+				this.$refs['tasklog'].initData();
+			}, 100)
+		},
+	},
+};
 </script>
 
 <style scoped lang="scss">
-	@import "../../../assets/css/dialog.scss"
+@import "../../../assets/css/dialog.scss"
 </style>

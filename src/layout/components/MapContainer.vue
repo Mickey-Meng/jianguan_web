@@ -15,7 +15,7 @@
       <template slot="paneL">
         <transition>
           <div class="map-box">
-            <cesium-map />
+            <cesium-map :offsetToRight="offsetToRight"/>
           </div>
         </transition>
       </template>
@@ -60,7 +60,8 @@
         haveLeft: false,
         haveRight: false,
         open: false,
-        cover: false
+        cover: false,
+        offsetToRight: false,
       };
     },
     computed: {
@@ -86,6 +87,7 @@
       this.haveRight = this.$route.meta.right;
       this.open = this.$route.meta.open;
       this.cover = this.$route.meta.cover;
+      this.offsetToRight = this.$route.meta.offsetToRight;
       this.isOpen = true;
 
       let name = this.$route.name;

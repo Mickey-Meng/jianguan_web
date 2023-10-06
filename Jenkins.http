@@ -1,0 +1,9 @@
+### build server
+GET http://150.158.139.18:20881/job/jianguan_server/buildWithParameters?token=baymax56&tag={{$timestamp}}
+
+
+### build 18 zhuji_web
+GET http://150.158.139.18:20881/job/zhuji_web/buildWithParameters?token=baymax56&tag={{$timestamp}}
+
+### build 154 zhuji_web
+GET http://150.158.139.18:20881/job/154_zhuji_web/buildWithParameters?token=baymax56&tag={{$timestamp}}

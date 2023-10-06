@@ -4,84 +4,49 @@
       工序填报<span>{{ name }}</span>
     </div>
     <div class="nav">
-      <div
-        :class="{ active: currentView === 'fill' }"
-        @click="changeView('fill')"
-      >
+      <div :class="{ active: currentView === 'fill' }" @click="changeView('fill')">
         工序填报
       </div>
-      <div
-        :class="{ active: currentView === 'record' }"
-        @click="changeView('record')"
-      >
+      <div :class="{ active: currentView === 'record' }" @click="changeView('record')">
         填报记录
       </div>
     </div>
     <div class="main">
       <div v-if="currentView === 'fill'" class="fill">
         <div>
-          <el-table
-            :data="tableData"
-            style="width: 100%"
-            class=""
-            key="check"
-            height="100%"
-            v-if="currentView === 'fill'"
-            border
-          >
+          <el-table :data="tableData" style="width: 100%" class="" key="check" height="100%" v-if="currentView === 'fill'"
+            border>
             <el-table-column prop="name" label="工序名称" align="center">
             </el-table-column>
-            <el-table-column
-              label="完成时间"
-              width="140px"
-              show-overflow-tooltip
-              align="center"
-            >
+            <el-table-column label="完成时间" width="140px" show-overflow-tooltip align="center">
               <template slot-scope="{ row }">
                 {{
                   row.checkresult === 3
-                    ? "正在审核"
-                    : row.checkresult === 0
-                      ? '未录入'
-                      : row.finish
+                  ? "正在审核"
+                  : (row.checkresult === 0 || !row.checkresult
+                    ? '未录入'
+                    : row.finish)
                 }}
               </template>
             </el-table-column>
             <el-table-column label="照片/附件" width="80px" align="center">
               <template slot-scope="{ row }">
-                <svg-icon
-                  class="svg-class svg-btn"
-                  :class="
-                    row.status === 3
-                      ? 'submit'
-                      : row.status === 2
-                      ? 'reject'
-                      : row.status === 1
+                <svg-icon class="svg-class svg-btn" :class="row.status === 3
+                  ? 'submit'
+                  : row.status === 2
+                    ? 'reject'
+                    : row.status === 1
                       ? 'finish'
                       : 'error'
-                  "
-                  icon-class="seeDetail"
-                  v-if="row.recordid"
-                  @click="seeRecord(row)"
-                ></svg-icon>
+                  " icon-class="seeDetail" v-if="row.recordid" @click="seeRecord(row)"></svg-icon>
                 <span v-else>未录入</span>
               </template>
             </el-table-column>
             <el-table-column label="操作" width="60px" align="center">
               <template slot-scope="{ row, $index }">
-                <el-tooltip
-                  class="item"
-                  popper-class="tooltio-panel"
-                  :enterable="false"
-                  effect="dark"
-                  content="填报"
-                  placement="top"
-                >
-                  <svg-icon
-                    icon-class="update"
-                    class="svg-btn"
-                    @click="fillProcess(row, $index)"
-                  ></svg-icon>
+                <el-tooltip class="item" popper-class="tooltio-panel" :enterable="false" effect="dark" content="填报"
+                  placement="top">
+                  <svg-icon icon-class="update" class="svg-btn" @click="fillProcess(row, $index)"></svg-icon>
                 </el-tooltip>
               </template>
             </el-table-column>
@@ -90,37 +55,27 @@
         <!-- <el-button type="primary" size="small">删除工序</el-button> -->
       </div>
       <div v-if="currentView === 'record'" class="record">
-<!--        <el-cascader v-model="value" :options="options"></el-cascader>-->
-        <el-table
-          :data="recordsData"
-          style="width: 100%"
-          class="small_scrolling"
-          key="check"
-          v-if="currentView === 'record'"
-          height="95%"
-          border
-        >
+        <!--        <el-cascader v-model="value" :options="options"></el-cascader>-->
+        <el-table :data="recordsData" style="width: 100%" class="small_scrolling" key="check"
+          v-if="currentView === 'record'" height="95%" border>
           <el-table-column label="状态" align="center">
             <template slot-scope="{ row }">
-              <div
-                :class="
-                  row.checkresult === 3
-                    ? 'sum'
-                    : row.checkresult === 2
-                    ? 'rej'
-                    : row.checkresult === 1
+              <div :class="row.checkresult === 3
+                ? 'sum'
+                : row.checkresult === 2
+                  ? 'rej'
+                  : row.checkresult === 1
                     ? 'yes'
                     : ''
-                "
-              >
+                ">
                 {{
                   row.checkresult === 3
-                    ? "正在审核"
-                    : row.checkresult === 2
+                  ? "正在审核"
+                  : row.checkresult === 2
                     ? "监理驳回"
                     : row.checkresult === 1
-                    ? "审核通过"
-                    : ""
+                      ? "审核通过"
+                      : ""
                 }}
               </div>
             </template>
@@ -135,60 +90,24 @@
           </el-table-column>
         </el-table>
       </div>
-      <el-dialog
-        :title="'工序名称:' + name"
-        :visible.sync="dialogVisible"
-        custom-class="dialog-panel"
-        :append-to-body="true"
-        destroy-on-close
-        :close-on-click-modal="false"
-      >
-        <el-form
-          ref="form"
-          size="small"
-          label-position="right"
-          label-width="120px"
-          class="bim-form-panel"
-          :model="recordForm"
-          :rules="rules"
-        >
+      <el-dialog :title="'工序名称:' + name" :visible.sync="dialogVisible" custom-class="dialog-panel" :append-to-body="true"
+        destroy-on-close :close-on-click-modal="false">
+        <el-form ref="form" size="small" label-position="right" label-width="120px" class="bim-form-panel"
+          :model="recordForm" :rules="rules">
           <el-form-item label="完成时间" prop="uploadtime">
-            <el-date-picker
-              v-model="recordForm.uploadtime"
-              clearable
-              value-format="yyyy-MM-dd HH:mm:ss"
-              type="datetime"
-              placeholder="选择日期时间"
-            >
+            <el-date-picker v-model="recordForm.uploadtime" clearable value-format="yyyy-MM-dd HH:mm:ss" type="datetime"
+              placeholder="选择日期时间">
             </el-date-picker>
           </el-form-item>
           <el-form-item label="指定监理" prop="checkid">
-            <el-select
-              v-model="recordForm.checkid"
-              clearable
-              placeholder="请选择监理人员"
-              filterable=""
-            >
-              <el-option
-                v-for="(item, index) in supervisor"
-                :key="index"
-                :value="item.id"
-                :label="item.name"
-              ></el-option>
+            <el-select v-model="recordForm.checkid" clearable placeholder="请选择监理人员" filterable="">
+              <el-option v-for="(item, index) in supervisor" :key="index" :value="item.id" :label="item.name"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="举牌照片">
-            <el-upload
-              class="upload-demo"
-              :headers="header"
-              :action="uploadFileUrl"
-              multiple
-              :limit="10"
-              :before-upload="beforeUploadImage"
-              :on-success="uploadSuccess"
-              :on-remove="handleRemove"
-              :file-list="fileList"
-            >
+            <el-upload class="upload-demo" :headers="header" :action="uploadFileUrl" multiple :limit="10"
+              :before-upload="beforeUploadImage" :on-success="uploadSuccess" :on-remove="handleRemove"
+              :file-list="fileList">
               <div slot="tip" class="el-upload__tip">
                 只能上传JPG,JPEG,PNG,BMP,GIF文件
               </div>
@@ -196,17 +115,9 @@
             </el-upload>
           </el-form-item>
           <el-form-item label="PDF">
-            <el-upload
-              class="upload-demo"
-              :headers="header"
-              :action="uploadFileUrl"
-              multiple
-              :limit="10"
-              :before-upload="beforeUpload"
-              :on-success="uploadPdfSuccess"
-              :on-remove="handlePdfRemove"
-              :file-list="fileListPdf"
-            >
+            <el-upload class="upload-demo" :headers="header" :action="uploadFileUrl" multiple :limit="10"
+              :before-upload="beforeUpload" :on-success="uploadPdfSuccess" :on-remove="handlePdfRemove"
+              :file-list="fileListPdf">
               <div slot="tip" class="el-upload__tip">只能上传pdf文件</div>
               <el-button size="small" type="primary">点击上传</el-button>
             </el-upload>
@@ -242,29 +153,13 @@
           </el-form-item> -->
         </el-form>
         <div style="text-align: right">
-          <el-button plain size="mini" class="btn-bg" @click="submitRecord"
-            >提交</el-button
-          >
-          <el-button
-            plain
-            size="mini"
-            class="btn-bg"
-            @click="dialogVisible = false"
-            >取消</el-button
-          >
+          <el-button plain size="mini" class="btn-bg" @click="submitRecord">提交</el-button>
+          <el-button plain size="mini" class="btn-bg" @click="dialogVisible = false">取消</el-button>
         </div>
       </el-dialog>
     </div>
-    <el-drawer
-      title="我是标题"
-      :visible.sync="DrawerVisible"
-      :with-header="false"
-      custom-class="drawer-bottom-panel"
-      append-to-body
-      size="50%"
-      :wrapperClosable="false"
-      direction="btt"
-    >
+    <el-drawer title="我是标题" :visible.sync="DrawerVisible" :with-header="false" custom-class="drawer-bottom-panel"
+      append-to-body size="50%" :wrapperClosable="false" direction="btt">
       <el-container>
         <el-header>
           <div class="link-info">
@@ -282,32 +177,12 @@
         <el-main>
           <el-row>
             <el-col :span="24">
-              <el-table
-                :data="processRecordData"
-                style="width: 100%"
-                border
-                height="100%"
-              >
-                <el-table-column
-                  prop="process"
-                  label="流程"
-                  align="center"
-                  width="120"
-                >
+              <el-table :data="processRecordData" style="width: 100%" border height="100%">
+                <el-table-column prop="process" label="流程" align="center" width="120">
                 </el-table-column>
-                <el-table-column
-                  prop="name"
-                  label="执行人员"
-                  align="center"
-                  width="120"
-                >
+                <el-table-column prop="name" label="执行人员" align="center" width="120">
                 </el-table-column>
-                <el-table-column
-                  prop="time"
-                  width="180"
-                  align="center"
-                  label="执行时间"
-                >
+                <el-table-column prop="time" width="180" align="center" label="执行时间">
                 </el-table-column>
                 <el-table-column align="center" label="举牌照片">
                   <template slot-scope="{ row }">
@@ -321,13 +196,7 @@
                 </el-table-column>
                 <el-table-column align="center" label="附件">
                   <template slot-scope="{ row }">
-                    <el-button
-                      type="primary"
-                      size="mini"
-                      v-if="row.pdf"
-                      @click="seePdf(row)"
-                      >预览附件</el-button
-                    >
+                    <el-button type="primary" size="mini" v-if="row.pdf" @click="seePdf(row)">预览附件</el-button>
                   </template>
                 </el-table-column>
               </el-table>
@@ -403,19 +272,9 @@
         </el-main>
       </el-container>
     </el-drawer>
-    <el-dialog
-      :visible.sync="dialogPdfVisible"
-      width="80%"
-      append-to-body
-      class="top_dialog"
-    >
+    <el-dialog :visible.sync="dialogPdfVisible" width="80%" append-to-body class="top_dialog">
       <div v-if="false" slot="title"></div>
-      <iframe
-        v-if="dialogPdfVisible"
-        :src="recode.pdf"
-        width="100%"
-        height="600"
-      ></iframe>
+      <iframe v-if="dialogPdfVisible" :src="recode.pdf" width="100%" height="600"></iframe>
     </el-dialog>
     <div ref="viewer" v-viewer="{ movable: false }" style="display: none">
       <template v-for="src in showPic">
@@ -517,12 +376,11 @@ export default {
     getCheackDataById() {
       api.getCheckData(this.componentInfo.id).then((res) => {
         this.tableData = res.data.check;
-        console.log(this.tableData)
         this.submitDataInfo = res.data.data;
       });
       // let code = this.componentInfo.conponetcode.substring(0, 4);
       let code = this.componentInfo.conponetcode;
-      api.getPersonByComponentId(code,this.project.id).then((res) => {
+      api.getPersonByComponentId(code, this.project.id).then((res) => {
         this.supervisor = res.data;
       });
     },
@@ -830,7 +688,8 @@ export default {
   .nav {
     display: flex;
     padding: 20px;
-    > div {
+
+    >div {
       padding: 7px 25px;
       cursor: pointer;
       margin-right: 20px;
@@ -847,22 +706,27 @@ export default {
       color: #1E6EEB;
     }
   }
+
   .main {
     height: calc(100% - 120px);
+
     .record {
       height: 100%;
     }
+
     .fill {
       height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
-      > div {
+
+      >div {
         width: 100%;
         height: 95%;
       }
     }
+
     //::v-deep .el-cascader {
     //  width: 100%;
     //  padding: 0 20px;
@@ -880,23 +744,29 @@ export default {
 .finish {
   color: #05e600;
 }
+
 .reject {
   color: blue;
 }
+
 .submit {
   color: #e6c400;
 }
+
 .yes {
   color: #05e600;
 }
+
 .rej {
   color: #8f9c07;
 }
+
 ::v-deep.bim-table {
   .el-table__body-wrapper {
     overflow-x: hidden;
   }
 }
+
 .top_dialog {
   z-index: 10000000007 !important;
 }

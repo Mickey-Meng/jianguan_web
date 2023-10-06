@@ -46,13 +46,13 @@
     </el-header>
     <el-main>
       <div class="container">
-        <el-table :data="tableData" style="width: 100%" border height="calc(100% - 48px)"
-                  class="have_scrolling">
+        <el-table :data="tableData" style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
           <el-table-column type="index" width="50" align="center" label="序号">
           </el-table-column>
           <el-table-column prop="projectName" align="center" label="项目名称">
           </el-table-column>
-          <el-table-column prop="buildSectionNames" align="center" label="标段" show-overflow-tooltip>
+          <!-- #646 lrj buildSectionNames改为buildSectionName -->
+          <el-table-column prop="buildSectionName" align="center" label="标段" show-overflow-tooltip>
           </el-table-column>
           <el-table-column prop="contractEndDate" align="center" label="合同规定工期止" show-overflow-tooltip>
           </el-table-column>
@@ -65,25 +65,13 @@
 
           <el-table-column prop="status" align="center" label="状态" show-overflow-tooltip>
             <template slot-scope="scope">
-              <el-tag
-                v-if="scope.row.status == '2'"
-                size="mini"
-                type="warning"
-              >
+              <el-tag v-if="scope.row.status == '2'" size="mini" type="warning">
                 驳回
               </el-tag>
-              <el-tag
-                v-if="scope.row.status == '0'"
-                size="mini"
-                type="default"
-              >
+              <el-tag v-if="scope.row.status == '0'" size="mini" type="default">
                 审批中
               </el-tag>
-              <el-tag
-                v-if="scope.row.status == '1'"
-                size="mini"
-                type="success"
-              >
+              <el-tag v-if="scope.row.status == '1'" size="mini" type="success">
                 已审批
               </el-tag>
             </template>
@@ -96,14 +84,14 @@
               <el-button v-if="isDraft" type="text" size="mini" @click="checkDetail(row)">选择</el-button>
 
               <el-button type="text" size="mini" v-if="$store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'"
-                         @click="deleteRow(row)">删除
+                @click="deleteRow(row)">删除
               </el-button>
             </template>
           </el-table-column>
         </el-table>
-        <el-pagination @current-change="handleCurrentChange" :current-page="queryData.pageNum"
-                       :page-size="queryData.pageSize" layout="total, prev, pager, next, jumper"
-                       :total="queryData.totalPage">
+        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+          :current-page="queryData.pageNum" :page-size="queryData.pageSize"
+          :total="queryData.totalPage" layout="total, sizes, prev, pager, next, jumper" >
         </el-pagination>
       </div>
     </el-main>
@@ -120,7 +108,7 @@ import {
 } from "@/utils/format.js";
 import edit from './projectCommencementApplication/edit';
 import detail from './projectCommencementApplication/detail';
-import {mapGetters} from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   props: {
@@ -185,7 +173,11 @@ export default {
         this.tableData = this.allData.list;
         this.queryData.pageNum = res.data.pageNum;
         this.queryData.totalPage = res.data.total;
-        this.queryData.pageSize = res.data.pageSize;
+        //console.log("是否最后一页(当前页:" + res.data.pageNum +", 总页数:" + res.data.pages +"):" , (res.data.pageNum !== res.data.pages));
+        if (res.data.pageNum !== res.data.pages) {
+          // 当前页不是最后一页
+          this.queryData.pageSize = res.data.pageSize;
+        }
       });
     },
     addNew() {
@@ -223,9 +215,14 @@ export default {
         });
       });
     },
+    handleSizeChange(val) {
+      this.queryData.pageSize = val;
+      this.queryData.pageNum = 1;
+      this.query();
+    },
     handleCurrentChange(page) {
-      this.queryData.pageNum = page
-      this.query()
+      this.queryData.pageNum = page;
+      this.query();
     },
     checkDetail(row) {
       this.$emit("hideDraft");

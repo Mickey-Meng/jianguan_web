@@ -9,39 +9,31 @@
 <template>
   <div class="tab-page">
     <el-tabs v-model="activeName">
-      <el-tab-pane label="设备进场"
-                   name="first">
+      <el-tab-pane label="设备进场" name="first">
         <el-container class="container-box">
           <el-header>
             <div class="input-box">
               <div class="input-value">
-                <el-input v-model="queryData.supervisionBan"
-                          placeholder="监理单位"></el-input>
+                <el-input v-model="queryData.supervisionBan" placeholder="监理单位"></el-input>
               </div>
 
             </div>
             <div class="input-box">
               <div class="input-value">
-                <el-input v-model="queryData.projectCode"
-                          placeholder="工程编号"></el-input>
+                <el-input v-model="queryData.projectCode" placeholder="工程编号"></el-input>
               </div>
             </div>
-            <el-button type="primary"
-                       @click="query()">搜索
+            <el-button type="primary" @click="query()">搜索
             </el-button>
 
-            <div v-if="!isDraft"
-                 class="right-btns">
+            <div v-if="!isDraft" class="right-btns">
               <!-- <el-button type="primary" size="small"
 					:icon="operateBtnsVisible?'el-icon-d-arrow-right':'el-icon-d-arrow-left'"
 					@click="operateBtnsVisible=!operateBtnsVisible"></el-button> -->
-              <div class="operate-btns"
-                   v-show="operateBtnsVisible">
-                <el-button size="small"
-                           @click="addNew">新增
+              <div class="operate-btns" v-show="operateBtnsVisible">
+                <el-button size="small" @click="addNew">新增
                 </el-button>
-                <el-button size="small"
-                           @click="exportData">导出
+                <el-button size="small" @click="exportData">导出
                 </el-button>
                 <!-- <el-button size="small">批量操作</el-button> -->
               </div>
@@ -49,205 +41,111 @@
           </el-header>
           <el-main>
             <div class="container">
-              <el-table :data="tableData"
-                        style="width: 100%"
-                        border
-                        height="calc(100% - 48px)"
-                        class="have_scrolling">
-                <el-table-column type="index"
-                                 width="50"
-                                 align="center"
-                                 label="序号">
+              <el-table :data="tableData" style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
+                <el-table-column type="index" width="50" align="center" label="序号">
                 </el-table-column>
-                <!-- <el-table-column prop="projectName"
-                                 align="center"
-                                 label="项目名称"
-                                 show-overflow-tooltip>
-                </el-table-column> -->
-                <el-table-column prop="projectCode"
-                                 align="center"
-                                 label="工程编号"
-                                 show-overflow-tooltip>
+                <el-table-column prop="projectName" align="center" label="项目名称" show-overflow-tooltip>
                 </el-table-column>
-                <el-table-column prop="constructdpts"
-                                 align="center"
-                                 label="施工单位"
-                                 show-overflow-tooltip>
+                <el-table-column prop="projectCode" align="center" label="工程编号" show-overflow-tooltip>
+                </el-table-column>
+                <el-table-column prop="constructdpts" align="center" label="施工单位" show-overflow-tooltip>
                 </el-table-column>
                 <!-- <el-table-column prop="contractCode" align="center" label="合同号" show-overflow-tooltip>
 					</el-table-column> -->
-                <el-table-column prop="supervisionBan"
-                                 align="center"
-                                 label="监理办"
-                                 show-overflow-tooltip>
+                <el-table-column prop="supervisionBan" align="center" label="监理办" show-overflow-tooltip>
                 </el-table-column>
-                <el-table-column prop="supervisordpts"
-                                 align="center"
-                                 label="监理单位">
+                <el-table-column prop="supervisordpts" align="center" label="监理单位">
                 </el-table-column>
                 <!-- <el-table-column prop="contractCode" align="center" label="合同号">
 					</el-table-column> -->
                 <el-table-column prop="status" align="center" label="状态" show-overflow-tooltip>
                   <template slot-scope="scope">
-                    <el-tag
-                      v-if="scope.row.status == '2'"
-                      size="mini"
-                      type="warning"
-                    >
+                    <el-tag v-if="scope.row.status == '2'" size="mini" type="warning">
                       驳回
                     </el-tag>
-                    <el-tag
-                      v-if="scope.row.status == '0'"
-                      size="mini"
-                      type="default"
-                    >
+                    <el-tag v-if="scope.row.status == '0'" size="mini" type="default">
                       审批中
                     </el-tag>
-                    <el-tag
-                      v-if="scope.row.status == '1'"
-                      size="mini"
-                      type="success"
-                    >
+                    <el-tag v-if="scope.row.status == '1'" size="mini" type="success">
                       已审批
                     </el-tag>
                   </template>
                 </el-table-column>
 
-                <el-table-column fixed="right"
-                                 width="120"
-                                 align="center"
-                                 label="操作">
+                <el-table-column fixed="right" width="120" align="center" label="操作">
                   <template slot-scope="{ row, $index }">
-                    <el-button v-if="editStatus(row)"
-                               type="text"
-                               size="mini"
-                               @click="modify(row)">修改
+                    <el-button v-if="editStatus(row)" type="text" size="mini" @click="modify(row)">修改
                     </el-button>
-                    <el-button v-if="!isDraft"
-                               type="text"
-                               size="mini"
-                               @click="viewDetail(row)">详情
+                    <el-button v-if="!isDraft" type="text" size="mini" @click="viewDetail(row)">详情
                     </el-button>
 
-                    <el-button v-if="isDraft"
-                               type="text"
-                               size="mini"
-                               @click="checkDetail(row)">选择
+                    <el-button v-if="isDraft" type="text" size="mini" @click="checkDetail(row)">选择
                     </el-button>
 
-                    <el-button type="text"
-                               size="mini"
-                               v-if="$store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'"
-                               @click="deleteRow(row)">删除
+                    <el-button type="text" size="mini"
+                      v-if="$store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'" @click="deleteRow(row)">删除
                     </el-button>
                   </template>
                 </el-table-column>
               </el-table>
-              <el-pagination @current-change="handleCurrentChange"
-                             :current-page="queryData.pageNum"
-                             :page-size="queryData.pageSize"
-                             layout="total, prev, pager, next, jumper"
-                             :total="queryData.totalPage">
+              <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                :current-page="queryData.pageNum" :page-size="queryData.pageSize"
+                :total="queryData.totalPage" layout="total, sizes, prev, pager, next, jumper" >
               </el-pagination>
             </div>
           </el-main>
-          <edit ref="edit"
-                @query="query"
-                :editRow="editRow"></edit>
-          <detail ref="detail"
-                  :detailRow="detailRow"></detail>
+          <edit ref="edit" @query="query" :editRow="editRow"></edit>
+          <detail ref="detail" :detailRow="detailRow"></detail>
         </el-container>
       </el-tab-pane>
-      <el-tab-pane v-if="!isDraft"
-                   label="设备一览"
-                   name="second">
+      <el-tab-pane v-if="!isDraft" label="设备一览" name="second">
         <el-container class="container-box">
           <el-header>
             <div class="input-box">
               <div class="input-value">
-                <el-input v-model="queryData_1.equipmentName"
-                          placeholder="设备名称"></el-input>
+                <el-input v-model="queryData_1.equipmentName" placeholder="设备名称"></el-input>
               </div>
             </div>
             <div class="input-box">
               <div class="input-value">
-                <el-select v-model="queryData_1.equipmentType"
-                           clearable
-                           placeholder="请选择">
-                  <el-option v-for="item in equipmentOptions"
-                             :key="item.value"
-                             :label="item.label"
-                             :value="item.value">
+                <el-select v-model="queryData_1.equipmentType" clearable placeholder="请选择">
+                  <el-option v-for="item in equipmentOptions" :key="item.value" :label="item.label" :value="item.value">
                   </el-option>
                 </el-select>
               </div>
             </div>
             <div class="input-box">
               <div class="input-value">
-                <el-button type="primary"
-                           @click="query_1">搜索
+                <el-button type="primary" @click="query_1">搜索
                 </el-button>
               </div>
             </div>
           </el-header>
           <el-main>
             <div class="container">
-              <el-table :data="tableData_1"
-                        style="width: 100%"
-                        border
-                        height="calc(100% - 48px)"
-                        class="have_scrolling">
-                <el-table-column type="index"
-                                 width="50"
-                                 align="center"
-                                 label="序号">
+              <el-table :data="tableData_1" style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
+                <el-table-column type="index" width="50" align="center" label="序号">
                 </el-table-column>
-                <el-table-column prop="equipmentTypeStr"
-                                 align="center"
-                                 label="设备类型"
-                                 show-overflow-tooltip>
+                <el-table-column prop="equipmentTypeStr" align="center" label="设备类型" show-overflow-tooltip>
                 </el-table-column>
-                <el-table-column prop="equipmentName"
-                                 width="180px"
-                                 align="center"
-                                 label="设备名称">
+                <el-table-column prop="equipmentName" width="180px" align="center" label="设备名称">
                 </el-table-column>
-                <el-table-column prop="specification"
-                                 width="120px"
-                                 align="center"
-                                 label="规格型号">
+                <el-table-column prop="specification" width="120px" align="center" label="规格型号">
                 </el-table-column>
-                <el-table-column prop="num"
-                                 width="120px"
-                                 align="center"
-                                 label="数量">
+                <el-table-column prop="num" width="120px" align="center" label="数量">
                 </el-table-column>
-                <el-table-column prop="enterDate"
-                                 width="120px"
-                                 align="center"
-                                 label="进场日期">
+                <el-table-column prop="enterDate" width="120px" align="center" label="进场日期">
                 </el-table-column>
-                <el-table-column prop="techCondition"
-                                 width="120px"
-                                 align="center"
-                                 label="技术状况">
+                <el-table-column prop="techCondition" width="120px" align="center" label="技术状况">
                 </el-table-column>
-                <el-table-column prop="useWhere"
-                                 width="120px"
-                                 align="center"
-                                 label="拟用何处">
+                <el-table-column prop="useWhere" width="120px" align="center" label="拟用何处">
                 </el-table-column>
-                <el-table-column prop="remark"
-                                 width="120px"
-                                 align="center"
-                                 label="备注">
+                <el-table-column prop="remark" width="120px" align="center" label="备注">
                 </el-table-column>
               </el-table>
-              <el-pagination @current-change="handleCurrentChange_1"
-                             :current-page="queryData_1.pageNum"
-                             :page-size="queryData_1.pageSize"
-                             layout="total, prev, pager, next, jumper"
-                             :total="queryData_1.totalPage">
+              <el-pagination @current-change="handleCurrentChange_1" :current-page="queryData_1.pageNum"
+                :page-size="queryData_1.pageSize" layout="total, prev, pager, next, jumper"
+                :total="queryData_1.totalPage">
               </el-pagination>
             </div>
           </el-main>
@@ -262,7 +160,7 @@
 import * as api from '@/api/contract'
 import edit from './equipmentEntryForInspection/edit'
 import detail from './equipmentEntryForInspection/detail'
-import {convertOptions} from '@/utils/format.js'
+import { convertOptions } from '@/utils/format.js'
 
 export default {
   props: {
@@ -321,13 +219,13 @@ export default {
   },
   methods: {
     editStatus(row) {
-      if(row.status != 2) {
+      if (row.status != 2) {
         return false;
       }
-      if(row.createUserId == this.$store.getters.userInfo.ID) {
+      if (row.createUserId == this.$store.getters.userInfo.ID) {
         return true;
       }
-      if(this.$store.getters.rolePerms[0] == 'gly') {
+      if (this.$store.getters.rolePerms[0] == 'gly') {
         return true;
       }
       return false;
@@ -337,9 +235,13 @@ export default {
       api.getEquipmentEnterList(this.queryData).then((res) => {
         this.allData = res.data || {}
         this.tableData = this.formateTableData(this.allData['list'])
-        this.queryData.pageNum = res.data.pageNum
-        this.queryData.totalPage = res.data.total
-        this.queryData.pageSize = res.data.pageSize
+        this.queryData.pageNum = res.data.pageNum;
+        this.queryData.totalPage = res.data.total;
+        //console.log("是否最后一页(当前页:" + res.data.pageNum +", 总页数:" + res.data.pages +"):" , (res.data.pageNum !== res.data.pages));
+        if (res.data.pageNum !== res.data.pages) {
+          // 当前页不是最后一页
+          this.queryData.pageSize = res.data.pageSize;
+        }
       })
     },
     query_1() {
@@ -417,13 +319,14 @@ export default {
           })
       })
     },
-    handleCurrentChange(page) {
-      this.queryData.pageNum = page
-      this.query()
+    handleSizeChange(val) {
+      this.queryData.pageSize = val;
+      this.queryData.pageNum = 1;
+      this.query();
     },
-    handleCurrentChange_1(page) {
-      this.queryData_1.pageNum = page
-      this.query_1()
+    handleCurrentChange(page) {
+      this.queryData.pageNum = page;
+      this.query();
     },
     checkDetail(row) {
       this.$emit('hideDraft')

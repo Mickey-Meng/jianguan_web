@@ -1,6 +1,7 @@
 <template>
 	<div>
-		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible" :fullscreen="true">
+		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible"
+			:fullscreen="true">
 			<template slot="title">
 				{{dialogTitle}}
 				<div class="logo-icon"></div>
@@ -11,7 +12,7 @@
 					<div class="form-bg">
 						<div class="form-content">
 							<el-form ref="form" label-width="80px">
-								
+
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
@@ -48,25 +49,21 @@
 										</div>
 									</div>
 								</div>
-								
+
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>人员清单</strong>
 									</div>
-									
+
 									<div class="block-table">
-										<el-table :data="inOutUserTable" style="width: 100%" border
-											class="have_scrolling">
+										<el-table :data="inOutUserTable" style="width: 100%" border class="have_scrolling">
 											<el-table-column type="index" width="50" align="center" label="序号">
 											</el-table-column>
-											<el-table-column prop="name" align="center" label="人员姓名"
-												show-overflow-tooltip>
+											<el-table-column prop="name" align="center" label="人员姓名" show-overflow-tooltip>
 											</el-table-column>
-											<el-table-column prop="phone" align="center" label="手机号码"
-												show-overflow-tooltip>
+											<el-table-column prop="phone" align="center" label="手机号码" show-overflow-tooltip>
 											</el-table-column>
-											<el-table-column prop="card" align="center" label="身份证号"
-												show-overflow-tooltip>
+											<el-table-column prop="card" align="center" label="身份证号" show-overflow-tooltip>
 											</el-table-column>
 											<el-table-column prop="household" align="center" label="户籍"
 												show-overflow-tooltip>
@@ -97,8 +94,7 @@
 											<el-table-column prop="workType" align="center" label="工种"
 												show-overflow-tooltip>
 											</el-table-column>
-											<el-table-column prop="remark" align="center" label="备注"
-												show-overflow-tooltip>
+											<el-table-column prop="remark" align="center" label="备注" show-overflow-tooltip>
 											</el-table-column>
 											<el-table-column label="队伍公司">
 												<el-table-column prop="companyName" align="center" label="名称"
@@ -118,7 +114,7 @@
 										</el-table>
 									</div>
 								</div>
-								
+
 							</el-form>
 							<!-- <taskhandle :taskInfo="taskInfo"></taskhandle> -->
 						</div>
@@ -135,7 +131,7 @@
 				</el-aside>
 			</el-container>
 		</el-dialog>
-		
+
 	</div>
 </template>
 
@@ -158,7 +154,7 @@
 		props:['detailRow'],
 		data() {
 			return {
-				dialogTitle: '全生命周期智慧建设管理平台',
+				dialogTitle: '项目全生命周期数字管理平台',
 				dialogFormVisible: false,
 
 				baseInfo: {
@@ -257,5 +253,5 @@
 </script>
 
 <style scoped lang="scss">
-	@import "../../../assets/css/dialog.scss"
+@import "../../../assets/css/dialog.scss"
 </style>

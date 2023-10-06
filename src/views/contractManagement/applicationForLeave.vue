@@ -63,6 +63,9 @@
               <el-tag v-if="scope.row.status == '1'" size="mini" type="success">
                 已审批
               </el-tag>
+              <el-tag v-if="scope.row.status == '3'" size="mini" type="warning">
+                已结束
+              </el-tag>
             </template>
           </el-table-column>
           <el-table-column prop="remark" label="备注" show-overflow-tooltip></el-table-column>
@@ -110,8 +113,7 @@
                     <div class="block-item-label">请假类型</div>
                     <div class="block-item-value">
                       <el-select placeholder="请选择" v-model="form.leaverType" v-if="isCreate">
-                        <el-option v-for="(item, i) in eventType" :key="ii" :label="item.dictLabel"
-                          :value="item.dictCode">
+                        <el-option v-for="(item, i) in eventType" :key="i" :label="item.dictLabel" :value="item.dictCode">
                         </el-option>
                       </el-select>
                       <div v-else>{{ transferData(form.leaverType) }}</div>
@@ -241,7 +243,7 @@ export default {
       flowTypes: [
         {
           key: "shigongjihe",//施工单位人员请假
-          flowKey: "sgdwryqj1"
+          flowKey: "sgdwryqj"
         },
         {
           key: "jianlijihe",//监理单位人员请假
@@ -254,7 +256,7 @@ export default {
       ],
       userRoleParentCode: "",
       isCreate: true,
-      dialogTitle: "全生命周期智慧建设管理平台",
+      dialogTitle: "项目全生命周期数字管理平台",
       workTime: {
         wh: 8,//上班时长,
         on: "9:00",//上班时间
@@ -277,8 +279,12 @@ export default {
   components: { tasklog, approveuser },
   methods: {
     transferData(val) {
-      let data = this.eventType || []
-      return data.find(res => res.dictCode == val).dictLabel
+      let data = this.eventType || [];
+      let dictType = data.find(res => res.dictCode == val);
+      if (dictType) {
+        return dictType.dictLabel;
+      }
+      return val;
     },
     deleteRow(row) {
       this.$confirm('确认是否删除?', '提示', {
@@ -319,10 +325,6 @@ export default {
         // });
       });
     },
-    transferData(val) {
-      let data = this.eventType || []
-      return data.find(res => res.dictCode == val).dictLabel
-    },
     init() {
 
       getOrgUser({ projectid: this.project.id }).then(res => {
@@ -353,6 +355,7 @@ export default {
     },
     initData() {
       getLeave(this.project.id).then(res => {
+        console.log(res);
         this.tableData = res.data;
       });
     },
@@ -372,7 +375,7 @@ export default {
         subDate: ""//填报时间
       };
     },
-    openDialog() {
+    openDialog(row) {
       if (!this.userRoleParentCode) {
         this.$message({
           type: "warning",

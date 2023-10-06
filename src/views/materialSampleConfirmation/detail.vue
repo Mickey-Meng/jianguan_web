@@ -1,6 +1,7 @@
 <template>
   <div>
-    <el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible" :fullscreen="true">
+    <el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible"
+      :fullscreen="true">
       <template slot="title">
         {{dialogTitle}}
         <div class="logo-icon"></div>
@@ -26,27 +27,34 @@
                       </div>
                     </div>
                   </div>
-                <div class="block-line">
-                  <div class="block-item">
-                    <div class="block-item-label">样板照片</div>
-                    <div class="block-item-value">
-                      {{formData.samplePhoto}}
-                    </div>
-                  </div>
-                  <div class="block-item">
-                    <div class="block-item-label">样板内容</div>
-                    <div class="block-item-value">
-                      {{formData.sampleContent}}
+                  <div class="block-line">
+<!--                    <div class="block-item">-->
+<!--                      <div class="block-item-label">样板照片</div>-->
+<!--                      <div class="block-item-value">-->
+<!--                        {{formData.samplePhoto}}-->
+<!--                      </div>-->
+<!--                    </div>-->
+                    <div class="block-item">
+                      <div class="block-item-label">样板内容</div>
+                      <div class="block-item-value">
+                        {{formData.sampleContent}}
+                      </div>
                     </div>
                   </div>
                 </div>
+                <div class="form-block">
+                  <div class="form-block-title">
+                    <div class="title-bar"></div><strong>样板照片</strong>
+                    <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png文件，且不超过100m</span>
+                  </div>
+                  <attachlist :editAble="false" ref="attachlist" :attachTable="formData.samplePhoto"></attachlist>
                 </div>
                 <div class="form-block">
 
                   <div class="form-block-title">
                     <div class="title-bar"></div><strong>附件</strong>
                     <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-											xisx xis pdf文件，且不超过100m</span>
+                      xisx xis pdf文件，且不超过100m</span>
                   </div>
                   <attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>
                 </div>
@@ -59,8 +67,7 @@
             <i class="el-icon-caret-right"></i>
           </div>
         </el-aside>
-        <el-aside
-          style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
+        <el-aside style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
           <tasklog :taskInfo="taskInfo" ref="tasklog"></tasklog>
         </el-aside>
       </el-container>
@@ -82,7 +89,7 @@ export default {
   props:['detailRow'],
   data() {
     return {
-      dialogTitle: '全生命周期智慧建设管理平台',
+      dialogTitle: '项目全生命周期数字管理平台',
       dialogFormVisible: false,
       formData: { //表单参数
         materialCategory: '',

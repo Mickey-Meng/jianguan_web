@@ -10,12 +10,8 @@
   <div class="con_wrapper">
     <div class="header">
       <ul>
-        <li
-          v-for="(item, index) in options"
-          :key="index"
-          :class="{ active: currentView == item.name }"
-          @click="changeView(item)"
-        >
+        <li v-for="(item, index) in options" :key="index" :class="{ active: currentView == item.name }"
+          @click="changeView(item)">
           {{ item.title }}
         </li>
       </ul>
@@ -23,86 +19,41 @@
     </div>
     <div class="content">
       <keep-alive>
-        <component
-          :is="currentView"
-          :DataArr="tableData"
-          @opdateInfo="opdateInfo"
-        />
+        <component :is="currentView" :DataArr="tableData" @opdateInfo="opdateInfo" />
       </keep-alive>
     </div>
-    <el-dialog
-      :title="isCreate ? '上传文件' : '修改信息'"
-      :visible.sync="dialogVisible"
-      destroy-on-close
-      :close-on-click-modal="false"
-      :append-to-body="true"
-    >
-      <el-form
-        :model="form"
-        v-if="dialogVisible"
-        ref="form"
-        size="small"
-        label-position="right"
-        label-width="80px"
-        :rules="rules"
-      >
+    <el-dialog :title="isCreate ? '上传文件' : '修改信息'" :visible.sync="dialogVisible" destroy-on-close
+      :close-on-click-modal="false" :append-to-body="true">
+      <el-form :model="form" v-if="dialogVisible" ref="form" size="small" label-position="right" label-width="80px"
+        :rules="rules">
         <el-form-item label="文件类型">
           <el-input readonly="" v-model="typeText"></el-input>
         </el-form-item>
         <el-form-item label="文件名称" prop="uploadname">
-          <el-input
-            placeholder="请输入文件名称"
-            v-model="form.uploadname"
-          ></el-input>
+          <el-input placeholder="请输入文件名称" v-model="form.uploadname"></el-input>
         </el-form-item>
         <el-form-item label="发布单位" prop="callunit" v-if="type === 12">
-          <el-input
-            placeholder="请输入发布单位"
-            v-model="form.callunit"
-          ></el-input>
+          <el-input placeholder="请输入发布单位" v-model="form.callunit"></el-input>
         </el-form-item>
-        <el-form-item
-          :label="
-            type === 12
-              ? '发布日期'
-              : type === 13
+        <el-form-item :label="type === 12
+            ? '发布日期'
+            : type === 13
               ? '报批时间'
               : type === 14
-              ? '批复时间'
-              : ''
-          "
-          prop="calltime"
-          v-if="type !== 15"
-        >
-          <el-date-picker
-            type="date"
-            placeholder="选择日期"
-            value-format="yyyy-MM-dd"
-            v-model="form.calltime"
-            style="width: 100%"
-          ></el-date-picker>
+                ? '批复时间'
+                : ''
+          " prop="calltime" v-if="type !== 15">
+          <el-date-picker type="date" placeholder="选择日期" value-format="yyyy-MM-dd" v-model="form.calltime"
+            style="width: 100%"></el-date-picker>
         </el-form-item>
-        <el-form-item
-          :label="type === 13 ? '报批人' : '批复人'"
-          prop="callunit"
-          v-if="type === 13 || type === 14"
-        >
-          <el-input
-            :placeholder="type === 13 ? '请输入报批人' : '请输入批复人'"
-            v-model="form.softname"
-          ></el-input>
+        <el-form-item :label="type === 13 ? '报批人' : '批复人'" prop="callunit" v-if="type === 13 || type === 14">
+          <el-input :placeholder="type === 13 ? '请输入报批人' : '请输入批复人'" v-model="form.softname"></el-input>
         </el-form-item>
         <el-form-item label="文件编码" prop="opiontion">
-          <el-input
-            placeholder="请输入文件编码"
-            v-model="form.opiontion"
-          ></el-input>
+          <el-input placeholder="请输入文件编码" v-model="form.opiontion"></el-input>
         </el-form-item>
         <el-form-item label="上传文件" prop="fileurl" v-if="isCreate">
-          <uploadFile
-            ref="otherOrgAttachments"
-            @changeValue="changeValue"
-          ></uploadFile>
+          <uploadFile ref="otherOrgAttachments" @changeValue="changeValue"></uploadFile>
         </el-form-item>
       </el-form>
       <div slot="footer">
@@ -119,7 +70,7 @@ import policyfile from "./informationComponent/policyfile.vue";
 import processfile from "./informationComponent/processfile.vue";
 import reportfile from "./informationComponent/reportfile.vue";
 import { uploadF, getFile, deleteFile, updateFileInfo } from "@/api/file";
-import {mapGetters} from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   name: "",
@@ -181,13 +132,13 @@ export default {
   computed: {
     ...mapGetters(["project"])
   },
-  mounted() {},
+  mounted() { },
   created() {
     this.init();
   },
   methods: {
     init() {
-      getFile(this.type,this.project.id).then((res) => {
+      getFile(this.type, this.project.id).then((res) => {
         this.tableData = res.data;
       });
     },
@@ -280,16 +231,19 @@ export default {
   // padding: 10px;
   background-color: #edeff8;
   padding: 5px;
+
   .header {
     background-color: #ffffff;
     height: 70px;
     display: flex;
     align-items: center;
+
     //margin:5px;
     ul {
       display: flex;
       align-items: center;
       margin-right: 10px;
+
       li {
         height: 50px;
         padding: 15px 40px;
@@ -297,11 +251,13 @@ export default {
         cursor: pointer;
         color: #000000;
       }
+
       .active {
         background-color: rgb(51, 133, 255);
         color: #ffffff;
       }
     }
+
     .export {
       background-image: url("../../assets/image/导出.png");
       width: 75px;
@@ -313,8 +269,9 @@ export default {
       text-align: center;
     }
   }
+
   .content {
-     margin-top: 5px;
+    margin-top: 5px;
     height: calc(100% - 85px);
   }
 }

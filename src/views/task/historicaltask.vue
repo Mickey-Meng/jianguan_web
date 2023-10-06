@@ -139,7 +139,7 @@
 				//row['taskFormKey']=(typeof row['taskFormKey'])=='string'?JSON.parse(row['taskFormKey']):row['taskFormKey'];
 				let key = row["processDefinitionKey"];
 				let router = this.detailRouters.find(e => e.code.indexOf(key) !== -1);
-				let hiddenEdit = ["sgdwhtrybs", "jldwhtrybs", "qzdwhtrybs", "sgdwrybg", "jldwrybg", "qzdwrybg", "sgdwryqj1",
+				let hiddenEdit = ["sgdwhtrybs", "jldwhtrybs", "qzdwhtrybs", "sgdwrybg", "jldwrybg", "qzdwrybg", "sgdwryqj",
 					"jldwryqj", "qzdwryqj"
 				];
 				if (router) {

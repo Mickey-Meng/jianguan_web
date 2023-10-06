@@ -491,7 +491,7 @@
             font-size: 18px;
             font-family: AlibabaPuHuiTiB;
             color: #FFFFFF;
-            opacity: 0.5;
+            // opacity: 0.5;
           }
           .mytaskNum {
             height: 18px;

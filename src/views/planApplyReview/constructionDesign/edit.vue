@@ -49,7 +49,7 @@
                       <div class="block-item-value">
                         <el-form-item prop="startTime">
                           <el-date-picker value-format="yyyy-MM-dd" v-model="formData.startTime" type="date"
-                                          placeholder="请选择">
+                            placeholder="请选择">
                           </el-date-picker>
                         </el-form-item>
                       </div>
@@ -60,7 +60,7 @@
                       <div class="block-item-value">
                         <el-form-item prop="endTime">
                           <el-date-picker value-format="yyyy-MM-dd" v-model="formData.endTime" type="date"
-                                          placeholder="请选择">
+                            placeholder="请选择">
                           </el-date-picker>
                         </el-form-item>
                       </div>
@@ -75,7 +75,7 @@
                       <div class="block-item-value">
                         <el-form-item prop="reportTime">
                           <el-date-picker value-format="yyyy-MM-dd" v-model="formData.reportTime" type="date"
-                                          placeholder="请选择">
+                            placeholder="请选择">
                           </el-date-picker>
                         </el-form-item>
                       </div>
@@ -96,16 +96,9 @@
                     <div class="block-item">
                       <div class="block-item-label">责任人<i class="require-icon"></i></div>
                       <div class="block-item-value">
-                        <el-select v-model="formData.owner"
-                          filterable
-                          clearable
-                          placeholder="请选择责任人">
-                          <el-option
-                            v-for="item in ownerOptions"
-                            :key="item.userId"
-                            :value="item.userId + '&' + item.nickName"
-                            :label="item.nickName + '(' + item.roleName + ')'"
-                          >
+                        <el-select v-model="formData.owner" filterable clearable placeholder="请选择责任人">
+                          <el-option v-for="item in ownerOptions" :key="item.userId"
+                            :value="item.userId + '&' + item.nickName" :label="item.nickName + '(' + item.roleName + ')'">
                           </el-option>
                         </el-select>
                       </div>
@@ -122,10 +115,11 @@
                   </div>
                 </div>
 
-                <approveuser v-if="approveVisible" :auditUser="auditUser"  :flowKey="flowKey"></approveuser>
+                <approveuser v-if="approveVisible" :auditUser="auditUser" :flowKey="flowKey"></approveuser>
 
                 <div class="form-block">
-                  <el-button @click="addOrModify()" class="submit-btn" size="small" type="primary" :loading="submitDisable">提交</el-button>
+                  <el-button @click="addOrModify()" class="submit-btn" size="small" type="primary"
+                    :loading="submitDisable">提交</el-button>
                 </div>
               </el-form>
             </div>
@@ -153,7 +147,7 @@ export default {
     return {
       draftVisible: false,
       addOrModifyFlag: true,
-      dialogTitle: '全生命周期智慧建设管理平台',
+      dialogTitle: '项目全生命周期数字管理平台',
       dialogFormVisible: false,
       partOptions:[],
       rules: {
@@ -326,5 +320,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  @import "src/assets/css/dialog";
+@import "src/assets/css/dialog";
 </style>

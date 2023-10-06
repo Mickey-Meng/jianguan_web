@@ -21,6 +21,12 @@ export const updateOnline = () => {
     method: "post"
   });
 }
+export const tellOnline = () => {
+  return request({
+    url: api.tellOnline,
+    method: "post"
+  });
+}
 
 export function loginMap(username, pwd) {
   return request({
@@ -99,6 +105,18 @@ export const getUserByRoleId = (projectId, id) => {
   return request({
     url: `/person/getUserByRole?roleid=${id}&projectId=${projectId}`,
     method: "post"
+  });
+};
+
+//根据角色id获取用户
+export const getUserByRoleKey = (projectId, roleKey) => {
+  return request({
+    url: `/person/getUserByRoleKey`,
+    method: "get",
+    params: {
+      roleKey: roleKey,
+      projectId:projectId
+    }
   });
 };
 //获取组织信息(废弃)

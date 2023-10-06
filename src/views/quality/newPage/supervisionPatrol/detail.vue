@@ -1,6 +1,7 @@
 <template>
 	<div>
-		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible" :fullscreen="true">
+		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible"
+			:fullscreen="true">
 			<template slot="title">
 				{{dialogTitle}}
 				<div class="logo-icon"></div>
@@ -27,11 +28,11 @@
 												<div class="block-item-label">发起时间</div>
 												<div class="block-item-value">
 													{{formData.startDate}}
-								
+
 												</div>
 											</div>
 										</div>
-								
+
 									</div>
 								</div>
 								<div class="form-block">
@@ -65,8 +66,8 @@
 										</div>
 									</div>
 								</div>
-								
-								
+
+
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>巡视现场照片</strong>
@@ -112,7 +113,7 @@
 				</el-aside> -->
 			</el-container>
 		</el-dialog>
-		
+
 	</div>
 </template>
 
@@ -135,7 +136,7 @@
 		data() {
 			return {
 				dialogFormVisible: false,
-				dialogTitle: '全生命周期智慧建设管理平台',
+				dialogTitle: '项目全生命周期数字管理平台',
 				baseInfo: {
 					buildSection: '',
 					buildSectionName: '池州市平天湖东部区域棚户区改造建设工程EPC总承包',
@@ -226,5 +227,5 @@
 </script>
 
 <style scoped lang="scss">
-	@import "../../../../assets/css/dialog.scss"
+@import "../../../../assets/css/dialog.scss"
 </style>

@@ -131,8 +131,13 @@ export default {
           data.feature.getGeometry().transform('EPSG:3857','EPSG:4326'); // 坐标转换
           let extent = data.feature.getGeometry().getExtent();
           // extent = new ol.Extent(extent);
-          const centerPoint = ol.extent.getCenter(extent);
-          this.$emit("setStr", JSON.stringify(data.feature.getGeometry().getCoordinates()[0]));
+          const centerPoint = ol.extent.getCenter(extent).reverse();
+          const coord = data.feature.getGeometry().getCoordinates()[0]
+          for (let i = 0; i < coord.length; i++) {
+            coord[i] = coord[i].reverse();
+          }
+          
+          this.$emit("setStr", JSON.stringify(coord));
           this.$emit("setCenter", JSON.stringify(centerPoint));
         })
         map.addInteraction(workDraw);

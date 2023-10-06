@@ -28,7 +28,7 @@
       <div class="input-box">
         <div class="input-value">
           <el-date-picker v-model="queryData.checkDate" type="daterange" range-separator="至" start-placeholder="开始日期"
-                          end-placeholder="结束日期" @change="queryTimeFormat">
+            end-placeholder="结束日期" @change="queryTimeFormat">
           </el-date-picker>
         </div>
       </div>
@@ -52,8 +52,7 @@
     </el-header>
     <el-main>
       <div class="container">
-        <el-table :data="tableData" style="width: 100%" border height="calc(100% - 48px)"
-                  class="have_scrolling">
+        <el-table :data="tableData" style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
           <el-table-column type="index" width="50" align="center" label="序号">
           </el-table-column>
           <el-table-column prop="buildSectionName" align="center" label="标段" show-overflow-tooltip>
@@ -68,25 +67,13 @@
           </el-table-column>
           <el-table-column prop="status" align="center" label="状态" show-overflow-tooltip>
             <template slot-scope="scope">
-              <el-tag
-                v-if="scope.row.status == '2'"
-                size="mini"
-                type="warning"
-              >
+              <el-tag v-if="scope.row.status == '2'" size="mini" type="warning">
                 驳回
               </el-tag>
-              <el-tag
-                v-if="scope.row.status == '0'"
-                size="mini"
-                type="default"
-              >
+              <el-tag v-if="scope.row.status == '0'" size="mini" type="default">
                 审批中
               </el-tag>
-              <el-tag
-                v-if="scope.row.status == '1'"
-                size="mini"
-                type="success"
-              >
+              <el-tag v-if="scope.row.status == '1'" size="mini" type="success">
                 已审批
               </el-tag>
             </template>
@@ -98,14 +85,14 @@
 
               <el-button v-if="isDraft" type="text" size="mini" @click="checkDetail(row)">选择</el-button>
               <el-button type="text" size="mini" v-if="$store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'"
-                         @click="deleteRow(row)">删除
+                @click="deleteRow(row)">删除
               </el-button>
             </template>
           </el-table-column>
         </el-table>
-        <el-pagination @current-change="handleCurrentChange" :current-page="queryData.pageNum"
-                       :page-size="queryData.pageSize" layout="total, prev, pager, next, jumper"
-                       :total="queryData.totalPage">
+        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+          :current-page="queryData.pageNum" :page-size="queryData.pageSize"
+          :total="queryData.totalPage" layout="total, sizes, prev, pager, next, jumper" >
         </el-pagination>
       </div>
     </el-main>
@@ -180,18 +167,29 @@ export default {
       return false;
     },
     queryTimeFormat(res) {
+      debugger;
       console.log(res);
-      this.queryData.startCheckDate = formatDate(res[0]);
-      this.queryData.endCheckDate = formatDate(res[1]);
+      if(res != null && res.length > 0) {
+        this.queryData.startCheckDate = formatDate(res[0]);
+        this.queryData.endCheckDate = formatDate(res[1]);
+      }else {
+        this.queryData.startCheckDate = null;
+        this.queryData.endCheckDate = null;
+      }
     },
     query() {
+      debugger;
       this.queryData.draftFlag = this.isDraft ? 0 : 1;
       api.getBuildTechBottomList(this.queryData).then((res) => {
         this.allData = res.data || {};
         this.tableData = this.formateTableData(res.data.list);
         this.queryData.pageNum = res.data.pageNum;
         this.queryData.totalPage = res.data.total;
-        this.queryData.pageSize = res.data.pageSize;
+        //console.log("是否最后一页(当前页:" + res.data.pageNum +", 总页数:" + res.data.pages +"):" , (res.data.pageNum !== res.data.pages));
+        if (res.data.pageNum !== res.data.pages) {
+          // 当前页不是最后一页
+          this.queryData.pageSize = res.data.pageSize;
+        }
       });
     },
     formateTableData(list) {
@@ -219,7 +217,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        api.deleteBuildTechBottom({id: row['id']}).then((res) => {
+        api.deleteBuildTechBottom({ id: row['id'] }).then((res) => {
           if (this.tableData.length == 1) {
             this.queryData.pageNum = this.queryData.pageNum > 1 ? this.queryData.pageNum - 1 : 1
           }
@@ -236,9 +234,14 @@ export default {
         });
       });
     },
+    handleSizeChange(val) {
+      this.queryData.pageSize = val;
+      this.queryData.pageNum = 1;
+      this.query();
+    },
     handleCurrentChange(page) {
-      this.queryData.pageNum = page
-      this.query()
+      this.queryData.pageNum = page;
+      this.query();
     },
     checkDetail(row) {
       this.$emit("hideDraft");

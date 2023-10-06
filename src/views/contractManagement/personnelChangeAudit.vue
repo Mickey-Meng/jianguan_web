@@ -267,7 +267,7 @@ export default {
       fileData: [],//上传的附件
       form: {},
       dialogFormVisible: true,
-      dialogTitle: "全生命周期智慧建设管理平台",
+      dialogTitle: "项目全生命周期数字管理平台",
       queryData: {
         projectCode: "",
         subProject: "",

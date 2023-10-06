@@ -20,103 +20,104 @@
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>计量期数管理</strong>
 									</div>
-                  <div class="block-line">
-                    <div class="block-item">
-                      <div class="block-item-label">计量期数名称</div>
-                      <div class="block-item-value">
-                        <el-form-item prop="metrologyName">
-                          <el-input v-model="formData.metrologyName"></el-input>
-                        </el-form-item>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="block-line">
-                    <div class="block-item">
-                      <div class="block-item-label">开始日期</div>
-                      <div class="block-item-value">
-                        <el-form-item prop="startDate">
-                          <el-date-picker value-format="yyyy-MM-dd" v-model="formData.startDate" type="date"
-                                          placeholder="请选择">
-                          </el-date-picker>
-                        </el-form-item>
-                      </div>
-                    </div>
+									<div class="block-line">
+										<div class="block-item">
+											<div class="block-item-label">计量期数名称</div>
+											<div class="block-item-value">
+												<el-form-item prop="metrologyName">
+													<el-input v-model="formData.metrologyName"></el-input>
+												</el-form-item>
+											</div>
+										</div>
+									</div>
+									<div class="block-line">
+										<div class="block-item">
+											<div class="block-item-label">开始日期</div>
+											<div class="block-item-value">
+												<el-form-item prop="startDate">
+													<el-date-picker value-format="yyyy-MM-dd" v-model="formData.startDate"
+														type="date" placeholder="请选择">
+													</el-date-picker>
+												</el-form-item>
+											</div>
+										</div>
 
-                    <div class="block-item">
-                      <div class="block-item-label">结束日期</div>
-                      <div class="block-item-value">
-                        <el-form-item prop="endDate">
-                          <el-date-picker value-format="yyyy-MM-dd" v-model="formData.endDate" type="date"
-                                          placeholder="请选择">
-                          </el-date-picker>
-                        </el-form-item>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+										<div class="block-item">
+											<div class="block-item-label">结束日期</div>
+											<div class="block-item-value">
+												<el-form-item prop="endDate">
+													<el-date-picker value-format="yyyy-MM-dd" v-model="formData.endDate"
+														type="date" placeholder="请选择">
+													</el-date-picker>
+												</el-form-item>
+											</div>
+										</div>
+									</div>
+								</div>
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>计量信息管理</strong>
 									</div>
-                  <div class="block-line">
-                    <div class="block-item">
-                      <div class="block-item-label">计量编号<i class="require-icon"></i></div>
-                      <div class="block-item-value">
-                        <el-form-item prop="metrologyNo">
-                          <el-input v-model="formData.metrologyNo"></el-input>
-                        </el-form-item>
-
-                      </div>
-                    </div>
-                    <div class="block-item">
-                      <div class="block-item-label">申请日期</div>
-                      <div class="block-item-value">
-
-                        <el-form-item prop="applyDate">
-                          <el-date-picker value-format="yyyy-MM-dd" v-model="formData.applyDate" type="date"
-                                          placeholder="请选择">
-                          </el-date-picker>
-                        </el-form-item>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="block-line">
-                    <div class="block-item">
-                      <div class="block-item-label">申请单位</div>
-                      <div class="block-item-value">
-                        <el-form-item prop="applyUnit">
-                          <el-input v-model="formData.applyUnit"></el-input>
-                        </el-form-item>
-                      </div>
-                    </div>
-                    <div class="block-item">
-                      <div class="block-item-label">计量金额</div>
-                      <div class="block-item-value">
-                        <el-form-item prop="amount">
-                          <el-input-number v-model="formData.amount" :precision="2"></el-input-number>
-                        </el-form-item>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="block-line">
-                    <div class="block-item">
-                      <div class="block-item-label">计量内容</div>
-                      <div class="block-item-value">
-                        <el-form-item prop="content">
-                          <el-input v-model="formData.content"></el-input>
-                        </el-form-item>
-                      </div>
-                    </div>
-                  </div>
 									<div class="block-line">
-                    <div class="block-item">
-                      <div class="block-item-label">申请依据</div>
-                      <div class="block-item-value">
-                        <el-form-item prop="applyCertificate">
-                          <el-input v-model="formData.applyCertificate"></el-input>
-                        </el-form-item>
-                      </div>
-                    </div>
+										<div class="block-item">
+											<div class="block-item-label">计量编号<i class="require-icon"></i></div>
+											<div class="block-item-value">
+												<el-form-item prop="metrologyNo">
+													<el-input v-model="formData.metrologyNo"></el-input>
+												</el-form-item>
+
+											</div>
+										</div>
+										<div class="block-item">
+											<div class="block-item-label">申请日期</div>
+											<div class="block-item-value">
+
+												<el-form-item prop="applyDate">
+													<el-date-picker value-format="yyyy-MM-dd" v-model="formData.applyDate"
+														type="date" placeholder="请选择">
+													</el-date-picker>
+												</el-form-item>
+											</div>
+										</div>
+									</div>
+									<div class="block-line">
+										<div class="block-item">
+											<div class="block-item-label">申请单位</div>
+											<div class="block-item-value">
+												<el-form-item prop="applyUnit">
+													<el-input v-model="formData.applyUnit"></el-input>
+												</el-form-item>
+											</div>
+										</div>
+										<div class="block-item">
+											<div class="block-item-label">计量金额</div>
+											<div class="block-item-value">
+												<el-form-item prop="amount">
+													<el-input-number v-model="formData.amount"
+														:precision="2"></el-input-number>
+												</el-form-item>
+											</div>
+										</div>
+									</div>
+									<div class="block-line">
+										<div class="block-item">
+											<div class="block-item-label">计量内容</div>
+											<div class="block-item-value">
+												<el-form-item prop="content">
+													<el-input v-model="formData.content"></el-input>
+												</el-form-item>
+											</div>
+										</div>
+									</div>
+									<div class="block-line">
+										<div class="block-item">
+											<div class="block-item-label">申请依据</div>
+											<div class="block-item-value">
+												<el-form-item prop="applyCertificate">
+													<el-input v-model="formData.applyCertificate"></el-input>
+												</el-form-item>
+											</div>
+										</div>
 									</div>
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>合同附件</strong>
@@ -128,11 +129,12 @@
 
 								</div>
 
-								<approveuser v-if="approveVisible" :auditUser="auditUser"  :flowKey="flowKey">
+								<approveuser v-if="approveVisible" :auditUser="auditUser" :flowKey="flowKey">
 								</approveuser>
 
 								<div class="form-block">
-									<el-button @click="addOrModify()" class="submit-btn" size="small" type="primary" :loading="submitDisable">提交
+									<el-button @click="addOrModify()" class="submit-btn" size="small" type="primary"
+										:loading="submitDisable">提交
 									</el-button>
 								</div>
 							</el-form>
@@ -166,7 +168,7 @@ import projectinfo from "../../common/projectinfo.vue"
 			return {
 				draftVisible: false,
 				addOrModifyFlag: true,
-				dialogTitle: '全生命周期智慧建设管理平台',
+				dialogTitle: '项目全生命周期数字管理平台',
 				dialogFormVisible: false,
 				partOptions:[],
 				rules: {
@@ -386,5 +388,5 @@ import projectinfo from "../../common/projectinfo.vue"
 </script>
 
 <style scoped lang="scss">
-	@import "src/assets/css/dialog";
+@import "src/assets/css/dialog";
 </style>

@@ -225,6 +225,7 @@ const api = {
   getLeave: "/person/getLeaveData", //获取请假数据
   getLeaveByProcessId: "/person/getLeaveByProcessId",
   getLeaveRecordsById: "/person/getLeaveStandingBook",//获取请假台账
+  getLeaveDetailById: "/person/getLeaveDetailById",
   deleteLeaveRecord: "/person/delLeave",//删除请假
   getAllLeaveRecords: "/person/getAllLeave",//管理员获取所有请假记录
 

@@ -11,6 +11,8 @@
     <el-header>
       <el-button type="primary" @click="showDialog">上传安装包</el-button>
       <div class="text">项目管理</div>
+      <svg-icon icon-class="code" class="return" @click="seeDymCode()"
+            />
       <!-- <svg-icon icon-class="erweima" class="return" @click="seeShuZi" /> -->
 <!--      <div class="text">项目数据中心</div>-->
 <!--      <svg-icon icon-class="erweima" class="return" @click="seeShuJu" />-->
@@ -23,7 +25,7 @@
         </el-table-column>
         <el-table-column prop="uploadtype" label="文件类型"> </el-table-column>
         <el-table-column prop="uploadtime" label="上传时间"> </el-table-column>
-        <el-table-column label="二维码" width="90" align="center">
+        <!-- <el-table-column label="二维码" width="90" align="center">
           <template slot-scope="{ row }">
             <svg-icon
               icon-class="code"
@@ -31,7 +33,7 @@
               @click="seeDymCode(row)"
             />
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column label="操作">
           <template slot-scope="{ row, $index }">
             <el-button type="primary" size="small" class="primary_mini" @click="downLoadFile(row)">
@@ -134,7 +136,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { uploadF, getFile, deleteFile, updateFileInfo } from "@/api/file";
-import { downLoadFile } from "@/utils/download";
+import {downLoadFile, downLoadRowFile} from "@/utils/download";
 import { getToken } from "@/utils/auth";
 import QRCode from "qrcodejs2";
 export default {
@@ -165,6 +167,7 @@ export default {
         calladdr: "",
         calltime: "",
       },
+      lastVerson: {},
       header: { token: "" }, // 文件上传带token
       fileList: [],
       groupId: null,
@@ -184,6 +187,7 @@ export default {
     initData() {
       getFile(17,this.project.id).then((res) => {
         this.tableData = res.data;
+        this.lastVerson = res.data[res.data.length - 1];
       });
     },
     showDialog() {
@@ -262,14 +266,15 @@ export default {
       });
     },
     downLoadFile(row) {
-      let link = document.createElement("a"); // 创建a标签
-      link.style.display = "none"; //mong/preview?fileid=
-      link.href = "/mong/download?fileid=" + row.fileurl; // 设置下载地址
-      link.setAttribute("download", ""); // 添加downLoad属性
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-    },
+        let fileNameBase64 = btoa(unescape(encodeURIComponent(row.uploadname+"."+row.uploadtype)))
+        let update = fileNameBase64.replace(/\+/g, '-').replace(/\//g, '_')
+        const myObject = {};
+        myObject.fileId=row.fileurl;
+        myObject.uploadname=update;
+        myObject.uploadtype=row.uploadtype;
+        const myString = JSON.stringify(myObject);
+        downLoadRowFile(myString);
+      },
     uploadSuccess(response, file, fileList) {
       this.fileList = fileList;
     },
@@ -289,6 +294,7 @@ export default {
       this.dialogCodeVisible = true;
     },
     seeDymCode(row) {
+      if (!row) row = this.lastVerson
       this.showshuzi = false;
       this.showshuju = false;
       this.showCode = true;
@@ -297,7 +303,7 @@ export default {
       this.$nextTick(() => {
         var qrcode = new QRCode(this.$refs.qrCodeUrl, {
           text:
-            "https://system.zlskkj.com:59031/mong/download?fileid=" +
+            "http://36.139.53.154:26666/mong/download?fileid=" +
             row.fileurl, // 需要转换为二维码的内容
           width: 100,
           height: 100,

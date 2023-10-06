@@ -2,8 +2,7 @@
   <div>
 
     <div class="form-content">
-      <el-form ref="form"
-               label-width="80px">
+      <el-form ref="form" label-width="80px">
 
         <div class="form-block">
           <div class="form-block-title">
@@ -55,9 +54,7 @@
               xisx xis pdf文件，且不超过100m</span>
           </div>
 
-          <attachlist :editAble="false"
-                      ref="attachlist"
-                      :attachTable="attachTable"></attachlist>
+          <attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>
           <div class="block-line">
             <div class="block-item">
               <div class="block-item-label">说明</div>
@@ -87,7 +84,7 @@ import projectinfo from '../../common/projectinfo.vue'
 export default {
   data() {
     return {
-      dialogTitle: '全生命周期智慧建设管理平台',
+      dialogTitle: '项目全生命周期数字管理平台',
       dialogFormVisible: false,
 
       baseInfo: {

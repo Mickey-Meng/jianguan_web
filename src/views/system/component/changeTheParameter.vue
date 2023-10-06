@@ -36,7 +36,8 @@
       </div>
     </el-header>
     <el-main class="submit">
-      <el-table :data="tableData.slice((queryData.pageNum - 1) * queryData.pageSize, queryData.pageNum * queryData.pageSize)"
+      <el-table
+        :data="tableData.slice((queryData.pageNum - 1) * queryData.pageSize, queryData.pageNum * queryData.pageSize)"
         style="width: 100%" border height="100%" class="have_scrolling">
         <el-table-column prop="projectChildName" label="标段"></el-table-column>
         <el-table-column prop="changeTypeName" label="人员变更类型"></el-table-column>
@@ -51,7 +52,8 @@
         <el-table-column label="操作">
           <template slot-scope="{row,$index}">
             <el-button type="text" size="mini" @click="seeDetail(row)">详情</el-button>
-            <el-button type="text" size="mini" v-if="rolePerms[0] == 'gly'" @click="deleteInfo(row, $index)">删除</el-button>
+            <el-button type="text" size="mini" v-if="rolePerms[0] == 'gly'"
+              @click="deleteInfo(row, $index)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -275,7 +277,7 @@ export default {
   data() {
     return {
       dialogFormVisible: false,
-      dialogTitle: "全生命周期智慧建设管理平台",
+      dialogTitle: "项目全生命周期数字管理平台",
       form: {},
       options: [
         {

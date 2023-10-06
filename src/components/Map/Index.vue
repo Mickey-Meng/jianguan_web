@@ -18,7 +18,7 @@
       </el-tooltip>
     </div>
     <div v-if="haveLeft" class="handle-box">
-      <mapTool ref="mapTool" v-if="isShow && haveLeft" />
+      <mapTool ref="mapTool" :offsetToRight="offsetToRight" v-if="isShow && haveLeft" />
     </div>
     <div class="mapCoordinate" v-show="mapCoordinate.longitude">
       <div class="longitude">经度:{{ mapCoordinate.longitude }}</div>
@@ -42,6 +42,12 @@ const earthCtx = {};
 
 export default {
   components: {mapTool},
+  props: {
+    offsetToRight: {
+      type: Boolean,
+      default: false,
+    }
+  }, 
   data() {
     return {
       showMenu: true,
@@ -96,7 +102,11 @@ export default {
       // const URL = `http://112.30.143.209:26666/data_zlsk/chizhoushi`;
       // console.log(URL)
       window.viewer = new Cesium.Viewer("earth", {
-        imageryProvider: new Cesium.TileMapServiceImageryProvider({
+        // imageryProvider: new Cesium.TileMapServiceImageryProvider({
+        //     url: url,
+        //     format: 'image/png',
+        // }),
+        imageryProvider: new Cesium.UrlTemplateImageryProvider({
             url: url,
             format: 'image/png',
         }),
@@ -123,6 +133,47 @@ export default {
       });
       viewer.scene.msaaSamples = 8;
       viewer.scene.globe.depthTestAgainstTerrain = true
+      viewer._cesiumWidget._creditContainer.style.display = "none";
+
+      const options = {};
+      // 用于在使用重置导航重置地图视图时设置默认视图控制。接受的值是Cesium.Cartographic 和 Cesium.Rectangle.
+      // options.defaultResetView = Rectangle.fromDegrees(80, 22, 130, 50)
+      // options.defaultResetView = new Cartographic(CesiumMath.toRadians(111.50623801848565), CesiumMath.toRadians(2.8997206760441205), 8213979.400955964)
+      // //相机方向
+      // options.orientation = {
+      //     heading: CesiumMath.toRadians(350.94452087411315),
+      //     pitch: CesiumMath.toRadians(-66.6402342251215),
+      //     roll: CesiumMath.toRadians(360)
+      // }
+      //相机延时
+      options.duration = 4//默认为3s
+
+      // 用于启用或禁用罗盘。true是启用罗盘，false是禁用罗盘。默认值为true。如果将选项设置为false，则罗盘将不会添加到地图中。
+      options.enableCompass= true;
+      // 用于启用或禁用缩放控件。true是启用，false是禁用。默认值为true。如果将选项设置为false，则缩放控件将不会添加到地图中。
+      options.enableZoomControls= true;
+      // 用于启用或禁用距离图例。true是启用，false是禁用。默认值为true。如果将选项设置为false，距离图例将不会添加到地图中。
+      options.enableDistanceLegend= true;
+      // 用于启用或禁用指南针外环。true是启用，false是禁用。默认值为true。如果将选项设置为false，则该环将可见但无效。
+      options.enableCompassOuterRing= true;
+
+      //修改重置视图的tooltip
+      options.resetTooltip = "重置视图";
+      //修改放大按钮的tooltip
+      options.zoomInTooltip = "放大";
+      //修改缩小按钮的tooltip
+      options.zoomOutTooltip = "缩小";
+      new CesiumNavigation(viewer, options);
+
+      viewer.getLayerByName = function(layername) {
+        const length = viewer.scene.primitives.length;
+        for (let i = 0; i < length; i++) {
+          const layer = viewer.scene.primitives.get(i);
+          if (layer.name == layername) {
+            return layer
+          }
+        }
+      }
 
       window.viewer.scene.globe.translucency.frontFaceAlphaByDistance = new Cesium.NearFarScalar(
         400.0,
@@ -153,26 +204,57 @@ export default {
     })
 
 
+      if (this.project.projectline) {
+        const terrainLayer = new Cesium.CesiumTerrainProvider({
+            url: this.project.projectline,
+        });
+        viewer.terrainProvider = terrainLayer;
+      }
         // 添加白模
       let modelUrls = this.project.coordinate;
       if (modelUrls) {
-        modelUrls = modelUrls.split(",");
-        modelUrls.forEach(url => {
+        modelUrls = JSON.parse(modelUrls);
+        // modelUrls = [{"layername":"次坞大桥桩基","url":"http://localhost:8081/model_CW_Z/tileset.json"}]
+        modelUrls = modelUrls.reverse();
+        modelUrls.forEach(item => {
           const tilesetModel = new Cesium.Cesium3DTileset({
-            url: url
+            url: item.url
           });
           const tileset = viewer.scene.primitives.add(tilesetModel);
 
           tileset.readyPromise
           .then(function (tileset) {
+            tileset.name = item.layername;
+
             var offset = Cesium.Cartesian3.fromDegrees(point[1] || 117.48387645025284, point[0] || 30.66751823064398,0.6287461962958634)
             
             // tileset._root.transform = Cesium.Transforms.eastNorthUpToFixedFrame(offset)
-            
+            // viewer.flyTo(tileset)
+            // console.log(viewer.getLayerByName("次坞大桥桩基"))
           })
         })
       }
 
+      const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+      
+      let pickedFeature;
+      handler.setInputAction(function (movement) {
+          var _pickedFeature = viewer.scene.pick(movement.position);
+
+          if (_pickedFeature instanceof Cesium.Cesium3DTileFeature) {
+            if (pickedFeature) {
+              pickedFeature.color = Cesium.Color.WHITE
+              pickedFeature = undefined;
+            };
+            _pickedFeature.color = Cesium.Color.GREEN;
+            pickedFeature = _pickedFeature
+
+            if (viewer.attributeQueryCallback) viewer.attributeQueryCallback(_pickedFeature.getProperty("name"))
+          } else {
+            if (pickedFeature) pickedFeature.color = Cesium.Color.WHITE
+          }
+          
+      }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
       // em = zeh.earth.createMarkerManager({ clusterType: "dilute" });
       // em.beginCluster();
       // earthCtx.earth = earthCtx.zlskEarth = zeh.earth;
@@ -207,7 +289,7 @@ export default {
       let b = document.getElementsByClassName("compass-outer-ring")[0];
       a && a.setAttribute("title", "");
       b && b.setAttribute("title", "");
-      // this.initHandler(); //实时监听更换左下经纬度等信息
+      this.initHandler(); //实时监听更换左下经纬度等信息
       Bus.$emit("mapSucceed");
     });
   },
@@ -256,11 +338,11 @@ export default {
     },
     initHandler() {
       let that = this;
-      zeh.viewer.camera.changed.addEventListener(function () {
+      viewer.camera.changed.addEventListener(function () {
         that.getScreenCenter();
       });
 
-      let handler = new Cesium.ScreenSpaceEventHandler(zeh.viewer.scene.canvas);
+      let handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
       handler.setInputAction(function () {
         that.getScreenCenter();
       }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
@@ -268,25 +350,25 @@ export default {
     getScreenCenter() {
       try {
         let position = {
-          x: zeh.viewer.canvas.clientWidth / 2,
-          y: zeh.viewer.canvas.clientHeight / 2,
+          x: viewer.canvas.clientWidth / 2,
+          y: viewer.canvas.clientHeight / 2,
         };
         var screen = new Cesium.Cartesian2(position.x, position.y);
-        var world = zeh.viewer.scene.globe.pick(
-          zeh.viewer.camera.getPickRay(screen),
-          zeh.viewer.scene
+        var world = viewer.scene.globe.pick(
+          viewer.camera.getPickRay(screen),
+          viewer.scene
         );
         var cartographic =
-          zeh.viewer.scene.globe.ellipsoid.cartesianToCartographic(world);
-        let scene = zeh.viewer.scene;
+          viewer.scene.globe.ellipsoid.cartesianToCartographic(world);
+        let scene = viewer.scene;
         let ellipsoid = scene.globe.ellipsoid;
         let currentHeight = ellipsoid.cartesianToCartographic(
-          zeh.viewer.camera.position
+          viewer.camera.position
         ).height;
         currentHeight = (currentHeight / 1000).toFixed(2);
-        let pitch = Cesium.Math.toDegrees(zeh.viewer.camera.pitch);
-        let heading = Cesium.Math.toDegrees(zeh.viewer.camera.heading);
-        let roll = Cesium.Math.toDegrees(zeh.viewer.camera.roll);
+        let pitch = Cesium.Math.toDegrees(viewer.camera.pitch);
+        let heading = Cesium.Math.toDegrees(viewer.camera.heading);
+        let roll = Cesium.Math.toDegrees(viewer.camera.roll);
         this.mapCoordinate = {
           longitude: Cesium.Math.toDegrees(cartographic.longitude).toFixed(6),
           latitude: Cesium.Math.toDegrees(cartographic.latitude).toFixed(6),
@@ -417,7 +499,7 @@ export default {
 .mapCoordinate {
   position: absolute;
   bottom: 5px;
-  left: 250px;
+  left: 550px;
   display: flex;
   align-items: center;
   background: rgba(57, 61, 73, 0.6);
@@ -429,5 +511,11 @@ export default {
   > div {
     margin-left: 10px;
   }
+}
+
+</style>
+<style>
+.distance-legend {
+  left: 400px !important;
 }
 </style>

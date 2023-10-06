@@ -1,6 +1,7 @@
 <template>
 	<div>
-		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible" :fullscreen="true">
+		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible"
+			:fullscreen="true">
 			<template slot="title">
 				{{dialogTitle}}
 				<div class="logo-icon"></div>
@@ -11,7 +12,7 @@
 					<div class="form-bg">
 						<div class="form-content">
 							<el-form ref="form" label-width="80px">
-								
+
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
@@ -39,36 +40,26 @@
 										<div class="title-bar"></div><strong>检测信息</strong>
 									</div>
 									<div class="block-table">
-										<el-table :data="examineTable" style="width: 100%" border
-											class="have_scrolling">
+										<el-table :data="examineTable" style="width: 100%" border class="have_scrolling">
 											<el-table-column type="index" width="50" align="center" label="序号">
 											</el-table-column>
-											<el-table-column prop="name" align="center" label="材料名称"
-												show-overflow-tooltip>
+											<el-table-column prop="name" align="center" label="材料名称" show-overflow-tooltip>
 											</el-table-column>
-											<el-table-column prop="addressStr" width="160px" align="center"
-												label="材料来源">
+											<el-table-column prop="addressStr" width="160px" align="center" label="材料来源">
 											</el-table-column>
-											<el-table-column prop="specification" width="120px" align="center"
-												label="材料规格">
+											<el-table-column prop="specification" width="120px" align="center" label="材料规格">
 											</el-table-column>
-											<el-table-column prop="projectPart" width="120px" align="center"
-												label="工程部位">
+											<el-table-column prop="projectPart" width="120px" align="center" label="工程部位">
 											</el-table-column>
-											<el-table-column prop="num" width="120px" align="center"
-												label="材料数量(吨)">
+											<el-table-column prop="num" width="120px" align="center" label="材料数量(吨)">
 											</el-table-column>
-											<el-table-column prop="takeAddress" width="120px" align="center"
-												label="取样地点">
+											<el-table-column prop="takeAddress" width="120px" align="center" label="取样地点">
 											</el-table-column>
-											<el-table-column prop="testDate" width="120px" align="center"
-												label="试验日期">
+											<el-table-column prop="testDate" width="120px" align="center" label="试验日期">
 											</el-table-column>
-											<el-table-column prop="testNum" width="120px" align="center"
-												label="实验数量">
+											<el-table-column prop="testNum" width="120px" align="center" label="实验数量">
 											</el-table-column>
-											<el-table-column prop="qualifiedNum" width="120px" align="center"
-												label="合格数量">
+											<el-table-column prop="qualifiedNum" width="120px" align="center" label="合格数量">
 											</el-table-column>
 											<el-table-column prop="qualifiedRate" width="120px" align="center"
 												label="总合格率(%)">
@@ -80,8 +71,7 @@
 													<template v-else-if="scope.row.detectionResult==1">不合格</template>
 												</template>
 											</el-table-column>
-											<el-table-column prop="reportCode" width="120px" align="center"
-												label="报告编号">
+											<el-table-column prop="reportCode" width="120px" align="center" label="报告编号">
 											</el-table-column>
 										</el-table>
 									</div>
@@ -96,7 +86,7 @@
 											文件，且不超过 200M</span>
 									</div>
 									<attachlist :editAble="false" ref="attachlist" :attachTable="reportTable"></attachlist>
-									
+
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
@@ -104,10 +94,10 @@
 										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 											文件，且不超过 200M</span>
 									</div>
-									
+
 									<attachlist :editAble="false" ref="attachlist" :attachTable="factoryTable"></attachlist>
-									
-									
+
+
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
@@ -116,7 +106,7 @@
 											文件，且不超过 200M</span>
 									</div>
 									<attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>
-									
+
 									<div class="block-line">
 										<div class="block-item">
 											<div class="block-item-label">备注</div>
@@ -142,7 +132,7 @@
 				</el-aside>
 			</el-container>
 		</el-dialog>
-		
+
 	</div>
 </template>
 
@@ -162,7 +152,7 @@ import projectinfo from "../../../common/projectinfo.vue"
 		data() {
 			return {
 				dialogFormVisible: false,
-				dialogTitle: '全生命周期智慧建设管理平台',
+				dialogTitle: '项目全生命周期数字管理平台',
 				annexTableData: [],
 				activeName: 'first',
 				waitTableData: [],
@@ -271,5 +261,5 @@ import projectinfo from "../../../common/projectinfo.vue"
 </script>
 
 <style scoped lang="scss">
-	@import "../../../../assets/css/dialog.scss"
+@import "../../../../assets/css/dialog.scss"
 </style>

@@ -14,8 +14,8 @@
                 <div class="form-title">
                   <div class="title-big-bar"></div>
                   <strong>分项开工申请</strong>
-                  <drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify"
-                               @checkDraft="checkDraft" ref="drafthandle"></drafthandle>
+                  <drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify" @checkDraft="checkDraft"
+                    ref="drafthandle"></drafthandle>
                 </div>
 
                 <div class="form-block">
@@ -43,8 +43,8 @@
                       <div class="block-item-label">建议开工日期<i class="require-icon"></i></div>
                       <div class="block-item-value">
                         <el-form-item prop="openDate">
-                          <el-date-picker value-format="yyyy-MM-dd" v-model="formData.openDate"
-                                          type="date" placeholder="请选择">
+                          <el-date-picker value-format="yyyy-MM-dd" v-model="formData.openDate" type="date"
+                            placeholder="请选择">
                           </el-date-picker>
                         </el-form-item>
                       </div>
@@ -53,8 +53,8 @@
                       <div class="block-item-label">计划完工日期<i class="require-icon"></i></div>
                       <div class="block-item-value">
                         <el-form-item prop="endDate">
-                          <el-date-picker value-format="yyyy-MM-dd" v-model="formData.endDate"
-                                          type="date" placeholder="请选择">
+                          <el-date-picker value-format="yyyy-MM-dd" v-model="formData.endDate" type="date"
+                            placeholder="请选择">
                           </el-date-picker>
                         </el-form-item>
                       </div>
@@ -77,8 +77,8 @@
                       <div class="block-item-value">
                         <el-form-item prop="liveUser">
                           <el-select v-model="formData.liveUser" placeholder="请选择">
-                            <el-option v-for="item in liveUserOptions" :key="item.value"
-                                       :label="item.label" :value="item.value">
+                            <el-option v-for="item in liveUserOptions" :key="item.value" :label="item.label"
+                              :value="item.value">
                             </el-option>
                           </el-select>
                         </el-form-item>
@@ -89,8 +89,8 @@
                       <div class="block-item-value">
                         <el-form-item prop="buildUser">
                           <el-select v-model="formData.buildUser" placeholder="请选择">
-                            <el-option v-for="item in buildUserOptions" :key="item.value"
-                                       :label="item.label" :value="item.value">
+                            <el-option v-for="item in buildUserOptions" :key="item.value" :label="item.label"
+                              :value="item.value">
                             </el-option>
                           </el-select>
                         </el-form-item>
@@ -103,8 +103,8 @@
                       <div class="block-item-value">
                         <el-form-item prop="checkUser">
                           <el-select v-model="formData.checkUser" placeholder="请选择">
-                            <el-option v-for="item in  checkUserOptions" :key="item.value"
-                                       :label="item.label" :value="item.value">
+                            <el-option v-for="item in  checkUserOptions" :key="item.value" :label="item.label"
+                              :value="item.value">
                             </el-option>
                           </el-select>
                         </el-form-item>
@@ -116,8 +116,7 @@
                       <div class="block-item-label">施工准备情况说明<i class="require-icon"></i></div>
                       <div class="block-item-value">
                         <el-form-item prop="buildPrepareExplain">
-                          <el-input v-model="formData.buildPrepareExplain"
-                                    placeholder="请输入隐蔽工程项目"></el-input>
+                          <el-input v-model="formData.buildPrepareExplain" placeholder="请输入隐蔽工程项目"></el-input>
                         </el-form-item>
 
                       </div>
@@ -130,7 +129,7 @@
                     <div class="title-bar"></div>
                     <strong>标准试验审批表</strong>
                     <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-											xisx xis pdf文件，且不超过100m</span>
+                      xisx xis pdf文件，且不超过100m</span>
                   </div>
                   <attachlist :editAble="true" ref="attachlist" :attachTable="formData.experimentAttachment">
                   </attachlist>
@@ -139,7 +138,7 @@
                       <div class="block-item-label">说明</div>
                       <div class="block-item-value">
                         <el-input v-model="formData.experimentExplain" type="textarea" :rows="2"
-                                  placeholder="请输入"></el-input>
+                          placeholder="请输入"></el-input>
                       </div>
                     </div>
                   </div>
@@ -149,7 +148,7 @@
                     <div class="title-bar"></div>
                     <strong>专项施工方案审批表</strong>
                     <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-											xisx xis pdf文件，且不超过100m</span>
+                      xisx xis pdf文件，且不超过100m</span>
                   </div>
                   <attachlist :editAble="true" ref="attachlist" :attachTable="formData.buildAttachment">
                   </attachlist>
@@ -157,8 +156,7 @@
                     <div class="block-item">
                       <div class="block-item-label">说明</div>
                       <div class="block-item-value">
-                        <el-input v-model="formData.buildExplain" type="textarea" :rows="2"
-                                  placeholder="请输入"></el-input>
+                        <el-input v-model="formData.buildExplain" type="textarea" :rows="2" placeholder="请输入"></el-input>
                       </div>
                     </div>
                   </div>
@@ -168,7 +166,7 @@
                     <div class="title-bar"></div>
                     <strong>工艺试验审批表</strong>
                     <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-											xisx xis pdf文件，且不超过100m</span>
+                      xisx xis pdf文件，且不超过100m</span>
                   </div>
                   <attachlist :editAble="true" ref="attachlist" :attachTable="formData.processAttachment">
                   </attachlist>
@@ -177,7 +175,7 @@
                       <div class="block-item-label">说明</div>
                       <div class="block-item-value">
                         <el-input v-model="formData.processExplain" type="textarea" :rows="2"
-                                  placeholder="请输入"></el-input>
+                          placeholder="请输入"></el-input>
                       </div>
                     </div>
                   </div>
@@ -187,7 +185,7 @@
                     <div class="title-bar"></div>
                     <strong>到场材料审批表</strong>
                     <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-											xisx xis pdf文件，且不超过100m</span>
+                      xisx xis pdf文件，且不超过100m</span>
                   </div>
                   <attachlist :editAble="true" ref="attachlist" :attachTable="formData.materialAttachment">
                   </attachlist>
@@ -196,7 +194,7 @@
                       <div class="block-item-label">说明</div>
                       <div class="block-item-value">
                         <el-input v-model="formData.materialExplain" type="textarea" :rows="2"
-                                  placeholder="请输入"></el-input>
+                          placeholder="请输入"></el-input>
                       </div>
                     </div>
                   </div>
@@ -206,7 +204,7 @@
                     <div class="title-bar"></div>
                     <strong>到场设备审批表（含特种设备检测报告）</strong>
                     <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-											xisx xis pdf文件，且不超过100m</span>
+                      xisx xis pdf文件，且不超过100m</span>
                   </div>
                   <attachlist :editAble="true" ref="attachlist" :attachTable="formData.equipmentAttachment">
                   </attachlist>
@@ -215,7 +213,7 @@
                       <div class="block-item-label">说明</div>
                       <div class="block-item-value">
                         <el-input v-model="formData.equipmentExplain" type="textarea" :rows="2"
-                                  placeholder="请输入"></el-input>
+                          placeholder="请输入"></el-input>
                       </div>
                     </div>
                   </div>
@@ -225,7 +223,7 @@
                     <div class="title-bar"></div>
                     <strong>到场技术、质量、安全、环保管理人员及主要操人员、特种作业人员情况及证件复印件</strong>
                     <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-											xisx xis pdf文件，且不超过100m</span>
+                      xisx xis pdf文件，且不超过100m</span>
                   </div>
                   <attachlist :editAble="true" ref="attachlist" :attachTable="formData.techAttachment">
                   </attachlist>
@@ -233,8 +231,7 @@
                     <div class="block-item">
                       <div class="block-item-label">说明</div>
                       <div class="block-item-value">
-                        <el-input v-model="formData.techExplain" type="textarea" :rows="2"
-                                  placeholder="请输入"></el-input>
+                        <el-input v-model="formData.techExplain" type="textarea" :rows="2" placeholder="请输入"></el-input>
                       </div>
                     </div>
                   </div>
@@ -244,7 +241,7 @@
                     <div class="title-bar"></div>
                     <strong>施工方案</strong>
                     <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-											xisx xis pdf文件，且不超过100m</span>
+                      xisx xis pdf文件，且不超过100m</span>
                   </div>
                   <attachlist :editAble="true" ref="attachlist" :attachTable="formData.buildPlanAttachment">
                   </attachlist>
@@ -253,7 +250,7 @@
                       <div class="block-item-label">说明</div>
                       <div class="block-item-value">
                         <el-input v-model="formData.buildPlanExplain" type="textarea" :rows="2"
-                                  placeholder="请输入"></el-input>
+                          placeholder="请输入"></el-input>
                       </div>
                     </div>
                   </div>
@@ -263,7 +260,7 @@
                     <div class="title-bar"></div>
                     <strong>安全技术措施</strong>
                     <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-											xisx xis pdf文件，且不超过100m</span>
+                      xisx xis pdf文件，且不超过100m</span>
                   </div>
                   <attachlist :editAble="true" ref="attachlist" :attachTable="formData.securityAttachment">
                   </attachlist>
@@ -272,7 +269,7 @@
                       <div class="block-item-label">说明</div>
                       <div class="block-item-value">
                         <el-input v-model="formData.securityExplain" type="textarea" :rows="2"
-                                  placeholder="请输入"></el-input>
+                          placeholder="请输入"></el-input>
                       </div>
                     </div>
                   </div>
@@ -282,7 +279,7 @@
                     <div class="title-bar"></div>
                     <strong>危险性较大项目安全专项施工方案审查记录</strong>
                     <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-											xisx xis pdf文件，且不超过100m</span>
+                      xisx xis pdf文件，且不超过100m</span>
                   </div>
                   <attachlist :editAble="true" ref="attachlist" :attachTable="formData.riskAttachment">
                   </attachlist>
@@ -290,8 +287,7 @@
                     <div class="block-item">
                       <div class="block-item-label">说明</div>
                       <div class="block-item-value">
-                        <el-input v-model="formData.riskExplain" type="textarea" :rows="2"
-                                  placeholder="请输入"></el-input>
+                        <el-input v-model="formData.riskExplain" type="textarea" :rows="2" placeholder="请输入"></el-input>
                       </div>
                     </div>
                   </div>
@@ -301,7 +297,7 @@
                     <div class="title-bar"></div>
                     <strong>环境保护措施</strong>
                     <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-											xisx xis pdf文件，且不超过100m</span>
+                      xisx xis pdf文件，且不超过100m</span>
                   </div>
                   <attachlist :editAble="true" ref="attachlist" :attachTable="formData.environmentAttachment">
                   </attachlist>
@@ -310,7 +306,7 @@
                       <div class="block-item-label">说明</div>
                       <div class="block-item-value">
                         <el-input v-model="formData.environmentExplain" type="textarea" :rows="2"
-                                  placeholder="请输入"></el-input>
+                          placeholder="请输入"></el-input>
                       </div>
                     </div>
                   </div>
@@ -320,7 +316,7 @@
                     <div class="title-bar"></div>
                     <strong>环保、安全、质量、技术交底材料</strong>
                     <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-											xisx xis pdf文件，且不超过100m</span>
+                      xisx xis pdf文件，且不超过100m</span>
                   </div>
                   <attachlist :editAble="true" ref="attachlist" :attachTable="formData.bottomAttachment">
                   </attachlist>
@@ -328,8 +324,7 @@
                     <div class="block-item">
                       <div class="block-item-label">说明</div>
                       <div class="block-item-value">
-                        <el-input v-model="formData.bottomExplain" type="textarea" :rows="2"
-                                  placeholder="请输入"></el-input>
+                        <el-input v-model="formData.bottomExplain" type="textarea" :rows="2" placeholder="请输入"></el-input>
                       </div>
                     </div>
                   </div>
@@ -338,7 +333,8 @@
                 </approveuser>
 
                 <div class="form-block">
-                  <el-button @click="addOrModify()" class="submit-btn" size="small" type="primary" :loading="submitDisable">提交
+                  <el-button @click="addOrModify()" class="submit-btn" size="small" type="primary"
+                    :loading="submitDisable">提交
                   </el-button>
                 </div>
               </el-form>
@@ -358,7 +354,7 @@
     </el-dialog>
     <el-dialog width="80%" class="little-container" :visible.sync="draftVisible">
       <separateApplicationForCommencement @hideDraft="hideDraft" @getDetail="getDetail" :isDraft="draftVisible"
-                                          v-if="draftVisible">
+        v-if="draftVisible">
       </separateApplicationForCommencement>
     </el-dialog>
 
@@ -388,7 +384,7 @@ export default {
     return {
       draftVisible: false,
       addOrModifyFlag: true,
-      dialogTitle: '全生命周期智慧建设管理平台',
+      dialogTitle: '项目全生命周期数字管理平台',
       dialogFormVisible: false,
 
       buildUserOptions: [{
@@ -514,7 +510,7 @@ export default {
       this.checkUserOptions = [];
       this.liveUserOptions = [];
 
-      userapi.getUserByRoleId(this.$store.getters.project['id'], 40).then(res => {
+      userapi.getUserByRoleKey(this.$store.getters.project['id'], 'sgy').then(res => {
         let data = res.data || [];
         data.forEach(item => {
           this.buildUserOptions.push({
@@ -523,7 +519,7 @@ export default {
           })
         })
       })
-      userapi.getUserByRoleId(this.$store.getters.project['id'], 63).then(res => {
+      userapi.getUserByRoleKey(this.$store.getters.project['id'], 'zjfzr').then(res => {
         let data = res.data || [];
         data.forEach(item => {
           this.checkUserOptions.push({
@@ -532,7 +528,7 @@ export default {
           })
         })
       })
-      userapi.getUserByRoleId(this.$store.getters.project['id'], 40).then(res => {
+      userapi.getUserByRoleKey(this.$store.getters.project['id'], 'sgy').then(res => {
         let data = res.data || [];
         data.forEach(item => {
           this.liveUserOptions.push({
@@ -613,7 +609,7 @@ export default {
     },
     addOrModify(isdraft) {
       if (this.submitDisable) return;
-      
+
       this.submitDisable = true;
       if (isdraft) {
         if (diffCompare([this.formData], [{
@@ -668,9 +664,9 @@ export default {
               message: '提交成功!'
             });
             this.dialogFormVisible = false;
-              setTimeout(()=> {
-                this.submitDisable = false;
-              }, 500)
+            setTimeout(() => {
+              this.submitDisable = false;
+            }, 500)
             this.$emit("query");
           }
         });
@@ -687,17 +683,17 @@ export default {
                   message: '提交成功!'
                 });
                 this.dialogFormVisible = false;
-              setTimeout(()=> {
-                this.submitDisable = false;
-              }, 500)
+                setTimeout(() => {
+                  this.submitDisable = false;
+                }, 500)
                 this.$emit("query");
               }
             });
           } else {
-          setTimeout(()=> {
-            this.submitDisable = false;
-          }, 500)
-        }
+            setTimeout(() => {
+              this.submitDisable = false;
+            }, 500)
+          }
         })
       }
 

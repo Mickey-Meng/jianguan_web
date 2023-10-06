@@ -14,8 +14,8 @@
 								<div class="form-title">
 									<div class="title-big-bar"></div>
 									<strong>首件认可</strong>
-									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify"
-										@checkDraft="checkDraft" ref="drafthandle"></drafthandle>
+									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify" @checkDraft="checkDraft"
+										ref="drafthandle"></drafthandle>
 								</div>
 
 								<div class="form-block">
@@ -38,11 +38,12 @@
 											<div class="block-item-label">分部分项<i class="require-icon"></i></div>
 											<div class="block-item-value">
 												<el-form-item prop="subProject">
-													
-													<el-input readonly @focus="checkPartPro" v-model="formData.subProjectStr"></el-input>
-													
+
+													<el-input readonly @focus="checkPartPro"
+														v-model="formData.subProjectStr"></el-input>
+
 													<!-- <el-button @click="checkPartPro">选择分部分项</el-button> -->
-													
+
 													<!-- <el-select v-model="formData.subProject"
 														placeholder="请选择">
 														<el-option v-for="item in partOptions" :key="item.value"
@@ -165,11 +166,13 @@
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
-										<div class="title-bar"></div><strong>施工技术、工艺方案说明和图表<i class="require-icon"></i></strong>
+										<div class="title-bar"></div><strong>施工技术、工艺方案说明和图表<i
+												class="require-icon"></i></strong>
 										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 											文件，且不超过 200M</span>
 									</div>
-									<attachlist :editAble="true" ref="attachlist" :attachTable="formData.buildTechAttachment">
+									<attachlist :editAble="true" ref="attachlist"
+										:attachTable="formData.buildTechAttachment">
 									</attachlist>
 								</div>
 								<div class="form-block">
@@ -178,26 +181,30 @@
 										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 											文件，且不超过 200M</span>
 									</div>
-									
+
 									<attachlist :editAble="true" ref="attachlist" :attachTable="formData.measureAttachment">
 									</attachlist>
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
-										<div class="title-bar"></div><strong>材料出厂保证书、材料检测试验报告<i class="require-icon"></i></strong>
+										<div class="title-bar"></div><strong>材料出厂保证书、材料检测试验报告<i
+												class="require-icon"></i></strong>
 										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 											文件，且不超过 200M</span>
 									</div>
-									<attachlist :editAble="true" ref="attachlist" :attachTable="formData.materialAttachment">
+									<attachlist :editAble="true" ref="attachlist"
+										:attachTable="formData.materialAttachment">
 									</attachlist>
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
-										<div class="title-bar"></div><strong>机械的主要技术标准及最大生产能力<i class="require-icon"></i></strong>
+										<div class="title-bar"></div><strong>机械的主要技术标准及最大生产能力<i
+												class="require-icon"></i></strong>
 										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 											文件，且不超过 200M</span>
 									</div>
-									<attachlist :editAble="true" ref="attachlist" :attachTable="formData.mechanicalAttachment">
+									<attachlist :editAble="true" ref="attachlist"
+										:attachTable="formData.mechanicalAttachment">
 									</attachlist>
 								</div>
 								<div class="form-block">
@@ -266,10 +273,11 @@
 									</div>
 								</div>
 
-								<approveuser v-if="approveVisible" :auditUser="auditUser"  :flowKey="flowKey">
+								<approveuser v-if="approveVisible" :auditUser="auditUser" :flowKey="flowKey">
 								</approveuser>
 								<div class="form-block">
-									<el-button class="submit-btn" size="small" type="primary" @click="addOrModify()" :loading="submitDisable">提交
+									<el-button class="submit-btn" size="small" type="primary" @click="addOrModify()"
+										:loading="submitDisable">提交
 									</el-button>
 								</div>
 							</el-form>
@@ -292,7 +300,7 @@
 			<firstProcessApproval @hideDraft="hideDraft" @getDetail="getDetail" :isDraft="draftVisible" v-if="draftVisible">
 			</firstProcessApproval>
 		</el-dialog>
-		
+
 		<el-dialog title="选择分部分项工程" width="50%" class="little-container" :visible.sync="partVisible">
 			<partproject @callback="checkPartProCallback">
 			</partproject>
@@ -335,7 +343,7 @@
 				draftVisible: false,
 				addOrModifyFlag: true,
 				dialogFormVisible: false,
-				dialogTitle: '全生命周期智慧建设管理平台',
+				dialogTitle: '项目全生命周期数字管理平台',
 				childOptions: [],
 				partOptions: [],
 				baseInfo: {
@@ -656,6 +664,4 @@
 	};
 </script>
 
-<style scoped lang="scss">
-	@import "../../../../assets/css/dialog.scss"
-</style>
+<style scoped lang="scss">@import "../../../../assets/css/dialog.scss"</style>

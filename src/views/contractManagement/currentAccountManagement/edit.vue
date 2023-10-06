@@ -14,8 +14,8 @@
 								<div class="form-title">
 									<div class="title-big-bar"></div>
 									<strong>往来款管理</strong>
-									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify"
-										@checkDraft="checkDraft" ref="drafthandle"></drafthandle>
+									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify" @checkDraft="checkDraft"
+										ref="drafthandle"></drafthandle>
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
@@ -56,7 +56,8 @@
 											<div class="block-item-label">支付金额<i class="require-icon"></i></div>
 											<div class="block-item-value">
 												<el-form-item prop="payAmount">
-													<el-input v-model="formData.payAmount" @input="formatNum(formData.payAmount, 'payAmount')"></el-input>
+													<el-input v-model="formData.payAmount"
+														@input="formatNum(formData.payAmount, 'payAmount')"></el-input>
 												</el-form-item>
 											</div>
 										</div>
@@ -93,10 +94,12 @@
 									</div>
 								</div>
 
-								<approveuser v-if="approveVisible" :auditUser="auditUser" :copyData="copyData"  :flowKey="flowKey">
+								<approveuser v-if="approveVisible" :auditUser="auditUser" :copyData="copyData"
+									:flowKey="flowKey">
 								</approveuser>
 								<div class="form-block">
-									<el-button @click="addOrModify()" class="submit-btn" size="small" type="primary" :loading="submitDisable">提交
+									<el-button @click="addOrModify()" class="submit-btn" size="small" type="primary"
+										:loading="submitDisable">提交
 									</el-button>
 								</div>
 							</el-form>
@@ -138,7 +141,7 @@ import projectinfo from "../../common/projectinfo.vue"
 			return {
 				draftVisible: false,
 				addOrModifyFlag: true,
-				dialogTitle: '全生命周期智慧建设管理平台',
+				dialogTitle: '项目全生命周期数字管理平台',
 				dialogFormVisible: false,
 				childOptions: [],
 				userOptions: [{
@@ -365,6 +368,4 @@ import projectinfo from "../../common/projectinfo.vue"
 	};
 </script>
 
-<style scoped lang="scss">
-	@import "../../../assets/css/dialog.scss"
-</style>
+<style scoped lang="scss">@import "../../../assets/css/dialog.scss"</style>

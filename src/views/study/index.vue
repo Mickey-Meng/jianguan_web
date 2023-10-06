@@ -20,6 +20,7 @@
               下载
             </el-button>
             <el-button
+              v-if="$store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'" 
               type="danger"
               size="small"
               @click="handleDelete(row, $index)"
@@ -172,16 +173,11 @@
         this.dialogVisible = true;
       },
       downLoadFile(row) {
-        let link = document.createElement("a"); // 创建a标签
-        link.style.display = "none"; //mong/preview?fileid=
-        link.href = "/mong/downloadVideo?fileName=" + row.changereason + "&url=" + row.fileurl; // 设置下载地址
-        link.setAttribute("download", ""); // 添加downLoad属性
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
+        const videoUrl = row.fileurl; // 将视频的URL地址替换为你实际的视频地址
+        window.open(videoUrl, "_blank");
       },
       playVideo(row) {
-        this.videoUrl = "/mong/previewVideo?url=" + row.fileurl;
+        this.videoUrl = row.fileurl;
         this.dialogVideoVisible = true;
       },
       handleDelete(row, index) {

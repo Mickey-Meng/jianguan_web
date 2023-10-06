@@ -51,3 +51,17 @@ export const downLoadFile = str => {
   link.click();
   link.remove();
 };
+export const downLoadRowFile = str => {
+  let fileId,fileName
+  if (isJSON(str)) {
+    fileId = JSON.parse(str).fileId;
+    fileName = JSON.parse(str).uploadname;
+  }
+  let link = document.createElement("a");
+  link.style.display = "none"; //mong/preview?fileid=
+  link.href = "/mong/download?fileid=" + fileId+"&fileName="+fileName // 设置下载地址
+  link.setAttribute("download", ""); // 添加downLoad属性
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+};

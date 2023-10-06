@@ -111,7 +111,7 @@ export default {
             margin-left: 17px;
             letter-spacing: 3px;
             font-weight: bold;
-            color: #808C9A;
+            color: #fff;
             // color: rgb(129, 129, 129)
             //font-family: PingFang SC;
           }
@@ -138,6 +138,7 @@ export default {
               margin-left: 10px;
               font-weight: 500;
               letter-spacing: 3px;
+            color: #fff;
             }
           }
           .el-menu-item.is-active{

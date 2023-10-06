@@ -34,7 +34,7 @@
       <div class="right_process" style="display:none;">
         <div class="item">
           <div class="header_text">
-            <div class="text">房建进度</div>
+            <div class="text">道路进度</div>
             <div class="num ql">{{ lmNum }}</div>
           </div>
           <div class="line">
@@ -238,7 +238,7 @@ export default {
   methods: {
     initData() {
       api.getMiddleData(this.project.id).then((res) => {
-        const {QL, SD, DL, LM} = res.data; // LM代表房建
+        const {QL, SD, DL, LM} = res.data; // LM代表道路
         let allCount = 0,
           allFinish = 0;
         if (QL) {
@@ -271,7 +271,7 @@ export default {
           allCount += count;
           this.dlNum = Math.floor((finish / count) * 10000)/100 + "%";
         }
-        if (LM) { // LM代表房建
+        if (LM) { // LM代表道路
           let finish = LM.finish || 0;
           let count = LM.count || 0;
           if (finish && count && finish === count) {
@@ -291,7 +291,7 @@ export default {
         this.option.series[0].data[1].value = nFinish;
         this.option.title.text = rate + "%";
       });
-      
+
       api.getEngCompany(this.project.id).then((res) => {
         let rate = res.data.productionProgress || 0
         let nFinish = 100 - rate;
@@ -299,7 +299,7 @@ export default {
         this.option1.series[0].data[1].value = nFinish;
         this.option1.title.text = rate + "%";
 
-        
+
         rate = res.data.attachmentProgress || 0
         nFinish = 100 - rate;
         this.option2.series[0].data[0].value = rate;

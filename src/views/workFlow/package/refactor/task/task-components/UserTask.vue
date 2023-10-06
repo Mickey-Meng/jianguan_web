@@ -18,7 +18,8 @@
     </el-form-item>
     <el-form-item label="候选用户" v-if="formData.groupType === 'USERS'">
       <TagSelect v-model="userTaskForm.candidateUsers">
-        <el-button slot="append" class="append-add" type="default" icon="el-icon-plus" @click="onSelectCandidateUsers(true)" />
+        <el-button slot="append" class="append-add" type="default" icon="el-icon-plus"
+          @click="onSelectCandidateUsers(true)" />
       </TagSelect>
     </el-form-item>
     <el-form-item v-if="formData.groupType === 'ROLE'" label="候选角色">
@@ -27,10 +28,10 @@
       </el-select>
     </el-form-item>
     <el-form-item v-if="formData.groupType == 'DEPT' || formData.groupType == 'POST'"
-      :label="formData.groupType === 'DEPT' ? '候选部门' : '候选岗位'"
-    >
+      :label="formData.groupType === 'DEPT' ? '候选部门' : '候选岗位'">
       <TagSelect v-model="candidateGroupIds">
-        <el-button slot="append" class="append-add" type="default" icon="el-icon-plus" @click="onSelectCandidatGroups(true)" />
+        <el-button slot="append" class="append-add" type="default" icon="el-icon-plus"
+          @click="onSelectCandidatGroups(true)" />
       </TagSelect>
     </el-form-item>
     <el-form-item label="到期时间">
@@ -46,8 +47,8 @@
 </template>
 
 <script>
-import { findItemFromList, treeDataTranslate } from '@/utils';
-import { SysPostController, DictionaryController } from '@/api';
+import { findItemFromList, treeDataTranslate } from '@/utils'; 
+import { SysPostController, DictionaryController } from '@/api/user';
 import TagSelect from '@/views/workFlow/components/TagSelect.vue';
 import TaskUserSelect from '@/views/workFlow/components/TaskUserSelect.vue';
 import TaskGroupSelect from '@/views/workFlow/components/TaskGroupSelect.vue';
@@ -95,7 +96,7 @@ export default {
     };
   },
   methods: {
-    onSelectAssignee (multiple = false) {
+    onSelectAssignee(multiple = false) {
       this.$dialog.show('选择用户', TaskUserSelect, {
         area: ['1000px', '600px']
       }, {
@@ -108,9 +109,9 @@ export default {
           assignee = (res || {}).loginName;
         }
         this.userTaskForm.assignee = assignee;
-      }).catch(e => {});
+      }).catch(e => { });
     },
-    onSelectCandidateUsers (multiple = false) {
+    onSelectCandidateUsers(multiple = false) {
       let usedUserIdList = (this.userTaskForm.candidateUsers == null || this.userTaskForm.candidateUsers === '') ? [] : this.userTaskForm.candidateUsers.split(',');
       this.$dialog.show('选择候选用户', TaskUserSelect, {
         area: ['1000px', '600px']
@@ -138,9 +139,9 @@ export default {
         }
 
         this.userTaskForm.candidateUsers = usedUserIdList.join(',');
-      }).catch(e => {});
+      }).catch(e => { });
     },
-    loadSysRoleList () {
+    loadSysRoleList() {
       return new Promise((resolve, reject) => {
         DictionaryController.dictSysRole(this, {}).then(res => {
           this.roleList = res.getList();
@@ -150,7 +151,7 @@ export default {
         });
       });
     },
-    loadDeptWidgetDropdownList () {
+    loadDeptWidgetDropdownList() {
       return new Promise((resolve, reject) => {
         DictionaryController.dictSysDept(this, {}).then(res => {
           res.getList().forEach(item => {
@@ -162,9 +163,9 @@ export default {
           reject(e);
         });
       });
-      
+
     },
-    loadDeptPostList () {
+    loadDeptPostList() {
       return new Promise((resolve, reject) => {
         DictionaryController.dictDeptPost(this, {}).then(res => {
           res.forEach(item => {
@@ -179,7 +180,7 @@ export default {
         });
       });
     },
-    loadSysPostList () {
+    loadSysPostList() {
       this.postMap = new Map();
       return new Promise((resolve, reject) => {
         SysPostController.list(this, {}).then(res => {
@@ -193,7 +194,7 @@ export default {
         });
       });
     },
-    handlerDeptChange (usedIdList) {
+    handlerDeptChange(usedIdList) {
       this.$dialog.show('选择部门', TaskGroupSelect, {
         area: ['600px', '600px']
       }, {
@@ -209,9 +210,9 @@ export default {
           });
         }
         this.userTaskForm.candidateGroups = Array.isArray(this.candidateGroupIds) ? this.candidateGroupIds.map(item => item.id).join(',') : '';
-      }).catch(e => {});
+      }).catch(e => { });
     },
-    handlerPostChange (usedIdList) {
+    handlerPostChange(usedIdList) {
       this.$dialog.show('选择岗位', TaskPostSelect, {
         area: ['1000px', '615px'],
         skin: 'layer-advance-dialog'
@@ -236,9 +237,9 @@ export default {
           this.updateDeptPost();
         }
         this.userTaskForm.candidateGroups = Array.isArray(this.candidateGroupIds) ? this.candidateGroupIds.map(item => item.id).join(',') : '';
-      }).catch(e => {});
+      }).catch(e => { });
     },
-    getDeptPostItem (item) {
+    getDeptPostItem(item) {
       let deptName;
       switch (item.deptType) {
         case 'allDeptPost':
@@ -262,7 +263,7 @@ export default {
         postName
       }
     },
-    onSelectCandidatGroups () {
+    onSelectCandidatGroups() {
       let usedIdList = this.userTaskForm.candidateGroups ? this.userTaskForm.candidateGroups.split(',') : [];
       if (this.formData.groupType === 'DEPT') {
         this.handlerDeptChange(usedIdList);
@@ -270,7 +271,7 @@ export default {
         this.handlerPostChange(usedIdList);
       }
     },
-    onSelectRoleChange (value) {
+    onSelectRoleChange(value) {
       this.$nextTick(() => {
         this.userTaskForm.candidateGroups = Array.isArray(value) ? value.join(',') : '';
       });
@@ -337,7 +338,7 @@ export default {
         });
       }
     },
-    updateFormKey () {
+    updateFormKey() {
       if (this.formData == null) return;
       let formKeyString = JSON.stringify({
         formId: this.flowEntry().bindFormType === this.SysFlowEntryBindFormType.ONLINE_FORM ? this.formData.formId : undefined,
@@ -347,17 +348,17 @@ export default {
       });
       window.bpmnInstances.modeling.updateProperties(window.bpmnInstances.bpmnElement, { formKey: formKeyString });
     },
-    onGroupTypeChange () {
+    onGroupTypeChange() {
       this.userTaskForm.assignee = undefined;
       this.userTaskForm.candidateUsers = undefined;
       this.candidateGroupIds = [];
       this.userTaskForm.candidateGroups = '';
       this.updateFormKey();
     },
-    updateDeptPost () {
+    updateDeptPost() {
       // 岗位
       if (this.formData.groupType === 'POST') {
-        let elExtensionElements = window.bpmnInstances.bpmnElement.businessObject.get("extensionElements")  || window.bpmnInstances.moddle.create("bpmn:ExtensionElements", { values: [] });
+        let elExtensionElements = window.bpmnInstances.bpmnElement.businessObject.get("extensionElements") || window.bpmnInstances.moddle.create("bpmn:ExtensionElements", { values: [] });
         let otherExtensions = elExtensionElements.values.filter(ex => ex.$type !== `${this.prefix}:DeptPostList`);
         if (this.deptPostListElement == null) {
           this.deptPostListElement = window.bpmnInstances.moddle.create(`${this.prefix}:DeptPostList`, { deptPostList: [] });
@@ -390,7 +391,7 @@ export default {
       }
       window.bpmnInstances.modeling.updateProperties(window.bpmnInstances.bpmnElement, taskAttr);
     },
-    updateUserCandidateGroups (type, value) {
+    updateUserCandidateGroups(type, value) {
       console.log(type, value);
       let elExtensionElements = window.bpmnInstances.bpmnElement.businessObject.get("extensionElements") || window.bpmnInstances.moddle.create("bpmn:ExtensionElements", { values: [] });
       let otherExtensions = elExtensionElements.values.filter(ex => ex.$type !== `${this.prefix}:UserCandidateGroups`);
@@ -433,17 +434,17 @@ export default {
       }
     },
     'userTaskForm.assignee': {
-      handler () {
+      handler() {
         this.updateElementTask('assignee');
       }
     },
     'userTaskForm.candidateUsers': {
-      handler () {
+      handler() {
         this.updateElementTask('candidateUsers');
       }
     },
     'candidateGroupIds': {
-      handler () {
+      handler() {
         if (this.formData.groupType === 'ROLE') {
           this.userTaskForm.candidateGroups = Array.isArray(this.candidateGroupIds) ? this.candidateGroupIds.join(',') : '';
         } else if (this.formData.groupType === 'POST') {
@@ -454,7 +455,7 @@ export default {
       }
     },
     'userTaskForm.candidateGroups': {
-      handler () {
+      handler() {
         this.updateElementTask('candidateGroups');
       }
     }
@@ -469,10 +470,10 @@ export default {
 </script>
 
 <style scoped>
-  .append-add {
-    border: none;
-    border-left: 1px solid #DCDFE6;
-    border-radius: 0px;
-    background: #F5F7FA;
-  }
+.append-add {
+  border: none;
+  border-left: 1px solid #DCDFE6;
+  border-radius: 0px;
+  background: #F5F7FA;
+}
 </style>

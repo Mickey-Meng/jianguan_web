@@ -14,8 +14,8 @@
 								<div class="form-title">
 									<div class="title-big-bar"></div>
 									<strong>监理巡视</strong>
-									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify"
-										@checkDraft="checkDraft" ref="drafthandle"></drafthandle>
+									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify" @checkDraft="checkDraft"
+										ref="drafthandle"></drafthandle>
 								</div>
 
 								<div class="form-block">
@@ -33,8 +33,8 @@
 												<div class="block-item-label">发起时间</div>
 												<div class="block-item-value">
 													<el-form-item prop="startDate">
-														<el-date-picker value-format="yyyy-MM-dd" v-model="formData.startDate"
-															type="date" placeholder="请选择">
+														<el-date-picker value-format="yyyy-MM-dd"
+															v-model="formData.startDate" type="date" placeholder="请选择">
 														</el-date-picker>
 													</el-form-item>
 
@@ -109,8 +109,8 @@
 										<div class="block-item">
 											<div class="block-item-label">其他附件</div>
 											<div class="block-item-value">
-												<el-input v-model="formData.otherAttachmentInfo" type="textarea"
-													:rows="4" placeholder="请输入"></el-input>
+												<el-input v-model="formData.otherAttachmentInfo" type="textarea" :rows="4"
+													placeholder="请输入"></el-input>
 											</div>
 										</div>
 									</div>
@@ -120,7 +120,8 @@
 								</approveuser>
 
 								<div class="form-block">
-									<el-button class="submit-btn" size="small" type="primary" @click="addOrModify()" :loading="submitDisable">提交
+									<el-button class="submit-btn" size="small" type="primary" @click="addOrModify()"
+										:loading="submitDisable">提交
 									</el-button>
 								</div>
 							</el-form>
@@ -172,7 +173,7 @@
 				draftVisible: false,
 				addOrModifyFlag: true,
 				dialogFormVisible: false,
-				dialogTitle: '全生命周期智慧建设管理平台',
+				dialogTitle: '项目全生命周期数字管理平台',
 				childOptions:[],
 				baseInfo: {
 					buildSection: 1,
@@ -383,5 +384,5 @@
 </script>
 
 <style scoped lang="scss">
-	@import "../../../../assets/css/dialog.scss"
+@import "../../../../assets/css/dialog.scss"
 </style>

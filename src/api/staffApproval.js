@@ -190,6 +190,17 @@ export const getLeaveRecordsById = (projectId, roleType = undefined) => {
     }
   });
 };
+
+export const getLeaveDetailById = (personLeaveId) => {
+  return request({
+    url: api.getLeaveDetailById,
+    method: "post",
+    params: {
+      personLeaveId
+    }
+  });
+};
+
 export const deleteLeaveRecord = (id, projectId) => {
   return request({
     url: api.deleteLeaveRecord,

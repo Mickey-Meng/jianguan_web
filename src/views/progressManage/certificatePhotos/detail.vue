@@ -1,6 +1,7 @@
 <template>
 	<div>
-		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible" :fullscreen="true">
+		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible"
+			:fullscreen="true">
 			<template slot="title">
 				{{dialogTitle}}
 				<div class="logo-icon"></div>
@@ -112,7 +113,7 @@ lo	} from "@/utils/format.js";
 		props:['detailRow'],
 		data() {
 			return {
-				dialogTitle: '全生命周期智慧建设管理平台',
+				dialogTitle: '项目全生命周期数字管理平台',
 				dialogFormVisible: false,
 
 				baseInfo: {
@@ -207,5 +208,5 @@ lo	} from "@/utils/format.js";
 </script>
 
 <style scoped lang="scss">
-	@import "src/assets/css/dialog";
+@import "src/assets/css/dialog";
 </style>

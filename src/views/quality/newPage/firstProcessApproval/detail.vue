@@ -1,6 +1,7 @@
 <template>
 	<div>
-		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible" :fullscreen="true">
+		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible"
+			:fullscreen="true">
 			<template slot="title">
 				{{dialogTitle}}
 				<div class="logo-icon"></div>
@@ -126,11 +127,13 @@
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
-										<div class="title-bar"></div><strong>施工技术、工艺方案说明和图表<i class="require-icon"></i></strong>
+										<div class="title-bar"></div><strong>施工技术、工艺方案说明和图表<i
+												class="require-icon"></i></strong>
 										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 											文件，且不超过 200M</span>
 									</div>
-									<attachlist :editAble="false" ref="attachlist" :attachTable="formData.buildTechAttachment">
+									<attachlist :editAble="false" ref="attachlist"
+										:attachTable="formData.buildTechAttachment">
 									</attachlist>
 								</div>
 								<div class="form-block">
@@ -140,25 +143,30 @@
 											文件，且不超过 200M</span>
 									</div>
 
-									<attachlist :editAble="false" ref="attachlist" :attachTable="formData.measureAttachment">
+									<attachlist :editAble="false" ref="attachlist"
+										:attachTable="formData.measureAttachment">
 									</attachlist>
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
-										<div class="title-bar"></div><strong>材料出厂保证书、材料检测试验报告<i class="require-icon"></i></strong>
+										<div class="title-bar"></div><strong>材料出厂保证书、材料检测试验报告<i
+												class="require-icon"></i></strong>
 										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 											文件，且不超过 200M</span>
 									</div>
-									<attachlist :editAble="false" ref="attachlist" :attachTable="formData.materialAttachment">
+									<attachlist :editAble="false" ref="attachlist"
+										:attachTable="formData.materialAttachment">
 									</attachlist>
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
-										<div class="title-bar"></div><strong>机械的主要技术标准及最大生产能力<i class="require-icon"></i></strong>
+										<div class="title-bar"></div><strong>机械的主要技术标准及最大生产能力<i
+												class="require-icon"></i></strong>
 										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 											文件，且不超过 200M</span>
 									</div>
-									<attachlist :editAble="false" ref="attachlist" :attachTable="formData.mechanicalAttachment">
+									<attachlist :editAble="false" ref="attachlist"
+										:attachTable="formData.mechanicalAttachment">
 									</attachlist>
 								</div>
 								<div class="form-block">
@@ -188,7 +196,8 @@
 										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 											文件，且不超过 200M</span>
 									</div>
-									<attachlist :editAble="false" ref="attachlist" :attachTable="formData.qualityAttachment">
+									<attachlist :editAble="false" ref="attachlist"
+										:attachTable="formData.qualityAttachment">
 									</attachlist>
 								</div>
 								<div class="form-block-title">
@@ -212,7 +221,8 @@
 										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 											文件，且不超过 200M</span>
 									</div>
-									<attachlist :editAble="false" ref="attachlist" :attachTable="formData.firstProjectVideo">
+									<attachlist :editAble="false" ref="attachlist"
+										:attachTable="formData.firstProjectVideo">
 									</attachlist>
 									<div class="block-line">
 										<div class="block-item">
@@ -269,7 +279,7 @@
 		data() {
 			return {
 				dialogFormVisible: false,
-				dialogTitle: '全生命周期智慧建设管理平台',
+				dialogTitle: '项目全生命周期数字管理平台',
 				baseInfo: {
 					buildSection: '',
 					buildSectionName: '池州市平天湖东部区域棚户区改造建设工程EPC总承包',
@@ -417,6 +427,4 @@
 	};
 </script>
 
-<style scoped lang="scss">
-	@import "../../../../assets/css/dialog.scss"
-</style>
+<style scoped lang="scss">@import "../../../../assets/css/dialog.scss"</style>

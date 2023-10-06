@@ -1,6 +1,7 @@
 <template>
 	<div>
-		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible" :fullscreen="true">
+		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible"
+			:fullscreen="true">
 			<template slot="title">
 				{{dialogTitle}}
 				<div class="logo-icon"></div>
@@ -11,11 +12,11 @@
 					<div class="form-bg">
 						<div class="form-content">
 							<el-form ref="form" label-width="200px">
-								
+
 								<div class="form-block">
 									<!-- <div class="form-block-title">
 										<div class="title-bar"></div><strong>发起位置</strong>
-										
+
 									</div>
 									<locationmap></locationmap> -->
 									<div class="form-block-title">
@@ -37,7 +38,7 @@
 												</div>
 											</div>
 										</div>
-									
+
 									</div>
 								</div>
 								<div class="form-block">
@@ -75,7 +76,7 @@
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>旁站信息记录</strong>
 									</div>
-									
+
 									<el-collapse v-model="sideInfoVisible">
 										<el-collapse-item v-if="formData.sideProjectId==1" title="嵌入表单" name="1">
 											<el-row
@@ -263,7 +264,7 @@
 													</el-form-item>
 												</el-col>
 											</el-row>
-										
+
 											<el-row>
 												<el-col :span="12">
 													<el-form-item label="开始时间">
@@ -283,7 +284,7 @@
 													</el-form-item>
 												</el-col>
 											</el-row>
-										
+
 											<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">主要数据记录
 											</el-row>
 											<el-row>
@@ -316,9 +317,9 @@
 														{{sideInfo.a69}}
 													</el-form-item>
 												</el-col>
-										
+
 											</el-row>
-										
+
 										</el-collapse-item>
 										<el-collapse-item v-if="formData.sideProjectId==3" title="嵌入表单" name="3">
 											<el-row
@@ -350,7 +351,7 @@
 													</el-form-item>
 												</el-col>
 											</el-row>
-										
+
 											<el-row>
 												<el-col :span="12">
 													<el-form-item label="开始时间">
@@ -382,205 +383,205 @@
 													</el-form-item>
 												</el-col>
 											</el-row>
-										
+
 											<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">主要数据记录
 											</el-row>
 										</el-collapse-item>
 										<el-collapse-item v-if="formData.sideProjectId==4" title="嵌入表单" name="4">
 											<el-row
-													style="font-size: 18px;color: #606266;font-weight: 600;text-align: center;">
-													桩基首盘混凝土</el-row>
-												<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">施工过程详情
-												</el-row>
-												<el-row>
-													<el-form-item label="旁站时间">
-														{{sideInfo.a01}}
+												style="font-size: 18px;color: #606266;font-weight: 600;text-align: center;">
+												桩基首盘混凝土</el-row>
+											<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">施工过程详情
+											</el-row>
+											<el-row>
+												<el-form-item label="旁站时间">
+													{{sideInfo.a01}}
+												</el-form-item>
+											</el-row>
+											<el-row>
+												<el-col :span="8">
+													<el-form-item label="施工员在岗情况">
+														{{sideInfo.a02}}
 													</el-form-item>
-												</el-row>
-												<el-row>
-													<el-col :span="8">
-														<el-form-item label="施工员在岗情况">
-															{{sideInfo.a02}}
-														</el-form-item>
-													</el-col>
-													<el-col :span="8">
-														<el-form-item label="质检员在岗情况">
-															{{sideInfo.a03}}
-														</el-form-item>
-													</el-col>
-													<el-col :span="8">
-														<el-form-item label="安全员在岗情况" prop="sideDate">
-															{{sideInfo.a04}}
-														</el-form-item>
-													</el-col>
-												</el-row>
-												<el-row>
-													<el-col :span="12">
-														<el-form-item label="施工作业人员满足施工需要情况" prop="sideDate">
-															{{sideInfo.a05}}
-														</el-form-item>
-													</el-col>
-													<el-col :span="12">
-														<el-form-item label="特殊作业人员持证上岗情况" prop="sideDate">
-															{{sideInfo.a06}}
-														</el-form-item>
-													</el-col>
-												</el-row>
-												<el-row>
-													<el-col :span="12">
-														<el-form-item label="施工机械满足施工需要情况" prop="sideDate">
-															{{sideInfo.a07}}
-														</el-form-item>
-													</el-col>
-													<el-col :span="12">
-														<el-form-item label="施工材料符合设计和规范要求" prop="sideDate">
-															{{sideInfo.a08}}
-														</el-form-item>
-													</el-col>
-												</el-row>
-												<el-row>
-													<el-col :span="12">
-														<el-form-item label="开始施工时间" prop="sideDate">
-															{{sideInfo.a09}}
-														</el-form-item>
-													</el-col>
-													<el-col :span="12">
-														<el-form-item label="结束施工时间" prop="sideDate">
-															{{sideInfo.a10}}
-														</el-form-item>
-													</el-col>
-												</el-row>
-												<el-row>
-													<el-form-item label="施工工艺按审批施工方案实施" prop="sideDate">
-														{{sideInfo.a11}}
+												</el-col>
+												<el-col :span="8">
+													<el-form-item label="质检员在岗情况">
+														{{sideInfo.a03}}
 													</el-form-item>
-												</el-row>
-												<el-row>
-													<el-form-item label="钢筋笼安放所采用的施工机械设备是否满足要求" prop="sideDate">
-														{{sideInfo.a12}}
+												</el-col>
+												<el-col :span="8">
+													<el-form-item label="安全员在岗情况" prop="sideDate">
+														{{sideInfo.a04}}
 													</el-form-item>
-												</el-row>
-												<el-row>
-													<el-form-item label="钢筋笼吊装及安放工艺是否符合批准的施工方案" prop="sideDate">
-														{{sideInfo.a13}}
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="施工作业人员满足施工需要情况" prop="sideDate">
+														{{sideInfo.a05}}
 													</el-form-item>
-												</el-row>
-												<el-row>
-													<el-col :span="8">
-														<el-form-item label="施工现场质量措施落实情况" prop="sideDate">
-															{{sideInfo.a14}}
-														</el-form-item>
-													</el-col>
-													<el-col :span="8">
-														<el-form-item label="安全措施落实情况" prop="sideDate">
-															{{sideInfo.a15}}
-														</el-form-item>
-													</el-col>
-													<el-col :span="8">
-														<el-form-item label="环保措施落实情况" prop="sideDate">
-															{{sideInfo.a16}}
-														</el-form-item>
-													</el-col>
-												</el-row>
-												<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">主要数据记录
-												</el-row>
-												<el-row>
-													<el-col :span="12">
-														<el-form-item label="施工现场质量措施落实情况" prop="sideDate">
-															{{sideInfo.a17}}
-														</el-form-item>
-													</el-col>
-													<el-col :span="12">
-														<el-form-item label="桩位实测值" prop="sideDate">
-															{{sideInfo.a18}}
-														</el-form-item>
-													</el-col>
-												</el-row>
-												<el-row>
-													<el-col :span="12">
-														<el-form-item label="孔深设计值(m）" prop="sideDate">
-															{{sideInfo.a19}}
-														</el-form-item>
-													</el-col>
-													<el-col :span="12">
-														<el-form-item label="孔深实测值(m）" prop="sideDate">
-															{{sideInfo.a20}}
-														</el-form-item>
-													</el-col>
-												</el-row>
-												<el-row>
-													<el-col :span="12">
-														<el-form-item label="孔径设计值(mm)" prop="sideDate">
-															{{sideInfo.a21}}
-														</el-form-item>
-													</el-col>
-													<el-col :span="12">
-														<el-form-item label="孔径实测值(mm)" prop="sideDate">
-															{{sideInfo.a22}}
-														</el-form-item>
-													</el-col>
-												</el-row>
-												<el-row>
-													<el-col :span="12">
-														<el-form-item label="钻孔倾斜度设计值(mm)" prop="sideDate">
-															{{sideInfo.a23}}
-														</el-form-item>
-													</el-col>
-													<el-col :span="12">
-														<el-form-item label="倾斜度实测值(mm)" prop="sideDate">
-															{{sideInfo.a24}}
-														</el-form-item>
-													</el-col>
-												</el-row>
-												<el-row>
-													<el-col :span="12">
-														<el-form-item label="沉淀厚度设计值(mm)" prop="sideDate">
-															{{sideInfo.a25}}
-														</el-form-item>
-													</el-col>
-													<el-col :span="12">
-														<el-form-item label="沉淀厚度实测值(mm)" prop="sideDate">
-															{{sideInfo.a26}}
-														</el-form-item>
-													</el-col>
-												</el-row>
-												<el-row>
-													<el-col :span="12">
-														<el-form-item label="终孔后泥浆比重" prop="sideDate">
-															{{sideInfo.a27}}
-														</el-form-item>
-													</el-col>
-													<el-col :span="12">
-														<el-form-item label="砂率" prop="sideDate">
-															{{sideInfo.a28}}
-														</el-form-item>
-													</el-col>
-												</el-row>
-												<el-row>
-													<el-col :span="12">
-														<el-form-item label="一清后泥浆的比重" prop="sideDate">
-															{{sideInfo.a29}}
-														</el-form-item>
-													</el-col>
-													<el-col :span="12">
-														<el-form-item label="砂率" prop="sideDate">
-															{{sideInfo.a30}}
-														</el-form-item>
-													</el-col>
-												</el-row>
-												<el-row>
-													<el-col :span="12">
-														<el-form-item label="二清后泥浆的比重" prop="sideDate">
-															{{sideInfo.a31}}
-														</el-form-item>
-													</el-col>
-													<el-col :span="12">
-														<el-form-item label="砂率" prop="sideDate">
-															{{sideInfo.a32}}
-														</el-form-item>
-													</el-col>
-												</el-row>
-											</el-collapse-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="特殊作业人员持证上岗情况" prop="sideDate">
+														{{sideInfo.a06}}
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="施工机械满足施工需要情况" prop="sideDate">
+														{{sideInfo.a07}}
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="施工材料符合设计和规范要求" prop="sideDate">
+														{{sideInfo.a08}}
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="开始施工时间" prop="sideDate">
+														{{sideInfo.a09}}
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="结束施工时间" prop="sideDate">
+														{{sideInfo.a10}}
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-form-item label="施工工艺按审批施工方案实施" prop="sideDate">
+													{{sideInfo.a11}}
+												</el-form-item>
+											</el-row>
+											<el-row>
+												<el-form-item label="钢筋笼安放所采用的施工机械设备是否满足要求" prop="sideDate">
+													{{sideInfo.a12}}
+												</el-form-item>
+											</el-row>
+											<el-row>
+												<el-form-item label="钢筋笼吊装及安放工艺是否符合批准的施工方案" prop="sideDate">
+													{{sideInfo.a13}}
+												</el-form-item>
+											</el-row>
+											<el-row>
+												<el-col :span="8">
+													<el-form-item label="施工现场质量措施落实情况" prop="sideDate">
+														{{sideInfo.a14}}
+													</el-form-item>
+												</el-col>
+												<el-col :span="8">
+													<el-form-item label="安全措施落实情况" prop="sideDate">
+														{{sideInfo.a15}}
+													</el-form-item>
+												</el-col>
+												<el-col :span="8">
+													<el-form-item label="环保措施落实情况" prop="sideDate">
+														{{sideInfo.a16}}
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">主要数据记录
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="桩位设计值" prop="sideDate">
+														{{sideInfo.a17}}
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="桩位实测值" prop="sideDate">
+														{{sideInfo.a18}}
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="孔深设计值(m）" prop="sideDate">
+														{{sideInfo.a19}}
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="孔深实测值(m）" prop="sideDate">
+														{{sideInfo.a20}}
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="孔径设计值(mm)" prop="sideDate">
+														{{sideInfo.a21}}
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="孔径实测值(mm)" prop="sideDate">
+														{{sideInfo.a22}}
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="钻孔倾斜度设计值(mm)" prop="sideDate">
+														{{sideInfo.a23}}
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="倾斜度实测值(mm)" prop="sideDate">
+														{{sideInfo.a24}}
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="沉淀厚度设计值(mm)" prop="sideDate">
+														{{sideInfo.a25}}
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="沉淀厚度实测值(mm)" prop="sideDate">
+														{{sideInfo.a26}}
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="终孔后泥浆比重" prop="sideDate">
+														{{sideInfo.a27}}
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="砂率" prop="sideDate">
+														{{sideInfo.a28}}
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="一清后泥浆的比重" prop="sideDate">
+														{{sideInfo.a29}}
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="砂率" prop="sideDate">
+														{{sideInfo.a30}}
+													</el-form-item>
+												</el-col>
+											</el-row>
+											<el-row>
+												<el-col :span="12">
+													<el-form-item label="二清后泥浆的比重" prop="sideDate">
+														{{sideInfo.a31}}
+													</el-form-item>
+												</el-col>
+												<el-col :span="12">
+													<el-form-item label="砂率" prop="sideDate">
+														{{sideInfo.a32}}
+													</el-form-item>
+												</el-col>
+											</el-row>
+										</el-collapse-item>
 										<el-collapse-item v-if="formData.sideProjectId==5" title="嵌入表单" name="5">
 											<el-row
 												style="font-size: 18px;color: #606266;font-weight: 600;text-align: center;">
@@ -739,7 +740,7 @@
 													</el-form-item>
 												</el-col>
 											</el-row>
-										
+
 										</el-collapse-item>
 										<el-collapse-item v-if="formData.sideProjectId==6" title="嵌入表单" name="6">
 											<el-row
@@ -777,9 +778,9 @@
 														{{sideInfo.a109}}
 													</el-form-item>
 												</el-col>
-										
+
 											</el-row>
-										
+
 											<el-row>
 												<el-col :span="12">
 													<el-form-item label="浇筑开始时间">
@@ -861,9 +862,9 @@
 														{{sideInfo.a123}}
 													</el-form-item>
 												</el-col>
-										
+
 											</el-row>
-										
+
 										</el-collapse-item>
 										<el-collapse-item v-if="formData.sideProjectId==7" title="嵌入表单" name="7">
 											<el-row
@@ -907,7 +908,7 @@
 													</el-form-item>
 												</el-col>
 											</el-row>
-										
+
 											<el-row>
 												<el-col :span="12">
 													<el-form-item label="下钻开始时间">
@@ -976,9 +977,9 @@
 														{{sideInfo.a140}}
 													</el-form-item>
 												</el-col>
-										
+
 											</el-row>
-										
+
 										</el-collapse-item>
 										<el-collapse-item v-if="formData.sideProjectId==8" title="嵌入表单" name="8">
 											<el-row
@@ -1022,7 +1023,7 @@
 													</el-form-item>
 												</el-col>
 											</el-row>
-										
+
 											<el-row>
 												<el-col :span="12">
 													<el-form-item label="安装开始时间">
@@ -1109,7 +1110,7 @@
 													</el-form-item>
 												</el-col>
 											</el-row>
-										
+
 										</el-collapse-item>
 										<el-collapse-item v-if="formData.sideProjectId==9" title="嵌入表单" name="9">
 											<el-row
@@ -1180,7 +1181,7 @@
 													{{sideInfo.a171}}
 												</el-form-item>
 											</el-row>
-											
+
 											<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">主要数据记录
 											</el-row>
 											<el-row>
@@ -1201,9 +1202,9 @@
 														{{sideInfo.a174}}
 													</el-form-item>
 												</el-col>
-												
+
 											</el-row>
-											
+
 										</el-collapse-item>
 										<el-collapse-item v-if="formData.sideProjectId==10" title="嵌入表单" name="10">
 											<el-row
@@ -1274,7 +1275,7 @@
 													{{sideInfo.a185}}
 												</el-form-item>
 											</el-row>
-											
+
 											<el-row style="font-size: 16px;color: #236fa1;font-weight: 600;">主要数据记录
 											</el-row>
 											<el-row>
@@ -1295,14 +1296,14 @@
 														{{sideInfo.a188}}
 													</el-form-item>
 												</el-col>
-												
+
 											</el-row>
-											
+
 										</el-collapse-item>
-					
+
 									</el-collapse>
-									
-								
+
+
 									<div class="block-line">
 										<div class="block-item">
 											<div class="block-item-label">旁站工作情况</div>
@@ -1320,7 +1321,7 @@
 										</div>
 									</div>
 								</div>
-								
+
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>旁站现场照片</strong>
@@ -1375,7 +1376,7 @@
 				</el-aside>
 			</el-container>
 		</el-dialog>
-		
+
 	</div>
 </template>
 
@@ -1394,11 +1395,11 @@
 	import taskhandle from '../../../common/taskhandle'
 	import attachlist from "../../../common/attachlist"
 	import projectinfo from "../../../common/projectinfo.vue"
-	
+
 	import {
 		getBridgeTree
 	} from "@/api/tree";
-	
+
 	import simpleData from '../../../common/simdata.js'
 
 	export default {
@@ -1406,7 +1407,7 @@
 		data() {
 			return {
 				dialogFormVisible: false,
-				dialogTitle: '全生命周期智慧建设管理平台',
+				dialogTitle: '项目全生命周期数字管理平台',
 				sideOptions:[],
 				baseInfo: {
 					buildSection: '',
@@ -1418,7 +1419,7 @@
 				},
 				sideInfoVisible:'',
 				sideInfo: {
-				
+
 				},
 				formData: { //表单参数
 					"actualCheckAttachment": [],
@@ -1454,7 +1455,7 @@
 			projectinfo
 		},
 		computed: {
-			
+
 		},
 		watch:{
 			detailRow(obj){
@@ -1506,7 +1507,7 @@
 					this.formData=data;
 					this.sideInfo = data['sideInfo'] ? JSON.parse(data['sideInfo']) : {};
 					this.formData.sideProjectStr=getOptionsLabel(this.sideOptions,this.formData.sideProjectId)
-					
+
 					let treename=getChidlren(this.treeData,this.formData.projectPartId,[]);
 					// this.formData.projectPartStr=(treename?treename:[]).join('/');
 				});
@@ -1532,10 +1533,11 @@
 </script>
 
 <style scoped lang="scss">
-	.el-collapse-item {
-		.el-input {
-			width: calc(100% - 200px) !important;
-		}
+.el-collapse-item {
+	.el-input {
+		width: calc(100% - 200px) !important;
 	}
-	@import "../../../../assets/css/dialog.scss"
+}
+
+@import "../../../../assets/css/dialog.scss"
 </style>

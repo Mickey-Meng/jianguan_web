@@ -87,8 +87,6 @@ export default {
         if (res.data.constructionPlanCount > 0) {
           description += "施工方案设计:" + res.data.constructionPlan + ";";
         }
-        console.log(res);
-        console.log(description);
         if (res.data.certificatePhotosCount > 0 &&
           res.data.constructionDesignCount > 0) {
           setTimeout(() => {

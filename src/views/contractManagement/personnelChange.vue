@@ -56,25 +56,13 @@
           </el-table-column>
           <el-table-column prop="status" align="center" label="审核状态" show-overflow-tooltip>
             <template slot-scope="scope">
-              <el-tag
-                v-if="scope.row.status == '2'"
-                size="mini"
-                type="warning"
-              >
+              <el-tag v-if="scope.row.status == '2'" size="mini" type="warning">
                 驳回
               </el-tag>
-              <el-tag
-                v-if="scope.row.status == '0'"
-                size="mini"
-                type="default"
-              >
+              <el-tag v-if="scope.row.status == '0'" size="mini" type="default">
                 审批中
               </el-tag>
-              <el-tag
-                v-if="scope.row.status == '1'"
-                size="mini"
-                type="success"
-              >
+              <el-tag v-if="scope.row.status == '1'" size="mini" type="success">
                 已审批
               </el-tag>
             </template>
@@ -82,7 +70,8 @@
           <el-table-column label="操作">
             <template slot-scope="{row}">
               <el-button type="text" size="mini" @click="seeDetail(row)">详情</el-button>
-              <el-button v-if="$store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'" type="text" size="mini" @click="deleteRow(row)">删除</el-button>
+              <el-button v-if="$store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'" type="text" size="mini"
+                @click="deleteRow(row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -335,7 +324,7 @@ export default {
         projectId: ""
       },
       taskInfo: {},
-      dialogTitle: "全生命周期智慧建设管理平台",
+      dialogTitle: "项目全生命周期数字管理平台",
       dialogFormVisible: false,
       queryData: {
         beforeName: "",

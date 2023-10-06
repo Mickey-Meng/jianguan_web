@@ -14,12 +14,7 @@
         <div class="header_text">进度变化</div>
       </div>
       <el-select v-model="type" @change="changeType" style="width: 200px;margin-right: 20px">
-        <el-option
-          v-for="item in typeArr"
-          :key="item.key"
-          :value="item.key"
-          :label="item.name"
-        />
+        <el-option v-for="item in typeArr" :key="item.key" :value="item.key" :label="item.name" />
       </el-select>
     </div>
     <v-chart autoresize :options="option" class="charts"></v-chart>
@@ -28,8 +23,8 @@
 
 <script>
 import echarts from "echarts";
-import {getAreaProgress} from "@/api/progress";
-import {mapGetters} from "vuex";
+import { getAreaProgress } from "@/api/progress";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -43,7 +38,7 @@ export default {
           key: "SD",
         },
         {
-          name: "房建",
+          name: "道路",
           key: "LM",
         },
         {
@@ -185,7 +180,7 @@ export default {
       this.initData();
     },
     initData() {
-      getAreaProgress(this.type,this.project.id).then((res) => {
+      getAreaProgress(this.type, this.project.id).then((res) => {
         let data = res.data;
         let x = [];
         let series = [];
@@ -197,11 +192,13 @@ export default {
         for (let i in data) {
           let num = [];
           let lists = data[i];
-          // lists.reverse();
+          // #612 lrj
           if (lists && lists.length > 0) {
-            lists.forEach((result) => {
-              num.push(result.number);
-            });
+            num = lists.map(res => { return res.number })
+            num.reverse();
+            // lists.forEach((result) => {
+            //   num.push(result.number);
+            // });
           }
           let obj = {
             name: i,
@@ -220,6 +217,8 @@ export default {
           series.push(obj);
         }
         this.option.series = series;
+        console.log('000000', series[1])
+
         this.option.xAxis[0].data = x;
       });
     },
@@ -227,63 +226,62 @@ export default {
 };
 </script>
 <style lang='scss' scoped>
-  .change_wrapper {
-    height: 100%;
-    background-color: #FFFFFF;
-    border-radius: 15px;
+.change_wrapper {
+  height: 100%;
+  background-color: #FFFFFF;
+  border-radius: 15px;
 
-    .new_ui_header {
+  .new_ui_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0px 5px 20px;
+
+    .left {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 10px 0px 5px 20px;
 
-      .left {
-        display: flex;
-        align-items: center;
-
-        .header_line {
-          width: 4px;
-          height: 16px;
-          background-color: #1E6EEB;
-          margin-right: 8px;
-          border-radius: 3px;
-        }
-
-        .header_text {
-          color: #2D405E;
-          font-size: 18px;
-          font-weight: bold;
-          font-family: PingFang SC;
-        }
+      .header_line {
+        width: 4px;
+        height: 16px;
+        background-color: #1E6EEB;
+        margin-right: 8px;
+        border-radius: 3px;
       }
 
-      .check_box {
-        padding-right: 20px;
-        display: flex;
-        align-items: center;
-
-        ::v-deep.el-radio {
-          .el-radio__label {
-            color: #85858F;
-          }
-        }
-
-        ::v-deep.el-radio.is-checked {
-          .el-radio__label {
-            color: #2D405E;
-          }
-        }
+      .header_text {
+        color: #2D405E;
+        font-size: 18px;
+        font-weight: bold;
+        font-family: PingFang SC;
       }
-
-
     }
 
+    .check_box {
+      padding-right: 20px;
+      display: flex;
+      align-items: center;
+
+      ::v-deep.el-radio {
+        .el-radio__label {
+          color: #85858F;
+        }
+      }
+
+      ::v-deep.el-radio.is-checked {
+        .el-radio__label {
+          color: #2D405E;
+        }
+      }
+    }
+
+
   }
 
-  .charts {
-    width: 100%;
-    height: calc(100% - 40px);
-  }
+}
 
+.charts {
+  width: 100%;
+  height: calc(100% - 40px);
+}
 </style>

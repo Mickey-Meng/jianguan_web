@@ -1,86 +1,94 @@
 <!--
 @name:
-@description: 请假台账
+@description: 请假记录
 @author: 王海林
-@time: 2022-08-05 13:39:26
+@time: 2022-05-11 15:53:37
 @modifier:
 @modifierTime:
 -->
 <template>
-  <el-container>
+  <el-container class="container-box">
     <el-header>
-      <div>
-        <div class="input-box">
-          <div class="input-value">
-            <el-input v-model="queryData.leaveName" clearable placeholder="请输入请假人"></el-input>
-          </div>
+      <div class="input-box">
+        <div class="input-value">
+          <el-input v-model="queryData.leaveName" clearable placeholder="请输入请假人"></el-input>
+        </div>
 
-        </div>
-        <div class="input-box" style="margin-left: 10px">
-          <div class="input-value">
-            <el-date-picker v-model="queryData.leaveTime" type="daterange" value-format="yyyy-MM-dd" range-separator="至"
-              start-placeholder="开始日期" end-placeholder="结束日期">
-            </el-date-picker>
-          </div>
-        </div>
-        <div class="input-box" style="margin-left: 10px">
-          <div class="input-value">
-            <el-select v-model="queryData.selectValue" placeholder="请选择">
-              <el-option v-for="item in options" :key="item.value" :label="item.name" :value="item.value">
-              </el-option>
-            </el-select>
-          </div>
-        </div>
-        <div class="input-box" style="margin-left: 10px">
-          <div class="input-value">
-            <el-select v-model="queryData.state" placeholder="请选择" clearable>
-              <el-option v-for="item in status" :key="item.value" :label="item.name" :value="item.value">
-              </el-option>
-            </el-select>
-          </div>
-        </div>
-        <el-button type="primary" style="margin-left: 10px" @click="queryClick">搜索</el-button>
       </div>
+      <div class="input-box" style="margin-left: 10px">
+        <div class="input-value">
+          <el-date-picker v-model="queryData.leaveTime" type="daterange" value-format="yyyy-MM-dd" range-separator="至"
+            start-placeholder="开始日期" end-placeholder="结束日期">
+          </el-date-picker>
+        </div>
+      </div>
+      <div class="input-box" style="margin-left: 10px">
+        <div class="input-value">
+          <el-select v-model="queryData.selectValue" placeholder="请选择">
+            <el-option v-for="item in options" :key="item.value" :label="item.name" :value="item.value">
+            </el-option>
+          </el-select>
+        </div>
+      </div>
+      <el-button type="primary" style="margin-left: 10px" @click="queryClick">搜索</el-button>
 
+      <div class="right-btns">
+        <!-- <el-button type="primary" size="small"
+          :icon="operateBtnsVisible?'el-icon-d-arrow-right':'el-icon-d-arrow-left'"
+          @click="operateBtnsVisible=!operateBtnsVisible"></el-button> -->
+        <div class="operate-btns">
+          <!--          <el-button size="small" @click="openDialog">新增请假</el-button>-->
+          <!--          <el-button size="small">导出</el-button>-->
+          <!--          <el-button size="small">批量操作</el-button>-->
+        </div>
+      </div>
     </el-header>
-    <el-main class="submit">
-      <el-table
-        :data="tableData.slice((queryData.pageNum - 1) * queryData.pageSize, queryData.pageNum * queryData.pageSize)"
-        style="width: 100%" border height="100%" class="have_scrolling">
-        <el-table-column prop="leaverPersonName" label="请假人"></el-table-column>
-        <el-table-column label="请假类型">
-          <template slot-scope="scope">
-            <el-tag size="mini">{{ transferData(scope.row.leaverType) }}</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="startTime" label="开始时间"></el-table-column>
-        <el-table-column prop="endTime" label="结束时间"></el-table-column>
-        <el-table-column prop="leaveDay" label="请假天数"></el-table-column>
-        <el-table-column prop="handoffPerson" label="工作交接人"></el-table-column>
-        <el-table-column prop="remark" label="请假原因"></el-table-column>
-        <!--          <el-table-column prop="uploadname" label="备注"></el-table-column>-->
-        <el-table-column label="状态">
-          <template slot-scope="{row,$index}">
-            <span>{{ row.status === 2 ? "审核完成" : row.status === 1 ? "审核中" : row.status === 3 ? "已失效" : "" }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="操作">
-          <template slot-scope="{row,$index}">
-            <el-button type="text" size="mini" @click="seeDetail(row)">详情</el-button>
-            <el-button type="text" size="mini" v-if="rolePerms[0] == 'gly'"
-              @click="deleteInfo(row, $index)">删除</el-button>
+    <el-main>
+      <div class="container">
+        <el-table
+          :data="tableData.slice((queryData.pageNum - 1) * queryData.pageSize, queryData.pageNum * queryData.pageSize)"
+          style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
+          <el-table-column prop="leaverPersonName" label="请假人"></el-table-column>
+          <el-table-column prop="leaverType" label="请假类型"></el-table-column>
+          <el-table-column prop="startTime" label="开始时间"></el-table-column>
+          <el-table-column prop="endTime" label="结束时间"></el-table-column>
+          <el-table-column prop="leaveDay" label="请假天数"></el-table-column>
+          <el-table-column prop="handoffPerson" label="工作交接人"></el-table-column>
+          <el-table-column prop="remark" label="请假原因"></el-table-column>
+          <!--          <el-table-column prop="uploadname" label="备注"></el-table-column>-->
+          <el-table-column label="审核状态">
 
-          </template>
-        </el-table-column>
+            <template slot-scope="scope">
+              <el-tag v-if="scope.row.status == '2'" size="mini" type="warning">
+                驳回
+              </el-tag>
+              <el-tag v-if="scope.row.status == '0'" size="mini" type="default">
+                审批中
+              </el-tag>
+              <el-tag v-if="scope.row.status == '1'" size="mini" type="success">
+                已审批
+              </el-tag>
+              <el-tag v-if="scope.row.status == '3'" size="mini" type="warning">
+                已结束
+              </el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作">
+            <template slot-scope="{row,$index}">
+              <el-button type="text" size="mini" @click="seeDetail(row)">详情</el-button>
+              <el-button type="text" size="mini" v-if="rolePerms[0] == 'gly'"
+                @click="deleteInfo(row, $index)">删除</el-button>
 
-      </el-table>
+            </template>
+          </el-table-column>
+
+        </el-table>
+        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+          :current-page="queryData.pageNum" :page-size="queryData.pageSize"
+          layout="total, sizes, prev, pager, next, jumper" :total="tableData.length">
+        </el-pagination>
+      </div>
     </el-main>
-    <el-footer>
-      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-        :current-page="queryData.pageNum" :page-size="queryData.pageSize" layout="total, sizes, prev, pager, next, jumper"
-        :total="tableData.length">
-      </el-pagination>
-    </el-footer>
 
     <el-dialog class="full-dialog defined-dialog" :fullscreen="true" :visible.sync="dialogFormVisible">
       <template slot="title">
@@ -109,12 +117,7 @@
                   <div class="block-item">
                     <div class="block-item-label">请假类型</div>
                     <div class="block-item-value">
-                      <el-select placeholder="请选择" v-model="form.leaverType" v-if="isCreate">
-                        <el-option v-for="(item, i) in eventType" :key="ii" :label="item.dictLabel"
-                          :value="item.dictCode">
-                        </el-option>
-                      </el-select>
-                      <div v-else>{{ form.leaverType === '105'? "病假":(form.leaverType === '106'? "事假":form.leaverType) }}</div>
+                      {{ form.leaverType }}
                     </div>
                   </div>
                 </div>
@@ -184,9 +187,8 @@
 
 <script>
 import { getNowDate, checkAuditTime } from "@/utils/date";
-import { getDictDataByType, getDicts } from "@/api/progress";
 import { mapGetters } from "vuex";
-import { getLeaveRecordsById, getAllLeaveRecords, deleteLeaveRecord, deleteChangeRecord } from "@/api/staffApproval";
+import { getLeaveRecordsById, deleteLeaveRecord, deleteChangeRecord } from "@/api/staffApproval";
 import tasklog from "@/views/common/tasklog";
 
 
@@ -199,17 +201,6 @@ export default {
       tableData: [],
       taskInfo: {},
       dialogFormVisible: false,
-      eventType: [
-        {
-          dictCode:"105",
-          dictLabel:'病假'
-        },
-
-        {
-          dictCode:"106",
-          dictLabel:'事假'
-        }
-      ],
       allData: [],
       options: [
         {
@@ -229,38 +220,18 @@ export default {
           value: 3
         }
       ],
-      status: [
-        {
-          name: "审批中",
-          value: 1
-        },
-        {
-          name: "审批通过",
-          value: 2
-        },
-        {
-          name: "已失效",
-          value: 3
-        }
-      ],
       queryData: {
         leaveName: "",
         leaveTime: null,
         pageNum: 1,
         totalPage: 1,
-        state: "",
         pageSize: 10,
         selectValue: 10
       },
-      dialogTitle: "全生命周期智慧建设管理平台"
+      dialogTitle: "项目全生命周期数字管理平台"
     };
   },
   created() {
-    /**
-     getDicts('jg_ask_for_leave_type').then(res => {
-      this.eventType = res.data || [];
-    }) 
-     */
     this.init();
     this.projectName = this.project.name;
     this.form = {
@@ -277,9 +248,9 @@ export default {
   components: { tasklog },
   methods: {
     init() {
-      let { selectValue, leaveName, leaveTime, state } = this.queryData;
+      let { selectValue, leaveName, leaveTime } = this.queryData;
       let type = selectValue === 10 ? undefined : selectValue;
-      getAllLeaveRecords(this.project.id, type, state).then(res => {
+      getLeaveRecordsById(this.project.id, type).then(res => {
         let data = res.data;
         if (!leaveName && !leaveTime) {
           this.tableData = data;
@@ -297,7 +268,6 @@ export default {
       });
     },
     seeDetail(row) {
-      this.taskInfo = {};
       this.dialogFormVisible = true;
       this.form = Object.assign({}, row);
       let { processDefinitionId, processInstanceId, taskId } = row;
@@ -311,10 +281,7 @@ export default {
       }
       this.dialogFormVisible = true;
       this.$nextTick(() => {
-        setTimeout(() => {
-          this.$refs["tasklog"].initData();
-
-        }, 100);
+        this.$refs["tasklog"].initData();
       });
     },
     openDialog() {
@@ -327,10 +294,8 @@ export default {
         type: "warning"
       }).then(() => {
         deleteLeaveRecord(row.id, this.project.id).then(() => {
-          // this.tableData.splice(index, 1);
           let ind = this.tableData.findIndex(e => e.id === row.id);
           this.tableData.splice(ind, 1);
-          // this.init();
           this.$message.success("删除成功");
         }).catch(() => {
           this.$message.info("删除失败");
@@ -345,10 +310,6 @@ export default {
     handleCurrentChange(val) {
       this.queryData.pageNum = val;
     },
-    transferData(val) {
-      let data = this.eventType || []
-      return data.find(res => res.dictCode == val).dictLabel
-    },
     queryClick() {
       this.init();
     }
@@ -359,16 +320,6 @@ export default {
 <style scoped lang="scss">
 @import "../../../assets/css/table.scss";
 @import "../../../assets/css/dialog.scss";
-
-.el-header {
-  >div {
-    display: flex;
-  }
-}
-
-.submit {
-  padding: 20px 0 0 0 !important;
-}
 
 .container-box {
   .el-header {

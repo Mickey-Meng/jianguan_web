@@ -14,12 +14,8 @@
         <div class="header_text">项目统计</div>
       </div>
       <ul>
-        <li
-          v-for="(item, index) in nav"
-          :key="index"
-          :class="{ active: currentView == item.key }"
-          @click="changeModel(item.key)"
-        >
+        <li v-for="(item, index) in nav" :key="index" :class="{ active: currentView == item.key }"
+          @click="changeModel(item.key)">
           {{ item.name }}
         </li>
       </ul>
@@ -27,19 +23,14 @@
     <div class="area_select">
       <div class="area_date">
         <ul v-if="radio === '1'">
-          <li v-for="(item,index) in areaLists" :key="index"
-              :class="{active:item.gongqucode=== currentAreaInfo.gongqucode}" @click="changeArea(item)">
+          <li v-for="(item, index) in areaLists" :key="index"
+            :class="{ active: item.gongqucode === currentAreaInfo.gongqucode }" @click="changeArea(item)">
             {{ item.gongquname }}
           </li>
         </ul>
         <div v-if="radio === '2'" class="port_box">
           <el-select v-model="timeKey">
-            <el-option
-              v-for="item in sectionData"
-              :key="item.key"
-              :value="item.key"
-              :label="item.name"
-            />
+            <el-option v-for="item in sectionData" :key="item.key" :value="item.key" :label="item.name" />
           </el-select>
         </div>
 
@@ -47,19 +38,12 @@
       </div>
       <div class="area_check">
         <el-radio v-model="radio" label="1">统计模式</el-radio>
-<!--        <el-radio v-model="radio" label="2">报表模式</el-radio>-->
+               <el-radio v-model="radio" label="2">报表模式</el-radio>
       </div>
     </div>
     <div class="progress_content">
-      <weeklyAndMonthly
-        v-if="radio === '2'"
-        :currentView="currentView"
-        :timeKey="timeKey"
-      ></weeklyAndMonthly>
-      <statisticsChart
-        v-if="radio === '1'"
-        :currentAreaInfo="currentAreaInfo"
-      ></statisticsChart>
+      <weeklyAndMonthly v-if="radio === '2'" :currentView="currentView" :timeKey="timeKey"></weeklyAndMonthly>
+      <statisticsChart v-if="radio === '1'" :currentAreaInfo="currentAreaInfo"></statisticsChart>
     </div>
   </div>
 </template>
@@ -67,8 +51,8 @@
 <script>
 import weeklyAndMonthly from "@/views/project/component/weeklyAndMonthly";
 import statisticsChart from "@/views/project/progress/statisticsChart";
-import {getHomeBottomChart} from "@/api/data";
-import {mapGetters} from "vuex";
+import { getHomeBottomChart } from "@/api/data";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -78,7 +62,7 @@ export default {
       timeKey: 3,
       nav: [
         {
-          name: "房建",
+          name: "道路",
           key: "LM"
         },
         {
@@ -111,20 +95,19 @@ export default {
   created() {
     this.init();
   },
-  components: {weeklyAndMonthly, statisticsChart},
+  components: { weeklyAndMonthly, statisticsChart },
   computed: {
     ...mapGetters(["project"])
   },
   methods: {
     init() {
-      getHomeBottomChart(this.currentView,this.project.id).then(res => {
+      getHomeBottomChart(this.currentView, this.project.id).then(res => {
         let data = res.data || [];
         this.currentAreaInfo = null;
         if (data && data.length > 0) {
           data.sort((a, b) => a.gongqucode - b.gongqucode);
           this.currentAreaInfo = data[0];
         }
-        console.log('11111111111111',data)
         this.areaLists = data;
       });
     },

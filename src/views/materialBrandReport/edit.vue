@@ -25,34 +25,25 @@
                       </div>
                     </div>
 
-                  <div class="block-item">
-                    <div class="block-item-label">材料类型</div>
+                    <div class="block-item">
+                      <div class="block-item-label">材料类型</div>
                       <div class="block-item-value">
                         <el-form-item prop="type">
-                        <el-select
-                          v-model="formData.materialCategory"
-                          filterable
-                          clearable
-                          placeholder="请选择材料类型"
-                        >
-                          <el-option
-                            v-for="item in functionary"
-                            :key="item.id"
-                            :value="item.id+','+item.name"
-                            :label="item.name"
-                          />
-                        </el-select>
-                      </el-form-item>
+                          <el-select v-model="formData.materialCategory" filterable clearable placeholder="请选择材料类型">
+                            <el-option v-for="item in functionary" :key="item.id" :value="item.id+','+item.name"
+                              :label="item.name" />
+                          </el-select>
+                        </el-form-item>
                       </div>
-                    
-                  </div>
+
+                    </div>
                   </div>
                 </div>
                 <div class="form-block">
                   <div class="form-block-title">
                     <div class="title-bar"></div><strong>附件</strong>
                     <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-											xisx xis pdf文件，且不超过100m</span>
+                      xisx xis pdf文件，且不超过100m</span>
                   </div>
                   <attachlist :editAble="true" ref="attachlist" :attachTable="attachTable"></attachlist>
                 </div>
@@ -88,7 +79,7 @@ export default {
     return {
       draftVisible: false,
       addOrModifyFlag: true,
-      dialogTitle: '全生命周期智慧建设管理平台',
+      dialogTitle: '项目全生命周期数字管理平台',
       dialogFormVisible: false,
       partOptions:[],
       rules: {

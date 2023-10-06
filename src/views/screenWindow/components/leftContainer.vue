@@ -20,47 +20,49 @@
 </template>
 
 <script>
-  import panelBox from "./panelBox";
-  import qualitySafety from "@/views/screenWindow/components/components/qualitySafety";
-  import investmentManagement from "@/views/screenWindow/components/components/investmentManagement";
-  import nvestmentStatusReport from "@/views/screenWindow/components/components/nvestmentStatusReport";
+import panelBox from "./panelBox";
+import qualitySafety from "@/views/screenWindow/components/components/qualitySafety";
+import investmentManagement from "@/views/screenWindow/components/components/investmentManagement";
+import nvestmentStatusReport from "@/views/screenWindow/components/components/nvestmentStatusReport";
 
 
-  export default {
-    props: [],
-    watch: {},
-    data() {
-      return {};
-    },
-    created() {
-    },
-    mounted() {
-    },
-    methods: {},
-    components: {panelBox, qualitySafety, investmentManagement, nvestmentStatusReport},
-    beforeDestroy() {
-    }
+export default {
+  props: [],
+  watch: {},
+  data() {
+    return {};
+  },
+  created() {
+  },
+  mounted() {
+  },
+  methods: {},
+  components: { panelBox, qualitySafety, investmentManagement, nvestmentStatusReport },
+  beforeDestroy() {
+  }
 
-  };
+};
 </script>
 
 <style lang='scss' scoped>
-  .left_main_box {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+.left_main_box {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 
-    > div:nth-of-type(1) {
-      height: 35%;
-    }
-    > div:nth-of-type(2) {
-      height: 29%;
-      margin: 10px 0;
+  >div:nth-of-type(1) {
+    height: 35%;
+  }
 
-    }
-    > div:nth-of-type(3) {
-      height: calc(36% - 20px);
-    }
+  >div:nth-of-type(2) {
+    height: 29%;
+    margin: 10px 0;
 
   }
+
+  >div:nth-of-type(3) {
+    height: calc(36% - 20px);
+  }
+
+}
 </style>

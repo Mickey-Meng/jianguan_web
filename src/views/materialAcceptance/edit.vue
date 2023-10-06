@@ -27,59 +27,50 @@
 
                     <div class="block-item">
                       <div class="block-item-label">材料类型</div>
-                        <div class="block-item-value">
-                          <el-form-item prop="type">
-                          <el-select
-                            v-model="formData.materialCategory"
-                            filterable
-                            clearable
-                            placeholder="请选择材料类型"
-                          >
-                            <el-option
-                              v-for="item in functionary"
-                              :key="item.id"
-                              :value="item.id+','+item.name"
-                              :label="item.name"
-                            />
+                      <div class="block-item-value">
+                        <el-form-item prop="type">
+                          <el-select v-model="formData.materialCategory" filterable clearable placeholder="请选择材料类型">
+                            <el-option v-for="item in functionary" :key="item.id" :value="item.id+','+item.name"
+                              :label="item.name" />
                           </el-select>
                         </el-form-item>
-                        </div>
-                      
+                      </div>
+
                     </div>
                   </div>
                   <div class="block-line">
-                    <div class="block-item">
-                      <div class="block-item-label">样板照片</div>
-                      <div class="block-item-value">
-                        <el-form-item prop="samplePhoto">
-                          <el-input readonly  v-model="formData.samplePhoto"></el-input>
-                        </el-form-item>
-                      </div>
-                    </div>
+<!--                    <div class="block-item">-->
+<!--                      <div class="block-item-label">样板照片</div>-->
+<!--                      <div class="block-item-value">-->
+<!--                        <el-form-item prop="samplePhoto">-->
+<!--                          <el-input readonly v-model="formData.samplePhoto"></el-input>-->
+<!--                        </el-form-item>-->
+<!--                      </div>-->
+<!--                    </div>-->
                     <div class="block-item">
                       <div class="block-item-label">样板内容</div>
                       <div class="block-item-value">
                         <el-form-item prop="samplePhoto">
-                          <el-input readonly  v-model="formData.sampleContent"></el-input>
+                          <el-input readonly v-model="formData.sampleContent"></el-input>
                         </el-form-item>
                       </div>
                     </div>
                   </div>
 
                   <div class="block-line">
-                    <div class="block-item">
-                      <div class="block-item-label">材料进场照片</div>
-                      <div class="block-item-value">
-                        <el-form-item prop="samplePhoto">
-                          <el-input  v-model="formData.materialApproachPhoto"></el-input>
-                        </el-form-item>
-                      </div>
-                    </div>
+<!--                    <div class="block-item">-->
+<!--                      <div class="block-item-label">材料进场照片</div>-->
+<!--                      <div class="block-item-value">-->
+<!--                        <el-form-item prop="samplePhoto">-->
+<!--                          <el-input v-model="formData.materialApproachPhoto"></el-input>-->
+<!--                        </el-form-item>-->
+<!--                      </div>-->
+<!--                    </div>-->
                     <div class="block-item">
                       <div class="block-item-label">材料进场内容</div>
                       <div class="block-item-value">
                         <el-form-item prop="samplePhoto">
-                          <el-input  v-model="formData.materialApproachContent"></el-input>
+                          <el-input v-model="formData.materialApproachContent"></el-input>
                         </el-form-item>
                       </div>
                     </div>
@@ -87,22 +78,36 @@
                       <div class="block-item-label">材料进场数量</div>
                       <div class="block-item-value">
                         <el-form-item prop="samplePhoto">
-                          <el-input  v-model="formData.materialApproachQuantity"></el-input>
+                          <el-input v-model="formData.materialApproachQuantity"></el-input>
                         </el-form-item>
                       </div>
                     </div>
                   </div>
 
-            </div>
+                </div>
+                <div class="form-block">
+                  <div class="form-block-title">
+                    <div class="title-bar"></div><strong>样板照片</strong>
+                    <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png文件，且不超过100m</span>
+                  </div>
+                  <attachlist :editAble="false" ref="attachlist" :attachTable="formData.samplePhoto"></attachlist>
+                </div>
+                <div class="form-block">
+                  <div class="form-block-title">
+                    <div class="title-bar"></div><strong>材料进场照片</strong>
+                    <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png文件，且不超过100m</span>
+                  </div>
+                  <attachlist :editAble="true" ref="attachlist" :attachTable="materialApproachPhoto"></attachlist>
+                </div>
                 <div class="form-block">
                   <div class="form-block-title">
                     <div class="title-bar"></div><strong>附件</strong>
                     <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-											xisx xis pdf文件，且不超过100m</span>
+                      xisx xis pdf文件，且不超过100m</span>
                   </div>
                   <attachlist :editAble="true" ref="attachlist" :attachTable="attachTable"></attachlist>
                 </div>
-                <approveuser v-if="approveVisible" :auditUser="auditUser"  :flowKey="flowKey"></approveuser>
+                <approveuser v-if="approveVisible" :auditUser="auditUser" :flowKey="flowKey"></approveuser>
 
                 <div class="form-block">
                   <el-button @click="addOrModify()" class="submit-btn" size="small" type="primary">提交
@@ -134,7 +139,7 @@ export default {
     return {
       draftVisible: false,
       addOrModifyFlag: true,
-      dialogTitle: '全生命周期智慧建设管理平台',
+      dialogTitle: '项目全生命周期数字管理平台',
       dialogFormVisible: false,
       partOptions:[],
       rules: {
@@ -150,6 +155,7 @@ export default {
       },
       functionary: [],
       attachTable: [], //附件
+      materialApproachPhoto: [],
       auditUser: {},
       approveVisible:true,
       flowKey:'aterialAcceptance',
@@ -249,6 +255,7 @@ export default {
       this.$refs['ruleForm'].validate((valid) => {
         if (valid) {
           this.formData.attachment = this.attachTable;
+          this.formData.materialApproachPhoto = this.materialApproachPhoto;
           this.formData.auditUser = this.auditUser;
           this.formData.draftFlag=1;
           this.formData.typeCode = this.formData.type;

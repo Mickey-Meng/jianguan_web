@@ -58,21 +58,50 @@
         getConponentStatus(this.project.id).then((result) => {
           //0是未开个，2是已完成,1施工，3是延期了
           let arr = [];
+          const styleArray = {};
           Bus.$emit("getVisualData", result.data);
           result.data.forEach((item) => {
-            let {layername, mouldid} = item;
+            let {layername, mouldid, status} = item;
+            // if (layername && mouldid) {
+            //   if (arr.length > 0) {
+            //   let obj = arr.find((e) => e.layername === layername);
+            //   if (obj) {
+            //     obj.children.push(item);
+            //   } else {
+            //     arr.push({ layername, children: [item] });
+            //   }
+            // } else {
+            //   arr.push({ layername, children: [item] });
+            // }
             if (layername && mouldid) {
-              if (arr.length > 0) {
-              let obj = arr.find((e) => e.layername === layername);
-              if (obj) {
-                obj.children.push(item);
-              } else {
-                arr.push({ layername, children: [item] });
+              if (!styleArray[layername]) {
+                styleArray[layername] = []
               }
-            } else {
-              arr.push({ layername, children: [item] });
+              // 0是未开个，2是已完成,1施工，3是延期了
+              let color = "rgba(67, 180, 105,1)";
+              switch (status) {
+                case 0:
+                  color = "rgba(191, 234, 238,1)"; //未开工
+                  break;
+              
+                case 1:
+                  color = "rgba(233, 188, 50, 1)"; //已开工
+                  break;
+              
+                case 3:
+                  color = "rgba(241, 26, 26, 1)"; //延期
+                  break;
+              
+                case 2:
+                  color = "rgba(107, 205, 1, 1)"; //完工
+                  break;
+              
+                default:
+                  break;
+              }
+              styleArray[layername].push(["${name} === '" + mouldid + "'", color])
             }
-          }
+          
 
           // if (item.mouldid) {
           //   this.allId.push(item.mouldid.replace(/^\s*|\s*$/g, ""));
@@ -87,77 +116,102 @@
           //   }
           // }
         });
+        this.styleConditions = styleArray;
+        viewer.styleConditions = styleArray;
+        console.log(styleArray)
         this.showLight(arr);
       });
     },
     showLight(arr) {
-      if (arr && arr.length > 0) {
-        hlm = zeh.earth.getDefaultHighlightManager();
-        arr.forEach((item) => {
-          let { layername, children } = item;
-          let layer = zeh.layers.getLayerByName(layername);
-          let planId = [];
-          let workId = [];
-          let postponeId = [];
-          let finishId = [];
-          if (children) {
-            children.forEach((e) => {
-              let { mouldid, status } = e;
-              let str = mouldid.replace(/^\s*|\s*$/g, "");
-              switch (status) {
-                case 0:
-                  planId.push(str);
-                  break;
-                case 2:
-                  finishId.push(str);
-                  break;
-                case 3:
-                  postponeId.push(str);
-                  break;
-                case 1:
-                  workId.push(str);
-                  break;
-              }
-            });
-          }
-          hlm.showHighlightByKey(
-            layer.primitive,
-            planId,
-            true,
-            {
-              color: [191, 234, 238, 1], //未开工
-            },
-            "name"
-          );
-          hlm.showHighlightByKey(
-            layer.primitive,
-            workId,
-            true,
-            {
-              color: [233, 188, 50, 1], //已开工
-            },
-            "name"
-          );
-          hlm.showHighlightByKey(
-            layer.primitive,
-            postponeId,
-            true,
-            {
-              color: [241, 26, 26, 1], //延期
-            },
-            "name"
-          );
-          hlm.showHighlightByKey(
-            layer.primitive,
-            finishId,
-            true,
-            {
-              color: [107, 205, 1, 1], //完工
-            },
-            "name"
-          );
-        });
-      }
+      // if (arr && arr.length > 0) {
+      //   hlm = zeh.earth.getDefaultHighlightManager();
+      //   arr.forEach((item) => {
+      //     let { layername, children } = item;
+      //     let layer = zeh.layers.getLayerByName(layername);
+      //     let planId = [];
+      //     let workId = [];
+      //     let postponeId = [];
+      //     let finishId = [];
+      //     if (children) {
+      //       children.forEach((e) => {
+      //         let { mouldid, status } = e;
+      //         let str = mouldid.replace(/^\s*|\s*$/g, "");
+      //         switch (status) {
+      //           case 0:
+      //             planId.push(str);
+      //             break;
+      //           case 2:
+      //             finishId.push(str);
+      //             break;
+      //           case 3:
+      //             postponeId.push(str);
+      //             break;
+      //           case 1:
+      //             workId.push(str);
+      //             break;
+      //         }
+      //       });
+      //     }
+      //     hlm.showHighlightByKey(
+      //       layer.primitive,
+      //       planId,
+      //       true,
+      //       {
+      //         color: [191, 234, 238, 1], //未开工
+      //       },
+      //       "name"
+      //     );
+      //     hlm.showHighlightByKey(
+      //       layer.primitive,
+      //       workId,
+      //       true,
+      //       {
+      //         color: [233, 188, 50, 1], //已开工
+      //       },
+      //       "name"
+      //     );
+      //     hlm.showHighlightByKey(
+      //       layer.primitive,
+      //       postponeId,
+      //       true,
+      //       {
+      //         color: [241, 26, 26, 1], //延期
+      //       },
+      //       "name"
+      //     );
+      //     hlm.showHighlightByKey(
+      //       layer.primitive,
+      //       finishId,
+      //       true,
+      //       {
+      //         color: [107, 205, 1, 1], //完工
+      //       },
+      //       "name"
+      //     );
+      //   });
+      // }
+      const styleConditions = this.styleConditions;
+      Object.keys(styleConditions).forEach(key => {
+        const layer = viewer.getLayerByName(key);
+        if (layer) {
+          const conditions = styleConditions[key];
+          conditions.push(['true', 'rgba(255,255,255,1)']);
+          layer.style = new Cesium.Cesium3DTileStyle({
+            color: {
+                conditions: conditions
+            }
+          });
+        }
+      })
+    },
+    clearAllHighlight() {
+      const styleConditions = this.styleConditions;
+      Object.keys(styleConditions).forEach(key => {
+        const layer = viewer.getLayerByName(key);
+        if (layer) {
+          layer.style = undefined
+        }
+      })
     },
     //遍历着色
     showEffects() {
@@ -229,9 +283,10 @@
     },
   },
   destroyed() {
-    if (hlm) {
-      hlm.clearAllHighlight();
-    }
+    // if (hlm) {
+    //   hlm.clearAllHighlight();
+    // }
+    this.clearAllHighlight()
     Bus.$emit("clearEffect");
   },
 };

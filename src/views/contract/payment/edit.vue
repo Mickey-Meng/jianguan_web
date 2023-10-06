@@ -25,15 +25,16 @@
                       <div class="block-item-label">款项类型</div>
                       <div class="block-item-value">
                         <el-select v-model="formData.type" placeholder="请选择">
-                          <el-option v-for="item in dataDictionaryList" :key="item.id" :label="item.name" :value="item.id">
+                          <el-option v-for="item in dataDictionaryList" :key="item.id" :label="item.name"
+                            :value="item.id">
                           </el-option>
                         </el-select>
-<!--                        <el-form-item prop="type">-->
-<!--                          <el-input v-model="formData.type"></el-input>-->
-<!--                        </el-form-item>-->
+                        <!--                        <el-form-item prop="type">-->
+                        <!--                          <el-input v-model="formData.type"></el-input>-->
+                        <!--                        </el-form-item>-->
                       </div>
                     </div>
-<!--                    <el-form-item label="资料类型" prop="type">
+                    <!--                    <el-form-item label="资料类型" prop="type">
                       <el-select v-model="form.type"  filterable   clearable  placeholder="请选择资料类型">
                         <el-option    v-for="item in functionary"  :key="item.id"                 :value="item.id"
                           :label="item.name"
@@ -56,7 +57,7 @@
                       <div class="block-item-value">
                         <el-form-item prop="startDate">
                           <el-date-picker value-format="yyyy-MM-dd" v-model="formData.recordTime" type="date"
-                                          placeholder="请选择">
+                            placeholder="请选择">
                           </el-date-picker>
                         </el-form-item>
                       </div>
@@ -78,18 +79,19 @@
                   <div class="form-block-title">
                     <div class="title-bar"></div><strong>合同附件</strong>
                     <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-											xisx xis pdf文件，且不超过100m</span>
+                      xisx xis pdf文件，且不超过100m</span>
                   </div>
 
                   <attachlist :editAble="true" ref="attachlist" :attachTable="attachTable"></attachlist>
 
                 </div>
 
-                <approveuser v-if="approveVisible" :auditUser="auditUser"  :flowKey="flowKey">
+                <approveuser v-if="approveVisible" :auditUser="auditUser" :flowKey="flowKey">
                 </approveuser>
 
                 <div class="form-block">
-                  <el-button @click="addOrModify()" class="submit-btn" size="small" type="primary" :loading="submitDisable">提交
+                  <el-button @click="addOrModify()" class="submit-btn" size="small" type="primary"
+                    :loading="submitDisable">提交
                   </el-button>
                 </div>
               </el-form>
@@ -118,7 +120,7 @@ export default {
     return {
       draftVisible: false,
       addOrModifyFlag: true,
-      dialogTitle: '全生命周期智慧建设管理平台',
+      dialogTitle: '项目全生命周期数字管理平台',
       dialogFormVisible: false,
       partOptions:[],
       rules: {

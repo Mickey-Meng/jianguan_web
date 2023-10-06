@@ -2,12 +2,11 @@
   <div>
 
     <div class="form-content">
-      <el-form ref="form"
-               label-width="80px">
-<!--        <div class="form-title">-->
-<!--          <div class="title-big-bar"></div>-->
-<!--          <strong>到场设备报验单</strong>-->
-<!--        </div>-->
+      <!-- #773 lrj 20230913 -->
+      <div class="form-title">
+        <strong>到场设备报验单-浙公路(JL)014</strong>
+      </div>
+      <el-form ref="form" label-width="80px">
 
         <div class="form-block">
           <div class="form-block-title">
@@ -19,7 +18,7 @@
             <div class="block-item">
               <div class="block-item-label">工程编号</div>
               <div class="block-item-value">
-                {{formData.projectCode}}
+                {{ formData.projectCode }}
               </div>
             </div>
           </div>
@@ -32,59 +31,29 @@
             <div class="block-item">
               <div class="block-item-label">监理办<i class="require-icon"></i></div>
               <div class="block-item-value">
-                {{formData.supervisionBan}}
+                {{ formData.supervisionBan }}
               </div>
             </div>
           </div>
           <div class="block-table">
-            <el-table :data="equipmentTable"
-                      style="width: 100%"
-                      border
-                      class="have_scrolling">
-              <el-table-column type="index"
-                               width="50"
-                               align="center"
-                               label="序号">
+            <el-table :data="equipmentTable" style="width: 100%" border class="have_scrolling">
+              <el-table-column type="index" width="50" align="center" label="序号">
               </el-table-column>
-              <el-table-column prop="equipmentTypeStr"
-                               align="center"
-                               label="设备类型"
-                               show-overflow-tooltip>
+              <el-table-column prop="equipmentTypeStr" align="center" label="设备类型" show-overflow-tooltip>
               </el-table-column>
-              <el-table-column prop="equipmentName"
-                               width="180px"
-                               align="center"
-                               label="设备名称">
+              <el-table-column prop="equipmentName" width="180px" align="center" label="设备名称">
               </el-table-column>
-              <el-table-column prop="specification"
-                               width="120px"
-                               align="center"
-                               label="规格型号">
+              <el-table-column prop="specification" width="120px" align="center" label="规格型号">
               </el-table-column>
-              <el-table-column prop="num"
-                               width="120px"
-                               align="center"
-                               label="数量">
+              <el-table-column prop="num" width="120px" align="center" label="数量">
               </el-table-column>
-              <el-table-column prop="enterDate"
-                               width="120px"
-                               align="center"
-                               label="进场日期">
+              <el-table-column prop="enterDate" width="120px" align="center" label="进场日期">
               </el-table-column>
-              <el-table-column prop="techCondition"
-                               width="120px"
-                               align="center"
-                               label="技术状况">
+              <el-table-column prop="techCondition" width="120px" align="center" label="技术状况">
               </el-table-column>
-              <el-table-column prop="useWhere"
-                               width="120px"
-                               align="center"
-                               label="拟用何处">
+              <el-table-column prop="useWhere" width="120px" align="center" label="拟用何处">
               </el-table-column>
-              <el-table-column prop="remark"
-                               width="120px"
-                               align="center"
-                               label="备注">
+              <el-table-column prop="remark" width="120px" align="center" label="备注">
               </el-table-column>
             </el-table>
           </div>
@@ -94,9 +63,7 @@
             <div class="title-bar"></div><strong>附件清单</strong>
           </div>
 
-          <attachlist :editAble="false"
-                      ref="attachlist"
-                      :attachTable="attachTable">
+          <attachlist :editAble="false" ref="attachlist" :attachTable="attachTable">
           </attachlist>
 
         </div>
@@ -143,7 +110,7 @@ export default {
       equipmentTable: [],
     }
   },
-  created() {},
+  created() { },
   components: {
     attachlist,
     projectinfo,
@@ -210,7 +177,7 @@ export default {
           let info = createProjectInfo(list)
 
           info = data['item'] || {}
-          
+
           this.baseInfo['buildCompany'] = info['constructdpt']
           this.baseInfo['supervisionUnit'] = info['supervisordpt']
         })

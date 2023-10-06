@@ -102,14 +102,7 @@
         </el-form-item>
         <el-form-item label="整改图片">
           <el-upload
-            class="upload-demo"
-            :headers="header"
-            :action="uploadUrl"
-            multiple
-            :limit="3"
-            :on-success="uploadSuccess"
-            :on-remove="handleRemove"
-            :file-list="fileList"
+            class="upload-demo" :headers="header" :action="uploadUrl" multiple :on-success="uploadSuccess" :on-remove="handleRemove" :file-list="fileList"
           >
             <el-button size="small" type="primary">点击上传</el-button>
           </el-upload>

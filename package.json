@@ -28,6 +28,7 @@
     "element-ui": "^2.15.6",
     "ezuikit-js": "^0.2.4",
     "gantt-schedule-timeline-calendar": "^3.7.1",
+    "ids": "^1.0.5",
     "js-cookie": "2.2.0",
     "json-bigint": "^1.0.0",
     "jszip": "^3.7.1",

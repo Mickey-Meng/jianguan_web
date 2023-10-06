@@ -2,12 +2,8 @@
   <div class="wrapper-box">
     <div class="main-menu">
       <ul>
-        <li
-          v-for="(item, index) in menus"
-          :key="index"
-          :class="{ 'current-route': item.path === currentPath }"
-          @click="changeRouter(item)"
-        >
+        <li v-for="(item, index) in menus" :key="index" :class="{ 'current-route': item.path === currentPath }"
+          @click="changeRouter(item)">
           <img :src="item.meta.icon" alt="" />
           <span>{{ item.meta.title }}</span>
         </li>
@@ -17,19 +13,12 @@
       <div class="header-box">
         <div class="leftpart">
           <div class="left-box">
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="返回首页"
-              placement="top"
-            >
+            <el-tooltip class="item" effect="dark" content="返回首页" placement="top">
               <svg-icon icon-class="returnb" class="return" @click="goHome" />
             </el-tooltip>
             <div class="leftitem" />
             <a href="javascript:void(0)">
-              <template
-                ><span>{{ project.name }}</span></template
-              >
+              <template><span>{{ project.name }}</span></template>
             </a>
           </div>
           <div class="right-box">
@@ -38,21 +27,9 @@
             </div> -->
             <div class="navbar">
               <el-scrollbar wrap-class="scrollbar-wrapper-box">
-                <el-menu
-                  :default-active="activeMenu"
-                  text-color="#fff"
-                  :unique-opened="false"
-                  active-text-color="#fff"
-                  :collapse-transition="false"
-                  mode="vertical"
-                  class="nav-menu"
-                >
-                  <sidebar-item
-                    v-for="route in currentRoutes"
-                    :key="route.path"
-                    :item="route"
-                    :base-path="route.path"
-                  />
+                <el-menu :default-active="activeMenu" text-color="#fff" :unique-opened="false" active-text-color="#fff"
+                  :collapse-transition="false" mode="vertical" class="nav-menu">
+                  <sidebar-item v-for="route in currentRoutes" :key="route.path" :item="route" :base-path="route.path" />
                 </el-menu>
               </el-scrollbar>
             </div>
@@ -72,12 +49,7 @@
             <el-dropdown>
               <div>
                 <svg-icon icon-class="message" class="msg_icon" />
-                <el-badge
-                  :value="msg.total"
-                  :max="99"
-                  type="primary"
-                  class="item"
-                >
+                <el-badge :value="msg.total" :max="99" type="primary" class="item">
                 </el-badge>
               </div>
               <el-dropdown-menu slot="dropdown">
@@ -88,52 +60,27 @@
                 </el-dropdown-item> -->
                 <el-dropdown-item @click.native="toSafe">
                   安全整改
-                  <el-badge
-                    :value="msg.safe"
-                    :max="99"
-                    type="primary"
-                    class="item"
-                  >
+                  <el-badge :value="msg.safe" :max="99" type="primary" class="item">
                   </el-badge>
                 </el-dropdown-item>
                 <el-dropdown-item @click.native="toQuailiy">
                   质量整改
-                  <el-badge
-                    :value="msg.quality"
-                    :max="99"
-                    type="primary"
-                    class="item"
-                  >
+                  <el-badge :value="msg.quality" :max="99" type="primary" class="item">
                   </el-badge>
                 </el-dropdown-item>
                 <el-dropdown-item @click.native="toDelay">
                   延期申请
-                  <el-badge
-                    :value="msg.delay"
-                    :max="99"
-                    type="primary"
-                    class="item"
-                  >
+                  <el-badge :value="msg.delay" :max="99" type="primary" class="item">
                   </el-badge>
                 </el-dropdown-item>
                 <el-dropdown-item @click.native="doSure">
                   整改确认
-                  <el-badge
-                    :value="msg.affirm"
-                    :max="99"
-                    type="primary"
-                    class="item"
-                  >
+                  <el-badge :value="msg.affirm" :max="99" type="primary" class="item">
                   </el-badge>
                 </el-dropdown-item>
                 <el-dropdown-item @click.native="toProcess">
                   工序审核
-                  <el-badge
-                    :value="msg.processNum"
-                    :max="99"
-                    type="primary"
-                    class="item"
-                  >
+                  <el-badge :value="msg.processNum" :max="99" type="primary" class="item">
                   </el-badge>
                 </el-dropdown-item>
               </el-dropdown-menu>
@@ -141,20 +88,15 @@
             <el-dropdown class="avatar-container" trigger="click">
               <div class="avatar-wrapper">
                 <img :src="avatar ? avatar : admin" class="user-avatar" />
-                <el-tooltip
-                  class="item"
-                  effect="dark"
-                  :content="name"
-                  placement="top"
-                >
+                <el-tooltip class="item" effect="dark" :content="name" placement="top">
                   <span class="user_name" style="width=200px">{{ name }} </span>
                 </el-tooltip>
                 <i class="el-icon-caret-bottom" />
               </div>
               <el-dropdown-menu slot="dropdown" class="user-dropdown">
-<!--                <el-dropdown-item @click.native="showCodeDialog">-->
-<!--                  修改密码-->
-<!--                </el-dropdown-item>-->
+                <!--                <el-dropdown-item @click.native="showCodeDialog">-->
+                <!--                  修改密码-->
+                <!--                </el-dropdown-item>-->
                 <el-dropdown-item @click.native="systemManagement">
                   系统管理
                 </el-dropdown-item>
@@ -170,50 +112,21 @@
     <!-- 系统管理 -->
     <system ref="system"></system>
     <!-- 修改密码 -->
-    <el-dialog
-      title="修改密码"
-      :visible.sync="DialogVisible"
-      custom-class="dialog-panel"
-      :append-to-body="true"
-      destroy-on-close
-      :close-on-click-modal="false"
-    >
-      <el-form
-        ref="form"
-        size="small"
-        label-position="right"
-        label-width="120px"
-        class="bim-form-panel"
-        :model="form"
-        :rules="rules"
-      >
+    <el-dialog title="修改密码" :visible.sync="DialogVisible" custom-class="dialog-panel" :append-to-body="true"
+      destroy-on-close :close-on-click-modal="false">
+      <el-form ref="form" size="small" label-position="right" label-width="120px" class="bim-form-panel" :model="form"
+        :rules="rules">
         <el-form-item label="新密码" prop="pwd">
-          <el-input
-            v-model="form.pwd"
-            placeholder="请输入密码"
-            type="password"
-          ></el-input>
+          <el-input v-model="form.pwd" placeholder="请输入密码" type="password"></el-input>
         </el-form-item>
 
         <el-form-item label="密码确认" prop="pwdsure">
-          <el-input
-            v-model="form.pwdsure"
-            placeholder="请输入再次输入密码"
-            type="password"
-          ></el-input>
+          <el-input v-model="form.pwdsure" placeholder="请输入再次输入密码" type="password"></el-input>
         </el-form-item>
       </el-form>
       <div style="text-align: right">
-        <el-button plain size="mini" class="btn-bg" @click="updateCode"
-          >提交</el-button
-        >
-        <el-button
-          plain
-          size="mini"
-          class="btn-bg"
-          @click="DialogVisible = false"
-          >取消</el-button
-        >
+        <el-button plain size="mini" class="btn-bg" @click="updateCode">提交</el-button>
+        <el-button plain size="mini" class="btn-bg" @click="DialogVisible = false">取消</el-button>
       </div>
     </el-dialog>
   </div>
@@ -234,7 +147,7 @@ export default {
   data() {
     return {
       admin: admin,
-      TopSysNameValue: "诸暨交投全生命周期智慧建设管理平台",
+      TopSysNameValue: "诸暨交投项目全生命周期数字管理平台",
       DialogVisible: false,
       routes: [],
       currentRoutes: [],
@@ -510,27 +423,32 @@ export default {
   display: flex;
   height: 60px;
   justify-content: space-between;
+
   .leftpart {
     display: flex;
     width: calc(100% - 470px);
+
     .left-box {
       width: 400px;
       display: flex;
       align-items: center;
       height: 60px;
       font-size: 20px;
+
       .return {
         // margin-left: 30px;
         width: 25px;
         height: 25px;
         cursor: pointer;
       }
+
       .leftitem {
         margin: 0 12px;
         width: 3px;
         height: 28px;
         background: #7ceff6;
       }
+
       a {
         display: inline-block;
         width: 100%;
@@ -556,27 +474,33 @@ export default {
         }
       }
     }
+
     .right-box {
       // margin-left: 30px;
       display: flex;
       width: calc(100% - 410px);
       align-items: center;
+
       .navbar {
         // height: 40px;
         width: 100%;
+
         ::v-deep.el-scrollbar {
           .el-scrollbar__bar.is-vertical {
             display: none;
           }
         }
+
         ::v-deep .el-scrollbar__wrap {
           overflow-x: auto;
           height: calc(100% + 10px); //多出来的20px是横向滚动条默认的样式
         }
+
         ::v-deep .el-scrollbar .el-scrollbar__wrap .el-scrollbar__view {
           white-space: nowrap;
           display: inline-block;
         }
+
         ::v-deep .scrollbar-wrapper-box {
           .el-scrollbar__view {
             .el-menu {
@@ -584,6 +508,7 @@ export default {
               align-items: center;
               border-right: none;
               background: none;
+
               .el-menu-item {
                 text-align: center;
                 height: 40px;
@@ -593,19 +518,23 @@ export default {
                 margin-right: 15px;
                 background-image: url(../../../assets/image/navitembg.png);
                 background-size: 100% 100%;
+
                 &:hover {
                   background-color: transparent;
                 }
+
                 &:focus {
                   background-color: transparent;
                 }
               }
+
               .el-menu-item.is-active {
                 background-image: url(../../../assets/image/activebg.png);
               }
             }
           }
         }
+
         ::v-deep .el-icon-arrow-down {
           &:before {
             margin-left: 60px;
@@ -614,13 +543,16 @@ export default {
       }
     }
   }
+
   .rightpart {
     display: flex;
     width: 470px;
+
     .show-date {
       display: flex;
       align-items: center;
       margin-right: 15px;
+
       // margin-left: 20px;
       .datecolitem {
         width: 3px;
@@ -628,6 +560,7 @@ export default {
         background: #ffffff;
         opacity: 0.5;
       }
+
       .daterowitem {
         margin-left: 10px;
         margin-right: 10px;
@@ -636,6 +569,7 @@ export default {
         height: 2px;
         background: #446edc;
       }
+
       .showtime {
         width: 131px;
         font-size: 30px;
@@ -644,17 +578,20 @@ export default {
         color: #ffffff;
         line-height: 62px;
       }
+
       .shownowdate {
         font-size: 12px;
         font-family: Microsoft YaHei UI;
         font-weight: 300;
         color: #ffffff;
+
         div {
           margin: 5px 0;
           width: 65px;
         }
       }
     }
+
     .right-menu {
       // background-color: #060C26;
       float: right;
@@ -665,19 +602,23 @@ export default {
       display: flex;
       align-items: center;
       justify-content: space-around;
+
       // border-bottom: 1px solid #1E374B;
       .msg_icon {
         width: 40px;
         height: 40px;
         vertical-align: middle;
         cursor: pointer;
+
         &:focus {
           outline: none;
         }
       }
+
       &:focus {
         outline: none;
       }
+
       .right-menu-item {
         display: inline-block;
         padding: 0 8px;
@@ -685,24 +626,30 @@ export default {
         font-size: 18px;
         color: #5a5e66;
         vertical-align: text-bottom;
+
         &.hover-effect {
           cursor: pointer;
           transition: background 0.3s;
+
           &:hover {
             background: rgba(0, 0, 0, 0.025);
           }
         }
       }
+
       .avatar-container {
         margin-right: 30px;
+
         .avatar-wrapper {
           margin-top: 5px;
           position: relative;
           display: flex;
           align-items: center;
+
           .user_name {
             color: #ffffff;
           }
+
           .user-avatar {
             cursor: pointer;
             width: 30px;
@@ -710,6 +657,7 @@ export default {
             vertical-align: middle;
             border-radius: 10px;
           }
+
           .el-icon-caret-bottom {
             cursor: pointer;
             position: absolute;
@@ -725,6 +673,7 @@ export default {
 
 .main-menu {
   flex: 1;
+
   ul {
     border: 1px solid #1e374b;
 
@@ -734,6 +683,7 @@ export default {
     overflow: auto;
     background: url("../../../assets/image/menubg.png") no-repeat;
     background-size: 100% 100%;
+
     li {
       display: flex;
       justify-content: space-evenly;
@@ -799,18 +749,22 @@ export default {
   height: 40px;
   width: 100%;
   display: flex;
+
   .section {
     width: 380px;
     height: 40px;
     // border-bottom: 1px solid #1E374B;
   }
+
   .second-navbar {
     height: 40px;
     flex: 1;
+
     // border: 1px solid #1E374B;
     // border-top: none;
     .el-scrollbar {
       height: 100%;
+
       .el-scrollbar__bar {
         display: none;
       }
@@ -819,10 +773,12 @@ export default {
     ::v-deep .scrollbar-wrapper-box {
       // background-color: #060C26;
       overflow: hidden;
+
       .el-scrollbar__view {
         .el-menu {
           display: flex;
           border-right: none;
+
           .el-menu-item {
             height: 40px;
             line-height: 40px;

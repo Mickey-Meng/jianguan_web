@@ -134,13 +134,13 @@ export default {
     onSelectElement (element) {
       this.selectTaskId = undefined;
       this.dlgTitle = undefined;
-      
+
       if (this.processNodeInfo == null || this.processNodeInfo.finishedTaskSet == null) return;
-      
+
       if (element == null || this.processNodeInfo.finishedTaskSet.indexOf(element.id) === -1) {
         return;
       }
-      
+
       this.selectTaskId = element.id;
       this.dlgTitle = element.businessObject ? element.businessObject.name : undefined;
       // 计算当前悬浮任务审批记录，如果记录为空不显示弹窗
@@ -161,7 +161,7 @@ export default {
           this.bpmnViewer.on('element.click', ({ element }) => {
             this.onSelectElement(element);
           });
-          
+
           this.isLoading = true;
           await this.bpmnViewer.importXML(xml);
           this.addCustomDefs();
@@ -226,7 +226,7 @@ export default {
 </script>
 
 <style scoped>
-  .comment-dialog >>> .el-dialog__body {
-    padding: 0px;
-  }
+.comment-dialog >>> .el-dialog__body {
+  padding: 0px;
+}
 </style>

@@ -1,11 +1,13 @@
 <template>
 	<div>
-		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible" :fullscreen="true">
+		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible"
+			:fullscreen="true">
 			<template slot="title">{{dialogTitle}}
 				<div class="logo-icon"></div>
 			</template>
 			<el-container>
-				<el-main style="background-color: rgba(0,0 0,0.5);height: calc(100vh - 96px); overflow-y: scroll;padding: 0px;margin: 0;">
+				<el-main
+					style="background-color: rgba(0,0 0,0.5);height: calc(100vh - 96px); overflow-y: scroll;padding: 0px;margin: 0;">
 					<div class="form-bg">
 						<div class="form-content">
 
@@ -77,7 +79,8 @@
 						<i class="el-icon-caret-right"></i>
 					</div>
 				</el-aside>
-				<el-aside style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
+				<el-aside
+					style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
 					<tasklog :taskInfo="taskInfo" ref="tasklog"></tasklog>
 				</el-aside>
 			</el-container>
@@ -98,7 +101,7 @@
 		props:['detailRow'],
 		data() {
 			return {
-				dialogTitle: '全生命周期智慧建设管理平台',
+				dialogTitle: '项目全生命周期数字管理平台',
 				dialogFormVisible: false,
 
 				baseInfo: {
@@ -192,6 +195,4 @@
 	};
 </script>
 
-<style scoped lang="scss">
-	@import "src/assets/css/dialog";
-</style>
+<style scoped lang="scss">@import "src/assets/css/dialog";</style>

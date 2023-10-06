@@ -1,7 +1,8 @@
 <template>
   <div class="wrapper">
-    <div class="header">{{data.projectName}}</div>
-<!--    <div class="header">池州港乌沙港区公用码头工程项目</div>-->
+    <!-- #790 lrj 20230917 -->
+    <div class="header">{{ project.projectname }}</div>
+    <!--    <div class="header">池州港乌沙港区公用码头工程项目</div>-->
     <div class="content">
       <div class="content-left">
         <div class="title">
@@ -16,7 +17,7 @@
               <img class="status" src="../../assets/image/sgawg1.png" alt="" />
             </div>
             <div class="text">
-              {{data.firstQuarter}}            </div>
+              {{ data.firstQuarter }} </div>
           </li>
           <li>
             <div class="quarter">
@@ -25,7 +26,7 @@
               <img class="status" src="../../assets/image/sgawg1.png" alt="" />
             </div>
             <div class="text">
-              {{data.secondQuarter}}
+              {{ data.secondQuarter }}
             </div>
           </li>
           <li>
@@ -35,7 +36,7 @@
               <img class="status" src="../../assets/image/sgawg1.png" alt="" />
             </div>
             <div class="text">
-              {{data.thirdQuarter}}
+              {{ data.thirdQuarter }}
             </div>
           </li>
           <li>
@@ -45,7 +46,7 @@
               <img class="status" src="../../assets/image/sgawg1.png" alt="" />
             </div>
             <div class="text">
-              {{data.fourthQuarter}}
+              {{ data.fourthQuarter }}
             </div>
           </li>
         </ul>
@@ -63,7 +64,7 @@
               <img class="status" src="../../assets/image/sgawg1.png" alt="" />
             </div>
             <div class="text">
-              {{data.firstQuarter}}            </div>
+              {{ data.firstQuarter }} </div>
           </li>
           <li>
             <div class="quarter">
@@ -72,7 +73,7 @@
               <img class="status" src="../../assets/image/sgawg1.png" alt="" />
             </div>
             <div class="text">
-              {{data.secondQuarter}}
+              {{ data.secondQuarter }}
             </div>
           </li>
           <li>
@@ -82,7 +83,7 @@
               <img class="status" src="../../assets/image/sgawg1.png" alt="" />
             </div>
             <div class="text">
-              {{data.thirdQuarter}}
+              {{ data.thirdQuarter }}
             </div>
           </li>
           <li>
@@ -92,7 +93,7 @@
               <img class="status" src="../../assets/image/sgawg1.png" alt="" />
             </div>
             <div class="text">
-              {{data.fourthQuarter}}
+              {{ data.fourthQuarter }}
             </div>
           </li>
         </ul>
@@ -108,7 +109,7 @@
             <div class="small-title">建设内容和开竣工时间</div>
             <div class="small-text about-text">
               <p style="line-height:30px;font-size: 18px;">
-                {{data.investmentProjectOverview}}
+                {{ data.investmentProjectOverview }}
               </p>
 
             </div>
@@ -128,56 +129,51 @@
             <div>
               <!-- <div class="s-title">压实责任</div> -->
               <div class="quarter">
-                <div class="header_line"></div>
+                <!-- <div class="header_line"></div> -->
                 <div class="time">压实责任</div>
               </div>
               <ul>
                 <li>
                   <span>建设单位:</span>
-<!--                  <span>池州乌沙港口运输有限公司</span>-->
-                  <span>{{data.builddpt}}</span>
+                  <!--                  <span>池州乌沙港口运输有限公司</span>-->
+                  <span>{{ data.builddpt }}</span>
                 </li>
                 <li>
-                  <span>设计单位:</span
-                  ><span>{{data.desgindpt}}</span>
+                  <span>设计单位:</span><span>{{ data.desgindpt }}</span>
                 </li>
 
                 <li>
-                  <span>管理单位:</span
-                  ><span>{{data.managedpt}}</span>
+                  <span>管理单位:</span><span>{{ data.managedpt }}</span>
                 </li>
                 <li>
-                  <span>施工单位：</span
-                  ><span
-                >{{data.constructdpt}}</span
-                >
+                  <span>施工单位：</span><span>{{ data.constructdpt }}</span>
                 </li>
                 <li>
                   <span>监理单位：</span>
-                  <span>{{data.supervisordpt}}</span>
+                  <span>{{ data.supervisordpt }}</span>
                 </li>
                 <li>
                   <span>审计单位：</span>
-                  <span>{{data.auditUnit}}</span>
+                  <span>{{ data.auditUnit }}</span>
                 </li>
               </ul>
             </div>
             <div>
               <div class="quarter">
-                <div class="header_line"></div>
+                <!-- <div class="header_line"></div> -->
                 <div class="time">落实保障</div>
               </div>
               <div class="s-content">
-                {{data.implementGuarantee}}
+                {{ data.implementGuarantee }}
               </div>
             </div>
             <div>
               <div class="quarter">
-                <div class="header_line"></div>
+                <!-- <div class="header_line"></div> -->
                 <div class="time">抓实进度</div>
               </div>
               <div class="s-content">
-                {{data.graspTheProgress}}             </div>
+                {{ data.graspTheProgress }} </div>
             </div>
           </div>
         </div>
@@ -220,6 +216,7 @@ export default {
   color: #4a4a4a;
   height: 100%;
   font-size: 16px;
+
   .header {
     text-align: center;
     height: 70px;
@@ -229,7 +226,7 @@ export default {
     color: #333333;
     font-size: 22px;
     font-weight: 600;
-    background-color: #EAF1FF;    
+    background-color: #EAF1FF;
     font-size: 18px;
     font-family: AlibabaPuHuiTiM;
   }
@@ -240,6 +237,7 @@ export default {
     height: calc(100% - 90px);
     display: flex;
     justify-content: space-between;
+
     .content-left {
       width: 15%;
       min-width: 300px;
@@ -251,7 +249,7 @@ export default {
       //   font-weight: bold;
       //   font-family: AlibabaPuHuiTiM;
       // }
-      
+
       .title {
         display: flex;
         align-items: center;
@@ -280,10 +278,12 @@ export default {
         }
 
       }
+
       ul {
         background-color: #fff;
         padding: 16px;
         height: calc(100% - 54px);
+
         li {
           display: flex;
           // width: 100%;
@@ -292,13 +292,16 @@ export default {
           height: 120px;
           height: calc(25% - 20px);
           flex-direction: column;
+
           .quarter {
+
             // width: 100%;
             display: flex;
             justify-content: left;
             align-items: center;
             padding-top: 15px;
             margin-bottom: 10px;
+
             .header_line {
               width: 4px;
               height: 20px;
@@ -307,6 +310,7 @@ export default {
               border-top-right-radius: 3px;
               border-bottom-right-radius: 3px;
             }
+
             .time {
               width: 188px;
               height: 22px;
@@ -320,10 +324,12 @@ export default {
               font-weight: 500;
               color: #191919;
             }
+
             .status {
               margin-left: 75px;
             }
           }
+
           .text {
             width: 100%;
             // display: flex;
@@ -342,15 +348,18 @@ export default {
         }
       }
     }
+
     .content-right {
       width: 69%;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       margin-left: 10px;
+
       .content-right-top {
         height: 39%;
         background-color: #fff;
+
         // padding: 10px 20px 0 20px;
         // .title {
         //   font-size: 16px;
@@ -386,6 +395,7 @@ export default {
           }
 
         }
+
         .text-content {
           width: calc(100% - 32px);
           margin: 10px 16px;
@@ -394,6 +404,7 @@ export default {
           // overflow: hidden;
           background: #E4E4E44f;
           border-radius: 4px;
+
           .small-title {
             height: 30px;
             line-height: 30px;
@@ -402,12 +413,14 @@ export default {
             color: #555;
             text-indent: 2em;
           }
+
           .about-text {
             height: calc(100% - 30px);
             font-size: 16px;
             font-family: AlibabaPuHuiTiR;
             color: #11142D;
           }
+
           .target-text {
             text-indent: 2em;
             overflow: auto;
@@ -418,12 +431,14 @@ export default {
             color: #11142D;
             // height: calc(40% - 30px);
           }
+
           .small-text {
             padding: 0 50px;
             overflow: auto;
             font-size: 16px;
             font-family: AlibabaPuHuiTiR;
             color: #11142D;
+
             p {
               margin: 0;
               text-indent: 2em;
@@ -431,11 +446,12 @@ export default {
           }
         }
       }
+
       .content-right-bottom {
         // padding: 20px 20px 0 20px;
         height: 59%;
         background-color: #ffffff;
-        
+
         .title {
           display: flex;
           align-items: center;
@@ -464,16 +480,19 @@ export default {
           }
 
         }
+
         .card-content {
           margin-top: 10px;
           height: calc(100% - 64px);
           display: flex;
           justify-content: space-between;
-          > div {
+
+          >div {
             width: 32%;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+
             .s-title {
               background-color: #387afd;
               color: #fff;
@@ -482,45 +501,53 @@ export default {
               line-height: 40px;
               border-radius: 5px;
             }
-            
+
             .quarter {
-              // width: 100%;
+              //#804 lrj 20230917
+              text-align: center;
+              padding: 8px;
+              background-color: #387AFD;
+              border-radius: 6px;
+              margin-left: 10px;
+              margin-right: 10px;
               display: flex;
-              justify-content: left;
+              justify-content: center;
               align-items: center;
-              padding-top: 15px;
               margin-bottom: 10px;
-              .header_line {
-                width: 4px;
-                height: 20px;
-                background-color: #1E6EEB;
-                margin-right: 8px;
-                border-top-right-radius: 3px;
-                border-bottom-right-radius: 3px;
-              }
+              // .header_line {
+              //   width: 4px;
+              //   height: 20px;
+              //   background-color: #1E6EEB;
+              //   margin-right: 8px;
+              //   border-top-right-radius: 3px;
+              //   border-bottom-right-radius: 3px;
+              // }
+
               .time {
                 width: 188px;
                 height: 22px;
                 font-size: 16px;
                 font-family: PingFangSC-Medium, PingFang SC;
                 font-weight: 500;
-                color: #191919;
+                color: #ffff;
                 line-height: 22px;
                 font-size: 16px;
                 font-family: PingFangSC-Medium, PingFang SC;
                 font-weight: 500;
-                color: #191919;
               }
+
               .status {
                 margin-left: 75px;
               }
             }
+
             ul {
               height: 330px;
               background-color: #E4E4E44f;
               border-radius: 5px;
-              padding: 10px;  
+              padding: 10px;
               margin: 10px;
+
               li {
                 margin: 5px 0;
                 display: flex;
@@ -528,15 +555,18 @@ export default {
                 font-size: 16px;
                 font-family: AlibabaPuHuiTiR;
                 color: #11142D;
+
                 span:first-of-type {
                   width: 25%;
                 }
+
                 span:last-of-type {
                   width: 75%;
                   line-height: 25px;
                 }
               }
             }
+
             .s-content {
               height: 330px;
               background-color: #E4E4E44f;

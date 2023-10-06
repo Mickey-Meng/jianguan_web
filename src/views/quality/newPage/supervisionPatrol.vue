@@ -61,9 +61,9 @@
 						</template>
 					</el-table-column>
 				</el-table>
-				<el-pagination @current-change="handleCurrentChange" :current-page="queryData.pageNum"
-					:page-size="queryData.pageSize" layout="total, prev, pager, next, jumper"
-					:total="queryData.totalPage">
+				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+				:current-page="queryData.pageNum" :page-size="queryData.pageSize"
+				:total="queryData.totalPage" layout="total, sizes, prev, pager, next, jumper" >
 				</el-pagination>
 			</div>
 		</el-main>
@@ -131,7 +131,11 @@
 					this.tableData = this.allData.list;
 					this.queryData.pageNum = res.data.pageNum;
 					this.queryData.totalPage = res.data.total;
+					//console.log("是否最后一页(当前页:" + res.data.pageNum +", 总页数:" + res.data.pages +"):" , (res.data.pageNum !== res.data.pages));
+					if (res.data.pageNum !== res.data.pages) {
+					// 当前页不是最后一页
 					this.queryData.pageSize = res.data.pageSize;
+					}
 				});
 			},
 			addNew() {
@@ -169,9 +173,14 @@
 					});
 				});
 			},
+			handleSizeChange(val) {
+				this.queryData.pageSize = val;
+				this.queryData.pageNum = 1;
+				this.query();
+			},
 			handleCurrentChange(page) {
-				this.queryData.pageNum=page
-				this.query()
+				this.queryData.pageNum = page;
+				this.query();
 			},
 			checkDetail(row){
 				this.$emit("hideDraft");

@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <!-- <img :src="logo" alt="" /> -->
-    <div class="header">全生命周期智慧建设管理平台</div>
+    <div class="header">项目全生命周期数字管理平台</div>
     <div class="exit" @click="exitSys">返回登陆</div>
     <!-- <div class="main">
       <div class="all-view">
@@ -46,34 +46,26 @@
       </div>
       <div class="project_lists">
         <div id="album">
+
           <div class="img_box" v-for="(item, index) in listData" :key="index">
+
             <div class="img_box_wrapper" @mouseover="mouseOver(item)" @click.stop="seeProject(item)">
-<!--              <img :src="item.projectpic?'/mong/preview?fileid=' +item.projectpic :img1" alt="" :project="item.projectpic"/>-->
-              <img :src="item.projectpic" alt="" :projectName="item.name"/>
+              <!--              <img :src="item.projectpic?'/mong/preview?fileid=' +item.projectpic :img1" alt="" :project="item.projectpic"/>-->
+              <img :src="item.projectpic" alt="" :projectName="item.name" crossOrigin="anonymous" />
               <div class="title"></div>
               <label class="pro_name">{{ item.name }}</label>
-<!--              <ul class="section_lists">-->
-<!--                <li v-for="section in item.child" v-show="currentProjectId === item.id"  @click.stop="seeProject(section)">{{ section.name }}</li>-->
-<!--              </ul>-->
+              <!--              <ul class="section_lists">-->
+              <!--                <li v-for="section in item.child" v-show="currentProjectId === item.id"  @click.stop="seeProject(section)">{{ section.name }}</li>-->
+              <!--              </ul>-->
             </div>
           </div>
           <p></p>
         </div>
-        <svg-icon
-          icon-class="left"
-          v-if="currentPage < quotient"
-          class="right_shift"
-          @click="addPage"
-        />
-        <svg-icon
-          v-if="currentPage > 1"
-          icon-class="right"
-          class="left_shift"
-          @click="decPage"
-        />
+        <svg-icon icon-class="left" v-if="currentPage < quotient" class="right_shift" @click="addPage" />
+        <svg-icon v-if="currentPage > 1" icon-class="right" class="left_shift" @click="decPage" />
       </div>
     </div>
-    <div class="footer">池州建设投资集团有限公司 · 池州建投建筑科技有限公司</div>
+    <div class="footer">诸暨市建设集团有限公司</div>
   </div>
 </template>
 
@@ -83,7 +75,7 @@ import allView from "@/assets/image/dbdzl.png";
 import box from "@/assets/image/SX001.png";
 import { mapMutations, mapGetters } from "vuex";
 import { removeToken } from "@/utils/auth";
-import { updateOnline } from "@/api/user";
+import { updateOnline, tellOnline } from "@/api/user";
 
 
 import img11 from "@/assets/projectImg/池州市平天湖东部区域棚户区改造建设工程EPC总承包.png";
@@ -109,8 +101,8 @@ import img4 from "@/assets/projectImg/图层7.png";
 import img5 from "@/assets/projectImg/图层4.png";
 import img6 from "@/assets/projectImg/图层5.png";
 import img7 from "@/assets/projectImg/图层6.png";
-import {getProjectAndSection} from "@/api/newProject";
-import {getAllProject,getProjectsByUser} from "@/api/project";
+import { getProjectAndSection } from "@/api/newProject";
+import { getAllProject, getProjectsByUser } from "@/api/project";
 export default {
   name: "",
   data() {
@@ -164,7 +156,7 @@ export default {
     this.init();
   },
   computed: {
-    ...mapGetters(["menus","menu", "rights"])
+    ...mapGetters(["menus", "menu", "rights"])
   },
   mounted() {
     document.onselectstart = function () {
@@ -210,29 +202,29 @@ export default {
   methods: {
     ...mapMutations("project", ["SET_PROJECT"]),
     projectImg(val) {
-      if(val === "池州市平天湖东部区域棚户区改造建设工程EPC总承包") {
+      if (val === "池州市平天湖东部区域棚户区改造建设工程EPC总承包") {
         return img11;
-      } else if(val === "池州市急救中心建设项目—标段") {
+      } else if (val === "池州市急救中心建设项目—标段") {
         return img12;
       } else if (val === "池州乌沙港项目标段") {
         return img15;
       } else if (val === "清溪大道改造工程") {
         return img14;
-      } else if(val.indexOf("池州职业技术学院1期一标段") > -1) {
+      } else if (val.indexOf("池州职业技术学院1期一标段") > -1) {
         return img13;
-      } else if(val === "池州生态人文纪念园项目—标段") {
+      } else if (val === "池州生态人文纪念园项目—标段") {
         return img16;
-      } else if(val === "池州职业技术学院2期一标段") {
+      } else if (val === "池州职业技术学院2期一标段") {
         return img17;
-      } else if(val === "蜀山区建筑业总部基地项目一标段") {
+      } else if (val === "蜀山区建筑业总部基地项目一标段") {
         return img18;
-      } else if(val === "安徽智能软件园（三期）项目一标段") {
+      } else if (val === "安徽智能软件园（三期）项目一标段") {
         return img19;
-      } else if(val === "槐树湾路、春湾路（原银湾路）道路工程一标段") {
+      } else if (val === "槐树湾路、春湾路（原银湾路）道路工程一标段") {
         return img20;
-      } else if(val === "蜀山高科数字经济示范园一标段") {
+      } else if (val === "蜀山高科数字经济示范园一标段") {
         return img21;
-      } else if(val === "西城大道（望江西路-蜀山大道）工程项目一标段") {
+      } else if (val === "西城大道（望江西路-蜀山大道）工程项目一标段") {
         return img22;
       } else {
         return this.img1;
@@ -259,7 +251,7 @@ export default {
       //   let arr = this.lists.slice(-10);
       //   this.listData = arr;
       // }
-      
+
       this.listData = data;
     },
     decPage() {
@@ -378,8 +370,9 @@ export default {
       this.$router.push("/login");
     },
     upInlineStatus() {
+      tellOnline();
       updateOnline().then(res => {
-        let {isChange} = res.data;
+        let { isChange } = res.data;
         if (isChange === "true") {
           this.$message({
             type: "info",
@@ -394,7 +387,7 @@ export default {
       let that = this;
       this.upInlineStatus();
       that.timer = setInterval(() => {
-        this.upInlineStatus();
+        // this.upInlineStatus();
       }, 1000 * 60 * 3);
     }
   },
@@ -434,12 +427,13 @@ export default {
     background: url("../../assets/image/exit_bg.png") no-repeat;
   }
 
-  > img {
+  >img {
     position: fixed;
     left: 0;
     top: 0;
     width: 250px;
   }
+
   .header {
     width: 100%;
     height: 78px;
@@ -458,12 +452,14 @@ export default {
     // -webkit-background-clip: text;
     // -webkit-text-fill-color: transparent;
   }
+
   .main_container {
     width: 100%;
     height: calc(100% - 200px);
     // margin-top: 100px;
     display: flex;
     align-items: center;
+
     .all-project-bi {
       width: 400px;
       height: 278px;
@@ -472,10 +468,12 @@ export default {
       background: url("../../assets/image/dbdzl.png") no-repeat;
       left: 120px;
       top: 179px;
+
       &:hover {
         cursor: pointer;
         transform: scale(1.1);
       }
+
       .logo {
         position: absolute;
         top: -14px;
@@ -487,6 +485,7 @@ export default {
         width: 246px;
         height: 246px;
       }
+
       .label {
         position: absolute;
         bottom: 14px;
@@ -500,6 +499,7 @@ export default {
         height: 74px;
       }
     }
+
     .all-project {
       width: 400px;
       height: 278px;
@@ -508,10 +508,12 @@ export default {
       background: url("../../assets/image/dbdzl.png") no-repeat;
       left: 120px;
       bottom: 162px;
+
       &:hover {
         cursor: pointer;
         transform: scale(1.1);
       }
+
       .logo {
         position: absolute;
         top: -14px;
@@ -523,6 +525,7 @@ export default {
         width: 246px;
         height: 246px;
       }
+
       .label {
         position: absolute;
         bottom: 14px;
@@ -536,6 +539,7 @@ export default {
         height: 74px;
       }
     }
+
     .project_lists {
       top: 164px;
       width: 70%;
@@ -545,6 +549,7 @@ export default {
       display: flex;
       // align-items: center;
       position: absolute;
+
       .right_shift {
         position: absolute;
         top: 50%;
@@ -554,6 +559,7 @@ export default {
         height: 30px;
         cursor: pointer;
       }
+
       .left_shift {
         position: absolute;
         top: 50%;
@@ -571,6 +577,7 @@ export default {
         // transform-style: preserve-3d;
         // transform: rotateX(-20deg);
       }
+
       //
       #album .img_box {
         // position: absolute;
@@ -598,19 +605,23 @@ export default {
           background: url("../../assets/image/project_list_bg.png") no-repeat;
           background-size: 100% 100%;
           padding: 8px;
+
           &:hover {
             cursor: pointer;
             transform: scale(1.1);
             background: url("../../assets/image/project_list_bg_selected.png") no-repeat;
+
             .title {
               background: url("../../assets/image/project_list_title_bg_selected.png") no-repeat;
             }
           }
+
           img {
             width: 100%;
             height: 100%;
             border-radius: 5px;
           }
+
           .title {
             width: 272px;
             height: 56px;
@@ -619,6 +630,7 @@ export default {
             bottom: 8px;
             position: absolute;
           }
+
           .pro_name {
             width: 272px;
             // text-align: center;
@@ -639,7 +651,8 @@ export default {
             color: #FFFFFF;
             position: absolute;
             top: 250px;
-            li{
+
+            li {
               padding: 5px 0;
               text-align: center;
               cursor: pointer;
@@ -647,6 +660,7 @@ export default {
           }
         }
       }
+
       #album p {
         position: absolute;
         left: calc(133px / 2 - 800px / 2);
@@ -668,18 +682,22 @@ export default {
     margin-top: 100px;
     display: flex;
     align-items: center;
+
     .all-view {
       width: 40%;
       position: relative;
       text-align: center;
-      > img {
+
+      >img {
         width: 70%;
+
         &:hover {
           cursor: pointer;
           transform: scale(1.1);
         }
       }
-      > label {
+
+      >label {
         position: absolute;
         bottom: 20px;
         left: 50%;
@@ -688,25 +706,31 @@ export default {
         color: #04ffff;
       }
     }
+
     .project-box {
       width: 60%;
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
+
       .out-box {
         width: 15%;
+
         .in-box {
           width: 100%;
           height: 160px;
           position: relative;
+
           img {
             width: 100%;
+
             &:hover {
               cursor: pointer;
               transform: scale(1.1);
             }
           }
+
           label {
             width: 100px;
             position: absolute;
@@ -721,6 +745,7 @@ export default {
           }
         }
       }
+
       // .right_shift {
       //   position: absolute;
       //   top: 50%;
@@ -741,6 +766,7 @@ export default {
       // }
     }
   }
+
   .footer {
     position: absolute;
     width: 100%;

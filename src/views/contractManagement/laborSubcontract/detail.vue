@@ -1,6 +1,7 @@
 <template>
 	<div>
-		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible" :fullscreen="true">
+		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible"
+			:fullscreen="true">
 			<template slot="title">
 				{{dialogTitle}}
 				<div class="logo-icon"></div>
@@ -11,7 +12,7 @@
 					<div class="form-bg">
 						<div class="form-content">
 							<el-form ref="form" label-width="80px">
-								
+
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
@@ -44,7 +45,7 @@
 											<div class="block-item-label">合同编号</div>
 											<div class="block-item-value">
 												{{formData.contractCode}}
-												
+
 											</div>
 										</div>
 										<div class="block-item">
@@ -59,17 +60,16 @@
 										<span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
 											xisx xis pdf文件，且不超过100m</span>
 									</div>
-								
+
 									<attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>
-									
+
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>信息填报</strong>
 									</div>
 									<div class="block-table">
-										<el-table :data="contractTable" style="width: 100%" border
-											class="have_scrolling">
+										<el-table :data="contractTable" style="width: 100%" border class="have_scrolling">
 											<el-table-column type="index" width="50" align="center" label="序号">
 											</el-table-column>
 											<el-table-column prop="buildProjectName" align="center" label="拟分包工程名称"
@@ -95,16 +95,16 @@
 											<el-table-column prop="buildEndMonth" width="120px" align="center"
 												label="拟分包施工工期开始月份">
 											</el-table-column>
-											<el-table-column prop="contractUserQualification" width="120px"
-												align="center" label="承包人专业分包资质">
+											<el-table-column prop="contractUserQualification" width="120px" align="center"
+												label="承包人专业分包资质">
 											</el-table-column>
 											<el-table-column prop="remark" width="120px" align="center" label="备注">
 											</el-table-column>
-											
+
 										</el-table>
 									</div>
 								</div>
-								
+
 							</el-form>
 							<!-- <taskhandle :taskInfo="taskInfo"></taskhandle> -->
 						</div>
@@ -121,7 +121,7 @@
 				</el-aside>
 			</el-container>
 		</el-dialog>
-		
+
 	</div>
 </template>
 
@@ -144,7 +144,7 @@
 		props:['detailRow'],
 		data() {
 			return {
-				dialogTitle: '全生命周期智慧建设管理平台',
+				dialogTitle: '项目全生命周期数字管理平台',
 				dialogFormVisible: false,
 
 				baseInfo: {
@@ -233,5 +233,5 @@
 </script>
 
 <style scoped lang="scss">
-	@import "../../../assets/css/dialog.scss"
+@import "../../../assets/css/dialog.scss"
 </style>

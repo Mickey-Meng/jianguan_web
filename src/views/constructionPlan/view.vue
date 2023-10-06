@@ -54,15 +54,15 @@
             </div>
           </div>
         </div>
-<!--        <div class="form-block">-->
-<!--          <div class="form-block-title">-->
-<!--            <div class="title-bar"></div>-->
-<!--            <strong>附件</strong>-->
-<!--            <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc-->
-<!--							xisx xis pdf文件，且不超过100m</span>-->
-<!--          </div>-->
-<!--          <attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>-->
-<!--        </div>-->
+        <!--        <div class="form-block">-->
+        <!--          <div class="form-block-title">-->
+        <!--            <div class="title-bar"></div>-->
+        <!--            <strong>附件</strong>-->
+        <!--            <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc-->
+        <!--							xisx xis pdf文件，且不超过100m</span>-->
+        <!--          </div>-->
+        <!--          <attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>-->
+        <!--        </div>-->
       </el-form>
     </div>
   </div>
@@ -82,7 +82,7 @@ import {
 export default {
   data() {
     return {
-      dialogTitle: '全生命周期智慧建设管理平台',
+      dialogTitle: '项目全生命周期数字管理平台',
       dialogFormVisible: false,
 
       baseInfo: {

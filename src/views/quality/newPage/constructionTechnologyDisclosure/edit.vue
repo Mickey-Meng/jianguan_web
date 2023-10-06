@@ -2,7 +2,7 @@
 	<div>
 		<el-dialog class="full-dialog defined-dialog" :fullscreen="true" :visible.sync="dialogFormVisible">
 			<template slot="title">
-				{{dialogTitle}}
+				{{ dialogTitle }}
 				<div class="logo-icon"></div>
 			</template>
 			<el-container>
@@ -12,11 +12,12 @@
 						<div class="form-content">
 							<el-form :model="formData" :rules="rules" ref="ruleForm" label-width="80px">
 								<div class="form-title">
-<!--									<div class="title-big-bar"></div>-->
-<!--									<strong>施工技术交底</strong>-->
-
-									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify"
-										@checkDraft="checkDraft" ref="drafthandle"></drafthandle>
+									<div class="title-big-bar"></div>
+									<!-- #643 lrj 拼接上标段改为写死浙公路（JL）011 20230919去掉表单号-->
+									<!-- <strong>施工技术交底-{{ project.name }}</strong> -->
+									<strong>施工技术交底</strong>
+									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify" @checkDraft="checkDraft"
+										ref="drafthandle"></drafthandle>
 								</div>
 
 								<div class="form-block">
@@ -28,7 +29,7 @@
 										<div class="block-item">
 											<div class="block-item-label">登记时间</div>
 											<div class="block-item-value">
-												{{formData.checkDate}}
+												{{ formData.checkDate }}
 											</div>
 										</div>
 									</div>
@@ -37,7 +38,8 @@
 										<div class="block-item">
 											<div class="block-item-label">施工技术交底概述</div>
 											<div class="block-item-value">
-												<el-input v-model="formData.buildTechBottom" type="textarea" :rows="4"></el-input>
+												<el-input v-model="formData.buildTechBottom" type="textarea"
+													:rows="4"></el-input>
 											</div>
 										</div>
 										<div class="block-item">
@@ -103,10 +105,11 @@
 									</div>
 								</div> -->
 
-								<approveuser v-if="approveVisible" :auditUser="auditUser"  :flowKey="flowKey">
+								<approveuser v-if="approveVisible" :auditUser="auditUser" :flowKey="flowKey">
 								</approveuser>
 								<div class="form-block">
-									<el-button @click="addOrModify()" class="submit-btn" size="small" type="primary" :loading="submitDisable">提交
+									<el-button @click="addOrModify()" class="submit-btn" size="small" type="primary"
+										:loading="submitDisable">提交
 									</el-button>
 								</div>
 							</el-form>
@@ -133,93 +136,150 @@
 </template>
 
 <script>
-	Date.prototype.format = function (fmt) {
-		var o = {
-			"M+": this.getMonth() + 1, //月份
-			"d+": this.getDate(), //日
-			"h+": this.getHours(), //小时
-			"m+": this.getMinutes(), //分
-			"s+": this.getSeconds(), //秒
-			"q+": Math.floor((this.getMonth() + 3) / 3), //季度
-			"S": this.getMilliseconds() //毫秒
-		};
-		if (/(y+)/.test(fmt)) {
-			fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-		}
-		for (var k in o) {
-			if (new RegExp("(" + k + ")").test(fmt)) {
-			fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-			}
-		}
-		return fmt;
+Date.prototype.format = function (fmt) {
+	var o = {
+		"M+": this.getMonth() + 1, //月份
+		"d+": this.getDate(), //日
+		"h+": this.getHours(), //小时
+		"m+": this.getMinutes(), //分
+		"s+": this.getSeconds(), //秒
+		"q+": Math.floor((this.getMonth() + 3) / 3), //季度
+		"S": this.getMilliseconds() //毫秒
+	};
+	if (/(y+)/.test(fmt)) {
+		fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
 	}
-	import * as api from "@/api/quality";
-	import { getUserInfo } from "@/api/user";
-	import {
-		formatDateTime,
-		formatDate,
-		createProjectInfo,
-		diffCompare
-	} from "@/utils/format.js";
-	import attachlist from "../../../common/attachlist.vue"
-	import drafthandle from "../../../common/drafthandle.vue"
-	import approveuser from "../../../common/approveuser.vue"
-	import projectinfo from "../../../common/projectinfo.vue"
+	for (var k in o) {
+		if (new RegExp("(" + k + ")").test(fmt)) {
+			fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+		}
+	}
+	return fmt;
+}
+import { mapGetters } from "vuex";
+import * as api from "@/api/quality";
+import { getUserInfo } from "@/api/user";
+import {
+	formatDateTime,
+	formatDate,
+	createProjectInfo,
+	diffCompare
+} from "@/utils/format.js";
+import attachlist from "../../../common/attachlist.vue"
+import drafthandle from "../../../common/drafthandle.vue"
+import approveuser from "../../../common/approveuser.vue"
+import projectinfo from "../../../common/projectinfo.vue"
 
-	export default {
-		data() {
-			return {
-				draftVisible: false,
-				addOrModifyFlag: true,
-				dialogTitle: '全生命周期智慧建设管理平台',
-				dialogFormVisible: false,
-				annexTableData: [],
-				activeName: 'first',
-				waitTableData: [],
-				userOptions: [{
-					label: '陈武林',
-					value: 1
+export default {
+	data() {
+		return {
+			draftVisible: false,
+			addOrModifyFlag: true,
+			dialogTitle: '项目全生命周期数字管理平台',
+			dialogFormVisible: false,
+			annexTableData: [],
+			activeName: 'first',
+			waitTableData: [],
+			userOptions: [{
+				label: '陈武林',
+				value: 1
+			}],
+			rules: {
+				subProject: [{
+					required: true,
+					message: '请填写分项工程',
+					trigger: 'blur'
 				}],
-				rules: {
-					subProject: [{
-						required: true,
-						message: '请填写分项工程',
-						trigger: 'blur'
-					}],
-					unit: [{
-						required: true,
-						message: '请填写	单位、分部工程',
-						trigger: 'blur'
-					}],
-					BuildTechBottom: [{
-						required: true,
-						message: '请填写隐蔽工程项目',
-						trigger: 'blur'
-					}],
-					buildCheckselfResult: [{
-						required: true,
-						message: '请填写施工自检结果',
-						trigger: 'blur'
-					}],
-					qualityCheckUser: [{
-						required: true,
-						message: '请选择项目质检负责人',
-						trigger: 'blur'
-					}],
-					projectBuildUser: [{
-						required: true,
-						message: '请选择项目施工负责人',
-						trigger: 'blur'
-					}]
-				},
-				baseInfo: {
-					buildSection: 1,
-					buildSectionName: '',
-					contractCode: '',
-					buildCompany: '',
-					supervisionUnit: '',
-				},
-				formData: { //表单参数
+				unit: [{
+					required: true,
+					message: '请填写	单位、分部工程',
+					trigger: 'blur'
+				}],
+				BuildTechBottom: [{
+					required: true,
+					message: '请填写隐蔽工程项目',
+					trigger: 'blur'
+				}],
+				buildCheckselfResult: [{
+					required: true,
+					message: '请填写施工自检结果',
+					trigger: 'blur'
+				}],
+				qualityCheckUser: [{
+					required: true,
+					message: '请选择项目质检负责人',
+					trigger: 'blur'
+				}],
+				projectBuildUser: [{
+					required: true,
+					message: '请选择项目施工负责人',
+					trigger: 'blur'
+				}]
+			},
+			baseInfo: {
+				buildSection: 1,
+				buildSectionName: '',
+				contractCode: '',
+				buildCompany: '',
+				supervisionUnit: '',
+			},
+			formData: { //表单参数
+				buildTechBottom: '', // 施工交底概述
+				checkDate: formatDate(new Date()), // 登记时间
+				remark: '', // 备注
+				attachment: [],
+				buildCheckselfResult: '',
+				deletedFlag: 1,
+				draftFlag: 1,
+				BuildTechBottom: '',
+				projectBuildUser: 1,
+				projectChargeUser: 1,
+				projectCode: '',
+				buildSection: this.$store.getters.project.id,
+				projectId: this.$store.getters.project['id'],
+				qualityCheckUser: 1,
+				subProject: '',
+				supervisorEngineerUser: 1,
+				supervisorUser: 1,
+				unit: ''
+			},
+			attachTable: [], //附件
+			fileList: [],
+			auditUser: {},
+			approveVisible: true,
+			flowKey: 'shigongjishujiaodi',
+
+			submitDisable: false
+		};
+	},
+	created() { },
+	components: {
+		attachlist,
+		drafthandle,
+		approveuser,
+		projectinfo,
+		constructionTechnologyDisclosure: () => import("../constructionTechnologyDisclosure.vue")
+
+	},
+	computed: {
+		...mapGetters(["project"])
+	},
+	mounted() {
+		this.getProjectInfoById();
+	},
+	watch: {
+
+	},
+	methods: {
+
+		changeVisible(obj, value) {
+			this.dialogFormVisible = value;
+			obj = obj || {};
+			if (obj['id']) {
+				this.getDetail(obj['id']);
+				this.approveVisible = false;
+			} else {
+				this.formData = {
 					buildTechBottom: '', // 施工交底概述
 					checkDate: formatDate(new Date()), // 登记时间
 					remark: '', // 备注
@@ -232,185 +292,131 @@
 					projectChargeUser: 1,
 					projectCode: '',
 					buildSection: this.$store.getters.project.id,
-					projectId:this.$store.getters.project['id'],
+					projectId: this.$store.getters.project['id'],
+					qualityCheckUser: 1,
+					subProject: '',
+					supervisorEngineerUser: 1,
+					supervisorUser: 1,
+					unit: ''
+				}
+				this.attachTable = [];
+				this.approveVisible = true;
+			}
+		},
+		getProjectInfoById() {
+			api.getProjectInfoById({
+				projectid: this.$store.getters.project['id']
+			}).then((res) => {
+				let data = res['data'] || {};
+				this.baseInfo['buildSectionName'] = data['project'] ? data['project']['name'] : '';
+				let list = data['companys'] || [];
+				let info = createProjectInfo(list);
+
+				info = data['item'] || {}
+
+				this.baseInfo['buildCompany'] = info['constructdpt']
+				this.baseInfo['supervisionUnit'] = info['supervisordpt']
+
+				this.formData['buildSection'] = data['project'] ? data['project']['id'] : 1;
+			});
+		},
+		getDetail(id) {
+			api.getBuildTechBottomDetail({
+				id: id
+			}).then((res) => {
+				let data = res['data'] || {};
+				this.formData = data;
+				this.attachTable = data.attachment || [];
+			});
+		},
+		addOrModify(isdraft) {
+			if (this.submitDisable) return;
+
+			this.submitDisable = true;
+			if (isdraft) {
+				if (diffCompare([this.formData, this.attachTable], [{
+					buildTechBottom: '', // 施工交底概述
+					checkDate: formatDate(new Date()), // 登记时间
+					remark: '', // 备注
+					attachment: [],
+					buildCheckselfResult: '',
+					deletedFlag: 1,
+					draftFlag: 1,
+					BuildTechBottom: '',
+					projectBuildUser: 1,
+					projectChargeUser: 1,
+					projectCode: '',
+					buildSection: this.$store.getters.project.id,
+					projectId: this.$store.getters.project['id'],
 					qualityCheckUser: 1,
 					subProject: '',
 					supervisorEngineerUser: 1,
 					supervisorUser: 1,
 					unit: ''
 				},
-				attachTable: [], //附件
-				fileList:[],
-				auditUser: {},
-                approveVisible:true,
-				flowKey:'shigongjishujiaodi',
-
-      submitDisable: false
-			};
-		},
-		created() {},
-		components: {
-			attachlist,
-			drafthandle,
-			approveuser,
-			projectinfo,
-			constructionTechnologyDisclosure: () => import("../constructionTechnologyDisclosure.vue")
-
-		},
-		computed: {},
-		mounted() {
-			this.getProjectInfoById();
-		},
-		watch: {
-
-		},
-		methods: {
-
-			changeVisible(obj,value) {
-				this.dialogFormVisible = value;
-				obj=obj||{};
-				if (obj['id']) {
-					this.getDetail(obj['id']);
-                    this.approveVisible=false;
-				} else {
-					this.formData = {
-						buildTechBottom: '', // 施工交底概述
-						checkDate: formatDate(new Date()), // 登记时间
-						remark: '', // 备注
-						attachment: [],
-						buildCheckselfResult: '',
-						deletedFlag: 1,
-						draftFlag: 1,
-						BuildTechBottom: '',
-						projectBuildUser: 1,
-						projectChargeUser: 1,
-						projectCode: '',
-						buildSection: this.$store.getters.project.id,
-						projectId:this.$store.getters.project['id'],
-						qualityCheckUser: 1,
-						subProject: '',
-						supervisorEngineerUser: 1,
-						supervisorUser: 1,
-						unit: ''
-					}
-					this.attachTable=[];
-					this.approveVisible=true;
-				}
-			},
-			getProjectInfoById(){
-				api.getProjectInfoById({
-					projectid: this.$store.getters.project['id']
-				}).then((res) => {
-					let data = res['data'] || {};
-					this.baseInfo['buildSectionName']=data['project']?data['project']['name']:'';
-					let list=data['companys'] || [];
-					let info=createProjectInfo(list);
-
-					info = data['item'] || {}
-					
-					this.baseInfo['buildCompany'] = info['constructdpt']
-					this.baseInfo['supervisionUnit'] = info['supervisordpt']
-
-					this.formData['buildSection'] = data['project'] ? data['project']['id'] : 1;
-				});
-			},
-			getDetail(id) {
-				api.getBuildTechBottomDetail({
-					id: id
-				}).then((res) => {
-					let data = res['data'] || {};
-					this.formData = data;
-					this.attachTable=data.attachment||[];
-				});
-			},
-			addOrModify(isdraft) {
-      if (this.submitDisable) return;
-      
-      this.submitDisable = true;
-				if (isdraft) {
-					if (diffCompare([this.formData, this.attachTable], [{
-								buildTechBottom: '', // 施工交底概述
-								checkDate: formatDate(new Date()), // 登记时间
-								remark: '', // 备注
-								attachment: [],
-								buildCheckselfResult: '',
-								deletedFlag: 1,
-								draftFlag: 1,
-								BuildTechBottom: '',
-								projectBuildUser: 1,
-								projectChargeUser: 1,
-								projectCode: '',
-								buildSection: this.$store.getters.project.id,
-								projectId:this.$store.getters.project['id'],
-								qualityCheckUser: 1,
-								subProject: '',
-								supervisorEngineerUser: 1,
-								supervisorUser: 1,
-								unit: ''
-							},
-							[]
-						])) {
-						this.$message({
-							type: 'warning',
-							message: '不能提交空白!'
-						});
-						return;
-					}
-					this.formData.attachment=this.attachTable;
-					this.formData.draftFlag = isdraft ? 0 : 1;
-					this.formData.auditUser = this.auditUser;
-					api.addOrUpdateBuildTechBottom(this.formData).then((res) => {
-						if (res.data) {
-							this.$message({
-								type: 'success',
-								message: '提交成功!'
-							});
-							this.dialogFormVisible = false;
-              setTimeout(()=> {
-                this.submitDisable = false;
-              }, 500)
-							this.$emit("query");
-						}
+				[]
+				])) {
+					this.$message({
+						type: 'warning',
+						message: '不能提交空白!'
 					});
-				} else {
-					this.$refs['ruleForm'].validate((valid) => {
-						if(valid){
-							this.formData.attachment=this.attachTable;
-							this.formData.auditUser = this.auditUser;
-							this.formData.draftFlag = 1;
-							console.log("aaa", this.formData);
-							api.addOrUpdateBuildTechBottom(this.formData).then((res) => {
-								if (res.data) {
-									this.$message({
-										type: 'success',
-										message: '提交成功!'
-									});
-									this.dialogFormVisible = false;
-              setTimeout(()=> {
-                this.submitDisable = false;
-              }, 500)
-									this.$emit("query");
-								}
-							});
-						} else {
-          setTimeout(()=> {
-            this.submitDisable = false;
-          }, 500)
-        }
-
-					})
+					return;
 				}
-			},
-			hideDraft() {
-				this.draftVisible = false;
-			},
-			checkDraft() {
-				this.draftVisible = true;
+				this.formData.attachment = this.attachTable;
+				this.formData.draftFlag = isdraft ? 0 : 1;
+				this.formData.auditUser = this.auditUser;
+				api.addOrUpdateBuildTechBottom(this.formData).then((res) => {
+					if (res.data) {
+						this.$message({
+							type: 'success',
+							message: '提交成功!'
+						});
+						this.dialogFormVisible = false;
+						setTimeout(() => {
+							this.submitDisable = false;
+						}, 500)
+						this.$emit("query");
+					}
+				});
+			} else {
+				this.$refs['ruleForm'].validate((valid) => {
+					if (valid) {
+						this.formData.attachment = this.attachTable;
+						this.formData.auditUser = this.auditUser;
+						this.formData.draftFlag = 1;
+						console.log("aaa", this.formData);
+						api.addOrUpdateBuildTechBottom(this.formData).then((res) => {
+							if (res.data) {
+								this.$message({
+									type: 'success',
+									message: '提交成功!'
+								});
+								this.dialogFormVisible = false;
+								setTimeout(() => {
+									this.submitDisable = false;
+								}, 500)
+								this.$emit("query");
+							}
+						});
+					} else {
+						setTimeout(() => {
+							this.submitDisable = false;
+						}, 500)
+					}
+
+				})
 			}
 		},
-	};
+		hideDraft() {
+			this.draftVisible = false;
+		},
+		checkDraft() {
+			this.draftVisible = true;
+		}
+	},
+};
 </script>
 
 <style scoped lang="scss">
-	@import "../../../../assets/css/dialog.scss"
+@import "../../../../assets/css/dialog.scss"
 </style>

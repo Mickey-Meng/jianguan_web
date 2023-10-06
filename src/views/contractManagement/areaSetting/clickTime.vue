@@ -9,7 +9,7 @@
 <template>
   <div>
     <el-dialog class="full-dialog defined-dialog" :fullscreen="true" :destroy-on-close="true"
-               :visible.sync="dialogFormVisible">
+      :visible.sync="dialogFormVisible">
       <template slot="title">
         {{ dialogTitle }}
       </template>
@@ -39,25 +39,11 @@
                     <div class="block-item-label">人员岗位<i class="require-icon"></i></div>
                     <div class="block-item-value">
                       <el-form-item prop="postName">
-                        <el-select
-                          ref="select"
-                          :value="selectLabel"
-                          :clearable="false"
-                          popper-class="select_tree"
-                        >
+                        <el-select ref="select" :value="selectLabel" :clearable="false" popper-class="select_tree">
                           <el-option :value="selectKey" :label="selectLabel">
-                            <el-tree
-                              id="tree-option"
-                              ref="tree"
-                              node-key="ID"
-                              show-checkbox
-                              :accordion="true"
-                              :data="treeData"
-                              :props="props"
-                              :expand-on-click-node="false"
-                              @check="checkEvent"
-                              @check-change="checkChange"
-                            >
+                            <el-tree id="tree-option" ref="tree" node-key="ID" show-checkbox :accordion="true"
+                              :data="treeData" :props="props" :expand-on-click-node="false" @check="checkEvent"
+                              @check-change="checkChange">
                               <template slot-scope="{ node }">
                                 <span class="node_label">{{ node.label }}</span>
                               </template>
@@ -75,15 +61,8 @@
                     <div class="block-item-label">时间范围<i class="require-icon"></i></div>
                     <div class="block-item-value">
                       <el-form-item prop="coordinate">
-                        <el-time-picker
-                          style="width: 100%"
-                          is-range
-                          v-model="timeValue"
-                          range-separator="至"
-                          value-format="HH:mm:ss"
-                          start-placeholder="开始时间"
-                          end-placeholder="结束时间"
-                          @change="timeChange"
+                        <el-time-picker style="width: 100%" is-range v-model="timeValue" range-separator="至"
+                          value-format="HH:mm:ss" start-placeholder="开始时间" end-placeholder="结束时间" @change="timeChange"
                           placeholder="选择时间范围">
                         </el-time-picker>
                       </el-form-item>
@@ -99,8 +78,7 @@
               </div>
               <div class="form-block">
                 <el-button style="margin: 20px 0 20px 160px;padding: 0 70px" size="small" type="primary"
-                           @click="submitInfo"
-                >提交
+                  @click="submitInfo">提交
                 </el-button>
               </div>
               <div class="form-block">
@@ -172,7 +150,7 @@
           ]
         },
         tableData: [],
-        dialogTitle: "全生命周期智慧建设管理平台",
+        dialogTitle: "项目全生命周期数字管理平台",
         dialogFormVisible: false
       };
     },
@@ -399,19 +377,16 @@
 </script>
 
 <style lang='scss' scoped>
-  @import "../../../assets/css/table.scss";
-  @import "../../../assets/css/dialog.scss";
+@import "../../../assets/css/table.scss";
+@import "../../../assets/css/dialog.scss";
 
-  ::v-deep.full-dialog {
-    .el-dialog__headerbtn {
-      background: #FFFFFF;
-    }
+::v-deep.full-dialog {
+  .el-dialog__headerbtn {
+    background: #FFFFFF;
   }
+}
 
-  .form-bg {
-    width: 55% !important;
-  }
-
-
-
+.form-bg {
+  width: 55% !important;
+}
 </style>

@@ -1,19 +1,17 @@
 <template>
   <div>
-    <el-dialog class="full-dialog defined-dialog"
-               @close="closeDialog"
-               :visible.sync="dialogFormVisible"
-               :fullscreen="true">
+    <el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible"
+      :fullscreen="true">
       <template slot="title">
         {{dialogTitle}}
         <div class="logo-icon"></div>
       </template>
       <el-container>
-        <el-main style="background-color: rgba(0,0 0,0.5);height: calc(100vh - 96px); overflow-y: scroll;padding: 0px;margin: 0;">
+        <el-main
+          style="background-color: rgba(0,0 0,0.5);height: calc(100vh - 96px); overflow-y: scroll;padding: 0px;margin: 0;">
           <div class="form-bg">
             <div class="form-content">
-              <el-form ref="form"
-                       label-width="80px">
+              <el-form ref="form" label-width="80px">
 
                 <div class="form-block">
                   <div class="form-block-title">
@@ -64,9 +62,7 @@
                       xisx xis pdf文件，且不超过100m</span>
                   </div>
 
-                  <attachlist :editAble="false"
-                              ref="attachlist"
-                              :attachTable="attachTable"></attachlist>
+                  <attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>
 
                   <div class="block-line">
                     <div class="block-item">
@@ -83,15 +79,13 @@
             </div>
           </div>
         </el-main>
-        <el-aside width="8px"
-                  class="close-wrapper">
+        <el-aside width="8px" class="close-wrapper">
           <div class="close-wrap">
             <i class="el-icon-caret-right"></i>
           </div>
         </el-aside>
         <el-aside style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
-          <tasklog :taskInfo="taskInfo"
-                   ref="tasklog"></tasklog>
+          <tasklog :taskInfo="taskInfo" ref="tasklog"></tasklog>
         </el-aside>
       </el-container>
     </el-dialog>
@@ -117,7 +111,7 @@ export default {
   props: ['detailRow'],
   data() {
     return {
-      dialogTitle: '全生命周期智慧建设管理平台',
+      dialogTitle: '项目全生命周期数字管理平台',
       dialogFormVisible: false,
 
       baseInfo: {

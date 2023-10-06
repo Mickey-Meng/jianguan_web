@@ -17,33 +17,40 @@
 								</div>
 								<div class="block">
 									<el-timeline>
-										<el-timeline-item v-for="(item, idx) in nodeData" :key="item.entryKey" :timestamp="item.entryName" placement="top">
+										<el-timeline-item v-for="(item, idx) in nodeData" :key="item.entryKey"
+											:timestamp="item.entryName" placement="top">
 											<div>
 												<div class="form-block">
 													<div class="block-line">
 														<div class="block-item">
 															<div class="block-item-label">审批人</div>
 															<div class="block-item-value">
-																<el-select multiple 
-																	v-model="auditUser[item.entryKey]" placeholder="请选择">
-																	<el-option v-for="user in nodeUser[item.entryKey]" :key="user.id" :label="user.name"
+																<el-select multiple v-model="auditUser[item.entryKey]"
+																	placeholder="请选择">
+																	<el-option v-for="user in nodeUser[item.entryKey]"
+																		:key="user.id" :label="user.name"
 																		:value="user.username">
 																	</el-option>
 																</el-select>
 															</div>
-															<el-button size="small" @click="selectPerson(item.entryKey, 'userId')" type="primary">修改</el-button>
+															<el-button size="small"
+																@click="selectPerson(item.entryKey, 'userId')"
+																type="primary">修改</el-button>
 														</div>
 														<div class="block-item">
 															<div class="block-item-label">抄送人</div>
 															<div class="block-item-value">
-																<el-select multiple 
-																	v-model="auditCopyUser[item.entryKey]" placeholder="请选择">
-																	<el-option v-for="user in nodeCopyUser[item.entryKey]" :key="user.id" :label="user.name"
+																<el-select multiple v-model="auditCopyUser[item.entryKey]"
+																	placeholder="请选择">
+																	<el-option v-for="user in nodeCopyUser[item.entryKey]"
+																		:key="user.id" :label="user.name"
 																		:value="user.username">
 																	</el-option>
 																</el-select>
 															</div>
-															<el-button size="small" @click="selectPerson(item.entryKey, 'copyUser')" type="primary">修改</el-button>
+															<el-button size="small"
+																@click="selectPerson(item.entryKey, 'copyUser')"
+																type="primary">修改</el-button>
 														</div>
 													</div>
 												</div>
@@ -51,7 +58,7 @@
 										</el-timeline-item>
 									</el-timeline>
 								</div>
-								
+
 								<div class="form-block">
 									<el-button class="submit-btn" size="small" type="primary" @click="addOrModify()">提交
 									</el-button>
@@ -67,8 +74,7 @@
 				<div class="input-box" style="max-width:300px; float:left;">
 					<div class="input-value">
 						<el-select v-model="selectedrole" placeholder="请选择角色" filterable @change="roleChangeEvt">
-							<el-option v-for="item in roleData" :key="item.id" :label="item.name"
-								:value="item.code">
+							<el-option v-for="item in roleData" :key="item.id" :label="item.name" :value="item.code">
 							</el-option>
 						</el-select>
 					</div>
@@ -108,8 +114,8 @@
 				draftVisible: false,
 				addOrModifyFlag: true,
 				dialogFormVisible: false,
-				dialogTitle: '全生命周期智慧建设管理平台',
-				
+				dialogTitle: '项目全生命周期数字管理平台',
+
 				nodeData: [],
 				selectPersonVisible: false, //选人弹窗是否显示
 				selectPersonNodeKey: '', //当前选人的节点key
@@ -129,10 +135,10 @@
 		components: {
 		},
 		computed: {
-			
+
 		},
 		watch: {
-			
+
 		},
 		mounted() {
 			this.getRoles();
@@ -209,7 +215,7 @@
 				// sttime: "2022-06-07 00:00:00"
 				// usercode: ""
 				// username: "13615882434"
-				
+
 				const data = [];
 				const data1 = [];
 				for (let i = 0; i < this.selecteduser.length; i++) {
@@ -273,7 +279,7 @@
 			addOrModify() {
 				for (let i = 0; i < this.nodeData.length; i++) {
 					const item = this.nodeData[i];
-					
+
 					const id = item.id;
 					const entryKey = item.entryKey;
 
@@ -338,6 +344,4 @@
 	};
 </script>
 
-<style scoped lang="scss">
-	@import "../../../../assets/css/dialog.scss"
-</style>
+<style scoped lang="scss">@import "../../../../assets/css/dialog.scss"</style>

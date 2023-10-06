@@ -12,7 +12,7 @@
 						<div class="block-item">
 							<div class="block-item-label">简报名称<i class="require-icon"></i></div>
 							<div class="block-item-value">
-								{{formData.title}}
+								{{ formData.title }}
 							</div>
 						</div>
 					</div>
@@ -49,85 +49,85 @@
 </template>
 
 <script>
-	import * as api from "@/api/quality";
-	import {
-		convertOptions,
-		getQueryVariable,
-		formatDate,
-		getDaysBetween
-	} from "@/utils/format.js";
-	import attachlist from "../../../common/attachlist"
-	import projectinfo from "../../../common/projectinfo.vue"
+import * as api from "@/api/quality";
+import {
+	convertOptions,
+	getQueryVariable,
+	formatDate,
+	getDaysBetween
+} from "@/utils/format.js";
+import attachlist from "../../../common/attachlist"
+import projectinfo from "../../../common/projectinfo.vue"
 
-	export default {
-		data() {
-			return {
-				baseInfo: {
-					buildSection: 1,
-					buildSectionName: '池州市平天湖东部区域棚户区改造建设工程EPC总承包',
-					contractCode: '235SJSG01',
-					buildCompany: '中交上海航道局有限公司、中国交通建设股份有限公司、浙江诸安建设集团有限公司、浙江省交通规划设计研究院有限公司',
-					supervisionUnit: '浙江交科公路水运工程监理有限公司',
-					supervisionSection: '监理办'
-				},
-				formData: { //表单参数
-					deletedFlag: 1,
-					attachment: [],
-					draftFlag: 1,
-					title: '',
-					reportAttachment:[],
-					replyPhotoAttachment:[],
-					buildSection: this.$store.getters.project.id,
-					projectId:this.$store.getters.project['parentid'],
-				},
-				taskInfo:{}
-			};
-		},
-		props: {
-			readOnly: {
-				type: Boolean,
-				default: false
-			}
-		},
-		created() {},
-		components: {
-			attachlist,
-			projectinfo
-		},
-		computed: {
-
-		},
-		watch: {
-
-		},
-		mounted() {
-
-		},
-		methods: {
-			getDetail(id) {
-				api.getQualityReportDeatil(id).then((res) => {
-					let data = res['data'] || {};
-					this.formData = data;
-				});
+export default {
+	data() {
+		return {
+			baseInfo: {
+				buildSection: 1,
+				buildSectionName: '池州市平天湖东部区域棚户区改造建设工程EPC总承包',
+				contractCode: '235SJSG01',
+				buildCompany: '中交上海航道局有限公司、中国交通建设股份有限公司、浙江诸安建设集团有限公司、浙江省交通规划设计研究院有限公司',
+				supervisionUnit: '浙江交科公路水运工程监理有限公司',
+				supervisionSection: '监理办'
 			},
-			// addOrModify() {
-			// 	// this.formData.auditUser = this.auditUser;
-			// 	this.formData.draftFlag = 1;
-			// 	api.addOrUpdateQualityReport(this.formData).then((res) => {
-			// 		if (res.data) {
-			// 			this.$message({
-			// 				type: 'success',
-			// 				message: '提交成功!'
-			// 			});
-			// 			// this.dialogFormVisible = false;
-			// 			// this.$emit("query");
-			// 		}
-			// 	});
-			// },
+			formData: { //表单参数
+				deletedFlag: 1,
+				attachment: [],
+				draftFlag: 1,
+				title: '',
+				reportAttachment: [],
+				replyPhotoAttachment: [],
+				buildSection: this.$store.getters.project.id,
+				projectId: this.$store.getters.project['parentid'],
+			},
+			taskInfo: {}
+		};
+	},
+	props: {
+		readOnly: {
+			type: Boolean,
+			default: false
+		}
+	},
+	created() { },
+	components: {
+		attachlist,
+		projectinfo
+	},
+	computed: {
+
+	},
+	watch: {
+
+	},
+	mounted() {
+
+	},
+	methods: {
+		getDetail(id) {
+			api.getQualityReportDeatil(id).then((res) => {
+				let data = res['data'] || {};
+				this.formData = data;
+			});
 		},
-	};
+		// addOrModify() {
+		// 	// this.formData.auditUser = this.auditUser;
+		// 	this.formData.draftFlag = 1;
+		// 	api.addOrUpdateQualityReport(this.formData).then((res) => {
+		// 		if (res.data) {
+		// 			this.$message({
+		// 				type: 'success',
+		// 				message: '提交成功!'
+		// 			});
+		// 			// this.dialogFormVisible = false;
+		// 			// this.$emit("query");
+		// 		}
+		// 	});
+		// },
+	},
+};
 </script>
 
 <style scoped lang="scss">
-	@import "../../../../assets/css/dialog.scss"
+@import "../../../../assets/css/dialog.scss"
 </style>

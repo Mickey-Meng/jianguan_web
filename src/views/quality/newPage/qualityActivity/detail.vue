@@ -83,7 +83,7 @@
 		data() {
 			return {
 				dialogFormVisible: false,
-				dialogTitle: '全生命周期智慧建设管理平台',
+				dialogTitle: '项目全生命周期数字管理平台',
 				baseInfo: {
 					buildSection: '',
 					buildSectionName: '池州市平天湖东部区域棚户区改造建设工程EPC总承包',
@@ -170,5 +170,5 @@
 </script>
 
 <style scoped lang="scss">
-	@import "../../../../assets/css/dialog.scss"
+@import "../../../../assets/css/dialog.scss"
 </style>

@@ -1,6 +1,7 @@
 <template>
 	<div>
-		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible" :fullscreen="true">
+		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible"
+			:fullscreen="true">
 			<template slot="title">
 				{{dialogTitle}}
 				<div class="logo-icon"></div>
@@ -16,79 +17,79 @@
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>计量管理</strong>
 									</div>
-                  <div class="block-line">
-                    <div class="block-item">
-                      <div class="block-item-label">计量期数名称</div>
-                      <div class="block-item-value">
-                        {{formData.metrologyName}}
-                      </div>
-                    </div>
-                  </div>
-                  <div class="block-line">
-                    <div class="block-item">
-                      <div class="block-item-label">开始日期</div>
-                      <div class="block-item-value">
-                        {{formData.startDate}}
-                      </div>
-                    </div>
+									<div class="block-line">
+										<div class="block-item">
+											<div class="block-item-label">计量期数名称</div>
+											<div class="block-item-value">
+												{{formData.metrologyName}}
+											</div>
+										</div>
+									</div>
+									<div class="block-line">
+										<div class="block-item">
+											<div class="block-item-label">开始日期</div>
+											<div class="block-item-value">
+												{{formData.startDate}}
+											</div>
+										</div>
 
-                    <div class="block-item">
-                      <div class="block-item-label">结束日期</div>
-                      <div class="block-item-value">
-                        {{formData.endDate}}
-                      </div>
-                    </div>
-                  </div>
+										<div class="block-item">
+											<div class="block-item-label">结束日期</div>
+											<div class="block-item-value">
+												{{formData.endDate}}
+											</div>
+										</div>
+									</div>
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>计量信息管理</strong>
 									</div>
-                  <div class="block-line">
-                    <div class="block-item">
-                      <div class="block-item-label">计量编号<i class="require-icon"></i></div>
-                      <div class="block-item-value">
-                        {{formData.metrologyNo}}
-                      </div>
-                    </div>
-                    <div class="block-item">
-                      <div class="block-item-label">申请日期</div>
-                      <div class="block-item-value">
-                        {{formData.applyDate}}
-                      </div>
-                    </div>
-                  </div>
+									<div class="block-line">
+										<div class="block-item">
+											<div class="block-item-label">计量编号<i class="require-icon"></i></div>
+											<div class="block-item-value">
+												{{formData.metrologyNo}}
+											</div>
+										</div>
+										<div class="block-item">
+											<div class="block-item-label">申请日期</div>
+											<div class="block-item-value">
+												{{formData.applyDate}}
+											</div>
+										</div>
+									</div>
 
-                  <div class="block-line">
-                    <div class="block-item">
-                      <div class="block-item-label">申请单位</div>
-                      <div class="block-item-value">
-                        {{formData.applyUnit}}
-                      </div>
-                    </div>
-                    <div class="block-item">
-                      <div class="block-item-label">计量金额</div>
-                      <div class="block-item-value">
-                        {{toFixedAmount}}
-                      </div>
-                    </div>
-                  </div>
-                  <div class="block-line">
-                    <div class="block-item">
-                      <div class="block-item-label">计量内容</div>
-                      <div class="block-item-value">
-                        {{formData.content}}
-                      </div>
-                    </div>
-                  </div>
-                  <div class="block-line">
-                    <div class="block-item">
-                      <div class="block-item-label">申请依据</div>
-                      <div class="block-item-value">
-                        {{formData.applyCertificate}}
-                      </div>
-                    </div>
-                  </div>
+									<div class="block-line">
+										<div class="block-item">
+											<div class="block-item-label">申请单位</div>
+											<div class="block-item-value">
+												{{formData.applyUnit}}
+											</div>
+										</div>
+										<div class="block-item">
+											<div class="block-item-label">计量金额</div>
+											<div class="block-item-value">
+												{{toFixedAmount}}
+											</div>
+										</div>
+									</div>
+									<div class="block-line">
+										<div class="block-item">
+											<div class="block-item-label">计量内容</div>
+											<div class="block-item-value">
+												{{formData.content}}
+											</div>
+										</div>
+									</div>
+									<div class="block-line">
+										<div class="block-item">
+											<div class="block-item-label">申请依据</div>
+											<div class="block-item-value">
+												{{formData.applyCertificate}}
+											</div>
+										</div>
+									</div>
 
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>合同附件</strong>
@@ -137,7 +138,7 @@
 		props:['detailRow'],
 		data() {
 			return {
-				dialogTitle: '全生命周期智慧建设管理平台',
+				dialogTitle: '项目全生命周期数字管理平台',
 				dialogFormVisible: false,
 
 				baseInfo: {
@@ -232,5 +233,5 @@
 </script>
 
 <style scoped lang="scss">
-	@import "src/assets/css/dialog";
+@import "src/assets/css/dialog";
 </style>

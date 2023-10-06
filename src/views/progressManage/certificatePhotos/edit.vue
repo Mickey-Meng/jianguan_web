@@ -12,52 +12,52 @@
             <div class="form-content">
 
               <el-form :model="formData" :rules="rules" ref="ruleForm" label-width="80px">
-								<div class="form-title">
-									<div class="title-big-bar"></div>
-									<strong>进度管理-证照管理</strong>
-								</div>
+                <div class="form-title">
+                  <div class="title-big-bar"></div>
+                  <strong>进度管理-证照管理</strong>
+                </div>
 
-								<div class="form-block">
-									<div class="form-block-title">
-										<div class="title-bar"></div><strong>基本信息</strong>
-									</div>
+                <div class="form-block">
+                  <div class="form-block-title">
+                    <div class="title-bar"></div><strong>基本信息</strong>
+                  </div>
 
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">证照名称</div>
-											<div class="block-item-value">{{ formData.name }}</div>
-										</div>
+                  <div class="block-line">
+                    <div class="block-item">
+                      <div class="block-item-label">证照名称</div>
+                      <div class="block-item-value">{{ formData.name }}</div>
+                    </div>
 
-										<div class="block-item">
-											<div class="block-item-label">证照内容</div>
-											<div class="block-item-value">{{ formData.contents }}</div>
-										</div>
-									</div>
+                    <div class="block-item">
+                      <div class="block-item-label">证照内容</div>
+                      <div class="block-item-value">{{ formData.contents }}</div>
+                    </div>
+                  </div>
 
 
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">计划开始时间</div>
-											<div class="block-item-value">{{ formData.startTime }}</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">计划结束时间</div>
-											<div class="block-item-value">{{ formData.endTime }}</div>
-										</div>
-									</div>
+                  <div class="block-line">
+                    <div class="block-item">
+                      <div class="block-item-label">计划开始时间</div>
+                      <div class="block-item-value">{{ formData.startTime }}</div>
+                    </div>
+                    <div class="block-item">
+                      <div class="block-item-label">计划结束时间</div>
+                      <div class="block-item-value">{{ formData.endTime }}</div>
+                    </div>
+                  </div>
 
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">上报时间</div>
-											<div class="block-item-value">{{ formData.reportTime }}</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">上报人</div>
-											<div class="block-item-value">{{ formData.reportUser }}</div>
-										</div>
-									</div>
+                  <div class="block-line">
+                    <div class="block-item">
+                      <div class="block-item-label">上报时间</div>
+                      <div class="block-item-value">{{ formData.reportTime }}</div>
+                    </div>
+                    <div class="block-item">
+                      <div class="block-item-label">上报人</div>
+                      <div class="block-item-value">{{ formData.reportUser }}</div>
+                    </div>
+                  </div>
 
-									<div class="block-line">
+                  <div class="block-line">
                     <div class="block-item">
                       <div class="block-item-label">责任人<i class="require-icon"></i></div>
                       <div class="block-item-value">
@@ -65,26 +65,27 @@
                       </div>
                     </div>
 
-										<div class="block-item">
-											<div class="block-item-label">备注</div>
-											<div class="block-item-value">{{ formData.remark }}</div>
-										</div>
-									</div>
-								</div>
+                    <div class="block-item">
+                      <div class="block-item-label">备注</div>
+                      <div class="block-item-value">{{ formData.remark }}</div>
+                    </div>
+                  </div>
+                </div>
 
                 <div class="form-block">
                   <div class="form-block-title">
                     <div class="title-bar"></div><strong>证照附件</strong>
                     <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-											xisx xis pdf文件，且不超过100m</span>
+                      xisx xis pdf文件，且不超过100m</span>
                   </div>
                   <attachlist :editAble="true" ref="attachlist" :attachTable="attachTable"></attachlist>
                 </div>
 
-                <approveuser v-if="approveVisible" :auditUser="auditUser"  :flowKey="flowKey"></approveuser>
+                <approveuser v-if="approveVisible" :auditUser="auditUser" :flowKey="flowKey"></approveuser>
 
                 <div class="form-block">
-                  <el-button @click="addOrModify()" class="submit-btn" size="small" type="primary" :loading="submitDisable">提交
+                  <el-button @click="addOrModify()" class="submit-btn" size="small" type="primary"
+                    :loading="submitDisable">提交
                   </el-button>
                 </div>
               </el-form>
@@ -113,7 +114,7 @@ export default {
     return {
       draftVisible: false,
       addOrModifyFlag: true,
-      dialogTitle: '全生命周期智慧建设管理平台',
+      dialogTitle: '项目全生命周期数字管理平台',
       dialogFormVisible: false,
       partOptions:[],
       rules: {

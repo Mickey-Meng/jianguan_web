@@ -153,10 +153,10 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
 
     var append = autoPlace
       ? function(event, element) {
-          var shape = elementFactory.createShape(assign({ type: type }, options));
+        var shape = elementFactory.createShape(assign({ type: type }, options));
 
-          autoPlace.append(element, shape);
-        }
+        autoPlace.append(element, shape);
+      }
       : appendStart;
 
     return {

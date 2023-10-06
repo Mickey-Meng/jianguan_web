@@ -14,8 +14,8 @@
 								<div class="form-title">
 									<div class="title-big-bar"></div>
 									<strong>施工专业分包合同</strong>
-									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify"
-										@checkDraft="checkDraft" ref="drafthandle"></drafthandle>
+									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify" @checkDraft="checkDraft"
+										ref="drafthandle"></drafthandle>
 								</div>
 
 								<div class="form-block">
@@ -79,8 +79,7 @@
 										<el-button size="small" @click="addContract" type="primary">新增</el-button>
 									</div>
 									<div class="block-table">
-										<el-table :data="contractTable" style="width: 100%" border
-											class="have_scrolling">
+										<el-table :data="contractTable" style="width: 100%" border class="have_scrolling">
 											<el-table-column type="index" width="50" align="center" label="序号">
 											</el-table-column>
 											<el-table-column prop="buildProjectName" align="center" label="拟分包工程名称"
@@ -100,11 +99,10 @@
 											<el-table-column prop="contractNum" width="120px" align="center"
 												label="拟分包工程合同金额(元)">
 											</el-table-column>
-											<el-table-column prop="buildDate" width="120px" align="center"
-												label="拟分包施工日期">
+											<el-table-column prop="buildDate" width="120px" align="center" label="拟分包施工日期">
 											</el-table-column>
-											<el-table-column prop="contractUserQualification" width="120px"
-												align="center" label="承包人专业分包资质">
+											<el-table-column prop="contractUserQualification" width="120px" align="center"
+												label="承包人专业分包资质">
 											</el-table-column>
 											<el-table-column prop="remark" width="120px" align="center" label="备注">
 											</el-table-column>
@@ -119,11 +117,12 @@
 									</div>
 								</div>
 
-								<approveuser v-if="approveVisible" :auditUser="auditUser"  :flowKey="flowKey">
+								<approveuser v-if="approveVisible" :auditUser="auditUser" :flowKey="flowKey">
 								</approveuser>
 
 								<div class="form-block">
-									<el-button @click="addOrModify()" class="submit-btn" size="small" type="primary" :loading="submitDisable">提交
+									<el-button @click="addOrModify()" class="submit-btn" size="small" type="primary"
+										:loading="submitDisable">提交
 									</el-button>
 								</div>
 							</el-form>
@@ -264,7 +263,7 @@
 			return {
 				draftVisible: false,
 				addOrModifyFlag: true,
-				dialogTitle: '全生命周期智慧建设管理平台',
+				dialogTitle: '项目全生命周期数字管理平台',
 				dialogFormVisible: false,
 				userOptions: [{
 					label: '陈武林',
@@ -518,5 +517,5 @@
 </script>
 
 <style scoped lang="scss">
-	@import "../../../assets/css/dialog.scss"
+@import "../../../assets/css/dialog.scss"
 </style>

@@ -38,7 +38,8 @@
                       <div class="block-item-label">计划开始时间</div>
                       <div class="block-item-value">
                         <el-form-item prop="plainStartTime">
-                          <el-date-picker value-format="yyyy-MM-dd" v-model="formData.plainStartTime" type="date" placeholder="请选择">
+                          <el-date-picker value-format="yyyy-MM-dd" v-model="formData.plainStartTime" type="date"
+                            placeholder="请选择">
                           </el-date-picker>
                         </el-form-item>
                       </div>
@@ -47,7 +48,8 @@
                       <div class="block-item-label">计划结束时间</div>
                       <div class="block-item-value">
                         <el-form-item prop="plainEndTime">
-                          <el-date-picker value-format="yyyy-MM-dd" v-model="formData.plainEndTime" type="date" placeholder="请选择">
+                          <el-date-picker value-format="yyyy-MM-dd" v-model="formData.plainEndTime" type="date"
+                            placeholder="请选择">
                           </el-date-picker>
                         </el-form-item>
                       </div>
@@ -58,7 +60,8 @@
                       <div class="block-item-label">上报时间</div>
                       <div class="block-item-value">
                         <el-form-item prop="reportTime">
-                          <el-date-picker value-format="yyyy-MM-dd" v-model="formData.reportTime" type="date" placeholder="请选择">
+                          <el-date-picker value-format="yyyy-MM-dd" v-model="formData.reportTime" type="date"
+                            placeholder="请选择">
                           </el-date-picker>
                         </el-form-item>
                       </div>
@@ -73,39 +76,33 @@
                     </div>
                   </div>
                   <div class="block-line">
-                  <div class="block-item">
-                    <div class="block-item-label">责任人<i class="require-icon"></i></div>
-                    <div class="block-item-value">
-                      <el-select v-model="formData.responsiblePerson"
-                                 filterable
-                                 clearable
-                                 placeholder="请选择责任人">
-                        <el-option
-                          v-for="item in ownerOptions"
-                          :key="item.userId"
-                          :value="item.userId + '&' + item.nickName"
-                          :label="item.nickName + '(' + item.roleName + ')'"
-                        >
-                        </el-option>
-                      </el-select>
+                    <div class="block-item">
+                      <div class="block-item-label">责任人<i class="require-icon"></i></div>
+                      <div class="block-item-value">
+                        <el-select v-model="formData.responsiblePerson" filterable clearable placeholder="请选择责任人">
+                          <el-option v-for="item in ownerOptions" :key="item.userId"
+                            :value="item.userId + '&' + item.nickName" :label="item.nickName + '(' + item.roleName + ')'">
+                          </el-option>
+                        </el-select>
+                      </div>
                     </div>
-                  </div>
                   </div>
                 </div>
                 <div class="form-block">
-<!--                  <div class="form-block-title">-->
-<!--                    <div class="title-bar"></div><strong>附件</strong>-->
-<!--                    <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc-->
-<!--											xisx xis pdf文件，且不超过100m</span>-->
-<!--                  </div>-->
-<!--                  <attachlist :editAble="true" ref="attachlist" :attachTable="attachTable"></attachlist>-->
+                  <!--                  <div class="form-block-title">-->
+                  <!--                    <div class="title-bar"></div><strong>附件</strong>-->
+                  <!--                    <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc-->
+                  <!--											xisx xis pdf文件，且不超过100m</span>-->
+                  <!--                  </div>-->
+                  <!--                  <attachlist :editAble="true" ref="attachlist" :attachTable="attachTable"></attachlist>-->
                 </div>
 
-                <approveuser v-if="approveVisible" :auditUser="auditUser"  :flowKey="flowKey">
+                <approveuser v-if="approveVisible" :auditUser="auditUser" :flowKey="flowKey">
                 </approveuser>
 
                 <div class="form-block">
-                  <el-button @click="addOrModify()" class="submit-btn" size="small" type="primary" :loading="submitDisable">提交
+                  <el-button @click="addOrModify()" class="submit-btn" size="small" type="primary"
+                    :loading="submitDisable">提交
                   </el-button>
                 </div>
               </el-form>
@@ -133,7 +130,7 @@ export default {
     return {
       draftVisible: false,
       addOrModifyFlag: true,
-      dialogTitle: '全生命周期智慧建设管理平台',
+      dialogTitle: '项目全生命周期数字管理平台',
       dialogFormVisible: false,
       partOptions:[],
       rules: {

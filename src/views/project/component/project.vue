@@ -17,33 +17,38 @@
         </div>
       </div>
       <div class="item">
+
         <!-- <img src="../../../assets/newUi/home1.png" alt=""> -->
         <div class="text_value">
+
           <div class="value_unit">
-            <div class="value">{{ companyData.projectscale }}</div>
-            <div class="unit">㎡</div>
+            <!-- #736 lrj 20230902 -->
+            <div class="value">{{ projectscale[0] || '' }}</div>
+            <div class="unit">{{ projectscale[1] || '' }}</div>
           </div>
-          <div class="text">建筑面积</div>
+          <div class="text">{{ projectscale[2] || '' }}</div>
         </div>
       </div>
       <div class="item">
         <!-- <img src="../../../assets/newUi/home2.png" alt=""> -->
         <div class="text_value">
           <div class="value_unit">
-            <div class="value">{{ companyData.projectduration }}</div>
-            <div class="unit">天</div>
+            <!-- #736 lrj 20230902 -->
+            <div class="value">{{ projectduration[0] || '' }}</div>
+            <div class="unit">{{ projectduration[1] || '' }}</div>
           </div>
-          <div class="text">合同工期</div>
+          <div class="text">{{ projectduration[2] || '' }}</div>
         </div>
       </div>
       <div class="item">
         <!-- <img src="../../../assets/newUi/home3.png" alt=""> -->
         <div class="text_value">
           <div class="value_unit">
-            <div class="value">{{ companyData.inputscale }}</div>
-            <div class="unit">万元</div>
+            <!-- #736 lrj 20230902 -->
+            <div class="value">{{ inputscale[0] || '' }}</div>
+            <div class="unit">{{ inputscale[1] || '' }}</div>
           </div>
-          <div class="text">投资规模</div>
+          <div class="text">{{ inputscale[2] || '' }}</div>
         </div>
       </div>
     </div>
@@ -57,12 +62,15 @@ export default {
   props: {
     companyData: {
       type: Object,
-      default: () => {},
+      default: () => { },
     },
   },
   data() {
     return {
       time: null,
+      projectscale: [],
+      projectduration: [],
+      inputscale: [],
     };
   },
   watch: {
@@ -70,10 +78,20 @@ export default {
       if (n.starttime) {
         this.initData();
       }
+      //#736 lrj 20230902
+      if (n.projectscale) {
+        this.projectscale = n.projectscale.split('|')
+      }
+      if (n.projectduration) {
+        this.projectduration = n.projectduration.split('|')
+      }
+      if (n.inputscale) {
+        this.inputscale = n.inputscale.split('|')
+      }
     },
   },
-  created() {},
-  mounted() {},
+  created() { },
+  mounted() { },
   methods: {
     initData() {
       const time = getCurrentDate();
@@ -158,33 +176,35 @@ export default {
           display: flex;
           flex-direction: row;
           justify-content: center;
-            .value {
-              font-size: 18px;
-              font-family: ShiShangZhongHeiJianTi;
-              font-weight: 400;
-              color: #2D405E;
-              font-size: 32px;
-              font-family: DINPro-Bold, DINPro;
-              font-weight: bold;
-              color: #FFFFFF;
-              line-height: 41px;
-              letter-spacing: 1px;
-              -webkit-text-stroke: 1px #3656FF;
-              text-stroke: 1px #3656FF;
-              background: -webkit-gradient(linear, left top, left bottom, from(rgba(66, 136, 176, 0.3)), to(#51D280));
-              background: linear-gradient(180deg, #3656FF4f 0%, #3656FF 100%);
-              -webkit-background-clip: text;
-              -webkit-text-fill-color: transparent;
-              float: left;
-              text-align: center;
-            }
-            .unit {
-              line-height: 41px;
-              margin-top: 5px;
-              font-size: 12px;
-              font-family: AlibabaPuHuiTiR;
-              color: #191919;
-            }
+
+          .value {
+            font-size: 18px;
+            font-family: ShiShangZhongHeiJianTi;
+            font-weight: 400;
+            color: #2D405E;
+            font-size: 32px;
+            font-family: DINPro-Bold, DINPro;
+            font-weight: bold;
+            color: #FFFFFF;
+            line-height: 41px;
+            letter-spacing: 1px;
+            -webkit-text-stroke: 1px #3656FF;
+            text-stroke: 1px #3656FF;
+            background: -webkit-gradient(linear, left top, left bottom, from(rgba(66, 136, 176, 0.3)), to(#51D280));
+            background: linear-gradient(180deg, #3656FF4f 0%, #3656FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            float: left;
+            text-align: center;
+          }
+
+          .unit {
+            line-height: 41px;
+            margin-top: 5px;
+            font-size: 12px;
+            font-family: AlibabaPuHuiTiR;
+            color: #191919;
+          }
         }
 
         .text {

@@ -14,8 +14,8 @@
 								<div class="form-title">
 									<div class="title-big-bar"></div>
 									<strong>管理制度</strong>
-									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify"
-										@checkDraft="checkDraft" ref="drafthandle"></drafthandle>
+									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify" @checkDraft="checkDraft"
+										ref="drafthandle"></drafthandle>
 								</div>
 
 								<div class="form-block">
@@ -25,7 +25,7 @@
 									<projectinfo></projectinfo>
 									<div class="block-line">
 										<div class="block-item">
-											
+
 											<div class="block-item-label">编制人：<i class="require-icon"></i></div>
 											<div class="block-item-value">
 												<el-form-item prop="compileUser">
@@ -36,18 +36,20 @@
 										<div class="block-item">
 											<div class="block-item-label">编制日期<i class="require-icon"></i></div>
 											<div class="block-item-value">
-											<el-form-item prop="compileDate">
-												<el-date-picker type="date"  value-format="yyyy-MM-dd" v-model="formData.compileDate" placeholder="选择日期"></el-date-picker>
-											</el-form-item>
+												<el-form-item prop="compileDate">
+													<el-date-picker type="date" value-format="yyyy-MM-dd"
+														v-model="formData.compileDate" placeholder="选择日期"></el-date-picker>
+												</el-form-item>
 											</div>
 										</div>
 									</div>
-									
+
 								</div>
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>制度文件</strong>
-										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 jpg/jpeg png mp4 docx doc xlsx xls pdf zip 文件，且不超过 200M</span>
+										<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 jpg/jpeg png mp4 docx
+											doc xlsx xls pdf zip 文件，且不超过 200M</span>
 									</div>
 									<attachlist :editAble="true" ref="attachlist" :attachTable="formData.attachment">
 									</attachlist>
@@ -56,9 +58,10 @@
 											<div class="block-item-label">制度内容<i class="require-icon"></i></div>
 											<div class="block-item-value">
 												<el-form-item prop="regimeContent">
-													<el-input type="textarea" style="width: 600px" :rows="15" placeholder="请输入" v-model="formData.regimeContent"></el-input>
+													<el-input type="textarea" style="width: 600px" :rows="15"
+														placeholder="请输入" v-model="formData.regimeContent"></el-input>
 												</el-form-item>
-												
+
 											</div>
 										</div>
 									</div>
@@ -66,7 +69,8 @@
 
 
 								<div class="form-block">
-									<el-button class="submit-btn" size="small" type="primary" @click="addOrModify()" :loading="submitDisable">提交
+									<el-button class="submit-btn" size="small" type="primary" @click="addOrModify()"
+										:loading="submitDisable">提交
 									</el-button>
 								</div>
 							</el-form>
@@ -108,7 +112,7 @@
 				addOrModifyFlag: true,
 				dialogFormVisible: false,
 
-				dialogTitle: '全生命周期智慧建设管理平台',
+				dialogTitle: '项目全生命周期数字管理平台',
 
 				formData: { //表单参数
 					buildSection: this.$store.getters.project.id,
@@ -258,6 +262,4 @@
 	};
 </script>
 
-<style scoped lang="scss">
-	@import "../../../../assets/css/dialog.scss"
-</style>
+<style scoped lang="scss">@import "../../../../assets/css/dialog.scss"</style>

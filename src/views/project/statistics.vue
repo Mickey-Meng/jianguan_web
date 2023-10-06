@@ -680,7 +680,9 @@ export default {
             });
           });
         }
-        let plData = plan.mapData;
+        //yangaogao 20230923 产品说先用act对象。由于是map对象，若act plan返回同一个map则会返回引用类型暂时不好解决。所以前端直接获取act即可
+        // let plData = plan.mapData;
+        let plData = act.mapData;
         let plArr = Object.keys(plData);
         if (plArr.length > 0) {
           let data = plData[this.leftQuery.type];

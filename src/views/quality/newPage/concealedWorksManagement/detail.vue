@@ -1,6 +1,7 @@
 <template>
 	<div>
-		<el-dialog class="full-dialog defined-dialog" @close="closeDialog"  :fullscreen="true" :visible.sync="dialogFormVisible">
+		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :fullscreen="true"
+			:visible.sync="dialogFormVisible">
 			<template slot="title">
 				{{dialogTitle}}
 				<div class="logo-icon"></div>
@@ -15,14 +16,14 @@
 									<div class="title-big-bar"></div>
 									<strong>隐蔽工程管理</strong>
 								</div>
-		
+
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
 									</div>
 									<projectinfo></projectinfo>
 									<div class="block-line">
-		
+
 										<div class="block-item">
 											<div class="block-item-label">工程编号</div>
 											<div class="block-item-value">
@@ -36,7 +37,7 @@
 										<div class="title-bar"></div><strong>隐蔽工程信息</strong>
 									</div>
 									<div class="block-line">
-										
+
 										<div class="block-item">
 											<div class="block-item-label">单位、分部工程<i class="require-icon"></i></div>
 											<div class="block-item-value">
@@ -71,18 +72,18 @@
 										<span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
 											xisx xis pdf文件，且不超过100m</span>
 									</div>
-		
+
 									<div class="block-line">
 										<div class="block-table-title">附件</div>
-<!-- 										<div class="block-table-btns">
+										<!-- 										<div class="block-table-btns">
 											<el-button size="small" type="primary">下载全部</el-button>
 										</div> -->
 									</div>
 									<attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>
-									
+
 								</div>
-		
-								
+
+
 							</el-form>
 							<!-- <taskhandle :taskInfo="taskInfo"></taskhandle> -->
 						</div>
@@ -116,7 +117,7 @@
 		props:['detailRow'],
 		data() {
 			return {
-				dialogTitle: '全生命周期智慧建设管理平台',
+				dialogTitle: '项目全生命周期数字管理平台',
 				dialogFormVisible: false,
 				annexTableData: [],
 				activeName: 'first',
@@ -207,6 +208,6 @@
 </script>
 
 <style scoped lang="scss">
-	@import "../../../../assets/css/dialog.scss"
+@import "../../../../assets/css/dialog.scss"
 </style>
 

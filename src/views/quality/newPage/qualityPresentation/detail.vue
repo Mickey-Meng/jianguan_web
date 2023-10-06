@@ -1,6 +1,7 @@
 <template>
 	<div>
-		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible" :fullscreen="true">
+		<el-dialog class="full-dialog defined-dialog" @close="closeDialog" :visible.sync="dialogFormVisible"
+			:fullscreen="true">
 			<template slot="title">
 				{{dialogTitle}}
 				<div class="logo-icon"></div>
@@ -11,7 +12,7 @@
 					<div class="form-bg">
 						<div class="form-content">
 							<el-form ref="form" label-width="80px">
-								
+
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>基本信息</strong>
@@ -34,10 +35,10 @@
 									</div>
 									<attachlist :editAble="false" ref="attachlist" :attachTable="formData.reportAttachment">
 									</attachlist>
-								
+
 								</div>
-								
-				
+
+
 								<div class="form-block">
 									<div class="form-block-title">
 										<div class="title-bar"></div><strong>整改内容</strong>
@@ -51,7 +52,7 @@
 									</div>
 									<attachlist :editAble="false" :attachTable="formData.replyPhotoAttachment">
 									</attachlist>
-							
+
 								</div>
 							</el-form>
 							<!-- <taskhandle :taskInfo="taskInfo"></taskhandle> -->
@@ -69,7 +70,7 @@
 				</el-aside>
 			</el-container>
 		</el-dialog>
-		
+
 	</div>
 </template>
 
@@ -91,7 +92,7 @@
 		data() {
 			return {
 				dialogFormVisible: false,
-				dialogTitle: '全生命周期智慧建设管理平台',
+				dialogTitle: '项目全生命周期数字管理平台',
 				baseInfo: {
 					buildSection: '',
 					buildSectionName: '池州市平天湖东部区域棚户区改造建设工程EPC总承包',
@@ -171,5 +172,5 @@
 </script>
 
 <style scoped lang="scss">
-	@import "../../../../assets/css/dialog.scss"
+@import "../../../../assets/css/dialog.scss"
 </style>

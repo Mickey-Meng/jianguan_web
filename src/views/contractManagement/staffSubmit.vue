@@ -19,11 +19,7 @@
       </div>
       <div class="input-box" style="margin-left: 10px">
         <div class="input-value">
-          <el-date-picker
-            v-model="queryData.subDate"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择填报时间">
+          <el-date-picker v-model="queryData.subDate" type="date" value-format="yyyy-MM-dd" placeholder="请选择填报时间">
           </el-date-picker>
         </div>
       </div>
@@ -40,8 +36,8 @@
     <el-main>
       <div class="container">
         <el-table :data="listData.slice((queryData.pageNum-1)*queryData.pageSize,queryData.pageNum*queryData.pageSize)"
-                  style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
-<!--          <el-table-column prop="projectName" label="标段"></el-table-column>-->
+          style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
+          <!--          <el-table-column prop="projectName" label="标段"></el-table-column>-->
           <el-table-column prop="recorder" label="记录人"></el-table-column>
           <el-table-column prop="uploadname" label="填报时间">
             <template slot-scope="{row}">
@@ -57,25 +53,13 @@
           <!--          <el-table-column prop="uploadname" label="状态"></el-table-column>-->
           <el-table-column prop="status" align="center" label="状态" show-overflow-tooltip>
             <template slot-scope="scope">
-              <el-tag
-                v-if="scope.row.status == '2'"
-                size="mini"
-                type="warning"
-              >
+              <el-tag v-if="scope.row.status == '2'" size="mini" type="warning">
                 驳回
               </el-tag>
-              <el-tag
-                v-if="scope.row.status == '0'"
-                size="mini"
-                type="default"
-              >
+              <el-tag v-if="scope.row.status == '0'" size="mini" type="default">
                 审批中
               </el-tag>
-              <el-tag
-                v-if="scope.row.status == '1'"
-                size="mini"
-                type="success"
-              >
+              <el-tag v-if="scope.row.status == '1'" size="mini" type="success">
                 已审批
               </el-tag>
             </template>
@@ -85,7 +69,8 @@
               <!--              <el-button type="text" size="mini" @click="issueStep(row)">发布</el-button>-->
               <el-button v-if="editStatus(row)" type="text" size="mini" @click="openDialog(row)">修改</el-button>
               <el-button type="text" size="mini" @click="seeDetail(row)">详情</el-button>
-              <el-button v-if="$store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'" type="text" size="mini" @click="deleteRow(row)">删除</el-button>
+              <el-button v-if="$store.getters.rolePerms && $store.getters.rolePerms[0] == 'gly'" type="text" size="mini"
+                @click="deleteRow(row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -107,12 +92,12 @@
                       <strong>基本信息</strong>
                     </div>
                     <div class="block-line">
-<!--                      <div class="block-item">-->
-<!--                        <div class="block-item-label">标段</div>-->
-<!--                        <div class="block-item-value">-->
-<!--                          {{ form.projectName }}-->
-<!--                        </div>-->
-<!--                      </div>-->
+                      <!--                      <div class="block-item">-->
+                      <!--                        <div class="block-item-label">标段</div>-->
+                      <!--                        <div class="block-item-value">-->
+                      <!--                          {{ form.projectName }}-->
+                      <!--                        </div>-->
+                      <!--                      </div>-->
                       <div class="block-item">
                         <div class="block-item-label">记录人</div>
                         <div class="block-item-value">
@@ -131,13 +116,8 @@
                       <div class="block-item">
                         <div class="block-item-label">进场时间</div>
                         <div class="block-item-value">
-                          <el-date-picker
-                            v-model="form.subDate"
-                            type="datetime"
-                            :clearable="false"
-                            placeholder="选择日期时间"
-                            value-format="yyyy-MM-dd HH:mm:ss"
-                          >
+                          <el-date-picker v-model="form.subDate" type="datetime" :clearable="false" placeholder="选择日期时间"
+                            value-format="yyyy-MM-dd HH:mm:ss">
                           </el-date-picker>
                         </div>
                       </div>
@@ -164,24 +144,13 @@
                       <el-button size="small" type="primary" @click="addRow">添加行</el-button>
                     </div>
                     <div class="block-table">
-                      <el-table
-                        :data="tableData"
-                        border
-                        v-if="isCreate"
-                        key="create_table"
-                        class="have_scrolling"
+                      <el-table :data="tableData" border v-if="isCreate" key="create_table" class="have_scrolling"
                         style="width: 100%">
-                        <el-table-column
-                          label="姓名"
-                          width="160">
+                        <el-table-column label="姓名" width="160">
                           <template slot-scope="{row}">
                             <div class="user_select">
                               <el-select v-model="row.userId" filterable placeholder="请选择人员" @change="staffChange">
-                                <el-option
-                                  v-for="item in selectUsers"
-                                  :key="item.id"
-                                  :label="item.name"
-                                  :value="item.id"
+                                <el-option v-for="item in selectUsers" :key="item.id" :label="item.name" :value="item.id"
                                   :disabled="disabledArr.includes(item.id)">
                                 </el-option>
                               </el-select>
@@ -189,30 +158,19 @@
                           </template>
                         </el-table-column>
 
-                        <el-table-column
-                          label="身份证号"
-                          width="220">
+                        <el-table-column label="身份证号" width="220">
                           <template slot-scope="{row}">
                             <el-input v-model="row.identityId" placeholder="请输入身份证号"></el-input>
                           </template>
                         </el-table-column>
-                        <el-table-column
-                          label="有效期"
-                          width="320">
+                        <el-table-column label="有效期" width="320">
                           <template slot-scope="{row}">
-                            <el-date-picker
-                              v-model="row.identityTime"
-                              type="daterange"
-                              value-format="yyyy-MM-dd"
-                              range-separator="至"
-                              start-placeholder="开始日期"
-                              end-placeholder="结束日期">
+                            <el-date-picker v-model="row.identityTime" type="daterange" value-format="yyyy-MM-dd"
+                              range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
                             </el-date-picker>
                           </template>
                         </el-table-column>
-                        <el-table-column
-                          label="性别"
-                          width="120">
+                        <el-table-column label="性别" width="120">
                           <template slot-scope="{row}">
                             <!--                            <el-input v-model="row.name"></el-input>-->
                             <el-select v-model="row.gender" placeholder="请选择">
@@ -221,75 +179,51 @@
                             </el-select>
                           </template>
                         </el-table-column>
-                        <el-table-column
-                          label="岗位"
-                          width="150">
+                        <el-table-column label="岗位" width="150">
                           <template slot-scope="{row}">
                             <el-input v-model="row.post" readonly></el-input>
                           </template>
                         </el-table-column>
-                        <el-table-column
-                          label="证件名称"
-                          width="250">
+                        <el-table-column label="证件名称" width="250">
                           <template slot-scope="{row}">
                             <el-input v-model="row.certificateName"></el-input>
                           </template>
                         </el-table-column>
-                        <el-table-column
-                          label="证件编号"
-                          width="250">
+                        <el-table-column label="证件编号" width="250">
                           <template slot-scope="{row}">
                             <el-input v-model="row.certificateCode"></el-input>
                           </template>
                         </el-table-column>
-                        <el-table-column
-                          label="发证单位"
-                          width="250">
+                        <el-table-column label="发证单位" width="250">
                           <template slot-scope="{row}">
                             <el-input v-model="row.issuer"></el-input>
                           </template>
                         </el-table-column>
-                        <el-table-column
-                          label="有效期"
-                          width="320">
+                        <el-table-column label="有效期" width="320">
                           <template slot-scope="{row}">
-                            <el-date-picker
-                              v-model="row.effectiveTime"
-                              type="daterange"
-                              value-format="yyyy-MM-dd"
-                              range-separator="至"
-                              start-placeholder="开始日期"
-                              end-placeholder="结束日期">
+                            <el-date-picker v-model="row.effectiveTime" type="daterange" value-format="yyyy-MM-dd"
+                              range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
                             </el-date-picker>
                           </template>
                         </el-table-column>
-                        <el-table-column
-                          label="文化程度"
-                          width="120">
+                        <el-table-column label="文化程度" width="120">
                           <template slot-scope="{row}">
                             <el-input v-model="row.education"></el-input>
                           </template>
                         </el-table-column>
-                        <el-table-column
-                          label="脸部照片"
-                          width="120"
-                          align="center">
+                        <el-table-column label="脸部照片" width="120" align="center">
                           <template slot-scope="{row}">
                             <img-viewer :img-list="[row.pic]"></img-viewer>
                           </template>
                         </el-table-column>
-                        <el-table-column
-                          label="操作"
-                          fixed="right"
-                          width="200">
+                        <el-table-column label="操作" fixed="right" width="200">
                           <template slot-scope="{row,$index}">
                             <div style="display: flex;justify-content: space-around">
-                              <el-upload class="upload-demo" action="" :limit="1" :show-file-list="false"
-                                         ref="upload"
-                                         accept=".jpg,.jpeg,.png,gif,JPG,JPEG,PNG,GIF,.map4,.xlsx,.xls,.pdf,.doc,.docx"
-                                         :http-request="importFile">
+                              <el-upload class="upload-demo" action="" :limit="1" :show-file-list="false" ref="upload"
+                                accept=".jpg,.jpeg,.png,gif,JPG,JPEG,PNG,GIF,.map4,.xlsx,.xls,.pdf,.doc,.docx"
+                                :http-request="importFile">
                                 <el-button size="mini" type="primary" class="primary_mini"
-                                           @click="currentRowData(row,$index)">
+                                  @click="currentRowData(row,$index)">
                                   上传照片
                                 </el-button>
                               </el-upload>
@@ -299,72 +233,35 @@
                           </template>
                         </el-table-column>
                       </el-table>
-                      <el-table
-                        :data="tableData"
-                        border
-                        v-else
-                        key="detail_iii"
-                        class="have_scrolling"
+                      <el-table :data="tableData" border v-else key="detail_iii" class="have_scrolling"
                         style="width: 100%">
-                        <el-table-column
-                          label="姓名"
-                          prop="name"
-                          width="160">
+                        <el-table-column label="姓名" prop="name" width="160">
                         </el-table-column>
 
-                        <el-table-column
-                          label="身份证号"
-                          width="220"
-                          prop="identityId">
+                        <el-table-column label="身份证号" width="220" prop="identityId">
                         </el-table-column>
-                        <el-table-column
-                          label="有效期"
-                          width="320"
-                          prop="identityTime">
+                        <el-table-column label="有效期" width="320" prop="identityTime">
                         </el-table-column>
-                        <el-table-column
-                          label="性别"
-                          width="120">
+                        <el-table-column label="性别" width="120">
                           <template slot-scope="{row}">
                             {{ row.gender == 1 ? "男" : "女" }}
 
                           </template>
                         </el-table-column>
-                        <el-table-column
-                          label="岗位"
-                          width="150"
-                          prop="post">
+                        <el-table-column label="岗位" width="150" prop="post">
                         </el-table-column>
-                        <el-table-column
-                          label="证件名称"
-                          width="250"
-                          prop="certificateName">
+                        <el-table-column label="证件名称" width="250" prop="certificateName">
                         </el-table-column>
-                        <el-table-column
-                          label="证件编号"
-                          width="250"
-                          prop="certificateCode">
+                        <el-table-column label="证件编号" width="250" prop="certificateCode">
                         </el-table-column>
-                        <el-table-column
-                          label="发证单位"
-                          width="250"
-                          prop="issuer">
+                        <el-table-column label="发证单位" width="250" prop="issuer">
                         </el-table-column>
-                        <el-table-column
-                          label="有效期"
-                          width="320"
-                          prop="effectiveTime">
+                        <el-table-column label="有效期" width="320" prop="effectiveTime">
 
                         </el-table-column>
-                        <el-table-column
-                          label="文化程度"
-                          width="120"
-                          prop="education">
+                        <el-table-column label="文化程度" width="120" prop="education">
                         </el-table-column>
-                        <el-table-column
-                          label="脸部照片"
-                          width="120"
-                          align="center">
+                        <el-table-column label="脸部照片" width="120" align="center">
                           <template slot-scope="{row}">
                             <img-viewer :img-list="[row.peoplePic]"></img-viewer>
                           </template>
@@ -386,8 +283,7 @@
               </div>
             </el-aside>
             <el-aside
-              style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);"
-            >
+              style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
               <tasklog v-show="showTaskLog" :taskInfo="taskInfo" ref="tasklog"></tasklog>
             </el-aside>
           </el-container>
@@ -395,9 +291,8 @@
         </el-dialog>
 
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                       :current-page="queryData.pageNum" :page-size="queryData.pageSize"
-                       layout="total, sizes, prev, pager, next, jumper"
-                       :total="listData.length">
+          :current-page="queryData.pageNum" :page-size="queryData.pageSize"
+          layout="total, sizes, prev, pager, next, jumper" :total="listData.length">
         </el-pagination>
       </div>
     </el-main>
@@ -475,7 +370,7 @@ export default {
         pic: ""//暂存的相片url，提交时删除
       },
       selectUsers: [],//根据上报人员角色查询对应角色的人员
-      dialogTitle: "全生命周期智慧建设管理平台",
+      dialogTitle: "项目全生命周期数字管理平台",
       currentRow: {},
       currentRowIndex: null,
       disabledArr: [],
@@ -844,5 +739,4 @@ export default {
     font-size: 14px;
   }
 }
-
 </style>

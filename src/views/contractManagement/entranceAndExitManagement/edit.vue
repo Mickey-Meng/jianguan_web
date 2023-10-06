@@ -14,8 +14,8 @@
 								<div class="form-title">
 									<div class="title-big-bar"></div>
 									<strong>进退场管理</strong>
-									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify"
-										@checkDraft="checkDraft" ref="drafthandle"></drafthandle>
+									<drafthandle v-if="addOrModifyFlag" @addOrModify="addOrModify" @checkDraft="checkDraft"
+										ref="drafthandle"></drafthandle>
 								</div>
 
 								<div class="form-block">
@@ -80,18 +80,14 @@
 										<el-button size="small" @click="addInOutUser" type="primary">新增</el-button>
 									</div>
 									<div class="block-table">
-										<el-table :data="inOutUserTable" style="width: 100%" border
-											class="have_scrolling">
+										<el-table :data="inOutUserTable" style="width: 100%" border class="have_scrolling">
 											<el-table-column type="index" width="50" align="center" label="序号">
 											</el-table-column>
-											<el-table-column prop="name" align="center" label="人员姓名"
-												show-overflow-tooltip>
+											<el-table-column prop="name" align="center" label="人员姓名" show-overflow-tooltip>
 											</el-table-column>
-											<el-table-column prop="phone" align="center" label="手机号码"
-												show-overflow-tooltip>
+											<el-table-column prop="phone" align="center" label="手机号码" show-overflow-tooltip>
 											</el-table-column>
-											<el-table-column prop="card" align="center" label="身份证号"
-												show-overflow-tooltip>
+											<el-table-column prop="card" align="center" label="身份证号" show-overflow-tooltip>
 											</el-table-column>
 											<el-table-column prop="household" align="center" label="户籍"
 												show-overflow-tooltip>
@@ -122,8 +118,7 @@
 											<el-table-column prop="workType" align="center" label="工种"
 												show-overflow-tooltip>
 											</el-table-column>
-											<el-table-column prop="remark" align="center" label="备注"
-												show-overflow-tooltip>
+											<el-table-column prop="remark" align="center" label="备注" show-overflow-tooltip>
 											</el-table-column>
 											<el-table-column label="队伍公司">
 												<el-table-column prop="companyName" align="center" label="名称"
@@ -147,7 +142,8 @@
 								<approveuser v-if="approveVisible" :auditUser="auditUser" :flowKey="flowKey">
 								</approveuser>
 								<div class="form-block">
-									<el-button @click="addOrModify()" class="submit-btn" size="small" type="primary" :loading="submitDisable">提交
+									<el-button @click="addOrModify()" class="submit-btn" size="small" type="primary"
+										:loading="submitDisable">提交
 									</el-button>
 								</div>
 							</el-form>
@@ -352,7 +348,7 @@
 			return {
 				draftVisible: false,
 				addOrModifyFlag: true,
-				dialogTitle: '全生命周期智慧建设管理平台',
+				dialogTitle: '项目全生命周期数字管理平台',
 				dialogFormVisible: false,
 				childOptions: [],
 				typeOptions: [{
@@ -717,5 +713,5 @@
 </script>
 
 <style scoped lang="scss">
-	@import "../../../assets/css/dialog.scss"
+@import "../../../assets/css/dialog.scss"
 </style>
