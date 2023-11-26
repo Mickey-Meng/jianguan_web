@@ -53,7 +53,7 @@
 
 <script>
 import { uploadF, getFile, deleteFile, updateFileInfo } from "@/api/file";
-import { downLoadFile, downLoadRowFile } from "@/utils/download";
+import { downLoadFile } from "@/utils/download";
 import { mapGetters } from "vuex";
 export default {
   name: "",

@@ -35,7 +35,11 @@ export default {
       type: Object,
       default: () => {
       }
-    }
+    },
+    currentView: {
+      type: String,
+      default: () => "QL"
+    },
   },
   data() {
     return {
@@ -350,7 +354,7 @@ export default {
       }
     },
     initBottomChart(id) {
-      getHomeChart(id,this.project.id).then((res) => {
+      getHomeChart(id,this.project.id, this.currentView).then((res) => {
         let x = [];
         let count = [];
         let finishCount = [];
@@ -373,6 +377,10 @@ export default {
             this.bottomOption.series[0].data = finishCount;
             this.bottomOption.series[1].data = count;
           });
+        } else {
+            this.bottomOption.yAxis.data = [];
+            this.bottomOption.series[0].data = [];
+            this.bottomOption.series[1].data = [];
         }
       });
     },

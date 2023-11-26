@@ -41,6 +41,8 @@
 <script>
 import { mapGetters } from "vuex";
 import * as api from "@/api/quality";
+import { downLoadFile, downLoadRowFile } from "@/utils/download";
+
 import {
 	formatDateTime
 } from "@/utils/format.js";
@@ -60,9 +62,27 @@ export default {
 	},
 	methods: {
 		downloadAttach(row, index) {
+			/**
 			api.downloadFile({
 				fileid: row['fileId']
 			})
+			**/
+			console.log(111111111111);
+			console.log(row);
+			console.log(222222222222);
+			console.log(row.fileName);
+			let fileNameBase64 = btoa(unescape(encodeURIComponent(row.fileName)))
+			let update = fileNameBase64.replace(/\+/g, '-').replace(/\//g, '_')
+			console.log("update:" + update);
+			const myObject = {};
+			myObject.fileId = row.fileId;
+			myObject.uploadname = update;
+			var suffix = row.fileName.substring(row.fileName.lastIndexOf(".") + 1);
+			myObject.uploadtype = suffix;
+			const myString = JSON.stringify(myObject);
+			console.log(333333333333333);
+			console.log(myString);
+			downLoadRowFile(myString);
 		},
 		reviewAttach(row, index) {
 			//  api.previewFile({

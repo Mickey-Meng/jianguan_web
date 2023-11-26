@@ -325,7 +325,8 @@ import { getComponentType } from "@/api/data";
 import {
   getProjectTypeData,
   getProgressTableData,
-  deleteProduceInfo
+  deleteProduceInfo,
+  getDicts
 } from "@/api/progress";
 import {formatDate} from "@/utils/date";
 import {getWorkArea} from "@/api/workArea";
@@ -449,22 +450,33 @@ export default {
       });
     },
     initData() {
-      getComponentType(this.project.id).then((res) => {
-        let data = res.data;
-        let tree = [];
-        for (let i in data) {
-          let child = data[i];
-          let obj = {
-            name: i,
-            type: "folder",
-            code: i === "桥梁工程" ? "QL" : i === "道路工程" ? "LM" : i === "隧道工程" ? "SD" : "other",
-            children: child
-          };
-          tree.push(obj);
+      getDicts('jg_gclx_all').then(res => {
+        const data = res.data || [];
+
+        const obj1 = {};
+
+        for(let i = 0; i <= data.length - 1; i++){
+          const type = data[i];
+          obj1[type.dictLabel] = type.dictValue;
         }
-        this.treeData = tree;
-        this.postData.projectType = tree[0] && tree[0].code;
-        this.init();
+
+        getComponentType(this.project.id).then((res) => {
+          let data = res.data;
+          let tree = [];
+          for (let i in data) {
+            let child = data[i];
+            let obj = {
+              name: i,
+              type: "folder",
+              code: obj1[i],
+              children: child
+            };
+            tree.push(obj);
+          }
+          this.treeData = tree;
+          this.postData.projectType = tree[0] && tree[0].code;
+          this.init();
+        });
       });
       getProjectTypeData(this.project.id).then((res) => {
         let obj = {

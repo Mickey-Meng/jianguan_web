@@ -9,6 +9,10 @@
 <template>
   <div class="wrapper">
     <el-table :data="tableData" height="100%" border style="width: 100%">
+            <!-- #954 lrj -->
+      <el-table-column
+      type="index"
+      width="50"/>
       <el-table-column
         prop="filename"
         label="资料名称"
@@ -93,7 +97,7 @@
 
 <script>
 import { getFile, deleteFile } from "@/api/file";
-import {downLoadFile, downLoadRowFile} from "@/utils/download";
+import { downLoadFile } from "@/utils/download";
 import { mapGetters } from "vuex";
 
 export default {
@@ -159,15 +163,8 @@ export default {
       this.$emit("opdateInfo", { row, key: "approvalfile" });
     },
     downLoadFile(row) {
-      let fileNameBase64 = btoa(unescape(encodeURIComponent(row.uploadname+"."+row.uploadtype)))
-      let update = fileNameBase64.replace(/\+/g, '-').replace(/\//g, '_')
-      const myObject = {};
-      myObject.fileId=row.fileurl;
-      myObject.uploadname=update;
-      myObject.uploadtype=row.uploadtype;
-      const myString = JSON.stringify(myObject);
-      downLoadRowFile(myString);
-    }
+      downLoadFile(row.fileurl);
+    },
   },
   watch: {
     DataArr(n) {

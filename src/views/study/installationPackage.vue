@@ -73,11 +73,17 @@
             v-model="form.uploadname"
           ></el-input>
         </el-form-item>
+        <el-form-item label="版本号" prop="fileName">
+          <el-input
+            placeholder="请输入版本号"
+            v-model="form.fileName"
+          ></el-input>
+        </el-form-item>
         <el-form-item label="上传安装包" prop="fileurl">
           <el-upload
             class="upload-demo"
             :headers="header"
-            :action="uploadUrl"
+            :action="ssoUploadUrl"
             multiple
             :limit="1"
             :before-upload="beforeUpload"
@@ -136,7 +142,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { uploadF, getFile, deleteFile, updateFileInfo } from "@/api/file";
-import {downLoadFile, downLoadRowFile} from "@/utils/download";
+import { downLoadFile } from "@/utils/download";
 import { getToken } from "@/utils/auth";
 import QRCode from "qrcodejs2";
 export default {
@@ -153,6 +159,7 @@ export default {
       },
       form: {
         fileurl: "",
+        filename: "",
         uploadname: "",
         uploadtype: "",
         uploadusername: "",
@@ -177,11 +184,13 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["userInfo", "uploadUrl", "project", "rolePerms"])
+    ...mapGetters(["userInfo", "uploadUrl", "project", "rolePerms", "ssoUploadUrl"])
   },
   created() {
     this.groupId = getToken("groupId");
     this.initData();
+    this.header.token = getToken("zj_token");
+    this.header.Authorization ='Bearer ' + getToken("auth_token");
   },
   methods: {
     initData() {
@@ -223,7 +232,7 @@ export default {
         if (valid) {
           const obj = Object.assign({}, this.form);
           let str = this.fileList[0].response.data;
-          obj.fileurl = str;
+          obj.fileurl = str.url;
           obj.uploadtype = "apk";
           uploadF(obj).then((res) => {
             this.fileList = [];
@@ -266,15 +275,14 @@ export default {
       });
     },
     downLoadFile(row) {
-        let fileNameBase64 = btoa(unescape(encodeURIComponent(row.uploadname+"."+row.uploadtype)))
-        let update = fileNameBase64.replace(/\+/g, '-').replace(/\//g, '_')
-        const myObject = {};
-        myObject.fileId=row.fileurl;
-        myObject.uploadname=update;
-        myObject.uploadtype=row.uploadtype;
-        const myString = JSON.stringify(myObject);
-        downLoadRowFile(myString);
-      },
+      let link = document.createElement("a"); // 创建a标签
+      link.style.display = "none"; //mong/preview?fileid=
+      link.href = "/mong/download?fileid=" + row.fileurl; // 设置下载地址
+      link.setAttribute("download", ""); // 添加downLoad属性
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    },
     uploadSuccess(response, file, fileList) {
       this.fileList = fileList;
     },
@@ -303,7 +311,6 @@ export default {
       this.$nextTick(() => {
         var qrcode = new QRCode(this.$refs.qrCodeUrl, {
           text:
-            "http://36.139.53.154:26666/mong/download?fileid=" +
             row.fileurl, // 需要转换为二维码的内容
           width: 100,
           height: 100,

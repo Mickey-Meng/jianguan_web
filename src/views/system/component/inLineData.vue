@@ -76,13 +76,32 @@
           });
           return false;
         }
-        let link = document.createElement("a"); // 创建a标签
-        link.style.display = "none"; //mong/preview?fileid=
-        link.href = "/user/exportOnlineCount?date" + this.timeValue; // 设置下载地址
-        link.setAttribute("download", ""); // 添加downLoad属性
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
+        let url = process.env.VUE_APP_BASE_API + "/user/exportOnlineCount?date" + this.timeValue; // 设置下载地址
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", url, true);
+        xhr.responseType = "arraybuffer";
+        xhr.setRequestHeader('token',window.localStorage.getItem('zj_token'));
+        xhr.setRequestHeader('Authorization', 'Bearer ' + window.localStorage.getItem('auth_token').replace(/^\"|\"$/g,''));
+        xhr.onload = function() {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            let blob = this.response;
+            let href = window.URL.createObjectURL(
+              new Blob([blob], {
+                type:
+                  "application/vnd.ms-excel"
+              })
+            );
+            let a = document.createElement("a");
+            a.download = name || "";
+            a.href = href;
+            a.target = "_blank";
+            a.style.display = "none";
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+          }
+        }
+        xhr.send();
       }
     },
     components: {},

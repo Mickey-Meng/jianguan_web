@@ -49,7 +49,11 @@
           :data="tableData.slice((queryData.pageNum - 1) * queryData.pageSize, queryData.pageNum * queryData.pageSize)"
           style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
           <el-table-column prop="leaverPersonName" label="请假人"></el-table-column>
-          <el-table-column prop="leaverType" label="请假类型"></el-table-column>
+          <el-table-column prop="leaverType" label="请假类型">
+            <template slot-scope="scope">
+              <el-tag size="mini">{{ transferData(scope.row.leaverType) }}</el-tag>
+            </template>
+          </el-table-column>
           <el-table-column prop="startTime" label="开始时间"></el-table-column>
           <el-table-column prop="endTime" label="结束时间"></el-table-column>
           <el-table-column prop="leaveDay" label="请假天数"></el-table-column>
@@ -117,7 +121,11 @@
                   <div class="block-item">
                     <div class="block-item-label">请假类型</div>
                     <div class="block-item-value">
-                      {{ form.leaverType }}
+                      <el-select placeholder="请选择" v-model="form.leaverType" v-if="isCreate">
+                        <el-option v-for="(item, i) in eventType" :key="i" :label="item.dictLabel" :value="item.dictCode">
+                        </el-option>
+                      </el-select>
+                      <div v-else>{{ transferData(form.leaverType) }}</div>
                     </div>
                   </div>
                 </div>
@@ -187,6 +195,7 @@
 
 <script>
 import { getNowDate, checkAuditTime } from "@/utils/date";
+import { getDicts } from "@/api/progress";
 import { mapGetters } from "vuex";
 import { getLeaveRecordsById, deleteLeaveRecord, deleteChangeRecord } from "@/api/staffApproval";
 import tasklog from "@/views/common/tasklog";
@@ -200,6 +209,7 @@ export default {
       projectName: "",
       tableData: [],
       taskInfo: {},
+      eventType: [],
       dialogFormVisible: false,
       allData: [],
       options: [
@@ -266,6 +276,10 @@ export default {
           this.tableData = data.filter(e => e => e.startTime && e.endTime && checkAuditTime(startTime, endTime, e.startTime, e.endTime) && e.leaverPersonName.indexOf(leaveName) !== -1);
         }
       });
+      // lrj #426
+      getDicts('jg_ask_for_leave_type').then(res => {
+        this.eventType = res.data || [];
+      });
     },
     seeDetail(row) {
       this.dialogFormVisible = true;
@@ -312,6 +326,15 @@ export default {
     },
     queryClick() {
       this.init();
+    },
+    
+    transferData(val) {
+      let data = this.eventType || [];
+      let dictType = data.find(res => res.dictCode == val);
+      if (dictType) {
+        return dictType.dictLabel;
+      }
+      return val;
     }
   }
 };

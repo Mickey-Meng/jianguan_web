@@ -71,7 +71,7 @@
 
 <script>
 import { uploadF, getFile, deleteFile, updateFileInfo, getFileDictByPCode, getStoreFileByPcode } from "@/api/file";
-import { downLoadFile, downLocaRowFile } from "@/utils/download";
+import { downLoadFile, downLoadRowFile } from "@/utils/download";
 import { mapGetters } from "vuex";
 
 export default {
@@ -140,16 +140,15 @@ export default {
       }
     },
     downFile(row) {
-      //lrj 20230926
-      downLoadFile(row.fileurl)
-      // let fileNameBase64 = btoa(unescape(encodeURIComponent(row.uploadname + "." + row.uploadtype)))
-      // let update = fileNameBase64.replace(/\+/g, '-').replace(/\//g, '_')
-      // const myObject = {};
-      // myObject.fileId = row.fileurl;
-      // myObject.uploadname = update;
-      // myObject.uploadtype = row.uploadtype;
-      // const myString = JSON.stringify(myObject);
-      // downLoadRowFile(myString);
+      //lrj 20230926 downLoadFile(row.fileurl)
+       let fileNameBase64 = btoa(unescape(encodeURIComponent(row.uploadname + "." + row.uploadtype)))
+       let update = fileNameBase64.replace(/\+/g, '-').replace(/\//g, '_')
+       const myObject = {};
+       myObject.fileId = row.fileurl;
+       myObject.uploadname = update;
+       myObject.uploadtype = row.uploadtype;
+       const myString = JSON.stringify(myObject);
+       downLoadRowFile(myString);
     },
     showEdit(row) {
       this.isCreate = false;

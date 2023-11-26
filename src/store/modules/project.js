@@ -12,6 +12,7 @@ const getDefaultState = () => {
   return {
     project: getToken("project_info"),
     uploadUrl: "/mong/upload",
+    ssoUploadUrl: process.env.VUE_APP_BASE_API+"/system/oss/webUpload",
     lookUrl: "/mong/preview?fileid=",
     isMine: false
   };

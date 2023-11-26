@@ -49,7 +49,11 @@
           :data="tableData.slice((queryData.pageNum - 1) * queryData.pageSize, queryData.pageNum * queryData.pageSize)"
           style="width: 100%" border height="calc(100% - 48px)" class="have_scrolling">
           <el-table-column prop="leaverPersonName" label="请假人"></el-table-column>
-          <el-table-column prop="leaverType" label="请假类型"></el-table-column>
+          <el-table-column prop="leaverType" label="请假类型" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <el-tag size="mini">{{ transferData(scope.row.leaverType) }}</el-tag>
+            </template>
+          </el-table-column>
           <el-table-column prop="startTime" label="开始时间"></el-table-column>
           <el-table-column prop="endTime" label="结束时间"></el-table-column>
           <el-table-column prop="leaveDay" label="请假天数"></el-table-column>
@@ -186,6 +190,7 @@ import { getNowDate, checkAuditTime } from "@/utils/date";
 import { mapGetters } from "vuex";
 import { getLeaveRecordsById, deleteLeaveRecord, deleteChangeRecord } from "@/api/staffApproval";
 import tasklog from "@/views/common/tasklog";
+import { getDictDataByType, getDicts } from "@/api/progress";
 
 
 export default {
@@ -243,7 +248,18 @@ export default {
   },
   components: { tasklog },
   methods: {
+    transferData(val) {
+      let data = this.eventType || [];
+      let dictType = data.find(res => res.dictCode == val);
+      if (dictType) {
+        return dictType.dictLabel;
+      }
+      return val;
+    },
     init() {
+      getDicts('jg_ask_for_leave_type').then(res => {
+        this.eventType = res.data || [];
+      })
       let { selectValue, leaveName, leaveTime } = this.queryData;
       let type = selectValue === 10 ? undefined : selectValue;
       getLeaveRecordsById(this.project.id, type).then(res => {

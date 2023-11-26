@@ -246,7 +246,7 @@ export default {
               pickedFeature.color = Cesium.Color.WHITE
               pickedFeature = undefined;
             };
-            _pickedFeature.color = Cesium.Color.GREEN;
+            _pickedFeature.color = Cesium.Color.fromCssColorString('#19f8faff'); //Cesium.Color.GREEN; // 25, 248, 250, 1 
             pickedFeature = _pickedFeature
 
             if (viewer.attributeQueryCallback) viewer.attributeQueryCallback(_pickedFeature.getProperty("name"))

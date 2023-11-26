@@ -9,7 +9,6 @@
             :key="item.value"
             :value="item.value"
             :label="item.label"
-            :disabled="item.value === 'other'"
           />
         </el-select>
       </div>
@@ -150,6 +149,7 @@ import {
   getCountConponent,
   getCountIncresConponent
 } from "@/api/data";
+import { getDicts } from "@/api/progress";
 import {mapGetters} from "vuex";
 // import echarts from "echarts";
 
@@ -164,23 +164,8 @@ export default {
       projectCode: "QL", //当前工程类型
       //工程类型
       options: [
-        {
-          value: "QL",
-          label: "桥梁工程",
-        },
-        {
-          value: "LM",
-          label: "道路工程",
-        },
-        {
-          value: "SD",
-          label: "隧道工程",
-        },
-        {
-          value: "other",
-          label: "其它工程",
-        },
       ],
+      optionsMap: {},
       //周月季
       lists: [
         {
@@ -198,10 +183,6 @@ export default {
       ],
       componentType: {
         //所有工程的构件类型
-        QL: [],
-        SD: [],
-        LM: [],
-        other: [],
       },
       // bridgeType: [],
       bridgeComponentType: "all", //构件类型
@@ -602,29 +583,69 @@ export default {
     ...mapGetters(["project"])
   },
   mounted() {
-    //获取各类工程的构件类型
-    getComponentType(this.project.id).then((res) => {
-      const QL = res.data["桥梁工程"] || [];
-      const SD = res.data["隧道工程"] || [];
-      let LM = res.data["道路工程"] || [];
-      let other = res.data["其它工程"] || [];
-      const type = {
-        type: "all",
-        name: "所有类型"
-      };
-      QL.unshift(type);
-      SD.unshift(type);
-      LM.unshift(type);
-      other.unshift(type);
-      this.componentType = {
-        QL: QL,
-        SD: SD,
-        LM: LM,
-        other: other,
-      };
-      this.initData();
-      this.initBottomData();
-    });
+
+    getDicts('jg_gclx_all').then(res => {
+      const data = res.data || [];
+      const array = [];
+      const obj1 = {};
+      for(let i = 0; i <= data.length - 1; i++){
+        const type = data[i];
+
+        if (i === 0) {
+          this.leftQuery.type = type.dictValue;
+        }
+        
+        const obj = {
+          label: type.dictLabel,
+          value: type.dictValue
+        }
+        array.push(obj);
+        obj1[type.dictLabel] = type.dictValue;
+      }
+
+      this.options = array;
+      this.optionsMap = obj1;
+
+      
+      //获取各类工程的构件类型
+      getComponentType(this.project.id).then((res) => {
+        const data = res.data;
+        const obj = {};
+        Object.keys(data).forEach(key => {
+          const item = data[key];
+          const type = {
+            type: "all",
+            name: "所有类型"
+          };
+          item.unshift(type)
+          obj[this.optionsMap[key.replace('工程', '')]] = item;
+        })
+
+        console.log(obj)
+        this.componentType = obj;
+
+        // const QL = res.data["桥梁工程"] || [];
+        // const SD = res.data["隧道工程"] || [];
+        // let LM = res.data["道路工程"] || [];
+        // let other = res.data["其它工程"] || [];
+        // const type = {
+        //   type: "all",
+        //   name: "所有类型"
+        // };
+        // QL.unshift(type);
+        // SD.unshift(type);
+        // LM.unshift(type);
+        // other.unshift(type);
+        // this.componentType = {
+        //   QL: QL,
+        //   SD: SD,
+        //   LM: LM,
+        //   other: other,
+        // };
+        this.initData();
+        this.initBottomData();
+      });
+    })
   },
   methods: {
     initData() {

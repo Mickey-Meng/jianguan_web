@@ -24,7 +24,7 @@
 	} from "@/api/tree";
 
 	import simpleData from '../common/simdata.js'
-
+	import { getDicts } from "@/api/progress";
 	export default {
 		data() {
 			return {
@@ -33,22 +33,33 @@
 					children: "child",
 					label: "name"
 				},
-				currentModule: 'QL',
-				options: [{
-					label: '桥梁',
-					value: 'QL'
-				}, {
-					label: '隧道',
-					value: 'SD'
-				}, {
-					label: '道路',
-					value: 'LM'
-				}],
+				currentModule: '',
+				options: [],
 				treename: []
 			}
 		},
 		mounted() {
-			this.initData()
+			getDicts('jg_gclx_all').then(res => {
+				const data = res.data || [];
+				const array = [];
+				for(let i = 0; i <= data.length - 1; i++){
+					const type = data[i];
+
+					if (i === 0) {
+						this.currentModule = type.dictValue;
+					}
+					
+					const obj = {
+						label: type.dictLabel,
+						value: type.dictValue
+					}
+					array.push(obj);
+				}
+
+				this.options = array;
+
+				this.initData()
+			})
 		},
 		methods: {
 			

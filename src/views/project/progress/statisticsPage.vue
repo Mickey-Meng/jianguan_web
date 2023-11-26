@@ -43,7 +43,7 @@
     </div>
     <div class="progress_content">
       <weeklyAndMonthly v-if="radio === '2'" :currentView="currentView" :timeKey="timeKey"></weeklyAndMonthly>
-      <statisticsChart v-if="radio === '1'" :currentAreaInfo="currentAreaInfo"></statisticsChart>
+      <statisticsChart v-if="radio === '1'" :currentView="currentView" :currentAreaInfo="currentAreaInfo"></statisticsChart>
     </div>
   </div>
 </template>
@@ -52,6 +52,7 @@
 import weeklyAndMonthly from "@/views/project/component/weeklyAndMonthly";
 import statisticsChart from "@/views/project/progress/statisticsChart";
 import { getHomeBottomChart } from "@/api/data";
+import { getDicts } from "@/api/progress";
 import { mapGetters } from "vuex";
 
 export default {
@@ -75,7 +76,7 @@ export default {
         },
         {
           name: "其它",
-          key: "other"
+          key: "QT"
         }
       ],
       sectionData: [
@@ -93,7 +94,27 @@ export default {
     };
   },
   created() {
-    this.init();
+    getDicts('jg_gclx_all').then(res => {
+      const data = res.data || [];
+      const array = [];
+      for(let i = 0; i <= data.length - 1; i++){
+        const type = data[i];
+
+        if (i === 0) {
+          this.currentView = type.dictValue;
+        }
+        
+        const obj = {
+          name: type.dictLabel,
+          key: type.dictValue
+        }
+        array.push(obj);
+      }
+
+      this.nav = array;
+
+      this.init();
+    })
   },
   components: { weeklyAndMonthly, statisticsChart },
   computed: {

@@ -19,7 +19,7 @@
           </el-dropdown-menu>
         </el-dropdown>
       </li> -->
-      <li>
+      <!-- <li>
         <el-dropdown trigger="click">
           <span class="el-dropdown-link">
             标注管理<i class="el-icon-arrow-down el-icon--right" />
@@ -37,7 +37,7 @@
             <el-dropdown-item>标注列表</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-      </li>
+      </li> -->
       <li>
         <el-dropdown trigger="click" :hide-on-click="false">
           <span class="el-dropdown-link">

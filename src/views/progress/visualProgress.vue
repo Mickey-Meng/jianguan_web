@@ -49,6 +49,14 @@
     created() {
       zeh = window.zeh;
       this.initData();
+      
+      viewer.camera.flyTo({
+          destination: {x: -2780681.2160946866, y: 4797331.251368911, z: 3142257.6799062267},
+          orientation: {
+              direction: {x: -0.4574093661348728, y: -0.2517740912160975, z: -0.8528695555384787},
+              up: {x: -0.6853422630555877, y: 0.7109440518049546, z: 0.15768493166120795}
+          }
+      })
     },
     computed: {
       ...mapGetters(["project"])

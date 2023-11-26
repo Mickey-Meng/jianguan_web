@@ -21,9 +21,9 @@
             <el-table-column label="完成时间" width="140px" show-overflow-tooltip align="center">
               <template slot-scope="{ row }">
                 {{
-                  row.checkresult === 3
+                  row.status === 3
                   ? "正在审核"
-                  : (row.checkresult === 0 || !row.checkresult
+                  : (row.status === 0 || !row.status
                     ? '未录入'
                     : row.finish)
                 }}

@@ -69,10 +69,6 @@ export default {
         label: "name"
       },
       treeInfo: {
-        SD: [],
-        QL: [],
-        LM: [],
-        QT: []
       },
       projects: [],
       projectId: "",
@@ -117,10 +113,14 @@ export default {
         getDictDataByType({ pageNum: 1, pageSize: 999, dictType: "jg_gclx_all" }).then((res) => {
           let data = res.rows || [];
           const array = [];
+          const obj = {};
           data.forEach(item => {
             array.push({ name: item.dictLabel, key: item.dictValue })
+            obj[item.dictValue] = [];
           });
           this.lists = array;
+          this.treeInfo = obj;
+          
           this.currentKey = array[0]["key"];
           console.log(array)
           resolve()

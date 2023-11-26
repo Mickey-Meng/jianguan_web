@@ -19,6 +19,7 @@ const getters = {
   menu: state => state.user.menu,
   project: state => state.project.project,
   uploadUrl: state => state.project.uploadUrl,
+  ssoUploadUrl: state => state.project.ssoUploadUrl,
   lookUrl: state => state.project.lookUrl,
   getUrl: state => state.settings.getUrl,
   roleId: state => state.user.roleId,

@@ -237,7 +237,7 @@
 
 <script>
 import {uploadF, getFile, deleteFile, updateFileInfo, getFileDictByPCode} from "@/api/file";
-import {downLoadFile, downLoadRowFile, downLocaRowFile} from "@/utils/download";
+import { downLoadFile, downLoadRowFile } from "@/utils/download";
 import {mapGetters} from "vuex";
 export default {
   name: "",
@@ -307,15 +307,24 @@ export default {
       });
     },
     downFile(row) {
-        let fileNameBase64 = btoa(unescape(encodeURIComponent(row.uploadname+"."+row.uploadtype)))
-        let update = fileNameBase64.replace(/\+/g, '-').replace(/\//g, '_')
-        const myObject = {};
-        myObject.fileId=row.fileurl;
-        myObject.uploadname=update;
-        myObject.uploadtype=row.uploadtype;
-        const myString = JSON.stringify(myObject);
-        downLoadRowFile(myString);
-      },
+      //downLoadFile(row.fileurl);
+
+      console.log(111111111111);
+			console.log(row);
+			console.log(222222222222);
+      console.log(row.uploadname + "." + row.uploadtype);
+      let fileNameBase64 = btoa(unescape(encodeURIComponent(row.uploadname + "." + row.uploadtype)))
+      let update = fileNameBase64.replace(/\+/g, '-').replace(/\//g, '_')
+      console.log("update:" + update);
+      const myObject = {};
+      myObject.fileId = row.fileurl;
+      myObject.uploadname = update;
+      myObject.uploadtype = row.uploadtype;
+      const myString = JSON.stringify(myObject);
+      console.log(333333333333333);
+			console.log(myString);
+      downLoadRowFile(myString);
+    },
     changeView(val) {
       if (this.currentView !== val) {
         this.currentView = val;

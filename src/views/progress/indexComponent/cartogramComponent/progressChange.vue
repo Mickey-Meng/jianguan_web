@@ -43,7 +43,7 @@ export default {
         },
         {
           name: "其他",
-          key: "other",
+          key: "QT",
         },
       ],
       type: "LM",
@@ -185,10 +185,10 @@ export default {
         let x = [];
         let series = [];
         let o = data[Object.keys(data)[0]];
-        o.reverse();
         o.forEach((item) => {
           x.push(item.name);
         });
+        x.reverse();
         for (let i in data) {
           let num = [];
           let lists = data[i];

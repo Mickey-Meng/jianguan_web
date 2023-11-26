@@ -76,7 +76,7 @@
 
 <script>
   import {uploadF, getFile, deleteFile, updateFileInfo} from "@/api/file";
-  import {downLoadFile} from "@/utils/download";
+  import {downLoadFile, downLoadRowFile} from "@/utils/download";
   import {mapGetters} from "vuex";
   // const docx = require("docx-preview");
   // window.JSZip = require("jszip");
@@ -183,7 +183,16 @@
       }
     },
     downFile(row) {
-      downLoadFile(row.fileurl);
+      //downLoadFile(row.fileurl);
+
+      let fileNameBase64 = btoa(unescape(encodeURIComponent(row.uploadname + "." + row.uploadtype)))
+      let update = fileNameBase64.replace(/\+/g, '-').replace(/\//g, '_')
+      const myObject = {};
+      myObject.fileId = row.fileurl;
+      myObject.uploadname = update;
+      myObject.uploadtype = row.uploadtype;
+      const myString = JSON.stringify(myObject);
+      downLoadRowFile(myString);
     },
     changeValue(value) {
       if (value) {

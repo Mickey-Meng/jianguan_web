@@ -1642,7 +1642,7 @@ export const asyncRoutes = [
             name: "auditUnitdptFM",
             component: () => import("@/views/datum/auditUnitdptFM"),
             meta: {
-              title: "审计资料管理",
+              title: "全咨资料管理",
               code: "auditUnitdptFM",
               icon: "circle",
               allMap: false,

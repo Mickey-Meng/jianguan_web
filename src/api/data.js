@@ -132,12 +132,13 @@ export const projectSelect = () => {
  * @returns {}
  * @date 2021/8/6
  */
-export const getHomeChart = (id,projectId) => {
+export const getHomeChart = (id,projectId, projectType) => {
   return request({
     url: api.getHomeChart,
     method: "get",
     params: {
       projectcode: id,
+      projectType,
       projectId
     }
   });
