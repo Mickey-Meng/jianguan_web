@@ -2093,6 +2093,70 @@ export const asyncRoutes = [
         ]
       },]
   },
+
+  {
+    component: Layout,
+    meta: {
+      icon: "#",
+      noCache: false,
+      title: "在线表单"
+    },
+    alwaysShow: true,
+    redirect: "/noRedirect",
+    name: "onlineForms",
+    path: "/onlineForms",
+    children: [
+      {
+        path: "/onlineProduce",
+        meta: {
+          title: "在线工序",
+          icon: "earlier",
+          code: "onlineProduce"
+        },
+        alwaysShow: true,
+        component: ParentView,
+        redirect: "/produceReport",
+        children: [
+          {
+            path: "/produceReport",
+            name: "produceReport",
+            component: () => import ("@/views/onlineForms/produceReport/produceReport"),
+            meta: {
+              title: "工序填报",
+              icon: "circle",
+              code: "produceReport",
+              // 地图相关
+              allMap: false,
+              partMap: false,
+              noMap: true
+              // 左侧目录树
+              /**
+               left: true,
+               right: true,
+               offsetToRight: true, // 三维地图工具栏向右偏移200px
+               open: true 
+               */              
+            }
+          },
+
+          {
+            path: "/produceCheck",
+            name: "produceCheck",
+            component: () => import ("@/views/onlineForms/produceCheck/produceCheck"),
+            meta: {
+              title: "工序核验",
+              icon: "circle",
+              code: "produceCheck",
+              allMap: false,
+              partMap: false,
+              noMap: true
+            }
+          }
+        ]
+      }
+    ]
+  },
+
   {
     path: "/digitalarchives",
     meta: {
