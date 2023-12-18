@@ -66,7 +66,9 @@
 											</el-table-column>
 											<el-table-column prop="projectPart" width="120px" align="center" label="工程部位">
 											</el-table-column>
-											<el-table-column prop="num" width="120px" align="center" label="材料数量(吨)">
+											<el-table-column prop="num" width="120px" align="center" label="材料数量">
+											</el-table-column>
+                      <el-table-column prop="num" width="120px" align="center" label="材料单位)">
 											</el-table-column>
 											<el-table-column prop="takeAddress" width="120px" align="center" label="取样地点">
 											</el-table-column>
@@ -206,19 +208,20 @@
 					</div>
 					<div class="block-line">
 						<div class="block-item">
-							<div class="block-item-label">材料数量(吨)<i class="require-icon"></i></div>
+							<div class="block-item-label">材料数量<i class="require-icon"></i></div>
 							<div class="block-item-value">
 								<el-form-item prop="num">
 									<el-input v-model.number="examineInfo.num"></el-input>
 								</el-form-item>
 							</div>
 						</div>
-						<div class="block-item">
-							<div class="block-item-label">取样地点</div>
-							<div class="block-item-value">
-								<el-input v-model="examineInfo.takeAddress"></el-input>
-							</div>
-						</div>
+            <div class="block-item">
+              <div class="block-item-label">材料单位</div>
+              <div class="block-item-value">
+                <el-input v-model="examineInfo.unit" ></el-input>
+              </div>
+            </div>
+
 					</div>
 					<div class="block-line">
 						<div class="block-item">
@@ -274,6 +277,17 @@
 							</div>
 						</div>
 					</div>
+
+
+          <div class="block-line">
+            <div class="block-item">
+              <div class="block-item-label">取样地点</div>
+              <div class="block-item-value">
+                <el-input v-model="examineInfo.takeAddress"></el-input>
+              </div>
+            </div>
+          </div>
+
 				</div>
 				<div class="form-block">
 					<el-button @click="addExamineTable" class="submit-btn" size="small" type="primary">提交</el-button>
@@ -338,7 +352,7 @@
 	import drafthandle from "../../../common/drafthandle.vue"
 	import approveuser from "../../../common/approveuser.vue"
 	import projectinfo from "../../../common/projectinfo.vue"
-	
+
 	export default {
 		data() {
 			return {
@@ -625,7 +639,7 @@
 			},
 			addOrModify(isdraft) {
       if (this.submitDisable) return;
-      
+
       this.submitDisable = true;
 				if (isdraft) {
 					if (diffCompare([this.formData, this.examineTable, this.reportTable, this.factoryTable, this

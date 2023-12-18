@@ -25,28 +25,14 @@
 import echarts from "echarts";
 import { getAreaProgress } from "@/api/progress";
 import { mapGetters } from "vuex";
+import { getDicts } from "@/api/progress";
+
 export default {
   data() {
     return {
-      typeArr: [
-        {
-          name: "桥梁",
-          key: "QL",
-        },
-        {
-          name: "隧道",
-          key: "SD",
-        },
-        {
-          name: "道路",
-          key: "LM",
-        },
-        {
-          name: "其他",
-          key: "QT",
-        },
-      ],
-      type: "LM",
+      typeArr: [],
+      typeArrMap: {},
+      type: "",
       option: {
         legend: {
           show: true,
@@ -169,7 +155,29 @@ export default {
   created() {
   },
   mounted() {
+    getDicts('jg_gclx_all').then(res => {
+      const data = res.data || [];
+      const array = [];
+      const obj1 = {};
+      for(let i = 0; i <= data.length - 1; i++){
+        const type = data[i];
+          if (i === 0) {
+            this.type = type.dictValue;
+          }     
+        const obj = {
+          name: type.dictLabel,
+          key: type.dictValue
+        }
+        array.push(obj);
+        obj1[type.dictLabel] = type.dictValue;
+      }
+      this.typeArr = array;
+      this.typeArrMap = obj1;
+
+    }),
+
     this.initData();
+    console.log(this)
   },
   components: {},
   computed: {

@@ -192,7 +192,7 @@ export default {
           content: '',
           reportPeople: '',
           reportTime: null,
-          projectId:this.$store.getters.project['parentid']
+          projectId:this.$store.getters.project['parentid'],
         }
         this.attachTable = [];
         this.contractTable = [];
@@ -249,6 +249,7 @@ export default {
         let data = res['data'] || {};
         this.formData = data;
         this.attachTable = data.attachment || [];
+        this.materialApproachPhoto = data.materialApproachPhoto || [];
       });
     },
     addOrModify(isdraft) {

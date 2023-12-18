@@ -167,7 +167,6 @@ export default {
       return false;
     },
     queryTimeFormat(res) {
-      debugger;
       console.log(res);
       if(res != null && res.length > 0) {
         this.queryData.startCheckDate = formatDate(res[0]);
@@ -178,7 +177,6 @@ export default {
       }
     },
     query() {
-      debugger;
       this.queryData.draftFlag = this.isDraft ? 0 : 1;
       api.getBuildTechBottomList(this.queryData).then((res) => {
         this.allData = res.data || {};

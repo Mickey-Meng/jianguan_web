@@ -240,7 +240,6 @@ export default {
           // this.fileData = obj.files;
           this.form = res.data.ZjPersonChange;
           // this.fileData = res.data.ZjPersonChangeFile;
-          debugger;
           for (let j = 0; j < res.data.ZjPersonChangeFile.length; j++) {
             res.data.ZjPersonChangeFile[j].creatorName = res.data.ZjPersonChangeFile[j].uploadPerson;
           }

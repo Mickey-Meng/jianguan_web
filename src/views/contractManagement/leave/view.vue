@@ -139,7 +139,6 @@ export default {
       } else {
         return val;
       }
-      debugger
 
     },
     getDetail(id) {

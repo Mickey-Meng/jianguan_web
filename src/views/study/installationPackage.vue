@@ -277,6 +277,12 @@ export default {
     downLoadFile(row) {
       let link = document.createElement("a"); // 创建a标签
       link.style.display = "none"; //mong/preview?fileid=
+      if(row.fileurl.indexOf("http") >= 0) {
+        window.open(row.fileurl);
+        return
+        // link.href = row.fileurl; // 设置下载地址
+      }
+
       link.href = "/mong/download?fileid=" + row.fileurl; // 设置下载地址
       link.setAttribute("download", ""); // 添加downLoad属性
       document.body.appendChild(link);

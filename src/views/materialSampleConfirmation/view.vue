@@ -19,27 +19,27 @@
           </div>
           <div class="block-line">
             <div class="block-item">
-              <div class="block-item-label">样板照片</div>
-              <div class="block-item-value">
-                <el-input v-model="formData.samplePhoto"></el-input>
-              </div>
-            </div>
-            <div class="block-item">
               <div class="block-item-label">样板内容</div>
               <div class="block-item-value">
-                <el-input v-model="formData.sampleContent"></el-input>
+                {{ formData.sampleContent }}
               </div>
             </div>
           </div>
         </div>
         <div class="form-block">
           <div class="form-block-title">
-            <div class="title-bar"></div>
-            <strong>附件</strong>
-            <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-              xisx xis pdf文件，且不超过100m</span>
+            <div class="title-bar"></div><strong>样板照片</strong>
+            <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png文件，且不超过100m</span>
           </div>
-          <attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>
+          <attachlist :editAble="false" ref="attachlist" :attachTable="formData.samplePhoto"></attachlist>
+        </div>
+        <div class="form-block">
+          <div class="form-block-title">
+            <div class="title-bar"></div><strong>附件</strong>
+            <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
+                      xisx xis pdf文件，且不超过100m</span>
+          </div>
+          <attachlist :editAble="false" ref="attachlist" :attachTable="formData.attachment1"></attachlist>
         </div>
       </el-form>
     </div>
@@ -74,11 +74,12 @@ export default {
       formData: {
         materialBrand: '',
         materialCategory:'',
-        samplePhoto:'',
         sampleContent:'',
         buildSection: this.$store.getters.project.id,
         projectId: this.$store.getters.project['parentid'],
-        startDate: formatDate(new Date())
+        startDate: formatDate(new Date()),
+        attachment1: [],
+        samplePhoto: []
       },
       attachTable: [], //附件
       contractTable: []
@@ -108,7 +109,7 @@ export default {
       api.getMaterialSampleConfirmationDetail(id).then((res) => {
         let data = res['data'] || {};
         this.formData = data;
-        this.attachTable = data.attachment || [];
+        // this.attachTable = data.attachment || [];
         this.getUserInfo(data.createUserId)
       });
     },

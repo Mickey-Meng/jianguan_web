@@ -155,6 +155,7 @@ export default {
           projectId:this.$store.getters.project['parentid']
         }
         this.attachTable = [];
+        this.samplePhoto = [];
         this.contractTable = [];
         this.auditUser={};
         this.approveVisible=true;
@@ -186,6 +187,7 @@ export default {
           projectId:this.$store.getters.project['parentid'],
         }
         this.attachTable = [];
+        this.samplePhoto = [];
         // this.auditUser={};
         this.approveVisible=true;
         // this.auditUser={};
@@ -202,7 +204,8 @@ export default {
       api.getMaterialSampleConfirmationDetail(id).then((res) => {
         let data = res['data'] || {};
         this.formData = data;
-        this.attachTable = data.attachment || [];
+        this.attachTable = data.attachment1 || [];
+        this.samplePhoto = data.samplePhoto || [];
       });
     },
     addOrModify(isdraft) {

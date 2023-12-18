@@ -118,6 +118,7 @@ export default {
         materialBrand:'',
         buildSection: this.$store.getters.project.id,
         projectId:this.$store.getters.project['parentid'],
+        materialApproachPhoto: []
       },
       attachTable: [], //附件
       contractTable: [],

@@ -51,8 +51,10 @@
 											</el-table-column>
 											<el-table-column prop="projectPart" width="120px" align="center" label="工程部位">
 											</el-table-column>
-											<el-table-column prop="num" width="120px" align="center" label="材料数量(吨)">
+											<el-table-column prop="num" width="120px" align="center" label="材料数量">
 											</el-table-column>
+                      <el-table-column prop="unit" width="120px" align="center" label="材料单位">
+                      </el-table-column>
 											<el-table-column prop="takeAddress" width="120px" align="center" label="取样地点">
 											</el-table-column>
 											<el-table-column prop="testDate" width="120px" align="center" label="试验日期">
@@ -143,7 +145,7 @@
 		getQueryVariable
 	} from "@/utils/format.js";
 	import tasklog from "../../../common/tasklog.vue"
-	
+
 	import taskhandle from '../../../common/taskhandle'
 	import attachlist from "../../../common/attachlist"
 import projectinfo from "../../../common/projectinfo.vue"
@@ -181,7 +183,7 @@ import projectinfo from "../../../common/projectinfo.vue"
 					updateTime: null,
 					updateUserId: null
 				},
-				
+
 				examineTable: [], //检测信息
 				reportTable: [], //试验检测报告
 				factoryTable: [], //出厂信息

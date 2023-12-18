@@ -47,7 +47,10 @@
 								label="工程部位">
 							</el-table-column>
 							<el-table-column prop="num" width="120px" align="center"
-								label="材料数量(吨)">
+								label="材料数量">
+							</el-table-column>
+              <el-table-column prop="unit" width="120px" align="center"
+								label="材料单位">
 							</el-table-column>
 							<el-table-column prop="takeAddress" width="120px" align="center"
 								label="取样地点">
@@ -87,7 +90,7 @@
 							文件，且不超过 200M</span>
 					</div>
 					<attachlist :editAble="false" ref="attachlist" :attachTable="reportTable"></attachlist>
-					
+
 				</div>
 				<div class="form-block">
 					<div class="form-block-title">
@@ -95,10 +98,10 @@
 						<span style="font-size: 12px;margin-left: 40px;">最少数量1， 支持上传 docx doc pdf
 							文件，且不超过 200M</span>
 					</div>
-					
+
 					<attachlist :editAble="false" ref="attachlist" :attachTable="factoryTable"></attachlist>
-					
-					
+
+
 				</div>
 				<div class="form-block">
 					<div class="form-block-title">
@@ -107,7 +110,7 @@
 							文件，且不超过 200M</span>
 					</div>
 					<attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>
-					
+
 					<div class="block-line">
 						<div class="block-item">
 							<div class="block-item-label">备注</div>
@@ -127,7 +130,7 @@
 	import {
 		convertOptions,
 		getQueryVariable,
-		formatDate 
+		formatDate
 	} from "@/utils/format.js";
 	import attachlist from "../../../common/attachlist"
 	import projectinfo from "../../../common/projectinfo.vue"
@@ -168,10 +171,10 @@
 		},
 		computed: {},
 		watch: {
-			
+
 		},
 		mounted() {
-			
+
 		},
 		methods: {
 			getDetail(id) {
@@ -181,7 +184,7 @@
 					let data = res['data'] || {};
 					this.formData = data;
 					data.detectionInfo=data.detectionInfo||[]
-					
+
 					for (let i = 0; i < data.detectionInfo.length; i++) {
 						let item = data.detectionInfo[i];
 						item.address=item.address||{};

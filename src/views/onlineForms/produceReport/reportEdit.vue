@@ -13,7 +13,7 @@
 				<el-form :model="formData" :rules="rules" ref="ruleForm" label-width="80px">
 				  <div class="form-title">
 					<div class="title-big-bar"></div>
-					<strong>计划管理-证照管理</strong>
+					<strong>工序报验</strong>
 				  </div>
   
 				  <div class="form-block">
@@ -23,7 +23,7 @@
 					<div class="block-line">
   
 					  <div class="block-item">
-						<div class="block-item-label">证照名称<i class="require-icon"></i></div>
+						<div class="block-item-label">具体部位<i class="require-icon"></i></div>
 						<div class="block-item-value">
 						  <el-form-item prop="name">
 							<el-input v-model="formData.name"></el-input>
@@ -32,7 +32,7 @@
 					  </div>
   
 					  <div class="block-item">
-						<div class="block-item-label">证照内容<i class="require-icon"></i></div>
+						<div class="block-item-label">构建编码<i class="require-icon"></i></div>
 						<div class="block-item-value">
 						  <el-form-item prop="contents">
 							<el-input v-model="formData.contents"></el-input>
@@ -45,7 +45,7 @@
   
 					<div class="block-line">
 					  <div class="block-item">
-						<div class="block-item-label">计划开始时间</div>
+						<div class="block-item-label">工序名称</div>
 						<div class="block-item-value">
 						  <el-form-item prop="startTime">
 							<el-date-picker value-format="yyyy-MM-dd" v-model="formData.startTime" type="date"
@@ -56,36 +56,12 @@
 					  </div>
   
 					  <div class="block-item">
-						<div class="block-item-label">计划结束时间</div>
+						<div class="block-item-label">完成时间</div>
 						<div class="block-item-value">
 						  <el-form-item prop="endTime">
 							<el-date-picker value-format="yyyy-MM-dd" v-model="formData.endTime" type="date"
 							  placeholder="请选择">
 							</el-date-picker>
-						  </el-form-item>
-						</div>
-					  </div>
-  
-					</div>
-  
-  
-					<div class="block-line">
-					  <div class="block-item">
-						<div class="block-item-label">上报时间</div>
-						<div class="block-item-value">
-						  <el-form-item prop="reportTime">
-							<el-date-picker value-format="yyyy-MM-dd" v-model="formData.reportTime" type="date"
-							  placeholder="请选择">
-							</el-date-picker>
-						  </el-form-item>
-						</div>
-					  </div>
-  
-					  <div class="block-item">
-						<div class="block-item-label">上报人<i class="require-icon"></i></div>
-						<div class="block-item-value">
-						  <el-form-item prop="reportUser">
-							<el-input v-model="formData.reportUser"></el-input>
 						  </el-form-item>
 						</div>
 					  </div>
@@ -114,7 +90,40 @@
 					  </div>
 					</div>
 				  </div>
-  
+
+				  <div class="form-block">
+					<div class="form-block-title">
+					  <div class="title-bar"></div><strong>现场照片</strong>
+					  <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
+                      xisx xis pdf文件，且不超过100m</span>
+					</div>
+					<attachlist :editAble="true" ref="attachlist" :attachTable="attachTable"></attachlist>
+				  </div>
+
+
+				  <div class="form-block">
+					<div class="form-block-title">
+					  <div class="title-bar"></div><strong>应填表格</strong>
+					</div>
+					<div class="block-table">
+						<el-table :data="onlineTableData" style="width: 100%" border class="have_scrolling">
+							<el-table-column type="index" width="80" align="center" label="序号"></el-table-column>
+							<el-table-column prop="onlineTableName" width="500" align="center" label="表格名称"></el-table-column>
+							<el-table-column prop="editStatus" width="150" align="center" label="状态"></el-table-column>
+							<el-table-column fixed="right" width="200" align="center" label="操作">
+								<template slot-scope="{ row, $index }">
+								<el-button type="text" size="mini" @click="fillOut(row)">填写
+								</el-button>
+								<el-button type="text" size="mini" @click="preview(row)">预览
+								</el-button>
+								<el-button type="text" size="mini" @click="download(row)">下载
+								</el-button>
+								</template>
+							</el-table-column>
+						</el-table>
+					</div>
+				  </div>
+
 				  <approveuser v-if="approveVisible" :auditUser="auditUser" :flowKey="flowKey"></approveuser>
   
 				  <div class="form-block">
@@ -127,6 +136,9 @@
 		  </el-main>
 		</el-container>
 	  </el-dialog>
+
+	  <lucky-sheet ref="luckysheetRef" v-bind:luckysheetParams = "luckysheetParams" />
+
 	</div>
   </template>
   
@@ -140,9 +152,15 @@
   import approveuser from "../../common/approveuser.vue"
   import projectinfo from "../../common/projectinfo.vue"
   import { findDataDictionaryList } from "@/api/dataDictionary"
+
+  import LuckySheet from "@/components/Luckysheet/lucky-sheet";
+  import { getFillDataTemplate, saveFillDataTemplate } from "@/api/onlineForms";
   
   export default {
 	props: ['editRow'],
+	components: {
+        LuckySheet
+    },
 	data() {
 	  return {
 		draftVisible: false,
@@ -196,7 +214,11 @@
 		approveVisible:true,
 		flowKey:'planCertificatePhotos',
 		dataDictionaryList: [],
-  
+		onlineTableData: [
+			{onlineTableName : "浙路(JS)107钢筋安装现场检测记录表1", editStatus : "已填写" , templateUrl: "http://112.30.143.222:9000/hefei/2023/07/19/da05f12b61d64a62a3e895b56ac159f0.xlsx"},
+			{onlineTableName : "浙路(JS)107钢筋安装现场检测记录表2", editStatus : "未填写" , templateUrl: "http://112.30.143.222:9000/hefei/2023/07/19/da05f12b61d64a62a3e895b56ac159f0.xlsx"},
+			{onlineTableName : "浙路(JS)107钢筋安装现场检测记录表3", editStatus : "已填写" , templateUrl: "http://112.30.143.222:9000/hefei/2023/07/19/da05f12b61d64a62a3e895b56ac159f0.xlsx"},
+		],
 		submitDisable: false
 	  };
 	},
@@ -314,6 +336,20 @@
 	  },
 	  checkDraft() {
 		this.draftVisible = true;
+	  },
+	  fillOut(row) {
+		// 获取待填写的模板
+		getFillDataTemplate(100, { templateUrl : row.templateUrl })
+			.then(async (resData) => {
+				const isBlob = await blobValidate(resData);
+				if (isBlob) {
+					const blobData = new Blob([resData]);
+					this.$refs.luckysheetRef.rendLuckyExcel(blobData);
+				}
+			}).catch((r) => {
+				console.error(r)
+				this.$message.error('加载文件出现错误，请联系管理员！')
+			})
 	  }
 	},
   };

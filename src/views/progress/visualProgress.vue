@@ -220,6 +220,7 @@
           layer.style = undefined
         }
       })
+      viewer.styleConditions = undefined
     },
     //遍历着色
     showEffects() {

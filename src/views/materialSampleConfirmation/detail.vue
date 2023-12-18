@@ -50,13 +50,12 @@
                   <attachlist :editAble="false" ref="attachlist" :attachTable="formData.samplePhoto"></attachlist>
                 </div>
                 <div class="form-block">
-
                   <div class="form-block-title">
                     <div class="title-bar"></div><strong>附件</strong>
                     <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
                       xisx xis pdf文件，且不超过100m</span>
                   </div>
-                  <attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>
+                  <attachlist :editAble="false" ref="attachlist" :attachTable="formData.attachment1"></attachlist>
                 </div>
               </el-form>
             </div>
@@ -96,8 +95,11 @@ export default {
         materialBrand:'',
         buildSection: this.$store.getters.project.id,
         projectId:this.$store.getters.project['parentid'],
+        attachment1: [],
+        samplePhoto: []
       },
       attachTable: [], //附件
+      samplePhoto: [], //样板照片
       contractTable: [],
       taskInfo:{}
     };
@@ -144,7 +146,8 @@ export default {
         console.log(res);
         let data = res['data'] || {};
         this.formData = data;
-        this.attachTable = data.attachment || [];
+        // this.attachTable = data.attachment1 || [];
+        // this.samplePhoto = data.samplePhoto || [];
         this.contractTable = data.information || [];
         this.getUserInfo(data.createUserId)
       });

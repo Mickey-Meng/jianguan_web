@@ -26,6 +26,7 @@
       <div class="height">高度:{{ mapCoordinate.height }} 千米</div>
       <div class="pitch">俯仰:{{ mapCoordinate.pitch }} 度</div>
     </div>
+    <div class="scenemode" @click="changeMode">{{sceneMode == 2 ? '2D':'3D'}}</div>
   </div>
 </template>
 
@@ -60,6 +61,7 @@ export default {
         height: "",
         pitch: "",
       },
+      sceneMode: Cesium.SceneMode.SCENE3D
     };
   },
   computed: {
@@ -99,7 +101,7 @@ export default {
       //   earthCtx.zlskEarthHelper =
       //     new ZlskEarthHelper("earth", obj);
       const url = this.project.mapUrl || window.location.href;
-      // const URL = `http://112.30.143.209:26666/data_zlsk/chizhoushi`;
+      // const url = `http://localhost:8083/zhujishi/DOM_18/{z}/{x}/{y}.png`;
       // console.log(URL)
       window.viewer = new Cesium.Viewer("earth", {
         // imageryProvider: new Cesium.TileMapServiceImageryProvider({
@@ -206,15 +208,17 @@ export default {
 
       if (this.project.projectline) {
         const terrainLayer = new Cesium.CesiumTerrainProvider({
+            // url: "http://localhost:8083/zhujishi/DEM"
             url: this.project.projectline,
         });
         viewer.terrainProvider = terrainLayer;
+        viewer.terrainProviderBak = terrainLayer;
       }
         // 添加白模
       let modelUrls = this.project.coordinate;
       if (modelUrls) {
         modelUrls = JSON.parse(modelUrls);
-        // modelUrls = [{"layername":"次坞大桥桩基","url":"http://localhost:8081/model_CW_Z/tileset.json"}]
+        // modelUrls = [{"layername":"次坞大桥桩基","url":"http://localhost:8083/model_CW_Z/tileset.json"}]
         modelUrls = modelUrls.reverse();
         modelUrls.forEach(item => {
           const tilesetModel = new Cesium.Cesium3DTileset({
@@ -242,17 +246,54 @@ export default {
           var _pickedFeature = viewer.scene.pick(movement.position);
 
           if (_pickedFeature instanceof Cesium.Cesium3DTileFeature) {
-            if (pickedFeature) {
-              pickedFeature.color = Cesium.Color.WHITE
-              pickedFeature = undefined;
-            };
-            _pickedFeature.color = Cesium.Color.fromCssColorString('#19f8faff'); //Cesium.Color.GREEN; // 25, 248, 250, 1 
-            pickedFeature = _pickedFeature
-
+            if (viewer.styleConditions) {
+              const length = viewer.scene.primitives.length;
+              for (let i = 0; i < length; i++) {
+                const layer = viewer.scene.primitives.get(i);
+                
+                let conditions = [];
+                if (viewer.styleConditions && viewer.styleConditions[layer.name]) {
+                  conditions = JSON.parse(JSON.stringify(viewer.styleConditions[layer.name]));
+                }
+                conditions.unshift(["${name} === '" + _pickedFeature.getProperty("name") + "'", "rgba(25, 248, 250, 1)"])
+                layer.style = new Cesium.Cesium3DTileStyle({
+                  color: {
+                      conditions: conditions
+                  }
+                });
+              }
+              pickedFeature = _pickedFeature
+            } else {
+              if (pickedFeature) {
+                pickedFeature.color = Cesium.Color.WHITE
+                pickedFeature = undefined;
+              };
+              _pickedFeature.color = Cesium.Color.fromCssColorString('#19f8faff'); //Cesium.Color.GREEN; // 25, 248, 250, 1 
+              pickedFeature = _pickedFeature
+            }
             if (viewer.attributeQueryCallback) viewer.attributeQueryCallback(_pickedFeature.getProperty("name"))
           } else {
-            if (pickedFeature) pickedFeature.color = Cesium.Color.WHITE
+            if (viewer.styleConditions && pickedFeature) {
+              const length = viewer.scene.primitives.length;
+              for (let i = 0; i < length; i++) {
+                const layer = viewer.scene.primitives.get(i);
+                
+                let conditions = [];
+                if (viewer.styleConditions && viewer.styleConditions[layer.name]) {
+                  conditions = JSON.parse(JSON.stringify(viewer.styleConditions[layer.name]));
+                }
+                // conditions.unshift(["${name} === '" + _pickedFeature.getProperty("name") + "'", "rgba(25, 248, 250, 1)"])
+                layer.style = new Cesium.Cesium3DTileStyle({
+                  color: {
+                      conditions: conditions
+                  }
+                });
+              }
+            } else {
+              if (pickedFeature) pickedFeature.color = Cesium.Color.WHITE
+            }
           }
+          
           
       }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
       // em = zeh.earth.createMarkerManager({ clusterType: "dilute" });
@@ -379,7 +420,15 @@ export default {
         return null;
       }
     },
-
+    changeMode() {
+      if (this.sceneMode == Cesium.SceneMode.SCENE3D) {
+      viewer.scene.mode = Cesium.SceneMode.SCENE2D; // SCENE2D
+        this.sceneMode = Cesium.SceneMode.SCENE2D; // SCENE3D
+      } else {
+        viewer.scene.mode = Cesium.SceneMode.SCENE3D; // SCENE2D
+        this.sceneMode = Cesium.SceneMode.SCENE3D; // SCENE2D
+      }
+    }
     // 工具条点击事件
   },
   // components: { mapTool },
@@ -510,6 +559,26 @@ export default {
   font-size: 14px;
   > div {
     margin-left: 10px;
+  }
+}
+.scenemode{
+  position: absolute;
+  bottom: 220px;
+  right: 30px;
+  background: rgba(57, 61, 73, 0.6);
+  z-index: 2001;
+  color: #e9e9e9;
+  height: 30px;
+  text-align: center;
+  width: 30px;
+  padding: 0 5px;
+  font-size: 14px;
+  line-height: 30px;
+  border-radius: 3px;
+  cursor: pointer;
+  &:hover{
+    background: rgba(112, 114, 122, 0.6);
+    font-size: 16px;
   }
 }
 
