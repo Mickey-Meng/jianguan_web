@@ -1,7 +1,5 @@
 <template>
-  <div class="luckysheet-content">
-    <div id="luckysheet" style="margin: 0px; padding: 0px; position: absolute; width: 100%; height:100%; left: 0px;top: 0px; bottom: 20px;"></div>
-  </div>
+  <div class="luckysheet-content" id="luckysheet"></div>
 </template>
    
 <script>
@@ -225,13 +223,10 @@
 
 <style lang="css" scoped>
   .luckysheet-content {
-    margin: 0px;
+    margin: 10px 0px 0px 200px;
     padding: 0px;
-    position: relative;
-    width: 100%;
-    height: 500px;
-    left: 0px;
-    top: 0px;
-    bottom: 10px;
+    position: absolute;
+    width: 80%;
+    height: calc(100% - 150px);
   }
 </style>

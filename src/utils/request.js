@@ -73,7 +73,8 @@ service.interceptors.response.use(
             res.meow === 0 || 
               res.status === 300 || 
                 res.success === true || 
-                  (response.headers["content-type"].indexOf("excel") > -1)) {
+                  (response.headers["content-type"].indexOf("excel") > -1) ||
+                  (response.request.responseType ===  'blob' || response.request.responseType ===  'arraybuffer')) {
       return Promise.resolve(res);
     } else if(res.status === 401 || res.code === 401) {
       message.error( { message:  "无效会话或会话已过期，请重新登录" });

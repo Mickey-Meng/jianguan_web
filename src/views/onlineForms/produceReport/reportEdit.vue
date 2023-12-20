@@ -106,9 +106,9 @@
 					  <div class="title-bar"></div><strong>应填表格</strong>
 					</div>
 					<div class="block-table">
-						<el-table :data="onlineTableData" style="width: 100%" border class="have_scrolling">
+						<el-table :data="templateListData" style="width: 100%" border class="have_scrolling">
 							<el-table-column type="index" width="80" align="center" label="序号"></el-table-column>
-							<el-table-column prop="onlineTableName" width="500" align="center" label="表格名称"></el-table-column>
+							<el-table-column prop="templateName" width="500" align="center" label="表格名称"></el-table-column>
 							<el-table-column prop="editStatus" width="150" align="center" label="状态"></el-table-column>
 							<el-table-column fixed="right" width="200" align="center" label="操作">
 								<template slot-scope="{ row, $index }">
@@ -137,7 +137,13 @@
 		</el-container>
 	  </el-dialog>
 
-	  <lucky-sheet ref="luckysheetRef" v-bind:luckysheetParams = "luckysheetParams" />
+	  <el-dialog class="full-dialog defined-dialog" :fullscreen="true" :visible.sync="luckySheetDialogVisible" append-to-body>
+	  	<luckySheet ref="luckysheetRef" v-bind:luckysheetParams = "luckysheetParams" ></luckySheet>
+		<div slot="footer" class="dialog-footer" style = "text-align:center; margin-top: -50px;">
+			<el-button :loading="saveButtonLoading" type="primary" @click="saveSheetData(1)">保 存</el-button>
+			<el-button :loading="submitButtonLoading" type="primary" @click="saveSheetData(2)">提 交</el-button>
+		</div>
+	  </el-dialog>
 
 	</div>
   </template>
@@ -153,14 +159,12 @@
   import projectinfo from "../../common/projectinfo.vue"
   import { findDataDictionaryList } from "@/api/dataDictionary"
 
-  import LuckySheet from "@/components/Luckysheet/lucky-sheet";
+  import luckySheet from "@/components/Luckysheet/lucky-sheet";
+  import { blobValidate } from "@/utils/ruoyi";
   import { getFillDataTemplate, saveFillDataTemplate } from "@/api/onlineForms";
   
   export default {
 	props: ['editRow'],
-	components: {
-        LuckySheet
-    },
 	data() {
 	  return {
 		draftVisible: false,
@@ -173,22 +177,6 @@
 			required: true,
 			message: '请填写证照名称',
 			trigger: 'blur'
-		  }],
-		  contents:[{
-			required: true,
-			message: '请填写证照内容'
-		  }],
-		  startTime:[{
-			required: true,
-			message: '请填写计划开始时间'
-		  }],
-		  endTime:[{
-			required: true,
-			message: '请填写计划结束时间'
-		  }],
-		  reportTime:[{
-			required: true,
-			message: '请填写上报时间'
 		  }]
 		},
 		userInfo: {
@@ -214,11 +202,15 @@
 		approveVisible:true,
 		flowKey:'planCertificatePhotos',
 		dataDictionaryList: [],
-		onlineTableData: [
-			{onlineTableName : "浙路(JS)107钢筋安装现场检测记录表1", editStatus : "已填写" , templateUrl: "http://112.30.143.222:9000/hefei/2023/07/19/da05f12b61d64a62a3e895b56ac159f0.xlsx"},
-			{onlineTableName : "浙路(JS)107钢筋安装现场检测记录表2", editStatus : "未填写" , templateUrl: "http://112.30.143.222:9000/hefei/2023/07/19/da05f12b61d64a62a3e895b56ac159f0.xlsx"},
-			{onlineTableName : "浙路(JS)107钢筋安装现场检测记录表3", editStatus : "已填写" , templateUrl: "http://112.30.143.222:9000/hefei/2023/07/19/da05f12b61d64a62a3e895b56ac159f0.xlsx"},
+		templateListData: [
+			{templateName : "浙路(JS)107钢筋安装现场检测记录表1", editStatus : "已填写" , templateUrl: "http://112.30.143.222:9000/hefei/2023/07/19/da05f12b61d64a62a3e895b56ac159f0.xlsx"},
+			{templateName : "浙路(JS)107钢筋安装现场检测记录表2", editStatus : "未填写" , templateUrl: "http://112.30.143.222:9000/hefei/2023/07/19/da05f12b61d64a62a3e895b56ac159f0.xlsx"},
+			{templateName : "浙路(JS)107钢筋安装现场检测记录表3", editStatus : "已填写" , templateUrl: "http://112.30.143.222:9000/hefei/2023/07/19/da05f12b61d64a62a3e895b56ac159f0.xlsx"},
 		],
+		luckysheetParams: {},
+		luckySheetDialogVisible: false,
+		saveButtonLoading: false,
+		submitButtonLoading: false,
 		submitDisable: false
 	  };
 	},
@@ -227,6 +219,7 @@
 	  drafthandle,
 	  approveuser,
 	  projectinfo,
+	  luckySheet,
 	  payment: () => import("./produceReport.vue")
 	},
 	computed: {
@@ -343,6 +336,7 @@
 			.then(async (resData) => {
 				const isBlob = await blobValidate(resData);
 				if (isBlob) {
+					this.luckySheetDialogVisible = true;
 					const blobData = new Blob([resData]);
 					this.$refs.luckysheetRef.rendLuckyExcel(blobData);
 				}
@@ -350,7 +344,27 @@
 				console.error(r)
 				this.$message.error('加载文件出现错误，请联系管理员！')
 			})
-	  }
+	  },
+
+	  saveSheetData(type) {
+            this.saveButtonLoading = true;
+           // var allSheetsData = window.luckysheet.getAllSheets();//获取sheet数据
+            var luckyExcelData = window.luckysheet.toJson(); //获取Workbook数据
+            console.log(JSON.stringify(luckyExcelData));
+            saveFillDataTemplate(type, JSON.stringify(luckyExcelData))
+                .then(async (res) => {
+                    if (res.code === 200) {
+                        this.saveButtonLoading = false;
+                        this.luckySheetDialogVisible = false;
+                        console.log(res);
+                        this.$message.success("保存模板数据成功");
+                    }
+                }).catch((r) => {
+                    this.saveButtonLoading = false;
+                    console.error(r)
+                    this.$message.error('加载文件出现错误，请联系管理员！')
+                })
+        },
 	},
   };
   </script>
