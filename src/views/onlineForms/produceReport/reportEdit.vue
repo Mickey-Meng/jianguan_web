@@ -23,34 +23,30 @@
 					<div class="block-line">
   
 					  <div class="block-item">
-						<div class="block-item-label">具体部位<i class="require-icon"></i></div>
+						<div class="block-item-label">具体部位</div>
 						<div class="block-item-value">
-						  <el-form-item prop="name">
-							<el-input v-model="formData.name"></el-input>
+						  <el-form-item prop="conponenttypename">
+							<el-input v-model="editRow.name" disabled></el-input>
 						  </el-form-item>
 						</div>
 					  </div>
   
 					  <div class="block-item">
-						<div class="block-item-label">构建编码<i class="require-icon"></i></div>
+						<div class="block-item-label">构建编码</div>
 						<div class="block-item-value">
-						  <el-form-item prop="contents">
-							<el-input v-model="formData.contents"></el-input>
+						  <el-form-item prop="componentcode">
+							<el-input v-model="editRow.conponetcode" disabled></el-input>
 						  </el-form-item>
 						</div>
 					  </div>
-  
 					</div>
-  
   
 					<div class="block-line">
 					  <div class="block-item">
 						<div class="block-item-label">工序名称</div>
 						<div class="block-item-value">
-						  <el-form-item prop="startTime">
-							<el-date-picker value-format="yyyy-MM-dd" v-model="formData.startTime" type="date"
-							  placeholder="请选择">
-							</el-date-picker>
+						  <el-form-item prop="name">
+							<el-input v-model="produceInfo.name" disabled></el-input>
 						  </el-form-item>
 						</div>
 					  </div>
@@ -58,10 +54,8 @@
 					  <div class="block-item">
 						<div class="block-item-label">完成时间</div>
 						<div class="block-item-value">
-						  <el-form-item prop="endTime">
-							<el-date-picker value-format="yyyy-MM-dd" v-model="formData.endTime" type="date"
-							  placeholder="请选择">
-							</el-date-picker>
+						  <el-form-item prop="finish">
+							<el-date-picker value-format="yyyy-MM-dd" v-model="produceInfo.finish" type="date" disabled></el-date-picker>
 						  </el-form-item>
 						</div>
 					  </div>
@@ -70,21 +64,10 @@
   
 					<div class="block-line">
 					  <div class="block-item">
-						<div class="block-item-label">责任人<i class="require-icon"></i></div>
+						<div class="block-item-label">备注</div>
 						<div class="block-item-value">
-						  <el-select v-model="formData.owner" filterable clearable placeholder="请选择责任人">
-							<el-option v-for="item in ownerOptions" :key="item.userId"
-							  :value="item.userId + '&' + item.nickName" :label="item.nickName + '(' + item.roleName + ')'">
-							</el-option>
-						  </el-select>
-						</div>
-					  </div>
-  
-					  <div class="block-item">
-						<div class="block-item-label">备注<i class="require-icon"></i></div>
-						<div class="block-item-value">
-						  <el-form-item prop="remark">
-							<el-input v-model="formData.remark"></el-input>
+						  <el-form-item prop="pjctype">
+							<el-input v-model="editRow.pname" disabled></el-input>
 						  </el-form-item>
 						</div>
 					  </div>
@@ -94,8 +77,7 @@
 				  <div class="form-block">
 					<div class="form-block-title">
 					  <div class="title-bar"></div><strong>现场照片</strong>
-					  <span style="font-size: 12px;margin-left: 40px;">支持上传jpg jpeg png mp4 docx doc
-                      xisx xis pdf文件，且不超过100m</span>
+					  <span style="font-size: 12px;margin-left: 40px;">支持上传jpg、jpeg、png文件,且不超过10M</span>
 					</div>
 					<attachlist :editAble="true" ref="attachlist" :attachTable="attachTable"></attachlist>
 				  </div>
@@ -200,12 +182,13 @@
 		contractVisible: false,
 		auditUser: {},
 		approveVisible:true,
-		flowKey:'planCertificatePhotos',
+		flowKey:'produceOnlineReport',
 		dataDictionaryList: [],
+		produceInfo: {},
 		templateListData: [
-			{templateName : "浙路(JS)107钢筋安装现场检测记录表1", editStatus : "已填写" , templateUrl: "http://112.30.143.222:9000/hefei/2023/07/19/da05f12b61d64a62a3e895b56ac159f0.xlsx"},
-			{templateName : "浙路(JS)107钢筋安装现场检测记录表2", editStatus : "未填写" , templateUrl: "http://112.30.143.222:9000/hefei/2023/07/19/da05f12b61d64a62a3e895b56ac159f0.xlsx"},
-			{templateName : "浙路(JS)107钢筋安装现场检测记录表3", editStatus : "已填写" , templateUrl: "http://112.30.143.222:9000/hefei/2023/07/19/da05f12b61d64a62a3e895b56ac159f0.xlsx"},
+			{templateName : "浙路(JS)107钢筋安装现场检测记录表", editStatus : "未填写" , templateUrl: "http://112.30.143.222:9000/hefei/2023/07/19/da05f12b61d64a62a3e895b56ac159f0.xlsx"},
+			{templateName : "浙路(ZJ)802钢筋加工及安装工程现场质量检验报告单(一)(钢筋安装)", editStatus : "未填写" , templateUrl: "http://112.30.143.222:9000/hefei/2023/07/19/da05f12b61d64a62a3e895b56ac159f0.xlsx"},
+			{templateName : "浙路(JS)604结构物钢筋施工原始记录表", editStatus : "未填写" , templateUrl: "http://112.30.143.222:9000/hefei/2023/07/19/da05f12b61d64a62a3e895b56ac159f0.xlsx"},
 		],
 		luckysheetParams: {},
 		luckySheetDialogVisible: false,
@@ -219,6 +202,7 @@
 	  drafthandle,
 	  approveuser,
 	  projectinfo,
+	  attachlist,
 	  luckySheet,
 	  payment: () => import("./produceReport.vue")
 	},
@@ -265,9 +249,12 @@
 	  changeVisible(obj,value) {
 		this.dialogFormVisible = value;
 		obj = obj || {};
+		this.produceInfo = obj;
+		console.log(this.editRow);
+		console.log(this.produceInfo);
 		this.addOrModifyFlag = obj['id'] ? false : true;
 		if (obj['id']) {
-		  this.getDetail(obj['id']);
+		  //this.getDetail(obj['id']);
 		  // 修改和删除操作，都可以选择审批人
 		  this.approveVisible=false;
 		} else {
@@ -276,10 +263,10 @@
 		  // this.auditUser={};
 		  this.approveVisible=true;
 		}
-		// 根据项目ID查询其下属工区对应的所有用户信息
+		/* 根据项目ID查询其下属工区对应的所有用户信息
 		getUsersByProjectId(this.project.id).then((res) => {
 		  this.ownerOptions = res.data;
-		});
+		});*/
 	  },
 	  getDetail(id) {
 		api.getPlanCertificatePhotosDetail(id).then((res) => {

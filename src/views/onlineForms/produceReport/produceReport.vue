@@ -1,10 +1,11 @@
 <template>
     <div class="wrapper">
-      <div class="leftTree">
+      <div class="content">
+      <div class="tree_wrapper_box">
         <LeftTree /> 
       </div>
 
-      <div class="rightTable">
+      <div class="table-content">
         <div class="header">
           工序填报<span>{{ name }}</span>
         </div>
@@ -21,11 +22,12 @@
           <!-- 工序填报 Tab页面 -->
           <div v-if="currentView === 'fill'" class="fill">
             <div>
-              <el-table :data="tableData" style="width: 100%" class="" key="check" height="100%" v-if="currentView === 'fill'"
-                border>
-                <el-table-column prop="name" label="工序名称" align="center">
-                </el-table-column>
-                <el-table-column label="完成时间" width="140px" show-overflow-tooltip align="center">
+              <el-table :data="tableData" style="width: 100%" class="" key="check" height="100%" v-if="currentView === 'fill'" border>
+                <el-table-column type="index" width="80" align="center" label="序号"></el-table-column>
+                <el-table-column prop="componentName" label="具体部位" align="center"></el-table-column>
+                <el-table-column prop="componentCode" label="构建编码" align="center"></el-table-column>
+                <el-table-column prop="name" label="工序名称" align="center"></el-table-column>
+                <el-table-column label="完成时间" width="180px" show-overflow-tooltip align="center">
                   <template slot-scope="{ row }">
                     {{
                       row.status === 3
@@ -36,7 +38,7 @@
                     }}
                   </template>
                 </el-table-column>
-                <el-table-column label="照片/附件" width="80px" align="center">
+                <el-table-column label="照片/附件" width="150px" align="center">
                   <template slot-scope="{ row }">
                     <svg-icon class="svg-class svg-btn" :class="row.status === 3
                       ? 'submit'
@@ -49,7 +51,7 @@
                     <span v-else>未录入</span>
                   </template>
                 </el-table-column>
-                <el-table-column label="操作" width="60px" align="center">
+                <el-table-column label="操作" width="100px" align="center">
                   <template slot-scope="{ row, $index }">
                     <el-tooltip class="item" popper-class="tooltio-panel" :enterable="false" effect="dark" content="填报"
                       placement="top">
@@ -185,73 +187,6 @@
                   </el-table-column>
                 </el-table>
               </el-col>
-              <!-- <el-col :span="12" class="accept">
-                <div>
-                  <ul>
-                    <li>验收记录</li>
-                    <li>关键数据</li>
-                  </ul>
-                  <div class="record-box">
-                    <div class="img">
-                      <div
-                        v-if="
-                          (acceptData && acceptData.accrecodeurl.length === 0) ||
-                          !acceptData
-                        "
-                        class="empty-text"
-                      >
-                        暂无数据
-                      </div>
-                      <div v-else class="img-box">
-                        <div
-                          v-for="(item, index) in acceptData.accrecodeurl"
-                          :key="index"
-                        >
-                          <img :src="item" alt="" @click="seePicDetail(item)" />
-                          <div>下载</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="text">
-                      <div
-                        v-if="(acceptData && !acceptData.keydata) || !acceptData"
-                        class="empty-text"
-                      >
-                        暂无数据
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <ul>
-                    <li>测试报告</li>
-                    <li>旁站记录</li>
-                  </ul>
-                  <div class="record-box">
-                    <div class="img">
-                      <div
-                        v-if="
-                          (acceptData && acceptData.testurl.length === 0) ||
-                          !acceptData
-                        "
-                        class="empty-text"
-                      >
-                        暂无数据
-                      </div>
-                      <div v-else class="img-box">
-                        <div
-                          v-for="(item, index) in acceptData.testurl"
-                          :key="index"
-                        >
-                          <img :src="item" alt="" @click="seePicDetail(item)" />
-                          <div>下载</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="text"></div>
-                  </div>
-                </div>
-              </el-col> -->
             </el-row>
           </el-main>
         </el-container>
@@ -265,8 +200,8 @@
           <img v-if="src" :src="src" :key="src" />
         </template>
       </div>
-
-      <report-edit ref="reportEdit" :editRow="editRow"></report-edit>
+    </div>
+      <report-edit ref="reportEdit" :editRow="componentInfo"></report-edit>
 
     </div>
   </template>
@@ -323,7 +258,6 @@
             { required: true, message: "请选择监理人员", trigger: "blur" },
           ],
         },
-        editRow: null,
         recodeUrl: "", //pdf地址
         recode: {}, //pdf数据
         //工序被驳回、走修改
@@ -366,8 +300,14 @@
       },
       getCheackDataById() {
         api.getCheckData(this.componentInfo.id).then((res) => {
-          this.tableData = res.data.check;
-          this.submitDataInfo = res.data.data;
+          let resComponent = res.data.data;
+          let produceList = res.data.check;
+          this.tableData = produceList.map(function(produceItem, index, produceList){
+            produceItem.componentCode = resComponent.conponentcode;
+            produceItem.componentName = resComponent.conponenttypename;
+            return produceItem;
+          })
+          this.submitDataInfo = resComponent;
         });
         // let code = this.componentInfo.conponetcode.substring(0, 4);
         let code = this.componentInfo.conponetcode;
@@ -664,29 +604,38 @@
   
   <style scoped lang="scss">
   .wrapper {
-    .leftree {
-      top: 0;
-      left: 0;
-      width: 380px;
-      height: 100%;
-      // background: #E8E8E8;
-    }
+  height: 100%;
+  padding: 2px 5px 10px 5px;
 
-    .rightTable {
-      // background: #1e374b;
+  .content {
+    height: 100%;
+    display: flex;
+    .tree_wrapper_box{
+      width: 500px;
     }
+    .table-content {
+      background-color: #FFFFFF;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      width: calc(100% - 305px);
+      margin-left: 5px;
+      overflow: auto;
+      font-size: 14px;
+      font-family: PingFang SC;
+      font-weight: 500;
+      color: #4B5973;
 
-    .header {
-      //background-color: #1e374b;
-      height: 50px;
-      line-height: 50px;
-      text-indent: 2em;
-      border-bottom: 1px solid #E8E8E8;
-  
-      span {
-        color: #1E6EEB;
+      .header {
+        //background-color: #1e374b;
+        height: 50px;
+        line-height: 50px;
+        text-indent: 2em;
+        border-bottom: 1px solid #E8E8E8;
+    
+        span {
+          color: #1E6EEB;
+        }
       }
-    }
   
     .nav {
       display: flex;
@@ -729,7 +678,7 @@
           height: 95%;
         }
       }
-  
+    }}
       //::v-deep .el-cascader {
       //  width: 100%;
       //  padding: 0 20px;

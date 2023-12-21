@@ -247,6 +247,20 @@ export const constantRoutes = [{
         name: "progressConstructionDesign_detail",
         code: "progressConstructionDesign",
         component: () => import ("@/views/progressApplyReview/constructionDesign/view")
+      },
+      // 在线-工序填报 流程审批界面
+      {
+        path: "/produceOnlineReport_detail",
+        name: "produceOnlineReport_detail",
+        code: "produceOnlineReport",
+        component: () => import ("@/views/onlineForms/produceReport/view")
+      },
+      // 在线-工序核验 流程审批界面
+      {
+        path: "/produceOnlineCheck_detail",
+        name: "produceOnlineCheck_detail",
+        code: "produceOnlineCheck",
+        component: () => import ("@/views/onlineForms/produceCheck/view")
       }
     ]
   },
