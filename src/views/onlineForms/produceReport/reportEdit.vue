@@ -90,8 +90,12 @@
 					<div class="block-table">
 						<el-table :data="templateListData" style="width: 100%" border class="have_scrolling">
 							<el-table-column type="index" width="80" align="center" label="序号"></el-table-column>
-							<el-table-column prop="templateName" width="500" align="center" label="表格名称"></el-table-column>
-							<el-table-column prop="editStatus" width="150" align="center" label="状态"></el-table-column>
+							<el-table-column prop="documentName" width="500" align="center" label="表格名称"></el-table-column>
+							<el-table-column label="状态" width="150" align="center">
+								<template slot-scope="{ row }">
+									{{ row.documentStatus === 1 ? "已填写" :  "待填写" }}
+								</template>
+							</el-table-column>
 							<el-table-column fixed="right" width="200" align="center" label="操作">
 								<template slot-scope="{ row, $index }">
 								<el-button type="text" size="mini" @click="fillOut(row)">填写
@@ -122,8 +126,7 @@
 	  <el-dialog class="full-dialog defined-dialog" :fullscreen="true" :visible.sync="luckySheetDialogVisible" append-to-body>
 	  	<luckySheet ref="luckysheetRef" v-bind:luckysheetParams = "luckysheetParams" ></luckySheet>
 		<div slot="footer" class="dialog-footer" style = "text-align:center; margin-top: -50px;">
-			<el-button :loading="saveButtonLoading" type="primary" @click="saveSheetData(1)">保 存</el-button>
-			<el-button :loading="submitButtonLoading" type="primary" @click="saveSheetData(2)">提 交</el-button>
+			<el-button :loading="saveButtonLoading" type="primary" @click="saveSheetData()">保 存</el-button>
 		</div>
 	  </el-dialog>
 
@@ -131,7 +134,7 @@
   </template>
   
   <script>
-  import * as api from "@/api/certificate/planCertificatePhotos.js";
+  import * as api from "@/api/produceDocument.js";
   import { mapGetters } from "vuex";
   import { getUserInfo, getUsersByProjectId } from "@/api/user";
   import upload from "../../common/upload.vue"
@@ -186,9 +189,9 @@
 		dataDictionaryList: [],
 		produceInfo: {},
 		templateListData: [
-			{templateName : "浙路(JS)107钢筋安装现场检测记录表", editStatus : "未填写" , templateUrl: "http://112.30.143.222:9000/hefei/2023/07/19/da05f12b61d64a62a3e895b56ac159f0.xlsx"},
-			{templateName : "浙路(ZJ)802钢筋加工及安装工程现场质量检验报告单(一)(钢筋安装)", editStatus : "未填写" , templateUrl: "http://112.30.143.222:9000/hefei/2023/07/19/da05f12b61d64a62a3e895b56ac159f0.xlsx"},
-			{templateName : "浙路(JS)604结构物钢筋施工原始记录表", editStatus : "未填写" , templateUrl: "http://112.30.143.222:9000/hefei/2023/07/19/da05f12b61d64a62a3e895b56ac159f0.xlsx"},
+			// {documentName : "浙路(JS)107钢筋安装现场检测记录表", documentStatus : "未填写" , documentUrl: "http://112.30.143.222:9000/hefei/2023/07/19/da05f12b61d64a62a3e895b56ac159f0.xlsx"},
+			// {documentName : "浙路(ZJ)802钢筋加工及安装工程现场质量检验报告单(一)(钢筋安装)", documentStatus : "未填写" , documentUrl: "http://112.30.143.222:9000/hefei/2023/07/19/da05f12b61d64a62a3e895b56ac159f0.xlsx"},
+			// {documentName : "浙路(JS)604结构物钢筋施工原始记录表", documentStatus : "未填写" , documentUrl: "http://112.30.143.222:9000/hefei/2023/07/19/da05f12b61d64a62a3e895b56ac159f0.xlsx"},
 		],
 		luckysheetParams: {},
 		luckySheetDialogVisible: false,
@@ -267,6 +270,10 @@
 		getUsersByProjectId(this.project.id).then((res) => {
 		  this.ownerOptions = res.data;
 		});*/
+		// 根据构建ID和工序ID查询待填写文档
+		api.listProduceDocument({documentType : 1, componentId : this.editRow.id, produceId : obj.produceid}).then((res) => {
+		  this.templateListData = res.rows;
+		});
 	  },
 	  getDetail(id) {
 		api.getPlanCertificatePhotosDetail(id).then((res) => {
@@ -319,7 +326,7 @@
 	  },
 	  fillOut(row) {
 		// 获取待填写的模板
-		getFillDataTemplate(100, { templateUrl : row.templateUrl })
+		getFillDataTemplate(100, { templateUrl : row.documentUrl })
 			.then(async (resData) => {
 				const isBlob = await blobValidate(resData);
 				if (isBlob) {
