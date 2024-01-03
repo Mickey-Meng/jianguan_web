@@ -7,12 +7,14 @@ import { isJSON } from '@/utils/index.js'
  * @LastEditors: WangHarry
  * @LastEditTime: 2022-03-16 17:24:18
  */
-export function download(url, name) {
+export function download(url, name, isToken) {
   let xhr = new XMLHttpRequest();
   xhr.open("GET", url, true);
   xhr.responseType = "arraybuffer";
-  xhr.setRequestHeader('token',window.localStorage.getItem('zj_token'));
-  xhr.setRequestHeader('Authorization',window.localStorage.getItem('auth_token'));
+  if (isToken) {
+    xhr.setRequestHeader('token',window.localStorage.getItem('zj_token'));
+    xhr.setRequestHeader('Authorization',window.localStorage.getItem('auth_token'));
+  }
   xhr.onload = function() {
     if (xhr.readyState === 4 && xhr.status === 200) {
       let blob = this.response;

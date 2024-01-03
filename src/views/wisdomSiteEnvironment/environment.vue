@@ -128,7 +128,7 @@ export default {
       this.isShow = false;
     },
     getToken() {
-      getVideoToken().then((res) => {
+      getVideoToken(this.project.id).then((res) => {
         this.token = res.data;
         this.initData();
         // this.initPageVideo();

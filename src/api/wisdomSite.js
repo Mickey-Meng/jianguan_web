@@ -11,9 +11,9 @@ import request from '@/utils/request'
  * @returns {}
  * @date 2021/7/30
 */
-export const getVideoToken = () => {
+export const getVideoToken = (id)  => {
   return request({
-    url: api.viewToken,
+    url: api.viewToken+`?projectId=${id}`,
     method: 'post'
   })
 }

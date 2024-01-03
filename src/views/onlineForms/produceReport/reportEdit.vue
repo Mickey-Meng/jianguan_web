@@ -98,12 +98,9 @@
 							</el-table-column>
 							<el-table-column fixed="right" width="200" align="center" label="操作">
 								<template slot-scope="{ row, $index }">
-								<el-button type="text" size="mini" @click="fillOut(row)">填写
-								</el-button>
-								<el-button type="text" size="mini" @click="preview(row)">预览
-								</el-button>
-								<el-button type="text" size="mini" @click="download(row)">下载
-								</el-button>
+								<el-button type="text" size="mini" @click="fillOut(row)">填写</el-button>
+								<!-- <el-button type="text" size="mini" @click="preview(row)">预览</el-button> -->
+								<el-button type="text" size="mini" @click="handleDownload(row)">下载</el-button>
 								</template>
 							</el-table-column>
 						</el-table>
@@ -113,8 +110,7 @@
 				  <approveuser v-if="approveVisible" :auditUser="auditUser" :flowKey="flowKey"></approveuser>
   
 				  <div class="form-block">
-					<el-button @click="addOrModify()" class="submit-btn" size="small" type="primary"
-					  :loading="submitDisable">提交</el-button>
+					<el-button @click="handleSubmit()" class="submit-btn" size="small" type="primary" :loading="submitDisable">提交</el-button>
 				  </div>
 				</el-form>
 			  </div>
@@ -134,7 +130,8 @@
   </template>
   
   <script>
-  import * as api from "@/api/produceDocument.js";
+  import { listProduceDocument, getProduceDocument } from "@/api/produceDocument.js";
+  import * as api from "@/api/onlineForms";
   import { mapGetters } from "vuex";
   import { getUserInfo, getUsersByProjectId } from "@/api/user";
   import upload from "../../common/upload.vue"
@@ -146,6 +143,7 @@
 
   import luckySheet from "@/components/Luckysheet/lucky-sheet";
   import { blobValidate } from "@/utils/ruoyi";
+  import { download } from "@/utils/download";
   import { getFillDataTemplate, saveFillDataTemplate } from "@/api/onlineForms";
   
   export default {
@@ -188,11 +186,13 @@
 		flowKey:'produceOnlineReport',
 		dataDictionaryList: [],
 		produceInfo: {},
+		attachTable: [],
 		templateListData: [
 			// {documentName : "浙路(JS)107钢筋安装现场检测记录表", documentStatus : "未填写" , documentUrl: "http://112.30.143.222:9000/hefei/2023/07/19/da05f12b61d64a62a3e895b56ac159f0.xlsx"},
 			// {documentName : "浙路(ZJ)802钢筋加工及安装工程现场质量检验报告单(一)(钢筋安装)", documentStatus : "未填写" , documentUrl: "http://112.30.143.222:9000/hefei/2023/07/19/da05f12b61d64a62a3e895b56ac159f0.xlsx"},
 			// {documentName : "浙路(JS)604结构物钢筋施工原始记录表", documentStatus : "未填写" , documentUrl: "http://112.30.143.222:9000/hefei/2023/07/19/da05f12b61d64a62a3e895b56ac159f0.xlsx"},
 		],
+		currentEditTemplate: null,
 		luckysheetParams: {},
 		luckySheetDialogVisible: false,
 		saveButtonLoading: false,
@@ -233,14 +233,6 @@
 	methods: {
 	  restForm(){
 		this.formData = {
-			name: '',
-			contents: '',
-			startTime: null,
-			endTime: null,
-			reportTime: null,
-			reportUser: '',
-			owner: '',
-			remark: '',
 			projectId:this.$store.getters.project['parentid']
 		  }
 	  },
@@ -251,8 +243,9 @@
 	  },
 	  changeVisible(obj,value) {
 		this.dialogFormVisible = value;
-		obj = obj || {};
-		this.produceInfo = obj;
+		this.produceInfo = obj || {};
+		this.attachTable = [];
+		/**
 		console.log(this.editRow);
 		console.log(this.produceInfo);
 		this.addOrModifyFlag = obj['id'] ? false : true;
@@ -266,57 +259,76 @@
 		  // this.auditUser={};
 		  this.approveVisible=true;
 		}
-		/* 根据项目ID查询其下属工区对应的所有用户信息
+		 根据项目ID查询其下属工区对应的所有用户信息
 		getUsersByProjectId(this.project.id).then((res) => {
 		  this.ownerOptions = res.data;
 		});*/
 		// 根据构建ID和工序ID查询待填写文档
-		api.listProduceDocument({documentType : 1, componentId : this.editRow.id, produceId : obj.produceid}).then((res) => {
+		listProduceDocument({documentType : 1, componentId : this.editRow.id, produceId : obj.produceid}).then((res) => {
 		  this.templateListData = res.rows;
 		});
-	  },
-	  getDetail(id) {
-		api.getPlanCertificatePhotosDetail(id).then((res) => {
-		  let data = res['data'] || {};
-		  this.formData = data;
-		  this.attachTable = data.attachment || [];
+		// 根据附件记录ID查询附件信息
+		api.getRecordById(obj.recordid).then((res) => {
+			console.log(res);
+			console.log(res.data.recode);
+			this.attachTable = JSON.parse(res.data.recode.remark) || [];
 		});
 	  },
-	  addOrModify(isdraft) {
-		if (this.submitDisable) return;
+	  
+	  getDetail(id) {
+		getProduceDocument(id).then((res) => {
+		  let data = res['data'] || {};
+		});
+	  },
+
+	  /**
+	   * 提交保存
+	   */
+	  handleSubmit() {
+		this.templateListData.forEach(template => {
+			if (template.documentStatus === 0) {
+				this.$message({
+				  type: 'warning',
+				  message: "[" + template.documentName + ']未完成填写，不可提交!'
+				});
+				return;
+			}
+		})
+
+		if (this.submitDisable) {
+			return;
+		} 
 		
 		this.submitDisable = true;
-		this.$refs['ruleForm'].validate((valid) => {
-		  if (valid) {
-			this.formData.attachment = this.attachTable;
-			this.formData.auditUser = this.auditUser;
-			this.formData.draftFlag=1;
-			this.formData.typeCode = this.formData.type;
-			this.dataDictionaryList.forEach(item=> {
-			  if(item.id === this.formData.type) {
-				this.formData.type = item.name;
-			  }
-			})
-			api.addOrUpdatePlanCertificatePhotos(this.formData).then((res) => {
-			  if (res.data) {
-				this.$message({
-				  type: 'success',
-				  message: '提交成功!'
-				});
-				this.dialogFormVisible = false;
-				setTimeout(()=> {
-				  this.submitDisable = false;
-				}, 500)
-				this.$emit("query");
-			  }
+		let reportRecord = Object.assign({}, this.formData);
+		let currentProject = Object.assign({}, localStorage.getItem('project_info'));
+		let userName = localStorage.getItem('userName').replace(/"/g, "");
+		let component = this.editRow;
+
+		reportRecord.checkusername = userName;
+		reportRecord.conpoentid = component.id;
+		reportRecord.conponentname = component.name;
+		reportRecord.conponenttype = component.conponenttype;
+		reportRecord.produceid = this.produceInfo.produceid;
+		reportRecord.projectcode = currentProject.code;
+		reportRecord.produceidname = this.produceInfo.name;
+		reportRecord.updateusername = userName;
+		reportRecord.projectId = currentProject.id;
+        reportRecord.remark = this.attachTable;
+        reportRecord.accrecodeurl = this.attachTable.map(file => file.fileId).join(",");
+		api.addReportRecord(reportRecord).then((res) => {
+			if (res.data) {
+			this.$message({
+				type: 'success',
+				message: '提交成功!'
 			});
-		  } else {
+			this.dialogFormVisible = false;
 			setTimeout(()=> {
-			  this.submitDisable = false;
+				this.submitDisable = false;
 			}, 500)
-		  }
-  
-		})
+			this.$emit("query");
+			}
+		});
 	  },
 	  hideDraft() {
 		this.draftVisible = false;
@@ -324,9 +336,13 @@
 	  checkDraft() {
 		this.draftVisible = true;
 	  },
+	  /**
+	   * 填写模板
+	   */
 	  fillOut(row) {
+		this.currentEditTemplate = row;
 		// 获取待填写的模板
-		getFillDataTemplate(100, { templateUrl : row.documentUrl })
+		getFillDataTemplate(row.id, { templateUrl : row.documentUrl })
 			.then(async (resData) => {
 				const isBlob = await blobValidate(resData);
 				if (isBlob) {
@@ -345,7 +361,7 @@
            // var allSheetsData = window.luckysheet.getAllSheets();//获取sheet数据
             var luckyExcelData = window.luckysheet.toJson(); //获取Workbook数据
             console.log(JSON.stringify(luckyExcelData));
-            saveFillDataTemplate(type, JSON.stringify(luckyExcelData))
+            api.saveOnlineTemplate(this.currentEditTemplate.id, JSON.stringify(luckyExcelData))
                 .then(async (res) => {
                     if (res.code === 200) {
                         this.saveButtonLoading = false;
@@ -359,6 +375,12 @@
                     this.$message.error('加载文件出现错误，请联系管理员！')
                 })
         },
+		/**
+		 * 附件下载
+		 */
+		handleDownload(file) {
+			download(file.documentUrl, file.documentName, false);
+		}
 	},
   };
   </script>

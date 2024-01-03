@@ -108,7 +108,7 @@ export default {
     
     initVideo() {
       this.videoArr = this.minData.filter((e) => e.type == 2);
-      getVideoToken().then((res) => {
+      getVideoToken(this.project.id).then((res) => {
         let token = res.data;
         this.$nextTick(() => {
           this.videoArr.forEach((item) => {

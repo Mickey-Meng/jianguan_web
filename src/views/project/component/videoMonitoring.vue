@@ -105,7 +105,7 @@ export default {
   },
   methods: {
     initPlayer() {
-      getVideoToken().then((res) => {
+      getVideoToken(this.project.id).then((res) => {
         
         getMonitoring(this.project.id).then((res1) => {
           let data = res1.data.monitorDevices;

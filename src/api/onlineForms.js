@@ -19,3 +19,28 @@ export function getFillDataTemplate(id, params) {
       data: data
     })
   }
+
+  export function saveOnlineTemplate(id, data) {
+    return request({
+      url: '/onlineForms/produceOnline/saveFillDataTemplate/' + id,
+      method: 'post',
+      data: data
+    })
+  }
+
+  export function addReportRecord(data) {
+    return request({
+      url: '/produce/addRecode',
+      method: 'post',
+      data: data
+    })
+  }
+
+  export function getRecordById(id) {
+    return request({
+      url: '/produce/getCheckDataByrecod',
+      method: 'get',
+      params: {recodeid : id}
+    })
+  }
+  

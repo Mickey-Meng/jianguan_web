@@ -81,7 +81,7 @@ export default {
   methods: {
     init() {
       this.videoArr = this.minData.filter((e) => e.type == 2 && e.projectId == this.project.id);
-      getVideoToken().then((res) => {
+      getVideoToken(this.project.id).then((res) => {
         let token = res.data;
         this.videoToken = token;
         this.$nextTick(() => {

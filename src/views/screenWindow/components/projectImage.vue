@@ -53,6 +53,9 @@ export default {
       ]
     };
   },
+  computed: {
+    ...mapGetters(["project"])
+  },
   created() {
     this.initData();
   },
@@ -70,7 +73,7 @@ export default {
       });
     },
     initVideo() {
-      getVideoToken().then((res) => {
+      getVideoToken(this.project.id).then((res) => {
         let token = res.data;
         this.$nextTick(() => {
           this.minData.forEach((item) => {
