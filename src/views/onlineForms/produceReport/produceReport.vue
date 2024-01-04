@@ -51,11 +51,43 @@
                     <span v-else>未录入</span>
                   </template>
                 </el-table-column>
+
+                <el-table-column prop="status" align="center" label="审核状态" show-overflow-tooltip>
+                  <template slot-scope="scope">
+                    <el-tag
+                      v-if="scope.row.status == '2'"
+                      size="mini"
+                      type="warning"
+                    >
+                      驳回
+                    </el-tag>
+                    <el-tag
+                      v-if="scope.row.status == '0'"
+                      size="mini"
+                      type="default"
+                    >
+                      审批中
+                    </el-tag>
+                    <el-tag
+                      v-if="scope.row.status == '1'"
+                      size="mini"
+                      type="success"
+                    >
+                      已审批
+                    </el-tag>
+                  </template>
+                </el-table-column>
+
                 <el-table-column label="操作" width="100px" align="center">
                   <template slot-scope="{ row, $index }">
-                    <el-tooltip class="item" popper-class="tooltio-panel" :enterable="false" effect="dark" content="填报"
+                    <el-tooltip v-if="true"  class="item" popper-class="tooltio-panel" :enterable="false" effect="dark" content="填报"
                       placement="top">
                       <svg-icon icon-class="update" class="svg-btn" @click="fillProcess(row, $index)"></svg-icon>
+                    </el-tooltip>
+
+                    <el-tooltip class="item" popper-class="tooltio-panel" :enterable="false" effect="dark" content="详情"
+                      placement="top">
+                      <svg-icon icon-class="seeDetail" class="svg-btn" @click="viewDetail(row, $index)"></svg-icon>
                     </el-tooltip>
                   </template>
                 </el-table-column>
@@ -202,7 +234,7 @@
       </div>
     </div>
       <report-edit ref="reportEdit" :editRow="componentInfo"></report-edit>
-
+      <detail ref="detail" :editRow="componentInfo"></detail>
     </div>
   </template>
   
@@ -217,11 +249,12 @@
   import { validPicurl, disposeUrl } from "@/utils/validate";
   import { downLoadFile } from "@/utils/download";
   import reportEdit from "./reportEdit";
+  import detail from './detail';
   import LeftTree from "@/components/tree/inde"
   
   export default {
     name: "",
-    components: { reportEdit, LeftTree },
+    components: { reportEdit, detail, LeftTree },
     data() {
       return {
         uploadFileUrl: process.env.VUE_APP_BASE_API + "/mong/upload",
@@ -315,6 +348,27 @@
           this.supervisor = res.data;
         });
       },
+
+      editStatus(row) {
+        if(row.status == 0 || row.status == 1) {
+          return false;
+        }
+        if(row.createUserId == this.$store.getters.userInfo.ID) {
+          return true;
+        }
+        if(this.$store.getters.rolePerms[0] == 'gly') {
+          return true;
+        }
+        return false;
+      },
+
+      /**
+       * 查看详情
+       */
+      viewDetail(row) {
+        this.$refs.detail.changeVisible(row, true);
+      },
+
       fillProcess(row, index) {
         let obj = null;
         if (index !== 0) {

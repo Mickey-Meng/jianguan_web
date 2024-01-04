@@ -245,7 +245,7 @@
 		this.dialogFormVisible = value;
 		this.produceInfo = obj || {};
 		this.attachTable = [];
-		/**
+		
 		console.log(this.editRow);
 		console.log(this.produceInfo);
 		this.addOrModifyFlag = obj['id'] ? false : true;
@@ -259,7 +259,8 @@
 		  // this.auditUser={};
 		  this.approveVisible=true;
 		}
-		 根据项目ID查询其下属工区对应的所有用户信息
+		/**
+		根据项目ID查询其下属工区对应的所有用户信息
 		getUsersByProjectId(this.project.id).then((res) => {
 		  this.ownerOptions = res.data;
 		});*/
@@ -301,7 +302,7 @@
 		
 		this.submitDisable = true;
 		let reportRecord = Object.assign({}, this.formData);
-		let currentProject = Object.assign({}, localStorage.getItem('project_info'));
+		let currentProject = JSON.parse(localStorage.getItem('project_info'));
 		let userName = localStorage.getItem('userName').replace(/"/g, "");
 		let component = this.editRow;
 
@@ -316,7 +317,8 @@
 		reportRecord.projectId = currentProject.id;
         reportRecord.remark = this.attachTable;
         reportRecord.accrecodeurl = this.attachTable.map(file => file.fileId).join(",");
-		api.addReportRecord(reportRecord).then((res) => {
+		reportRecord.auditUser = this.auditUser;
+		api.submitReport(reportRecord).then((res) => {
 			if (res.data) {
 			this.$message({
 				type: 'success',

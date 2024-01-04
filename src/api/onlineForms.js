@@ -43,4 +43,21 @@ export function getFillDataTemplate(id, params) {
       params: {recodeid : id}
     })
   }
+
+  export function submitReport(data) {
+    return request({
+      url: '/onlineForms/produceOnline/submitReport',
+      method: 'post',
+      data: data
+    })
+  }
+
+  //根据流程idH获取三个key 用于查看审批信息
+  export function getFlowAndTaskInfo(data) {
+    return request({
+      url: "/admin/flow/flowStaticPage/getFlowAndTaskInfo",
+      method: "get",
+      params: data
+    });
+  };
   
