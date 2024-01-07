@@ -1223,7 +1223,7 @@ export default {
       getComponentProgressByModel(obj).then((res) => {
         let { conponent, produceandrecodes, progressDetails, produces } =
           res.data;
-        let { conponentcode, pname, conponenttypename, mouldid,conponenttype } = conponent;
+        let { conponentcode, pname, conponenttypename, mouldid,conponenttype,wbscode } = conponent;
         let {
           planStartTime,
           planEndTime,
@@ -1264,6 +1264,10 @@ export default {
           {
             title: "构件类型",
             value: conponenttype,
+          },
+          {
+            title: "WBS编码",
+            value: wbscode,
           },
           {
             title: "构件编码",

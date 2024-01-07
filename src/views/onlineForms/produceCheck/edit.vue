@@ -9,119 +9,102 @@
 		  <el-main
 			style="background-color: rgba(0,0 0,0.5);height: calc(100vh - 96px); overflow-y: scroll;padding: 0px;margin: 0;">
 			<div class="form-bg">
-			<el-row>
-				<el-col :span="16">
-				<div class="form-content">
-					<el-form :model="formData" :rules="rules" ref="ruleForm" label-width="80px">
-					<div class="form-title">
-						<div class="title-big-bar"></div>
-						<strong>工序报验</strong>
+			  <div class="form-content">
+				<el-form :model="formData" :rules="rules" ref="ruleForm" label-width="80px">
+				  <div class="form-title">
+					<div class="title-big-bar"></div>
+					<strong>工序报验</strong>
+				  </div>
+  
+				  <div class="form-block">
+					<div class="form-block-title">
+					  <div class="title-bar"></div><strong>基本信息</strong>
 					</div>
-	
-					<div class="form-block">
-						<div class="form-block-title">
-						<div class="title-bar"></div><strong>基本信息</strong>
+					<div class="block-line">
+  
+					  <div class="block-item">
+						<div class="block-item-label">具体部位</div>
+						<div class="block-item-value">
+						  <el-form-item prop="conponenttypename">
+							<el-input v-model="editRow.name" disabled></el-input>
+						  </el-form-item>
 						</div>
-						<div class="block-line">
-	
-						<div class="block-item">
-							<div class="block-item-label">具体部位</div>
-							<div class="block-item-value">
-							<el-form-item prop="conponenttypename">
-								<el-input v-model="editRow.name" disabled></el-input>
-							</el-form-item>
-							</div>
+					  </div>
+  
+					  <div class="block-item">
+						<div class="block-item-label">构建编码</div>
+						<div class="block-item-value">
+						  <el-form-item prop="componentcode">
+							<el-input v-model="editRow.conponetcode" disabled></el-input>
+						  </el-form-item>
 						</div>
-	
-						<div class="block-item">
-							<div class="block-item-label">构建编码</div>
-							<div class="block-item-value">
-							<el-form-item prop="componentcode">
-								<el-input v-model="editRow.conponetcode" disabled></el-input>
-							</el-form-item>
-							</div>
-						</div>
-						</div>
-	
-						<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">工序名称</div>
-							<div class="block-item-value">
-							<el-form-item prop="name">
-								<el-input v-model="produceInfo.name" disabled></el-input>
-							</el-form-item>
-							</div>
-						</div>
-	
-						<div class="block-item">
-							<div class="block-item-label">完成时间</div>
-							<div class="block-item-value">
-							<el-form-item prop="finish">
-								<el-date-picker value-format="yyyy-MM-dd" v-model="produceInfo.finish" type="date" disabled></el-date-picker>
-							</el-form-item>
-							</div>
-						</div>
-	
-						</div>
-	
-						<div class="block-line">
-						<div class="block-item">
-							<div class="block-item-label">备注</div>
-							<div class="block-item-value">
-							<el-form-item prop="pjctype">
-								<el-input v-model="editRow.pname" disabled></el-input>
-							</el-form-item>
-							</div>
-						</div>
-						</div>
+					  </div>
 					</div>
+  
+					<div class="block-line">
+					  <div class="block-item">
+						<div class="block-item-label">工序名称</div>
+						<div class="block-item-value">
+						  <el-form-item prop="name">
+							<el-input v-model="produceInfo.name" disabled></el-input>
+						  </el-form-item>
+						</div>
+					  </div>
+  
+					  <div class="block-item">
+						<div class="block-item-label">完成时间</div>
+						<div class="block-item-value">
+						  <el-form-item prop="finish">
+							<el-date-picker value-format="yyyy-MM-dd" v-model="produceInfo.finish" type="date" disabled></el-date-picker>
+						  </el-form-item>
+						</div>
+					  </div>
+  
+					</div>
+  
+					<div class="block-line">
+					  <div class="block-item">
+						<div class="block-item-label">备注</div>
+						<div class="block-item-value">
+						  <el-form-item prop="pjctype">
+							<el-input v-model="editRow.pname" disabled></el-input>
+						  </el-form-item>
+						</div>
+					  </div>
+					</div>
+				  </div>
 
-					<div class="form-block">
-						<div class="form-block-title">
-						<div class="title-bar"></div><strong>现场照片</strong>
-						<span style="font-size: 12px;margin-left: 40px;">支持上传jpg、jpeg、png文件,且不超过10M</span>
-						</div>
-						<attachlist :editAble="true" ref="attachlist" :attachTable="attachTable"></attachlist>
+				  <div class="form-block">
+					<div class="form-block-title">
+					  <div class="title-bar"></div><strong>应填表格</strong>
 					</div>
-
-
-					<div class="form-block">
-						<div class="form-block-title">
-						<div class="title-bar"></div><strong>应填表格</strong>
-						</div>
-						<div class="block-table">
-							<el-table :data="templateListData" style="width: 100%" border class="have_scrolling">
-								<el-table-column type="index" width="80" align="center" label="序号"></el-table-column>
-								<el-table-column prop="documentName" width="500" align="center" label="表格名称"></el-table-column>
-								<el-table-column label="状态" width="150" align="center">
-									<template slot-scope="{ row }">
-										{{ row.documentStatus === 1 ? "已填写" :  "待填写" }}
-									</template>
-								</el-table-column>
-								<el-table-column fixed="right" width="200" align="center" label="操作">
-									<template slot-scope="{ row, $index }">
-									<el-button type="text" size="mini" @click="fillOut(row)">填写</el-button>
-									<!-- <el-button type="text" size="mini" @click="preview(row)">预览</el-button> -->
-									<el-button type="text" size="mini" @click="handleDownload(row)">下载</el-button>
-									</template>
-								</el-table-column>
-							</el-table>
-						</div>
+					<div class="block-table">
+						<el-table :data="templateListData" style="width: 100%" border class="have_scrolling">
+							<el-table-column type="index" width="80" align="center" label="序号"></el-table-column>
+							<el-table-column prop="documentName" width="500" align="center" label="表格名称"></el-table-column>
+							<el-table-column label="状态" width="150" align="center">
+								<template slot-scope="{ row }">
+									{{ row.documentStatus === 1 ? "已填写" :  "待填写" }}
+								</template>
+							</el-table-column>
+							<el-table-column fixed="right" width="200" align="center" label="操作">
+								<template slot-scope="{ row, $index }">
+								<el-button type="text" size="mini" @click="fillOut(row)">填写</el-button>
+								<!-- <el-button type="text" size="mini" @click="preview(row)">预览</el-button> -->
+								<el-button type="text" size="mini" @click="handleDownload(row)">下载</el-button>
+								</template>
+							</el-table-column>
+						</el-table>
 					</div>
+				  </div>
 
-					<approveuser v-if="approveVisible" :auditUser="auditUser" :flowKey="flowKey"></approveuser>
-	
-					<div class="form-block">
-						<el-button @click="handleSubmit()" class="submit-btn" size="small" type="primary" :loading="submitDisable">提交</el-button>
-					</div>
-					</el-form>
-				</div>
-				</el-col>
-				<el-col :span="8">
-					<auditRecord ></auditRecord>
-				</el-col>
-			</el-row>
-		
+				  <approveuser v-if="approveVisible" :auditUser="auditUser" :flowKey="flowKey"></approveuser>
+  
+				  <div class="form-block">
+					<el-button @click="handleSubmit()" class="submit-btn" size="small" type="primary" :loading="submitDisable">提交</el-button>
+				  </div>
+				</el-form>
+			  </div>
 			</div>
 		  </el-main>
 		</el-container>
@@ -148,8 +131,7 @@
   import approveuser from "../../common/approveuser.vue"
   import projectinfo from "../../common/projectinfo.vue"
   import { findDataDictionaryList } from "@/api/dataDictionary"
-  
-  import auditRecord from "./auditRecord.vue"
+
   import luckySheet from "@/components/Luckysheet/lucky-sheet";
   import { blobValidate } from "@/utils/ruoyi";
   import { download } from "@/utils/download";
@@ -192,7 +174,7 @@
 		contractVisible: false,
 		auditUser: {},
 		approveVisible:true,
-		flowKey:'produceOnlineReport',
+		flowKey:'produceOnlineCheck',
 		dataDictionaryList: [],
 		produceInfo: {},
 		attachTable: [],
@@ -216,8 +198,7 @@
 	  projectinfo,
 	  attachlist,
 	  luckySheet,
-	  auditRecord,
-	  payment: () => import("./produceReport.vue")
+	  payment: () => import("./produceCheck.vue")
 	},
 	computed: {
 	  ...mapGetters(["userInfo", "name", "project", "roleId", "getUrl"])
@@ -255,7 +236,7 @@
 		this.dialogFormVisible = value;
 		this.produceInfo = obj || {};
 		this.attachTable = [];
-		/**
+		
 		console.log(this.editRow);
 		console.log(this.produceInfo);
 		this.addOrModifyFlag = obj['id'] ? false : true;
@@ -269,19 +250,14 @@
 		  // this.auditUser={};
 		  this.approveVisible=true;
 		}
-		 根据项目ID查询其下属工区对应的所有用户信息
+		/**
+		根据项目ID查询其下属工区对应的所有用户信息
 		getUsersByProjectId(this.project.id).then((res) => {
 		  this.ownerOptions = res.data;
 		});*/
 		// 根据构建ID和工序ID查询待填写文档
-		listProduceDocument({documentType : 1, componentId : this.editRow.id, produceId : obj.produceid}).then((res) => {
+		listProduceDocument({documentType : 2, componentId : this.editRow.id, produceId : obj.produceid}).then((res) => {
 		  this.templateListData = res.rows;
-		});
-		// 根据附件记录ID查询附件信息
-		api.getRecordById(obj.recordid).then((res) => {
-			console.log(res);
-			console.log(res.data.recode);
-			this.attachTable = JSON.parse(res.data.recode.remark) || [];
 		});
 	  },
 	  
@@ -311,22 +287,13 @@
 		
 		this.submitDisable = true;
 		let reportRecord = Object.assign({}, this.formData);
-		let currentProject = Object.assign({}, localStorage.getItem('project_info'));
-		let userName = localStorage.getItem('userName').replace(/"/g, "");
-		let component = this.editRow;
-
-		reportRecord.checkusername = userName;
-		reportRecord.conpoentid = component.id;
-		reportRecord.conponentname = component.name;
-		reportRecord.conponenttype = component.conponenttype;
+		
+		reportRecord.conpoentid = this.editRow.id;
 		reportRecord.produceid = this.produceInfo.produceid;
-		reportRecord.projectcode = currentProject.code;
-		reportRecord.produceidname = this.produceInfo.name;
-		reportRecord.updateusername = userName;
-		reportRecord.projectId = currentProject.id;
-        reportRecord.remark = this.attachTable;
-        reportRecord.accrecodeurl = this.attachTable.map(file => file.fileId).join(",");
-		api.addReportRecord(reportRecord).then((res) => {
+
+		reportRecord.auditUser = this.auditUser;
+		reportRecord.submitType = 'check';
+		api.submitCheck(reportRecord).then((res) => {
 			if (res.data) {
 			this.$message({
 				type: 'success',
@@ -397,12 +364,5 @@
   
   <style scoped lang="scss">
   @import "src/assets/css/dialog";
-  .full-dialog{
-	.form-bg{
-	width: 1510px!important;
-	
-  }
-  }
-
   </style>
   

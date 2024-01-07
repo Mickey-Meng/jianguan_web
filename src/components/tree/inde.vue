@@ -24,7 +24,7 @@
           <span>
             <svg-icon class="svg-class" :icon-class="data.child.length > 0 ? 'folder' : 'coverage'" />{{ node.label }}
           </span>
-          <svg-icon v-if="data.mouldid" class="svg-class" icon-class="model" />
+          <svg-icon v-if="data.mouldid&&data.x" class="svg-class" icon-class="model" />
         </span>
       </el-tree>
     </div>

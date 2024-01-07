@@ -6,16 +6,10 @@
       </div>
 
       <div class="table-content">
-        <div class="header">
-          工序填报<span>{{ name }}</span>
-        </div>
+        <div class="header"> 工序报验<span>{{ name }}</span> </div>
         <div class="nav">
-          <div :class="{ active: currentView === 'fill' }" @click="changeView('fill')">
-            工序填报
-          </div>
-          <div :class="{ active: currentView === 'record' }" @click="changeView('record')">
-            填报记录
-          </div>
+          <div :class="{ active: currentView === 'fill' }" @click="changeView('fill')"> 工序报验 </div>
+          <div :class="{ active: currentView === 'record' }" @click="changeView('record')"> 验收记录 </div>
         </div>
       
         <div class="main">
@@ -38,7 +32,7 @@
                     }}
                   </template>
                 </el-table-column>
-                <el-table-column label="照片/附件" width="150px" align="center">
+                <el-table-column label="照片" width="100px" align="center">
                   <template slot-scope="{ row }">
                     <svg-icon class="svg-class svg-btn" :class="row.status === 3
                       ? 'submit'
@@ -47,7 +41,21 @@
                         : row.status === 1
                           ? 'finish'
                           : 'error'
-                      " icon-class="seeDetail" v-if="row.recordid" @click="seeRecord(row)"></svg-icon>
+                      " icon-class="photoimg" v-if="row.recordid" @click="seeRecord(row)"></svg-icon>
+                    <span v-else>未录入</span>
+                  </template>
+                </el-table-column>
+
+                <el-table-column label="附件" width="100px" align="center">
+                  <template slot-scope="{ row }">
+                    <svg-icon class="svg-class svg-btn" :class="row.status === 3
+                      ? 'submit'
+                      : row.status === 2
+                        ? 'reject'
+                        : row.status === 1
+                          ? 'finish'
+                          : 'error'
+                      " icon-class="seeDetail" v-if="row.recordid" @click="seeTemplate(row)"></svg-icon>
                     <span v-else>未录入</span>
                   </template>
                 </el-table-column>
@@ -80,7 +88,7 @@
 
                 <el-table-column label="操作" width="100px" align="center">
                   <template slot-scope="{ row, $index }">
-                    <el-tooltip v-if="true"  class="item" popper-class="tooltio-panel" :enterable="false" effect="dark" content="填报"
+                    <el-tooltip v-if="editStatus(row)"  class="item" popper-class="tooltio-panel" :enterable="false" effect="dark" content="填报"
                       placement="top">
                       <svg-icon icon-class="update" class="svg-btn" @click="fillProcess(row, $index)"></svg-icon>
                     </el-tooltip>
@@ -100,28 +108,31 @@
             <!--        <el-cascader v-model="value" :options="options"></el-cascader>-->
             <el-table :data="recordsData" style="width: 100%" class="small_scrolling" key="check"
               v-if="currentView === 'record'" height="95%" border>
-              <el-table-column label="状态" align="center">
-                <template slot-scope="{ row }">
-                  <div :class="row.checkresult === 3
-                    ? 'sum'
-                    : row.checkresult === 2
-                      ? 'rej'
-                      : row.checkresult === 1
-                        ? 'yes'
-                        : ''
-                    ">
-                    {{
-                      row.checkresult === 3
-                      ? "正在审核"
-                      : row.checkresult === 2
-                        ? "监理驳回"
-                        : row.checkresult === 1
-                          ? "审核通过"
-                          : ""
-                    }}
-                  </div>
-                </template>
-              </el-table-column>
+              <el-table-column prop="status" align="center" label="审核状态" show-overflow-tooltip>
+                  <template slot-scope="scope">
+                    <el-tag
+                      v-if="scope.row.status == '2'"
+                      size="mini"
+                      type="warning"
+                    >
+                      驳回
+                    </el-tag>
+                    <el-tag
+                      v-if="scope.row.status == '0'"
+                      size="mini"
+                      type="default"
+                    >
+                      审批中
+                    </el-tag>
+                    <el-tag
+                      v-if="scope.row.status == '1'"
+                      size="mini"
+                      type="success"
+                    >
+                      已审批
+                    </el-tag>
+                  </template>
+                </el-table-column>
               <el-table-column prop="conponentcode" label="构件编码" align="center">
               </el-table-column>
               <el-table-column prop="conponentname" label="构件类型" align="center">
@@ -176,7 +187,7 @@
 
       </div>
       
-      <el-drawer title="我是标题" :visible.sync="DrawerVisible" :with-header="false" custom-class="drawer-bottom-panel"
+      <el-drawer title="查看已上传图片" :visible.sync="DrawerVisible" :with-header="false" custom-class="drawer-bottom-panel"
         append-to-body size="50%" :wrapperClosable="false" direction="btt">
         <el-container>
           <el-header>
@@ -223,6 +234,42 @@
           </el-main>
         </el-container>
       </el-drawer>
+
+      <el-drawer title="查看已上传附件" :visible.sync="templateDrawerVisible" :with-header="false" custom-class="drawer-bottom-panel"
+        append-to-body size="50%" :wrapperClosable="false" direction="btt">
+        <el-container>
+          <el-header>
+            <div class="link-info">
+              类型： <span>{{ componentInfo ? componentInfo.pname : "" }}</span>
+              编码： <span>{{ componentInfo ? componentInfo.conponetcode : "" }}</span>
+              工序名称： <span>{{ processData ? processData.name : "" }}</span>
+            </div>
+            <i class="el-icon-close" @click="templateDrawerVisible = false"></i>
+          </el-header>
+          <el-main>
+            <el-row>
+              <el-col :span="24">
+                <el-table :data="templateListData" style="width: 65%" border class="have_scrolling">
+                  <el-table-column type="index" width="80" align="center" label="序号"></el-table-column>
+                  <el-table-column prop="documentName" width="500" align="center" label="表格名称"></el-table-column>
+                  <el-table-column label="状态" width="150" align="center">
+                    <template slot-scope="{ row }">
+                      {{ row.documentStatus === 1 ? "已填写" :  "待填写" }}
+                    </template>
+                  </el-table-column>
+                  <el-table-column fixed="right" width="200" align="center" label="操作">
+                    <template slot-scope="{ row, $index }">
+                    <!-- <el-button type="text" size="mini" @click="preview(row)">预览</el-button> -->
+                    <el-button type="text" size="mini" @click="handleDownload(row)">下载</el-button>
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </el-col>
+            </el-row>
+          </el-main>
+        </el-container>
+      </el-drawer>
+
       <el-dialog :visible.sync="dialogPdfVisible" width="80%" append-to-body class="top_dialog">
         <div v-if="false" slot="title"></div>
         <iframe v-if="dialogPdfVisible" :src="recode.pdf" width="100%" height="600"></iframe>
@@ -233,7 +280,7 @@
         </template>
       </div>
     </div>
-      <report-edit ref="reportEdit" :editRow="componentInfo"></report-edit>
+      <edit ref="edit" :editRow="componentInfo"></edit>
       <detail ref="detail" :editRow="componentInfo"></detail>
     </div>
   </template>
@@ -248,19 +295,23 @@
   import { mapGetters } from "vuex";
   import { validPicurl, disposeUrl } from "@/utils/validate";
   import { downLoadFile } from "@/utils/download";
-  import reportEdit from "./reportEdit";
+  import edit from "./edit";
   import detail from './detail';
   import LeftTree from "@/components/tree/inde"
+  import { download } from "@/utils/download";
+  import { getFillDataTemplate, saveFillDataTemplate } from "@/api/onlineForms";
+  import { listProduceDocument, getProduceDocument } from "@/api/produceDocument";
   
   export default {
     name: "",
-    components: { reportEdit, detail, LeftTree },
+    components: { edit, detail, LeftTree },
     data() {
       return {
         uploadFileUrl: process.env.VUE_APP_BASE_API + "/mong/upload",
         currentView: "fill", //record
         drawerVisible: false,
         DrawerVisible: false,
+        templateDrawerVisible: false,
         name: "",
         value: "",
         options: [],
@@ -296,6 +347,7 @@
         //工序被驳回、走修改
         refuseData: {},
         isCreate: true, //判断是新增工序填报还是修改工序
+        templateListData: []
       };
     },
     computed: {
@@ -350,7 +402,7 @@
       },
 
       editStatus(row) {
-        if(row.status == 0 || row.status == 1) {
+        if(row.status == 1) {
           return false;
         }
         if(row.createUserId == this.$store.getters.userInfo.ID) {
@@ -394,7 +446,7 @@
           this.recordForm = {};
           this.processData = row;
          */ 
-        this.$refs.reportEdit.changeVisible(row, true);
+        this.$refs.edit.changeVisible(row, true);
         } else if (status === 1) {
           //状态为1，工序审核已完成
           this.$message({
@@ -417,42 +469,7 @@
             customClass: "message_override",
           });
           return;
-        }
-        // if (status === 3) {
-        //   this.$message({
-        //     message: "请联系监理审核",
-        //     type: "warning",
-        //     customClass: "message_override",
-        //   });
-        //   return;
-        // } else if (status === 2) {
-        //   this.processData = row;
-        //   this.isCreate = false;
-        //   this.dialogVisible = true;
-        //   this.title = row.produceName;
-        //   this.recordForm = {};
-        //   // this.$message({
-        //   //   message: "审核未通过，请联系监理",
-        //   //   type: "warning",
-        //   //   customClass: "message_override",
-        //   // });
-        //   // return;
-        // } else if (status === 0) {
-        //   this.isCreate = true;
-        //   this.dialogVisible = true;
-        //   this.title = row.produceName;
-        //   this.recordForm = {};
-        //   this.processData = row;
-        // }
-  
-        // if ((row.recordid && status === 3) || status === 1) {
-        //   this.$message({
-        //     message: "已填报工序记录",
-        //     type: "warning",
-        //     customClass: "message_override",
-        //   });
-        //   return;
-        // }
+        } 
       },
       beforeUpload(file) {
         const fileSuffix = file.name.substring(file.name.lastIndexOf(".") + 1);
@@ -581,6 +598,13 @@
           this.DrawerVisible = true;
         });
       },
+      seeTemplate(row) {
+        this.templateDrawerVisible = true;
+        // 根据构建ID和工序ID查询待填写文档
+        listProduceDocument({documentType : 1, componentId : this.componentInfo.id, produceId : row.produceid}).then((res) => {
+          this.templateListData = res.rows;
+        });
+      },
       seePdf(row) {
         this.recode = row;
         this.dialogPdfVisible = true;
@@ -648,11 +672,19 @@
       testRemove(file, fileList) {
         this.testList = fileList;
       },
+
+      /**
+       * 附件下载
+       */
+      handleDownload(file) {
+        download(file.documentUrl, file.documentName, false);
+      }
     },
     destroyed() {
       Bus.$off("getProcessById");
       Bus.$emit("clearEffect");
-    },
+    }
+    
   };
   </script>
   

@@ -57,7 +57,7 @@
             :picker-options="pickerOptions"
             @change="timeChange"
           />
-          <span>编码：</span>
+          <span>wbs编码：</span>
           <el-input v-model="postData.code" placeholder="请输入构件编码" />
           <el-button class="active" @click="queryData">搜索</el-button>
         </div>

@@ -2136,7 +2136,7 @@ export const asyncRoutes = [
             name: "produceReport",
             component: () => import ("@/views/onlineForms/produceReport/produceReport"),
             meta: {
-              title: "工序填报",
+              title: "工序报验",
               icon: "circle",
               code: "produceReport",
               // 地图相关
@@ -2158,7 +2158,7 @@ export const asyncRoutes = [
             name: "produceCheck",
             component: () => import ("@/views/onlineForms/produceCheck/produceCheck"),
             meta: {
-              title: "工序核验",
+              title: "质量评定",
               icon: "circle",
               code: "produceCheck",
               allMap: false,

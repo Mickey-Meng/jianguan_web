@@ -7,72 +7,99 @@
 			</template>
 			<el-container>
 				<el-main
-					style="background-color: rgba(0,0 0,0.5);height: calc(100vh - 96px); overflow-y: scroll;padding: 0px;margin: 0;">
-					<div class="form-bg">
-						<div class="form-content">
-
-							<el-form :model="formData" :rules="rules" ref="ruleForm" label-width="80px">
-								<div class="form-title">
-									<div class="title-big-bar"></div>
-									<strong>计划申报-施工图管理</strong>
-								</div>
-
-								<div class="form-block">
-									<div class="form-block-title">
-										<div class="title-bar"></div><strong>基本信息</strong>
-									</div>
-
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">施工图名称</div>
-											<div class="block-item-value">{{ formData.name }}</div>
-										</div>
-
-										<div class="block-item">
-											<div class="block-item-label">施工图内容</div>
-											<div class="block-item-value">{{ formData.contents }}</div>
-										</div>
-									</div>
-
-
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">计划开始时间</div>
-											<div class="block-item-value">{{ formData.startTime }}</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">计划结束时间</div>
-											<div class="block-item-value">{{ formData.endTime }}</div>
-										</div>
-									</div>
-
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">上报时间</div>
-											<div class="block-item-value">{{ formData.reportTime }}</div>
-										</div>
-										<div class="block-item">
-											<div class="block-item-label">上报人</div>
-											<div class="block-item-value">{{ formData.reportUser }}</div>
-										</div>
-									</div>
-
-									<div class="block-line">
-										<div class="block-item">
-											<div class="block-item-label">责任人</div>
-											<div class="block-item-value">{{ formData.ownerName }}</div>
-										</div>
-
-										<div class="block-item">
-											<div class="block-item-label">备注</div>
-											<div class="block-item-value">{{ formData.remark }}</div>
-										</div>
-									</div>
-								</div>
-							</el-form>
-						</div>
+			style="background-color: rgba(0,0 0,0.5);height: calc(100vh - 96px); overflow-y: scroll;padding: 0px;margin: 0;">
+			<div class="form-bg">
+			  <div class="form-content">
+				<el-form :model="formData" ref="ruleForm" label-width="80px">
+				  <div class="form-title">
+					<div class="title-big-bar"></div>
+					<strong>质量评定</strong>
+				  </div>
+  
+				  <div class="form-block">
+					<div class="form-block-title">
+					  <div class="title-bar"></div><strong>基本信息</strong>
 					</div>
-				</el-main>
+					<div class="block-line">
+  
+					  <div class="block-item">
+						<div class="block-item-label">具体部位</div>
+						<div class="block-item-value">
+						  <el-form-item prop="conponenttypename">
+							<el-input v-model="editRow.name" disabled></el-input>
+						  </el-form-item>
+						</div>
+					  </div>
+  
+					  <div class="block-item">
+						<div class="block-item-label">构建编码</div>
+						<div class="block-item-value">
+						  <el-form-item prop="componentcode">
+							<el-input v-model="editRow.conponetcode" disabled></el-input>
+						  </el-form-item>
+						</div>
+					  </div>
+					</div>
+  
+					<div class="block-line">
+					  <div class="block-item">
+						<div class="block-item-label">工序名称</div>
+						<div class="block-item-value">
+						  <el-form-item prop="name">
+							<el-input v-model="produceInfo.name" disabled></el-input>
+						  </el-form-item>
+						</div>
+					  </div>
+  
+					  <div class="block-item">
+						<div class="block-item-label">完成时间</div>
+						<div class="block-item-value">
+						  <el-form-item prop="finish">
+							<el-date-picker value-format="yyyy-MM-dd" v-model="produceInfo.finish" type="date" disabled></el-date-picker>
+						  </el-form-item>
+						</div>
+					  </div>
+  
+					</div>
+  
+					<div class="block-line">
+					  <div class="block-item">
+						<div class="block-item-label">备注</div>
+						<div class="block-item-value">
+						  <el-form-item prop="pjctype">
+							<el-input v-model="editRow.pname" disabled></el-input>
+						  </el-form-item>
+						</div>
+					  </div>
+					</div>
+				  </div> 
+
+				  <div class="form-block">
+					<div class="form-block-title">
+					  <div class="title-bar"></div><strong>应填表格</strong>
+					</div>
+					<div class="block-table">
+						<el-table :data="templateListData" style="width: 100%" border class="have_scrolling">
+							<el-table-column type="index" width="80" align="center" label="序号"></el-table-column>
+							<el-table-column prop="documentName" width="500" align="center" label="表格名称"></el-table-column>
+							<el-table-column label="状态" width="150" align="center">
+								<template slot-scope="{ row }">
+									{{ row.documentStatus === 1 ? "已填写" :  "待填写" }}
+								</template>
+							</el-table-column>
+							<el-table-column fixed="right" width="200" align="center" label="操作">
+								<template slot-scope="{ row, $index }">
+								<!-- <el-button type="text" size="mini" @click="preview(row)">预览</el-button> -->
+								<el-button type="text" size="mini" @click="handleDownload(row)">下载</el-button>
+								</template>
+							</el-table-column>
+						</el-table>
+					</div>
+				  </div> 
+				</el-form>
+			  </div>
+			</div>
+		  </el-main>
 
 				<el-aside width="8px" class="close-wrapper">
 					<div class="close-wrap">
@@ -89,16 +116,17 @@
 </template>
 
 <script>
-	import * as api from "@/api/constructionDesign/planConstructionDesign.js";
+	import { listProduceDocument, getProduceDocument } from "@/api/produceDocument.js";
+	import * as api from "@/api/onlineForms";
 	import { getUserInfo } from "@/api/user";
 	import tasklog from "../../common/tasklog.vue"
 	import taskhandle from '../../common/taskhandle'
 	import attachlist from "../../common/attachlist"
 	import projectinfo from "../../common/projectinfo.vue"
 	import { formatMonth, formatDate, lo } from "@/utils/format.js";
-
+	import { download } from "@/utils/download";
 	export default {
-		props:['detailRow'],
+		props:['editRow'],
 		data() {
 			return {
 				dialogTitle: '项目全生命周期数字管理平台',
@@ -123,6 +151,8 @@
 					projectId:this.$store.getters.project['parentid'],
 					startDate:formatDate(new Date())
 				},
+				produceInfo: {},
+				templateListData: [],
 				attachTable: [], //附件
 				contractTable: [],
 				taskInfo:{}
@@ -136,16 +166,12 @@
 			projectinfo
 		},
 		computed: {
-      toFixedAmount(detail) {
-        return detail.formData.amount.toFixed(2);
-      }
-    },
-		watch:{
-			detailRow(obj){
-				if(obj['id']){
-					this.getDetail(obj['id']);
-				}
+			toFixedAmount(detail) {
+				return detail.formData.amount.toFixed(2);
 			}
+    	},
+		watch:{
+			
 		},
 		mounted() {
 
@@ -162,26 +188,26 @@
 				// 	this.$router.go(-1);
 				// }
 			},
-			changeVisible(value){
-				this.dialogFormVisible=value;
-			},
-			getDetail(id){
-				api.getPlanConstructionDesignDetail(id).then((res) => {
-				  console.log(res);
-					let data = res['data'] || {};
-					this.formData = data;
-					this.attachTable = data.attachment || [];
-					this.contractTable = data.information || [];
-					this.getUserInfo(data.createUserId)
+			changeVisible(produceObj,value){
+				this.dialogFormVisible = value;
+				this.produceInfo = produceObj || {};
+				this.attachTable = [];
+				// 根据构建ID和工序ID查询待填写文档
+				listProduceDocument({documentType : 2, componentId : this.editRow.id, produceId : produceObj.produceid}).then((res) => {
+					this.templateListData = res.rows;
 				});
-				api.getFlowAndTaskInfo({businessKey: id + "_produceOnlineCheck"}).then((res) => {
+				// 根据附件记录ID查询附件信息
+				api.getRecordById(produceObj.recordid).then((res) => {
+					this.attachTable = JSON.parse(res.data.recode.remark) || [];
+				});
+				api.getFlowAndTaskInfo({businessKey: produceObj.produceAndRecodeId + "_" + produceObj.recordid + "_produceOnlineCheck"}).then((res) => {
 					console.log(res.data);
 					let data=res['data'];
 					this.taskInfo={
 		 				processDefinitionId: data['processDefinitionId'],
 						processInstanceId: data['processInstanceId'],
 						taskId: data['taskId'],
-				  flowKey:'produceOnlineCheck'
+				  		flowKey:'produceOnlineCheck'
 					}
 					this.updateTaskLog();
 				});
@@ -191,7 +217,13 @@
 					this.$refs['tasklog'].initData();
 				},100)
 			},
-		},
+			/**
+			 * 附件下载
+			 */
+			handleDownload(file) {
+				download(file.documentUrl, file.documentName, false);
+			}
+		}
 	};
 </script>
 

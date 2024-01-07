@@ -52,6 +52,14 @@ export function getFillDataTemplate(id, params) {
     })
   }
 
+  export function submitCheck(data) {
+    return request({
+      url: '/onlineForms/produceOnline/submitCheck',
+      method: 'post',
+      data: data
+    })
+  }
+
   //根据流程idH获取三个key 用于查看审批信息
   export function getFlowAndTaskInfo(data) {
     return request({
@@ -60,4 +68,13 @@ export function getFillDataTemplate(id, params) {
       params: data
     });
   };
+
+  export function getProduceReportInfoById(id, documentType) {
+    return request({
+      url: "/onlineForms/produceOnline/getProduceReportInfoById",
+      method: "get",
+      params: { produceAndRecodeId : id, documentType:  documentType}
+    });
+  };
+  
   

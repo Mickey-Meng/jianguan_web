@@ -347,7 +347,7 @@ export default {
     this.$nextTick(() => {
       Bus.$on("getProcessById", (data) => {
         this.componentInfo = data;
-        this.name = "(" + data.pname + ":" + data.conponetcode + ")";
+        this.name = "(" + data.pname + ":" + data.wbstcode + ")";
         this.getCheackDataById();
       });
     })

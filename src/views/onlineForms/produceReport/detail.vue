@@ -10,7 +10,7 @@
 			style="background-color: rgba(0,0 0,0.5);height: calc(100vh - 96px); overflow-y: scroll;padding: 0px;margin: 0;">
 			<div class="form-bg">
 			  <div class="form-content">
-				<el-form :model="formData" :rules="rules" ref="ruleForm" label-width="80px">
+				<el-form :model="formData" ref="ruleForm" label-width="80px">
 				  <div class="form-title">
 					<div class="title-big-bar"></div>
 					<strong>工序报验</strong>
@@ -79,7 +79,7 @@
 					  <div class="title-bar"></div><strong>现场照片</strong>
 					  <span style="font-size: 12px;margin-left: 40px;">支持上传jpg、jpeg、png文件,且不超过10M</span>
 					</div>
-					<attachlist :editAble="true" ref="attachlist" :attachTable="attachTable"></attachlist>
+					<attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>
 				  </div>
 
 
@@ -104,10 +104,8 @@
 							</el-table-column>
 						</el-table>
 					</div>
-				  </div>
-
-				  <approveuser v-if="approveVisible" :auditUser="auditUser" :flowKey="flowKey"></approveuser>
-				</el-form>
+				  </div> 
+				</el-form>				
 			  </div>
 			</div>
 		  </el-main>
@@ -115,10 +113,10 @@
 				<el-aside width="8px" class="close-wrapper">
 					<div class="close-wrap">
 						<i class="el-icon-caret-right"></i>
-					</div>
+					</div>						
 				</el-aside>
-				<el-aside
-					style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
+				<el-aside style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
+					<!-- <auditRecord :taskInfo="taskInfo" ref="tasklog"></auditRecord> -->
 					<tasklog :taskInfo="taskInfo" ref="tasklog"></tasklog>
 				</el-aside>
 			</el-container>
@@ -136,6 +134,7 @@
 	import projectinfo from "../../common/projectinfo.vue"
 	import { formatMonth, formatDate, lo } from "@/utils/format.js";
 	import { download } from "@/utils/download";
+	import auditRecord from "../auditRecord.vue"
 	export default {
 		props:['editRow'],
 		data() {
@@ -174,7 +173,8 @@
 			tasklog,
 			taskhandle,
 			attachlist,
-			projectinfo
+			projectinfo,
+			auditRecord
 		},
 		computed: {
 			toFixedAmount(detail) {
@@ -211,7 +211,7 @@
 				api.getRecordById(produceObj.recordid).then((res) => {
 					this.attachTable = JSON.parse(res.data.recode.remark) || [];
 				});
-				api.getFlowAndTaskInfo({businessKey: id + "_produceOnlineReport"}).then((res) => {
+				api.getFlowAndTaskInfo({businessKey: produceObj.produceAndRecodeId + "_" + produceObj.recordid + "_produceOnlineReport"}).then((res) => {
 					console.log(res.data);
 					let data=res['data'];
 					this.taskInfo={
@@ -234,7 +234,7 @@
 			handleDownload(file) {
 				download(file.documentUrl, file.documentName, false);
 			}
-		},
+		}
 	};
 </script>
 
