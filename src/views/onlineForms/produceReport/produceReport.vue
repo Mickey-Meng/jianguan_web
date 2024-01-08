@@ -88,7 +88,7 @@
 
                 <el-table-column label="操作" width="100px" align="center">
                   <template slot-scope="{ row, $index }">
-                    <el-tooltip v-if="editStatus(row)"  class="item" popper-class="tooltio-panel" :enterable="false" effect="dark" content="填报"
+                    <el-tooltip v-if="true"  class="item" popper-class="tooltio-panel" :enterable="false" effect="dark" content="填报"
                       placement="top">
                       <svg-icon icon-class="update" class="svg-btn" @click="fillProcess(row, $index)"></svg-icon>
                     </el-tooltip>

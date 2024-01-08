@@ -10,7 +10,7 @@
 								
 								<i :class="item.icon"></i>
 								
-								<div class="step_title">{{ item.nodeTitle }}</div>
+								<div class="step_title">{{ item.taskName }}</div>
 							</div>
 							
 						</template>
@@ -19,10 +19,10 @@
 								<div class="tpp">
 									<div>
 										<div class="descStyle">
-											<div v-if="item.createName" style="margin-right: 20px; display: inline-block">{{item.isSubmitNode?'发起人':'审核人'}}：{{ item.createName }}</div>
-											<div v-if="item.auditOption">{{item.comment?'执行内容':'审核意见'}}： {{ item.comment }}</div>
-											<div v-if="item.approvalType">执行状态： {{ item.approvalType }}</div>
-											<div v-if="item.submitTime">提交时间： {{ item.createTime }}</div>
+											<div v-if="item.createName" style="margin-right: 20px; display: inline-block">{{item.approvalType === 'save'?'发起人':'审核人'}}：{{ item.createName }}</div>
+											<div v-if="item.comment">{{item.approvalType === 'save'?'执行内容':'审核意见'}}： {{ item.comment }}</div>
+											<div v-if="item.approvalType">执行状态： {{ item.approvalType === 'save'? '已提交':(item.approvalType === 'agree'? '同意':'驳回') }}</div>
+											<div v-if="item.createTime">提交时间： {{ item.createTime }}</div>
 										</div>
 									
 									</div>
@@ -46,11 +46,11 @@
 	data() {
 	  return {
 		 stepData:[{nodeTitle:"流程开始"},
-		 {nodeTitle:"质检员提交",isSubmitNode:true,person:"王某某",auditOption:'发起工序报验',auditStatus:'已提交',submitTime:'2023年10月12日 10:30:59',icon:"el-icon-check"},
-		 {nodeTitle:"项目施工负责人审核",person:"李某某",auditOption:'同意报验',auditStatus:'已审核',submitTime:'2023年10月12日 10:30:59',icon:"el-icon-check"},
-		 {nodeTitle:"监理单位审核",person:"张某某",auditOption:'同意报验',auditStatus:'已审核',submitTime:'2023年10月12日 10:30:59',icon:"el-icon-check"},
-		 {nodeTitle:"流程审核完毕",icon:"el-icon-aim"}],
-
+		 //{nodeTitle:"质检员提交",isSubmitNode:true,person:"王某某",auditOption:'发起工序报验',auditStatus:'已提交',submitTime:'2023年10月12日 10:30:59',icon:"el-icon-check"},
+		 //{nodeTitle:"项目施工负责人审核",person:"李某某",auditOption:'同意报验',auditStatus:'已审核',submitTime:'2023年10月12日 10:30:59',icon:"el-icon-check"},
+		 //{nodeTitle:"监理单位审核",person:"张某某",auditOption:'同意报验',auditStatus:'已审核',submitTime:'2023年10月12日 10:30:59',icon:"el-icon-check"},
+		// {nodeTitle:"流程审核完毕",icon:"el-icon-aim"}
+		],
 		 runVariables: {},
 		 hasTaskUser: false,
 		 processNodeInfo: {}
@@ -96,6 +96,9 @@
 				api.listFlowTaskComment({
 					processInstanceId: this.taskInfo["processInstanceId"]
 				}).then((res) => {
+					console.log(1111111);
+					console.log(res);
+					console.log(2222222);
 					const _data = [];
 					for (let i = 0; i < res.data.length; i++) {
 						const item = res.data[i];
@@ -107,7 +110,14 @@
 						// 	this.logData=_data||[]; // 强制刷新
 						// })
 					}
-					this.stepData = res["data"] || [];
+					let flowTaskArray = res["data"] || [];
+					this.stepData = flowTaskArray.map(function (item, index, flowTaskArray){
+						item.icon = "el-icon-check";
+						return item;
+					});
+					this.stepData.unshift( { taskName:"流程开始", icon:"el-icon-check" } );
+					console.log(this.processNodeInfo);
+					this.stepData.push( { taskName:"流程审核完毕", icon: this.processNodeInfo.unfinishedTaskSet.length > 0 ? "el-icon-aim": "el-icon-check" } )
 					console.log(this.stepData);
 				});
 			}

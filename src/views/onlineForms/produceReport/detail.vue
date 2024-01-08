@@ -6,119 +6,115 @@
 				<div class="logo-icon"></div>
 			</template>
 			<el-container>
-				<el-main
-			style="background-color: rgba(0,0 0,0.5);height: calc(100vh - 96px); overflow-y: scroll;padding: 0px;margin: 0;">
-			<div class="form-bg">
-			  <div class="form-content">
-				<el-form :model="formData" ref="ruleForm" label-width="80px">
-				  <div class="form-title">
-					<div class="title-big-bar"></div>
-					<strong>工序报验</strong>
-				  </div>
-  
-				  <div class="form-block">
-					<div class="form-block-title">
-					  <div class="title-bar"></div><strong>基本信息</strong>
-					</div>
-					<div class="block-line">
-  
-					  <div class="block-item">
-						<div class="block-item-label">具体部位</div>
-						<div class="block-item-value">
-						  <el-form-item prop="conponenttypename">
-							<el-input v-model="editRow.name" disabled></el-input>
-						  </el-form-item>
-						</div>
-					  </div>
-  
-					  <div class="block-item">
-						<div class="block-item-label">构建编码</div>
-						<div class="block-item-value">
-						  <el-form-item prop="componentcode">
-							<el-input v-model="editRow.conponetcode" disabled></el-input>
-						  </el-form-item>
-						</div>
-					  </div>
-					</div>
-  
-					<div class="block-line">
-					  <div class="block-item">
-						<div class="block-item-label">工序名称</div>
-						<div class="block-item-value">
-						  <el-form-item prop="name">
-							<el-input v-model="produceInfo.name" disabled></el-input>
-						  </el-form-item>
-						</div>
-					  </div>
-  
-					  <div class="block-item">
-						<div class="block-item-label">完成时间</div>
-						<div class="block-item-value">
-						  <el-form-item prop="finish">
-							<el-date-picker value-format="yyyy-MM-dd" v-model="produceInfo.finish" type="date" disabled></el-date-picker>
-						  </el-form-item>
-						</div>
-					  </div>
-  
-					</div>
-  
-					<div class="block-line">
-					  <div class="block-item">
-						<div class="block-item-label">备注</div>
-						<div class="block-item-value">
-						  <el-form-item prop="pjctype">
-							<el-input v-model="editRow.pname" disabled></el-input>
-						  </el-form-item>
-						</div>
-					  </div>
-					</div>
-				  </div>
+				<el-main style="background-color: rgba(0,0 0,0.5);height: calc(100vh - 96px); overflow-y: scroll;padding: 0px;margin: 0;">
+					<div class="form-bg">
+						<el-row>
+							<el-col :span="16">
+								<div class="form-content">
+									<el-form :model="formData" ref="ruleForm" label-width="80px">
+										<div class="form-title">
+											<div class="title-big-bar"></div>
+											<strong>工序报验</strong>
+										</div>
+						
+										<div class="form-block">
+											<div class="form-block-title">
+											<div class="title-bar"></div><strong>基本信息</strong>
+											</div>
+											<div class="block-line">
+						
+											<div class="block-item">
+												<div class="block-item-label">具体部位</div>
+												<div class="block-item-value">
+												<el-form-item prop="conponenttypename">
+													<el-input v-model="editRow.name" disabled></el-input>
+												</el-form-item>
+												</div>
+											</div>
+						
+											<div class="block-item">
+												<div class="block-item-label">构建编码</div>
+												<div class="block-item-value">
+												<el-form-item prop="componentcode">
+													<el-input v-model="editRow.conponetcode" disabled></el-input>
+												</el-form-item>
+												</div>
+											</div>
+											</div>
+						
+											<div class="block-line">
+											<div class="block-item">
+												<div class="block-item-label">工序名称</div>
+												<div class="block-item-value">
+												<el-form-item prop="name">
+													<el-input v-model="produceInfo.name" disabled></el-input>
+												</el-form-item>
+												</div>
+											</div>
+						
+											<div class="block-item">
+												<div class="block-item-label">完成时间</div>
+												<div class="block-item-value">
+												<el-form-item prop="finish">
+													<el-date-picker value-format="yyyy-MM-dd" v-model="produceInfo.finish" type="date" disabled></el-date-picker>
+												</el-form-item>
+												</div>
+											</div>
+						
+											</div>
+						
+											<div class="block-line">
+											<div class="block-item">
+												<div class="block-item-label">备注</div>
+												<div class="block-item-value">
+												<el-form-item prop="pjctype">
+													<el-input v-model="editRow.pname" disabled></el-input>
+												</el-form-item>
+												</div>
+											</div>
+											</div>
+										</div>
 
-				  <div class="form-block">
-					<div class="form-block-title">
-					  <div class="title-bar"></div><strong>现场照片</strong>
-					  <span style="font-size: 12px;margin-left: 40px;">支持上传jpg、jpeg、png文件,且不超过10M</span>
-					</div>
-					<attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>
-				  </div>
+										<div class="form-block">
+											<div class="form-block-title">
+											<div class="title-bar"></div><strong>现场照片</strong>
+											<span style="font-size: 12px;margin-left: 40px;">支持上传jpg、jpeg、png文件,且不超过10M</span>
+											</div>
+											<attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>
+										</div>
 
 
-				  <div class="form-block">
-					<div class="form-block-title">
-					  <div class="title-bar"></div><strong>应填表格</strong>
+										<div class="form-block">
+											<div class="form-block-title">
+											<div class="title-bar"></div><strong>应填表格</strong>
+											</div>
+											<div class="block-table">
+												<el-table :data="templateListData" style="width: 100%" border class="have_scrolling">
+													<el-table-column type="index" width="80" align="center" label="序号"></el-table-column>
+													<el-table-column prop="documentName" width="500" align="center" label="表格名称"></el-table-column>
+													<el-table-column label="状态" width="150" align="center">
+														<template slot-scope="{ row }">
+															{{ row.documentStatus === 1 ? "已填写" :  "待填写" }}
+														</template>
+													</el-table-column>
+													<el-table-column fixed="right" width="200" align="center" label="操作">
+														<template slot-scope="{ row, $index }">
+														<!-- <el-button type="text" size="mini" @click="preview(row)">预览</el-button> -->
+														<el-button type="text" size="mini" @click="handleDownload(row)">下载</el-button>
+														</template>
+													</el-table-column>
+												</el-table>
+											</div>
+										</div> 
+									</el-form>				
+								</div>
+							</el-col>
+							<el-col :span="8">
+								<auditRecord :taskInfo="taskInfo" ref="tasklog"></auditRecord>
+							</el-col>
+						</el-row>
 					</div>
-					<div class="block-table">
-						<el-table :data="templateListData" style="width: 100%" border class="have_scrolling">
-							<el-table-column type="index" width="80" align="center" label="序号"></el-table-column>
-							<el-table-column prop="documentName" width="500" align="center" label="表格名称"></el-table-column>
-							<el-table-column label="状态" width="150" align="center">
-								<template slot-scope="{ row }">
-									{{ row.documentStatus === 1 ? "已填写" :  "待填写" }}
-								</template>
-							</el-table-column>
-							<el-table-column fixed="right" width="200" align="center" label="操作">
-								<template slot-scope="{ row, $index }">
-								<!-- <el-button type="text" size="mini" @click="preview(row)">预览</el-button> -->
-								<el-button type="text" size="mini" @click="handleDownload(row)">下载</el-button>
-								</template>
-							</el-table-column>
-						</el-table>
-					</div>
-				  </div> 
-				</el-form>				
-			  </div>
-			</div>
-		  </el-main>
-
-				<el-aside width="8px" class="close-wrapper">
-					<div class="close-wrap">
-						<i class="el-icon-caret-right"></i>
-					</div>						
-				</el-aside>
-				<el-aside style="width: 410px;background-color: rgb(242, 242, 242);overflow: scroll;height: calc(100vh - 96px);">
-					<!-- <auditRecord :taskInfo="taskInfo" ref="tasklog"></auditRecord> -->
-					<tasklog :taskInfo="taskInfo" ref="tasklog"></tasklog>
-				</el-aside>
+		  		</el-main>
 			</el-container>
 		</el-dialog>
 	</div>
@@ -238,4 +234,11 @@
 	};
 </script>
 
-<style scoped lang="scss">@import "src/assets/css/dialog";</style>
+<style scoped lang="scss">
+	@import "src/assets/css/dialog";
+	.full-dialog{
+		.form-bg{
+			width: 1510px!important;
+		}
+	}
+</style>
