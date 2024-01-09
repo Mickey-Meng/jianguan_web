@@ -2,7 +2,7 @@
     <div class="wrapper">
         <div class="content">
             <div class="tree_wrapper_box">
-                <LeftTree /> 
+              <LeftTree :treeType ="treeType" /> 
             </div>
 
             <div class="table-content">
@@ -140,6 +140,7 @@
     components: { edit, detail, LeftTree },
     data() {
       return {
+        treeType:"onlineProduceCheck_2",
         uploadFileUrl: process.env.VUE_APP_BASE_API + "/mong/upload",
         currentView: "fill", //record
         drawerVisible: false,

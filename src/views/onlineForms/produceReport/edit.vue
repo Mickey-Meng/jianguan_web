@@ -118,10 +118,9 @@
 				</div>
 				</el-col>
 				<el-col :span="8">
-					<auditRecord ></auditRecord>
+					<!-- <auditRecord ></auditRecord> -->
 				</el-col>
 			</el-row>
-		
 			</div>
 		  </el-main>
 		</el-container>
@@ -293,20 +292,26 @@
 	  },
 
 	  /**
-	   * 提交保存
+	   * 校验是否通过
 	   */
-	  handleSubmit() {
+	  verifySubmit() {
+		let isOk = true;
 		this.templateListData.forEach(template => {
 			if (template.documentStatus === 0) {
+				isOk = false;
 				this.$message({
 				  type: 'warning',
 				  message: "[" + template.documentName + ']未完成填写，不可提交!'
 				});
-				return;
 			}
 		})
-
-		if (this.submitDisable) {
+		return isOk;
+	  },
+	  /**
+	   * 提交保存
+	   */
+	  handleSubmit() {
+		if (this.submitDisable || !this.verifySubmit()) {
 			return;
 		} 
 		
@@ -340,7 +345,7 @@
 			setTimeout(()=> {
 				this.submitDisable = false;
 			}, 500)
-			this.$emit("query");
+				this.$emit("query");
 			}
 		});
 	  },
