@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <!-- <img :src="logo" alt="" /> -->
-    <div class="header">项目全生命周期数字管理平台</div>
+    <div class="header">{{ systemName }}</div>
     <div class="exit" @click="exitSys">返回登陆</div>
     <!-- <div class="main">
       <div class="all-view">
@@ -65,7 +65,7 @@
         <svg-icon v-if="currentPage > 1" icon-class="right" class="left_shift" @click="decPage" />
       </div>
     </div>
-    <div class="footer">诸暨市建设集团有限公司</div>
+    <div class="footer">{{ companyName }}</div>
   </div>
 </template>
 
@@ -150,10 +150,13 @@ export default {
       pageSize: 12,
       quotient: null,
       timer: null,
+      systemName: "全生命xx周期智慧建设平台",
+      companyName: "池州建设xx投资集团有限公司 · 池州建投建筑科技有限公司",
     };
   },
   created() {
     this.init();
+    this.getSystemName();
   },
   computed: {
     ...mapGetters(["menus", "menu", "rights"])
@@ -389,7 +392,12 @@ export default {
       that.timer = setInterval(() => {
         // this.upInlineStatus();
       }, 1000 * 60 * 3);
-    }
+    },
+    getSystemName() {
+        const sysNames = JSON.parse(localStorage.getItem("sysNames"));
+        this.systemName = sysNames.systemName;
+        this.companyName = sysNames.companyName;
+    },
   },
   destroyed() {
     this.stopEffect();

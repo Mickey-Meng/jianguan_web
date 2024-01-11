@@ -27,7 +27,7 @@
 												<div class="block-item-label">具体部位</div>
 												<div class="block-item-value">
 												<el-form-item prop="conponenttypename">
-													<el-input v-model="editRow.name" disabled></el-input>
+													<el-input v-model="editRow.pname" disabled></el-input>
 												</el-form-item>
 												</div>
 											</div>
@@ -68,7 +68,7 @@
 												<div class="block-item-label">备注</div>
 												<div class="block-item-value">
 												<el-form-item prop="pjctype">
-													<el-input v-model="editRow.pname" disabled></el-input>
+													<el-input v-model="editRow.name" disabled></el-input>
 												</el-form-item>
 												</div>
 											</div>

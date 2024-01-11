@@ -65,7 +65,7 @@ const api = {
 
 
   getCityLineAddr: "/system/config",//查询描边地址
-
+  getSystemName: "system/config/configKey",//查询系统名称
   /*
    * 工程统计
    * */

@@ -58,7 +58,7 @@
             <div class="block-item-label">备注</div>
             <div class="block-item-value">
               <el-form-item prop="pjctype">
-                <el-input v-model="component.pname" disabled></el-input>
+                <el-input v-model="component.name" disabled></el-input>
               </el-form-item>
             </div>
           </div>

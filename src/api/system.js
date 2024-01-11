@@ -28,7 +28,12 @@ export const getCityLineAddr = (id) => {
     method: "get",
   });
 };
-
+export const getSystemName = (key) => {
+  return request({
+    url: api.getSystemName + "/" +key,
+    method: "get",
+  });
+};
 export const getWorkPoint = (projectId) => {
   return request({
     url: api.getWorkPoint,

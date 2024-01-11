@@ -9,8 +9,6 @@
 		  <el-main
 			style="background-color: rgba(0,0 0,0.5);height: calc(100vh - 96px); overflow-y: scroll;padding: 0px;margin: 0;">
 			<div class="form-bg">
-			<el-row>
-				<el-col :span="16">
 				<div class="form-content">
 					<el-form :model="formData" :rules="rules" ref="ruleForm" label-width="80px">
 					<div class="form-title">
@@ -28,7 +26,7 @@
 							<div class="block-item-label">具体部位</div>
 							<div class="block-item-value">
 							<el-form-item prop="conponenttypename">
-								<el-input v-model="editRow.name" disabled></el-input>
+								<el-input v-model="editRow.pname" disabled></el-input>
 							</el-form-item>
 							</div>
 						</div>
@@ -69,7 +67,7 @@
 							<div class="block-item-label">备注</div>
 							<div class="block-item-value">
 							<el-form-item prop="pjctype">
-								<el-input v-model="editRow.pname" disabled></el-input>
+								<el-input v-model="editRow.name" disabled></el-input>
 							</el-form-item>
 							</div>
 						</div>
@@ -116,11 +114,6 @@
 					</div>
 					</el-form>
 				</div>
-				</el-col>
-				<el-col :span="8">
-					<!-- <auditRecord ></auditRecord> -->
-				</el-col>
-			</el-row>
 			</div>
 		  </el-main>
 		</el-container>
@@ -405,13 +398,6 @@
   </script>
   
   <style scoped lang="scss">
-  @import "src/assets/css/dialog";
-  .full-dialog{
-	.form-bg{
-	width: 1510px!important;
-	
-  }
-  }
-
+  	@import "src/assets/css/dialog";
   </style>
   

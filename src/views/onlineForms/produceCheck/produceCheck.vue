@@ -130,7 +130,7 @@
   import { downLoadFile } from "@/utils/download";
   import edit from "./edit";
   import detail from './detail';
-  import LeftTree from "@/components/tree/inde"
+  import LeftTree from "../leftTree"
   import { download } from "@/utils/download";
   import { getFillDataTemplate, saveFillDataTemplate } from "@/api/onlineForms";
   import { listProduceDocument, getProduceDocument } from "@/api/produceDocument";

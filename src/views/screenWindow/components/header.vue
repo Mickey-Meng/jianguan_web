@@ -1,6 +1,6 @@
 <template>
   <div class="header_box">
-    <div class="title">建设集团项目全生命周期数字管理平台</div>
+    <div class="title">{{companyName}}</div>
     <ul class="time_date">
       <li class="time">>{{ nowDate }}</li>
       <li class="week">{{ nowday }}</li>
@@ -28,7 +28,8 @@ export default {
       nowday: "",
       weather: {},
       weatherTimer: null,
-      dateTimer: null
+      dateTimer: null,
+      companyName: "建设集团项目全生命周期数字管理平台",
     };
   },
   created() {
@@ -62,7 +63,8 @@ export default {
       case 0:
         this.nowday = "星期天";
         break;
-    }
+    };
+    this.getSystemName();
   },
   mounted() {
   },
@@ -75,7 +77,13 @@ export default {
           this.weather = data[0];
         }
       });
-    }
+    },
+    getSystemName() {
+        const sysNames = JSON.parse(localStorage.getItem("sysNames"));
+        this.companyName = sysNames.ViewsHeaderCompanyName;
+          // #1122 lrj
+          document.title=  sysNames.systemName 
+    },
   },
   components: {},
   beforeDestroy() {

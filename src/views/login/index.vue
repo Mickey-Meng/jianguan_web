@@ -3,7 +3,7 @@
     <!-- #636 lrj 2023-09-12 -->
     <img src="../../assets/image/logo111.png" alt="logo" class="logo-box" />
     <div class="title-container">
-      <h3 class="title">项目全生命周期数字管理平台</h3>
+      <h3 class="title">{{ systemName }}</h3>
     </div>
     <div class="title-loginForm">
     </div>
@@ -44,11 +44,12 @@
         style="width: 100%; margin-top: 26px;font-size: 18px; font-weight: 400;"
         @click.native.prevent="handleLogin">登陆</el-button>
     </el-form>
-    <div class="company-name">诸暨市建设集团有限公司</div>
+    <div class="company-name"> {{ companyName }}</div>
   </div>
 </template>
 
 <script>
+import { getSystemName } from "@/api/system";
 import { getCodeImg } from "@/api/user";
 export default {
   name: "Login",
@@ -80,6 +81,8 @@ export default {
       loading: false,
       passwordType: "password",
       redirect: undefined,
+      systemName: "全生命xx周期智慧建设平台",
+      companyName: "池州xx建设投资集团有限公司 · 池州建投建筑科技有限公司",
     };
   },
   mounted() {
@@ -95,6 +98,7 @@ export default {
   },
   created() {
     this.getCode();
+    this.updateSystemName();
   },
   methods: {
     getCode() {
@@ -105,6 +109,23 @@ export default {
           this.loginForm.uuid = res.data.uuid;
         }
       });
+    },
+    updateSystemName() { 
+      getSystemName('system_name').then((res) => {
+        const sysNames = res.msg.split(",");
+        const sysNamesObj ={
+          systemName:sysNames[0],
+          companyName:sysNames[1],
+          layoutCompanyName:sysNames[2],
+          ViewsHeaderCompanyName:sysNames[3],
+        }
+        localStorage.setItem("sysNames",JSON.stringify(sysNamesObj));
+        console.log(sysNamesObj)
+        this.systemName = sysNamesObj.systemName;
+        // #1122 浏览器上的标题动态改动 lrj 需要合所有分支
+        document.title= this.systemName
+        this.companyName = sysNamesObj.companyName;
+      })
     },
     showPwd() {
       if (this.passwordType === "password") {

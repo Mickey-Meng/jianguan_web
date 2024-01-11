@@ -26,12 +26,12 @@
 <script>
 import EZUIKit from "ezuikit-js";
 import { getVideoToken } from "@/api/wisdomSite";
-
+import { mapGetters } from "vuex";
 export default {
   props: [],
   watch: {},
   data() {
-    return {
+    return { 
       minData: [],
       playerArr: [],
       currentIndex: 0,

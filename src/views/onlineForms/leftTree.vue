@@ -130,11 +130,17 @@ export default {
     },
     initData(key) {
       if (this.treeInfo[key] && this.treeInfo[key].length === 0) {
-        getBridgeTree(key, this.project.id).then((res) => {
-          const arr = [];
-          arr.push(res.data);
-          this.treeInfo[key] = arr;
-        });
+        if (this.treeType === 'onlineProduceReport') {
+          console.log("Loading onlineProduceReport tree Data.")
+        } else if (this.treeType === 'onlineProduceCheck') {
+          console.log("Loading onlineProduceCheck tree Data.")
+        } else {
+          getBridgeTree(key, this.project.id).then((res) => {
+            const arr = [];
+            arr.push(res.data);
+            this.treeInfo[key] = arr;
+          });
+        }
       }
     },
     nodeClick(node, data) {

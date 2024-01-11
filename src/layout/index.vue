@@ -15,7 +15,7 @@
           <map-container />
         </div>
       </div>
-      <div class="company-name">诸暨市建设集团有限公司</div>
+      <div class="company-name">{{ companyName }}</div>
     </div>
   </div>
 </template>
@@ -47,7 +47,8 @@ export default {
   data() {
     return {
       timer: null,
-      tasktimer: null
+      tasktimer: null,
+      companyName: "池州xx建设投资集团有限公司",
     }
   },
   // mixins: [ResizeMixin],
@@ -78,6 +79,7 @@ export default {
   created() {
     this.checkRoute()
     this.init()
+    this.getSystemName();
   },
   methods: {
     // handleClickOutside() {
@@ -152,6 +154,10 @@ export default {
       that.tasktimer = setInterval(() => {
         this.updateTaskNum()
       }, 1000 * 60)
+    },
+    getSystemName() {
+        const sysNames = JSON.parse(localStorage.getItem("sysNames"));
+        this.companyName = sysNames.layoutCompanyName;
     },
   },
   destroyed() {
