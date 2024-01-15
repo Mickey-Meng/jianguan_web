@@ -129,19 +129,54 @@ export default {
       })
     },
     initData(key) {
+      console.log(this.treeType);
       if (this.treeInfo[key] && this.treeInfo[key].length === 0) {
-        if (this.treeType === 'onlineProduceReport') {
-          console.log("Loading onlineProduceReport tree Data.")
-        } else if (this.treeType === 'onlineProduceCheck') {
-          console.log("Loading onlineProduceCheck tree Data.")
-        } else {
-          getBridgeTree(key, this.project.id).then((res) => {
-            const arr = [];
-            arr.push(res.data);
-            this.treeInfo[key] = arr;
-          });
-        }
+        getBridgeTree(key, this.project.id).then((res) => {
+          const arr = [];
+          arr.push(res.data);
+          this.treeInfo[key] = this.filterTree(arr, "评定");
+        });
       }
+    },
+    filterTree(treeData, filterWord) {
+      let isCheck = this.treeType === 'onlineProduceCheck';
+      // 条件就是节点的title过滤关键字
+      let predicate = function (node) {
+        if (isCheck) {
+          return node.name.includes(filterWord);
+        } else {
+          return !node.name.includes(filterWord);
+        }
+      };
+      // 结束递归的条件
+      if (!(treeData && treeData.length)) {
+        return [];
+      }
+      let newChildren = [];
+      for (let node of treeData) {
+        //一、带父节点     以下两个条件任何一个成立，当前节点都应该加入到新子节点集中
+        // 1. 子孙节点中存在符合条件的，即 subs 数组中有值
+        // 2. 自己本身符合条件
+        let subs = this.filterTree(node.child, filterWord);
+        if (predicate(node)) {
+          node.child = this.filterTree(node.child, filterWord);
+          newChildren.push(node);
+        } else if (subs && subs.length) {
+          node.child = subs;
+          newChildren.push(node);
+        }
+
+        //二、不带父节点     以下只需要考虑自身的节点满足条件即可,不用带上父节点
+        /**
+        if (predicate(node)) {
+          newChildren.push(node);
+          node.child = this.filterTree(node.child, filterWord);
+        } else {
+          newChildren.push(...this.filterTree(node.child, filterWord));
+        }
+        **/
+      }
+      return newChildren.length ? newChildren : [];
     },
     nodeClick(node, data) {
       if (node.conponetcode) {

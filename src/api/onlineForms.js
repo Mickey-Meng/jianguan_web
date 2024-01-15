@@ -68,5 +68,16 @@ export function getFillDataTemplate(id, params) {
       params: { produceAndRecodeId : id, documentType:  documentType}
     });
   };
+
+  export const getOnlineReportTemplate = (componentCode, projectId) => {
+    return request({
+      url: "/onlineForms/produceOnline/getOnlineReportTemplate",
+      method: "get",
+      params: {
+        componentCode: componentCode || undefined,
+        projectId
+      }
+    });
+  };
   
   

@@ -205,7 +205,9 @@
 				});
 				// 根据附件记录ID查询附件信息
 				api.getRecordById(produceObj.recordid).then((res) => {
-					this.attachTable = JSON.parse(res.data.recode.remark) || [];
+					if (res.data.recode !== undefined) {
+						this.attachTable = JSON.parse(res.data.recode.remark) || [];
+					}
 				});
 				api.getFlowAndTaskInfo({businessKey: produceObj.produceAndRecodeId + "_" + produceObj.recordid + "_produceOnlineReport"}).then((res) => {
 					console.log(res.data);

@@ -272,9 +272,9 @@
 		});
 		// 根据附件记录ID查询附件信息
 		api.getRecordById(obj.recordid).then((res) => {
-			console.log(res);
-			console.log(res.data.recode);
-			this.attachTable = JSON.parse(res.data.recode.remark) || [];
+			if (res.data.recode !== undefined) {
+				this.attachTable = JSON.parse(res.data.recode.remark) || [];
+			}
 		});
 	  },
 	  

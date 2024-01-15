@@ -10,17 +10,21 @@
                     <!-- 评定列表界面 -->
                     <el-table :data="tableData" style="width: 100%" class="" key="check" height="100%" v-if="currentView === 'fill'" border>
                         <el-table-column type="index" width="80" align="center" label="序号"></el-table-column>
-                        <el-table-column prop="componentName" label="具体部位" align="center"></el-table-column>
-                        <el-table-column prop="componentCode" label="构建编码" align="center"></el-table-column>
-                        <el-table-column prop="name" label="工序名称" align="center"></el-table-column>
-                        <el-table-column label="完成时间" width="180px" show-overflow-tooltip align="center">
+                        <el-table-column prop="componentName" label="评定部位" align="center"></el-table-column>
+                        <el-table-column prop="componentCode" label="实测项目是否合格" align="center"></el-table-column>
+                        <el-table-column prop="name" label="外观质量" align="center"></el-table-column>
+                        <el-table-column prop="name" label="资料完整性" align="center"></el-table-column>
+                        <el-table-column label="填报时间" width="180px" show-overflow-tooltip align="center">
                             <template slot-scope="{ row }">
                             {{
                                 row.checkresult !== 1 ? '未录入' : row.finish
                             }}
                             </template>
-                        </el-table-column>                        
-
+                        </el-table-column>
+                        <!--             
+                        <el-table-column prop="name" label="申请人" align="center"></el-table-column>
+                        <el-table-column prop="name" label="审核人" align="center"></el-table-column>-->
+                        <el-table-column prop="name" label="评定结果" align="center"></el-table-column>
                         <el-table-column label="附件" width="100px" align="center">
                             <template slot-scope="{ row }">
                             <svg-icon class="svg-class svg-btn" :class="row.checkresult === 3
@@ -132,7 +136,7 @@
   import detail from './detail';
   import LeftTree from "../leftTree"
   import { download } from "@/utils/download";
-  import { getFillDataTemplate, saveFillDataTemplate } from "@/api/onlineForms";
+  import { getFillDataTemplate, saveFillDataTemplate, getOnlineReportTemplate } from "@/api/onlineForms";
   import { listProduceDocument, getProduceDocument } from "@/api/produceDocument";
   
   export default {
@@ -140,7 +144,7 @@
     components: { edit, detail, LeftTree },
     data() {
       return {
-        treeType:"onlineProduceCheck_2",
+        treeType:"onlineProduceCheck",
         uploadFileUrl: process.env.VUE_APP_BASE_API + "/mong/upload",
         currentView: "fill", //record
         drawerVisible: false,
@@ -233,6 +237,10 @@
         api.getPersonByComponentId(code, this.project.id).then((res) => {
           this.supervisor = res.data;
         });
+        // 查询填报模板数据
+        api.getOnlineReportTemplate(code, this.project.id).then((res) => {
+          console.log(res);
+        });
       },
 
       editStatus(row) {
@@ -259,14 +267,14 @@
         //0 没填报 3已填报待审核 1已确认 2审核未通过
         //如果点击工序的上一步未审核通过，不能填报
         console.log(row);
-        if (row && row.status !== 1) {
+        /*if (row && row.status !== 1) {
           this.$message({
             message: "请完成工序报验填写及审批完成后操作!",
             type: "warning",
             customClass: "message_override",
           });
           return;
-        }
+        }*/
         
         if (row.checkresult === 1) {
           //状态为1，工序审核已完成

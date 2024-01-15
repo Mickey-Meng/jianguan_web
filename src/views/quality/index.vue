@@ -131,7 +131,7 @@
             类型：
             <span>{{ rowdata.conponenttypename }}</span>
             编码：
-            <span>{{ rowdata.conponentcode }}</span>
+            <span>{{ rowdata.wbscode }}</span>
             工序名称：
             <span>{{ rowdata.precessName }}</span>
           </div>

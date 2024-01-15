@@ -307,7 +307,7 @@
     components: { edit, detail, LeftTree },
     data() {
       return {
-        treeType:"onlineProduceReport_1",
+        treeType:"onlineProduceReport",
         uploadFileUrl: process.env.VUE_APP_BASE_API + "/mong/upload",
         currentView: "fill", //record
         drawerVisible: false,
@@ -423,6 +423,7 @@
       },
 
       fillProcess(row, index) {
+        
         let obj = null;
         if (index !== 0) {
           obj = this.tableData[index - 1];
@@ -430,6 +431,8 @@
         //0 没填报 3已填报待审核 1已确认 2审核未通过
         //如果点击工序的上一步未审核通过，不能填报
         let { status } = row;
+        console.log("status:" + status);
+        /**
         if (obj && obj.status !== 1) {
           this.$message({
             message: "请填报上个工序或联系监理审核上个工序",
@@ -437,9 +440,9 @@
             customClass: "message_override",
           });
           return;
-        }
+        } */
         //如果点击的工序status是0表示没有填报，可以直接填报
-        if (status === 0) {
+        if (status === undefined || status === 0) {
          /**
           this.isCreate = true;
           this.dialogVisible = true;
