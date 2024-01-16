@@ -9,34 +9,40 @@
                 <div class="main">
                     <!-- 评定列表界面 -->
                     <el-table :data="tableData" style="width: 100%" class="" key="check" height="100%" v-if="currentView === 'fill'" border>
-                        <el-table-column type="index" width="80" align="center" label="序号"></el-table-column>
+                        <el-table-column type="index" width="60" align="center" label="序号"></el-table-column>
                         <el-table-column prop="componentName" label="评定部位" align="center"></el-table-column>
-                        <el-table-column prop="componentCode" label="实测项目是否合格" align="center"></el-table-column>
-                        <el-table-column prop="name" label="外观质量" align="center"></el-table-column>
-                        <el-table-column prop="name" label="资料完整性" align="center"></el-table-column>
-                        <el-table-column label="填报时间" width="180px" show-overflow-tooltip align="center">
+                        <el-table-column prop="scxmStatus" label="实测项目是否合格" align="center">
+                          <template slot-scope="scope">
+                            <el-tag v-if="scope.row.scxmStatus == '0'" size="mini" type="warning" > 不合格 </el-tag>
+                            <el-tag v-if="scope.row.scxmStatus == '1'" size="mini" type="success" > 合格 </el-tag>
+                          </template>
+                        </el-table-column>
+                        <el-table-column prop="wgzlStatus" label="外观质量" align="center">
+                          <template slot-scope="scope">
+                            <el-tag v-if="scope.row.wgzlStatus == '0'" size="mini" type="warning" > 不合格 </el-tag>
+                            <el-tag v-if="scope.row.wgzlStatus == '1'" size="mini" type="success" > 合格 </el-tag>
+                          </template>
+                        </el-table-column>
+                        <el-table-column prop="zlwzxStatus" label="资料完整性" align="center">
+                          <template slot-scope="scope">
+                            <el-tag v-if="scope.row.zlwzxStatus == '0'" size="mini" type="warning" > 不合格 </el-tag>
+                            <el-tag v-if="scope.row.zlwzxStatus == '1'" size="mini" type="success" > 合格 </el-tag>
+                          </template>
+                        </el-table-column>
+                        <el-table-column label="填报时间" width="150px" show-overflow-tooltip align="center">
                             <template slot-scope="{ row }">
                             {{
                                 row.checkresult !== 1 ? '未录入' : row.finish
                             }}
                             </template>
-                        </el-table-column>
-                        <!--             
+                        </el-table-column>            
                         <el-table-column prop="name" label="申请人" align="center"></el-table-column>
-                        <el-table-column prop="name" label="审核人" align="center"></el-table-column>-->
-                        <el-table-column prop="name" label="评定结果" align="center"></el-table-column>
-                        <el-table-column label="附件" width="100px" align="center">
-                            <template slot-scope="{ row }">
-                            <svg-icon class="svg-class svg-btn" :class="row.checkresult === 3
-                                ? 'submit'
-                                : row.checkresult === 2
-                                ? 'reject'
-                                : row.checkresult === 1
-                                    ? 'finish'
-                                    : 'error'
-                                " icon-class="seeDetail" v-if="row.recordid" @click="seeTemplate(row)"></svg-icon>
-                            <span v-else>未录入</span>
-                            </template>
+                        <el-table-column prop="name" label="审核人" align="center"></el-table-column>
+                        <el-table-column prop="checkResult" label="评定结果" align="center">
+                          <template slot-scope="scope">
+                            <el-tag v-if="scope.row.checkResult == '0'" size="mini" type="warning" > 不合格 </el-tag>
+                            <el-tag v-if="scope.row.checkResult == '1'" size="mini" type="success" > 合格 </el-tag>
+                          </template>
                         </el-table-column>
 
                         <el-table-column prop="status" align="center" label="审核状态" show-overflow-tooltip>
@@ -136,7 +142,7 @@
   import detail from './detail';
   import LeftTree from "../leftTree"
   import { download } from "@/utils/download";
-  import { getFillDataTemplate, saveFillDataTemplate, getOnlineReportTemplate } from "@/api/onlineForms";
+  import { getFillDataTemplate, saveFillDataTemplate, loadOnlineCheckReport } from "@/api/onlineForms";
   import { listProduceDocument, getProduceDocument } from "@/api/produceDocument";
   
   export default {
@@ -224,23 +230,31 @@
       getCheackDataById() {
         api.getCheckData(this.componentInfo.id).then((res) => {
           let resComponent = res.data.data;
-          let produceList = res.data.check;
-          this.tableData = produceList.map(function(produceItem, index, produceList){
-            produceItem.componentCode = resComponent.conponentcode;
-            produceItem.componentName = resComponent.conponenttypename;
-            return produceItem;
-          })
-          this.submitDataInfo = resComponent;
+          let dataList = res.data.check;
+          // 查询填报模板数据
+          loadOnlineCheckReport(this.componentInfo.id).then((res1) => {
+            
+            let checkReport = res1.data;
+            console.log(checkReport);
+            this.tableData = dataList.map(function(item, index, dataList){
+              item.componentCode = resComponent.conponentcode;
+              item.componentName = resComponent.conponenttypename.replace("评定","") + resComponent.projectname.replace("评定","");
+              item.scxmStatus = checkReport.scxmStatus;
+              item.wgzlStatus = checkReport.wgzlStatus;
+              item.zlwzxStatus = checkReport.zlwzxStatus;
+              item.checkResult = checkReport.checkResult;
+              console.log(item);
+              return item;
+            })
+            this.submitDataInfo = resComponent;
+          });
         });
         // let code = this.componentInfo.conponetcode.substring(0, 4);
         let code = this.componentInfo.conponetcode;
         api.getPersonByComponentId(code, this.project.id).then((res) => {
           this.supervisor = res.data;
         });
-        // 查询填报模板数据
-        api.getOnlineReportTemplate(code, this.project.id).then((res) => {
-          console.log(res);
-        });
+        
       },
 
       editStatus(row) {
@@ -515,7 +529,7 @@
     height: 100%;
     display: flex;
     .tree_wrapper_box{
-      width: 500px;
+      width: 400px;
     }
     .table-content {
       background-color: #FFFFFF;

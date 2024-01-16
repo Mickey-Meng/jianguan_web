@@ -79,5 +79,15 @@ export function getFillDataTemplate(id, params) {
       }
     });
   };
+
+  export const loadOnlineCheckReport = (componentId) => {
+    return request({
+      url: "/onlineForms/checkReport/loadOnlineCheckReport",
+      method: "get",
+      params: {
+        componentId: componentId || undefined
+      }
+    });
+  };
   
   

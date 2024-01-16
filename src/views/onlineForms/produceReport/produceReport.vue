@@ -390,7 +390,7 @@
           let produceList = res.data.check;
           this.tableData = produceList.map(function(produceItem, index, produceList){
             produceItem.componentCode = resComponent.conponentcode;
-            produceItem.componentName = resComponent.conponenttypename;
+            produceItem.componentName = resComponent.projectname;
             return produceItem;
           })
           this.submitDataInfo = resComponent;
@@ -701,7 +701,7 @@
     height: 100%;
     display: flex;
     .tree_wrapper_box{
-      width: 500px;
+      width: 400px;
     }
     .table-content {
       background-color: #FFFFFF;
