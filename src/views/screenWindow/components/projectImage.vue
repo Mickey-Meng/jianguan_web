@@ -11,7 +11,7 @@
     <div class="left_btn_box">
       <img src="../../../assets/mapView/左箭头.png" alt="" @click="toLeft">
     </div>
-    <div class="main_image_box">
+    <div class="main_image_box  ccc">
       <div class="video_box" ref="videoBox" :style="{transform:`translateX(${iWidth}px)`}">
         <div v-for="(item, index) in minData" :key="index" :id="'video_line' + item.id">
         </div>
@@ -26,7 +26,8 @@
 <script>
 import EZUIKit from "ezuikit-js";
 import { getVideoToken } from "@/api/wisdomSite";
-import { mapGetters } from "vuex";
+import { getSystemName } from "@/api/system";
+import {mapGetters} from "vuex";
 export default {
   props: [],
   watch: {},
@@ -63,16 +64,29 @@ export default {
   },
   methods: {
     initData() {
-      this.$axios.get("./data/monitoring.json").then((res) => {
-        let data = res.data.data.filter((e) => e.type === 2) || [];
-        this.minData = data;
+      // #1019 lrj 20231208 
+      getSystemName('config_monitor').then((res) => {
+        let msg= res.msg   
+        let resData=JSON.parse(msg).data;
+         let data = resData.filter((e) => e.type === 2) || [];
+         this.minData = data;
         if (data.length > 4) {
           this.maxIndex = data.length - 4;
         }
         this.initVideo();
-      });
+      })
+
+      // this.$axios.get("./data/monitoring.json").then((res) => { 
+      //   let data = res.data.data.filter((e) => e.type === 2) || [];
+      //   this.minData = data;
+      //   if (data.length > 4) {
+      //     this.maxIndex = data.length - 4;
+      //   }
+      //   this.initVideo();
+      // });
     },
     initVideo() {
+        // #1045 lrj 20231215 加projectId参数
       getVideoToken(this.project.id).then((res) => {
         let token = res.data;
         this.$nextTick(() => {

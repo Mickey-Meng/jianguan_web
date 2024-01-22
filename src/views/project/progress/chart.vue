@@ -31,32 +31,15 @@
         </div>
         <div class="text">付款进度</div>
       </div>
-      <div class="right_process" style="display:none;">
-        <div class="item">
+      <div class="right_process" style="display:none;" >
+
+        <div class="item"  v-for="item in jinduData" :key="item.title" :class="item.itemClass">
           <div class="header_text">
-            <div class="text">道路进度</div>
-            <div class="num ql">{{ lmNum }}</div>
+            <div class="text">{{item.title}}</div>
+            <div class="num" :class="item.numClass">{{ item.num }}</div>
           </div>
           <div class="line">
-            <div class="actual_progress_ql" :style="{width:lmNum}" :class="{noBorderRadius:lmFinish}"></div>
-          </div>
-        </div>
-        <div class="item item_dl">
-          <div class="header_text">
-            <div class="text">桥梁进度</div>
-            <div class="num dl">{{ dlNum }}</div>
-          </div>
-          <div class="line">
-            <div class="actual_progress_dl" :style="{width:dlNum}" :class="{noBorderRadius:dlFinish}"></div>
-          </div>
-        </div>
-        <div class="item">
-          <div class="header_text">
-            <div class="text">道路进度</div>
-            <div class="num sd">{{ sdNum }}</div>
-          </div>
-          <div class="line">
-            <div class="actual_progress_sd" :style="{width:sdNum}" :class="{noBorderRadius:sdFinish}"></div>
+            <div  :style="{width:item.num}" :class="[item.finish?'noBorderRadius':'',item.lineSubClass]"></div>
           </div>
         </div>
       </div>
@@ -72,14 +55,16 @@ import {mapGetters} from "vuex";
 export default {
   data() {
     return {
-      qlNum: 0.00 + "%",
-      dlNum: 0.00 + "%",
-      sdNum: 0.00 + "%",
-      lmNum: 0.00 + "%",
-      qlFinish: false,
-      dlFinish: false,
-      lmFinish: false,
-      sdFinish: false,
+      jinduData:[{code:'LM',title:'房建进度',numClass:'ql',
+      lineSubClass:'actual_progress_ql',num:0.00 + "%",itemClass:'',
+      finish:false},{code:'QL',title:'桥梁进度',numClass:'dl',
+      lineSubClass:'actual_progress_dl',num:0.00 + "%",itemClass:'item_dl',
+      finish:false},{code:'DL',title:'桥梁进度',numClass:'dl',
+      lineSubClass:'actual_progress_dl',num:0.00 + "%",itemClass:'item_dl',
+      finish:false},{code:'SD',title:'隧道进度',numClass:'sd',itemClass:'',
+      lineSubClass:'actual_progress_sd',num:0.00 + "%",
+      finish:false}],
+  
       option: {
         title: {
           text: "0%",
@@ -238,60 +223,44 @@ export default {
   methods: {
     initData() {
       api.getMiddleData(this.project.id).then((res) => {
-        const {QL, SD, DL, LM} = res.data; // LM代表道路
-        let allCount = 0,
-          allFinish = 0;
-        if (QL) {
-          let finish = QL.finish || 0;
-          let count = QL.count || 0;
-          if (finish && count && finish === count) {
-            this.qlFinish = true;
+           let data=res.data
+         //#1124 lrj
+          let allCount = 0;
+          let allFinish = 0;
+          let finish =0;
+               let count=0;
+          console.log('222',data)
+          for (let key in data) { 
+           
+            if(typeof data[key] === 'object'&&data[key].count){
+            
+               console.log(typeof data[key] === 'object'&&data[key].count,'------------',data[key])
+               let index=this.jinduData.findIndex(res=>res.code==key)
+               console.log('index+++',index)
+               finish = data[key].finish;
+              count = data[key].count;
+              if(index>-1){
+                  if (finish && count && finish === count) {
+                    this.jinduData[index].finish=true
+                  }
+                  this.jinduData[index].num = Math.floor((finish / count) * 10000)/100 + "%";
+              }
+              allFinish += finish;
+               allCount += count;
+              };  
           }
-          allFinish += finish;
-          allCount += count;
-          this.qlNum = Math.floor((finish / count) * 10000)/100 + "%";
-        }
-        if (SD && SD) {
-          let finish = SD.finish || 0;
-          let count = SD.count || 0;
-          if (finish && count && finish === count) {
-            this.sdFinish = true;
-          }
-          allFinish += finish;
-          allCount += count;
-          this.sdNum = Math.floor((finish / count) * 10000)/100 + "%";
-        }
-        if (DL) {
-          let finish = DL.finish || 0;
-          let count = DL.count || 0;
-          if (finish && count && finish === count) {
-            this.dlFinish = true;
-          }
-          allFinish += finish;
-          allCount += count;
-          this.dlNum = Math.floor((finish / count) * 10000)/100 + "%";
-        }
-        if (LM) { // LM代表道路
-          let finish = LM.finish || 0;
-          let count = LM.count || 0;
-          if (finish && count && finish === count) {
-            this.lmFinish = true;
-          }
-          allFinish += finish;
-          allCount += count;
-          this.lmNum = Math.floor((finish / count) * 10000)/100 + "%";
-        }
-        let rate = 0;
+          let rate = 0;
         // 解决allcount为0时，计算出来的结果时NaN
         if(allCount != 0) {
-          rate = Math.floor((allFinish / allCount) * 10000)/100;
+          rate = (allFinish / allCount * 10000)/100;
+          rate =rate.toFixed(2);
         }
         let nFinish = 100 - rate;
         this.option.series[0].data[0].value = rate;
         this.option.series[0].data[1].value = nFinish;
         this.option.title.text = rate + "%";
       });
-
+      
       api.getEngCompany(this.project.id).then((res) => {
         let rate = res.data.productionProgress || 0
         let nFinish = 100 - rate;
@@ -299,7 +268,7 @@ export default {
         this.option1.series[0].data[1].value = nFinish;
         this.option1.title.text = rate + "%";
 
-
+        
         rate = res.data.attachmentProgress || 0
         nFinish = 100 - rate;
         this.option2.series[0].data[0].value = rate;

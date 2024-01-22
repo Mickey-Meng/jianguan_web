@@ -90,4 +90,10 @@ export function getFillDataTemplate(id, params) {
     });
   };
   
-  
+  export function getReportRecord(componentId) {
+    return request({
+      url: "/onlineForms/produceOnline/getReportRecord",
+      method: "get",
+      params: { componentId : componentId}
+    });
+  };

@@ -29,15 +29,9 @@
                             <el-tag v-if="scope.row.zlwzxStatus == '1'" size="mini" type="success" > 合格 </el-tag>
                           </template>
                         </el-table-column>
-                        <el-table-column label="填报时间" width="150px" show-overflow-tooltip align="center">
-                            <template slot-scope="{ row }">
-                            {{
-                                row.checkresult !== 1 ? '未录入' : row.finish
-                            }}
-                            </template>
-                        </el-table-column>            
-                        <el-table-column prop="name" label="申请人" align="center"></el-table-column>
-                        <el-table-column prop="name" label="审核人" align="center"></el-table-column>
+                        <el-table-column prop="reportTime" label="填报时间" width="150px"align="center"></el-table-column>            
+                        <el-table-column prop="reportUser" label="申请人" align="center"></el-table-column>
+                        <el-table-column prop="checkUser" label="审核人" align="center"></el-table-column>
                         <el-table-column prop="checkResult" label="评定结果" align="center">
                           <template slot-scope="scope">
                             <el-tag v-if="scope.row.checkResult == '0'" size="mini" type="warning" > 不合格 </el-tag>
@@ -123,7 +117,7 @@
                 </el-container>
             </el-drawer>
         </div>
-        <edit ref="edit" :editRow="componentInfo"></edit>
+        <edit ref="edit" :editRow="componentInfo" @freshData = "getCheackDataById"></edit>
         <detail ref="detail" :editRow="componentInfo"></detail>
     </div>
   </template>
@@ -243,6 +237,9 @@
               item.wgzlStatus = checkReport.wgzlStatus;
               item.zlwzxStatus = checkReport.zlwzxStatus;
               item.checkResult = checkReport.checkResult;
+              item.reportUser = checkReport.reportUser;
+              item.reportTime = checkReport.reportTime;
+              item.checkUser = checkReport.checkUser;
               console.log(item);
               return item;
             })

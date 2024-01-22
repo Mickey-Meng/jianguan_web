@@ -108,7 +108,7 @@
             <!--        <el-cascader v-model="value" :options="options"></el-cascader>-->
             <el-table :data="recordsData" style="width: 100%" class="small_scrolling" key="check"
               v-if="currentView === 'record'" height="95%" border>
-              <el-table-column prop="status" align="center" label="审核状态" show-overflow-tooltip>
+              <el-table-column prop="status" align="center" width="150px" label="审核状态" show-overflow-tooltip>
                   <template slot-scope="scope">
                     <el-tag
                       v-if="scope.row.status == '2'"
@@ -139,7 +139,7 @@
               </el-table-column>
               <el-table-column prop="producename" label="工序名称" align="center">
               </el-table-column>
-              <el-table-column prop="stime" label="完成时间" align="center">
+              <el-table-column prop="stime" label="完成时间" width="180px" align="center">
               </el-table-column>
             </el-table>
           </div>
@@ -280,7 +280,7 @@
         </template>
       </div>
     </div>
-      <edit ref="edit" :editRow="componentInfo"></edit>
+      <edit ref="edit" :editRow="componentInfo" @freshData = "getCheackDataById"></edit>
       <detail ref="detail" :editRow="componentInfo"></detail>
     </div>
   </template>
@@ -299,7 +299,7 @@
   import detail from './detail';
   import LeftTree from "../leftTree"
   import { download } from "@/utils/download";
-  import { getFillDataTemplate, saveFillDataTemplate } from "@/api/onlineForms";
+  import { getFillDataTemplate, saveFillDataTemplate, getReportRecord } from "@/api/onlineForms";
   import { listProduceDocument, getProduceDocument } from "@/api/produceDocument";
   
   export default {
@@ -380,7 +380,11 @@
         }
       },
       getRecord() {
-        api.getAllcheckData(2, this.project.id).then((res) => {
+       /**api.getAllcheckData(2, this.project.id).then((res) => {
+          this.recordsData = res.data;
+        });
+        */ 
+        getReportRecord(this.componentInfo.id).then((res) => {
           this.recordsData = res.data;
         });
       },

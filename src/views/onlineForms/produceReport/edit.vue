@@ -337,8 +337,8 @@
 			this.dialogFormVisible = false;
 			setTimeout(()=> {
 				this.submitDisable = false;
-			}, 500)
-				this.$emit("query");
+			}, 300)
+				this.$emit("getCheackDataById");
 			}
 		});
 	  },

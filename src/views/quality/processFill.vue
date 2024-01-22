@@ -404,7 +404,7 @@ export default {
         return;
       }
       //如果点击的工序status是0表示没有填报，可以直接填报
-      if (status === 0) {
+      if (status === 0 || status === undefined) {
         this.isCreate = true;
         this.dialogVisible = true;
         this.title = row.produceName;

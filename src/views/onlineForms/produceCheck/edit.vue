@@ -303,7 +303,7 @@
 			setTimeout(()=> {
 				this.submitDisable = false;
 			}, 500)
-			this.$emit("query");
+				this.$emit("getCheackDataById");
 			}
 		});
 	  },
