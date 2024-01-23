@@ -97,3 +97,12 @@ export function getFillDataTemplate(id, params) {
       params: { componentId : componentId}
     });
   };
+
+  export function getNewCheckViewTable(data) {
+    return request({
+      url: "/produce/getTypeStatus",
+      method: "post",
+      data
+    });
+  };
+  

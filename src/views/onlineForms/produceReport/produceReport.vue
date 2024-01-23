@@ -105,7 +105,7 @@
 
           <!-- 填报记录 Tab页面 -->
           <div v-if="currentView === 'record'" class="record">
-            <!--        <el-cascader v-model="value" :options="options"></el-cascader>-->
+            <!--        <el-cascader v-model="value" :options="options"></el-cascader>
             <el-table :data="recordsData" style="width: 100%" class="small_scrolling" key="check"
               v-if="currentView === 'record'" height="95%" border>
               <el-table-column prop="status" align="center" width="150px" label="审核状态" show-overflow-tooltip>
@@ -142,6 +142,79 @@
               <el-table-column prop="stime" label="完成时间" width="180px" align="center">
               </el-table-column>
             </el-table>
+            -->
+            <div class="table-content">
+              <div class="header">
+                <span>工区</span>
+                <el-select v-model="areaId" @change="changeArea">
+                  <el-option
+                    v-for="item in area"
+                    :key="item.sort"
+                    :value="item.sort"
+                    :label="item.name"
+                  ></el-option>
+                </el-select>
+                <span>单位工程：</span>
+                <el-select v-model="typeKey">
+                  <el-option
+                    v-for="item in typeArr"
+                    :key="item.projectid"
+                    :value="item.projectid"
+                    :label="item.projectname"
+                  ></el-option>
+                </el-select>
+                <!-- 
+                <span>形象完成：</span>
+                <el-date-picker
+                  v-model="timeValue"
+                  value-format="yyyy-MM-dd"
+                  type="daterange"
+                  align="right"
+                  unlink-panels
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                  :picker-options="pickerOptions"
+                  @change="timeChange"
+                />
+                -->
+                <span>构件编码：</span>
+                <el-input v-model="paramData.code" placeholder="请输入构件编码" />
+                <el-button class="active" @click="queryData">搜索</el-button>
+              </div>
+              <div class="table_contet">
+                <el-table :data="tableRecordData" height="100%" class="have_scrolling" border ref="tableBox" style="width: 100%" >
+                  <el-table-column
+                    v-for="(value, index) in headerData"
+                    :key="index + value.name"
+                    :label="value.name"
+                    align="center"
+                  >
+                    <template slot-scope="{ row }">
+                      <svg-icon
+                        v-if="dynamicData.includes(value.code)"
+                        class="svg-class svg-btn"
+                        :key="index + value.name"
+                        :class="
+                          row[value.code + '_status'] == '3'
+                            ? 'submit'
+                            : row[value.code + '_status'] === '2'
+                            ? 'reject'
+                            : row[value.code + '_status'] === '1'
+                            ? 'finish'
+                            : 'error'
+                        "
+                        icon-class="seeDetail"
+                        @click="seeFile(row, value)"
+                      />
+                      <span v-else>{{
+                        row[value.code] === "null" ? "" : row[value.code]
+                      }}</span>
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </div>
+            </div>   
           </div>
 
 
@@ -299,7 +372,7 @@
   import detail from './detail';
   import LeftTree from "../leftTree"
   import { download } from "@/utils/download";
-  import { getFillDataTemplate, saveFillDataTemplate, getReportRecord } from "@/api/onlineForms";
+  import { getFillDataTemplate, saveFillDataTemplate, getReportRecord, getNewCheckViewTable } from "@/api/onlineForms";
   import { listProduceDocument, getProduceDocument } from "@/api/produceDocument";
   
   export default {
@@ -308,6 +381,7 @@
     data() {
       return {
         treeType:"onlineProduceReport",
+        dynamicData: ["P0", "P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8", "P9", "P10", "P11", "P12", "P13", "P14", "P15", "P16", "P17", "P18", "P19", "P20"],
         uploadFileUrl: process.env.VUE_APP_BASE_API + "/mong/upload",
         currentView: "fill", //record
         drawerVisible: false,
@@ -318,10 +392,47 @@
         options: [],
         recordsData: [],
         tableData: [],
+        tableRecordData: [],
         title: "",
         supervisor: [],
         processData: {},
         processRecordData: [],
+        area: [], //工区数据
+        areaId: null, //选中的工区
+        typeArr: [], //项目数据
+        timeValue: "",
+        typeKey: "",
+        pickerOptions: {
+          shortcuts: [
+            {
+              text: "最近一周",
+              onClick(picker) {
+                const end = new Date();
+                const start = new Date();
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                picker.$emit("pick", [start, end]);
+              },
+            },
+            {
+              text: "最近一个月",
+              onClick(picker) {
+                const end = new Date();
+                const start = new Date();
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                picker.$emit("pick", [start, end]);
+              },
+            },
+            {
+              text: "最近三个月",
+              onClick(picker) {
+                const end = new Date();
+                const start = new Date();
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                picker.$emit("pick", [start, end]);
+              },
+            },
+          ],
+        },
         acceptData: null,
         testData: null,
         componentInfo: null,
@@ -348,7 +459,17 @@
         //工序被驳回、走修改
         refuseData: {},
         isCreate: true, //判断是新增工序填报还是修改工序
-        templateListData: []
+        templateListData: [],
+        paramData:{
+          code: "",
+          endtime: "",
+          gongquid: "",
+          list: [],
+          projectId: null,
+          sttime: "",
+          type: "",
+          projectType: "QL"
+        }
       };
     },
     computed: {
@@ -383,10 +504,79 @@
        /**api.getAllcheckData(2, this.project.id).then((res) => {
           this.recordsData = res.data;
         });
-        */ 
         getReportRecord(this.componentInfo.id).then((res) => {
           this.recordsData = res.data;
-        });
+        });*/
+        this.paramData.projectId = this.project.id;
+        this.paramData.type = this.submitDataInfo.conponenttype;
+        this.paramData.projectType = this.submitDataInfo.projectType;
+        getNewCheckViewTable(this.paramData).then((res) => {
+          if (res.data) {
+            this.headerData = [];
+            this.headerData = res.data.head.filter(function(item) {
+              return item.code !== 'wbscode';
+            });
+
+            let lists = res.data.list;
+            const dec = ["P0_status", "P1_status", "P2_status", "P3_status", "P4_status", "P5_status", "P6_status", "P7_status", "P8_status", "P9_status", "P10_status", "P11_status", "P12_status", "P13_status", "P14_status", "P15_status", "P16_status", "P17_status", "P18_status", "P19_status", "P20_status"]
+            lists.forEach((item) => {
+              const produceRecordDetails = item.produceRecordDetails;
+              produceRecordDetails.forEach((detail, index) => {
+                item[dec[index]] = detail.produceRangee.split("_")[1] || undefined;
+                item[this.dynamicData[index]] = detail.produceRangee || undefined;
+              })
+            });
+            this.tableRecordData = lists;
+            this.rowdata = {};
+            this.$nextTick(() => {
+              //在数据加载完，重新渲染表格
+              this.$refs["tableBox"].doLayout();
+            });
+          } else {
+            this.tableRecordData = [];
+            this.rowdata = {};
+          }
+        });     
+      },
+      queryData() {
+        let { timeValue, paramData, typeKey } = this;
+        if (timeValue) {
+          paramData.sttime = timeValue[0];
+          paramData.endtime = timeValue[1];
+        } else {
+          paramData.sttime = "";
+          paramData.endtime = "";
+        }
+        paramData.list = [];
+        if (typeKey && typeKey !== "all") {
+          paramData.list.push(typeKey);
+        }
+        if (this.areaId === 95270) {
+          paramData.gongquid = "";
+        } else {
+          paramData.gongquid = this.areaId;
+        }
+        this.getNewCheckViewTable(this.paramData);
+      },
+      cloumnWidth(value) {
+        const arr = [0.2, 0.5, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0];
+        if (arr.includes(value)) {
+          return 200;
+        } else if (value === 0.1) {
+          return 80;
+        } else {
+          return 180;
+        }
+      },
+      timeChange() {
+      },
+      changeArea(val) {
+        this.typeKey = "";
+        if (val === 95270) {
+          this.typeArr = this.allProjectArr;
+        } else {
+          this.typeArr = this.allProjectArr.filter((e) => e.parentid === val);
+        }
       },
       getCheackDataById() {
         api.getCheckData(this.componentInfo.id).then((res) => {
@@ -565,6 +755,13 @@
           }
         });
       },
+      seeFile(row, value) {
+        let recordids = row[value.code];
+        if (recordids) {
+          row.recordid = recordids.split("_")[0];
+          this.seeRecord(row)
+        }
+      },
       /**
        * @Description: 查看填报详情
        * @author wangharry
@@ -711,7 +908,7 @@
       background-color: #FFFFFF;
       background-repeat: no-repeat;
       background-size: 100% 100%;
-      width: calc(100% - 305px);
+      width: calc(100% - 5px);
       margin-left: 5px;
       overflow: auto;
       font-size: 14px;
@@ -720,16 +917,91 @@
       color: #4B5973;
 
       .header {
-        //background-color: #1e374b;
+        display: flex;
+        align-items: center;
         height: 50px;
-        line-height: 50px;
-        text-indent: 2em;
-        border-bottom: 1px solid #E8E8E8;
-    
-        span {
-          color: #1E6EEB;
+
+
+        ::v-deep .el-select {
+          width: 240px;
+          height: 28px;
+          line-height: 28px;
+          margin: 0 10px;
+          background-color: rgba(128, 142, 169, .14);
+          .el-input__inner {
+            background-color: transparent;
+            border: none;
+            height: 28px;
+            line-height: 28px;
+            font-family: PingFang SC;
+            font-weight: 500;
+            color: #2D405E;
+          }
+          .el-input__suffix {
+            .el-input__icon {
+              line-height: 28px;
+            }
+          }
+        }
+
+        ::v-deep .el-date-editor {
+          height: 28px;
+          line-height: 28px;
+          margin-right: 10px;
+          text-align: center;
+          font-family: PingFang SC;
+          font-weight: 500;
+          color: #2D405E;
+          .el-range-separator {
+            color: #2D405E;
+            line-height: 28px;
+            height: 28px;
+          }
+          .el-range-input {
+            color: #2D405E;
+          }
+          .el-range__icon {
+            height: 28px;
+            line-height: 28px;
+          }
+        }
+        ::v-deep .el-input__inner {
+          //background-image: url(../../assets/image/日期选择.png);
+          background-color: rgba(128, 142, 169, .14);
+          border: none;
+          height: 28px;
+          input {
+            background-color: transparent;
+          }
+        }
+        .el-input {
+          width: 150px;
+          margin-right: 5px;
+        }
+
+        .el-button {
+          width: 64px;
+          height: 28px;
+          background: #4f71ff;
+          border-radius: 2px;
+          border: none;
+          color: #fff;
+          padding: 5px;
         }
       }
+      .table_contet {
+        height: calc(100% - 50px);
+      }
+      .svg-icon {
+        color: #8f9c07;
+      }
+      .submit {
+        color: #4f71ff !important;
+      }
+      .finish {
+        color: #0dfa72 !important;
+      }
+    }
   
     .nav {
       display: flex;
@@ -772,18 +1044,7 @@
           height: 95%;
         }
       }
-    }}
-      //::v-deep .el-cascader {
-      //  width: 100%;
-      //  padding: 0 20px;
-      //
-      //  .el-input {
-      //    .el-input__inner {
-      //      background-color: transparent;
-      //      //border: none;
-      //    }
-      //  }
-      //}
+    }
     }
   }
   
