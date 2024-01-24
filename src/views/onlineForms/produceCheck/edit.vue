@@ -26,7 +26,7 @@
 						<div class="block-item-label">具体部位</div>
 						<div class="block-item-value">
 						  <el-form-item prop="conponenttypename">
-							<el-input v-model="editRow.pname" disabled></el-input>
+							<el-input v-model="produceInfo.componentName" disabled></el-input>
 						  </el-form-item>
 						</div>
 					  </div>
@@ -35,7 +35,7 @@
 						<div class="block-item-label">构建编码</div>
 						<div class="block-item-value">
 						  <el-form-item prop="componentcode">
-							<el-input v-model="editRow.conponetcode" disabled></el-input>
+							<el-input v-model="produceInfo.componentCode" disabled></el-input>
 						  </el-form-item>
 						</div>
 					  </div>
@@ -67,7 +67,7 @@
 						<div class="block-item-label">备注</div>
 						<div class="block-item-value">
 						  <el-form-item prop="pjctype">
-							<el-input v-model="editRow.name" disabled></el-input>
+							<el-input v-model="editRow.conponenttype" disabled></el-input>
 						  </el-form-item>
 						</div>
 					  </div>
@@ -256,7 +256,7 @@
 		  this.ownerOptions = res.data;
 		});*/
 		// 根据构建ID和工序ID查询待填写文档
-		listProduceDocument({documentType : 2, componentId : this.editRow.id, produceId : obj.produceid}).then((res) => {
+		listProduceDocument({documentType : 2, componentId : this.editRow.conponentid, produceId : obj.produceid}).then((res) => {
 		  this.templateListData = res.rows;
 		});
 	  },
@@ -288,7 +288,7 @@
 		this.submitDisable = true;
 		let reportRecord = Object.assign({}, this.formData);
 		
-		reportRecord.conpoentid = this.editRow.id;
+		reportRecord.conpoentid = this.editRow.conponentid;
 		reportRecord.produceid = this.produceInfo.produceid;
 
 		reportRecord.auditUser = this.auditUser;

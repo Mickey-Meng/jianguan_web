@@ -117,8 +117,8 @@
                 </el-container>
             </el-drawer>
         </div>
-        <edit ref="edit" :editRow="componentInfo" @freshData = "getCheackDataById"></edit>
-        <detail ref="detail" :editRow="componentInfo"></detail>
+        <edit ref="edit" :editRow="submitDataInfo" @freshData = "getCheackDataById"></edit>
+        <detail ref="detail" :editRow="submitDataInfo"></detail>
     </div>
   </template>
   

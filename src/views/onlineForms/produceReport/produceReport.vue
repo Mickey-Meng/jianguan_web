@@ -31,20 +31,7 @@
                         : row.finish)
                     }}
                   </template>
-                </el-table-column>
-                <el-table-column label="照片" width="100px" align="center">
-                  <template slot-scope="{ row }">
-                    <svg-icon class="svg-class svg-btn" :class="row.status === 3
-                      ? 'submit'
-                      : row.status === 2
-                        ? 'reject'
-                        : row.status === 1
-                          ? 'finish'
-                          : 'error'
-                      " icon-class="photoimg" v-if="row.recordid" @click="seeRecord(row)"></svg-icon>
-                    <span v-else>未录入</span>
-                  </template>
-                </el-table-column>
+                </el-table-column>               
 
                 <el-table-column label="附件" width="100px" align="center">
                   <template slot-scope="{ row }">
@@ -55,7 +42,7 @@
                         : row.status === 1
                           ? 'finish'
                           : 'error'
-                      " icon-class="seeDetail" v-if="row.recordid" @click="seeTemplate(row)"></svg-icon>
+                      " icon-class="seeDetail" v-if="row.recordid" @click="seeFile(row)"></svg-icon>
                     <span v-else>未录入</span>
                   </template>
                 </el-table-column>
@@ -195,17 +182,9 @@
                         v-if="dynamicData.includes(value.code)"
                         class="svg-class svg-btn"
                         :key="index + value.name"
-                        :class="
-                          row[value.code + '_status'] == '3'
-                            ? 'submit'
-                            : row[value.code + '_status'] === '2'
-                            ? 'reject'
-                            : row[value.code + '_status'] === '1'
-                            ? 'finish'
-                            : 'error'
-                        "
+                        :class=" row[value.code] ? 'finish' : 'error'"
                         icon-class="seeDetail"
-                        @click="seeFile(row, value)"
+                        @click="seeRecordFile(row, value)"
                       />
                       <span v-else>{{
                         row[value.code] === "null" ? "" : row[value.code]
@@ -216,129 +195,57 @@
               </div>
             </div>   
           </div>
-
-
-          <el-dialog :title="'工序名称:' + name" :visible.sync="dialogVisible" custom-class="dialog-panel" :append-to-body="true"
-            destroy-on-close :close-on-click-modal="false">
-            <el-form ref="form" size="small" label-position="right" label-width="120px" class="bim-form-panel"
-              :model="recordForm" :rules="rules">
-              <el-form-item label="完成时间" prop="uploadtime">
-                <el-date-picker v-model="recordForm.uploadtime" clearable value-format="yyyy-MM-dd HH:mm:ss" type="datetime"
-                  placeholder="选择日期时间">
-                </el-date-picker>
-              </el-form-item>
-              <el-form-item label="指定监理" prop="checkid">
-                <el-select v-model="recordForm.checkid" clearable placeholder="请选择监理人员" filterable="">
-                  <el-option v-for="(item, index) in supervisor" :key="index" :value="item.id" :label="item.name"></el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="举牌照片">
-                <el-upload class="upload-demo" :headers="header" :action="uploadFileUrl" multiple :limit="10"
-                  :before-upload="beforeUploadImage" :on-success="uploadSuccess" :on-remove="handleRemove"
-                  :file-list="fileList">
-                  <div slot="tip" class="el-upload__tip">
-                    只能上传JPG,JPEG,PNG,BMP,GIF文件
-                  </div>
-                  <el-button size="small" type="primary">点击上传</el-button>
-                </el-upload>
-              </el-form-item>
-              <el-form-item label="PDF">
-                <el-upload class="upload-demo" :headers="header" :action="uploadFileUrl" multiple :limit="10"
-                  :before-upload="beforeUpload" :on-success="uploadPdfSuccess" :on-remove="handlePdfRemove"
-                  :file-list="fileListPdf">
-                  <div slot="tip" class="el-upload__tip">只能上传pdf文件</div>
-                  <el-button size="small" type="primary">点击上传</el-button>
-                </el-upload>
-              </el-form-item>
-            </el-form>
-            <div style="text-align: right">
-              <el-button plain size="mini" class="btn-bg" @click="submitRecord">提交</el-button>
-              <el-button plain size="mini" class="btn-bg" @click="dialogVisible = false">取消</el-button>
-            </div>
-          </el-dialog>
         </div>
-
       </div>
       
-      <el-drawer title="查看已上传图片" :visible.sync="DrawerVisible" :with-header="false" custom-class="drawer-bottom-panel"
+      <el-drawer :visible.sync="drawerVisible" :with-header="false" custom-class="drawer-bottom-panel"
         append-to-body size="50%" :wrapperClosable="false" direction="btt">
         <el-container>
           <el-header>
             <div class="link-info">
-              类型：
-              <!-- <span>{{componentInfo?componentInfo.childConponent[0].pname:''}}</span> -->
-              <span>{{ componentInfo ? componentInfo.pname : "" }}</span>
-              编码：
-              <span>{{ componentInfo ? componentInfo.conponetcode : "" }}</span>
-              <!-- <span>{{componentInfo?componentInfo.childConponent[0].conponentcode:''}}</span> -->
-              工序名称：
-              <span>{{ processData ? processData.name : "" }}</span>
-            </div>
-            <i class="el-icon-close" @click="DrawerVisible = false"></i>
-          </el-header>
-          <el-main>
-            <el-row>
-              <el-col :span="24">
-                <el-table :data="processRecordData" style="width: 100%" border height="100%">
-                  <el-table-column prop="process" label="流程" align="center" width="120">
-                  </el-table-column>
-                  <el-table-column prop="name" label="执行人员" align="center" width="120">
-                  </el-table-column>
-                  <el-table-column prop="time" width="180" align="center" label="执行时间">
-                  </el-table-column>
-                  <el-table-column align="center" label="举牌照片">
-                    <template slot-scope="{ row }">
-                      <div class="image-box">
-                        <div v-for="(item, index) in row.image" :key="index">
-                          <img :src="item" alt="" @click="seePicDetail(item)" />
-                          <div @click="downloadImage(item)">下载</div>
-                        </div>
-                      </div>
-                    </template>
-                  </el-table-column>
-                  <el-table-column align="center" label="附件">
-                    <template slot-scope="{ row }">
-                      <el-button type="primary" size="mini" v-if="row.pdf" @click="seePdf(row)">预览附件</el-button>
-                    </template>
-                  </el-table-column>
-                </el-table>
-              </el-col>
-            </el-row>
-          </el-main>
-        </el-container>
-      </el-drawer>
-
-      <el-drawer title="查看已上传附件" :visible.sync="templateDrawerVisible" :with-header="false" custom-class="drawer-bottom-panel"
-        append-to-body size="50%" :wrapperClosable="false" direction="btt">
-        <el-container>
-          <el-header>
-            <div class="link-info">
-              类型： <span>{{ componentInfo ? componentInfo.pname : "" }}</span>
-              编码： <span>{{ componentInfo ? componentInfo.conponetcode : "" }}</span>
+              类型： <span>{{ processData ? processData.componentName : "" }}</span>
+              编码： <span>{{ processData ? processData.componentCode : "" }}</span>
               工序名称： <span>{{ processData ? processData.name : "" }}</span>
             </div>
-            <i class="el-icon-close" @click="templateDrawerVisible = false"></i>
+            <i class="el-icon-close" @click="drawerVisible = false"></i>
           </el-header>
           <el-main>
-            <el-row>
-              <el-col :span="24">
-                <el-table :data="templateListData" style="width: 65%" border class="have_scrolling">
-                  <el-table-column type="index" width="80" align="center" label="序号"></el-table-column>
-                  <el-table-column prop="documentName" width="500" align="center" label="表格名称"></el-table-column>
-                  <el-table-column label="状态" width="150" align="center">
-                    <template slot-scope="{ row }">
-                      {{ row.documentStatus === 1 ? "已填写" :  "待填写" }}
-                    </template>
-                  </el-table-column>
-                  <el-table-column fixed="right" width="200" align="center" label="操作">
-                    <template slot-scope="{ row, $index }">
-                    <!-- <el-button type="text" size="mini" @click="preview(row)">预览</el-button> -->
-                    <el-button type="text" size="mini" @click="handleDownload(row)">下载</el-button>
-                    </template>
-                  </el-table-column>
-                </el-table>
-              </el-col>
-            </el-row>
+            <div class="tab-page">
+              <el-tabs v-model="activeName">
+                <el-tab-pane label="照片" name="first">
+                  <el-container class="container-box">
+                    <el-main>
+                      <div class="container" style="width: 65%">
+                        <attachlist :editAble="false" ref="attachlist" :attachTable="attachTable"></attachlist>
+                      </div>
+                    </el-main> 
+                  </el-container>
+                </el-tab-pane>
+                <el-tab-pane label="表格" name="second">
+                  <el-container class="container-box">
+                    <el-main>
+                      <div class="container">
+                        <el-table :data="templateListData" style="width: 65%" border class="have_scrolling">
+                          <el-table-column type="index" width="80" align="center" label="序号"></el-table-column>
+                          <el-table-column prop="documentName" width="500" align="center" label="表格名称"></el-table-column>
+                          <el-table-column label="状态" width="150" align="center">
+                            <template slot-scope="{ row }">
+                              {{ row.documentStatus === 1 ? "已填写" :  "待填写" }}
+                            </template>
+                          </el-table-column>
+                          <el-table-column fixed="right" width="200" align="center" label="操作">
+                            <template slot-scope="{ row, $index }">
+                            <!-- <el-button type="text" size="mini" @click="preview(row)">预览</el-button> -->
+                            <el-button type="text" size="mini" @click="handleDownload(row)">下载</el-button>
+                            </template>
+                          </el-table-column>
+                        </el-table>
+                      </div>
+                    </el-main>
+                  </el-container>
+                </el-tab-pane>
+              </el-tabs>
+            </div>
           </el-main>
         </el-container>
       </el-drawer>
@@ -353,8 +260,8 @@
         </template>
       </div>
     </div>
-      <edit ref="edit" :editRow="componentInfo" @freshData = "getCheackDataById"></edit>
-      <detail ref="detail" :editRow="componentInfo"></detail>
+      <edit ref="edit" :editRow="submitDataInfo" @freshData = "getCheackDataById"></edit>
+      <detail ref="detail" :editRow="submitDataInfo"></detail>
     </div>
   </template>
   
@@ -371,22 +278,24 @@
   import edit from "./edit";
   import detail from './detail';
   import LeftTree from "../leftTree"
+  import attachlist from "../../common/attachlist.vue"
   import { download } from "@/utils/download";
-  import { getFillDataTemplate, saveFillDataTemplate, getReportRecord, getNewCheckViewTable } from "@/api/onlineForms";
+  import { getFillDataTemplate, saveFillDataTemplate, getReportRecord, getNewCheckViewTable, getRecordById } from "@/api/onlineForms";
   import { listProduceDocument, getProduceDocument } from "@/api/produceDocument";
   
   export default {
     name: "",
-    components: { edit, detail, LeftTree },
+    components: { edit, detail, LeftTree, attachlist },
     data() {
       return {
         treeType:"onlineProduceReport",
         dynamicData: ["P0", "P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8", "P9", "P10", "P11", "P12", "P13", "P14", "P15", "P16", "P17", "P18", "P19", "P20"],
         uploadFileUrl: process.env.VUE_APP_BASE_API + "/mong/upload",
         currentView: "fill", //record
+        activeName: "first",
+        attachTable: [],
         drawerVisible: false,
-        DrawerVisible: false,
-        templateDrawerVisible: false,
+        isDraft: true,
         name: "",
         value: "",
         options: [],
@@ -755,11 +664,23 @@
           }
         });
       },
-      seeFile(row, value) {
+      seeRecordFile(row, value) {
+        console.log(1111111111);
+        console.log(row);
+        console.log(value);
         let recordids = row[value.code];
         if (recordids) {
-          row.recordid = recordids.split("_")[0];
-          this.seeRecord(row)
+          row.recordid = recordids.split("_")[0];          
+          row.componentName = row.conponenttypename;
+          row.componentCode = row.conponentcode;
+          row.name = value.name;
+          this.seeFile(row)
+        } else {
+          this.$message({
+            message: "暂无附件信息",
+            type: "warning",
+            customClass: "message_override",
+          });
         }
       },
       /**
@@ -769,45 +690,30 @@
        * @returns {}
        * @date 2021/7/16
        */
-      seeRecord(row) {
+       seeFile(row) {
         this.processData = row;
-        api.getCurrentPdf(row.recordid).then((res) => {
-          this.processRecordData = [];
-  
-          let data = res.data;
-          let { recode, produceandrecode } = data;
-          let { accrecodeurl, remark, testurl, standbyrecode } = recode;
-          let { updateusername, checkusername, stime, updatetime, checkresult } =
-            produceandrecode;
-          let uploadUrl = validPicurl(accrecodeurl);
-          let uploadPdf = remark ? this.recodeUrl + remark : "";
-          let checkUrl = validPicurl(testurl);
-          let checkPdf = standbyrecode ? this.recodeUrl + standbyrecode : "";
-          let arr = [
-            {
-              process: "工序填报",
-              name: updateusername,
-              image: uploadUrl,
-              pdf: uploadPdf,
-              time: formatDate(stime),
-            },
-            {
-              process: "工序审核",
-              name: checkusername,
-              image: checkresult === 1 ? checkUrl : "",
-              pdf: checkresult === 1 ? checkPdf : "",
-              time: checkresult === 1 ? formatDate(updatetime) : "",
-            },
-          ];
-          this.processRecordData = arr;
-          this.DrawerVisible = true;
-        });
-      },
-      seeTemplate(row) {
-        this.templateDrawerVisible = true;
-        // 根据构建ID和工序ID查询待填写文档
-        listProduceDocument({documentType : 1, componentId : this.componentInfo.id, produceId : row.produceid}).then((res) => {
-          this.templateListData = res.rows;
+        console.log(this.processData);
+        this.drawerVisible = true;
+        this.templateListData = [];
+        let produceId = row.produceid;
+        let componentId = row.conponentid;
+        getRecordById(row.recordid).then((res) => {
+          if (res.data.recode !== undefined) {
+            this.attachTable = JSON.parse(res.data.recode.remark) || [];
+          }
+          let produceAndRecode = res.data.produceandrecode;
+          if (produceId === undefined) {
+            produceId = produceAndRecode.produceid;
+            componentId = produceAndRecode.conponentid;
+          }
+          if (componentId === undefined) {
+            componentId = produceAndRecode.conponentid;
+          }
+          console.log({documentType : 1, componentId : componentId, produceId : produceId});
+          // 根据构建ID和工序ID查询待填写文档
+          listProduceDocument({documentType : 1, componentId : componentId, produceId : produceId}).then((res) => {
+            this.templateListData = res.rows;
+          });
         });
       },
       seePdf(row) {

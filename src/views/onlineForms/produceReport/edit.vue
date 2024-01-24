@@ -25,8 +25,8 @@
 						<div class="block-item">
 							<div class="block-item-label">具体部位</div>
 							<div class="block-item-value">
-							<el-form-item prop="conponenttypename">
-								<el-input v-model="editRow.pname" disabled></el-input>
+							<el-form-item prop="componentName">
+								<el-input v-model="produceInfo.componentName" disabled></el-input>
 							</el-form-item>
 							</div>
 						</div>
@@ -35,7 +35,7 @@
 							<div class="block-item-label">构建编码</div>
 							<div class="block-item-value">
 							<el-form-item prop="componentcode">
-								<el-input v-model="editRow.conponetcode" disabled></el-input>
+								<el-input v-model="produceInfo.componentCode" disabled></el-input>
 							</el-form-item>
 							</div>
 						</div>
@@ -66,8 +66,8 @@
 						<div class="block-item">
 							<div class="block-item-label">备注</div>
 							<div class="block-item-value">
-							<el-form-item prop="pjctype">
-								<el-input v-model="editRow.name" disabled></el-input>
+							<el-form-item prop="conponenttype">
+								<el-input v-model="editRow.conponenttype" disabled></el-input>
 							</el-form-item>
 							</div>
 						</div>
@@ -267,7 +267,7 @@
 		  this.ownerOptions = res.data;
 		});*/
 		// 根据构建ID和工序ID查询待填写文档
-		listProduceDocument({documentType : 1, componentId : this.editRow.id, produceId : obj.produceid}).then((res) => {
+		listProduceDocument({documentType : 1, componentId : this.editRow.conponentid, produceId : obj.produceid}).then((res) => {
 		  this.templateListData = res.rows;
 		});
 		// 根据附件记录ID查询附件信息
@@ -315,11 +315,11 @@
 		let component = this.editRow;
 
 		reportRecord.checkusername = userName;
-		reportRecord.conpoentid = component.id;
-		reportRecord.conponentname = component.name;
+		reportRecord.conpoentid = component.conponentid;
+		reportRecord.conponentname =  this.produceInfo.componentName;
 		reportRecord.conponenttype = component.conponenttype;
 		reportRecord.produceid = this.produceInfo.produceid;
-		reportRecord.projectcode = currentProject.code;
+		reportRecord.projectcode = component.projectcode;
 		reportRecord.produceidname = this.produceInfo.name;
 		reportRecord.updateusername = userName;
 		reportRecord.projectId = currentProject.id;
